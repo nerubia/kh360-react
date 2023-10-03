@@ -20,6 +20,7 @@ jobs:
       - run: npm ci
       - run: npm run lint
   build:
+    needs: lint
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -34,6 +35,7 @@ jobs:
       - run: npm ci
       - run: npm run build
   playwright:
+    needs: build
     runs-on: ubuntu-latest
     strategy:
       matrix:
