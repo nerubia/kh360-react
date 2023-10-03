@@ -9,7 +9,7 @@ export const LoginForm = () => {
       <Input type='email' placeholder='Email' />
       <div className='flex flex-col gap-1'>
         <Input type='password' placeholder='Password' />
-        <Link to='#' className='text-sm text-right'>
+        <Link to='/auth/forgot' className='text-sm text-right'>
           Forgot password?
         </Link>
       </div>
