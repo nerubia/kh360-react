@@ -23,7 +23,8 @@
     "eject": "react-scripts eject",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "playwright": "npx playwright test"
+    "playwright": "npx playwright test",
+    "prepare": "husky install"
   },
   "browserslist": {
     "production": [
@@ -53,7 +54,8 @@
     "postcss": "^8.4.31",
     "prettier": "3.0.3",
     "tailwindcss": "^3.3.3",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "husky": "^8.0.0"
   },
   "overrides": {
     "react-scripts": {
