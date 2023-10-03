@@ -2,6 +2,7 @@ import { Provider } from "react-redux"
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import "./App.css"
 import { store } from "./redux/store"
+import { setupAxiosInstance } from "./utils/axiosInstance"
 import { Layout } from "./components/layouts/Layout"
 import { Home } from "./pages/home"
 import { Login } from "./pages/auth/login"
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
 ])
 
 function App() {
+  setupAxiosInstance()
   return (
     <Provider store={store}>
       <RouterProvider router={router} />
