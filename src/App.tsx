@@ -3,6 +3,7 @@ import "./App.css"
 import { Layout } from "./components/layouts/Layout"
 import { Home } from "./pages/home"
 import { Login } from "./pages/auth/login"
+import { ForgotPassword } from "./pages/auth/forgot_password"
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
       {
         path: "/auth/login",
         element: <Login />,
+      },
+      {
+        path: "/auth/forgot",
+        element: <ForgotPassword />,
       },
     ],
   },
