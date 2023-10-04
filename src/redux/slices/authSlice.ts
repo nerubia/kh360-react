@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
 import { type LoginFormData } from "../../types/authType"
+import { type User } from "../../types/userType"
 import { loginUser, refreshUserToken } from "../../services/api"
 
 interface ApiError {
@@ -39,12 +40,14 @@ interface Auth {
   loading: boolean
   error: string | null
   accessToken: string | null
+  user: User | null
 }
 
 const initialState: Auth = {
   loading: false,
   error: null,
   accessToken: null,
+  user: null,
 }
 
 const authSlice = createSlice({
@@ -65,6 +68,7 @@ const authSlice = createSlice({
       state.loading = false
       state.error = null
       state.accessToken = action.payload.accessToken
+      state.user = action.payload.user
     })
     builder.addCase(login.rejected, (state, action) => {
       state.loading = false
@@ -75,11 +79,13 @@ const authSlice = createSlice({
       state.loading = true
       state.error = null
       state.accessToken = null
+      state.user = null
     })
     builder.addCase(refreshToken.fulfilled, (state, action) => {
       state.loading = false
       state.error = null
       state.accessToken = action.payload.accessToken
+      state.user = action.payload.user
     })
     builder.addCase(refreshToken.rejected, (state, action) => {
       state.loading = false
