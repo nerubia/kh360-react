@@ -1,12 +1,18 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import { ValidationError } from "yup"
+import { useAppDispatch } from "../../../hooks/useAppDispatch"
+import { useAppSelector } from "../../../hooks/useAppSelector"
+import { login } from "../../../redux/slices/authSlice"
 import { Input } from "../../../components/input/Input"
 import { Button } from "../../../components/button/Button"
 import { loginSchema } from "../../../utils/validation/auth/loginSchema"
 import { type LoginFormData } from "../../../types/authType"
 
 export const LoginForm = () => {
+  const appDispatch = useAppDispatch()
+  const { loading, error } = useAppSelector((state) => state.auth)
+
   const [formData, setFormData] = useState<LoginFormData>({
     email: "",
     password: "",
@@ -25,8 +31,7 @@ export const LoginForm = () => {
       await loginSchema.validate(formData, {
         abortEarly: false,
       })
-      // eslint-disable-next-line no-console
-      console.log(formData)
+      await appDispatch(login(formData))
     } catch (error) {
       if (error instanceof ValidationError) {
         const errors: Partial<LoginFormData> = {}
@@ -60,7 +65,8 @@ export const LoginForm = () => {
           Forgot password?
         </Link>
       </div>
-      <Button name='Login' onClick={handleSubmit} />
+      {error != null && <p className='text-red-500'>{error}</p>}
+      <Button name='Login' onClick={handleSubmit} loading={loading} />
     </div>
   )
 }
