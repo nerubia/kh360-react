@@ -4,10 +4,15 @@ import "./App.css"
 import { store } from "./redux/store"
 import { setupAxiosInstance } from "./utils/axiosInstance"
 import { Layout } from "./components/layouts/Layout"
+
+import { AuthRoute } from "./routes/AuthRoute"
 import { Home } from "./pages/home"
 import { Login } from "./pages/auth/login"
 import { ForgotPassword } from "./pages/auth/forgot_password"
 import { ResetPassword } from "./pages/auth/reset_password"
+
+import { PrivateRoute } from "./routes/PrivateRoute"
+import { Dashboard } from "./pages/dashboard/dashboard"
 
 const router = createBrowserRouter([
   {
@@ -17,6 +22,11 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
+    ],
+  },
+  {
+    element: <AuthRoute />,
+    children: [
       {
         path: "/auth/login",
         element: <Login />,
@@ -28,6 +38,15 @@ const router = createBrowserRouter([
       {
         path: "/auth/reset",
         element: <ResetPassword />,
+      },
+    ],
+  },
+  {
+    element: <PrivateRoute />,
+    children: [
+      {
+        path: "/dashboard",
+        element: <Dashboard />,
       },
     ],
   },
