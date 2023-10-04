@@ -34,7 +34,7 @@ const router = createBrowserRouter([
 ])
 
 function App() {
-  setupAxiosInstance()
+  setupAxiosInstance(store)
   return (
     <Provider store={store}>
       <RouterProvider router={router} />
