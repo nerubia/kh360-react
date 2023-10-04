@@ -14,6 +14,8 @@ import { ResetPassword } from "./pages/auth/reset_password"
 import { PrivateRoute } from "./routes/PrivateRoute"
 import { Dashboard } from "./pages/dashboard/dashboard"
 
+import { NotFound } from "./pages/404"
+
 const router = createBrowserRouter([
   {
     element: <Layout />,
@@ -49,6 +51,10 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
     ],
+  },
+  {
+    path: "*",
+    element: <NotFound />,
   },
 ])
 
