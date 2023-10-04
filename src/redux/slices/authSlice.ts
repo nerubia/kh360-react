@@ -49,7 +49,7 @@ const authSlice = createSlice({
     builder.addCase(login.fulfilled, (state, action) => {
       state.loading = false
       state.error = null
-      state.accessToken = action.payload
+      state.accessToken = action.payload.accessToken
     })
     builder.addCase(login.rejected, (state, action) => {
       state.loading = false
