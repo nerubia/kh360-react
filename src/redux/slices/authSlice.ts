@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
 import { type LoginFormData } from "../../types/authType"
-import { loginUser } from "../../services/api"
+import { loginUser, refreshUserToken } from "../../services/api"
 
 interface ApiError {
   message: string
@@ -12,6 +12,20 @@ export const login = createAsyncThunk(
   async (data: LoginFormData, thunkApi) => {
     try {
       const response = await loginUser(data)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const refreshToken = createAsyncThunk(
+  "auth/refreshToken",
+  async (_, thunkApi) => {
+    try {
+      const response = await refreshUserToken()
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -42,6 +56,7 @@ const authSlice = createSlice({
     },
   },
   extraReducers(builder) {
+    // login
     builder.addCase(login.pending, (state) => {
       state.loading = true
       state.error = null
@@ -52,6 +67,21 @@ const authSlice = createSlice({
       state.accessToken = action.payload.accessToken
     })
     builder.addCase(login.rejected, (state, action) => {
+      state.loading = false
+      state.error = action.payload as string
+    })
+    // refresh token
+    builder.addCase(refreshToken.pending, (state) => {
+      state.loading = true
+      state.error = null
+      state.accessToken = null
+    })
+    builder.addCase(refreshToken.fulfilled, (state, action) => {
+      state.loading = false
+      state.error = null
+      state.accessToken = action.payload.accessToken
+    })
+    builder.addCase(refreshToken.rejected, (state, action) => {
       state.loading = false
       state.error = action.payload as string
     })
