@@ -7,3 +7,5 @@ export const refreshUserToken = async () =>
 
 export const loginUser = async (data: LoginFormData) =>
   await axiosInstance.post("/auth/login", data)
+
+export const logoutUser = async () => await axiosInstance.post("/user/logout")

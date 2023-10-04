@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
 import { type LoginFormData } from "../../types/authType"
 import { type User } from "../../types/userType"
-import { loginUser, refreshUserToken } from "../../services/api"
+import { loginUser, logoutUser, refreshUserToken } from "../../services/api"
 
 interface ApiError {
   message: string
@@ -35,6 +35,17 @@ export const refreshToken = createAsyncThunk(
     }
   }
 )
+
+export const logout = createAsyncThunk("auth/logout", async (_, thunkApi) => {
+  try {
+    const response = await logoutUser()
+    return response.data
+  } catch (error) {
+    const axiosError = error as AxiosError
+    const response = axiosError.response?.data as ApiError
+    return thunkApi.rejectWithValue(response.message)
+  }
+})
 
 interface Auth {
   loading: boolean
@@ -88,6 +99,20 @@ const authSlice = createSlice({
       state.user = action.payload.user
     })
     builder.addCase(refreshToken.rejected, (state, action) => {
+      state.loading = false
+      state.error = action.payload as string
+    })
+    // logout
+    builder.addCase(logout.pending, (state) => {
+      state.loading = true
+    })
+    builder.addCase(logout.fulfilled, (state) => {
+      state.loading = false
+      state.error = null
+      state.accessToken = null
+      state.user = null
+    })
+    builder.addCase(logout.rejected, (state, action) => {
       state.loading = false
       state.error = action.payload as string
     })
