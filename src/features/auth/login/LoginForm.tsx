@@ -4,20 +4,16 @@ import { ValidationError } from "yup"
 import { Input } from "../../../components/input/Input"
 import { Button } from "../../../components/button/Button"
 import { loginSchema } from "../../../utils/validation/auth/loginSchema"
-
-interface FormData {
-  email: string
-  password: string
-}
+import { type LoginFormData } from "../../../types/authType"
 
 export const LoginForm = () => {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<LoginFormData>({
     email: "",
     password: "",
   })
-  const [validationErrors, setValidationErrors] = useState<Partial<FormData>>(
-    {}
-  )
+  const [validationErrors, setValidationErrors] = useState<
+    Partial<LoginFormData>
+  >({})
 
   const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -33,9 +29,9 @@ export const LoginForm = () => {
       console.log(formData)
     } catch (error) {
       if (error instanceof ValidationError) {
-        const errors: Partial<FormData> = {}
+        const errors: Partial<LoginFormData> = {}
         error.inner.forEach((err) => {
-          errors[err.path as keyof FormData] = err.message
+          errors[err.path as keyof LoginFormData] = err.message
         })
         setValidationErrors(errors)
       }
