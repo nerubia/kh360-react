@@ -98,9 +98,8 @@ const authSlice = createSlice({
       state.accessToken = action.payload.accessToken
       state.user = action.payload.user
     })
-    builder.addCase(refreshToken.rejected, (state, action) => {
+    builder.addCase(refreshToken.rejected, (state) => {
       state.loading = false
-      state.error = action.payload as string
     })
     // logout
     builder.addCase(logout.pending, (state) => {
