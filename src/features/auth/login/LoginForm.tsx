@@ -44,7 +44,7 @@ export const LoginForm = () => {
   }
 
   return (
-    <div className='w-full md:w-96 flex flex-col gap-4 p-4 shadow-md'>
+    <div className='flex flex-col gap-4'>
       <h1 className='text-lg font-bold'>Login</h1>
       <Input
         name='email'
