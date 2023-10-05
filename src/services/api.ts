@@ -9,3 +9,4 @@ export const loginUser = async (data: LoginFormData) =>
   await axiosInstance.post("/auth/login", data)
 
 export const logoutUser = async () => await axiosInstance.post("/user/logout")
+export const getProfile = async () => await axiosInstance.get("/user/profile")
