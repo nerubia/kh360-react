@@ -1,6 +1,18 @@
 import { test, expect } from "@playwright/test"
+import { setupPlaywright } from "../utils/setupPlaywright"
+import { mockRequest } from "../utils/mockRequest"
+
+setupPlaywright()
 
 test.describe("Login", () => {
+  test.beforeEach(async ({ page }) => {
+    await mockRequest(page, "/auth/refresh", {
+      status: 403,
+      contentType: "application/json",
+      body: JSON.stringify({ message: "Forbidden" }),
+    })
+  })
+
   test("should render correctly", async ({ page }) => {
     await page.goto("/auth/login")
     await expect(page.getByRole("heading", { name: "Login" })).toBeVisible()
@@ -26,5 +38,21 @@ test.describe("Login", () => {
     await expect(
       page.getByText("Password must be at least 8 characters")
     ).toBeVisible()
+  })
+
+  test("should login succesfully", async ({ page }) => {
+    await page.goto("/auth/login")
+
+    await mockRequest(page, "/auth/login", {
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ accessToken: "sample access token" }),
+    })
+
+    await page.getByRole("textbox", { name: "Email" }).fill("me@gmail.com")
+    await page.getByRole("textbox", { name: "Password" }).fill("password")
+    await page.getByRole("button", { name: "Login" }).click()
+
+    await expect(page).toHaveURL("/dashboard")
   })
 })
