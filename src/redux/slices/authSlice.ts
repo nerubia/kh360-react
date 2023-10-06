@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
-import { type CredentialResponse } from "@react-oauth/google"
+import { type CodeResponse } from "@react-oauth/google"
 import { type LoginFormData } from "../../types/authType"
 import { type User } from "../../types/userType"
 import {
@@ -30,7 +30,7 @@ export const login = createAsyncThunk(
 
 export const loginWithGoogle = createAsyncThunk(
   "auth/login/google",
-  async (data: CredentialResponse, thunkApi) => {
+  async (data: CodeResponse, thunkApi) => {
     try {
       const response = await loginUserWithGoogle(data)
       return response.data

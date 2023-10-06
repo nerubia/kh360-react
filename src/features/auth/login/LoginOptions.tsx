@@ -1,27 +1,21 @@
-import {
-  type CredentialResponse,
-  GoogleLogin,
-  GoogleOAuthProvider,
-} from "@react-oauth/google"
+import { type CodeResponse, useGoogleLogin } from "@react-oauth/google"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { loginWithGoogle } from "../../../redux/slices/authSlice"
+import { Button } from "../../../components/button/Button"
 
 export const LoginOptions = () => {
   const appDispatch = useAppDispatch()
 
-  const login = async (credentialResponse: CredentialResponse) => {
-    try {
-      await appDispatch(loginWithGoogle(credentialResponse))
-    } catch (error) {}
-  }
+  const login = useGoogleLogin({
+    onSuccess: async (codeResponse: CodeResponse) => {
+      await appDispatch(loginWithGoogle(codeResponse))
+    },
+    flow: "auth-code",
+  })
 
   return (
-    <div>
-      <GoogleOAuthProvider
-        clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID as string}
-      >
-        <GoogleLogin onSuccess={login} />
-      </GoogleOAuthProvider>
+    <div className='flex flex-col'>
+      <Button name='Sign in with Google' onClick={() => login()} />
     </div>
   )
 }
