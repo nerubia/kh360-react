@@ -43,11 +43,11 @@ test.describe("Login", () => {
   test("should login succesfully", async ({ page }) => {
     await page.goto("/auth/login")
 
-    /* await mockRequest(page, "/auth/login", {
+    await mockRequest(page, "/auth/login", {
       status: 200,
       contentType: "application/json",
       body: JSON.stringify({ accessToken: "sample access token" }),
-    }) */
+    })
 
     await page.getByRole("textbox", { name: "Email" }).fill("me@gmail.com")
     await page.getByRole("textbox", { name: "Password" }).fill("password")
