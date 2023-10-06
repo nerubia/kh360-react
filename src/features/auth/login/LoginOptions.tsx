@@ -1,12 +1,26 @@
-import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google"
+import {
+  type CredentialResponse,
+  GoogleLogin,
+  GoogleOAuthProvider,
+} from "@react-oauth/google"
+import { useAppDispatch } from "../../../hooks/useAppDispatch"
+import { loginWithGoogle } from "../../../redux/slices/authSlice"
 
 export const LoginOptions = () => {
-  const loginWithGoogle = () => {}
+  const appDispatch = useAppDispatch()
+
+  const login = async (credentialResponse: CredentialResponse) => {
+    try {
+      await appDispatch(loginWithGoogle(credentialResponse))
+    } catch (error) {}
+  }
 
   return (
     <div>
-      <GoogleOAuthProvider clientId='client id here'>
-        <GoogleLogin onSuccess={loginWithGoogle} />
+      <GoogleOAuthProvider
+        clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID as string}
+      >
+        <GoogleLogin onSuccess={login} />
       </GoogleOAuthProvider>
     </div>
   )

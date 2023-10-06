@@ -1,8 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
+import { type CredentialResponse } from "@react-oauth/google"
 import { type LoginFormData } from "../../types/authType"
 import { type User } from "../../types/userType"
-import { loginUser, logoutUser, refreshUserToken } from "../../services/api"
+import {
+  loginUser,
+  loginUserWithGoogle,
+  logoutUser,
+  refreshUserToken,
+} from "../../services/api"
 
 interface ApiError {
   message: string
@@ -13,6 +19,20 @@ export const login = createAsyncThunk(
   async (data: LoginFormData, thunkApi) => {
     try {
       const response = await loginUser(data)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const loginWithGoogle = createAsyncThunk(
+  "auth/login/google",
+  async (data: CredentialResponse, thunkApi) => {
+    try {
+      const response = await loginUserWithGoogle(data)
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -82,6 +102,21 @@ const authSlice = createSlice({
       state.user = action.payload.user
     })
     builder.addCase(login.rejected, (state, action) => {
+      state.loading = false
+      state.error = action.payload as string
+    })
+    // login with google
+    builder.addCase(loginWithGoogle.pending, (state) => {
+      state.loading = true
+      state.error = null
+    })
+    builder.addCase(loginWithGoogle.fulfilled, (state, action) => {
+      state.loading = false
+      state.error = null
+      state.accessToken = action.payload.accessToken
+      state.user = action.payload.user
+    })
+    builder.addCase(loginWithGoogle.rejected, (state, action) => {
       state.loading = false
       state.error = action.payload as string
     })
