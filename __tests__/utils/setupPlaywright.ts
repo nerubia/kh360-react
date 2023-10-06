@@ -1,6 +1,7 @@
 import test, { type Response, type Request } from "@playwright/test"
 
-const BASE_URL = "http://54.251.226.106:5000"
+// TODO: get from env
+const BASE_URL = "https://360-api.kaishahero.com"
 
 export const setupPlaywright = () => {
   test.beforeEach(async ({ page }) => {
