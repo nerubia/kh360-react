@@ -22,6 +22,7 @@ jobs:
       - run: npm ci
       - run: npm run build
         env:
+          REACT_APP_NAME: ${{ secrets.REACT_APP_NAME }}
           REACT_APP_BASE_URL: ${{ secrets.REACT_APP_BASE_URL }}
           REACT_APP_GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.REACT_APP_GOOGLE_OAUTH_CLIENT_ID }}
       - uses: jakejarvis/s3-sync-action@master
