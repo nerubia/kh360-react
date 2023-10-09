@@ -11,6 +11,10 @@ test.describe("Login", () => {
       contentType: "application/json",
       body: JSON.stringify({ message: "Forbidden" }),
     })
+    await mockRequest(page, "/gsi/client", {
+      status: 200,
+      contentType: "application/json",
+    })
   })
 
   test("should render correctly", async ({ page }) => {
