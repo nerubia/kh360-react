@@ -40,7 +40,7 @@ export default function Dashboard() {
       <div className='flex gap-2'>
         <Button name='Get profile' onClick={handleGetUserProfile} />
         <Button name='Send mail' onClick={handleSendMail} />
-        <Button name='Logout' variant='danger' onClick={handleLogout} />
+        <Button name='Logout' variant='destructive' onClick={handleLogout} />
       </div>
       <div className='flex flex-col gap-4'>
         <p>Sample button variants</p>
@@ -99,23 +99,27 @@ export default function Dashboard() {
         <div className='flex gap-4'>
           <Button
             name='Small danger'
-            variant='danger'
+            variant='destructive'
             size='sm'
             onClick={() => {}}
           />
           <Button
             name='Small danger'
-            variant='danger'
+            variant='destructive'
             size='sm'
             onClick={() => {}}
             loading={true}
           />
         </div>
         <div className='flex gap-4'>
-          <Button name='Medium danger' variant='danger' onClick={() => {}} />
           <Button
             name='Medium danger'
-            variant='danger'
+            variant='destructive'
+            onClick={() => {}}
+          />
+          <Button
+            name='Medium danger'
+            variant='destructive'
             onClick={() => {}}
             loading={true}
           />
@@ -123,7 +127,7 @@ export default function Dashboard() {
         <div>
           <Button
             name='Danger full width'
-            variant='danger'
+            variant='destructive'
             fullWidth
             onClick={() => {}}
           />
@@ -131,7 +135,7 @@ export default function Dashboard() {
         <div>
           <Button
             name='Danger full width'
-            variant='danger'
+            variant='destructive'
             fullWidth
             onClick={() => {}}
             loading={true}
@@ -140,13 +144,13 @@ export default function Dashboard() {
         <div className='flex gap-4'>
           <Button
             name='Small danger outline'
-            variant='dangerOutline'
+            variant='destructiveOutline'
             size='sm'
             onClick={() => {}}
           />
           <Button
             name='Small danger outline'
-            variant='dangerOutline'
+            variant='destructiveOutline'
             size='sm'
             onClick={() => {}}
             loading={true}
@@ -155,12 +159,12 @@ export default function Dashboard() {
         <div className='flex gap-4'>
           <Button
             name='Medium danger outline'
-            variant='dangerOutline'
+            variant='destructiveOutline'
             onClick={() => {}}
           />
           <Button
             name='Medium danger outline'
-            variant='dangerOutline'
+            variant='destructiveOutline'
             onClick={() => {}}
             loading={true}
           />

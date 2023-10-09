@@ -17,13 +17,13 @@ const button = cva(["w-fit", "h-fit", "rounded-md"], {
         "enabled:hover:text-white",
         "enabled:active:bg-blue-700",
       ],
-      danger: [
+      destructive: [
         "bg-red-500",
         "text-white",
         "enabled:hover:bg-red-600",
         "enabled:active:bg-red-700",
       ],
-      dangerOutline: [
+      destructiveOutline: [
         "border",
         "border-red-500",
         "text-red-500",
