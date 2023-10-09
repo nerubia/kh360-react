@@ -29,7 +29,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col gap-4 p-4'>
       <h1 className='text-lg font-bold'>Dashboard</h1>
       <p>
         Welcome {user?.firstName} {user?.lastName}
@@ -37,7 +37,77 @@ export default function Dashboard() {
       <div className='flex gap-2'>
         <Button name='Get profile' onClick={handleGetUserProfile} />
         <Button name='Send mail' onClick={handleSendMail} />
-        <Button name='Logout' onClick={handleLogout} />
+        <Button name='Logout' variant='danger' onClick={handleLogout} />
+      </div>
+      <div className='flex flex-col gap-4'>
+        <p>Sample button variants</p>
+        <div className='flex gap-4'>
+          <Button
+            name='Small primary'
+            variant='primary'
+            size='sm'
+            onClick={() => {}}
+          />
+          <Button
+            name='Medium primary'
+            variant='primary'
+            size='medium'
+            onClick={() => {}}
+          />
+        </div>
+        <div>
+          <Button name='Primary full width' fullWidth onClick={() => {}} />
+        </div>
+        <div className='flex gap-4'>
+          <Button
+            name='Small primary outline'
+            variant='primaryOutline'
+            size='sm'
+            onClick={() => {}}
+          />
+          <Button
+            name='Medium primary outline'
+            variant='primaryOutline'
+            size='medium'
+            onClick={() => {}}
+          />
+        </div>
+        <div className='flex gap-4'>
+          <Button
+            name='Small danger'
+            variant='danger'
+            size='sm'
+            onClick={() => {}}
+          />
+          <Button
+            name='Medium danger'
+            variant='danger'
+            size='medium'
+            onClick={() => {}}
+          />
+        </div>
+        <div>
+          <Button
+            name='Danger full width'
+            variant='danger'
+            fullWidth
+            onClick={() => {}}
+          />
+        </div>
+        <div className='flex gap-4'>
+          <Button
+            name='Small danger outline'
+            variant='dangerOutline'
+            size='sm'
+            onClick={() => {}}
+          />
+          <Button
+            name='Medium danger outline'
+            variant='dangerOutline'
+            size='medium'
+            onClick={() => {}}
+          />
+        </div>
       </div>
     </div>
   )

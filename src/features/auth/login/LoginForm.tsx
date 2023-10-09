@@ -66,7 +66,14 @@ export const LoginForm = () => {
         </Link>
       </div>
       {error != null && <p className='text-red-500'>{error}</p>}
-      <Button name='Login' onClick={handleSubmit} loading={loading} />
+      <div>
+        <Button
+          name='Login'
+          fullWidth
+          onClick={handleSubmit}
+          loading={loading}
+        />
+      </div>
     </div>
   )
 }

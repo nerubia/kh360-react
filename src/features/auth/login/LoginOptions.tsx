@@ -15,7 +15,14 @@ export const LoginOptions = () => {
 
   return (
     <div className='flex flex-col'>
-      <Button name='Sign in with Google' onClick={() => login()} />
+      <div>
+        <Button
+          name='Sign in with Google'
+          variant='primaryOutline'
+          fullWidth
+          onClick={() => login()}
+        />
+      </div>
     </div>
   )
 }
