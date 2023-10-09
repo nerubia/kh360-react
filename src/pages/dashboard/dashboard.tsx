@@ -4,7 +4,7 @@ import { useAppSelector } from "../../hooks/useAppSelector"
 import { logout } from "../../redux/slices/authSlice"
 import { getProfile } from "../../services/api"
 
-export const Dashboard = () => {
+export default function Dashboard() {
   const appDispatch = useAppDispatch()
   const { user } = useAppSelector((state) => state.auth)
 

@@ -1,20 +1,25 @@
+import { Suspense, lazy, useEffect, useState } from "react"
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
-import { useEffect, useState } from "react"
 import { useAppDispatch } from "./hooks/useAppDispatch"
 import { refreshToken } from "./redux/slices/authSlice"
 
-import { Layout } from "./components/layouts/Layout"
-import { Home } from "./pages/home"
+const Layout = lazy(async () => await import("./components/layouts/Layout"))
 
-import { AuthRoute } from "./routes/AuthRoute"
-import { Login } from "./pages/auth/login"
-import { ForgotPassword } from "./pages/auth/forgot_password"
-import { ResetPassword } from "./pages/auth/reset_password"
+const Home = lazy(async () => await import("./pages/home"))
+const AuthRoute = lazy(async () => await import("./routes/AuthRoute"))
 
-import { PrivateRoute } from "./routes/PrivateRoute"
-import { Dashboard } from "./pages/dashboard/dashboard"
+const Login = lazy(async () => await import("./pages/auth/login"))
+const ForgotPassword = lazy(
+  async () => await import("./pages/auth/forgot_password")
+)
+const ResetPassword = lazy(
+  async () => await import("./pages/auth/reset_password")
+)
 
-import { NotFound } from "./pages/404"
+const PrivateRoute = lazy(async () => await import("./routes/PrivateRoute"))
+const Dashboard = lazy(async () => await import("./pages/dashboard/dashboard"))
+
+const NotFound = lazy(async () => await import("./pages/404"))
 
 const router = createBrowserRouter([
   {
@@ -70,5 +75,9 @@ export const PersistLogin = () => {
     void verifyRefreshToken()
   }, [])
 
-  return loading ? null : <RouterProvider router={router} />
+  return loading ? null : (
+    <Suspense fallback={null}>
+      <RouterProvider router={router} />
+    </Suspense>
+  )
 }
