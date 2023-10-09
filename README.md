@@ -39,7 +39,10 @@ npm install
 ### 1. Create a .env.local file
 
 ```
+REACT_APP_NAME=App Name
+
 REACT_APP_BASE_URL=api url
+
 REACT_APP_GOOGLE_OAUTH_CLIENT_ID=google client id
 ```
 

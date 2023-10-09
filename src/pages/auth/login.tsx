@@ -1,8 +1,11 @@
 import { GoogleOAuthProvider } from "@react-oauth/google"
 import { LoginForm } from "../../features/auth/login/LoginForm"
 import { LoginOptions } from "../../features/auth/login/LoginOptions"
+import { useTitle } from "../../hooks/useTitle"
 
 export default function Login() {
+  useTitle("Login")
+
   return (
     <div className='flex justify-center pt-10 p-4'>
       <div className='w-full sm:w-96 flex flex-col p-4 shadow-md'>

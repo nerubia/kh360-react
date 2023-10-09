@@ -1,10 +1,13 @@
 import { Button } from "../../components/button/Button"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
 import { useAppSelector } from "../../hooks/useAppSelector"
+import { useTitle } from "../../hooks/useTitle"
 import { logout } from "../../redux/slices/authSlice"
 import { getProfile, sendMail } from "../../services/api"
 
 export default function Dashboard() {
+  useTitle("Dashboard")
+
   const appDispatch = useAppDispatch()
   const { user } = useAppSelector((state) => state.auth)
 
