@@ -17,7 +17,7 @@ export const ResetPasswordForm = () => {
         placeholder='Confirm new password'
         onChange={() => {}}
       />
-      <Button name='Reset' onClick={() => {}} />
+      <Button onClick={() => {}}>Reset</Button>
     </div>
   )
 }

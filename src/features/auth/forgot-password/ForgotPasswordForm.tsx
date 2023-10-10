@@ -11,7 +11,7 @@ export const ForgotPasswordForm = () => {
         placeholder='Email'
         onChange={() => {}}
       />
-      <Button name='Send email' onClick={() => {}} />
+      <Button onClick={() => {}}>Send email</Button>
     </div>
   )
 }

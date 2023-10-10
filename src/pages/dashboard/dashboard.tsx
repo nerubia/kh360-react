@@ -38,136 +38,119 @@ export default function Dashboard() {
         Welcome {user?.firstName} {user?.lastName}
       </p>
       <div className='flex gap-2'>
-        <Button name='Get profile' onClick={handleGetUserProfile} />
-        <Button name='Send mail' onClick={handleSendMail} />
-        <Button name='Logout' variant='destructive' onClick={handleLogout} />
+        <Button onClick={handleGetUserProfile}>Get profile</Button>
+        <Button onClick={handleSendMail}>Send mail</Button>
+        <Button variant='destructive' onClick={handleLogout}>
+          Logout
+        </Button>
       </div>
       <div className='flex flex-col gap-4'>
         <p>Sample button variants</p>
         <div className='flex gap-4'>
-          <Button name='Small primary' size='sm' onClick={() => {}} />
-          <Button
-            name='Small primary'
-            size='sm'
-            onClick={() => {}}
-            loading={true}
-          />
+          <Button size='sm' onClick={() => {}}>
+            Small primary
+          </Button>
+          <Button size='sm' onClick={() => {}} loading={true}>
+            Small primary
+          </Button>
         </div>
         <div className='flex gap-4'>
-          <Button name='Medium primary' onClick={() => {}} />
-          <Button name='Medium primary' onClick={() => {}} loading={true} />
+          <Button onClick={() => {}}>Medium primary</Button>
+          <Button onClick={() => {}} loading={true}>
+            Medium primary
+          </Button>
         </div>
         <div>
-          <Button name='Primary full width' fullWidth onClick={() => {}} />
+          <Button fullWidth onClick={() => {}}>
+            Primary full width
+          </Button>
         </div>
         <div>
-          <Button
-            name='Primary full width'
-            fullWidth
-            onClick={() => {}}
-            loading={true}
-          />
+          <Button fullWidth onClick={() => {}} loading={true}>
+            Primary full width
+          </Button>
         </div>
         <div className='flex gap-4'>
+          <Button variant='primaryOutline' size='sm' onClick={() => {}}>
+            Small primary outline
+          </Button>
           <Button
-            name='Small primary outline'
-            variant='primaryOutline'
-            size='sm'
-            onClick={() => {}}
-          />
-          <Button
-            name='Small primary outline'
             variant='primaryOutline'
             size='sm'
             onClick={() => {}}
             loading={true}
-          />
+          >
+            Small primary outline
+          </Button>
         </div>
         <div className='flex gap-4'>
-          <Button
-            name='Medium primary outline'
-            variant='primaryOutline'
-            onClick={() => {}}
-          />
-          <Button
-            name='Medium primary outline'
-            variant='primaryOutline'
-            onClick={() => {}}
-            loading={true}
-          />
+          <Button variant='primaryOutline' onClick={() => {}}>
+            Medium primary outline
+          </Button>
+          <Button variant='primaryOutline' onClick={() => {}} loading={true}>
+            Medium primary outline
+          </Button>
         </div>
         <div className='flex gap-4'>
+          <Button variant='destructive' size='sm' onClick={() => {}}>
+            Small danger
+          </Button>
           <Button
-            name='Small danger'
-            variant='destructive'
-            size='sm'
-            onClick={() => {}}
-          />
-          <Button
-            name='Small danger'
             variant='destructive'
             size='sm'
             onClick={() => {}}
             loading={true}
-          />
+          >
+            Small danger
+          </Button>
         </div>
         <div className='flex gap-4'>
-          <Button
-            name='Medium danger'
-            variant='destructive'
-            onClick={() => {}}
-          />
-          <Button
-            name='Medium danger'
-            variant='destructive'
-            onClick={() => {}}
-            loading={true}
-          />
+          <Button variant='destructive' onClick={() => {}}>
+            Medium danger
+          </Button>
+          <Button variant='destructive' onClick={() => {}} loading={true}>
+            Medium danger
+          </Button>
+        </div>
+        <div>
+          <Button variant='destructive' fullWidth onClick={() => {}}>
+            Danger full width
+          </Button>
         </div>
         <div>
           <Button
-            name='Danger full width'
-            variant='destructive'
-            fullWidth
-            onClick={() => {}}
-          />
-        </div>
-        <div>
-          <Button
-            name='Danger full width'
             variant='destructive'
             fullWidth
             onClick={() => {}}
             loading={true}
-          />
+          >
+            Danger full width
+          </Button>
         </div>
         <div className='flex gap-4'>
+          <Button variant='destructiveOutline' size='sm' onClick={() => {}}>
+            Small danger outline
+          </Button>
           <Button
-            name='Small danger outline'
-            variant='destructiveOutline'
-            size='sm'
-            onClick={() => {}}
-          />
-          <Button
-            name='Small danger outline'
             variant='destructiveOutline'
             size='sm'
             onClick={() => {}}
             loading={true}
-          />
+          >
+            Small danger outline
+          </Button>
         </div>
         <div className='flex gap-4'>
+          <Button variant='destructiveOutline' onClick={() => {}}>
+            Medium danger outline
+          </Button>
           <Button
-            name='Medium danger outline'
-            variant='destructiveOutline'
-            onClick={() => {}}
-          />
-          <Button
-            name='Medium danger outline'
             variant='destructiveOutline'
             onClick={() => {}}
             loading={true}
-          />
+          >
+            Medium danger outline
+          </Button>
         </div>
       </div>
     </div>

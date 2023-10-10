@@ -3,6 +3,7 @@ import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../hooks/useAppSelector"
 import { loginWithGoogle } from "../../../redux/slices/authSlice"
 import { Button } from "../../../components/button/Button"
+import { Icon } from "../../../components/icon/Icon"
 
 export const LoginOptions = () => {
   const appDispatch = useAppDispatch()
@@ -18,12 +19,14 @@ export const LoginOptions = () => {
   return (
     <div className='flex flex-col'>
       <Button
-        name='Sign in with Google'
         variant='primaryOutline'
         fullWidth
         onClick={() => login()}
         loading={loading}
-      />
+      >
+        <Icon icon='GoogleIcon' />
+        Google
+      </Button>
     </div>
   )
 }

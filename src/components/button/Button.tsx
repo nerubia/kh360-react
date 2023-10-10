@@ -48,13 +48,13 @@ const button = cva(["w-fit", "h-fit", "rounded-md"], {
 })
 
 interface ButtonProps extends VariantProps<typeof button> {
-  name: string
+  children: React.ReactNode
   onClick: () => void
   loading?: boolean
 }
 
 export const Button = ({
-  name,
+  children,
   variant,
   size,
   fullWidth,
@@ -67,7 +67,11 @@ export const Button = ({
       onClick={onClick}
       disabled={loading}
     >
-      {loading === true ? <Spinner /> : name}
+      {loading === true ? (
+        <Spinner />
+      ) : (
+        <div className='flex justify-center items-center gap-2'>{children}</div>
+      )}
     </button>
   )
 }
