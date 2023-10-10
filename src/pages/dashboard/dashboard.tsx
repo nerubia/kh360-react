@@ -1,4 +1,5 @@
 import { Button } from "../../components/button/Button"
+import { Icon } from "../../components/icon/Icon"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
 import { useAppSelector } from "../../hooks/useAppSelector"
 import { useTitle } from "../../hooks/useTitle"
@@ -151,6 +152,13 @@ export default function Dashboard() {
           >
             Medium danger outline
           </Button>
+        </div>
+      </div>
+      <div className='flex flex-col gap-4'>
+        <p>Sample icons</p>
+        <div className='flex flex-wrap gap-2'>
+          <Icon icon='DashboardIcon' />
+          <Icon icon='GoogleIcon' />
         </div>
       </div>
     </div>

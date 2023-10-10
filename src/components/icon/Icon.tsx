@@ -1,10 +1,8 @@
 import { createElement } from "react"
 import { icons } from "./icons"
 
-type IconName = keyof typeof icons
-
 interface IconProps {
-  icon: IconName
+  icon: keyof typeof icons
 }
 
 export const Icon = ({ icon }: IconProps) => {
