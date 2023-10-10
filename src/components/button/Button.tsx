@@ -5,24 +5,28 @@ const button = cva(["w-fit", "h-fit", "rounded-md"], {
   variants: {
     variant: {
       primary: [
-        "bg-blue-500",
+        "bg-primary-500",
         "text-white",
-        "enabled:hover:bg-blue-600",
-        "enabled:active:bg-blue-700",
+        "enabled:hover:bg-primary-600",
+        "enabled:active:bg-primary-700",
+        "disabled:bg-primary-200",
       ],
       primaryOutline: [
         "border",
-        "border-blue-500",
-        "text-blue-500",
-        "enabled:hover:bg-blue-600",
+        "border-primary-500",
+        "text-primary-500",
+        "enabled:hover:bg-primary-600",
         "enabled:hover:text-white",
-        "enabled:active:bg-blue-700",
+        "enabled:active:bg-primary-700",
+        "disabled:border-primary-200",
+        "disabled:text-primary-200",
       ],
       destructive: [
         "bg-red-500",
         "text-white",
         "enabled:hover:bg-red-600",
         "enabled:active:bg-red-700",
+        "disabled:bg-red-200",
       ],
       destructiveOutline: [
         "border",
@@ -31,6 +35,8 @@ const button = cva(["w-fit", "h-fit", "rounded-md"], {
         "enabled:hover:bg-red-600",
         "enabled:hover:text-white",
         "enabled:active:bg-red-700",
+        "disabled:border-red-200",
+        "disabled:text-red-200",
       ],
     },
     size: {
