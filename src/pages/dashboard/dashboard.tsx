@@ -388,7 +388,9 @@ export default function Dashboard() {
                 <div className='flex-1 flex flex-col text-start'>
                   <div className='flex justify-between'>
                     <p className='text-white text-sm'>Full name</p>
-                    <Badge name='Draft' variant='secondary' />
+                    <span className='bg-gray-500 text-white text-[8px] leading-4 font-medium px-2 py-0.5 rounded-full'>
+                      Draft
+                    </span>
                   </div>
                   <p className='text-white text-xs'>
                     ProductHQ [QA Evaluation]
