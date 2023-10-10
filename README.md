@@ -16,19 +16,19 @@ nvm install v18.18.0
 nvm use v18.18.0
 ```
 
-### 4. Clone this repository to your local machine using Git:
+### 4. Clone this repository to your local machine using Git
 
 ```
 git clone https://github.com/nerubia/kh360-react.git
 ```
 
-### 5. Navigate to the project directory:
+### 5. Navigate to the project directory
 
 ```
 cd kh360-react
 ```
 
-### 6. Install the project dependencies using npm (Node Package Manager):
+### 6. Install the project dependencies using npm (Node Package Manager)
 
 ```
 npm install
@@ -46,7 +46,7 @@ REACT_APP_BASE_URL=api url
 REACT_APP_GOOGLE_OAUTH_CLIENT_ID=google client id
 ```
 
-### 2. Start the development server:
+### 2. Start the development server
 
 ```
 npm start
