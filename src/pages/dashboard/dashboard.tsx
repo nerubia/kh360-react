@@ -95,7 +95,7 @@ export default function Dashboard() {
         </div>
         <div className='flex gap-4'>
           <Button variant='destructive' size='sm' onClick={() => {}}>
-            Small danger
+            Small destructive
           </Button>
           <Button
             variant='destructive'
@@ -103,20 +103,20 @@ export default function Dashboard() {
             onClick={() => {}}
             loading={true}
           >
-            Small danger
+            Small destructive
           </Button>
         </div>
         <div className='flex gap-4'>
           <Button variant='destructive' onClick={() => {}}>
-            Medium danger
+            Medium destructive
           </Button>
           <Button variant='destructive' onClick={() => {}} loading={true}>
-            Medium danger
+            Medium destructive
           </Button>
         </div>
         <div>
           <Button variant='destructive' fullWidth onClick={() => {}}>
-            Danger full width
+            Destructive full width
           </Button>
         </div>
         <div>
@@ -126,12 +126,12 @@ export default function Dashboard() {
             onClick={() => {}}
             loading={true}
           >
-            Danger full width
+            Destructive full width
           </Button>
         </div>
         <div className='flex gap-4'>
           <Button variant='destructiveOutline' size='sm' onClick={() => {}}>
-            Small danger outline
+            Small destructive outline
           </Button>
           <Button
             variant='destructiveOutline'
@@ -139,19 +139,19 @@ export default function Dashboard() {
             onClick={() => {}}
             loading={true}
           >
-            Small danger outline
+            Small destructive outline
           </Button>
         </div>
         <div className='flex gap-4'>
           <Button variant='destructiveOutline' onClick={() => {}}>
-            Medium danger outline
+            Medium destructive outline
           </Button>
           <Button
             variant='destructiveOutline'
             onClick={() => {}}
             loading={true}
           >
-            Medium danger outline
+            Medium destructive outline
           </Button>
         </div>
       </div>
@@ -160,6 +160,7 @@ export default function Dashboard() {
         <div className='flex flex-wrap gap-2'>
           <Icon icon='DashboardIcon' />
           <Icon icon='GoogleIcon' />
+          <Icon icon='StarIcon' />
         </div>
       </div>
 
