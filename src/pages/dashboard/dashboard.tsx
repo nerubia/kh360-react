@@ -1,3 +1,4 @@
+import { Badge } from "../../components/badge/Badge"
 import { Button } from "../../components/button/Button"
 import { Icon } from "../../components/icon/Icon"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
@@ -387,9 +388,7 @@ export default function Dashboard() {
                 <div className='flex-1 flex flex-col text-start'>
                   <div className='flex justify-between'>
                     <p className='text-white text-sm'>Full name</p>
-                    <span className='bg-gray-500 text-white text-xs font-medium px-2.5 py-0.5 rounded-full'>
-                      Draft
-                    </span>
+                    <Badge name='Draft' variant='secondary' />
                   </div>
                   <p className='text-white text-xs'>
                     ProductHQ [QA Evaluation]
@@ -403,9 +402,7 @@ export default function Dashboard() {
                 <div className='flex-1 flex flex-col text-start'>
                   <div className='flex justify-between'>
                     <p className='text-sm'>Full name</p>
-                    <span className='bg-gray-500 text-white text-xs font-medium px-2.5 py-0.5 rounded-full'>
-                      Draft
-                    </span>
+                    <Badge name='Draft' variant='secondary' />
                   </div>
                   <p className='text-xs'>ProductHQ [QA Evaluation]</p>
                 </div>
@@ -417,9 +414,7 @@ export default function Dashboard() {
                 <div className='flex-1 flex flex-col text-start'>
                   <div className='flex justify-between'>
                     <p className='text-sm'>Full name</p>
-                    <span className='bg-green-500 text-white text-xs font-medium px-2.5 py-0.5 rounded-full'>
-                      Done
-                    </span>
+                    <Badge name='Done' variant='success' />
                   </div>
                   <p className='text-xs'>ProductHQ [PM Evaluation]</p>
                 </div>
@@ -495,9 +490,7 @@ export default function Dashboard() {
                 <div className='flex-1 flex flex-col text-start'>
                   <div className='flex justify-between'>
                     <p className='text-white text-sm'>Full name</p>
-                    <span className='bg-gray-500 text-white text-xs font-medium px-2.5 py-0.5 rounded-full'>
-                      Draft
-                    </span>
+                    <Badge name='Draft' variant='secondary' />
                   </div>
                   <p className='text-white text-xs'>
                     ProductHQ [QA Evaluation]
@@ -511,9 +504,7 @@ export default function Dashboard() {
                 <div className='flex-1 flex flex-col text-start'>
                   <div className='flex justify-between'>
                     <p className='text-sm'>Full name</p>
-                    <span className='bg-gray-500 text-white text-xs font-medium px-2.5 py-0.5 rounded-full'>
-                      Draft
-                    </span>
+                    <Badge name='Draft' variant='secondary' />
                   </div>
                   <p className='text-xs'>ProductHQ [QA Evaluation]</p>
                 </div>
@@ -525,9 +516,7 @@ export default function Dashboard() {
                 <div className='flex-1 flex flex-col text-start'>
                   <div className='flex justify-between'>
                     <p className='text-sm'>Full name</p>
-                    <span className='bg-green-500 text-white text-xs font-medium px-2.5 py-0.5 rounded-full'>
-                      Done
-                    </span>
+                    <Badge name='Done' variant='success' />
                   </div>
                   <p className='text-xs'>ProductHQ [PM Evaluation]</p>
                 </div>
