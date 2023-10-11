@@ -34,7 +34,7 @@ export const Sidebar = () => {
         <div className='flex justify-center'>
           <img className='h-20' src='/logo.png' />
         </div>
-        <h1 className='text-lg text-center font-bold'>
+        <h1 className='text-white text-lg text-center font-bold'>
           {user?.firstName} {user?.lastName}
         </h1>
         <div className='flex-1 flex flex-col gap-2'>
