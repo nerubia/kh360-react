@@ -40,7 +40,7 @@ const button = cva(["w-fit", "h-fit", "rounded-md"], {
       ],
     },
     size: {
-      sm: ["text-sm", "px-2", "py-1"],
+      small: ["text-sm", "px-2", "py-1"],
       medium: ["text-base", "px-4", "py-2"],
     },
     fullWidth: {

@@ -49,10 +49,10 @@ export default function Dashboard() {
       <div className='flex flex-col gap-4'>
         <p>Sample button variants</p>
         <div className='flex gap-4'>
-          <Button size='sm' onClick={() => {}}>
+          <Button size='small' onClick={() => {}}>
             Small primary
           </Button>
-          <Button size='sm' onClick={() => {}} loading={true}>
+          <Button size='small' onClick={() => {}} loading={true}>
             Small primary
           </Button>
         </div>
@@ -73,12 +73,12 @@ export default function Dashboard() {
           </Button>
         </div>
         <div className='flex gap-4'>
-          <Button variant='primaryOutline' size='sm' onClick={() => {}}>
+          <Button variant='primaryOutline' size='small' onClick={() => {}}>
             Small primary outline
           </Button>
           <Button
             variant='primaryOutline'
-            size='sm'
+            size='small'
             onClick={() => {}}
             loading={true}
           >
@@ -94,12 +94,12 @@ export default function Dashboard() {
           </Button>
         </div>
         <div className='flex gap-4'>
-          <Button variant='destructive' size='sm' onClick={() => {}}>
+          <Button variant='destructive' size='small' onClick={() => {}}>
             Small destructive
           </Button>
           <Button
             variant='destructive'
-            size='sm'
+            size='small'
             onClick={() => {}}
             loading={true}
           >
@@ -130,12 +130,12 @@ export default function Dashboard() {
           </Button>
         </div>
         <div className='flex gap-4'>
-          <Button variant='destructiveOutline' size='sm' onClick={() => {}}>
+          <Button variant='destructiveOutline' size='small' onClick={() => {}}>
             Small destructive outline
           </Button>
           <Button
             variant='destructiveOutline'
-            size='sm'
+            size='small'
             onClick={() => {}}
             loading={true}
           >
