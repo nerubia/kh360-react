@@ -33,9 +33,6 @@ export const Sidebar = () => {
           <LinkButton fullWidth to='/sample'>
             Sample
           </LinkButton>
-          <LinkButton variant='destructiveOutline' fullWidth to='/sample'>
-            Sample
-          </LinkButton>
         </div>
       </div>
     </div>
