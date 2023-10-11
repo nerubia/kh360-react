@@ -43,7 +43,7 @@ const button = cva(["w-fit", "h-fit", "rounded-md"], {
         "disabled:border-red-200",
         "disabled:text-red-200",
       ],
-      ghost: ["hover:bg-gray-200", "disabled:bg-gray-200"],
+      ghost: ["hover:bg-gray-100", "disabled:bg-gray-100"],
     },
     size: {
       small: ["text-sm", "px-2", "py-1"],
