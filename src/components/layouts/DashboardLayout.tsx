@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom"
-import { Icon } from "../icon/Icon"
-import { Sidebar } from "../sidebar/Sidebar"
 import { useAppSelector } from "../../hooks/useAppSelector"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
 import { setActiveSidebar } from "../../redux/slices/appSlice"
+import { Icon } from "../icon/Icon"
+import { Sidebar } from "../sidebar/Sidebar"
 
 export default function DashboardLayout() {
   const { activeSidebar } = useAppSelector((state) => state.app)
@@ -18,7 +18,7 @@ export default function DashboardLayout() {
       <Sidebar />
       <div
         className={`${
-          activeSidebar ? "ml-64" : ""
+          activeSidebar ? "md:ml-64" : ""
         } p-5 transition-all duration-300`}
       >
         <button onClick={toggleSidebar}>
