@@ -183,8 +183,11 @@ export default function Sample() {
         <p>Sample icons</p>
         <div className='flex flex-wrap gap-2'>
           <Icon icon='Back' />
+          <Icon icon='Close' />
           <Icon icon='Dashboard' />
           <Icon icon='Google' />
+          <Icon icon='Logout' />
+          <Icon icon='Menu' />
           <Icon icon='Star' />
         </div>
       </div>
