@@ -24,7 +24,7 @@ export const LoginOptions = () => {
         onClick={() => login()}
         loading={loading}
       >
-        <Icon icon='GoogleIcon' />
+        <Icon icon='Google' />
         Google
       </Button>
     </div>

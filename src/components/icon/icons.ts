@@ -1,7 +1,8 @@
 import { lazy } from "react"
 
 export const icons = {
-  DashboardIcon: lazy(async () => await import("./icons/DashboardIcon")),
-  GoogleIcon: lazy(async () => await import("./icons/GoogleIcon")),
-  StarIcon: lazy(async () => await import("./icons/StarIcon")),
+  Back: lazy(async () => await import("./icons/BackIcon")),
+  Dashboard: lazy(async () => await import("./icons/DashboardIcon")),
+  Google: lazy(async () => await import("./icons/GoogleIcon")),
+  Star: lazy(async () => await import("./icons/StarIcon")),
 }
