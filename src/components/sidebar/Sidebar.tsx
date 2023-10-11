@@ -26,9 +26,27 @@ export const Sidebar = () => {
         <div className='flex justify-center'>
           <img className='h-20' src='/logo.png' />
         </div>
-        <div className='flex flex-col'>
-          <NavLink to='/dashboard'>Dashboard</NavLink>
-          <NavLink to='/sample'>Sample</NavLink>
+        <div className='flex flex-col gap-2'>
+          <NavLink
+            to='/dashboard'
+            className={({ isActive }) => {
+              return `${
+                isActive ? "bg-primary-700" : "hover:bg-primary-600"
+              } text-white rounded-md px-4 py-2`
+            }}
+          >
+            Dashboard
+          </NavLink>
+          <NavLink
+            to='/sample'
+            className={({ isActive }) => {
+              return `${
+                isActive ? "bg-primary-700" : "hover:bg-primary-600"
+              } text-white rounded-md px-4 py-2`
+            }}
+          >
+            Sample
+          </NavLink>
         </div>
       </div>
     </div>
