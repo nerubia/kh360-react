@@ -1,8 +1,8 @@
-import { NavLink } from "react-router-dom"
 import { useAppSelector } from "../../hooks/useAppSelector"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
 import { setActiveSidebar } from "../../redux/slices/appSlice"
 import { Icon } from "../icon/Icon"
+import { LinkButton } from "../button/Button"
 
 export const Sidebar = () => {
   const { activeSidebar } = useAppSelector((state) => state.app)
@@ -27,26 +27,15 @@ export const Sidebar = () => {
           <img className='h-20' src='/logo.png' />
         </div>
         <div className='flex flex-col gap-2'>
-          <NavLink
-            to='/dashboard'
-            className={({ isActive }) => {
-              return `${
-                isActive ? "bg-primary-700" : "hover:bg-primary-600"
-              } text-white rounded-md px-4 py-2`
-            }}
-          >
+          <LinkButton fullWidth to='/dashboard'>
             Dashboard
-          </NavLink>
-          <NavLink
-            to='/sample'
-            className={({ isActive }) => {
-              return `${
-                isActive ? "bg-primary-700" : "hover:bg-primary-600"
-              } text-white rounded-md px-4 py-2`
-            }}
-          >
+          </LinkButton>
+          <LinkButton fullWidth to='/sample'>
             Sample
-          </NavLink>
+          </LinkButton>
+          <LinkButton variant='destructiveOutline' fullWidth to='/sample'>
+            Sample
+          </LinkButton>
         </div>
       </div>
     </div>

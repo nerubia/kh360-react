@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom"
 import { type VariantProps, cva } from "class-variance-authority"
 import { Spinner } from "../spinner/Spinner"
 
@@ -7,34 +8,38 @@ const button = cva(["w-fit", "h-fit", "rounded-md"], {
       primary: [
         "bg-primary-500",
         "text-white",
-        "enabled:hover:bg-primary-600",
-        "enabled:active:bg-primary-700",
+        "hover:bg-primary-600",
+        "active:bg-primary-700",
         "disabled:bg-primary-200",
+        "[&.active]:bg-primary-700",
       ],
       primaryOutline: [
         "border",
         "border-primary-500",
         "text-primary-500",
-        "enabled:hover:bg-primary-600",
-        "enabled:hover:text-white",
-        "enabled:active:bg-primary-700",
+        "hover:bg-primary-600",
+        "hover:text-white",
+        "active:bg-primary-700",
+        "disabled:bg-white",
         "disabled:border-primary-200",
         "disabled:text-primary-200",
       ],
       destructive: [
         "bg-red-500",
         "text-white",
-        "enabled:hover:bg-red-600",
-        "enabled:active:bg-red-700",
+        "hover:bg-red-600",
+        "active:bg-red-700",
         "disabled:bg-red-200",
+        "[&.active]:bg-red-700",
       ],
       destructiveOutline: [
         "border",
         "border-red-500",
         "text-red-500",
-        "enabled:hover:bg-red-600",
-        "enabled:hover:text-white",
-        "enabled:active:bg-red-700",
+        "hover:bg-red-600",
+        "hover:text-white",
+        "active:bg-red-700",
+        "disabled:bg-white",
         "disabled:border-red-200",
         "disabled:text-red-200",
       ],
@@ -79,5 +84,24 @@ export const Button = ({
         <div className='flex justify-center items-center gap-2'>{children}</div>
       )}
     </button>
+  )
+}
+
+interface LinkButtonProps extends VariantProps<typeof button> {
+  children: React.ReactNode
+  to: string
+}
+
+export const LinkButton = ({
+  children,
+  to,
+  variant,
+  size,
+  fullWidth,
+}: LinkButtonProps) => {
+  return (
+    <NavLink to={to} className={button({ variant, size, fullWidth })}>
+      {children}
+    </NavLink>
   )
 }
