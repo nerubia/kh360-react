@@ -23,7 +23,7 @@ export default function DashboardLayout() {
           activeSidebar ? "md:ml-64" : ""
         } p-5 transition-all duration-300`}
       >
-        <div className='flex flex-col gap-5'>
+        <div className='flex flex-col gap-4'>
           <Button variant='ghost' size='small' onClick={toggleSidebar}>
             <Icon icon='Menu' />
           </Button>

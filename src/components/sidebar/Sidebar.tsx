@@ -25,7 +25,7 @@ export const Sidebar = () => {
         activeSidebar ? "" : "w-64 -ml-64"
       } bg-primary-500 fixed z-10 w-full md:w-64 h-screen transition-all duration-300`}
     >
-      <div className='relative h-full flex flex-col gap-5 p-5'>
+      <div className='relative h-full flex flex-col gap-4 p-5'>
         <div className='block absolute top-5 md:hidden'>
           <Button variant='ghost' size='small' onClick={toggleSidebar}>
             <Icon icon='Close' />
