@@ -383,7 +383,7 @@ export default function Dashboard() {
       </div>
 
       {/* Start */}
-      {/* <div className='flex flex-col gap-4'>
+      <div className='flex flex-col gap-4'>
         <p>Start</p>
         <div className='w-fit flex shadow-md'>
           <div className='w-full lg:w-[300px] flex flex-col gap-4 p-5'>
@@ -484,10 +484,10 @@ export default function Dashboard() {
             <Button onClick={() => {}}>Start evaluation</Button>
           </div>
         </div>
-      </div> */}
+      </div>
 
       {/* In progress */}
-      {/* <div className='flex flex-col gap-4'>
+      <div className='flex flex-col gap-4'>
         <p>In Progress</p>
         <div className='w-fit flex shadow-md'>
           <div className='w-full lg:w-[300px] flex flex-col gap-4 p-5'>
@@ -666,12 +666,12 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
 
       {/* Responsive */}
       <div className='flex flex-col gap-4'>
         <p>Mobile responsive</p>
-        <div className='flex shadow-md'>
+        <div className='w-full lg:w-fit flex shadow-md'>
           {activePage === "first" && (
             <div className='w-full lg:w-[300px] flex flex-col gap-4 p-5'>
               <button
@@ -765,6 +765,15 @@ export default function Dashboard() {
           <div className='hidden lg:block border border-r-1 my-4'></div>
           {activePage === "second" && (
             <div className='w-full lg:w-[600px] flex flex-col gap-4 p-5'>
+              <button className='w-fit' onClick={() => setActivePage("first")}>
+                <div className='flex items-center gap-2'>
+                  <Icon icon='Back' />
+                  <div className='text-start'>
+                    <p className='text-lg font-bold'>Full name</p>
+                    <p className='text-xs'>ProductHQ [QA Evaluation]</p>
+                  </div>
+                </div>
+              </button>
               <div className='flex justify-between'>
                 <div className='w-1/2'>
                   <h1 className='text-lg font-medium'>Criteria 1</h1>
