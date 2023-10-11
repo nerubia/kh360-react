@@ -385,9 +385,16 @@ export default function Dashboard() {
       {/* Start */}
       <div className='flex flex-col gap-4'>
         <p>Start</p>
-        <div className='w-fit flex shadow-md'>
-          <div className='w-full lg:w-[300px] flex flex-col gap-4 p-5'>
-            <button className='bg-primary-500 px-4 py-2 rounded-md'>
+        <div className='w-full lg:w-fit flex shadow-md'>
+          <div
+            className={`${
+              activePage === "first" ? "flex" : "hidden"
+            } w-full lg:w-[300px] lg:flex flex-col gap-4 p-5`}
+          >
+            <button
+              className='bg-primary-500 px-4 py-2 rounded-md'
+              onClick={() => setActivePage("second")}
+            >
               <div className='flex gap-2 items-center'>
                 <div className='w-10 h-10 bg-black rounded-full'></div>
                 <div className='flex-1 flex flex-col text-start'>
@@ -473,25 +480,46 @@ export default function Dashboard() {
               </div>
             </button>
           </div>
-          <div className='border border-r-1 my-4'></div>
-          <div className='w-full lg:w-[600px] flex flex-col justify-center items-center gap-4 p-5'>
-            <div className='w-20 h-20 bg-black rounded-full'></div>
-            <div className='flex flex-col text-center'>
-              <p className='text-lg font-semibold'>Full name</p>
-              <p className=''>ProductHQ [QA Evaluation]</p>
-              <p>Evaluation Period</p>
+          <div className='hidden lg:block border border-r-1 my-4'></div>
+          <div
+            className={`${
+              activePage === "second" ? "flex" : "hidden"
+            } w-full lg:w-[600px] lg:flex flex-col`}
+          >
+            <div className='p-5'>
+              <button
+                className='w-fit lg:hidden'
+                onClick={() => setActivePage("first")}
+              >
+                <Icon icon='Back' />
+              </button>
             </div>
-            <Button onClick={() => {}}>Start evaluation</Button>
+            <div className='flex-1 flex flex-col justify-center items-center gap-4 p-5'>
+              <div className='w-20 h-20 bg-black rounded-full'></div>
+              <div className='flex flex-col text-center'>
+                <p className='text-lg font-semibold'>Full name</p>
+                <p className=''>ProductHQ [QA Evaluation]</p>
+                <p>Evaluation Period</p>
+              </div>
+              <Button onClick={() => {}}>Start evaluation</Button>
+            </div>
           </div>
         </div>
       </div>
 
       {/* In progress */}
       <div className='flex flex-col gap-4'>
-        <p>In Progress</p>
-        <div className='w-fit flex shadow-md'>
-          <div className='w-full lg:w-[300px] flex flex-col gap-4 p-5'>
-            <button className='bg-primary-500 px-4 py-2 rounded-md'>
+        <p>In progress</p>
+        <div className='w-full lg:w-fit flex shadow-md'>
+          <div
+            className={`${
+              activePage === "first" ? "flex" : "hidden"
+            } w-full lg:w-[300px] lg:flex flex-col gap-4 p-5`}
+          >
+            <button
+              className='bg-primary-500 px-4 py-2 rounded-md'
+              onClick={() => setActivePage("second")}
+            >
               <div className='flex gap-2 items-center'>
                 <div className='w-10 h-10 bg-black rounded-full'></div>
                 <div className='flex-1 flex flex-col text-start'>
@@ -575,8 +603,23 @@ export default function Dashboard() {
               </div>
             </button>
           </div>
-          <div className='border border-r-1 my-4'></div>
-          <div className='w-full lg:w-[600px] flex flex-col gap-4 p-5'>
+          <div className='hidden lg:block border border-r-1 my-4'></div>
+          <div
+            className={`${
+              activePage === "second" ? "flex" : "hidden"
+            } w-full lg:w-[600px] lg:flex flex-col gap-4 p-5`}
+          >
+            <div className='lg:hidden'>
+              <button className='w-fit' onClick={() => setActivePage("first")}>
+                <div className='flex items-center gap-2'>
+                  <Icon icon='Back' />
+                  <div className='text-start'>
+                    <p className='text-lg font-bold'>Full name</p>
+                    <p className='text-xs'>ProductHQ [QA Evaluation]</p>
+                  </div>
+                </div>
+              </button>
+            </div>
             <div className='flex justify-between'>
               <div className='w-1/2'>
                 <h1 className='text-lg font-medium'>Criteria 1</h1>
@@ -665,204 +708,6 @@ export default function Dashboard() {
               <Button onClick={() => {}}>Submit</Button>
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Responsive */}
-      <div className='flex flex-col gap-4'>
-        <p>Mobile responsive</p>
-        <div className='w-full lg:w-fit flex shadow-md'>
-          {activePage === "first" && (
-            <div className='w-full lg:w-[300px] flex flex-col gap-4 p-5'>
-              <button
-                className='bg-primary-500 px-4 py-2 rounded-md'
-                onClick={() => setActivePage("second")}
-              >
-                <div className='flex gap-2 items-center'>
-                  <div className='w-10 h-10 bg-black rounded-full'></div>
-                  <div className='flex-1 flex flex-col text-start'>
-                    <div className='flex justify-between'>
-                      <p className='text-white text-sm'>Full name</p>
-                      <Badge name='Draft' variant='secondary' />
-                    </div>
-                    <p className='text-white text-xs'>
-                      ProductHQ [QA Evaluation]
-                    </p>
-                  </div>
-                </div>
-              </button>
-              <button className='px-4 py-2 rounded-md'>
-                <div className='flex gap-2 items-center'>
-                  <div className='w-10 h-10 bg-black rounded-full'></div>
-                  <div className='flex-1 flex flex-col text-start'>
-                    <div className='flex justify-between'>
-                      <p className='text-sm'>Full name</p>
-                      <Badge name='Draft' variant='secondary' />
-                    </div>
-                    <p className='text-xs'>ProductHQ [QA Evaluation]</p>
-                  </div>
-                </div>
-              </button>
-              <button className='px-4 py-2 rounded-md'>
-                <div className='flex gap-2 items-center'>
-                  <div className='w-10 h-10 bg-black rounded-full'></div>
-                  <div className='flex-1 flex flex-col text-start'>
-                    <div className='flex justify-between'>
-                      <p className='text-sm'>Full name</p>
-                      <Badge name='Done' variant='success' />
-                    </div>
-                    <p className='text-xs'>ProductHQ [PM Evaluation]</p>
-                  </div>
-                </div>
-              </button>
-              <button className='px-4 py-2 rounded-md'>
-                <div className='flex gap-2 items-center'>
-                  <div className='w-10 h-10 bg-black rounded-full'></div>
-                  <div className='flex-1 flex flex-col text-start'>
-                    <div className='flex justify-between'>
-                      <p className='text-sm'>Full name</p>
-                      <span className='relative flex h-3 w-3'>
-                        <span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75'></span>
-                        <span className='relative inline-flex rounded-full h-3 w-3 bg-orange-500'></span>
-                      </span>
-                    </div>
-                    <p className='text-xs'>ProductHQ [QA Evaluation]</p>
-                  </div>
-                </div>
-              </button>
-              <button className='px-4 py-2 rounded-md'>
-                <div className='flex gap-2 items-center'>
-                  <div className='w-10 h-10 bg-black rounded-full'></div>
-                  <div className='flex-1 flex flex-col text-start'>
-                    <div className='flex justify-between'>
-                      <p className='text-sm'>Full name</p>
-                      <span className='relative flex h-3 w-3'>
-                        <span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75'></span>
-                        <span className='relative inline-flex rounded-full h-3 w-3 bg-orange-500'></span>
-                      </span>
-                    </div>
-                    <p className='text-xs'>ProductHQ [QA Evaluation]</p>
-                  </div>
-                </div>
-              </button>
-              <button className='px-4 py-2 rounded-md'>
-                <div className='flex gap-2 items-center'>
-                  <div className='w-10 h-10 bg-black rounded-full'></div>
-                  <div className='flex-1 flex flex-col text-start'>
-                    <div className='flex justify-between'>
-                      <p className='text-sm'>Full name</p>
-                      <span className='relative flex h-3 w-3'>
-                        <span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75'></span>
-                        <span className='relative inline-flex rounded-full h-3 w-3 bg-green-500'></span>
-                      </span>
-                    </div>
-                    <p className='text-xs'>ProductHQ [PM Evaluation]</p>
-                  </div>
-                </div>
-              </button>
-            </div>
-          )}
-          <div className='hidden lg:block border border-r-1 my-4'></div>
-          {activePage === "second" && (
-            <div className='w-full lg:w-[600px] flex flex-col gap-4 p-5'>
-              <button className='w-fit' onClick={() => setActivePage("first")}>
-                <div className='flex items-center gap-2'>
-                  <Icon icon='Back' />
-                  <div className='text-start'>
-                    <p className='text-lg font-bold'>Full name</p>
-                    <p className='text-xs'>ProductHQ [QA Evaluation]</p>
-                  </div>
-                </div>
-              </button>
-              <div className='flex justify-between'>
-                <div className='w-1/2'>
-                  <h1 className='text-lg font-medium'>Criteria 1</h1>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Cumque hic enim eos aut ullam ipsum.
-                  </p>
-                </div>
-                <div>
-                  <button className='text-orange-500'>
-                    <Icon icon='Star' />
-                  </button>
-                  <button className='text-orange-500'>
-                    <Icon icon='Star' />
-                  </button>
-                  <button className='text-orange-500'>
-                    <Icon icon='Star' />
-                  </button>
-                  <button className='text-orange-500'>
-                    <Icon icon='Star' />
-                  </button>
-                  <button>
-                    <Icon icon='Star' />
-                  </button>
-                </div>
-              </div>
-              <div className='flex justify-between'>
-                <div className='w-1/2'>
-                  <h1 className='text-lg font-medium'>Criteria 2</h1>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Cumque hic enim eos aut ullam ipsum.
-                  </p>
-                </div>
-                <div>
-                  <button>
-                    <Icon icon='Star' />
-                  </button>
-                  <button>
-                    <Icon icon='Star' />
-                  </button>
-                  <button>
-                    <Icon icon='Star' />
-                  </button>
-                  <button>
-                    <Icon icon='Star' />
-                  </button>
-                  <button>
-                    <Icon icon='Star' />
-                  </button>
-                </div>
-              </div>
-              <div className='flex justify-between'>
-                <div className='w-1/2'>
-                  <h1 className='text-lg font-medium'>Criteria 3</h1>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Cumque hic enim eos aut ullam ipsum.
-                  </p>
-                </div>
-                <div>
-                  <button>
-                    <Icon icon='Star' />
-                  </button>
-                  <button>
-                    <Icon icon='Star' />
-                  </button>
-                  <button>
-                    <Icon icon='Star' />
-                  </button>
-                  <button>
-                    <Icon icon='Star' />
-                  </button>
-                  <button>
-                    <Icon icon='Star' />
-                  </button>
-                </div>
-              </div>
-              <textarea
-                className='p-4 border rounded-md'
-                cols={30}
-                rows={5}
-                placeholder='Leave a comment'
-              ></textarea>
-              <div className='flex justify-end'>
-                <Button onClick={() => {}}>Submit</Button>
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </div>
