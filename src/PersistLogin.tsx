@@ -4,6 +4,9 @@ import { useAppDispatch } from "./hooks/useAppDispatch"
 import { refreshToken } from "./redux/slices/authSlice"
 
 const Layout = lazy(async () => await import("./components/layouts/Layout"))
+const DashboardLayout = lazy(
+  async () => await import("./components/layouts/DashboardLayout")
+)
 
 const Home = lazy(async () => await import("./pages/home"))
 const AuthRoute = lazy(async () => await import("./routes/AuthRoute"))
@@ -52,8 +55,13 @@ const router = createBrowserRouter([
     element: <PrivateRoute />,
     children: [
       {
-        path: "/dashboard",
-        element: <Dashboard />,
+        element: <DashboardLayout />,
+        children: [
+          {
+            path: "/dashboard",
+            element: <Dashboard />,
+          },
+        ],
       },
     ],
   },
