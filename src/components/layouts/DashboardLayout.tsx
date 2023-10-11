@@ -1,23 +1,27 @@
 import { Outlet } from "react-router-dom"
 import { Icon } from "../icon/Icon"
-import { useState } from "react"
+import { Sidebar } from "../sidebar/Sidebar"
+import { useAppSelector } from "../../hooks/useAppSelector"
+import { useAppDispatch } from "../../hooks/useAppDispatch"
+import { setActiveSidebar } from "../../redux/slices/appSlice"
 
 export default function DashboardLayout() {
-  const [activeSidebar, setActiveSidebar] = useState(true)
+  const { activeSidebar } = useAppSelector((state) => state.app)
+  const appDispatch = useAppDispatch()
+
+  const toggleSidebar = () => {
+    appDispatch(setActiveSidebar(!activeSidebar))
+  }
 
   return (
     <div className='flex '>
-      {/* Sidebar */}
+      <Sidebar />
       <div
         className={`${
-          activeSidebar ? "" : "-ml-64"
-        } bg-primary-500 fixed w-full md:w-64 h-screen p-5`}
+          activeSidebar ? "ml-64" : ""
+        } p-5 transition-all duration-300`}
       >
-        Sidebar
-      </div>
-
-      <div className={`${activeSidebar ? "ml-64" : ""} p-5`}>
-        <button onClick={() => setActiveSidebar((prev) => !prev)}>
+        <button onClick={toggleSidebar}>
           <Icon icon='Menu' />
         </button>
         <Outlet />
