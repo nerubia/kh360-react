@@ -21,6 +21,7 @@ const ResetPassword = lazy(
 
 const PrivateRoute = lazy(async () => await import("./routes/PrivateRoute"))
 const Dashboard = lazy(async () => await import("./pages/dashboard/dashboard"))
+const Sample = lazy(async () => await import("./pages/sample/sample"))
 
 const NotFound = lazy(async () => await import("./pages/404"))
 
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
           {
             path: "/dashboard",
             element: <Dashboard />,
+          },
+          {
+            path: "/sample",
+            element: <Sample />,
           },
         ],
       },
