@@ -5,6 +5,7 @@ import { useAppDispatch } from "../../hooks/useAppDispatch"
 import { setActiveSidebar } from "../../redux/slices/appSlice"
 import { Icon } from "../icon/Icon"
 import { Sidebar } from "../sidebar/Sidebar"
+import { Button } from "../button/Button"
 
 export default function DashboardLayout() {
   const { activeSidebar } = useAppSelector((state) => state.app)
@@ -22,12 +23,14 @@ export default function DashboardLayout() {
           activeSidebar ? "md:ml-64" : ""
         } p-5 transition-all duration-300`}
       >
-        <button onClick={toggleSidebar}>
-          <Icon icon='Menu' />
-        </button>
-        <Suspense fallback={null}>
-          <Outlet />
-        </Suspense>
+        <div className='flex flex-col gap-5'>
+          <Button variant='ghost' onClick={toggleSidebar}>
+            <Icon icon='Menu' />
+          </Button>
+          <Suspense fallback={null}>
+            <Outlet />
+          </Suspense>
+        </div>
       </div>
     </div>
   )

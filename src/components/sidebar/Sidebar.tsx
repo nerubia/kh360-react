@@ -2,7 +2,7 @@ import { useAppSelector } from "../../hooks/useAppSelector"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
 import { setActiveSidebar } from "../../redux/slices/appSlice"
 import { Icon } from "../icon/Icon"
-import { LinkButton } from "../button/Button"
+import { Button, LinkButton } from "../button/Button"
 
 export const Sidebar = () => {
   const { activeSidebar } = useAppSelector((state) => state.app)
@@ -20,9 +20,11 @@ export const Sidebar = () => {
       } bg-primary-500 fixed z-10 w-full md:w-64 h-screen transition-all duration-300 $`}
     >
       <div className='flex flex-col gap-5 p-5'>
-        <button className='block md:hidden' onClick={toggleSidebar}>
-          <Icon icon='Menu' />
-        </button>
+        <div className='block md:hidden'>
+          <Button variant='ghost' onClick={toggleSidebar}>
+            <Icon icon='Menu' />
+          </Button>
+        </div>
         <div className='flex justify-center'>
           <img className='h-20' src='/logo.png' />
         </div>

@@ -157,6 +157,27 @@ export default function Sample() {
             Medium destructive outline
           </Button>
         </div>
+        <div className='flex gap-4'>
+          <Button variant='ghost' size='small' onClick={() => {}}>
+            Small ghost
+          </Button>
+          <Button
+            variant='ghost'
+            size='small'
+            onClick={() => {}}
+            loading={true}
+          >
+            Medium ghost
+          </Button>
+        </div>
+        <div className='flex gap-4'>
+          <Button variant='ghost' onClick={() => {}}>
+            Small ghost
+          </Button>
+          <Button variant='ghost' onClick={() => {}} loading={true}>
+            Medium ghost
+          </Button>
+        </div>
       </div>
       <div className='flex flex-col gap-4'>
         <p>Sample icons</p>
