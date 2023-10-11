@@ -27,7 +27,7 @@ export const Sidebar = () => {
     >
       <div className='relative h-full flex flex-col gap-5 p-5'>
         <div className='block absolute top-5 md:hidden'>
-          <Button variant='ghost' onClick={toggleSidebar}>
+          <Button variant='ghost' size='small' onClick={toggleSidebar}>
             <Icon icon='Close' />
           </Button>
         </div>
