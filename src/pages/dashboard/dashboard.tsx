@@ -37,7 +37,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className='flex flex-col gap-4 p-4'>
+    <div className='flex flex-col gap-4'>
       <h1 className='text-lg font-bold'>Dashboard</h1>
       <p>
         Welcome {user?.firstName} {user?.lastName}
