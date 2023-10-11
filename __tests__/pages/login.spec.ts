@@ -59,4 +59,10 @@ test.describe("Login", () => {
 
     await expect(page).toHaveURL("/dashboard")
   })
+
+  test("should not allow to view the dashboard", async ({ page }) => {
+    await page.goto("/dashboard")
+
+    await expect(page).toHaveURL("/auth/login")
+  })
 })
