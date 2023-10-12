@@ -1,4 +1,4 @@
-import { EvaluationList } from "../../features/evaluation/EvaluationList"
+import { EvaluationList } from "../../features/evaluations/EvaluationList"
 
 export default function Evaluations() {
   return (
