@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
 import { type CodeResponse } from "@react-oauth/google"
 import { type LoginFormData } from "../../types/authType"
+import { type ApiError } from "../../types/apiErrorType"
 import { type User } from "../../types/userType"
 import {
   loginUser,
@@ -9,10 +10,6 @@ import {
   logoutUser,
   refreshUserToken,
 } from "../../services/api"
-
-interface ApiError {
-  message: string
-}
 
 export const login = createAsyncThunk(
   "auth/login",
