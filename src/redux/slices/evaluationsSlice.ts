@@ -4,6 +4,20 @@ import { type ApiError } from "../../types/apiErrorType"
 import { type Evaluation } from "../../types/evaluationType"
 import { axiosInstance } from "../../utils/axiosInstance"
 
+export const getEvaluations = createAsyncThunk(
+  "evaluations/list",
+  async (_, thunkApi) => {
+    try {
+      const response = await axiosInstance.get("/evaluations")
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const createEvaluation = createAsyncThunk(
   "evaluations/create",
   async (data: Evaluation, thunkApi) => {
@@ -35,6 +49,21 @@ const evaluationsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers(builder) {
+    // list
+    builder.addCase(getEvaluations.pending, (state) => {
+      state.loading = true
+      state.error = null
+    })
+    builder.addCase(getEvaluations.fulfilled, (state, action) => {
+      state.loading = false
+      state.error = null
+      state.evaluations = action.payload
+    })
+    builder.addCase(getEvaluations.rejected, (state, action) => {
+      state.loading = false
+      state.error = action.payload as string
+    })
+    // create
     builder.addCase(createEvaluation.pending, (state) => {
       state.loading = true
       state.error = null
