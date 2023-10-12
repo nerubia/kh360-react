@@ -21,7 +21,7 @@ export default function DashboardLayout() {
       <div
         className={`${
           activeSidebar ? "md:ml-64" : ""
-        } p-5 transition-all duration-300`}
+        } w-full p-5 transition-all duration-300`}
       >
         <div className='flex flex-col gap-4'>
           <Button variant='ghost' size='small' onClick={toggleSidebar}>
