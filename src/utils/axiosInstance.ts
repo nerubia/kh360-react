@@ -30,7 +30,10 @@ export const setupAxiosInstance = (store: Store<RootState>) => {
     },
     async (error) => {
       const previousRequest = error.config
-      if (error.response.status === 403) {
+      if (
+        error.response.status === 403 &&
+        error.response.data.message !== "PermissionError"
+      ) {
         try {
           const tokenResponse = await refreshUserToken()
           store.dispatch(setAccessToken(tokenResponse.data.accessToken))
