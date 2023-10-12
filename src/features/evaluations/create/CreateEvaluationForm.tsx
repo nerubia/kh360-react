@@ -55,79 +55,93 @@ export const CreateEvaluationForm = () => {
   }
 
   return (
-    <div className='flex flex-col gap-4'>
-      <h1 className='text-lg font-bold'>Evaluation</h1>
-      <div className='flex flex-col lg:flex-row gap-4'>
-        <div className='flex-1 flex flex-col gap-4'>
-          <Input
-            label='Evaluation name'
-            name='name'
-            placeholder='Evaluation name'
-            onChange={handleInputChange}
-            error={validationErrors.name}
-          />
-          <div className='flex flex-col md:items-end md:flex-row gap-4'>
+    <div className='flex flex-col gap-10'>
+      <div className='flex flex-col gap-4'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
+          <div>
+            <h1 className='text-lg font-bold'>Evaluation Name</h1>
             <Input
-              label='Evaluation period'
-              name='eval_period_start_date'
-              type='date'
-              placeholder='Evaluation period'
+              label='Evaluation name'
+              name='name'
+              placeholder='Evaluation name'
               onChange={handleInputChange}
-              error={validationErrors.eval_period_start_date}
-            />
-            <Input
-              name='eval_period_end_date'
-              type='date'
-              placeholder='Evaluation period'
-              onChange={handleInputChange}
-              error={validationErrors.eval_period_end_date}
+              error={validationErrors.name}
             />
           </div>
-          <div className='flex flex-col md:items-end md:flex-row gap-4'>
-            <Input
-              label='Evaluation schedule'
-              name='eval_schedule_start_date'
-              type='date'
-              placeholder='Evaluation schedule'
-              onChange={handleInputChange}
-              error={validationErrors.eval_schedule_start_date}
-            />
-            <Input
-              name='eval_schedule_end_date'
-              type='date'
-              placeholder='Evaluation schedule'
-              onChange={handleInputChange}
-              error={validationErrors.eval_schedule_end_date}
-            />
+          <div className='flex flex-col gap-4'>
+            <div>
+              <h1 className='text-lg font-bold'>Evaluation Period</h1>
+              <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
+                <Input
+                  label='Period (from)'
+                  name='eval_period_start_date'
+                  type='date'
+                  placeholder='Evaluation period'
+                  onChange={handleInputChange}
+                  error={validationErrors.eval_period_start_date}
+                />
+                <Input
+                  label='Period (to)'
+                  name='eval_period_end_date'
+                  type='date'
+                  placeholder='Evaluation period'
+                  onChange={handleInputChange}
+                  error={validationErrors.eval_period_end_date}
+                />
+              </div>
+            </div>
+            <div>
+              <h1 className='text-lg font-bold'>Evaluation Schedule</h1>
+              <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
+                <Input
+                  label='Schedule (from)'
+                  name='eval_schedule_start_date'
+                  type='date'
+                  placeholder='Evaluation schedule'
+                  onChange={handleInputChange}
+                  error={validationErrors.eval_schedule_start_date}
+                />
+                <Input
+                  label='Schedule (to)'
+                  name='eval_schedule_end_date'
+                  type='date'
+                  placeholder='Evaluation schedule'
+                  onChange={handleInputChange}
+                  error={validationErrors.eval_schedule_end_date}
+                />
+              </div>
+            </div>
           </div>
         </div>
-        <div className='flex-1'>
-          <TextArea
-            label='Evaluation description/notes'
-            name='remarks'
-            placeholder='Some description'
-            onChange={handleTextAreaChange}
-            error={validationErrors.remarks}
-          />
-        </div>
+        <TextArea
+          label='Evaluation description/notes'
+          name='remarks'
+          placeholder='Some description'
+          onChange={handleTextAreaChange}
+          error={validationErrors.remarks}
+        />
       </div>
-      <h1 className='text-lg font-bold'>Email</h1>
-      <Input
-        label='Subject'
-        name='email_subject'
-        placeholder='Subject'
-        onChange={() => {}}
-      />
-      <TextArea
-        name='email_content'
-        placeholder='Some description'
-        onChange={() => {}}
-      />
-      {error != null && <p className='text-red-500'>{error}</p>}
-      <div className='text-right'>
-        <Button onClick={handleSubmit} loading={loading}>
-          Create
-        </Button>
+      <div className='flex flex-col gap-4'>
+        <h1 className='text-lg font-bold'>Email</h1>
+        <Input
+          label='Subject'
+          name='email_subject'
+          placeholder='Subject'
+          onChange={() => {}}
+        />
+        <TextArea
+          name='email_content'
+          placeholder='Some description'
+          onChange={() => {}}
+        />
+      </div>
+      <div>
+        {error != null && <p className='text-red-500'>{error}</p>}
+        <div className='text-right'>
+          <Button onClick={handleSubmit} loading={loading}>
+            Create
+          </Button>
+        </div>
       </div>
     </div>
   )
