@@ -12,6 +12,7 @@ export default function Dashboard() {
       <p>
         Welcome {user?.firstName} {user?.lastName}
       </p>
+      <p>Roles: {user?.roles.toString()}</p>
     </div>
   )
 }

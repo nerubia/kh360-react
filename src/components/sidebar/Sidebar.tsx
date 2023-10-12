@@ -1,5 +1,6 @@
 import { useAppSelector } from "../../hooks/useAppSelector"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
+import { useAdmin } from "../../hooks/useAdmin"
 import { setActiveSidebar } from "../../redux/slices/appSlice"
 import { logout } from "../../redux/slices/authSlice"
 import { Icon } from "../icon/Icon"
@@ -8,8 +9,8 @@ import { Button, LinkButton } from "../button/Button"
 export const Sidebar = () => {
   const { activeSidebar } = useAppSelector((state) => state.app)
   const { user } = useAppSelector((state) => state.auth)
-
   const appDispatch = useAppDispatch()
+  const isAdmin = useAdmin()
 
   const toggleSidebar = () => {
     appDispatch(setActiveSidebar(!activeSidebar))
@@ -44,9 +45,11 @@ export const Sidebar = () => {
           <LinkButton fullWidth to='/sample'>
             Sample
           </LinkButton>
-          <LinkButton fullWidth to='/evaluation'>
-            Evaluation
-          </LinkButton>
+          {isAdmin && (
+            <LinkButton fullWidth to='/evaluation'>
+              Evaluation
+            </LinkButton>
+          )}
         </div>
         <Button variant='ghost' fullWidth onClick={handleLogout}>
           <Icon icon='Logout' />
