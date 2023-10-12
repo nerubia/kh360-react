@@ -19,7 +19,7 @@ export const TextArea = ({
         </label>
       )}
       <textarea
-        className='w-full p-4 border rounded-md'
+        className='w-full p-4 border rounded-md resize-none'
         name={name}
         placeholder={placeholder}
         onChange={onChange}
