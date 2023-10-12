@@ -3,6 +3,7 @@ interface TextAreaInterface {
   name: string
   placeholder: string
   onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
+  error?: string
 }
 
 export const TextArea = ({
@@ -10,6 +11,7 @@ export const TextArea = ({
   name,
   placeholder,
   onChange,
+  error,
 }: TextAreaInterface) => {
   return (
     <div className='flex flex-col'>
@@ -25,6 +27,7 @@ export const TextArea = ({
         onChange={onChange}
         rows={5}
       ></textarea>
+      {error != null && <p className='text-red-500 text-sm'>{error}</p>}
     </div>
   )
 }
