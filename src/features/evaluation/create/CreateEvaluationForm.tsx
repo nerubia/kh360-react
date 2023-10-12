@@ -5,7 +5,8 @@ import { TextArea } from "../../../components/textarea/TextArea"
 export const CreateEvaluationForm = () => {
   return (
     <div className='flex flex-col gap-4'>
-      <div className='flex gap-4'>
+      <h1 className='text-lg font-bold'>Evaluation</h1>
+      <div className='flex flex-col lg:flex-row gap-4'>
         <div className='flex-1 flex flex-col gap-4'>
           <Input
             name='name'
@@ -13,7 +14,7 @@ export const CreateEvaluationForm = () => {
             placeholder='Evaluation name'
             onChange={() => {}}
           />
-          <div className='flex gap-4'>
+          <div className='flex flex-col md:flex-row gap-4'>
             <Input
               name='period_start'
               type='date'
@@ -27,7 +28,7 @@ export const CreateEvaluationForm = () => {
               onChange={() => {}}
             />
           </div>
-          <div className='flex gap-4'>
+          <div className='flex flex-col md:flex-row gap-4'>
             <Input
               name='schedule_start'
               type='date'
@@ -50,6 +51,18 @@ export const CreateEvaluationForm = () => {
           />
         </div>
       </div>
+      <h1 className='text-lg font-bold'>Email</h1>
+      <Input
+        name='email_subject'
+        type='text'
+        placeholder='Subject'
+        onChange={() => {}}
+      />
+      <TextArea
+        name='email_content'
+        placeholder='Some description'
+        onChange={() => {}}
+      />
       <div className='text-right'>
         <Button onClick={() => {}}>Create</Button>
       </div>
