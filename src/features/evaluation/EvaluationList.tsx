@@ -1,4 +1,4 @@
-import { Button } from "../../components/button/Button"
+import { LinkButton } from "../../components/button/Button"
 import { Input } from "../../components/input/Input"
 
 export const EvaluationList = () => {
@@ -11,7 +11,7 @@ export const EvaluationList = () => {
           placeholder='Search for name'
           onChange={() => {}}
         />
-        <Button onClick={() => {}}>Create</Button>
+        <LinkButton to='/evaluation/create'>Create</LinkButton>
       </div>
       <table className='w-full table-fixed'>
         <thead className='text-left'>

@@ -25,6 +25,9 @@ const Sample = lazy(async () => await import("./pages/sample/sample"))
 const Evaluation = lazy(
   async () => await import("./pages/evaluation/evaluation")
 )
+const CreateEvaluation = lazy(
+  async () => await import("./pages/evaluation/create/create_evaluation")
+)
 
 const NotFound = lazy(async () => await import("./pages/404"))
 
@@ -72,6 +75,10 @@ const router = createBrowserRouter([
           {
             path: "/evaluation",
             element: <Evaluation />,
+          },
+          {
+            path: "/evaluation/create",
+            element: <CreateEvaluation />,
           },
         ],
       },

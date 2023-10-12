@@ -48,6 +48,7 @@ const button = cva(["w-fit", "h-fit", "rounded-md"], {
         "active:bg-gray-200",
         "disabled:bg-gray-100",
       ],
+      unstyled: ["!p-0"],
     },
     size: {
       small: ["text-sm", "px-2", "py-1"],
@@ -106,7 +107,7 @@ export const LinkButton = ({
 }: LinkButtonProps) => {
   return (
     <NavLink to={to} className={button({ variant, size, fullWidth })}>
-      {children}
+      <div className='flex justify-center items-center gap-2'>{children}</div>
     </NavLink>
   )
 }
