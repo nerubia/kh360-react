@@ -8,7 +8,7 @@ export const EvaluationList = () => {
         <Input
           name='search'
           type='text'
-          placeholder='Search for name'
+          placeholder='Search by name'
           onChange={() => {}}
         />
         <LinkButton to='/evaluation/create'>Create</LinkButton>
