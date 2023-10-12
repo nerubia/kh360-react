@@ -10,7 +10,6 @@ export const CreateEvaluationForm = () => {
         <div className='flex-1 flex flex-col gap-4'>
           <Input
             name='name'
-            type='text'
             placeholder='Evaluation name'
             onChange={() => {}}
           />
@@ -52,12 +51,7 @@ export const CreateEvaluationForm = () => {
         </div>
       </div>
       <h1 className='text-lg font-bold'>Email</h1>
-      <Input
-        name='email_subject'
-        type='text'
-        placeholder='Subject'
-        onChange={() => {}}
-      />
+      <Input name='email_subject' placeholder='Subject' onChange={() => {}} />
       <TextArea
         name='email_content'
         placeholder='Some description'

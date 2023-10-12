@@ -1,6 +1,6 @@
 interface InputProps {
   name: string
-  type: string
+  type?: string
   placeholder: string
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   error?: string
@@ -8,7 +8,7 @@ interface InputProps {
 
 export const Input = ({
   name,
-  type,
+  type = "text",
   placeholder,
   onChange,
   error,
