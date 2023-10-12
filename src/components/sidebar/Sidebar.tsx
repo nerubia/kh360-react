@@ -44,6 +44,9 @@ export const Sidebar = () => {
           <LinkButton fullWidth to='/sample'>
             Sample
           </LinkButton>
+          <LinkButton fullWidth to='/evaluation'>
+            Evaluation
+          </LinkButton>
         </div>
         <Button variant='ghost' fullWidth onClick={handleLogout}>
           <Icon icon='Logout' />
