@@ -24,11 +24,14 @@ const Dashboard = lazy(async () => await import("./pages/dashboard/dashboard"))
 const Sample = lazy(async () => await import("./pages/sample/sample"))
 
 const AdminRoute = lazy(async () => await import("./routes/AdminRoute"))
-const Evaluation = lazy(
-  async () => await import("./pages/evaluation/evaluation")
+const Evaluations = lazy(
+  async () => await import("./pages/evaluations/evaluations")
 )
 const CreateEvaluation = lazy(
-  async () => await import("./pages/evaluation/create/create_evaluation")
+  async () => await import("./pages/evaluations/create_evaluation")
+)
+const ViewEvaluation = lazy(
+  async () => await import("./pages/evaluations/view_evaluation")
 )
 
 const NotFound = lazy(async () => await import("./pages/404"))
@@ -78,12 +81,16 @@ const router = createBrowserRouter([
             element: <AdminRoute />,
             children: [
               {
-                path: "/evaluation",
-                element: <Evaluation />,
+                path: "/evaluations",
+                element: <Evaluations />,
               },
               {
-                path: "/evaluation/create",
+                path: "/evaluations/create",
                 element: <CreateEvaluation />,
+              },
+              {
+                path: "/evaluations/:id",
+                element: <ViewEvaluation />,
               },
             ],
           },

@@ -6,7 +6,7 @@ export const EvaluationList = () => {
     <div className='flex flex-col gap-4'>
       <div className='flex justify-between'>
         <Input name='search' placeholder='Search by name' onChange={() => {}} />
-        <LinkButton to='/evaluation/create'>Create</LinkButton>
+        <LinkButton to='/evaluations/create'>Create</LinkButton>
       </div>
       <table className='w-full table-fixed'>
         <thead className='text-left'>

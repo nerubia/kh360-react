@@ -46,8 +46,8 @@ export const Sidebar = () => {
             Sample
           </LinkButton>
           {isAdmin && (
-            <LinkButton fullWidth to='/evaluation'>
-              Evaluation
+            <LinkButton fullWidth to='/evaluations'>
+              Evaluations
             </LinkButton>
           )}
         </div>
