@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { ValidationError } from "yup"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../hooks/useAppSelector"
 import { createEvaluation } from "../../../redux/slices/evaluationsSlice"
@@ -6,10 +7,11 @@ import { type Evaluation } from "../../../types/evaluationType"
 import { Button } from "../../../components/button/Button"
 import { Input } from "../../../components/input/Input"
 import { TextArea } from "../../../components/textarea/TextArea"
+import { createEvaluationSchema } from "../../../utils/validation/evaluations/createEvaluationSchema"
 
 export const CreateEvaluationForm = () => {
   const appDispatch = useAppDispatch()
-  const { loading } = useAppSelector((state) => state.evaluations)
+  const { loading, error } = useAppSelector((state) => state.evaluations)
 
   const [formData, setFormData] = useState<Evaluation>({
     name: undefined,
@@ -19,10 +21,25 @@ export const CreateEvaluationForm = () => {
     eval_schedule_end_date: undefined,
     remarks: undefined,
   })
+  const [validationErrors, setValidationErrors] = useState<Partial<Evaluation>>(
+    {}
+  )
 
   const handleSubmit = async () => {
-    // TODO: validate
-    await appDispatch(createEvaluation(formData))
+    try {
+      await createEvaluationSchema.validate(formData, {
+        abortEarly: false,
+      })
+      await appDispatch(createEvaluation(formData))
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        const errors: Partial<Evaluation> = {}
+        error.inner.forEach((err) => {
+          errors[err.path as keyof Evaluation] = err.message
+        })
+        setValidationErrors(errors)
+      }
+    }
   }
 
   const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,44 +64,50 @@ export const CreateEvaluationForm = () => {
             name='name'
             placeholder='Evaluation name'
             onChange={handleInputChange}
+            error={validationErrors.name}
           />
           <div className='flex flex-col md:items-end md:flex-row gap-4'>
             <Input
               label='Evaluation period'
-              name='period_start'
+              name='eval_period_start_date'
               type='date'
               placeholder='Evaluation period'
               onChange={handleInputChange}
+              error={validationErrors.eval_period_start_date}
             />
             <Input
-              name='period_end'
+              name='eval_period_end_date'
               type='date'
               placeholder='Evaluation period'
               onChange={handleInputChange}
+              error={validationErrors.eval_period_end_date}
             />
           </div>
           <div className='flex flex-col md:items-end md:flex-row gap-4'>
             <Input
               label='Evaluation schedule'
-              name='schedule_start'
+              name='eval_schedule_start_date'
               type='date'
               placeholder='Evaluation schedule'
               onChange={handleInputChange}
+              error={validationErrors.eval_schedule_start_date}
             />
             <Input
-              name='schedule_end'
+              name='eval_schedule_end_date'
               type='date'
               placeholder='Evaluation schedule'
               onChange={handleInputChange}
+              error={validationErrors.eval_schedule_end_date}
             />
           </div>
         </div>
         <div className='flex-1'>
           <TextArea
             label='Evaluation description/notes'
-            name='description'
+            name='remarks'
             placeholder='Some description'
             onChange={handleTextAreaChange}
+            error={validationErrors.remarks}
           />
         </div>
       </div>
@@ -100,6 +123,7 @@ export const CreateEvaluationForm = () => {
         placeholder='Some description'
         onChange={() => {}}
       />
+      {error != null && <p className='text-red-500'>{error}</p>}
       <div className='text-right'>
         <Button onClick={handleSubmit} loading={loading}>
           Create
