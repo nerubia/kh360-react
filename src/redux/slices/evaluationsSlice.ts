@@ -34,6 +34,20 @@ const evaluationsSlice = createSlice({
   name: "app",
   initialState,
   reducers: {},
+  extraReducers(builder) {
+    builder.addCase(createEvaluation.pending, (state) => {
+      state.loading = true
+      state.error = null
+    })
+    builder.addCase(createEvaluation.fulfilled, (state) => {
+      state.loading = false
+      state.error = null
+    })
+    builder.addCase(createEvaluation.rejected, (state, action) => {
+      state.loading = false
+      state.error = action.payload as string
+    })
+  },
 })
 
 export default evaluationsSlice.reducer
