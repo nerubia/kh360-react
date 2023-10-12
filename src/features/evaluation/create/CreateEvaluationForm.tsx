@@ -9,12 +9,14 @@ export const CreateEvaluationForm = () => {
       <div className='flex flex-col lg:flex-row gap-4'>
         <div className='flex-1 flex flex-col gap-4'>
           <Input
+            label='Evaluation name'
             name='name'
             placeholder='Evaluation name'
             onChange={() => {}}
           />
-          <div className='flex flex-col md:flex-row gap-4'>
+          <div className='flex flex-col md:items-end md:flex-row gap-4'>
             <Input
+              label='Evaluation period'
               name='period_start'
               type='date'
               placeholder='Evaluation period'
@@ -27,8 +29,9 @@ export const CreateEvaluationForm = () => {
               onChange={() => {}}
             />
           </div>
-          <div className='flex flex-col md:flex-row gap-4'>
+          <div className='flex flex-col md:items-end md:flex-row gap-4'>
             <Input
+              label='Evaluation schedule'
               name='schedule_start'
               type='date'
               placeholder='Evaluation schedule'
@@ -44,6 +47,7 @@ export const CreateEvaluationForm = () => {
         </div>
         <div className='flex-1'>
           <TextArea
+            label='Evaluation description/notes'
             name='description'
             placeholder='Some description'
             onChange={() => {}}
@@ -51,7 +55,12 @@ export const CreateEvaluationForm = () => {
         </div>
       </div>
       <h1 className='text-lg font-bold'>Email</h1>
-      <Input name='email_subject' placeholder='Subject' onChange={() => {}} />
+      <Input
+        label='Subject'
+        name='email_subject'
+        placeholder='Subject'
+        onChange={() => {}}
+      />
       <TextArea
         name='email_content'
         placeholder='Some description'
