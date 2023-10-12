@@ -182,7 +182,7 @@ export default function Sample() {
       <div className='flex flex-col gap-4'>
         <p>Sample icons</p>
         <div className='flex flex-wrap gap-2'>
-          <Icon icon='Back' />
+          <Icon icon='ChevronLeft' />
           <Icon icon='Close' />
           <Icon icon='Dashboard' />
           <Icon icon='Google' />
@@ -515,7 +515,7 @@ export default function Sample() {
                 className='w-fit lg:hidden'
                 onClick={() => setActivePage("first")}
               >
-                <Icon icon='Back' />
+                <Icon icon='ChevronLeft' />
               </button>
             </div>
             <div className='flex-1 flex flex-col justify-center items-center gap-4 p-5'>
@@ -636,7 +636,7 @@ export default function Sample() {
             <div className='lg:hidden'>
               <button className='w-fit' onClick={() => setActivePage("first")}>
                 <div className='flex items-center gap-2'>
-                  <Icon icon='Back' />
+                  <Icon icon='ChevronLeft' />
                   <div className='text-start'>
                     <p className='text-lg font-bold'>Full name</p>
                     <p className='text-xs'>ProductHQ [QA Evaluation]</p>
