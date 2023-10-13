@@ -28,13 +28,14 @@ const Evaluations = lazy(
   async () => await import("./pages/evaluations/evaluations")
 )
 const CreateEvaluation = lazy(
-  async () => await import("./pages/evaluations/create_evaluation")
+  async () => await import("./pages/evaluations/create/create_evaluation")
 )
 const ViewEvaluation = lazy(
-  async () => await import("./pages/evaluations/view_evaluation")
+  async () => await import("./pages/evaluations/[id]/view_evaluation")
 )
 const SelectEmployees = lazy(
-  async () => await import("./pages/evaluations/select_employees")
+  async () =>
+    await import("./pages/evaluations/[id]/employees/select_employees")
 )
 
 const NotFound = lazy(async () => await import("./pages/404"))

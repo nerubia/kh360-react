@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom"
-import { Button, LinkButton } from "../../components/button/Button"
-import { Icon } from "../../components/icon/Icon"
-import { useAppDispatch } from "../../hooks/useAppDispatch"
-import { useAppSelector } from "../../hooks/useAppSelector"
+import { Button, LinkButton } from "../../../../components/button/Button"
+import { Icon } from "../../../../components/icon/Icon"
+import { useAppDispatch } from "../../../../hooks/useAppDispatch"
+import { useAppSelector } from "../../../../hooks/useAppSelector"
 import { useEffect } from "react"
-import { getEmployees } from "../../redux/slices/employeesSlice"
-import { Input } from "../../components/input/Input"
-import { Select } from "../../components/select/Select"
+import { getEmployees } from "../../../../redux/slices/employeesSlice"
+import { Input } from "../../../../components/input/Input"
+import { Select } from "../../../../components/select/Select"
 
 export default function SelectEmployees() {
   const { id } = useParams()

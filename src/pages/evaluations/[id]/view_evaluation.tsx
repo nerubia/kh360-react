@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom"
-import { LinkButton } from "../../components/button/Button"
-import { Icon } from "../../components/icon/Icon"
+import { LinkButton } from "../../../components/button/Button"
+import { Icon } from "../../../components/icon/Icon"
 import { useEffect } from "react"
-import { useAppDispatch } from "../../hooks/useAppDispatch"
-import { getEvaluation } from "../../redux/slices/evaluationsSlice"
-import { useAppSelector } from "../../hooks/useAppSelector"
+import { useAppDispatch } from "../../../hooks/useAppDispatch"
+import { getEvaluation } from "../../../redux/slices/evaluationsSlice"
+import { useAppSelector } from "../../../hooks/useAppSelector"
 import moment from "moment"
 
 export default function ViewEvaluation() {
