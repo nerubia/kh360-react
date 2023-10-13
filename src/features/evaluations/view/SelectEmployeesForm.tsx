@@ -32,7 +32,7 @@ export const SelectEmployeesForm = () => {
   }
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col gap-4'>
       <h1 className='text-lg font-bold'>Select Employees</h1>
       <div className='flex justify-between'>
         <div className='flex gap-2'>
@@ -60,39 +60,46 @@ export const SelectEmployeesForm = () => {
         </div>
         <Button onClick={() => {}}>Search</Button>
       </div>
-      <table className='w-full table-fixed'>
-        <thead className='text-left'>
-          <tr>
-            <th>Add</th>
-            <th>Name</th>
-            <th>Date Started</th>
-            <th>Regularized Date</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {employees.map((employee) => (
-            <tr key={employee.id}>
-              <td>
-                <div className='w-fit'>
-                  <Checkbox
-                    checked={selectedEmployeeIds.includes(employee.id)}
-                    onChange={(checked) =>
-                      handleClickCheckbox(checked, employee.id)
-                    }
-                  />
-                </div>
-              </td>
-              <td>
-                {employee.firstName} {employee.lastName}
-              </td>
+      <div className='bg-gray-100 h-[calc(100vh_-_310px)] overflow-scroll'>
+        <table className='w-full table-fixed'>
+          <thead className='text-left'>
+            <tr>
+              <th>Add</th>
+              <th>Name</th>
+              <th>Date Started</th>
+              <th>Regularized Date</th>
+              <th>Status</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <LinkButton to={`/evaluations/${id}/employees/preview`}>
-        Check and preview
-      </LinkButton>
+          </thead>
+          <tbody>
+            {employees.map((employee) => (
+              <tr key={employee.id}>
+                <td>
+                  <div className='w-fit'>
+                    <Checkbox
+                      checked={selectedEmployeeIds.includes(employee.id)}
+                      onChange={(checked) =>
+                        handleClickCheckbox(checked, employee.id)
+                      }
+                    />
+                  </div>
+                </td>
+                <td>
+                  {employee.firstName} {employee.lastName}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className='flex justify-between'>
+        <LinkButton variant='destructive' to={`/evaluations/${id}`}>
+          Exit & Cancel
+        </LinkButton>
+        <LinkButton to={`/evaluations/${id}/employees/preview`}>
+          Check & Preview
+        </LinkButton>
+      </div>
     </div>
   )
 }

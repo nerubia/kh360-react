@@ -21,12 +21,14 @@ export default function DashboardLayout() {
       <div
         className={`${
           activeSidebar ? "md:ml-64" : ""
-        } w-full p-5 transition-all duration-300`}
+        } w-full transition-all duration-300`}
       >
-        <div className='flex flex-col gap-4'>
+        <div className='h-16 flex items-center px-5'>
           <Button variant='ghost' size='small' onClick={toggleSidebar}>
             <Icon icon='Menu' />
           </Button>
+        </div>
+        <div className='p-5'>
           <Suspense fallback={null}>
             <Outlet />
           </Suspense>

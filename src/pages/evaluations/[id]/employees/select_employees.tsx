@@ -1,6 +1,4 @@
 import { useParams } from "react-router-dom"
-import { LinkButton } from "../../../../components/button/Button"
-import { Icon } from "../../../../components/icon/Icon"
 import { useAppDispatch } from "../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../hooks/useAppSelector"
 import { useEffect } from "react"
@@ -20,10 +18,6 @@ export default function SelectEmployees() {
 
   return (
     <div className='flex flex-col gap-4'>
-      <LinkButton variant='unstyled' to={`/evaluations/${id}`}>
-        <Icon icon='ChevronLeft' />
-        Go back
-      </LinkButton>
       {loading && <div>Loading...</div>}
       {!loading && evaluation == null && <div>Not found</div>}
       {!loading && evaluation !== null && (
