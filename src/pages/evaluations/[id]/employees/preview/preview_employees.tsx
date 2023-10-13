@@ -3,8 +3,6 @@ import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
 import { useEffect } from "react"
 import { getEvaluation } from "../../../../../redux/slices/evaluationsSlice"
-import { LinkButton } from "../../../../../components/button/Button"
-import { Icon } from "../../../../../components/icon/Icon"
 import { PreviewEmployeesForm } from "../../../../../features/evaluations/view/PreviewEmployeesForm"
 
 export default function PreviewEmployees() {
@@ -20,10 +18,6 @@ export default function PreviewEmployees() {
 
   return (
     <div className='flex flex-col gap-4'>
-      <LinkButton variant='unstyled' to={`/evaluations/${id}/employees`}>
-        <Icon icon='ChevronLeft' />
-        Go back
-      </LinkButton>
       {loading && <div>Loading...</div>}
       {!loading && evaluation == null && <div>Not found</div>}
       {!loading && evaluation !== null && (

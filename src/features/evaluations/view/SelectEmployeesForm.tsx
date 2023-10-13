@@ -60,7 +60,7 @@ export const SelectEmployeesForm = () => {
         </div>
         <Button onClick={() => {}}>Search</Button>
       </div>
-      <div className='bg-gray-100 h-[calc(100vh_-_310px)] overflow-scroll'>
+      <div className='bg-gray-100 h-[calc(100vh_-_320px)] overflow-scroll'>
         <table className='w-full table-fixed'>
           <thead className='text-left'>
             <tr>
