@@ -5,7 +5,7 @@ import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../hooks/useAppSelector"
 import { createEvaluation } from "../../../redux/slices/evaluationsSlice"
 import { type Evaluation } from "../../../types/evaluationType"
-import { Button } from "../../../components/button/Button"
+import { Button, LinkButton } from "../../../components/button/Button"
 import { Input } from "../../../components/input/Input"
 import { TextArea } from "../../../components/textarea/TextArea"
 import { createEvaluationSchema } from "../../../utils/validation/evaluations/createEvaluationSchema"
@@ -142,9 +142,12 @@ export const CreateEvaluationForm = () => {
       </div>
       <div>
         {error != null && <p className='text-red-500'>{error}</p>}
-        <div className='text-right'>
+        <div className='flex justify-between'>
+          <LinkButton variant='destructive' to='/evaluations'>
+            Exit & Cancel
+          </LinkButton>
           <Button onClick={handleSubmit} loading={loading}>
-            Create
+            Save & Proceed
           </Button>
         </div>
       </div>
