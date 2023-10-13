@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { ValidationError } from "yup"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../hooks/useAppSelector"
@@ -10,6 +11,7 @@ import { TextArea } from "../../../components/textarea/TextArea"
 import { createEvaluationSchema } from "../../../utils/validation/evaluations/createEvaluationSchema"
 
 export const CreateEvaluationForm = () => {
+  const navigate = useNavigate()
   const appDispatch = useAppDispatch()
   const { loading, error } = useAppSelector((state) => state.evaluations)
 
@@ -30,7 +32,10 @@ export const CreateEvaluationForm = () => {
       await createEvaluationSchema.validate(formData, {
         abortEarly: false,
       })
-      await appDispatch(createEvaluation(formData))
+      const result = await appDispatch(createEvaluation(formData))
+      if (result.payload.id !== undefined) {
+        navigate(`/evaluations/${result.payload.id}/employees`)
+      }
     } catch (error) {
       if (error instanceof ValidationError) {
         const errors: Partial<Evaluation> = {}
