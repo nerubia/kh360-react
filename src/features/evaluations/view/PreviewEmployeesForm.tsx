@@ -34,7 +34,7 @@ export const PreviewEmployeesForm = () => {
         </table>
       </div>
       <div className='flex justify-between'>
-        <LinkButton variant='destructive' to={`/evaluations/${id}/employees`}>
+        <LinkButton variant='destructive' to={`/evaluations/${id}/select`}>
           Exit & Cancel
         </LinkButton>
         <Button onClick={() => {}}>Save & Proceed</Button>

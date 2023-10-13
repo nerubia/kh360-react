@@ -96,7 +96,7 @@ export const SelectEmployeesForm = () => {
         <LinkButton variant='destructive' to={`/evaluations/${id}`}>
           Exit & Cancel
         </LinkButton>
-        <LinkButton to={`/evaluations/${id}/employees/preview`}>
+        <LinkButton to={`/evaluations/${id}/preview`}>
           Check & Preview
         </LinkButton>
       </div>

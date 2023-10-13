@@ -40,7 +40,7 @@ export default function ViewEvaluation() {
             {moment(evaluation.eval_schedule_start_date).format("MMM D YYYY")} -{" "}
             {moment(evaluation.eval_schedule_end_date).format("MMM D YYYY")}
           </div>
-          <LinkButton to={`/evaluations/${id}/employees`}>
+          <LinkButton to={`/evaluations/${id}/select`}>
             Select employees
           </LinkButton>
         </div>

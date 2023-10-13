@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom"
-import { useAppDispatch } from "../../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../../hooks/useAppSelector"
+import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
+import { useAppSelector } from "../../../../../hooks/useAppSelector"
 import { useEffect } from "react"
-import { getEvaluation } from "../../../../redux/slices/evaluationsSlice"
-import { SelectEmployeesForm } from "../../../../features/evaluations/view/SelectEmployeesForm"
+import { getEvaluation } from "../../../../../redux/slices/evaluationsSlice"
+import { SelectEmployeesForm } from "../../../../../features/evaluations/view/SelectEmployeesForm"
 
 export default function SelectEmployees() {
   const { id } = useParams()
