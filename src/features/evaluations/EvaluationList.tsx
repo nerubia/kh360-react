@@ -46,7 +46,13 @@ export const EvaluationList = () => {
                 {moment(evaluation.eval_schedule_end_date).format("MMM D YYYY")}
               </td>
               <td>{evaluation.status}</td>
-              <td>Actions</td>
+              <td>
+                <div className='flex'>
+                  <LinkButton to={`/evaluations/${evaluation.id}`}>
+                    View
+                  </LinkButton>
+                </div>
+              </td>
             </tr>
           ))}
         </tbody>
