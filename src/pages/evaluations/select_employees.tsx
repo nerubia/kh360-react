@@ -6,6 +6,7 @@ import { useAppSelector } from "../../hooks/useAppSelector"
 import { useEffect } from "react"
 import { getEmployees } from "../../redux/slices/employeesSlice"
 import { Input } from "../../components/input/Input"
+import { Select } from "../../components/select/Select"
 
 export default function SelectEmployees() {
   const { id } = useParams()
@@ -25,14 +26,26 @@ export default function SelectEmployees() {
       <div className='flex justify-between'>
         <div className='flex gap-2'>
           <Input
+            label='Name/Email'
             name='search'
             placeholder='Search name or email'
             onChange={() => {}}
           />
-          <select name='status'>
-            <option value='active'>Active</option>
-            <option value='other'>Other</option>
-          </select>
+          <Select
+            label='Status'
+            name='status'
+            onChange={() => {}}
+            options={[
+              {
+                label: "Active",
+                value: "active",
+              },
+              {
+                label: "Other",
+                value: "other",
+              },
+            ]}
+          />
         </div>
         <Button onClick={() => {}}>Search</Button>
       </div>
