@@ -1,7 +1,7 @@
 interface InputProps {
   label?: string
   name: string
-  type?: string
+  type?: "text" | "email" | "password" | "date"
   placeholder: string
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   error?: string
