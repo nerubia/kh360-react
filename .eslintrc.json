@@ -20,6 +20,7 @@
     "@typescript-eslint/triple-slash-reference": "off",
     "@typescript-eslint/no-confusing-void-expression": "off",
     "@typescript-eslint/no-misused-promises": "off",
+    "@typescript-eslint/naming-convention": "off",
     "no-console": "error",
     "@typescript-eslint/no-unused-vars": "off",
     "unused-imports/no-unused-imports": "error",

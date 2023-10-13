@@ -46,11 +46,35 @@ export const getEvaluation = createAsyncThunk(
   }
 )
 
+export const setEvaluators = createAsyncThunk(
+  "evaluations/setEvaluators",
+  async (
+    data: {
+      id: string
+      employee_ids: number[]
+    },
+    thunkApi
+  ) => {
+    try {
+      const response = await axiosInstance.post(
+        `/evaluations/${data.id}/set-evaluators`,
+        data
+      )
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 interface Evaluations {
   loading: boolean
   error: string | null
   evaluations: Evaluation[]
   evaluation: Evaluation | null
+  selectedEmployeeIds: number[]
 }
 
 const initialState: Evaluations = {
@@ -58,12 +82,17 @@ const initialState: Evaluations = {
   error: null,
   evaluations: [],
   evaluation: null,
+  selectedEmployeeIds: [],
 }
 
 const evaluationsSlice = createSlice({
   name: "app",
   initialState,
-  reducers: {},
+  reducers: {
+    setSelectedEmployeeIds: (state, action) => {
+      state.selectedEmployeeIds = action.payload
+    },
+  },
   extraReducers(builder) {
     // list
     builder.addCase(getEvaluations.pending, (state) => {
@@ -109,4 +138,5 @@ const evaluationsSlice = createSlice({
   },
 })
 
+export const { setSelectedEmployeeIds } = evaluationsSlice.actions
 export default evaluationsSlice.reducer

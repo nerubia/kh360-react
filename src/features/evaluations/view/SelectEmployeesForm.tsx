@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react"
-import { Button } from "../../../components/button/Button"
+import { useEffect } from "react"
+import { useParams } from "react-router-dom"
+import { Button, LinkButton } from "../../../components/button/Button"
 import { Input } from "../../../components/input/Input"
 import { Select } from "../../../components/select/Select"
 import { getEmployees } from "../../../redux/slices/employeesSlice"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../hooks/useAppSelector"
-import { useParams } from "react-router-dom"
 import { Checkbox } from "../../../components/checkbox/Checkbox"
+import { setSelectedEmployeeIds } from "../../../redux/slices/evaluationsSlice"
 
 export const SelectEmployeesForm = () => {
   const { id } = useParams()
   const appDispatch = useAppDispatch()
+  const { selectedEmployeeIds } = useAppSelector((state) => state.evaluations)
   const { employees } = useAppSelector((state) => state.employees)
-
-  const [selectedEmployees, setSelectedEmployees] = useState<number[]>([])
 
   useEffect(() => {
     void appDispatch(getEmployees())
@@ -21,17 +21,14 @@ export const SelectEmployeesForm = () => {
 
   const handleClickCheckbox = (checked: boolean, employeeId: number) => {
     if (checked) {
-      setSelectedEmployees((prev) => [...prev, employeeId])
+      appDispatch(setSelectedEmployeeIds([...selectedEmployeeIds, employeeId]))
     } else {
-      setSelectedEmployees((prev) => prev.filter((id) => id !== employeeId))
+      appDispatch(
+        setSelectedEmployeeIds(
+          selectedEmployeeIds.filter((id) => id !== employeeId)
+        )
+      )
     }
-  }
-
-  const handlePreview = () => {
-    // eslint-disable-next-line no-console
-    console.log(`Evaluation ID: ${id}`)
-    // eslint-disable-next-line no-console
-    console.log(selectedEmployees)
   }
 
   return (
@@ -79,7 +76,7 @@ export const SelectEmployeesForm = () => {
               <td>
                 <div className='w-fit'>
                   <Checkbox
-                    checked={selectedEmployees.includes(employee.id)}
+                    checked={selectedEmployeeIds.includes(employee.id)}
                     onChange={(checked) =>
                       handleClickCheckbox(checked, employee.id)
                     }
@@ -93,7 +90,9 @@ export const SelectEmployeesForm = () => {
           ))}
         </tbody>
       </table>
-      <Button onClick={handlePreview}>Preview</Button>
+      <LinkButton to={`/evaluations/${id}/employees/preview`}>
+        Check and preview
+      </LinkButton>
     </div>
   )
 }

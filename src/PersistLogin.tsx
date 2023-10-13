@@ -37,6 +37,10 @@ const SelectEmployees = lazy(
   async () =>
     await import("./pages/evaluations/[id]/employees/select_employees")
 )
+const PreviewEmployees = lazy(
+  async () =>
+    await import("./pages/evaluations/[id]/employees/preview/preview_employees")
+)
 
 const NotFound = lazy(async () => await import("./pages/404"))
 
@@ -99,6 +103,10 @@ const router = createBrowserRouter([
               {
                 path: "/evaluations/:id/employees",
                 element: <SelectEmployees />,
+              },
+              {
+                path: "/evaluations/:id/employees/preview",
+                element: <PreviewEmployees />,
               },
             ],
           },
