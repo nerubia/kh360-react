@@ -33,6 +33,7 @@ export default function SelectEmployees() {
       {!loading && evaluation !== null && (
         <div className='flex flex-col'>
           <h1 className='text-lg font-bold'>{evaluation.name}</h1>
+          <h1 className='text-lg font-bold'>Select Employees</h1>
           <div className='flex justify-between'>
             <div className='flex gap-2'>
               <Input
