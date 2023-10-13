@@ -39,14 +39,14 @@ export const Sidebar = () => {
           {user?.firstName} {user?.lastName}
         </h1>
         <div className='flex-1 flex flex-col gap-2'>
-          <LinkButton fullWidth to='/dashboard'>
+          <LinkButton variant='menu' fullWidth to='/dashboard'>
             Dashboard
           </LinkButton>
-          <LinkButton fullWidth to='/sample'>
+          <LinkButton variant='menu' fullWidth to='/sample'>
             Sample
           </LinkButton>
           {isAdmin && (
-            <LinkButton fullWidth to='/evaluations'>
+            <LinkButton variant='menu' fullWidth to='/evaluations'>
               Evaluations
             </LinkButton>
           )}

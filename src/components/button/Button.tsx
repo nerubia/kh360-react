@@ -11,7 +11,6 @@ const button = cva(["w-fit", "h-fit", "rounded-md"], {
         "hover:bg-primary-600",
         "active:bg-primary-700",
         "disabled:bg-primary-200",
-        "[&.active]:bg-primary-700",
       ],
       primaryOutline: [
         "border",
@@ -30,7 +29,6 @@ const button = cva(["w-fit", "h-fit", "rounded-md"], {
         "hover:bg-red-600",
         "active:bg-red-700",
         "disabled:bg-red-200",
-        "[&.active]:bg-red-700",
       ],
       destructiveOutline: [
         "border",
@@ -49,6 +47,14 @@ const button = cva(["w-fit", "h-fit", "rounded-md"], {
         "disabled:bg-gray-100",
       ],
       unstyled: ["!p-0"],
+      menu: [
+        "bg-primary-500",
+        "text-white",
+        "hover:bg-primary-600",
+        "active:bg-primary-700",
+        "disabled:bg-primary-200",
+        "[&.active]:bg-primary-700",
+      ],
     },
     size: {
       small: ["text-sm", "px-2", "py-1"],
