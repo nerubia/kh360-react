@@ -34,12 +34,10 @@ const ViewEvaluation = lazy(
   async () => await import("./pages/evaluations/[id]/view_evaluation")
 )
 const SelectEmployees = lazy(
-  async () =>
-    await import("./pages/evaluations/[id]/employees/select/select_employees")
+  async () => await import("./pages/evaluations/[id]/select/select_employees")
 )
 const PreviewEmployees = lazy(
-  async () =>
-    await import("./pages/evaluations/[id]/employees/preview/preview_employees")
+  async () => await import("./pages/evaluations/[id]/preview/preview_employees")
 )
 
 const NotFound = lazy(async () => await import("./pages/404"))

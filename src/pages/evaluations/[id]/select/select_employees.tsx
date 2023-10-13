@@ -1,11 +1,11 @@
 import { useParams } from "react-router-dom"
-import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../../../hooks/useAppSelector"
+import { useAppDispatch } from "../../../../hooks/useAppDispatch"
+import { useAppSelector } from "../../../../hooks/useAppSelector"
 import { useEffect } from "react"
-import { getEvaluation } from "../../../../../redux/slices/evaluationsSlice"
-import { PreviewEmployeesForm } from "../../../../../features/evaluations/view/PreviewEmployeesForm"
+import { getEvaluation } from "../../../../redux/slices/evaluationsSlice"
+import { SelectEmployeesForm } from "../../../../features/evaluations/view/SelectEmployeesForm"
 
-export default function PreviewEmployees() {
+export default function SelectEmployees() {
   const { id } = useParams()
   const appDispatch = useAppDispatch()
   const { loading, evaluation } = useAppSelector((state) => state.evaluations)
@@ -23,7 +23,7 @@ export default function PreviewEmployees() {
       {!loading && evaluation !== null && (
         <div className='flex flex-col'>
           <h1 className='text-lg font-bold'>{evaluation.name}</h1>
-          <PreviewEmployeesForm />
+          <SelectEmployeesForm />
         </div>
       )}
     </div>
