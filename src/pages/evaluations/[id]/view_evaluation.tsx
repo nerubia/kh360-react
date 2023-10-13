@@ -28,7 +28,7 @@ export default function ViewEvaluation() {
       {!loading && evaluation == null && <div>Not found</div>}
       {!loading && evaluation !== null && (
         <div className='flex flex-col'>
-          <div>Name: {evaluation.name}</div>
+          <h1 className='text-lg font-bold'>{evaluation.name}</h1>
           <div>Description: {evaluation.remarks}</div>
           <div>
             Period:{" "}
