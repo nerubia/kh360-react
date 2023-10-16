@@ -67,14 +67,14 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkApi) => {
 interface Auth {
   loading: boolean
   error: string | null
-  accessToken: string | null
+  access_token: string | null
   user: User | null
 }
 
 const initialState: Auth = {
   loading: false,
   error: null,
-  accessToken: null,
+  access_token: null,
   user: null,
 }
 
@@ -83,7 +83,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setAccessToken: (state, action) => {
-      state.accessToken = action.payload
+      state.access_token = action.payload
     },
   },
   extraReducers(builder) {
@@ -95,7 +95,7 @@ const authSlice = createSlice({
     builder.addCase(login.fulfilled, (state, action) => {
       state.loading = false
       state.error = null
-      state.accessToken = action.payload.accessToken
+      state.access_token = action.payload.access_token
       state.user = action.payload.user
     })
     builder.addCase(login.rejected, (state, action) => {
@@ -110,7 +110,7 @@ const authSlice = createSlice({
     builder.addCase(loginWithGoogle.fulfilled, (state, action) => {
       state.loading = false
       state.error = null
-      state.accessToken = action.payload.accessToken
+      state.access_token = action.payload.access_token
       state.user = action.payload.user
     })
     builder.addCase(loginWithGoogle.rejected, (state, action) => {
@@ -121,13 +121,13 @@ const authSlice = createSlice({
     builder.addCase(refreshToken.pending, (state) => {
       state.loading = true
       state.error = null
-      state.accessToken = null
+      state.access_token = null
       state.user = null
     })
     builder.addCase(refreshToken.fulfilled, (state, action) => {
       state.loading = false
       state.error = null
-      state.accessToken = action.payload.accessToken
+      state.access_token = action.payload.access_token
       state.user = action.payload.user
     })
     builder.addCase(refreshToken.rejected, (state) => {
@@ -140,7 +140,7 @@ const authSlice = createSlice({
     builder.addCase(logout.fulfilled, (state) => {
       state.loading = false
       state.error = null
-      state.accessToken = null
+      state.access_token = null
       state.user = null
     })
     builder.addCase(logout.rejected, (state) => {

@@ -15,7 +15,7 @@ export const setupAxiosInstance = (store: Store<RootState>) => {
 
   axiosInstance.interceptors.request.use(
     (config) => {
-      const token = store.getState().auth.accessToken
+      const token = store.getState().auth.access_token
       if (token != null) {
         config.headers.Authorization = `Bearer ${token}`
       }
@@ -36,7 +36,7 @@ export const setupAxiosInstance = (store: Store<RootState>) => {
       ) {
         try {
           const tokenResponse = await refreshUserToken()
-          store.dispatch(setAccessToken(tokenResponse.data.accessToken))
+          store.dispatch(setAccessToken(tokenResponse.data.access_token))
           return await axiosInstance(previousRequest)
         } catch (error) {
           store.dispatch(setAccessToken(null))

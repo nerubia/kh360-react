@@ -40,7 +40,7 @@ export default function Sample() {
     <div className='flex flex-col gap-4'>
       <h1 className='text-lg font-bold'>Sample</h1>
       <p>
-        Welcome {user?.firstName} {user?.lastName}
+        Welcome {user?.first_name} {user?.last_name}
       </p>
       <div className='flex gap-2'>
         <Button onClick={handleGetUserProfile}>Get profile</Button>

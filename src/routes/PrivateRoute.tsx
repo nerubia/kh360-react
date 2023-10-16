@@ -2,6 +2,6 @@ import { Navigate, Outlet } from "react-router-dom"
 import { useAppSelector } from "../hooks/useAppSelector"
 
 export default function PrivateRoute() {
-  const { accessToken } = useAppSelector((state) => state.auth)
-  return accessToken != null ? <Outlet /> : <Navigate to='/auth/login' />
+  const { access_token } = useAppSelector((state) => state.auth)
+  return access_token != null ? <Outlet /> : <Navigate to='/auth/login' />
 }

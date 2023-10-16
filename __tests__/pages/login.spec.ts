@@ -50,7 +50,7 @@ test.describe("Login", () => {
     await mockRequest(page, "/auth/login", {
       status: 200,
       contentType: "application/json",
-      body: JSON.stringify({ accessToken: "sample access token" }),
+      body: JSON.stringify({ access_token: "sample access token" }),
     })
 
     await page.getByRole("textbox", { name: "Email" }).fill("me@gmail.com")
