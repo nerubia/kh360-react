@@ -88,7 +88,9 @@ export const SelectEmployeesForm = () => {
         <table className='relative w-full'>
           <thead className='sticky top-0 bg-white text-left'>
             <tr>
-              <th>Add</th>
+              <th>
+                <Checkbox onChange={() => {}} />
+              </th>
               <th>Name</th>
               <th>Date Started</th>
               <th>Regularized Date</th>
