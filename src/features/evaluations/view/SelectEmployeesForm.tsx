@@ -3,16 +3,16 @@ import { useParams } from "react-router-dom"
 import { getEmployees } from "../../../redux/slices/employeesSlice"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../hooks/useAppSelector"
-import { setSelectedEmployeeIds } from "../../../redux/slices/evaluationsSlice"
 import { Input } from "../../../components/input/Input"
 import { Select } from "../../../components/select/Select"
 import { Button, LinkButton } from "../../../components/button/Button"
 import { Checkbox } from "../../../components/checkbox/Checkbox"
+import { setSelectedEmployeeIds } from "../../../redux/slices/evaluationSlice"
 
 export const SelectEmployeesForm = () => {
   const { id } = useParams()
   const appDispatch = useAppDispatch()
-  const { selectedEmployeeIds } = useAppSelector((state) => state.evaluations)
+  const { selectedEmployeeIds } = useAppSelector((state) => state.evaluation)
   const { employees } = useAppSelector((state) => state.employees)
 
   useEffect(() => {

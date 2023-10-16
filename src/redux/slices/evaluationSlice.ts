@@ -4,11 +4,11 @@ import { type ApiError } from "../../types/apiErrorType"
 import { type Evaluation } from "../../types/evaluationType"
 import { axiosInstance } from "../../utils/axiosInstance"
 
-export const getEvaluations = createAsyncThunk(
-  "evaluations/getEvaluations",
-  async (_, thunkApi) => {
+export const getEvaluation = createAsyncThunk(
+  "evaluations/getEvaluation",
+  async (id: string, thunkApi) => {
     try {
-      const response = await axiosInstance.get("/evaluations")
+      const response = await axiosInstance.get(`/evaluations/${id}`)
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -18,11 +18,20 @@ export const getEvaluations = createAsyncThunk(
   }
 )
 
-export const createEvaluation = createAsyncThunk(
-  "evaluations/createEvaluation",
-  async (data: Evaluation, thunkApi) => {
+export const setEvaluators = createAsyncThunk(
+  "evaluations/setEvaluators",
+  async (
+    data: {
+      id: string
+      employee_ids: number[]
+    },
+    thunkApi
+  ) => {
     try {
-      const response = await axiosInstance.post("/evaluations/create", data)
+      const response = await axiosInstance.post(
+        `/evaluations/${data.id}/set-evaluators`,
+        data
+      )
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -35,48 +44,42 @@ export const createEvaluation = createAsyncThunk(
 interface Evaluations {
   loading: boolean
   error: string | null
-  evaluations: Evaluation[]
+  evaluation: Evaluation | null
+  selectedEmployeeIds: number[]
 }
 
 const initialState: Evaluations = {
   loading: false,
   error: null,
-  evaluations: [],
+  evaluation: null,
+  selectedEmployeeIds: [],
 }
 
 const evaluationsSlice = createSlice({
   name: "app",
   initialState,
-  reducers: {},
+  reducers: {
+    setSelectedEmployeeIds: (state, action) => {
+      state.selectedEmployeeIds = action.payload
+    },
+  },
   extraReducers(builder) {
-    // list
-    builder.addCase(getEvaluations.pending, (state) => {
+    // get
+    builder.addCase(getEvaluation.pending, (state) => {
       state.loading = true
       state.error = null
     })
-    builder.addCase(getEvaluations.fulfilled, (state, action) => {
+    builder.addCase(getEvaluation.fulfilled, (state, action) => {
       state.loading = false
       state.error = null
-      state.evaluations = action.payload
+      state.evaluation = action.payload
     })
-    builder.addCase(getEvaluations.rejected, (state, action) => {
-      state.loading = false
-      state.error = action.payload as string
-    })
-    // create
-    builder.addCase(createEvaluation.pending, (state) => {
-      state.loading = true
-      state.error = null
-    })
-    builder.addCase(createEvaluation.fulfilled, (state) => {
-      state.loading = false
-      state.error = null
-    })
-    builder.addCase(createEvaluation.rejected, (state, action) => {
+    builder.addCase(getEvaluation.rejected, (state, action) => {
       state.loading = false
       state.error = action.payload as string
     })
   },
 })
 
+export const { setSelectedEmployeeIds } = evaluationsSlice.actions
 export default evaluationsSlice.reducer

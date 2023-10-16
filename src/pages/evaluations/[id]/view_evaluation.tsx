@@ -1,16 +1,16 @@
+import { useEffect } from "react"
 import { useParams } from "react-router-dom"
+import moment from "moment"
 import { LinkButton } from "../../../components/button/Button"
 import { Icon } from "../../../components/icon/Icon"
-import { useEffect } from "react"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
-import { getEvaluation } from "../../../redux/slices/evaluationsSlice"
 import { useAppSelector } from "../../../hooks/useAppSelector"
-import moment from "moment"
+import { getEvaluation } from "../../../redux/slices/evaluationSlice"
 
 export default function ViewEvaluation() {
   const { id } = useParams()
   const appDispatch = useAppDispatch()
-  const { loading, evaluation } = useAppSelector((state) => state.evaluations)
+  const { loading, evaluation } = useAppSelector((state) => state.evaluation)
 
   useEffect(() => {
     if (id !== undefined) {

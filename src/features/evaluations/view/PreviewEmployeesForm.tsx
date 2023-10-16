@@ -5,7 +5,7 @@ import { useAppSelector } from "../../../hooks/useAppSelector"
 export const PreviewEmployeesForm = () => {
   const { id } = useParams()
   const { employees } = useAppSelector((state) => state.employees)
-  const { selectedEmployeeIds } = useAppSelector((state) => state.evaluations)
+  const { selectedEmployeeIds } = useAppSelector((state) => state.evaluation)
 
   return (
     <div className='h-[calc(100vh_-_104px)] flex flex-col gap-4'>
