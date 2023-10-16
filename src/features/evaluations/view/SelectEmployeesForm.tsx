@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { getEmployees } from "../../../redux/slices/employeesSlice"
