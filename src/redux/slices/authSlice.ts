@@ -26,7 +26,7 @@ export const login = createAsyncThunk(
 )
 
 export const loginWithGoogle = createAsyncThunk(
-  "auth/login/google",
+  "auth/loginWithGoogle",
   async (data: CodeResponse, thunkApi) => {
     try {
       const response = await loginUserWithGoogle(data)

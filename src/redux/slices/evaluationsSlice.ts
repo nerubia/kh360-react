@@ -5,7 +5,7 @@ import { type Evaluation } from "../../types/evaluationType"
 import { axiosInstance } from "../../utils/axiosInstance"
 
 export const getEvaluations = createAsyncThunk(
-  "evaluations/list",
+  "evaluations/getEvaluations",
   async (_, thunkApi) => {
     try {
       const response = await axiosInstance.get("/evaluations")
@@ -19,7 +19,7 @@ export const getEvaluations = createAsyncThunk(
 )
 
 export const createEvaluation = createAsyncThunk(
-  "evaluations/create",
+  "evaluations/createEvaluation",
   async (data: Evaluation, thunkApi) => {
     try {
       const response = await axiosInstance.post("/evaluations/create", data)
@@ -33,7 +33,7 @@ export const createEvaluation = createAsyncThunk(
 )
 
 export const getEvaluation = createAsyncThunk(
-  "evaluations/get",
+  "evaluations/getEvaluation",
   async (id: string, thunkApi) => {
     try {
       const response = await axiosInstance.get(`/evaluations/${id}`)

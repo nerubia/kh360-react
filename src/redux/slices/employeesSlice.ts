@@ -5,7 +5,7 @@ import { type User } from "../../types/userType"
 import { axiosInstance } from "../../utils/axiosInstance"
 
 export const getEmployees = createAsyncThunk(
-  "employees/list",
+  "employees/getEmployees",
   async (_, thunkApi) => {
     try {
       const response = await axiosInstance.get("/employees")
