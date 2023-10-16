@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 interface CheckboxProps {
   checked?: boolean
@@ -7,6 +7,11 @@ interface CheckboxProps {
 
 export const Checkbox = ({ checked, onChange }: CheckboxProps) => {
   const [isChecked, setIsChecked] = useState(checked ?? false)
+
+  useEffect(() => {
+    setIsChecked(checked ?? false)
+  }, [checked])
+
   return (
     <input
       type='checkbox'
