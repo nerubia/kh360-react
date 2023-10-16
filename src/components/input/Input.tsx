@@ -23,7 +23,9 @@ export const Input = ({
         </label>
       )}
       <input
-        className='border px-4 py-2 rounded-md'
+        className={`${
+          error != null ? "border-red-500" : ""
+        } border px-4 py-2 rounded-md`}
         name={name}
         type={type}
         placeholder={placeholder}
