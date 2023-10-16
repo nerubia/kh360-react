@@ -1,13 +1,13 @@
 import { useEffect } from "react"
 import { useParams } from "react-router-dom"
-import { Button, LinkButton } from "../../../components/button/Button"
-import { Input } from "../../../components/input/Input"
-import { Select } from "../../../components/select/Select"
 import { getEmployees } from "../../../redux/slices/employeesSlice"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../hooks/useAppSelector"
-import { Checkbox } from "../../../components/checkbox/Checkbox"
 import { setSelectedEmployeeIds } from "../../../redux/slices/evaluationsSlice"
+import { Input } from "../../../components/input/Input"
+import { Select } from "../../../components/select/Select"
+import { Button, LinkButton } from "../../../components/button/Button"
+import { Checkbox } from "../../../components/checkbox/Checkbox"
 
 export const SelectEmployeesForm = () => {
   const { id } = useParams()
@@ -32,7 +32,7 @@ export const SelectEmployeesForm = () => {
   }
 
   return (
-    <div className='flex flex-col gap-4'>
+    <div className='h-[calc(100vh_-_104px)] flex flex-col gap-4'>
       <h1 className='text-lg font-bold'>Select Employees</h1>
       <div className='flex justify-between'>
         <div className='flex gap-2'>
@@ -60,9 +60,9 @@ export const SelectEmployeesForm = () => {
         </div>
         <Button onClick={() => {}}>Search</Button>
       </div>
-      <div className='bg-gray-100 h-[calc(100vh_-_320px)] overflow-scroll'>
-        <table className='w-full table-fixed'>
-          <thead className='text-left'>
+      <div className='flex-1 bg-gray-100 overflow-y-scroll'>
+        <table className='relative w-full'>
+          <thead className='sticky top-0 bg-white text-left'>
             <tr>
               <th>Add</th>
               <th>Name</th>
@@ -85,7 +85,7 @@ export const SelectEmployeesForm = () => {
                   </div>
                 </td>
                 <td>
-                  {employee.firstName} {employee.lastName}
+                  {employee.first_name} {employee.last_name}
                 </td>
               </tr>
             ))}

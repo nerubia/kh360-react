@@ -8,11 +8,11 @@ export const PreviewEmployeesForm = () => {
   const { selectedEmployeeIds } = useAppSelector((state) => state.evaluations)
 
   return (
-    <div className='flex flex-col gap-4'>
+    <div className='h-[calc(100vh_-_104px)] flex flex-col gap-4'>
       <h1 className='text-lg font-bold'>Review Employees</h1>
-      <div className='bg-gray-100 h-[calc(100vh_-_240px)] overflow-scroll'>
-        <table className='w-full table-fixed'>
-          <thead className='text-left'>
+      <div className='flex-1 bg-gray-100 overflow-y-scroll'>
+        <table className='relative w-full'>
+          <thead className='sticky top-0 bg-white text-left'>
             <tr>
               <th>Name</th>
               <th>Date Started</th>
@@ -25,7 +25,7 @@ export const PreviewEmployeesForm = () => {
               selectedEmployeeIds.includes(employee.id) ? (
                 <tr key={employee.id}>
                   <td>
-                    {employee.firstName} {employee.lastName}
+                    {employee.first_name} {employee.last_name}
                   </td>
                 </tr>
               ) : null
