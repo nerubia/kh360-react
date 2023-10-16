@@ -8,6 +8,7 @@ import { Input } from "../../../components/input/Input"
 import { Button } from "../../../components/button/Button"
 import { loginSchema } from "../../../utils/validation/auth/loginSchema"
 import { type LoginFormData } from "../../../types/authType"
+import { Loading } from "../../../types/loadingType"
 
 export const LoginForm = () => {
   const appDispatch = useAppDispatch()
@@ -66,7 +67,11 @@ export const LoginForm = () => {
         </Link>
       </div>
       {error != null && <p className='text-red-500'>{error}</p>}
-      <Button fullWidth onClick={handleSubmit} loading={loading}>
+      <Button
+        fullWidth
+        onClick={handleSubmit}
+        loading={loading === Loading.Pending}
+      >
         Login
       </Button>
     </div>

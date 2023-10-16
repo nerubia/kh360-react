@@ -6,6 +6,7 @@ import { Icon } from "../../../components/icon/Icon"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../hooks/useAppSelector"
 import { getEvaluation } from "../../../redux/slices/evaluationSlice"
+import { Loading } from "../../../types/loadingType"
 
 export default function ViewEvaluation() {
   const { id } = useParams()
@@ -24,9 +25,11 @@ export default function ViewEvaluation() {
         <Icon icon='ChevronLeft' />
         Go back
       </LinkButton>
-      {loading && <div>Loading...</div>}
-      {!loading && evaluation == null && <div>Not found</div>}
-      {!loading && evaluation !== null && (
+      {loading === Loading.Pending && <div>Loading...</div>}
+      {loading === Loading.Fulfilled && evaluation == null && (
+        <div>Not found</div>
+      )}
+      {loading === Loading.Fulfilled && evaluation !== null && (
         <div className='flex flex-col'>
           <h1 className='text-lg font-bold'>{evaluation.name}</h1>
           <div>Description: {evaluation.remarks}</div>

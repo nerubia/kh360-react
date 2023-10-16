@@ -3,6 +3,7 @@ import { type AxiosError } from "axios"
 import { type ApiError } from "../../types/apiErrorType"
 import { type Evaluation } from "../../types/evaluationType"
 import { axiosInstance } from "../../utils/axiosInstance"
+import { Loading } from "../../types/loadingType"
 
 export const getEvaluation = createAsyncThunk(
   "evaluations/getEvaluation",
@@ -42,14 +43,14 @@ export const setEvaluators = createAsyncThunk(
 )
 
 interface Evaluations {
-  loading: boolean
+  loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
   evaluation: Evaluation | null
   selectedEmployeeIds: number[]
 }
 
 const initialState: Evaluations = {
-  loading: false,
+  loading: Loading.Idle,
   error: null,
   evaluation: null,
   selectedEmployeeIds: [],
@@ -66,16 +67,16 @@ const evaluationsSlice = createSlice({
   extraReducers(builder) {
     // get
     builder.addCase(getEvaluation.pending, (state) => {
-      state.loading = true
+      state.loading = Loading.Pending
       state.error = null
     })
     builder.addCase(getEvaluation.fulfilled, (state, action) => {
-      state.loading = false
+      state.loading = Loading.Fulfilled
       state.error = null
       state.evaluation = action.payload
     })
     builder.addCase(getEvaluation.rejected, (state, action) => {
-      state.loading = false
+      state.loading = Loading.Rejected
       state.error = action.payload as string
     })
   },

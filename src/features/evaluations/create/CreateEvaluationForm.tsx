@@ -9,6 +9,7 @@ import { Button, LinkButton } from "../../../components/button/Button"
 import { Input } from "../../../components/input/Input"
 import { TextArea } from "../../../components/textarea/TextArea"
 import { createEvaluationSchema } from "../../../utils/validation/evaluations/createEvaluationSchema"
+import { Loading } from "../../../types/loadingType"
 
 export const CreateEvaluationForm = () => {
   const navigate = useNavigate()
@@ -146,7 +147,7 @@ export const CreateEvaluationForm = () => {
           <LinkButton variant='destructive' to='/evaluations'>
             Exit & Cancel
           </LinkButton>
-          <Button onClick={handleSubmit} loading={loading}>
+          <Button onClick={handleSubmit} loading={loading === Loading.Pending}>
             Save & Proceed
           </Button>
         </div>

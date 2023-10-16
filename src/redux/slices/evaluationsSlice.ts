@@ -3,6 +3,7 @@ import { type AxiosError } from "axios"
 import { type ApiError } from "../../types/apiErrorType"
 import { type Evaluation } from "../../types/evaluationType"
 import { axiosInstance } from "../../utils/axiosInstance"
+import { Loading } from "../../types/loadingType"
 
 export const getEvaluations = createAsyncThunk(
   "evaluations/getEvaluations",
@@ -33,13 +34,13 @@ export const createEvaluation = createAsyncThunk(
 )
 
 interface Evaluations {
-  loading: boolean
+  loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
   evaluations: Evaluation[]
 }
 
 const initialState: Evaluations = {
-  loading: false,
+  loading: Loading.Idle,
   error: null,
   evaluations: [],
 }
@@ -51,29 +52,29 @@ const evaluationsSlice = createSlice({
   extraReducers(builder) {
     // list
     builder.addCase(getEvaluations.pending, (state) => {
-      state.loading = true
+      state.loading = Loading.Pending
       state.error = null
     })
     builder.addCase(getEvaluations.fulfilled, (state, action) => {
-      state.loading = false
+      state.loading = Loading.Fulfilled
       state.error = null
       state.evaluations = action.payload
     })
     builder.addCase(getEvaluations.rejected, (state, action) => {
-      state.loading = false
+      state.loading = Loading.Rejected
       state.error = action.payload as string
     })
     // create
     builder.addCase(createEvaluation.pending, (state) => {
-      state.loading = true
+      state.loading = Loading.Pending
       state.error = null
     })
     builder.addCase(createEvaluation.fulfilled, (state) => {
-      state.loading = false
+      state.loading = Loading.Fulfilled
       state.error = null
     })
     builder.addCase(createEvaluation.rejected, (state, action) => {
-      state.loading = false
+      state.loading = Loading.Rejected
       state.error = action.payload as string
     })
   },

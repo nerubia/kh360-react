@@ -10,6 +10,7 @@ import {
   logoutUser,
   refreshUserToken,
 } from "../../services/api"
+import { Loading } from "../../types/loadingType"
 
 export const login = createAsyncThunk(
   "auth/login",
@@ -65,14 +66,14 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkApi) => {
 })
 
 interface Auth {
-  loading: boolean
+  loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
   access_token: string | null
   user: User | null
 }
 
 const initialState: Auth = {
-  loading: false,
+  loading: Loading.Idle,
   error: null,
   access_token: null,
   user: null,
@@ -89,62 +90,62 @@ const authSlice = createSlice({
   extraReducers(builder) {
     // login
     builder.addCase(login.pending, (state) => {
-      state.loading = true
+      state.loading = Loading.Pending
       state.error = null
     })
     builder.addCase(login.fulfilled, (state, action) => {
-      state.loading = false
+      state.loading = Loading.Fulfilled
       state.error = null
       state.access_token = action.payload.access_token
       state.user = action.payload.user
     })
     builder.addCase(login.rejected, (state, action) => {
-      state.loading = false
+      state.loading = Loading.Rejected
       state.error = action.payload as string
     })
     // login with google
     builder.addCase(loginWithGoogle.pending, (state) => {
-      state.loading = true
+      state.loading = Loading.Pending
       state.error = null
     })
     builder.addCase(loginWithGoogle.fulfilled, (state, action) => {
-      state.loading = false
+      state.loading = Loading.Fulfilled
       state.error = null
       state.access_token = action.payload.access_token
       state.user = action.payload.user
     })
     builder.addCase(loginWithGoogle.rejected, (state, action) => {
-      state.loading = false
+      state.loading = Loading.Rejected
       state.error = action.payload as string
     })
     // refresh token
     builder.addCase(refreshToken.pending, (state) => {
-      state.loading = true
+      state.loading = Loading.Pending
       state.error = null
       state.access_token = null
       state.user = null
     })
     builder.addCase(refreshToken.fulfilled, (state, action) => {
-      state.loading = false
+      state.loading = Loading.Fulfilled
       state.error = null
       state.access_token = action.payload.access_token
       state.user = action.payload.user
     })
     builder.addCase(refreshToken.rejected, (state) => {
-      state.loading = false
+      state.loading = Loading.Rejected
     })
     // logout
     builder.addCase(logout.pending, (state) => {
-      state.loading = true
+      state.loading = Loading.Pending
     })
     builder.addCase(logout.fulfilled, (state) => {
-      state.loading = false
+      state.loading = Loading.Fulfilled
       state.error = null
       state.access_token = null
       state.user = null
     })
     builder.addCase(logout.rejected, (state) => {
-      state.loading = false
+      state.loading = Loading.Rejected
     })
   },
 })

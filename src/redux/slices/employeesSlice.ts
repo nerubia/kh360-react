@@ -3,6 +3,7 @@ import { type AxiosError } from "axios"
 import { type ApiError } from "../../types/apiErrorType"
 import { type User } from "../../types/userType"
 import { axiosInstance } from "../../utils/axiosInstance"
+import { Loading } from "../../types/loadingType"
 
 export const getEmployees = createAsyncThunk(
   "employees/getEmployees",
@@ -19,13 +20,13 @@ export const getEmployees = createAsyncThunk(
 )
 
 interface Employees {
-  loading: boolean
+  loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
   employees: User[]
 }
 
 const initialState: Employees = {
-  loading: false,
+  loading: Loading.Idle,
   error: null,
   employees: [],
 }
@@ -37,16 +38,16 @@ const employeesSlice = createSlice({
   extraReducers(builder) {
     // list
     builder.addCase(getEmployees.pending, (state) => {
-      state.loading = true
+      state.loading = Loading.Pending
       state.error = null
     })
     builder.addCase(getEmployees.fulfilled, (state, action) => {
-      state.loading = false
+      state.loading = Loading.Fulfilled
       state.error = null
       state.employees = action.payload
     })
     builder.addCase(getEmployees.rejected, (state, action) => {
-      state.loading = false
+      state.loading = Loading.Rejected
       state.error = action.payload as string
     })
   },

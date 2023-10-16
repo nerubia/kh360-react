@@ -4,6 +4,7 @@ import { useAppSelector } from "../../../hooks/useAppSelector"
 import { loginWithGoogle } from "../../../redux/slices/authSlice"
 import { Button } from "../../../components/button/Button"
 import { Icon } from "../../../components/icon/Icon"
+import { Loading } from "../../../types/loadingType"
 
 export const LoginOptions = () => {
   const appDispatch = useAppDispatch()
@@ -22,7 +23,7 @@ export const LoginOptions = () => {
         variant='primaryOutline'
         fullWidth
         onClick={() => login()}
-        loading={loading}
+        loading={loading === Loading.Pending}
       >
         <Icon icon='Google' />
         Google
