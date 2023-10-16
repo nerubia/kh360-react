@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { getEmployees } from "../../../redux/slices/employeesSlice"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
@@ -15,9 +15,31 @@ export const SelectEmployeesForm = () => {
   const { selectedEmployeeIds } = useAppSelector((state) => state.evaluation)
   const { employees } = useAppSelector((state) => state.employees)
 
+  const [filters, setFilters] = useState({
+    nameOrEmail: "",
+    status: "active",
+  })
+  const [filteredEmployees, setFilteredEmployees] = useState(employees)
+
   useEffect(() => {
     void appDispatch(getEmployees())
   }, [])
+
+  useEffect(() => {
+    const filteredResults = employees.filter((employee) => {
+      if (
+        (employee.email.toLowerCase().includes(filters.nameOrEmail) ||
+          employee.first_name.toLowerCase().includes(filters.nameOrEmail) ||
+          employee.last_name.toLowerCase().includes(filters.nameOrEmail)) &&
+        ((employee.is_active && filters.status === "active") ||
+          (!employee.is_active && filters.status === "inactive"))
+      ) {
+        return employee
+      }
+      return null
+    })
+    setFilteredEmployees(filteredResults)
+  }, [employees, filters])
 
   const handleClickCheckbox = (checked: boolean, employeeId: number) => {
     if (checked) {
@@ -40,20 +62,22 @@ export const SelectEmployeesForm = () => {
             label='Name/Email'
             name='search'
             placeholder='Search name or email'
-            onChange={() => {}}
+            onChange={(e) =>
+              setFilters({ ...filters, nameOrEmail: e.target.value })
+            }
           />
           <Select
             label='Status'
             name='status'
-            onChange={() => {}}
+            onChange={(e) => setFilters({ ...filters, status: e.target.value })}
             options={[
               {
                 label: "Active",
                 value: "active",
               },
               {
-                label: "Other",
-                value: "other",
+                label: "Inactive",
+                value: "inactive",
               },
             ]}
           />
@@ -72,7 +96,7 @@ export const SelectEmployeesForm = () => {
             </tr>
           </thead>
           <tbody>
-            {employees.map((employee) => (
+            {filteredEmployees.map((employee) => (
               <tr key={employee.id}>
                 <td>
                   <div className='w-fit'>
@@ -87,6 +111,9 @@ export const SelectEmployeesForm = () => {
                 <td>
                   {employee.first_name} {employee.last_name}
                 </td>
+                <td>started</td>
+                <td>Regularized</td>
+                <td>{employee.is_active ? "Yes" : "No"}</td>
               </tr>
             ))}
           </tbody>
