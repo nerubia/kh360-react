@@ -22,6 +22,8 @@ export const CreateEvaluationForm = () => {
     eval_period_end_date: undefined,
     eval_schedule_start_date: undefined,
     eval_schedule_end_date: undefined,
+    email_subject: undefined,
+    email_content: undefined,
     remarks: undefined,
   })
   const [validationErrors, setValidationErrors] = useState<Partial<Evaluation>>(
@@ -133,12 +135,14 @@ export const CreateEvaluationForm = () => {
           label='Subject'
           name='email_subject'
           placeholder='Subject'
-          onChange={() => {}}
+          onChange={handleInputChange}
+          error={validationErrors.email_subject}
         />
         <TextArea
           name='email_content'
           placeholder='Some description'
-          onChange={() => {}}
+          onChange={handleTextAreaChange}
+          error={validationErrors.email_content}
         />
       </div>
       <div>
