@@ -6,5 +6,7 @@ export const createEvaluationSchema = object().shape({
   eval_period_end_date: string().required("End period is required"),
   eval_schedule_start_date: string().required("Start schedule is required"),
   eval_schedule_end_date: string().required("End schedule is required"),
+  email_subject: string().required("Email subject is required"),
+  email_content: string().required("Email content is required"),
   remarks: string().required("Description is required"),
 })
