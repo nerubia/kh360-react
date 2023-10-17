@@ -5,7 +5,8 @@ import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../hooks/useAppSelector"
 import { createEvaluation } from "../../../redux/slices/evaluationsSlice"
 import { type Evaluation } from "../../../types/evaluationType"
-import { Button, LinkButton } from "../../../components/button/Button"
+import { Button } from "../../../components/button/Button"
+import { ModalPopup } from "../../../components/modal/Modal"
 import { Input } from "../../../components/input/Input"
 import { TextArea } from "../../../components/textarea/TextArea"
 import { createEvaluationSchema } from "../../../utils/validation/evaluations/createEvaluationSchema"
@@ -29,6 +30,7 @@ export const CreateEvaluationForm = () => {
   const [validationErrors, setValidationErrors] = useState<Partial<Evaluation>>(
     {}
   )
+  const [show_modal, setShowModal] = useState<boolean>(false)
 
   const handleSubmit = async () => {
     try {
@@ -48,6 +50,14 @@ export const CreateEvaluationForm = () => {
         setValidationErrors(errors)
       }
     }
+  }
+
+  const handleShowModal = () => {
+    setShowModal(true)
+  }
+
+  const closePopup = () => {
+    setShowModal(false)
   }
 
   const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -153,13 +163,19 @@ export const CreateEvaluationForm = () => {
       <div>
         {error != null && <p className='text-red-500'>{error}</p>}
         <div className='flex justify-between'>
-          <LinkButton variant='destructive' to='/evaluations'>
-            Exit & Cancel
-          </LinkButton>
+          <Button variant='destructive' onClick={handleShowModal}>
+            Cancel & Exit
+          </Button>
           <Button onClick={handleSubmit} loading={loading === Loading.Pending}>
             Save & Proceed
           </Button>
         </div>
+        <ModalPopup
+          show={show_modal}
+          title='Cancel & Exit'
+          proceed='/evaluations'
+          handleClose={closePopup}
+        />
       </div>
     </div>
   )
