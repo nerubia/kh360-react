@@ -87,6 +87,7 @@ export const CreateEvaluationForm = () => {
                   placeholder='Evaluation period'
                   onChange={handleInputChange}
                   error={validationErrors.eval_period_start_date}
+                  max={formData.eval_period_end_date}
                 />
                 <Input
                   label='Period (to)'
@@ -95,6 +96,8 @@ export const CreateEvaluationForm = () => {
                   placeholder='Evaluation period'
                   onChange={handleInputChange}
                   error={validationErrors.eval_period_end_date}
+                  min={formData.eval_period_start_date}
+                  max={formData.eval_schedule_start_date}
                 />
               </div>
             </div>
@@ -107,6 +110,7 @@ export const CreateEvaluationForm = () => {
                   type='date'
                   placeholder='Evaluation schedule'
                   onChange={handleInputChange}
+                  max={formData.eval_schedule_end_date}
                   error={validationErrors.eval_schedule_start_date}
                 />
                 <Input
@@ -116,6 +120,7 @@ export const CreateEvaluationForm = () => {
                   placeholder='Evaluation schedule'
                   onChange={handleInputChange}
                   error={validationErrors.eval_schedule_end_date}
+                  min={formData.eval_schedule_start_date}
                 />
               </div>
             </div>

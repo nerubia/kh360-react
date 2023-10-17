@@ -5,6 +5,8 @@ interface InputProps {
   placeholder: string
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   error?: string
+  min?: string
+  max?: string
 }
 
 export const Input = ({
@@ -14,6 +16,8 @@ export const Input = ({
   placeholder,
   onChange,
   error,
+  min,
+  max,
 }: InputProps) => {
   return (
     <div className='flex flex-col'>
@@ -30,6 +34,8 @@ export const Input = ({
         type={type}
         placeholder={placeholder}
         onChange={onChange}
+        min={min}
+        max={max}
       />
       {error != null && <p className='text-red-500 text-sm'>{error}</p>}
     </div>
