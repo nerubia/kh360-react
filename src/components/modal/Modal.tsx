@@ -4,6 +4,7 @@ interface ModalPopupProps {
   show: boolean
   proceed: string
   title?: string
+  type?: string
   handleClose: () => void
 }
 
@@ -12,6 +13,7 @@ export const ModalPopup = ({
   title,
   proceed,
   handleClose,
+  type,
 }: ModalPopupProps) => {
   const { activeSidebar } = useAppSelector((state) => state.app)
 
@@ -31,8 +33,18 @@ export const ModalPopup = ({
                 </div>
                 <div className='relative p-6 flex-auto'>
                   <p className='my-4 text-blueGray-500 text-lg leading-relaxed'>
-                    Are you sure you want to cancel and exit? <br />
-                    If you cancel, your data won&apos;t be saved.
+                    {type === "cancel-modal" ? (
+                      <>
+                        Are you sure you want to cancel and exit? <br />
+                        If you cancel, your data won&apos;t be saved.
+                      </>
+                    ) : type === "back-modal" ? (
+                      // Different text for type="back"
+                      <>
+                        Are you sure you want to go back? <br />
+                        If you go back, your data won&apos;t be saved.
+                      </>
+                    ) : null}
                   </p>
                 </div>
                 <div className='flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b'>
