@@ -140,6 +140,7 @@ export const CreateEvaluationForm = () => {
                   placeholder='Evaluation schedule'
                   value={formData.eval_schedule_start_date}
                   onChange={handleInputChange}
+                  min={formData.eval_period_end_date}
                   max={formData.eval_schedule_end_date}
                   error={validationErrors.eval_schedule_start_date}
                 />
@@ -199,6 +200,7 @@ export const CreateEvaluationForm = () => {
           title='Cancel & Exit'
           proceed='/admin/evaluations'
           handleClose={closePopup}
+          type='cancel-modal'
         />
       </div>
     </div>

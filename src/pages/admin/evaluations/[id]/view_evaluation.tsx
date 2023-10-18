@@ -21,7 +21,7 @@ export default function ViewEvaluation() {
 
   return (
     <div className='flex flex-col gap-4'>
-      <LinkButton variant='unstyled' to='/evaluations'>
+      <LinkButton variant='unstyled' to='/admin/evaluations'>
         <Icon icon='ChevronLeft' />
         Go back
       </LinkButton>
@@ -43,7 +43,7 @@ export default function ViewEvaluation() {
             {moment(evaluation.eval_schedule_start_date).format("MMM D YYYY")} -{" "}
             {moment(evaluation.eval_schedule_end_date).format("MMM D YYYY")}
           </div>
-          <LinkButton to={`/evaluations/${id}/select`}>
+          <LinkButton to={`/admin/evaluations/${id}/select`}>
             Select employees
           </LinkButton>
         </div>

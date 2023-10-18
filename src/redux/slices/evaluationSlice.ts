@@ -9,7 +9,7 @@ export const getEvaluation = createAsyncThunk(
   "evaluations/getEvaluation",
   async (id: string, thunkApi) => {
     try {
-      const response = await axiosInstance.get(`/evaluations/${id}`)
+      const response = await axiosInstance.get(`/admin/evaluations/${id}`)
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError

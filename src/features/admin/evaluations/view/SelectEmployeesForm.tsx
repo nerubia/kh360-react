@@ -9,6 +9,7 @@ import { Checkbox } from "../../../../components/checkbox/Checkbox"
 import { setSelectedEmployeeIds } from "../../../../redux/slices/evaluationSlice"
 import { CustomSelect } from "../../../../components/select/CustomSelect"
 import { ModalPopup } from "../../../../components/modal/Modal"
+import { Icon } from "../../../../components/icon/Icon"
 
 export const SelectEmployeesForm = () => {
   const { id } = useParams()
@@ -22,7 +23,8 @@ export const SelectEmployeesForm = () => {
   })
   const [filteredEmployees, setFilteredEmployees] = useState(employees)
 
-  const [show_modal, setShowModal] = useState<boolean>(false)
+  const [show_cancel_modal, setShowCancelModal] = useState<boolean>(false)
+  const [show_back_modal, setShowBackModal] = useState<boolean>(false)
 
   useEffect(() => {
     void appDispatch(getEmployees())
@@ -56,12 +58,17 @@ export const SelectEmployeesForm = () => {
     }
   }
 
-  const handleShowModal = () => {
-    setShowModal(true)
+  const handleShowCancelModal = () => {
+    setShowCancelModal(true)
+  }
+
+  const handleShowBackModal = () => {
+    setShowBackModal(true)
   }
 
   const closePopup = () => {
-    setShowModal(false)
+    setShowCancelModal(false)
+    setShowBackModal(false)
   }
 
   return (
@@ -138,17 +145,35 @@ export const SelectEmployeesForm = () => {
         </table>
       </div>
       <div className='flex justify-between'>
-        <Button variant='destructive' onClick={handleShowModal}>
+        <Button variant='primaryOutline' onClick={handleShowCancelModal}>
           Cancel & Exit
         </Button>
-        <LinkButton to={`/admin/evaluations/${id}/preview`}>
-          Check & Preview
-        </LinkButton>
+        <div className='flex items-center'>
+          <Button
+            variant='primaryOutline'
+            size='medium'
+            onClick={handleShowBackModal}
+          >
+            <Icon icon='ChevronLeft' />
+          </Button>
+          <div className='ml-2'></div>
+          <LinkButton to={`/admin/evaluations/${id}/preview`}>
+            Check & Preview
+          </LinkButton>
+        </div>
         <ModalPopup
-          show={show_modal}
+          show={show_cancel_modal}
           title='Cancel & Exit'
           proceed='/admin/evaluations'
           handleClose={closePopup}
+          type='cancel-modal'
+        />
+        <ModalPopup
+          show={show_back_modal}
+          title='Go back to previous step'
+          proceed={`/admin/evaluations/${id}`}
+          handleClose={closePopup}
+          type='back-modal'
         />
       </div>
     </div>
