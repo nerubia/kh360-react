@@ -39,7 +39,7 @@ export const CreateEvaluationForm = () => {
       })
       const result = await appDispatch(createEvaluation(formData))
       if (result.payload.id !== undefined) {
-        navigate(`/evaluations/${result.payload.id}/select`)
+        navigate(`/admin/evaluations/${result.payload.id}/select`)
       }
     } catch (error) {
       if (error instanceof ValidationError) {
