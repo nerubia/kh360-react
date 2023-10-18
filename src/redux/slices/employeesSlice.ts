@@ -9,7 +9,7 @@ export const getEmployees = createAsyncThunk(
   "employees/getEmployees",
   async (_, thunkApi) => {
     try {
-      const response = await axiosInstance.get("/employees")
+      const response = await axiosInstance.get("/admin/employees")
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
