@@ -1,4 +1,4 @@
-import { PreviewEmployeesForm } from "../../../../features/evaluations/view/PreviewEmployeesForm"
+import { PreviewEmployeesForm } from "../../../../../features/admin/evaluations/view/PreviewEmployeesForm"
 
 export default function PreviewEmployees() {
   return (

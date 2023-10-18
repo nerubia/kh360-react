@@ -3,6 +3,9 @@ import { lazy } from "react"
 export const icons = {
   Check: lazy(async () => await import("./icons/CheckIcon")),
   ChevronLeft: lazy(async () => await import("./icons/ChevronLeftIcon")),
+  ChevronRight: lazy(async () => await import("./icons/ChevronRightIcon")),
+  ChevronsLeft: lazy(async () => await import("./icons/ChevronsLeftIcon")),
+  ChevronsRight: lazy(async () => await import("./icons/ChevronsRightIcon")),
   Close: lazy(async () => await import("./icons/CloseIcon")),
   Dashboard: lazy(async () => await import("./icons/DashboardIcon")),
   Google: lazy(async () => await import("./icons/GoogleIcon")),

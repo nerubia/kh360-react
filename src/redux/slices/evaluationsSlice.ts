@@ -1,15 +1,20 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
 import { type ApiError } from "../../types/apiErrorType"
-import { type Evaluation } from "../../types/evaluationType"
+import {
+  type EvaluationFilters,
+  type Evaluation,
+} from "../../types/evaluationType"
 import { axiosInstance } from "../../utils/axiosInstance"
 import { Loading } from "../../types/loadingType"
 
 export const getEvaluations = createAsyncThunk(
   "evaluations/getEvaluations",
-  async (_, thunkApi) => {
+  async (params: EvaluationFilters | undefined, thunkApi) => {
     try {
-      const response = await axiosInstance.get("/evaluations")
+      const response = await axiosInstance.get("/admin/evaluations", {
+        params,
+      })
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -23,7 +28,10 @@ export const createEvaluation = createAsyncThunk(
   "evaluations/createEvaluation",
   async (data: Evaluation, thunkApi) => {
     try {
-      const response = await axiosInstance.post("/evaluations/create", data)
+      const response = await axiosInstance.post(
+        "/admin/evaluations/create",
+        data
+      )
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -37,12 +45,18 @@ interface Evaluations {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
   evaluations: Evaluation[]
+  hasPreviousPage: boolean
+  hasNextPage: boolean
+  totalPages: number
 }
 
 const initialState: Evaluations = {
   loading: Loading.Idle,
   error: null,
   evaluations: [],
+  hasPreviousPage: false,
+  hasNextPage: false,
+  totalPages: 0,
 }
 
 const evaluationsSlice = createSlice({
@@ -58,7 +72,10 @@ const evaluationsSlice = createSlice({
     builder.addCase(getEvaluations.fulfilled, (state, action) => {
       state.loading = Loading.Fulfilled
       state.error = null
-      state.evaluations = action.payload
+      state.evaluations = action.payload.data
+      state.hasPreviousPage = action.payload.pageInfo.hasPreviousPage
+      state.hasNextPage = action.payload.pageInfo.hasNextPage
+      state.totalPages = action.payload.pageInfo.totalPages
     })
     builder.addCase(getEvaluations.rejected, (state, action) => {
       state.loading = Loading.Rejected

@@ -72,8 +72,9 @@ const button = cva(["w-fit", "h-fit", "rounded-md"], {
 
 interface ButtonProps extends VariantProps<typeof button> {
   children: React.ReactNode
-  onClick: () => void
+  onClick?: () => void
   loading?: boolean
+  disabled?: boolean
 }
 
 export const Button = ({
@@ -83,12 +84,13 @@ export const Button = ({
   fullWidth,
   onClick,
   loading,
+  disabled,
 }: ButtonProps) => {
   return (
     <button
       className={button({ variant, size, fullWidth })}
       onClick={onClick}
-      disabled={loading}
+      disabled={loading === true || disabled === true}
     >
       {loading === true ? (
         <Spinner />

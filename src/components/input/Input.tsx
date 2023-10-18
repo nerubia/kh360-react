@@ -3,6 +3,7 @@ interface InputProps {
   name: string
   type?: "text" | "email" | "password" | "date"
   placeholder: string
+  value?: string
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   error?: string
   min?: string
@@ -14,6 +15,7 @@ export const Input = ({
   name,
   type = "text",
   placeholder,
+  value,
   onChange,
   error,
   min,
@@ -33,6 +35,7 @@ export const Input = ({
         name={name}
         type={type}
         placeholder={placeholder}
+        value={value}
         onChange={onChange}
         min={min}
         max={max}
