@@ -8,6 +8,7 @@ import { Button, LinkButton } from "../../../../components/button/Button"
 import { Checkbox } from "../../../../components/checkbox/Checkbox"
 import { setSelectedEmployeeIds } from "../../../../redux/slices/evaluationSlice"
 import { CustomSelect } from "../../../../components/select/CustomSelect"
+import { ModalPopup } from "../../../../components/modal/Modal"
 
 export const SelectEmployeesForm = () => {
   const { id } = useParams()
@@ -20,6 +21,8 @@ export const SelectEmployeesForm = () => {
     status: "active",
   })
   const [filteredEmployees, setFilteredEmployees] = useState(employees)
+
+  const [show_modal, setShowModal] = useState<boolean>(false)
 
   useEffect(() => {
     void appDispatch(getEmployees())
@@ -51,6 +54,14 @@ export const SelectEmployeesForm = () => {
         )
       )
     }
+  }
+
+  const handleShowModal = () => {
+    setShowModal(true)
+  }
+
+  const closePopup = () => {
+    setShowModal(false)
   }
 
   return (
@@ -127,12 +138,18 @@ export const SelectEmployeesForm = () => {
         </table>
       </div>
       <div className='flex justify-between'>
-        <LinkButton variant='destructive' to={`/evaluations/${id}`}>
-          Exit & Cancel
-        </LinkButton>
+        <Button variant='destructive' onClick={handleShowModal}>
+          Cancel & Exit
+        </Button>
         <LinkButton to={`/evaluations/${id}/preview`}>
           Check & Preview
         </LinkButton>
+        <ModalPopup
+          show={show_modal}
+          title='Cancel & Exit'
+          proceed='/evaluations'
+          handleClose={closePopup}
+        />
       </div>
     </div>
   )
