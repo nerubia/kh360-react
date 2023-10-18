@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-interface App {
+interface InitialState {
   activeSidebar: boolean
 }
 
-const initialState: App = {
+const initialState: InitialState = {
   activeSidebar: true,
 }
 

@@ -106,9 +106,7 @@ test.describe("Admin - Evaluations", () => {
 
       await page.waitForLoadState("networkidle")
 
-      await expect(
-        page.getByRole("textbox", { name: "Search by name" })
-      ).toBeVisible()
+      await expect(page.getByPlaceholder("Search by name")).toBeVisible()
       await expect(page.getByRole("combobox")).toBeVisible()
       await expect(page.getByRole("button", { name: "Search" })).toBeVisible()
       await expect(page.getByRole("button", { name: "Clear" })).toBeVisible()

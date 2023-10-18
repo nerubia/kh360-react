@@ -65,14 +65,14 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkApi) => {
   }
 })
 
-interface Auth {
+interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
   access_token: string | null
   user: User | null
 }
 
-const initialState: Auth = {
+const initialState: InitialState = {
   loading: Loading.Idle,
   error: null,
   access_token: null,

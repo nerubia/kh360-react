@@ -2,6 +2,7 @@ interface TextAreaInterface {
   label?: string
   name: string
   placeholder: string
+  value?: string
   onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
   error?: string
 }
@@ -10,6 +11,7 @@ export const TextArea = ({
   label,
   name,
   placeholder,
+  value,
   onChange,
   error,
 }: TextAreaInterface) => {
@@ -24,8 +26,10 @@ export const TextArea = ({
         className={`${
           error != null ? "border-red-500" : ""
         } w-full p-4 border rounded-md resize-none`}
+        id={name}
         name={name}
         placeholder={placeholder}
+        value={value}
         onChange={onChange}
         rows={5}
       ></textarea>

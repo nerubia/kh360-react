@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { ValidationError } from "yup"
 import { useAppDispatch } from "../../../../hooks/useAppDispatch"
@@ -11,26 +11,42 @@ import { TextArea } from "../../../../components/textarea/TextArea"
 import { createEvaluationSchema } from "../../../../utils/validation/evaluations/createEvaluationSchema"
 import { Loading } from "../../../../types/loadingType"
 import ModalPopup from "../../../../components/modal/Modal"
+import { getDefaultEmailTemplate } from "../../../../redux/slices/emailTemplateSlice"
 
 export const CreateEvaluationForm = () => {
   const navigate = useNavigate()
   const appDispatch = useAppDispatch()
   const { loading, error } = useAppSelector((state) => state.evaluations)
+  const { emailTemplate } = useAppSelector((state) => state.emailTemplate)
 
   const [formData, setFormData] = useState<Evaluation>({
-    name: undefined,
-    eval_period_start_date: undefined,
-    eval_period_end_date: undefined,
-    eval_schedule_start_date: undefined,
-    eval_schedule_end_date: undefined,
-    email_subject: undefined,
-    email_content: undefined,
-    remarks: undefined,
+    name: "",
+    eval_period_start_date: "",
+    eval_period_end_date: "",
+    eval_schedule_start_date: "",
+    eval_schedule_end_date: "",
+    email_subject: "",
+    email_content: "",
+    remarks: "",
   })
   const [validationErrors, setValidationErrors] = useState<Partial<Evaluation>>(
     {}
   )
   const [show_modal, setShowModal] = useState<boolean>(false)
+
+  useEffect(() => {
+    void appDispatch(getDefaultEmailTemplate())
+  }, [])
+
+  useEffect(() => {
+    if (emailTemplate !== null) {
+      setFormData({
+        ...formData,
+        email_subject: emailTemplate?.subject,
+        email_content: emailTemplate?.content,
+      })
+    }
+  }, [emailTemplate])
 
   const handleSubmit = async () => {
     try {
@@ -82,6 +98,7 @@ export const CreateEvaluationForm = () => {
               label='Evaluation name'
               name='name'
               placeholder='Evaluation name'
+              value={formData.name}
               onChange={handleInputChange}
               error={validationErrors.name}
             />
@@ -95,6 +112,7 @@ export const CreateEvaluationForm = () => {
                   name='eval_period_start_date'
                   type='date'
                   placeholder='Evaluation period'
+                  value={formData.eval_period_start_date}
                   onChange={handleInputChange}
                   error={validationErrors.eval_period_start_date}
                   max={formData.eval_period_end_date}
@@ -104,6 +122,7 @@ export const CreateEvaluationForm = () => {
                   name='eval_period_end_date'
                   type='date'
                   placeholder='Evaluation period'
+                  value={formData.eval_period_end_date}
                   onChange={handleInputChange}
                   error={validationErrors.eval_period_end_date}
                   min={formData.eval_period_start_date}
@@ -119,6 +138,7 @@ export const CreateEvaluationForm = () => {
                   name='eval_schedule_start_date'
                   type='date'
                   placeholder='Evaluation schedule'
+                  value={formData.eval_schedule_start_date}
                   onChange={handleInputChange}
                   max={formData.eval_schedule_end_date}
                   error={validationErrors.eval_schedule_start_date}
@@ -128,6 +148,7 @@ export const CreateEvaluationForm = () => {
                   name='eval_schedule_end_date'
                   type='date'
                   placeholder='Evaluation schedule'
+                  value={formData.eval_schedule_end_date}
                   onChange={handleInputChange}
                   error={validationErrors.eval_schedule_end_date}
                   min={formData.eval_schedule_start_date}
@@ -140,6 +161,7 @@ export const CreateEvaluationForm = () => {
           label='Evaluation description/notes'
           name='remarks'
           placeholder='Some description'
+          value={formData.remarks}
           onChange={handleTextAreaChange}
           error={validationErrors.remarks}
         />
@@ -150,12 +172,14 @@ export const CreateEvaluationForm = () => {
           label='Subject'
           name='email_subject'
           placeholder='Subject'
+          value={formData.email_subject}
           onChange={handleInputChange}
           error={validationErrors.email_subject}
         />
         <TextArea
           name='email_content'
           placeholder='Some description'
+          value={formData.email_content}
           onChange={handleTextAreaChange}
           error={validationErrors.email_content}
         />
