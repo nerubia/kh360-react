@@ -1,5 +1,5 @@
 import { Button, LinkButton } from "../../components/button/Button"
-
+import { useAppSelector } from "../../hooks/useAppSelector"
 interface ModalPopupProps {
   show: boolean
   proceed: string
@@ -13,11 +13,17 @@ export const ModalPopup = ({
   proceed,
   handleClose,
 }: ModalPopupProps) => {
+  const { activeSidebar } = useAppSelector((state) => state.app)
+
   return (
     <>
       {show ? (
         <>
-          <div className='justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none'>
+          <div
+            className={`${
+              activeSidebar ? "md:ml-32" : ""
+            } w-full transition-all duration-300 justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none`}
+          >
             <div className='relative w-auto my-6 mx-auto max-w-3xl'>
               <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none'>
                 <div className='flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t'>
@@ -31,18 +37,22 @@ export const ModalPopup = ({
                 </div>
                 <div className='flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b'>
                   <div className='mr-2'>
-                    <Button variant='primary' onClick={handleClose}>
+                    <Button variant='primaryOutline' onClick={handleClose}>
                       No
                     </Button>
                   </div>
-                  <LinkButton variant='destructive' to={proceed}>
+                  <LinkButton variant='primary' to={proceed}>
                     Yes
                   </LinkButton>
                 </div>
               </div>
             </div>
           </div>
-          <div className='opacity-25 fixed inset-0 z-40 bg-black'></div>
+          <div
+            className={`${
+              activeSidebar ? "md:ml-64" : ""
+            } opacity-25 fixed inset-0 z-40 bg-black`}
+          ></div>
         </>
       ) : null}
     </>

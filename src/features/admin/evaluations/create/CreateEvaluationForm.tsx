@@ -163,7 +163,7 @@ export const CreateEvaluationForm = () => {
       <div>
         {error != null && <p className='text-red-500'>{error}</p>}
         <div className='flex justify-between'>
-          <Button variant='destructive' onClick={handleShowModal}>
+          <Button variant='primaryOutline' onClick={handleShowModal}>
             Cancel & Exit
           </Button>
           <Button onClick={handleSubmit} loading={loading === Loading.Pending}>
