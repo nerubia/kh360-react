@@ -52,129 +52,88 @@ export default function Sample() {
       <div className='flex flex-col gap-4'>
         <p>Sample button variants</p>
         <div className='flex gap-4'>
-          <Button size='small' onClick={() => {}}>
-            Small primary
-          </Button>
-          <Button size='small' onClick={() => {}} loading={true}>
+          <Button size='small'>Small primary</Button>
+          <Button size='small' loading={true}>
             Small primary
           </Button>
         </div>
         <div className='flex gap-4'>
-          <Button onClick={() => {}}>Medium primary</Button>
-          <Button onClick={() => {}} loading={true}>
-            Medium primary
-          </Button>
+          <Button>Medium primary</Button>
+          <Button loading={true}>Medium primary</Button>
         </div>
         <div>
-          <Button fullWidth onClick={() => {}}>
-            Primary full width
-          </Button>
+          <Button fullWidth>Primary full width</Button>
         </div>
         <div>
-          <Button fullWidth onClick={() => {}} loading={true}>
+          <Button fullWidth loading={true}>
             Primary full width
           </Button>
         </div>
         <div className='flex gap-4'>
-          <Button variant='primaryOutline' size='small' onClick={() => {}}>
+          <Button variant='primaryOutline' size='small'>
             Small primary outline
           </Button>
-          <Button
-            variant='primaryOutline'
-            size='small'
-            onClick={() => {}}
-            loading={true}
-          >
+          <Button variant='primaryOutline' size='small' loading={true}>
             Small primary outline
           </Button>
         </div>
         <div className='flex gap-4'>
-          <Button variant='primaryOutline' onClick={() => {}}>
-            Medium primary outline
-          </Button>
-          <Button variant='primaryOutline' onClick={() => {}} loading={true}>
+          <Button variant='primaryOutline'>Medium primary outline</Button>
+          <Button variant='primaryOutline' loading={true}>
             Medium primary outline
           </Button>
         </div>
         <div className='flex gap-4'>
-          <Button variant='destructive' size='small' onClick={() => {}}>
+          <Button variant='destructive' size='small'>
             Small destructive
           </Button>
-          <Button
-            variant='destructive'
-            size='small'
-            onClick={() => {}}
-            loading={true}
-          >
+          <Button variant='destructive' size='small' loading={true}>
             Small destructive
           </Button>
         </div>
         <div className='flex gap-4'>
-          <Button variant='destructive' onClick={() => {}}>
-            Medium destructive
-          </Button>
-          <Button variant='destructive' onClick={() => {}} loading={true}>
+          <Button variant='destructive'>Medium destructive</Button>
+          <Button variant='destructive' loading={true}>
             Medium destructive
           </Button>
         </div>
         <div>
-          <Button variant='destructive' fullWidth onClick={() => {}}>
+          <Button variant='destructive' fullWidth>
             Destructive full width
           </Button>
         </div>
         <div>
-          <Button
-            variant='destructive'
-            fullWidth
-            onClick={() => {}}
-            loading={true}
-          >
+          <Button variant='destructive' fullWidth loading={true}>
             Destructive full width
           </Button>
         </div>
         <div className='flex gap-4'>
-          <Button variant='destructiveOutline' size='small' onClick={() => {}}>
+          <Button variant='destructiveOutline' size='small'>
             Small destructive outline
           </Button>
-          <Button
-            variant='destructiveOutline'
-            size='small'
-            onClick={() => {}}
-            loading={true}
-          >
+          <Button variant='destructiveOutline' size='small' loading={true}>
             Small destructive outline
           </Button>
         </div>
         <div className='flex gap-4'>
-          <Button variant='destructiveOutline' onClick={() => {}}>
+          <Button variant='destructiveOutline'>
             Medium destructive outline
           </Button>
-          <Button
-            variant='destructiveOutline'
-            onClick={() => {}}
-            loading={true}
-          >
+          <Button variant='destructiveOutline' loading={true}>
             Medium destructive outline
           </Button>
         </div>
         <div className='flex gap-4'>
-          <Button variant='ghost' size='small' onClick={() => {}}>
+          <Button variant='ghost' size='small'>
             Small ghost
           </Button>
-          <Button
-            variant='ghost'
-            size='small'
-            onClick={() => {}}
-            loading={true}
-          >
+          <Button variant='ghost' size='small' loading={true}>
             Medium ghost
           </Button>
         </div>
         <div className='flex gap-4'>
-          <Button variant='ghost' onClick={() => {}}>
-            Small ghost
-          </Button>
-          <Button variant='ghost' onClick={() => {}} loading={true}>
+          <Button variant='ghost'>Small ghost</Button>
+          <Button variant='ghost' loading={true}>
             Medium ghost
           </Button>
         </div>
@@ -245,7 +204,7 @@ export default function Sample() {
             placeholder='Leave a comment'
           ></textarea>
           <div className='flex justify-end'>
-            <Button onClick={() => {}}>Submit</Button>
+            <Button>Submit</Button>
           </div>
         </div>
       </div>
@@ -339,7 +298,7 @@ export default function Sample() {
             placeholder='Leave a comment'
           ></textarea>
           <div className='flex justify-end'>
-            <Button onClick={() => {}}>Submit</Button>
+            <Button>Submit</Button>
           </div>
         </div>
       </div>
@@ -361,10 +320,8 @@ export default function Sample() {
             <button>Option 3</button>
           </div>
           <div className='flex justify-between'>
-            <Button variant='primaryOutline' onClick={() => {}}>
-              Previous
-            </Button>
-            <Button onClick={() => {}}>Next</Button>
+            <Button variant='primaryOutline'>Previous</Button>
+            <Button>Next</Button>
           </div>
         </div>
       </div>
@@ -398,10 +355,8 @@ export default function Sample() {
             </button>
           </div>
           <div className='flex justify-between'>
-            <Button variant='primaryOutline' onClick={() => {}}>
-              Previous
-            </Button>
-            <Button onClick={() => {}}>Next</Button>
+            <Button variant='primaryOutline'>Previous</Button>
+            <Button>Next</Button>
           </div>
         </div>
       </div>
@@ -525,7 +480,7 @@ export default function Sample() {
                 <p className=''>ProductHQ [QA Evaluation]</p>
                 <p>Evaluation Period</p>
               </div>
-              <Button onClick={() => {}}>Start evaluation</Button>
+              <Button>Start evaluation</Button>
             </div>
           </div>
         </div>
@@ -729,7 +684,7 @@ export default function Sample() {
               placeholder='Leave a comment'
             ></textarea>
             <div className='flex justify-end'>
-              <Button onClick={() => {}}>Submit</Button>
+              <Button>Submit</Button>
             </div>
           </div>
         </div>

@@ -10,3 +10,9 @@ export interface Evaluation {
   remarks?: string
   status?: string
 }
+
+export interface EvaluationFilters {
+  name?: string
+  status?: string
+  page?: string
+}

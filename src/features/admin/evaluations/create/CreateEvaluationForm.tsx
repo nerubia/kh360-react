@@ -1,16 +1,16 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { ValidationError } from "yup"
-import { useAppDispatch } from "../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../hooks/useAppSelector"
-import { createEvaluation } from "../../../redux/slices/evaluationsSlice"
-import { type Evaluation } from "../../../types/evaluationType"
-import { Button } from "../../../components/button/Button"
-import { ModalPopup } from "../../../components/modal/Modal"
-import { Input } from "../../../components/input/Input"
-import { TextArea } from "../../../components/textarea/TextArea"
-import { createEvaluationSchema } from "../../../utils/validation/evaluations/createEvaluationSchema"
-import { Loading } from "../../../types/loadingType"
+import { useAppDispatch } from "../../../../hooks/useAppDispatch"
+import { useAppSelector } from "../../../../hooks/useAppSelector"
+import { createEvaluation } from "../../../../redux/slices/evaluationsSlice"
+import { type Evaluation } from "../../../../types/evaluationType"
+import { Button } from "../../../../components/button/Button"
+import { Input } from "../../../../components/input/Input"
+import { TextArea } from "../../../../components/textarea/TextArea"
+import { createEvaluationSchema } from "../../../../utils/validation/evaluations/createEvaluationSchema"
+import { Loading } from "../../../../types/loadingType"
+import ModalPopup from "../../../../components/modal/Modal"
 
 export const CreateEvaluationForm = () => {
   const navigate = useNavigate()
@@ -173,7 +173,7 @@ export const CreateEvaluationForm = () => {
         <ModalPopup
           show={show_modal}
           title='Cancel & Exit'
-          proceed='/evaluations'
+          proceed='/admin/evaluations'
           handleClose={closePopup}
         />
       </div>

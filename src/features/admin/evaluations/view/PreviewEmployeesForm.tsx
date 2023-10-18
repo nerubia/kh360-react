@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom"
-import { Button, LinkButton } from "../../../components/button/Button"
-import { useAppSelector } from "../../../hooks/useAppSelector"
+import { Button, LinkButton } from "../../../../components/button/Button"
+import { useAppSelector } from "../../../../hooks/useAppSelector"
 
 export const PreviewEmployeesForm = () => {
   const { id } = useParams()

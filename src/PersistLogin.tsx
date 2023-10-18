@@ -25,19 +25,21 @@ const Sample = lazy(async () => await import("./pages/sample/sample"))
 
 const AdminRoute = lazy(async () => await import("./routes/AdminRoute"))
 const Evaluations = lazy(
-  async () => await import("./pages/evaluations/evaluations")
+  async () => await import("./pages/admin/evaluations/evaluations")
 )
 const CreateEvaluation = lazy(
-  async () => await import("./pages/evaluations/create/create_evaluation")
+  async () => await import("./pages/admin/evaluations/create/create_evaluation")
 )
 const ViewEvaluation = lazy(
-  async () => await import("./pages/evaluations/[id]/view_evaluation")
+  async () => await import("./pages/admin/evaluations/[id]/view_evaluation")
 )
 const SelectEmployees = lazy(
-  async () => await import("./pages/evaluations/[id]/select/select_employees")
+  async () =>
+    await import("./pages/admin/evaluations/[id]/select/select_employees")
 )
 const PreviewEmployees = lazy(
-  async () => await import("./pages/evaluations/[id]/preview/preview_employees")
+  async () =>
+    await import("./pages/admin/evaluations/[id]/preview/preview_employees")
 )
 
 const NotFound = lazy(async () => await import("./pages/404"))
@@ -87,23 +89,23 @@ const router = createBrowserRouter([
             element: <AdminRoute />,
             children: [
               {
-                path: "/evaluations",
+                path: "/admin/evaluations",
                 element: <Evaluations />,
               },
               {
-                path: "/evaluations/create",
+                path: "/admin/evaluations/create",
                 element: <CreateEvaluation />,
               },
               {
-                path: "/evaluations/:id",
+                path: "/admin/evaluations/:id",
                 element: <ViewEvaluation />,
               },
               {
-                path: "/evaluations/:id/select",
+                path: "/admin/evaluations/:id/select",
                 element: <SelectEmployees />,
               },
               {
-                path: "/evaluations/:id/preview",
+                path: "/admin/evaluations/:id/preview",
                 element: <PreviewEmployees />,
               },
             ],

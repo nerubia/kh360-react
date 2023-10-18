@@ -1,12 +1,12 @@
 import { useEffect } from "react"
 import { useParams } from "react-router-dom"
 import moment from "moment"
-import { LinkButton } from "../../../components/button/Button"
-import { Icon } from "../../../components/icon/Icon"
-import { useAppDispatch } from "../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../hooks/useAppSelector"
-import { getEvaluation } from "../../../redux/slices/evaluationSlice"
-import { Loading } from "../../../types/loadingType"
+import { LinkButton } from "../../../../components/button/Button"
+import { Icon } from "../../../../components/icon/Icon"
+import { useAppDispatch } from "../../../../hooks/useAppDispatch"
+import { useAppSelector } from "../../../../hooks/useAppSelector"
+import { getEvaluation } from "../../../../redux/slices/evaluationSlice"
+import { Loading } from "../../../../types/loadingType"
 
 export default function ViewEvaluation() {
   const { id } = useParams()

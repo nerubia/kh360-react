@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { getEmployees } from "../../../redux/slices/employeesSlice"
-import { useAppDispatch } from "../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../hooks/useAppSelector"
-import { Input } from "../../../components/input/Input"
-import { Select } from "../../../components/select/Select"
-import { Button, LinkButton } from "../../../components/button/Button"
-import { Checkbox } from "../../../components/checkbox/Checkbox"
-import { setSelectedEmployeeIds } from "../../../redux/slices/evaluationSlice"
+import { getEmployees } from "../../../../redux/slices/employeesSlice"
+import { useAppDispatch } from "../../../../hooks/useAppDispatch"
+import { useAppSelector } from "../../../../hooks/useAppSelector"
+import { Input } from "../../../../components/input/Input"
+import { Button, LinkButton } from "../../../../components/button/Button"
+import { Checkbox } from "../../../../components/checkbox/Checkbox"
+import { setSelectedEmployeeIds } from "../../../../redux/slices/evaluationSlice"
+import { CustomSelect } from "../../../../components/select/CustomSelect"
 
 export const SelectEmployeesForm = () => {
   const { id } = useParams()
@@ -66,10 +66,15 @@ export const SelectEmployeesForm = () => {
               setFilters({ ...filters, nameOrEmail: e.target.value })
             }
           />
-          <Select
+          <CustomSelect
             label='Status'
             name='status'
-            onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+            onChange={(newValue) =>
+              setFilters({
+                ...filters,
+                status: newValue !== null ? newValue.value : "",
+              })
+            }
             options={[
               {
                 label: "Active",
