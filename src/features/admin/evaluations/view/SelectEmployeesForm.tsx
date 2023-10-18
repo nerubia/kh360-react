@@ -141,13 +141,13 @@ export const SelectEmployeesForm = () => {
         <Button variant='destructive' onClick={handleShowModal}>
           Cancel & Exit
         </Button>
-        <LinkButton to={`/evaluations/${id}/preview`}>
+        <LinkButton to={`/admin/evaluations/${id}/preview`}>
           Check & Preview
         </LinkButton>
         <ModalPopup
           show={show_modal}
           title='Cancel & Exit'
-          proceed='/evaluations'
+          proceed='/admin/evaluations'
           handleClose={closePopup}
         />
       </div>
