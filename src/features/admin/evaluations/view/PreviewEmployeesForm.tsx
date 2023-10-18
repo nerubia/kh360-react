@@ -1,11 +1,23 @@
+import { useState } from "react"
 import { useParams } from "react-router-dom"
 import { Button, LinkButton } from "../../../../components/button/Button"
 import { useAppSelector } from "../../../../hooks/useAppSelector"
+import { ModalPopup } from "../../../../components/modal/Modal"
 
 export const PreviewEmployeesForm = () => {
   const { id } = useParams()
   const { employees } = useAppSelector((state) => state.employees)
   const { selectedEmployeeIds } = useAppSelector((state) => state.evaluation)
+
+  const [show_modal, setShowModal] = useState<boolean>(false)
+
+  const handleShowModal = () => {
+    setShowModal(true)
+  }
+
+  const closePopup = () => {
+    setShowModal(false)
+  }
 
   return (
     <div className='h-[calc(100vh_-_104px)] flex flex-col gap-4'>
@@ -34,13 +46,18 @@ export const PreviewEmployeesForm = () => {
         </table>
       </div>
       <div className='flex justify-between'>
-        <LinkButton
-          variant='destructive'
-          to={`/admin/evaluations/${id}/select`}
-        >
-          Exit & Cancel
+        <Button variant='primaryOutline' onClick={handleShowModal}>
+          Cancel & Exit
+        </Button>
+        <LinkButton to={`/admin/evaluations/${id}/select`}>
+          Check & Preview
         </LinkButton>
-        <Button onClick={() => {}}>Save & Proceed</Button>
+        <ModalPopup
+          show={show_modal}
+          title='Cancel & Exit'
+          proceed='/admin/evaluations'
+          handleClose={closePopup}
+        />
       </div>
     </div>
   )
