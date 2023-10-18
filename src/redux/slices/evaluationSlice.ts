@@ -42,14 +42,14 @@ export const setEvaluators = createAsyncThunk(
   }
 )
 
-interface Evaluations {
+interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
   evaluation: Evaluation | null
   selectedEmployeeIds: number[]
 }
 
-const initialState: Evaluations = {
+const initialState: InitialState = {
   loading: Loading.Idle,
   error: null,
   evaluation: null,

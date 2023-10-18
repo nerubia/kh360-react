@@ -71,6 +71,7 @@ const button = cva(["w-fit", "h-fit", "rounded-md"], {
 })
 
 interface ButtonProps extends VariantProps<typeof button> {
+  testId?: string
   children: React.ReactNode
   onClick?: () => void
   loading?: boolean
@@ -78,6 +79,7 @@ interface ButtonProps extends VariantProps<typeof button> {
 }
 
 export const Button = ({
+  testId,
   children,
   variant,
   size,
@@ -88,6 +90,7 @@ export const Button = ({
 }: ButtonProps) => {
   return (
     <button
+      data-testid={testId}
       className={button({ variant, size, fullWidth })}
       onClick={onClick}
       disabled={loading === true || disabled === true}

@@ -41,7 +41,7 @@ export const createEvaluation = createAsyncThunk(
   }
 )
 
-interface Evaluations {
+interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
   evaluations: Evaluation[]
@@ -50,7 +50,7 @@ interface Evaluations {
   totalPages: number
 }
 
-const initialState: Evaluations = {
+const initialState: InitialState = {
   loading: Loading.Idle,
   error: null,
   evaluations: [],
