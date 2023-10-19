@@ -25,9 +25,9 @@ export const CreateEvaluationForm = () => {
     eval_period_end_date: "",
     eval_schedule_start_date: "",
     eval_schedule_end_date: "",
+    remarks: "",
     email_subject: "",
     email_content: "",
-    remarks: "",
   })
   const [validationErrors, setValidationErrors] = useState<Partial<Evaluation>>(
     {}

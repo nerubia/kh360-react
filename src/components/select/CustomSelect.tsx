@@ -28,6 +28,7 @@ export const CustomSelect = ({
           container: () => "w-full md:w-40",
           control: () => "h-[42px]",
         }}
+        inputId={name}
         value={value}
         onChange={onChange}
         options={options}
