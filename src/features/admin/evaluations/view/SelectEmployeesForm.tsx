@@ -170,9 +170,9 @@ export const SelectEmployeesForm = () => {
                 <td>
                   {employee?.first_name} {employee?.last_name}
                 </td>
-                <td>{employee?.start_date?.split("T")[0]}</td>
-                <td>{employee?.user_position}</td>
-                <td>{employee?.user_type}</td>
+                <td>{employee?.user_details.start_date?.split("T")[0]}</td>
+                <td>{employee?.user_details.user_position}</td>
+                <td>{employee?.user_details.user_type}</td>
               </tr>
             ))}
           </tbody>
