@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, useSearchParams } from "react-router-dom"
 import { getEmployees } from "../../../../redux/slices/employeesSlice"
 import { useAppDispatch } from "../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../hooks/useAppSelector"
@@ -10,18 +10,39 @@ import { setSelectedEmployeeIds } from "../../../../redux/slices/evaluationSlice
 import { CustomSelect } from "../../../../components/select/CustomSelect"
 import { ModalPopup } from "../../../../components/modal/Modal"
 import { Icon } from "../../../../components/icon/Icon"
+import { Pagination } from "../../../../components/pagination/Pagination"
+import { type Option } from "../../../../types/optionType"
+
+const filterOptions: Option[] = [
+  {
+    label: "All",
+    value: "all",
+  },
+  {
+    label: "Probationary",
+    value: "probationary",
+  },
+  {
+    label: "Regular",
+    value: "regular",
+  },
+  {
+    label: "Intern",
+    value: "intern",
+  },
+]
 
 export const SelectEmployeesForm = () => {
   const { id } = useParams()
   const appDispatch = useAppDispatch()
+  const [searchParams, setSearchParams] = useSearchParams()
   const { selectedEmployeeIds } = useAppSelector((state) => state.evaluation)
-  const { employees } = useAppSelector((state) => state.employees)
-
-  const [filters, setFilters] = useState({
-    nameOrEmail: "",
-    status: "active",
-  })
-  const [filteredEmployees, setFilteredEmployees] = useState(employees)
+  const { employees, hasPreviousPage, hasNextPage, totalPages } =
+    useAppSelector((state) => state.employees)
+  const [name, setName] = useState<string>(searchParams.get("name") ?? "")
+  const [employee_type, setEmployeeType] = useState<string>(
+    searchParams.get("status") ?? "all"
+  )
 
   const [show_cancel_modal, setShowCancelModal] = useState<boolean>(false)
   const [show_back_modal, setShowBackModal] = useState<boolean>(false)
@@ -31,20 +52,38 @@ export const SelectEmployeesForm = () => {
   }, [])
 
   useEffect(() => {
-    const filteredResults = employees.filter((employee) => {
-      if (
-        (employee.email.toLowerCase().includes(filters.nameOrEmail) ||
-          employee.first_name.toLowerCase().includes(filters.nameOrEmail) ||
-          employee.last_name.toLowerCase().includes(filters.nameOrEmail)) &&
-        ((employee.is_active && filters.status === "active") ||
-          (!employee.is_active && filters.status === "inactive"))
-      ) {
-        return employee
-      }
-      return null
-    })
-    setFilteredEmployees(filteredResults)
-  }, [employees, filters])
+    void appDispatch(
+      getEmployees({
+        name: searchParams.get("name") ?? undefined,
+        user_type: searchParams.get("user_type") ?? undefined,
+        page: searchParams.get("page") ?? undefined,
+      })
+    )
+  }, [searchParams])
+
+  const handleSearch = async () => {
+    if (name.length !== 0) {
+      searchParams.set("name", name)
+    }
+    searchParams.set("user_type", employee_type)
+    searchParams.set("page", "1")
+    setSearchParams(searchParams)
+  }
+
+  const handleClear = async () => {
+    setName("")
+    setEmployeeType("all")
+    setSearchParams({})
+  }
+
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      const employeeIds = employees.map((employee) => employee.id)
+      appDispatch(setSelectedEmployeeIds(employeeIds))
+    } else {
+      appDispatch(setSelectedEmployeeIds(""))
+    }
+  }
 
   const handleClickCheckbox = (checked: boolean, employeeId: number) => {
     if (checked) {
@@ -80,65 +119,60 @@ export const SelectEmployeesForm = () => {
             label='Name/Email'
             name='search'
             placeholder='Search name or email'
-            onChange={(e) =>
-              setFilters({ ...filters, nameOrEmail: e.target.value })
-            }
+            onChange={(e) => setName(e.target.value)}
+            value={name}
           />
           <CustomSelect
-            label='Status'
-            name='status'
-            onChange={(newValue) =>
-              setFilters({
-                ...filters,
-                status: newValue !== null ? newValue.value : "",
-              })
+            label='Employee Type'
+            name='employee-type'
+            value={filterOptions.find(
+              (option) => option.value === employee_type
+            )}
+            onChange={(option) =>
+              setEmployeeType(option !== null ? option.value : "all")
             }
-            options={[
-              {
-                label: "Active",
-                value: "active",
-              },
-              {
-                label: "Inactive",
-                value: "inactive",
-              },
-            ]}
+            options={filterOptions}
           />
         </div>
-        <Button onClick={() => {}}>Search</Button>
+        <div className='flex items-end gap-4'>
+          <Button onClick={handleSearch}>Search</Button>
+          <Button variant='destructive' onClick={handleClear}>
+            Clear
+          </Button>
+        </div>
       </div>
       <div className='flex-1 bg-gray-100 overflow-y-scroll'>
         <table className='relative w-full'>
           <thead className='sticky top-0 bg-white text-left'>
             <tr>
               <th>
-                <Checkbox onChange={() => {}} />
+                <Checkbox onChange={(checked) => handleSelectAll(checked)} />
               </th>
               <th>Name</th>
               <th>Date Started</th>
-              <th>Regularized Date</th>
-              <th>Status</th>
+              <th>Position</th>
+              <th>Employee Type</th>
             </tr>
           </thead>
           <tbody>
-            {filteredEmployees.map((employee) => (
-              <tr key={employee.id}>
+            {employees?.map((employee) => (
+              <tr key={employee?.id}>
                 <td>
                   <div className='w-fit'>
                     <Checkbox
-                      checked={selectedEmployeeIds.includes(employee.id)}
+                      checked={selectedEmployeeIds.includes(employee?.id)}
                       onChange={(checked) =>
-                        handleClickCheckbox(checked, employee.id)
+                        handleClickCheckbox(checked, employee?.id)
                       }
                     />
                   </div>
                 </td>
                 <td>
-                  {employee.first_name} {employee.last_name}
+                  {employee?.first_name} {employee?.last_name}
                 </td>
-                <td>started</td>
-                <td>Regularized</td>
-                <td>{employee.is_active ? "Yes" : "No"}</td>
+                <td>{employee?.start_date?.split("T")[0]}</td>
+                <td>{employee?.user_position}</td>
+                <td>{employee?.user_type}</td>
               </tr>
             ))}
           </tbody>
@@ -174,6 +208,13 @@ export const SelectEmployeesForm = () => {
           proceed={`/admin/evaluations/${id}`}
           handleClose={closePopup}
           type='back-modal'
+        />
+      </div>
+      <div className='flex justify-center'>
+        <Pagination
+          hasPreviousPage={hasPreviousPage}
+          hasNextPage={hasNextPage}
+          totalPages={totalPages}
         />
       </div>
     </div>

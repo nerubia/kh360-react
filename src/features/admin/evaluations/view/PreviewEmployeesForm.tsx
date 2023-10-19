@@ -57,6 +57,7 @@ export const PreviewEmployeesForm = () => {
           title='Cancel & Exit'
           proceed='/admin/evaluations'
           handleClose={closePopup}
+          type={"cancel-modal"}
         />
       </div>
     </div>
