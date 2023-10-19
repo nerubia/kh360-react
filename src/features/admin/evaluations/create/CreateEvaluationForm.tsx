@@ -5,13 +5,13 @@ import { useAppDispatch } from "../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../hooks/useAppSelector"
 import { createEvaluation } from "../../../../redux/slices/evaluationsSlice"
 import { type Evaluation } from "../../../../types/evaluationType"
-import { Button } from "../../../../components/button/Button"
+import { Button, LinkButton } from "../../../../components/button/Button"
 import { Input } from "../../../../components/input/Input"
 import { TextArea } from "../../../../components/textarea/TextArea"
 import { createEvaluationSchema } from "../../../../utils/validation/evaluations/createEvaluationSchema"
 import { Loading } from "../../../../types/loadingType"
-import ModalPopup from "../../../../components/modal/Modal"
 import { getDefaultEmailTemplate } from "../../../../redux/slices/emailTemplateSlice"
+import Dialog from "../../../../components/dialog/Dialog"
 
 export const CreateEvaluationForm = () => {
   const navigate = useNavigate()
@@ -32,7 +32,7 @@ export const CreateEvaluationForm = () => {
   const [validationErrors, setValidationErrors] = useState<Partial<Evaluation>>(
     {}
   )
-  const [show_modal, setShowModal] = useState<boolean>(false)
+  const [showDialog, setShowDialog] = useState<boolean>(false)
 
   useEffect(() => {
     void appDispatch(getDefaultEmailTemplate())
@@ -68,14 +68,6 @@ export const CreateEvaluationForm = () => {
     }
   }
 
-  const handleShowModal = () => {
-    setShowModal(true)
-  }
-
-  const closePopup = () => {
-    setShowModal(false)
-  }
-
   const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
@@ -86,6 +78,10 @@ export const CreateEvaluationForm = () => {
   ) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
+  }
+
+  const toggleDialog = () => {
+    setShowDialog((prev) => !prev)
   }
 
   return (
@@ -188,21 +184,29 @@ export const CreateEvaluationForm = () => {
       <div>
         {error != null && <p className='text-red-500'>{error}</p>}
         <div className='flex justify-between'>
-          <Button variant='primaryOutline' onClick={handleShowModal}>
+          <Button variant='primaryOutline' onClick={toggleDialog}>
             Cancel & Exit
           </Button>
           <Button onClick={handleSubmit} loading={loading === Loading.Pending}>
             Save & Proceed
           </Button>
         </div>
-        <ModalPopup
-          show={show_modal}
-          title='Cancel & Exit'
-          proceed='/admin/evaluations'
-          handleClose={closePopup}
-          type='cancel-modal'
-        />
       </div>
+      <Dialog open={showDialog}>
+        <Dialog.Title>Cancel & Exit</Dialog.Title>
+        <Dialog.Description>
+          Are you sure you want to cancel and exit? <br />
+          If you cancel, your data won&apos;t be saved.
+        </Dialog.Description>
+        <Dialog.Actions>
+          <Button variant='primaryOutline' onClick={toggleDialog}>
+            No
+          </Button>
+          <LinkButton variant='primary' to='/admin/evaluations'>
+            Yes
+          </LinkButton>
+        </Dialog.Actions>
+      </Dialog>
     </div>
   )
 }
