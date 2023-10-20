@@ -4,6 +4,7 @@ import authReducer from "./slices/authSlice"
 import evaluationReducer from "./slices/evaluationSlice"
 import evaluationsReducer from "./slices/evaluationsSlice"
 import employeesReducer from "./slices/employeesSlice"
+import evalueesReducer from "./slices/evalueesSlice"
 import emailTemplateReducer from "./slices/emailTemplateSlice"
 
 export const store = configureStore({
@@ -13,6 +14,7 @@ export const store = configureStore({
     evaluation: evaluationReducer,
     evaluations: evaluationsReducer,
     employees: employeesReducer,
+    evaluees: evalueesReducer,
     emailTemplate: emailTemplateReducer,
   },
 })
