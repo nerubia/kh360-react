@@ -6,7 +6,7 @@ import { axiosInstance } from "../../utils/axiosInstance"
 import { Loading } from "../../types/loadingType"
 
 export const getEvaluation = createAsyncThunk(
-  "evaluations/getEvaluation",
+  "evaluation/getEvaluation",
   async (id: string, thunkApi) => {
     try {
       const response = await axiosInstance.get(`/admin/evaluations/${id}`)
@@ -20,7 +20,7 @@ export const getEvaluation = createAsyncThunk(
 )
 
 export const setEvaluators = createAsyncThunk(
-  "evaluations/setEvaluators",
+  "evaluation/setEvaluators",
   async (
     data: {
       id: string

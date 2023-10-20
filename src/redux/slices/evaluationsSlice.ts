@@ -7,6 +7,7 @@ import {
 } from "../../types/evaluationType"
 import { axiosInstance } from "../../utils/axiosInstance"
 import { Loading } from "../../types/loadingType"
+import { type EvaluationFormData } from "../../types/formDataType"
 
 export const getEvaluations = createAsyncThunk(
   "evaluations/getEvaluations",
@@ -26,7 +27,7 @@ export const getEvaluations = createAsyncThunk(
 
 export const createEvaluation = createAsyncThunk(
   "evaluations/createEvaluation",
-  async (data: Evaluation, thunkApi) => {
+  async (data: EvaluationFormData, thunkApi) => {
     try {
       const response = await axiosInstance.post(
         "/admin/evaluations/create",

@@ -1,22 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
 import { type CodeResponse } from "@react-oauth/google"
-import { type LoginFormData } from "../../types/authType"
 import { type ApiError } from "../../types/apiErrorType"
 import { type User } from "../../types/userType"
-import {
-  loginUser,
-  loginUserWithGoogle,
-  logoutUser,
-  refreshUserToken,
-} from "../../services/api"
+import { refreshUserToken } from "../../services/api"
 import { Loading } from "../../types/loadingType"
+import { type LoginFormData } from "../../types/formDataType"
+import { axiosInstance } from "../../utils/axiosInstance"
 
 export const login = createAsyncThunk(
   "auth/login",
   async (data: LoginFormData, thunkApi) => {
     try {
-      const response = await loginUser(data)
+      const response = await axiosInstance.post("/auth/login", data)
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -30,7 +26,7 @@ export const loginWithGoogle = createAsyncThunk(
   "auth/loginWithGoogle",
   async (data: CodeResponse, thunkApi) => {
     try {
-      const response = await loginUserWithGoogle(data)
+      const response = await axiosInstance.post("/auth/login/google", data)
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -56,7 +52,7 @@ export const refreshToken = createAsyncThunk(
 
 export const logout = createAsyncThunk("auth/logout", async (_, thunkApi) => {
   try {
-    const response = await logoutUser()
+    const response = await axiosInstance.post("/user/logout")
     return response.data
   } catch (error) {
     const axiosError = error as AxiosError

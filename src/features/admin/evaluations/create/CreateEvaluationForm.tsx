@@ -4,7 +4,6 @@ import { ValidationError } from "yup"
 import { useAppDispatch } from "../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../hooks/useAppSelector"
 import { createEvaluation } from "../../../../redux/slices/evaluationsSlice"
-import { type Evaluation } from "../../../../types/evaluationType"
 import { Button, LinkButton } from "../../../../components/button/Button"
 import { Input } from "../../../../components/input/Input"
 import { TextArea } from "../../../../components/textarea/TextArea"
@@ -12,6 +11,7 @@ import { createEvaluationSchema } from "../../../../utils/validation/evaluations
 import { Loading } from "../../../../types/loadingType"
 import { getDefaultEmailTemplate } from "../../../../redux/slices/emailTemplateSlice"
 import Dialog from "../../../../components/dialog/Dialog"
+import { type EvaluationFormData } from "../../../../types/formDataType"
 
 export const CreateEvaluationForm = () => {
   const navigate = useNavigate()
@@ -19,7 +19,7 @@ export const CreateEvaluationForm = () => {
   const { loading, error } = useAppSelector((state) => state.evaluations)
   const { emailTemplate } = useAppSelector((state) => state.emailTemplate)
 
-  const [formData, setFormData] = useState<Evaluation>({
+  const [formData, setFormData] = useState<EvaluationFormData>({
     name: "",
     eval_period_start_date: "",
     eval_period_end_date: "",
@@ -29,9 +29,9 @@ export const CreateEvaluationForm = () => {
     email_subject: "",
     email_content: "",
   })
-  const [validationErrors, setValidationErrors] = useState<Partial<Evaluation>>(
-    {}
-  )
+  const [validationErrors, setValidationErrors] = useState<
+    Partial<EvaluationFormData>
+  >({})
   const [showDialog, setShowDialog] = useState<boolean>(false)
 
   useEffect(() => {
@@ -59,9 +59,9 @@ export const CreateEvaluationForm = () => {
       }
     } catch (error) {
       if (error instanceof ValidationError) {
-        const errors: Partial<Evaluation> = {}
+        const errors: Partial<EvaluationFormData> = {}
         error.inner.forEach((err) => {
-          errors[err.path as keyof Evaluation] = err.message
+          errors[err.path as keyof EvaluationFormData] = err.message
         })
         setValidationErrors(errors)
       }

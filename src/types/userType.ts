@@ -6,6 +6,7 @@ export interface User {
   is_active: boolean
   user_details: UserDetails
   roles: string[]
+  picture?: string
 }
 
 export interface EmployeeFilters {

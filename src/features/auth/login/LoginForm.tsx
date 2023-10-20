@@ -7,8 +7,8 @@ import { login } from "../../../redux/slices/authSlice"
 import { Input } from "../../../components/input/Input"
 import { Button } from "../../../components/button/Button"
 import { loginSchema } from "../../../utils/validation/auth/loginSchema"
-import { type LoginFormData } from "../../../types/authType"
 import { Loading } from "../../../types/loadingType"
+import { type LoginFormData } from "../../../types/formDataType"
 
 export const LoginForm = () => {
   const appDispatch = useAppDispatch()
