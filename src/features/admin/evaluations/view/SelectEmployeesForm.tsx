@@ -118,7 +118,7 @@ export const SelectEmployeesForm = () => {
           <Input
             label='Name/Email'
             name='search'
-            placeholder='Search name or email'
+            placeholder='Search by name'
             onChange={(e) => setName(e.target.value)}
             value={name}
           />
