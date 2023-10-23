@@ -1,7 +1,7 @@
 import { type User } from "./userType"
 
 export interface EvaluationResults {
-  id?: string
+  id?: number
   status?: string
   users?: User
 }
@@ -11,4 +11,10 @@ export interface EvalueeFilters {
   name?: string
   status?: string
   page?: string
+}
+
+export enum EvaluationResultStatus {
+  Reviewed = "reviewed",
+  Pending = "pending",
+  Draft = "draft",
 }

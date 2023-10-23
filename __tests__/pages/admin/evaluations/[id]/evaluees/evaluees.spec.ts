@@ -116,5 +116,154 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
         page.getByRole("button", { name: "Generate Evaluations" })
       ).toBeVisible()
     })
+
+    test("should render delete evaluee modal correctly", async ({
+      page,
+      isMobile,
+    }) => {
+      await loginUser("admin", page)
+
+      await page.goto("/admin/evaluations/1/evaluees")
+
+      await mockRequest(
+        page,
+        "/admin/evaluees?evaluation_administration_id=1",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            data: [
+              {
+                id: 1,
+                status: "reviewed",
+                users: {
+                  first_name: "Cat",
+                  last_name: "admin",
+                  picture: null,
+                },
+              },
+              {
+                id: 2,
+                status: "pending",
+                users: {
+                  first_name: "J",
+                  last_name: "admin",
+                  picture: null,
+                },
+              },
+              {
+                id: 3,
+                status: "draft",
+                users: {
+                  first_name: "Nino",
+                  last_name: "admin",
+                  picture: null,
+                },
+              },
+            ],
+            pageInfo: {
+              hasPreviousPage: false,
+              hasNextPage: false,
+              totalPages: 1,
+            },
+          }),
+        }
+      )
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await page
+        .locator("div")
+        .filter({ hasText: /^admin, CatReviewed$/ })
+        .getByRole("button")
+        .click()
+
+      await expect(
+        page.getByRole("heading", { name: "Delete Evaluee" })
+      ).toBeVisible()
+      await expect(
+        page.getByText(
+          "Are you sure you want to remove Cat admin? This action cannot be reverted."
+        )
+      ).toBeVisible()
+      await expect(page.getByRole("button", { name: "No" })).toBeVisible()
+      await expect(page.getByRole("button", { name: "Yes" })).toBeVisible()
+    })
+
+    test("should allow to delete evaluee", async ({ page, isMobile }) => {
+      await loginUser("admin", page)
+
+      await page.goto("/admin/evaluations/1/evaluees")
+
+      await mockRequest(
+        page,
+        "/admin/evaluees?evaluation_administration_id=1",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            data: [
+              {
+                id: 1,
+                status: "reviewed",
+                users: {
+                  first_name: "Cat",
+                  last_name: "admin",
+                  picture: null,
+                },
+              },
+              {
+                id: 2,
+                status: "pending",
+                users: {
+                  first_name: "J",
+                  last_name: "admin",
+                  picture: null,
+                },
+              },
+              {
+                id: 3,
+                status: "draft",
+                users: {
+                  first_name: "Nino",
+                  last_name: "admin",
+                  picture: null,
+                },
+              },
+            ],
+            pageInfo: {
+              hasPreviousPage: false,
+              hasNextPage: false,
+              totalPages: 1,
+            },
+          }),
+        }
+      )
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await page
+        .locator("div")
+        .filter({ hasText: /^admin, CatReviewed$/ })
+        .getByRole("button")
+        .click()
+
+      await mockRequest(page, "/admin/evaluees/1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ id: "1" }),
+      })
+
+      await page.getByRole("button", { name: "Yes" }).click()
+
+      await expect(
+        page.getByText("Cat admin successfully removed.")
+      ).toBeVisible()
+      await expect(page.getByText("admin, Catreviewed")).not.toBeVisible()
+    })
   })
 })
