@@ -6,9 +6,12 @@ import { setActiveSidebar } from "../../redux/slices/appSlice"
 import { Icon } from "../icon/Icon"
 import { Sidebar } from "../sidebar/Sidebar"
 import { Button } from "../button/Button"
+import { Alert } from "../alert/Alert"
 
 export default function DashboardLayout() {
-  const { activeSidebar } = useAppSelector((state) => state.app)
+  const { activeSidebar, alertDescription, alertVariant } = useAppSelector(
+    (state) => state.app
+  )
   const appDispatch = useAppDispatch()
 
   const toggleSidebar = () => {
@@ -28,6 +31,11 @@ export default function DashboardLayout() {
             <Icon icon='Menu' />
           </Button>
         </div>
+        {alertDescription !== undefined && (
+          <div className='p-5'>
+            <Alert variant={alertVariant}>{alertDescription}</Alert>
+          </div>
+        )}
         <div className='p-5'>
           <Suspense fallback={null}>
             <Outlet />

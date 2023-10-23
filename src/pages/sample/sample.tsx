@@ -7,6 +7,7 @@ import { useAppSelector } from "../../hooks/useAppSelector"
 import { useTitle } from "../../hooks/useTitle"
 import { logout } from "../../redux/slices/authSlice"
 import { getProfile, sendMail } from "../../services/api"
+import { Alert } from "../../components/alert/Alert"
 
 export default function Sample() {
   useTitle("Sample")
@@ -148,6 +149,13 @@ export default function Sample() {
           <Icon icon='Logout' />
           <Icon icon='Menu' />
           <Icon icon='Star' />
+        </div>
+      </div>
+      <div className='flex flex-col gap-4'>
+        <p>Sample alerts</p>
+        <div className='flex flex-col gap-2'>
+          <Alert>Primary alert</Alert>
+          <Alert variant='success'>Success alert</Alert>
         </div>
       </div>
 
