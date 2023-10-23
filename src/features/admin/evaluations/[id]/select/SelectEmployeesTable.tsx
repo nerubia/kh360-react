@@ -1,19 +1,31 @@
+import { useEffect } from "react"
 import { Checkbox } from "../../../../../components/checkbox/Checkbox"
 import { Pagination } from "../../../../../components/pagination/Pagination"
 import { setSelectedEmployeeIds } from "../../../../../redux/slices/evaluationSlice"
+import {
+  getAllEmployees,
+  setCheckedAll,
+} from "../../../../../redux/slices/employeesSlice"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
 
 export const SelectEmployeesTable = () => {
   const appDispatch = useAppDispatch()
   const { selectedEmployeeIds } = useAppSelector((state) => state.evaluation)
-  const { employees, hasPreviousPage, hasNextPage, totalPages } =
-    useAppSelector((state) => state.employees)
+  const {
+    employees,
+    checkedAll,
+    allEmployees,
+    hasPreviousPage,
+    hasNextPage,
+    totalPages,
+  } = useAppSelector((state) => state.employees)
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      const employeeIds = employees.map((employee) => employee.id)
+      const employeeIds = allEmployees.map((employee) => employee.id)
       appDispatch(setSelectedEmployeeIds(employeeIds))
+      appDispatch(setCheckedAll(true))
     } else {
       appDispatch(setSelectedEmployeeIds(""))
     }
@@ -31,6 +43,10 @@ export const SelectEmployeesTable = () => {
     }
   }
 
+  useEffect(() => {
+    void appDispatch(getAllEmployees())
+  }, [])
+
   return (
     <>
       <div className='flex flex-col gap-8'>
@@ -38,7 +54,10 @@ export const SelectEmployeesTable = () => {
           <thead className='text-left'>
             <tr>
               <th>
-                <Checkbox onChange={(checked) => handleSelectAll(checked)} />
+                <Checkbox
+                  checked={checkedAll}
+                  onChange={(checked) => handleSelectAll(checked)}
+                />
               </th>
               <th>Name</th>
               <th>Date Started</th>
