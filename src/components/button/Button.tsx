@@ -105,11 +105,13 @@ export const Button = ({
 }
 
 interface LinkButtonProps extends VariantProps<typeof button> {
+  testId?: string
   children: React.ReactNode
   to: string
 }
 
 export const LinkButton = ({
+  testId,
   children,
   to,
   variant,
@@ -117,7 +119,11 @@ export const LinkButton = ({
   fullWidth,
 }: LinkButtonProps) => {
   return (
-    <NavLink to={to} className={button({ variant, size, fullWidth })}>
+    <NavLink
+      data-testid={testId}
+      to={to}
+      className={button({ variant, size, fullWidth })}
+    >
       <div className='flex justify-center items-center gap-2'>{children}</div>
     </NavLink>
   )
