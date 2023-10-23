@@ -99,6 +99,54 @@ test.describe("Admin - Select Employees", () => {
         }),
       })
 
+      await mockRequest(page, "/admin/employees/all", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              email: "sample1@gmail.com",
+              first_name: "Adam",
+              last_name: "Baker",
+              is_active: true,
+              user_details: {
+                start_date: "2023-04-12T00:00:00.000Z",
+                user_id: 1,
+                user_position: "Project Manager",
+                user_type: "Regular",
+              },
+            },
+            {
+              id: 2,
+              email: "sample2@gmail.com",
+              first_name: "Clark",
+              last_name: "Davis",
+              is_active: true,
+              user_details: {
+                start_date: "2023-04-12T00:00:00.000Z",
+                user_id: 2,
+                user_position: "Quality Assurance",
+                user_type: "Probationary",
+              },
+            },
+            {
+              id: 3,
+              email: "sample2@gmail.com",
+              first_name: "Hill",
+              last_name: "Evans",
+              is_active: true,
+              user_details: {
+                start_date: "2023-04-12T00:00:00.000Z",
+                user_id: 3,
+                user_position: "Intern",
+                user_type: "Developer",
+              },
+            },
+          ],
+        }),
+      })
+
       await page.waitForLoadState("networkidle")
 
       await expect(page.getByPlaceholder("Search by name")).toBeVisible()
@@ -115,20 +163,20 @@ test.describe("Admin - Select Employees", () => {
       await expect(
         page
           .getByRole("row", {
-            name: "Adam Baker 2023-04-12 Project Manager Regular",
+            name: "Baker, Adam 2023-04-12 Project Manager Regular",
           })
           .getByRole("checkbox")
       ).toBeVisible()
       await expect(
         page
           .getByRole("row", {
-            name: "Clark Davis 2023-04-12 Quality Assurance Probationary",
+            name: "Davis, Clark 2023-04-12 Quality Assurance Probationary",
           })
           .getByRole("checkbox")
       ).toBeVisible()
       await expect(
         page
-          .getByRole("row", { name: "Hill Evans 2023-04-12 Intern Developer" })
+          .getByRole("row", { name: "Evans, Hill 2023-04-12 Intern Developer" })
           .getByRole("checkbox")
       ).toBeVisible()
 
@@ -149,11 +197,15 @@ test.describe("Admin - Select Employees", () => {
         page.getByRole("cell", { name: "Employee Type" })
       ).toBeVisible()
 
-      await expect(page.getByRole("cell", { name: "Adam Baker" })).toBeVisible()
       await expect(
-        page.getByRole("cell", { name: "Clark Davis" })
+        page.getByRole("cell", { name: "Baker, Adam" })
       ).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Hill Evans" })).toBeVisible()
+      await expect(
+        page.getByRole("cell", { name: "Davis, Clark" })
+      ).toBeVisible()
+      await expect(
+        page.getByRole("cell", { name: "Evans, Hill" })
+      ).toBeVisible()
       await expect(page).toHaveURL("/admin/evaluations/1/select")
     })
 
@@ -189,6 +241,28 @@ test.describe("Admin - Select Employees", () => {
             hasNextPage: false,
             totalPages: 1,
           },
+        }),
+      })
+
+      await mockRequest(page, "/admin/employees/all", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              email: "sample1@gmail.com",
+              first_name: "Adam",
+              last_name: "Baker",
+              is_active: true,
+              user_details: {
+                start_date: "2023-04-12T00:00:00.000Z",
+                user_id: 1,
+                user_position: "Project Manager",
+                user_type: "Regular",
+              },
+            },
+          ],
         }),
       })
 
@@ -245,6 +319,28 @@ test.describe("Admin - Select Employees", () => {
         }),
       })
 
+      await mockRequest(page, "/admin/employees/all", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              email: "sample1@gmail.com",
+              first_name: "Adam",
+              last_name: "Baker",
+              is_active: true,
+              user_details: {
+                start_date: "2023-04-12T00:00:00.000Z",
+                user_id: 1,
+                user_position: "Project Manager",
+                user_type: "Regular",
+              },
+            },
+          ],
+        }),
+      })
+
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
       }
@@ -255,7 +351,7 @@ test.describe("Admin - Select Employees", () => {
         .check()
       await page
         .getByRole("row", {
-          name: "Adam Baker 2023-04-12 Project Manager Regular",
+          name: "Baker, Adam 2023-04-12 Project Manager Regular",
         })
         .getByRole("checkbox")
         .check()
@@ -294,6 +390,28 @@ test.describe("Admin - Select Employees", () => {
             hasNextPage: false,
             totalPages: 1,
           },
+        }),
+      })
+
+      await mockRequest(page, "/admin/employees/all", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              email: "sample1@gmail.com",
+              first_name: "Adam",
+              last_name: "Baker",
+              is_active: true,
+              user_details: {
+                start_date: "2023-04-12T00:00:00.000Z",
+                user_id: 1,
+                user_position: "Project Manager",
+                user_type: "Regular",
+              },
+            },
+          ],
         }),
       })
 
