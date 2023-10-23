@@ -8,7 +8,7 @@ export const EvalueesFooter = () => {
   return (
     <div className='flex justify-between'>
       <Button variant='primaryOutline'>Cancel & Exit</Button>
-      <div className='flex items-center'>
+      <div className='flex items-center gap-2'>
         <LinkButton
           testId='BackButton'
           variant='primaryOutline'
@@ -16,7 +16,6 @@ export const EvalueesFooter = () => {
         >
           <Icon icon='ChevronLeft' />
         </LinkButton>
-        <div className='ml-2'></div>
         <Button variant='primaryOutline' disabled>
           Generate Evaluations
         </Button>
