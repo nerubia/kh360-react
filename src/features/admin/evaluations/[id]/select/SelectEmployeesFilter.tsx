@@ -1,11 +1,11 @@
-import { Button } from "../../../../components/button/Button"
-import { Input } from "../../../../components/input/Input"
-import { CustomSelect } from "../../../../components/select/CustomSelect"
-import { type Option } from "../../../../types/optionType"
+import { Button } from "../../../../../components/button/Button"
+import { Input } from "../../../../../components/input/Input"
+import { CustomSelect } from "../../../../../components/select/CustomSelect"
+import { type Option } from "../../../../../types/optionType"
 import { useSearchParams } from "react-router-dom"
 import { useEffect, useState } from "react"
-import { useAppDispatch } from "../../../../hooks/useAppDispatch"
-import { getEmployees } from "../../../../redux/slices/employeesSlice"
+import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
+import { getEmployees } from "../../../../../redux/slices/employeesSlice"
 
 const filterOptions: Option[] = [
   {
