@@ -109,9 +109,19 @@ export const PreviewEmployeesForm = () => {
         <Button variant='primaryOutline' onClick={toggleDialog}>
           Cancel & Exit
         </Button>
-        <LinkButton to={`/admin/evaluations/${id}/select`}>
-          Check & Preview
-        </LinkButton>
+        <div className='flex items-center'>
+          <LinkButton
+            variant='primaryOutline'
+            size='medium'
+            to={`/admin/evaluations/${id}/select`}
+          >
+            <Icon icon='ChevronLeft' />
+          </LinkButton>
+          <div className='ml-2'></div>
+          <LinkButton to={`/admin/evaluations/${id}/select`}>
+            Check & Preview
+          </LinkButton>
+        </div>
         <Dialog open={showDialog}>
           <Dialog.Title>Cancel & Exit</Dialog.Title>
           <Dialog.Description>
