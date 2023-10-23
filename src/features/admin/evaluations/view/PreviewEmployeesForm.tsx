@@ -4,10 +4,11 @@ import { Button, LinkButton } from "../../../../components/button/Button"
 import { useAppSelector } from "../../../../hooks/useAppSelector"
 import Dialog from "../../../../components/dialog/Dialog"
 import { Icon } from "../../../../components/icon/Icon"
+import { type User } from "../../../../types/userType"
 
 export const PreviewEmployeesForm = () => {
   const { id } = useParams()
-  const { employees } = useAppSelector((state) => state.employees)
+  const { allEmployees } = useAppSelector((state) => state.employees)
   const { selectedEmployeeIds } = useAppSelector((state) => state.evaluation)
 
   const [showDialog, setShowDialog] = useState<boolean>(false)
@@ -49,16 +50,16 @@ export const PreviewEmployeesForm = () => {
           </button>
           {showIncluded && (
             <tbody>
-              {employees.map((employee) =>
+              {allEmployees.map((employee: User) =>
                 selectedEmployeeIds.includes(employee.id) ? (
                   <tr key={employee.id}>
                     <td></td>
                     <td>
                       {employee.last_name}, {employee.first_name}
                     </td>
-                    <td>{employee.user_details.start_date}</td>
-                    <td>{employee.user_details.user_position}</td>
-                    <td>{employee.user_details.user_type}</td>
+                    <td>{employee.user_details?.start_date?.split("T")[0]}</td>
+                    <td>{employee.user_details?.user_position}</td>
+                    <td>{employee.user_details?.user_type}</td>
                   </tr>
                 ) : null
               )}
@@ -86,16 +87,16 @@ export const PreviewEmployeesForm = () => {
         {showExcluded && (
           <table className='w-full table-fixed'>
             <tbody>
-              {employees.map((employee) =>
+              {allEmployees.map((employee: User) =>
                 !selectedEmployeeIds.includes(employee.id) ? (
                   <tr key={employee.id}>
                     <td className='w-20'></td>
                     <td>
                       {employee.last_name}, {employee.first_name}
                     </td>
-                    <td>{employee.user_details.start_date}</td>
-                    <td>{employee.user_details.user_position}</td>
-                    <td>{employee.user_details.user_type}</td>
+                    <td>{employee.user_details?.start_date?.split("T")[0]}</td>
+                    <td>{employee.user_details?.user_position}</td>
+                    <td>{employee.user_details?.user_type}</td>
                   </tr>
                 ) : null
               )}
