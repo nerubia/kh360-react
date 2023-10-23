@@ -1,12 +1,18 @@
 import { useState } from "react"
-import { useParams } from "react-router-dom"
 import { Button, LinkButton } from "../../../../components/button/Button"
+import { useAppDispatch } from "../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../hooks/useAppSelector"
+import { useNavigate, useParams } from "react-router-dom"
 import Dialog from "../../../../components/dialog/Dialog"
 import { Icon } from "../../../../components/icon/Icon"
 import { type User } from "../../../../types/userType"
+import { createEvaluees } from "../../../../redux/slices/evaluationSlice"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 export const PreviewEmployeesForm = () => {
+  const appDispatch = useAppDispatch()
+  const navigate = useNavigate()
   const { id } = useParams()
   const { allEmployees } = useAppSelector((state) => state.employees)
   const { selectedEmployeeIds } = useAppSelector((state) => state.evaluation)
@@ -17,6 +23,31 @@ export const PreviewEmployeesForm = () => {
 
   const toggleDialog = () => {
     setShowDialog((prev) => !prev)
+  }
+
+  const handleSubmit = async () => {
+    try {
+      const result = await appDispatch(
+        createEvaluees({
+          id,
+          employee_ids: selectedEmployeeIds,
+        })
+      )
+      if (typeof result.payload === "string") {
+        toast.error(result.payload, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        })
+      } else if (result.payload !== undefined) {
+        navigate(`/admin/evaluations/${id}/evaluees`)
+      }
+    } catch (error) {}
   }
 
   return (
@@ -117,9 +148,8 @@ export const PreviewEmployeesForm = () => {
           >
             <Icon icon='ChevronLeft' />
           </LinkButton>
-          <LinkButton to={`/admin/evaluations/${id}/select`}>
-            Check & Preview
-          </LinkButton>
+          <div className='ml-2'></div>
+          <Button onClick={handleSubmit}>Save & Proceed</Button>
         </div>
         <Dialog open={showDialog}>
           <Dialog.Title>Cancel & Exit</Dialog.Title>
@@ -137,6 +167,7 @@ export const PreviewEmployeesForm = () => {
           </Dialog.Actions>
         </Dialog>
       </div>
+      <ToastContainer />
     </div>
   )
 }
