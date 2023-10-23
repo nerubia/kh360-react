@@ -1,5 +1,7 @@
 import { useState } from "react"
 import { useParams } from "react-router-dom"
+import { getEmployees } from "../../../../../redux/slices/employeesSlice"
+import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { Button, LinkButton } from "../../../../../components/button/Button"
 import { Icon } from "../../../../../components/icon/Icon"
 import Dialog from "../../../../../components/dialog/Dialog"
