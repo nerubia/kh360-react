@@ -109,7 +109,7 @@ export const PreviewEmployeesForm = () => {
         <Button variant='primaryOutline' onClick={toggleDialog}>
           Cancel & Exit
         </Button>
-        <div className='flex items-center'>
+        <div className='flex items-center gap-2'>
           <LinkButton
             variant='primaryOutline'
             size='medium'
@@ -117,7 +117,6 @@ export const PreviewEmployeesForm = () => {
           >
             <Icon icon='ChevronLeft' />
           </LinkButton>
-          <div className='ml-2'></div>
           <LinkButton to={`/admin/evaluations/${id}/select`}>
             Check & Preview
           </LinkButton>

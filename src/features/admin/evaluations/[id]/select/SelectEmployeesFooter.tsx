@@ -20,26 +20,21 @@ export const SelectEmployeesFooter = () => {
 
   return (
     <>
-      <div className='flex flex-col gap-10'>
-        <div className='flex flex-col gap-4'>
-          <div className='flex justify-between'>
-            <Button variant='primaryOutline' onClick={toggleCancelDialog}>
-              Cancel & Exit
-            </Button>
-            <div className='flex items-center'>
-              <Button
-                variant='primaryOutline'
-                size='medium'
-                onClick={toggleBackDialog}
-              >
-                <Icon icon='ChevronLeft' />
-              </Button>
-              <div className='ml-2'></div>
-              <LinkButton to={`/admin/evaluations/${id}/preview`}>
-                Check & Preview
-              </LinkButton>
-            </div>
-          </div>
+      <div className='flex justify-between'>
+        <Button variant='primaryOutline' onClick={toggleCancelDialog}>
+          Cancel & Exit
+        </Button>
+        <div className='flex items-center gap-2'>
+          <Button
+            variant='primaryOutline'
+            size='medium'
+            onClick={toggleBackDialog}
+          >
+            <Icon icon='ChevronLeft' />
+          </Button>
+          <LinkButton to={`/admin/evaluations/${id}/preview`}>
+            Check & Preview
+          </LinkButton>
         </div>
       </div>
       <Dialog open={showCancelDialog}>
