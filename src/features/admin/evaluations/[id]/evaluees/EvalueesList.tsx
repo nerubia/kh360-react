@@ -16,6 +16,7 @@ import { capitalizeWord } from "../../../../../utils/capitalizeWord"
 import Dialog from "../../../../../components/dialog/Dialog"
 import { Loading } from "../../../../../types/loadingType"
 import { setAlert } from "../../../../../redux/slices/appSlice"
+import { Pagination } from "../../../../../components/pagination/Pagination"
 
 const getStatusColor = (status: string | undefined) => {
   if (status === EvaluationResultStatus.Reviewed) {
@@ -29,14 +30,18 @@ const getStatusColor = (status: string | undefined) => {
   }
 }
 
-export const EvalueeList = () => {
+export const EvalueesList = () => {
   const { id } = useParams()
   const [searchParams] = useSearchParams()
 
   const appDispatch = useAppDispatch()
-  const { loading, evaluation_results } = useAppSelector(
-    (state) => state.evaluees
-  )
+  const {
+    loading,
+    evaluation_results,
+    hasPreviousPage,
+    hasNextPage,
+    totalPages,
+  } = useAppSelector((state) => state.evaluees)
 
   const [selectedEvaluee, setSelectedEvaluee] = useState<
     EvaluationResults | undefined
@@ -69,38 +74,47 @@ export const EvalueeList = () => {
   }
 
   return (
-    <div className='flex-1 flex flex-col gap-8 overflow-y-scroll'>
-      <div className='flex flex-col gap-4 rounded-md'>
-        {evaluation_results.map((evaluationResult) => (
-          <div
-            key={evaluationResult.id}
-            className='relative flex items-center gap-4 p-4 border rounded-md'
-          >
-            <div className='absolute top-1 right-1'>
-              <Button
-                variant='unstyled'
-                size='small'
-                onClick={() => setSelectedEvaluee(evaluationResult)}
-              >
-                <Icon icon='Close' />
-              </Button>
+    <>
+      <div className='flex-1 flex flex-col gap-8 overflow-y-scroll'>
+        <div className='flex flex-col gap-4 rounded-md'>
+          {evaluation_results.map((evaluationResult) => (
+            <div
+              key={evaluationResult.id}
+              className='relative flex items-center gap-4 p-4 border rounded-md'
+            >
+              <div className='absolute top-1 right-1'>
+                <Button
+                  variant='unstyled'
+                  size='small'
+                  onClick={() => setSelectedEvaluee(evaluationResult)}
+                >
+                  <Icon icon='Close' />
+                </Button>
+              </div>
+              <img
+                className='w-10 h-10 rounded-full'
+                src={evaluationResult.users?.picture}
+                alt={`Avatar of ${evaluationResult.users?.first_name} {evaluationResult.users?.first_name}`}
+              />
+              <div className='flex-1'>
+                <p className='text-lg font-bold'>
+                  {evaluationResult.users?.last_name},{" "}
+                  {evaluationResult.users?.first_name}
+                </p>
+              </div>
+              <div className={getStatusColor(evaluationResult.status)}>
+                {capitalizeWord(evaluationResult.status)}
+              </div>
             </div>
-            <img
-              className='w-10 h-10 rounded-full'
-              src={evaluationResult.users?.picture}
-              alt={`Avatar of ${evaluationResult.users?.first_name} {evaluationResult.users?.first_name}`}
-            />
-            <div className='flex-1'>
-              <p className='text-lg font-bold'>
-                {evaluationResult.users?.last_name},{" "}
-                {evaluationResult.users?.first_name}
-              </p>
-            </div>
-            <div className={getStatusColor(evaluationResult.status)}>
-              {capitalizeWord(evaluationResult.status)}
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
+      </div>
+      <div className='flex justify-center'>
+        <Pagination
+          hasPreviousPage={hasPreviousPage}
+          hasNextPage={hasNextPage}
+          totalPages={totalPages}
+        />
       </div>
       <Dialog open={selectedEvaluee !== undefined}>
         <Dialog.Title>Delete Evaluee</Dialog.Title>
@@ -124,6 +138,6 @@ export const EvalueeList = () => {
           </Button>
         </Dialog.Actions>
       </Dialog>
-    </div>
+    </>
   )
 }

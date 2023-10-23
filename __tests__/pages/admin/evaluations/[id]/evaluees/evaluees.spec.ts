@@ -265,5 +265,117 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
       ).toBeVisible()
       await expect(page.getByText("admin, Catreviewed")).not.toBeVisible()
     })
+
+    test("should allow to go back", async ({ page, isMobile }) => {
+      await loginUser("admin", page)
+
+      await page.goto("/admin/evaluations/1/evaluees")
+
+      await mockRequest(
+        page,
+        "/admin/evaluees?evaluation_administration_id=1",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            data: [
+              {
+                id: 1,
+                status: "reviewed",
+                users: {
+                  first_name: "Cat",
+                  last_name: "admin",
+                  picture: null,
+                },
+              },
+              {
+                id: 2,
+                status: "pending",
+                users: {
+                  first_name: "J",
+                  last_name: "admin",
+                  picture: null,
+                },
+              },
+              {
+                id: 3,
+                status: "draft",
+                users: {
+                  first_name: "Nino",
+                  last_name: "admin",
+                  picture: null,
+                },
+              },
+            ],
+            pageInfo: {
+              hasPreviousPage: false,
+              hasNextPage: false,
+              totalPages: 1,
+            },
+          }),
+        }
+      )
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await page.getByTestId("BackButton").click()
+
+      await mockRequest(page, "/admin/employees", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              email: "sample1@gmail.com",
+              first_name: "Adam",
+              last_name: "Baker",
+              is_active: true,
+              user_details: {
+                start_date: "2023-04-12T00:00:00.000Z",
+                user_id: 1,
+                user_position: "Project Manager",
+                user_type: "Regular",
+              },
+            },
+            {
+              id: 2,
+              email: "sample2@gmail.com",
+              first_name: "Clark",
+              last_name: "Davis",
+              is_active: true,
+              user_details: {
+                start_date: "2023-04-12T00:00:00.000Z",
+                user_id: 2,
+                user_position: "Quality Assurance",
+                user_type: "Probationary",
+              },
+            },
+            {
+              id: 3,
+              email: "sample2@gmail.com",
+              first_name: "Hill",
+              last_name: "Evans",
+              is_active: true,
+              user_details: {
+                start_date: "2023-04-12T00:00:00.000Z",
+                user_id: 3,
+                user_position: "Intern",
+                user_type: "Developer",
+              },
+            },
+          ],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
+
+      await expect(page).toHaveURL("/admin/evaluations/1/select")
+    })
   })
 })
