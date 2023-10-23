@@ -1,8 +1,8 @@
-import { Checkbox } from "../../../../components/checkbox/Checkbox"
-import { Pagination } from "../../../../components/pagination/Pagination"
-import { setSelectedEmployeeIds } from "../../../../redux/slices/evaluationSlice"
-import { useAppDispatch } from "../../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../../hooks/useAppSelector"
+import { Checkbox } from "../../../../../components/checkbox/Checkbox"
+import { Pagination } from "../../../../../components/pagination/Pagination"
+import { setSelectedEmployeeIds } from "../../../../../redux/slices/evaluationSlice"
+import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
+import { useAppSelector } from "../../../../../hooks/useAppSelector"
 
 export const SelectEmployeesTable = () => {
   const appDispatch = useAppDispatch()
