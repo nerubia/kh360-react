@@ -377,5 +377,177 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
 
       await expect(page).toHaveURL("/admin/evaluations/1/select")
     })
+
+    test("should render cancel & exit modal correctly", async ({
+      page,
+      isMobile,
+    }) => {
+      await loginUser("admin", page)
+
+      await page.goto("/admin/evaluations/1/evaluees")
+
+      await mockRequest(
+        page,
+        "/admin/evaluees?evaluation_administration_id=1",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            data: [
+              {
+                id: 1,
+                status: "reviewed",
+                users: {
+                  first_name: "Cat",
+                  last_name: "admin",
+                  picture: null,
+                },
+              },
+              {
+                id: 2,
+                status: "pending",
+                users: {
+                  first_name: "J",
+                  last_name: "admin",
+                  picture: null,
+                },
+              },
+              {
+                id: 3,
+                status: "draft",
+                users: {
+                  first_name: "Nino",
+                  last_name: "admin",
+                  picture: null,
+                },
+              },
+            ],
+            pageInfo: {
+              hasPreviousPage: false,
+              hasNextPage: false,
+              totalPages: 1,
+            },
+          }),
+        }
+      )
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await page.getByRole("button", { name: "Cancel & Exit" }).click()
+
+      await expect(
+        page.getByRole("heading", { name: "Cancel & Exit" })
+      ).toBeVisible()
+      await expect(
+        page.getByText(
+          "Are you sure you want to cancel and exit? If you cancel, your data won't be save"
+        )
+      ).toBeVisible()
+      await expect(page.getByRole("button", { name: "No" })).toBeVisible()
+      await expect(page.getByRole("link", { name: "Yes" })).toBeVisible()
+    })
+
+    test("should allow to cancel & exit", async ({ page, isMobile }) => {
+      await loginUser("admin", page)
+
+      await page.goto("/admin/evaluations/1/evaluees")
+
+      await mockRequest(
+        page,
+        "/admin/evaluees?evaluation_administration_id=1",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            data: [
+              {
+                id: 1,
+                status: "pending",
+                users: {
+                  first_name: "Adam",
+                  last_name: "Baker",
+                  picture: null,
+                },
+              },
+            ],
+          }),
+        }
+      )
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await page.getByRole("button", { name: "Cancel & Exit" }).click()
+      await page.getByRole("link", { name: "Yes" }).click()
+
+      await mockRequest(page, "/admin/evaluations", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              name: "Evaluation 1",
+              eval_schedule_start_date: "2024-04-06T00:00:00.000Z",
+              eval_schedule_end_date: "2023-03-14T00:00:00.000Z",
+              eval_period_start_date: "2023-07-22T00:00:00.000Z",
+              eval_period_end_date: "2023-09-22T00:00:00.000Z",
+              remarks: null,
+              email_subject: "",
+              email_content: null,
+              status: "completed",
+              created_by_id: null,
+              updated_by_id: null,
+              created_at: "2023-10-17T03:41:43.000Z",
+              updated_at: null,
+            },
+            {
+              id: 2,
+              name: "Evaluation 2",
+              eval_schedule_start_date: "2023-04-12T00:00:00.000Z",
+              eval_schedule_end_date: "2024-07-02T00:00:00.000Z",
+              eval_period_start_date: "2023-05-10T00:00:00.000Z",
+              eval_period_end_date: "2023-10-23T00:00:00.000Z",
+              remarks: null,
+              email_subject: "",
+              email_content: null,
+              status: "ongoing",
+              created_by_id: null,
+              updated_by_id: null,
+              created_at: "2023-10-17T03:41:43.000Z",
+              updated_at: null,
+            },
+            {
+              id: 3,
+              name: "Evaluation 3",
+              eval_schedule_start_date: "2023-04-12T00:00:00.000Z",
+              eval_schedule_end_date: "2024-07-02T00:00:00.000Z",
+              eval_period_start_date: "2023-05-10T00:00:00.000Z",
+              eval_period_end_date: "2023-10-23T00:00:00.000Z",
+              remarks: null,
+              email_subject: "",
+              email_content: null,
+              status: "draft",
+              created_by_id: null,
+              updated_by_id: null,
+              created_at: "2023-10-17T03:41:43.000Z",
+              updated_at: null,
+            },
+          ],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
+
+      await page.waitForLoadState("networkidle")
+
+      await expect(page).toHaveURL("/admin/evaluations")
+    })
   })
 })
