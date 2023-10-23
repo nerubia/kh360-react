@@ -70,7 +70,7 @@ export const SelectEmployeesTable = () => {
           </tbody>
         </table>
       </div>
-      {hasNextPage && (
+      {(hasNextPage || hasPreviousPage) && (
         <div className='flex justify-center'>
           <Pagination
             hasPreviousPage={hasPreviousPage}
