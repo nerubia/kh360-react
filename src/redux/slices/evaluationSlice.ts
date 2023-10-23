@@ -19,18 +19,18 @@ export const getEvaluation = createAsyncThunk(
   }
 )
 
-export const setEvaluators = createAsyncThunk(
-  "evaluation/setEvaluators",
+export const createEvaluees = createAsyncThunk(
+  "evaluations/createEvaluees",
   async (
     data: {
-      id: string
+      id: string | undefined
       employee_ids: number[]
     },
     thunkApi
   ) => {
     try {
       const response = await axiosInstance.post(
-        `/evaluations/${data.id}/set-evaluators`,
+        `admin/evaluations/${data.id}/evaluees`,
         data
       )
       return response.data
