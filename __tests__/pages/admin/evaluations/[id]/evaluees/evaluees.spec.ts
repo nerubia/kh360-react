@@ -464,14 +464,37 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
             data: [
               {
                 id: 1,
+                status: "reviewed",
+                users: {
+                  first_name: "Cat",
+                  last_name: "admin",
+                  picture: null,
+                },
+              },
+              {
+                id: 2,
                 status: "pending",
                 users: {
-                  first_name: "Adam",
-                  last_name: "Baker",
+                  first_name: "J",
+                  last_name: "admin",
+                  picture: null,
+                },
+              },
+              {
+                id: 3,
+                status: "draft",
+                users: {
+                  first_name: "Nino",
+                  last_name: "admin",
                   picture: null,
                 },
               },
             ],
+            pageInfo: {
+              hasPreviousPage: false,
+              hasNextPage: false,
+              totalPages: 1,
+            },
           }),
         }
       )
