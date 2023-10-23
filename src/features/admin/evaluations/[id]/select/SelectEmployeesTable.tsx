@@ -60,7 +60,7 @@ export const SelectEmployeesTable = () => {
                   </div>
                 </td>
                 <td>
-                  {employee?.first_name} {employee?.last_name}
+                  {employee?.last_name}, {employee?.first_name}
                 </td>
                 <td>{employee?.user_details.start_date?.split("T")[0]}</td>
                 <td>{employee?.user_details.user_position}</td>
