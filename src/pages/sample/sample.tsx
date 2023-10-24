@@ -156,6 +156,7 @@ export default function Sample() {
         <div className='flex flex-col gap-2'>
           <Alert>Primary alert</Alert>
           <Alert variant='success'>Success alert</Alert>
+          <Alert variant='destructive'>Error alert</Alert>
         </div>
       </div>
 

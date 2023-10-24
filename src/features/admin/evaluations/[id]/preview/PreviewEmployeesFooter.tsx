@@ -6,7 +6,7 @@ import { Button, LinkButton } from "../../../../../components/button/Button"
 import { Icon } from "../../../../../components/icon/Icon"
 import Dialog from "../../../../../components/dialog/Dialog"
 import { createEvaluees } from "../../../../../redux/slices/evaluationSlice"
-import { ToastContainer, toast } from "react-toastify"
+import { setAlert } from "../../../../../redux/slices/appSlice"
 
 export const PreviewEmployeesFooter = () => {
   const { id } = useParams()
@@ -30,16 +30,12 @@ export const PreviewEmployeesFooter = () => {
         })
       )
       if (typeof result.payload === "string") {
-        toast.error(result.payload, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        })
+        appDispatch(
+          setAlert({
+            description: result.payload,
+            variant: "destructive",
+          })
+        )
       } else if (result.payload !== undefined) {
         navigate(`/admin/evaluations/${id}/evaluees`)
       }
@@ -79,7 +75,6 @@ export const PreviewEmployeesFooter = () => {
           </Dialog.Actions>
         </Dialog>
       </div>
-      <ToastContainer />
     </>
   )
 }

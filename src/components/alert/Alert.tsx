@@ -10,6 +10,7 @@ const alert = cva(["relative", "p-5", "rounded-md"], {
     variant: {
       primary: ["bg-primary-500", "text-white"],
       success: ["bg-green-500", "text-white"],
+      destructive: ["bg-red-500", "text-white"],
     },
   },
   defaultVariants: {
