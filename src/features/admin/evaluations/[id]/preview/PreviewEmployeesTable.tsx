@@ -35,6 +35,7 @@ export const PreviewEmployeesTable = () => {
               className='text-sm p-1'
             >
               <div className='flex items-center'>
+                <span className='mr-1'>{selectedEmployeeIds.length} </span>
                 <span className='mr-1'>Included</span>
                 <span className='text-xs'>
                   {showIncluded ? (
@@ -73,6 +74,9 @@ export const PreviewEmployeesTable = () => {
             className='text-sm p-1'
           >
             <div className='flex items-center'>
+              <span className='mr-1'>
+                {allEmployees.length - selectedEmployeeIds.length}{" "}
+              </span>
               <span className='mr-1'>Excluded</span>
               <span className='text-xs'>
                 {showExcluded ? (
