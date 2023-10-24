@@ -29,23 +29,29 @@ export const PreviewEmployeesTable = () => {
                 <th>Role</th>
                 <th>Employee Type</th>
               </tr>
+              <tr>
+                <td>
+                  <button
+                    onClick={() => setShowIncluded(!showIncluded)}
+                    className='text-sm p-1'
+                  >
+                    <div className='flex items-center'>
+                      <span className='mr-1'>
+                        {selectedEmployeeIds.length}{" "}
+                      </span>
+                      <span className='mr-1'>Included</span>
+                      <span className='text-xs'>
+                        {showIncluded ? (
+                          <Icon icon='ChevronDown' />
+                        ) : (
+                          <Icon icon='ChevronUp' />
+                        )}
+                      </span>
+                    </div>
+                  </button>
+                </td>
+              </tr>
             </thead>
-            <button
-              onClick={() => setShowIncluded(!showIncluded)}
-              className='text-sm p-1'
-            >
-              <div className='flex items-center'>
-                <span className='mr-1'>{selectedEmployeeIds.length} </span>
-                <span className='mr-1'>Included</span>
-                <span className='text-xs'>
-                  {showIncluded ? (
-                    <Icon icon='ChevronDown' />
-                  ) : (
-                    <Icon icon='ChevronUp' />
-                  )}
-                </span>
-              </div>
-            </button>
             {showIncluded && (
               <tbody>
                 {allEmployees.map((employee: User) =>
