@@ -49,45 +49,47 @@ export const SelectEmployeesTable = () => {
 
   return (
     <>
-      <div className='flex flex-col gap-8'>
-        <table className='w-full'>
-          <thead className='text-left'>
-            <tr>
-              <th>
-                <Checkbox
-                  checked={checkedAll}
-                  onChange={(checked) => handleSelectAll(checked)}
-                />
-              </th>
-              <th>Name</th>
-              <th>Date Started</th>
-              <th>Position</th>
-              <th>Employee Type</th>
-            </tr>
-          </thead>
-          <tbody>
-            {employees?.map((employee) => (
-              <tr key={employee?.id}>
-                <td>
-                  <div className='w-fit'>
-                    <Checkbox
-                      checked={selectedEmployeeIds.includes(employee?.id)}
-                      onChange={(checked) =>
-                        handleClickCheckbox(checked, employee?.id)
-                      }
-                    />
-                  </div>
-                </td>
-                <td>
-                  {employee?.last_name}, {employee?.first_name}
-                </td>
-                <td>{employee?.user_details.start_date?.split("T")[0]}</td>
-                <td>{employee?.user_details.user_position}</td>
-                <td>{employee?.user_details.user_type}</td>
+      <div className='flex-1 flex flex-col gap-8 overflow-y-scroll'>
+        <div className='flex flex-col gap-8'>
+          <table className='w-full'>
+            <thead className='text-left'>
+              <tr>
+                <th>
+                  <Checkbox
+                    checked={checkedAll}
+                    onChange={(checked) => handleSelectAll(checked)}
+                  />
+                </th>
+                <th>Name</th>
+                <th>Date Started</th>
+                <th>Position</th>
+                <th>Employee Type</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {employees?.map((employee) => (
+                <tr key={employee?.id}>
+                  <td>
+                    <div className='w-fit'>
+                      <Checkbox
+                        checked={selectedEmployeeIds.includes(employee?.id)}
+                        onChange={(checked) =>
+                          handleClickCheckbox(checked, employee?.id)
+                        }
+                      />
+                    </div>
+                  </td>
+                  <td>
+                    {employee?.last_name}, {employee?.first_name}
+                  </td>
+                  <td>{employee?.user_details.start_date?.split("T")[0]}</td>
+                  <td>{employee?.user_details.user_position}</td>
+                  <td>{employee?.user_details.user_type}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
       {(hasNextPage || hasPreviousPage) && (
         <div className='flex justify-center'>

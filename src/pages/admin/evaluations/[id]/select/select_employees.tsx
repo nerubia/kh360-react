@@ -5,7 +5,7 @@ import { SelectEmployeesFilter } from "../../../../../features/admin/evaluations
 
 export default function SelectEmployees() {
   return (
-    <div className='flex flex-col gap-8'>
+    <div className='h-[calc(100vh_-_104px)] flex flex-col gap-8'>
       <SelectEmployeesHeader />
       <SelectEmployeesFilter />
       <SelectEmployeesTable />
