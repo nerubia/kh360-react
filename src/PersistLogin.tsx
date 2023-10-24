@@ -33,6 +33,10 @@ const CreateEvaluation = lazy(
 const ViewEvaluation = lazy(
   async () => await import("./pages/admin/evaluations/[id]/view_evaluation")
 )
+const EditEvaluation = lazy(
+  async () =>
+    await import("./pages/admin/evaluations/[id]/edit/edit_evaluation")
+)
 const SelectEmployees = lazy(
   async () =>
     await import("./pages/admin/evaluations/[id]/select/select_employees")
@@ -102,6 +106,10 @@ const router = createBrowserRouter([
               {
                 path: "/admin/evaluations/:id",
                 element: <ViewEvaluation />,
+              },
+              {
+                path: "/admin/evaluations/:id/edit",
+                element: <EditEvaluation />,
               },
               {
                 path: "/admin/evaluations/:id/select",

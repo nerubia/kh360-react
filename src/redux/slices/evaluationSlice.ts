@@ -18,6 +18,28 @@ export const getEvaluation = createAsyncThunk(
     }
   }
 )
+export const updateEvaluation = createAsyncThunk(
+  "evaluation/updateEvaluation",
+  async (
+    data: {
+      id: string | undefined
+      evaluation_data: Evaluation
+    },
+    thunkApi
+  ) => {
+    try {
+      const response = await axiosInstance.put(
+        `/admin/evaluations/${data.id}/update`,
+        data.evaluation_data
+      )
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
 
 export const createEvaluees = createAsyncThunk(
   "evaluations/createEvaluees",

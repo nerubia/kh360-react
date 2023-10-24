@@ -62,7 +62,7 @@ export const SelectEmployeesFooter = () => {
           <Button variant='primaryOutline' onClick={toggleBackDialog}>
             No
           </Button>
-          <LinkButton variant='primary' to={`/admin/evaluations/${id}`}>
+          <LinkButton variant='primary' to={`/admin/evaluations/${id}/edit`}>
             Yes
           </LinkButton>
         </Dialog.Actions>
