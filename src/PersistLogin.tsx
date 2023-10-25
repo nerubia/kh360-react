@@ -24,29 +24,48 @@ const Dashboard = lazy(async () => await import("./pages/dashboard/dashboard"))
 const Sample = lazy(async () => await import("./pages/sample/sample"))
 
 const AdminRoute = lazy(async () => await import("./routes/AdminRoute"))
-const Evaluations = lazy(
-  async () => await import("./pages/admin/evaluations/evaluations")
+
+const EvaluationAdministrations = lazy(
+  async () =>
+    await import(
+      "./pages/admin/evaluation-administrations/evaluation-administrations"
+    )
 )
 const CreateEvaluation = lazy(
-  async () => await import("./pages/admin/evaluations/create/create_evaluation")
+  async () =>
+    await import(
+      "./pages/admin/evaluation-administrations/create/create_evaluation"
+    )
 )
 const ViewEvaluation = lazy(
-  async () => await import("./pages/admin/evaluations/[id]/view_evaluation")
+  async () =>
+    await import(
+      "./pages/admin/evaluation-administrations/[id]/view_evaluation"
+    )
 )
 const EditEvaluation = lazy(
   async () =>
-    await import("./pages/admin/evaluations/[id]/edit/edit_evaluation")
+    await import(
+      "./pages/admin/evaluation-administrations/[id]/edit/edit_evaluation"
+    )
 )
 const SelectEmployees = lazy(
   async () =>
-    await import("./pages/admin/evaluations/[id]/select/select_employees")
+    await import(
+      "./pages/admin/evaluation-administrations/[id]/select/select_employees"
+    )
 )
 const PreviewEmployees = lazy(
   async () =>
-    await import("./pages/admin/evaluations/[id]/preview/preview_employees")
+    await import(
+      "./pages/admin/evaluation-administrations/[id]/preview/preview_employees"
+    )
 )
 const Evaluees = lazy(
-  async () => await import("./pages/admin/evaluations/[id]/evaluees/evaluees")
+  async () =>
+    await import(
+      "./pages/admin/evaluation-administrations/[id]/evaluees/evaluees"
+    )
 )
 
 const NotFound = lazy(async () => await import("./pages/404"))
@@ -96,31 +115,31 @@ const router = createBrowserRouter([
             element: <AdminRoute />,
             children: [
               {
-                path: "/admin/evaluations",
-                element: <Evaluations />,
+                path: "/admin/evaluation-administrations",
+                element: <EvaluationAdministrations />,
               },
               {
-                path: "/admin/evaluations/create",
+                path: "/admin/evaluation-administrations/create",
                 element: <CreateEvaluation />,
               },
               {
-                path: "/admin/evaluations/:id",
+                path: "/admin/evaluation-administrations/:id",
                 element: <ViewEvaluation />,
               },
               {
-                path: "/admin/evaluations/:id/edit",
+                path: "/admin/evaluation-administrations/:id/edit",
                 element: <EditEvaluation />,
               },
               {
-                path: "/admin/evaluations/:id/select",
+                path: "/admin/evaluation-administrations/:id/select",
                 element: <SelectEmployees />,
               },
               {
-                path: "/admin/evaluations/:id/preview",
+                path: "/admin/evaluation-administrations/:id/preview",
                 element: <PreviewEmployees />,
               },
               {
-                path: "/admin/evaluations/:id/evaluees",
+                path: "/admin/evaluation-administrations/:id/evaluees",
                 element: <Evaluees />,
               },
             ],

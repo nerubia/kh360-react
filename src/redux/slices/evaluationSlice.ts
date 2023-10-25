@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
 import { type ApiError } from "../../types/apiErrorType"
-import { type Evaluation } from "../../types/evaluationType"
+import { type EvaluationAdministration } from "../../types/evaluationAdministrationType"
 import { axiosInstance } from "../../utils/axiosInstance"
 import { Loading } from "../../types/loadingType"
 
@@ -9,7 +9,9 @@ export const getEvaluation = createAsyncThunk(
   "evaluation/getEvaluation",
   async (id: string, thunkApi) => {
     try {
-      const response = await axiosInstance.get(`/admin/evaluations/${id}`)
+      const response = await axiosInstance.get(
+        `/admin/evaluation-administrations/${id}`
+      )
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -23,13 +25,13 @@ export const updateEvaluation = createAsyncThunk(
   async (
     data: {
       id: string | undefined
-      evaluation_data: Evaluation
+      evaluation_data: EvaluationAdministration
     },
     thunkApi
   ) => {
     try {
       const response = await axiosInstance.put(
-        `/admin/evaluations/${data.id}/update`,
+        `/admin/evaluation-administrations/${data.id}/update`,
         data.evaluation_data
       )
       return response.data
@@ -67,7 +69,7 @@ export const createEvaluees = createAsyncThunk(
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
-  evaluation: Evaluation | null
+  evaluation: EvaluationAdministration | null
   selectedEmployeeIds: number[]
 }
 
