@@ -59,22 +59,22 @@ export const PreviewEmployeesFooter = () => {
           <div className='ml-2'></div>
           <Button onClick={handleSubmit}>Save & Proceed</Button>
         </div>
-        <Dialog open={showDialog}>
-          <Dialog.Title>Cancel & Exit</Dialog.Title>
-          <Dialog.Description>
-            Are you sure you want to cancel and exit? <br />
-            If you cancel, your data won&apos;t be saved.
-          </Dialog.Description>
-          <Dialog.Actions>
-            <Button variant='primaryOutline' onClick={toggleDialog}>
-              No
-            </Button>
-            <LinkButton variant='primary' to='/admin/evaluations'>
-              Yes
-            </LinkButton>
-          </Dialog.Actions>
-        </Dialog>
       </div>
+      <Dialog open={showDialog}>
+        <Dialog.Title>Cancel & Exit</Dialog.Title>
+        <Dialog.Description>
+          Are you sure you want to cancel and exit? <br />
+          If you cancel, your data won&apos;t be saved.
+        </Dialog.Description>
+        <Dialog.Actions>
+          <Button variant='primaryOutline' onClick={toggleDialog}>
+            No
+          </Button>
+          <LinkButton variant='primary' to='/admin/evaluations'>
+            Yes
+          </LinkButton>
+        </Dialog.Actions>
+      </Dialog>
     </>
   )
 }

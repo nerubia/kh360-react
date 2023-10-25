@@ -94,7 +94,7 @@ export const EvalueesList = () => {
               <img
                 className='w-10 h-10 rounded-full'
                 src={evaluationResult.users?.picture}
-                alt={`Avatar of ${evaluationResult.users?.first_name} {evaluationResult.users?.first_name}`}
+                alt={`Avatar of ${evaluationResult.users?.first_name} ${evaluationResult.users?.first_name}`}
               />
               <div className='flex-1'>
                 <p className='text-lg font-bold'>
