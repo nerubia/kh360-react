@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit"
 import appReducer from "./slices/appSlice"
 import authReducer from "./slices/authSlice"
 import evaluationReducer from "./slices/evaluationSlice"
-import evaluationsReducer from "./slices/evaluationsSlice"
+import evaluationAdministrationsReducer from "./slices/evaluationAdministrationsSlice"
 import employeesReducer from "./slices/employeesSlice"
 import evalueesReducer from "./slices/evalueesSlice"
 import emailTemplateReducer from "./slices/emailTemplateSlice"
@@ -12,7 +12,7 @@ export const store = configureStore({
     app: appReducer,
     auth: authReducer,
     evaluation: evaluationReducer,
-    evaluations: evaluationsReducer,
+    evaluationAdministrations: evaluationAdministrationsReducer,
     employees: employeesReducer,
     evaluees: evalueesReducer,
     emailTemplate: emailTemplateReducer,
