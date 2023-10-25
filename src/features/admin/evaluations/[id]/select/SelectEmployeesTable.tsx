@@ -8,6 +8,7 @@ import {
 } from "../../../../../redux/slices/employeesSlice"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
+import { formatDate } from "../../../../../utils/formatDate"
 
 export const SelectEmployeesTable = () => {
   const appDispatch = useAppDispatch()
@@ -82,7 +83,7 @@ export const SelectEmployeesTable = () => {
                   <td>
                     {employee?.last_name}, {employee?.first_name}
                   </td>
-                  <td>{employee?.user_details.start_date?.split("T")[0]}</td>
+                  <td>{formatDate(employee?.user_details.start_date)}</td>
                   <td>{employee?.user_details.user_position}</td>
                   <td>{employee?.user_details.user_type}</td>
                 </tr>
@@ -91,15 +92,13 @@ export const SelectEmployeesTable = () => {
           </table>
         </div>
       </div>
-      {(hasNextPage || hasPreviousPage) && (
-        <div className='flex justify-center'>
-          <Pagination
-            hasPreviousPage={hasPreviousPage}
-            hasNextPage={hasNextPage}
-            totalPages={totalPages}
-          />
-        </div>
-      )}
+      <div className='flex justify-center'>
+        <Pagination
+          hasPreviousPage={hasPreviousPage}
+          hasNextPage={hasNextPage}
+          totalPages={totalPages}
+        />
+      </div>
     </>
   )
 }

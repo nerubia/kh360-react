@@ -4,6 +4,7 @@ import { getAllEmployees } from "../../../../../redux/slices/employeesSlice"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
 import { Icon } from "../../../../../components/icon/Icon"
+import { formatDate } from "../../../../../utils/formatDate"
 
 export const PreviewEmployeesTable = () => {
   const appDispatch = useAppDispatch()
@@ -61,9 +62,7 @@ export const PreviewEmployeesTable = () => {
                       <td>
                         {employee.last_name}, {employee.first_name}
                       </td>
-                      <td>
-                        {employee.user_details?.start_date?.split("T")[0]}
-                      </td>
+                      <td>{formatDate(employee.user_details?.start_date)}</td>
                       <td>{employee.user_details?.user_position}</td>
                       <td>{employee.user_details?.user_type}</td>
                     </tr>
@@ -103,9 +102,7 @@ export const PreviewEmployeesTable = () => {
                       <td>
                         {employee.last_name}, {employee.first_name}
                       </td>
-                      <td>
-                        {employee.user_details?.start_date?.split("T")[0]}
-                      </td>
+                      <td>{formatDate(employee.user_details?.start_date)}</td>
                       <td>{employee.user_details?.user_position}</td>
                       <td>{employee.user_details?.user_type}</td>
                     </tr>

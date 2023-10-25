@@ -42,7 +42,7 @@ export const updateEvaluation = createAsyncThunk(
 )
 
 export const createEvaluees = createAsyncThunk(
-  "evaluations/createEvaluees",
+  "evaluation/createEvaluees",
   async (
     data: {
       id: string | undefined
