@@ -81,11 +81,11 @@ export const SelectEmployeesTable = () => {
                     </div>
                   </td>
                   <td>
-                    {employee?.last_name}, {employee?.first_name}
+                    {employee.last_name}, {employee.first_name}
                   </td>
-                  <td>{formatDate(employee?.user_details.start_date)}</td>
-                  <td>{employee?.user_details.user_position}</td>
-                  <td>{employee?.user_details.user_type}</td>
+                  <td>{formatDate(employee.user_details?.start_date)}</td>
+                  <td>{employee.user_details?.user_position}</td>
+                  <td>{employee.user_details?.user_type}</td>
                 </tr>
               ))}
             </tbody>
