@@ -179,9 +179,53 @@ test.describe("Admin - Create Evaluation", () => {
 
       await page.getByRole("button", { name: "Save & Proceed" }).click()
 
-      await mockRequest(page, "/employees", {
+      await mockRequest(page, "/admin/employees", {
         status: 200,
         contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              email: "sample1@gmail.com",
+              first_name: "Adam",
+              last_name: "Baker",
+              is_active: true,
+              user_details: {
+                start_date: "2023-04-12T00:00:00.000Z",
+                user_id: 1,
+                user_position: "Project Manager",
+                user_type: "Regular",
+              },
+            },
+          ],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
+
+      await mockRequest(page, "/admin/employees/all", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              email: "sample1@gmail.com",
+              first_name: "Adam",
+              last_name: "Baker",
+              is_active: true,
+              user_details: {
+                start_date: "2023-04-12T00:00:00.000Z",
+                user_id: 1,
+                user_position: "Project Manager",
+                user_type: "Regular",
+              },
+            },
+          ],
+        }),
       })
 
       await page.waitForLoadState("networkidle")

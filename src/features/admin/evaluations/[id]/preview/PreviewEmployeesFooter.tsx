@@ -50,6 +50,7 @@ export const PreviewEmployeesFooter = () => {
         </Button>
         <div className='flex items-center gap-2'>
           <LinkButton
+            testId='BackButton'
             variant='primaryOutline'
             size='medium'
             to={`/admin/evaluations/${id}/select`}
