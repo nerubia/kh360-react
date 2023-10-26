@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useParams, useSearchParams } from "react-router-dom"
+import { useNavigate, useParams, useSearchParams } from "react-router-dom"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
 import {
@@ -17,6 +17,7 @@ import Dialog from "../../../../../components/dialog/Dialog"
 import { Loading } from "../../../../../types/loadingType"
 import { setAlert } from "../../../../../redux/slices/appSlice"
 import { Pagination } from "../../../../../components/pagination/Pagination"
+import { setEvaluationResult } from "../../../../../redux/slices/evaluationResultSlice"
 
 const getStatusColor = (status: string | undefined) => {
   if (status === EvaluationResultStatus.Reviewed) {
@@ -31,6 +32,7 @@ const getStatusColor = (status: string | undefined) => {
 }
 
 export const EvalueesList = () => {
+  const navigate = useNavigate()
   const { id } = useParams()
   const [searchParams] = useSearchParams()
 
@@ -57,6 +59,13 @@ export const EvalueesList = () => {
       })
     )
   }, [searchParams])
+
+  const handleClickEvaluee = async (evaluationResult: EvaluationResults) => {
+    appDispatch(setEvaluationResult(evaluationResult))
+    navigate(
+      `/admin/evaluation-administrations/${id}/evaluees/${evaluationResult.id}/evaluators/all`
+    )
+  }
 
   const handleDeleteEvaluee = async () => {
     try {
@@ -96,11 +105,18 @@ export const EvalueesList = () => {
                 src={evaluationResult.users?.picture}
                 alt={`Avatar of ${evaluationResult.users?.first_name} ${evaluationResult.users?.first_name}`}
               />
-              <div className='flex-1'>
-                <p className='text-lg font-bold'>
-                  {evaluationResult.users?.last_name},{" "}
-                  {evaluationResult.users?.first_name}
-                </p>
+              <div className='flex-1 flex'>
+                <Button
+                  variant='unstyled'
+                  onClick={async () =>
+                    await handleClickEvaluee(evaluationResult)
+                  }
+                >
+                  <p className='text-lg font-bold'>
+                    {evaluationResult.users?.last_name},{" "}
+                    {evaluationResult.users?.first_name}
+                  </p>
+                </Button>
               </div>
               <div className={getStatusColor(evaluationResult.status)}>
                 {capitalizeWord(evaluationResult.status)}
@@ -125,12 +141,14 @@ export const EvalueesList = () => {
         </Dialog.Description>
         <Dialog.Actions>
           <Button
+            testId='DialogNoButton'
             variant='primaryOutline'
             onClick={() => setSelectedEvaluee(undefined)}
           >
             No
           </Button>
           <Button
+            testId='DialogYesButton'
             onClick={handleDeleteEvaluee}
             loading={loading === Loading.Pending}
           >

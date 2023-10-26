@@ -39,10 +39,18 @@ export const EvalueesFooter = () => {
           If you cancel, your data won&apos;t be saved.
         </Dialog.Description>
         <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={toggleDialog}>
+          <Button
+            testId='DialogNoButton'
+            variant='primaryOutline'
+            onClick={toggleDialog}
+          >
             No
           </Button>
-          <LinkButton variant='primary' to='/admin/evaluation-administrations'>
+          <LinkButton
+            testId='DialogYesButton'
+            variant='primary'
+            to='/admin/evaluation-administrations'
+          >
             Yes
           </LinkButton>
         </Dialog.Actions>

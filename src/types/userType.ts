@@ -1,5 +1,6 @@
 export interface User {
   id: number
+  slug?: string
   email: string
   first_name: string
   last_name: string
