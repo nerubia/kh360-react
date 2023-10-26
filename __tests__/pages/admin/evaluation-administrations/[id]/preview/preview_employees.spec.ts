@@ -211,7 +211,7 @@ test.describe("Admin - Preview Employees", () => {
     test("should allow to cancel & exit", async ({ page, isMobile }) => {
       await loginUser("admin", page)
 
-      await page.goto("/admin/evaluation-administrations/1/select")
+      await page.goto("/admin/evaluation-administrations/1/preview")
 
       await mockRequest(page, "/admin/users", {
         status: 200,
