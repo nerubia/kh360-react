@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { useSearchParams } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../hooks/useAppSelector"
 import { formatDate } from "../../../utils/formatDate"
@@ -7,6 +7,7 @@ import { Pagination } from "../../../components/pagination/Pagination"
 import { getEvaluationAdministrations } from "../../../redux/slices/evaluationAdministrationsSlice"
 
 export const EvaluationAdministrationsTable = () => {
+  const navigate = useNavigate()
   const [searchParams] = useSearchParams()
 
   const appDispatch = useAppDispatch()
@@ -27,6 +28,10 @@ export const EvaluationAdministrationsTable = () => {
     )
   }, [searchParams])
 
+  const handleViewEvaluation = (id: string | undefined) => {
+    navigate(`/admin/evaluation-administrations/${id}`)
+  }
+
   return (
     <div className='flex flex-col gap-8'>
       <table className='w-full table-fixed'>
@@ -40,7 +45,11 @@ export const EvaluationAdministrationsTable = () => {
         </thead>
         <tbody>
           {evaluation_administrations.map((evaluationAdministration) => (
-            <tr key={evaluationAdministration.id}>
+            <tr
+              className='cursor-pointer hover:bg-slate-100'
+              key={evaluationAdministration.id}
+              onClick={() => handleViewEvaluation(evaluationAdministration.id)}
+            >
               <td>{evaluationAdministration.name}</td>
               <td>
                 {formatDate(evaluationAdministration.eval_period_start_date)} -{" "}
