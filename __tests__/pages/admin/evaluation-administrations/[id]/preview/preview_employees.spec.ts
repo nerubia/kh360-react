@@ -599,7 +599,7 @@ test.describe("Admin - Preview Employees", () => {
 
       await mockRequest(
         page,
-        "/admin/evaluees?evaluation_administration_id=1",
+        "/admin/evaluation-results?evaluation_administration_id=1",
         {
           status: 200,
           contentType: "application/json",

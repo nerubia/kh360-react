@@ -48,7 +48,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
 
       await mockRequest(
         page,
-        "/admin/evaluees?evaluation_administration_id=1",
+        "/admin/evaluation-results?evaluation_administration_id=1",
         {
           status: 200,
           contentType: "application/json",
@@ -127,7 +127,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
 
       await mockRequest(
         page,
-        "/admin/evaluees?evaluation_administration_id=1",
+        "/admin/evaluation-results?evaluation_administration_id=1",
         {
           status: 200,
           contentType: "application/json",
@@ -200,7 +200,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
 
       await mockRequest(
         page,
-        "/admin/evaluees?evaluation_administration_id=1",
+        "/admin/evaluation-results?evaluation_administration_id=1",
         {
           status: 200,
           contentType: "application/json",
@@ -254,7 +254,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
         .first()
         .click()
 
-      await mockRequest(page, "/admin/evaluees/1", {
+      await mockRequest(page, "/admin/evaluation-results/1", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({ id: "1" }),
@@ -275,7 +275,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
 
       await mockRequest(
         page,
-        "/admin/evaluees?evaluation_administration_id=1",
+        "/admin/evaluation-results?evaluation_administration_id=1",
         {
           status: 200,
           contentType: "application/json",
@@ -434,7 +434,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
 
       await mockRequest(
         page,
-        "/admin/evaluees?evaluation_administration_id=1",
+        "/admin/evaluation-results?evaluation_administration_id=1",
         {
           status: 200,
           contentType: "application/json",
@@ -502,7 +502,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
 
       await mockRequest(
         page,
-        "/admin/evaluees?evaluation_administration_id=1",
+        "/admin/evaluation-results?evaluation_administration_id=1",
         {
           status: 200,
           contentType: "application/json",

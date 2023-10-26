@@ -5,7 +5,7 @@ import { useAppSelector } from "../../../../../hooks/useAppSelector"
 import { Button, LinkButton } from "../../../../../components/button/Button"
 import { Icon } from "../../../../../components/icon/Icon"
 import Dialog from "../../../../../components/dialog/Dialog"
-import { createEvaluees } from "../../../../../redux/slices/evaluationSlice"
+import { createEvaluees } from "../../../../../redux/slices/evaluationAdministrationSlice"
 import { setAlert } from "../../../../../redux/slices/appSlice"
 
 export const PreviewEmployeesFooter = () => {
@@ -15,7 +15,9 @@ export const PreviewEmployeesFooter = () => {
 
   const [showDialog, setShowDialog] = useState<boolean>(false)
 
-  const { selectedEmployeeIds } = useAppSelector((state) => state.evaluation)
+  const { selectedEmployeeIds } = useAppSelector(
+    (state) => state.evaluationAdministration
+  )
 
   const toggleDialog = () => {
     setShowDialog((prev) => !prev)

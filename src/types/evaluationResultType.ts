@@ -1,12 +1,12 @@
 import { type User } from "./userType"
 
-export interface EvaluationResults {
+export interface EvaluationResult {
   id?: number
   status?: string
   users?: User
 }
 
-export interface EvalueeFilters {
+export interface EvaluationResultFilters {
   evaluation_administration_id?: string
   name?: string
   status?: string
