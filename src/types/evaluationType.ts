@@ -4,9 +4,9 @@ import { type User } from "./userType"
 
 export interface Evaluation {
   id?: string
-  percent_involvement?: string
   eval_start_date?: string
   eval_end_date?: string
+  percent_involvement?: string
   evaluator?: User
   project?: Project
   project_role?: ProjectRole

@@ -70,7 +70,7 @@ const Evaluees = lazy(
 const Evaluators = lazy(
   async () =>
     await import(
-      "./pages/admin/evaluation-administrations/[id]/evaluees/[employee_slug]/evaluators"
+      "./pages/admin/evaluation-administrations/[id]/evaluees/[evaluation_result_id]/evaluators/evaluators"
     )
 )
 
