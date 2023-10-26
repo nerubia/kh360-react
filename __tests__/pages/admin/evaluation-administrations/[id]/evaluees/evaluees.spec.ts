@@ -178,6 +178,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
         .locator("div")
         .filter({ hasText: /^admin, CatReviewed$/ })
         .getByRole("button")
+        .first()
         .click()
 
       await expect(
@@ -188,8 +189,8 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
           "Are you sure you want to remove Cat admin? This action cannot be reverted."
         )
       ).toBeVisible()
-      await expect(page.getByRole("button", { name: "No" })).toBeVisible()
-      await expect(page.getByRole("button", { name: "Yes" })).toBeVisible()
+      await expect(page.getByTestId("DialogNoButton")).toBeVisible()
+      await expect(page.getByTestId("DialogYesButton")).toBeVisible()
     })
 
     test("should allow to delete evaluee", async ({ page, isMobile }) => {
@@ -250,6 +251,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
         .locator("div")
         .filter({ hasText: /^admin, CatReviewed$/ })
         .getByRole("button")
+        .first()
         .click()
 
       await mockRequest(page, "/admin/evaluees/1", {
@@ -258,7 +260,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
         body: JSON.stringify({ id: "1" }),
       })
 
-      await page.getByRole("button", { name: "Yes" }).click()
+      await page.getByTestId("DialogYesButton").click()
 
       await expect(
         page.getByText("Cat admin successfully removed.")
@@ -489,8 +491,8 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
           "Are you sure you want to cancel and exit? If you cancel, your data won't be save"
         )
       ).toBeVisible()
-      await expect(page.getByRole("button", { name: "No" })).toBeVisible()
-      await expect(page.getByRole("link", { name: "Yes" })).toBeVisible()
+      await expect(page.getByTestId("DialogNoButton")).toBeVisible()
+      await expect(page.getByTestId("DialogYesButton")).toBeVisible()
     })
 
     test("should allow to cancel & exit", async ({ page, isMobile }) => {
@@ -548,7 +550,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
       }
 
       await page.getByRole("button", { name: "Cancel & Exit" }).click()
-      await page.getByRole("link", { name: "Yes" }).click()
+      await page.getByTestId("DialogYesButton").click()
 
       await mockRequest(page, "/admin/evaluation-administrations", {
         status: 200,
