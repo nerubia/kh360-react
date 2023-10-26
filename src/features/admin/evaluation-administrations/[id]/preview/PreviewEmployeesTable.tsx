@@ -8,7 +8,9 @@ import { formatDate } from "../../../../../utils/formatDate"
 
 export const PreviewEmployeesTable = () => {
   const appDispatch = useAppDispatch()
-  const { selectedEmployeeIds } = useAppSelector((state) => state.evaluation)
+  const { selectedEmployeeIds } = useAppSelector(
+    (state) => state.evaluationAdministration
+  )
   const { allEmployees } = useAppSelector((state) => state.employees)
   const [showIncluded, setShowIncluded] = useState(true)
   const [showExcluded, setShowExcluded] = useState(true)

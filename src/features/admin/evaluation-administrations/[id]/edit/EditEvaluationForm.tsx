@@ -8,19 +8,19 @@ import { Input } from "../../../../../components/input/Input"
 import { TextArea } from "../../../../../components/textarea/TextArea"
 import { createEvaluationSchema } from "../../../../../utils/validation/evaluations/createEvaluationSchema"
 import { Loading } from "../../../../../types/loadingType"
-import {
-  getEvaluation,
-  updateEvaluation,
-} from "../../../../../redux/slices/evaluationSlice"
 import Dialog from "../../../../../components/dialog/Dialog"
 import { type EvaluationFormData } from "../../../../../types/formDataType"
+import {
+  getEvaluationAdministration,
+  updateEvaluationAdministration,
+} from "../../../../../redux/slices/evaluationAdministrationSlice"
 
 export const EditEvaluationForm = () => {
   const navigate = useNavigate()
   const appDispatch = useAppDispatch()
   const { id } = useParams()
-  const { loading, evaluation, error } = useAppSelector(
-    (state) => state.evaluation
+  const { loading, error, evaluation_administration } = useAppSelector(
+    (state) => state.evaluationAdministration
   )
   const { emailTemplate } = useAppSelector((state) => state.emailTemplate)
 
@@ -41,27 +41,28 @@ export const EditEvaluationForm = () => {
 
   useEffect(() => {
     if (id !== undefined) {
-      void appDispatch(getEvaluation(id))
+      void appDispatch(getEvaluationAdministration(id))
     }
   }, [id])
 
   useEffect(() => {
-    if (evaluation !== null) {
+    if (evaluation_administration !== null) {
       setFormData({
-        name: evaluation?.name,
+        name: evaluation_administration?.name,
         eval_period_start_date:
-          evaluation?.eval_period_start_date?.split("T")[0],
-        eval_period_end_date: evaluation?.eval_period_end_date?.split("T")[0],
+          evaluation_administration?.eval_period_start_date?.split("T")[0],
+        eval_period_end_date:
+          evaluation_administration?.eval_period_end_date?.split("T")[0],
         eval_schedule_start_date:
-          evaluation?.eval_schedule_start_date?.split("T")[0],
+          evaluation_administration?.eval_schedule_start_date?.split("T")[0],
         eval_schedule_end_date:
-          evaluation?.eval_schedule_end_date?.split("T")[0],
-        remarks: evaluation?.remarks,
-        email_subject: evaluation?.email_subject,
-        email_content: evaluation?.email_content,
+          evaluation_administration?.eval_schedule_end_date?.split("T")[0],
+        remarks: evaluation_administration?.remarks,
+        email_subject: evaluation_administration?.email_subject,
+        email_content: evaluation_administration?.email_content,
       })
     }
-  }, [evaluation])
+  }, [evaluation_administration])
 
   useEffect(() => {
     if (emailTemplate !== null) {
@@ -79,7 +80,7 @@ export const EditEvaluationForm = () => {
         abortEarly: false,
       })
       const result = await appDispatch(
-        updateEvaluation({
+        updateEvaluationAdministration({
           id,
           evaluation_data: formData,
         })
@@ -119,12 +120,12 @@ export const EditEvaluationForm = () => {
   return (
     <>
       {loading === Loading.Pending && <div>Loading...</div>}
-      {loading === Loading.Fulfilled && evaluation == null && (
+      {loading === Loading.Fulfilled && evaluation_administration == null && (
         <div className='h-screen flex justify-center items-center'>
           <h1 className='text-3xl font-bold'>Not found 🤔</h1>
         </div>
       )}
-      {loading === Loading.Fulfilled && evaluation !== null && (
+      {loading === Loading.Fulfilled && evaluation_administration !== null && (
         <div className='flex flex-col gap-10'>
           <div className='flex flex-col gap-4'>
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>

@@ -2,22 +2,22 @@ import { useEffect, useState } from "react"
 import { useNavigate, useParams, useSearchParams } from "react-router-dom"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
-import {
-  deleteEvaluee,
-  getEvaluees,
-} from "../../../../../redux/slices/evalueesSlice"
 import { Button } from "../../../../../components/button/Button"
 import { Icon } from "../../../../../components/icon/Icon"
 import {
-  type EvaluationResults,
+  type EvaluationResult,
   EvaluationResultStatus,
-} from "../../../../../types/evalueeType"
+} from "../../../../../types/evaluationResultType"
 import { capitalizeWord } from "../../../../../utils/capitalizeWord"
 import Dialog from "../../../../../components/dialog/Dialog"
 import { Loading } from "../../../../../types/loadingType"
 import { setAlert } from "../../../../../redux/slices/appSlice"
 import { Pagination } from "../../../../../components/pagination/Pagination"
 import { setEvaluationResult } from "../../../../../redux/slices/evaluationResultSlice"
+import {
+  deleteEvaluationResult,
+  getEvaluationResults,
+} from "../../../../../redux/slices/evaluationResultsSlice"
 
 const getStatusColor = (status: string | undefined) => {
   if (status === EvaluationResultStatus.Reviewed) {
@@ -43,15 +43,15 @@ export const EvalueesList = () => {
     hasPreviousPage,
     hasNextPage,
     totalPages,
-  } = useAppSelector((state) => state.evaluees)
+  } = useAppSelector((state) => state.evaluationResults)
 
   const [selectedEvaluee, setSelectedEvaluee] = useState<
-    EvaluationResults | undefined
+    EvaluationResult | undefined
   >(undefined)
 
   useEffect(() => {
     void appDispatch(
-      getEvaluees({
+      getEvaluationResults({
         evaluation_administration_id: id,
         name: searchParams.get("name") ?? undefined,
         status: searchParams.get("status") ?? undefined,
@@ -60,7 +60,7 @@ export const EvalueesList = () => {
     )
   }, [searchParams])
 
-  const handleClickEvaluee = async (evaluationResult: EvaluationResults) => {
+  const handleClickEvaluee = async (evaluationResult: EvaluationResult) => {
     appDispatch(setEvaluationResult(evaluationResult))
     navigate(
       `/admin/evaluation-administrations/${id}/evaluees/${evaluationResult.id}/evaluators/all`
@@ -69,7 +69,9 @@ export const EvalueesList = () => {
 
   const handleDeleteEvaluee = async () => {
     try {
-      const result = await appDispatch(deleteEvaluee(selectedEvaluee?.id))
+      const result = await appDispatch(
+        deleteEvaluationResult(selectedEvaluee?.id)
+      )
       if (result.payload.id !== undefined) {
         appDispatch(
           setAlert({

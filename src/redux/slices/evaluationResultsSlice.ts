@@ -2,17 +2,17 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
 import { type ApiError } from "../../types/apiErrorType"
 import {
-  type EvaluationResults,
-  type EvalueeFilters,
-} from "../../types/evalueeType"
+  type EvaluationResult,
+  type EvaluationResultFilters,
+} from "../../types/evaluationResultType"
 import { axiosInstance } from "../../utils/axiosInstance"
 import { Loading } from "../../types/loadingType"
 
-export const getEvaluees = createAsyncThunk(
-  "evaluees/getEvaluees",
-  async (params: EvalueeFilters | undefined, thunkApi) => {
+export const getEvaluationResults = createAsyncThunk(
+  "evaluationResults/getEvaluationResults",
+  async (params: EvaluationResultFilters | undefined, thunkApi) => {
     try {
-      const response = await axiosInstance.get(`/admin/evaluees`, {
+      const response = await axiosInstance.get(`/admin/evaluation-results`, {
         params,
       })
       return response.data
@@ -24,11 +24,13 @@ export const getEvaluees = createAsyncThunk(
   }
 )
 
-export const deleteEvaluee = createAsyncThunk(
-  "evaluees/deleteEvaluee",
+export const deleteEvaluationResult = createAsyncThunk(
+  "evaluationResults/deleteEvaluationResult",
   async (id: number | undefined, thunkApi) => {
     try {
-      const response = await axiosInstance.delete(`/admin/evaluees/${id}`)
+      const response = await axiosInstance.delete(
+        `/admin/evaluation-results/${id}`
+      )
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -41,7 +43,7 @@ export const deleteEvaluee = createAsyncThunk(
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
-  evaluation_results: EvaluationResults[]
+  evaluation_results: EvaluationResult[]
   hasPreviousPage: boolean
   hasNextPage: boolean
   totalPages: number
@@ -56,17 +58,19 @@ const initialState: InitialState = {
   totalPages: 0,
 }
 
-const evalueesSlice = createSlice({
+const evaluationResultsSlice = createSlice({
   name: "app",
   initialState,
   reducers: {},
   extraReducers(builder) {
-    // get evaluees
-    builder.addCase(getEvaluees.pending, (state) => {
+    /**
+     * List
+     */
+    builder.addCase(getEvaluationResults.pending, (state) => {
       state.loading = Loading.Pending
       state.error = null
     })
-    builder.addCase(getEvaluees.fulfilled, (state, action) => {
+    builder.addCase(getEvaluationResults.fulfilled, (state, action) => {
       state.loading = Loading.Fulfilled
       state.error = null
       state.evaluation_results = action.payload.data
@@ -74,16 +78,18 @@ const evalueesSlice = createSlice({
       state.hasNextPage = action.payload.pageInfo.hasNextPage
       state.totalPages = action.payload.pageInfo.totalPages
     })
-    builder.addCase(getEvaluees.rejected, (state, action) => {
+    builder.addCase(getEvaluationResults.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
-    // delete evaluee
-    builder.addCase(deleteEvaluee.pending, (state) => {
+    /**
+     * Delete
+     */
+    builder.addCase(deleteEvaluationResult.pending, (state) => {
       state.loading = Loading.Pending
       state.error = null
     })
-    builder.addCase(deleteEvaluee.fulfilled, (state, action) => {
+    builder.addCase(deleteEvaluationResult.fulfilled, (state, action) => {
       state.loading = Loading.Fulfilled
       state.error = null
       state.evaluation_results = state.evaluation_results.filter(
@@ -91,11 +97,11 @@ const evalueesSlice = createSlice({
           evaluationResult.id !== parseInt(action.payload.id)
       )
     })
-    builder.addCase(deleteEvaluee.rejected, (state, action) => {
+    builder.addCase(deleteEvaluationResult.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
   },
 })
 
-export default evalueesSlice.reducer
+export default evaluationResultsSlice.reducer

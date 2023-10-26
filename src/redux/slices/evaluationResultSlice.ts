@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
 import { type ApiError } from "../../types/apiErrorType"
-import { type EvaluationResults } from "../../types/evalueeType"
+import { type EvaluationResult } from "../../types/evaluationResultType"
 import { axiosInstance } from "../../utils/axiosInstance"
 import { Loading } from "../../types/loadingType"
 
@@ -9,7 +9,9 @@ export const getEvaluationResult = createAsyncThunk(
   "evaluationResult/getEvaluationResult",
   async (id: string | undefined, thunkApi) => {
     try {
-      const response = await axiosInstance.get(`/admin/evaluees/${id}`)
+      const response = await axiosInstance.get(
+        `/admin/evaluation-results/${id}`
+      )
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -22,7 +24,7 @@ export const getEvaluationResult = createAsyncThunk(
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
-  evaluation_result: EvaluationResults | null
+  evaluation_result: EvaluationResult | null
 }
 
 const initialState: InitialState = {
