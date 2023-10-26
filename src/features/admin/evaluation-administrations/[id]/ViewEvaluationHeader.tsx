@@ -4,7 +4,7 @@ import { useAppSelector } from "../../../../hooks/useAppSelector"
 import { useParams } from "react-router-dom"
 
 export const ViewEvaluationHeader = () => {
-  const { evaluation } = useAppSelector((state) => state.evaluation)
+  const { evaluationAdministration } = useAppSelector((state) => state.evaluation_administration)
   const { id } = useParams()
 
   return (
