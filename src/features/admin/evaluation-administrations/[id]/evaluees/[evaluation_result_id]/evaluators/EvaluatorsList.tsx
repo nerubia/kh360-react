@@ -1,5 +1,8 @@
 import { useParams } from "react-router-dom"
-import { Button } from "../../../../../../../components/button/Button"
+import {
+  Button,
+  LinkButton,
+} from "../../../../../../../components/button/Button"
 import { Checkbox } from "../../../../../../../components/checkbox/Checkbox"
 import { useAppDispatch } from "../../../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../../../hooks/useAppSelector"
@@ -8,7 +11,7 @@ import { getEvaluations } from "../../../../../../../redux/slices/evaluationsSli
 import { formatDate } from "../../../../../../../utils/formatDate"
 
 export const EvaluatorsList = () => {
-  const { evaluation_result_id, evaluation_template_id } = useParams()
+  const { id, evaluation_result_id, evaluation_template_id } = useParams()
   const appDispatch = useAppDispatch()
   const { evaluations } = useAppSelector((state) => state.evaluations)
 
@@ -57,7 +60,12 @@ export const EvaluatorsList = () => {
         </table>
       </div>
       <div className='flex justify-between pt-5'>
-        <Button variant='primaryOutline'>Back to Employee List</Button>
+        <LinkButton
+          variant='primaryOutline'
+          to={`/admin/evaluation-administrations/${id}/evaluees`}
+        >
+          Back to Employee List
+        </LinkButton>
         <div className='flex items-center gap-2'>
           <Button variant='primaryOutline'>Save as Draft</Button>
           <Button>Mark as Ready</Button>
