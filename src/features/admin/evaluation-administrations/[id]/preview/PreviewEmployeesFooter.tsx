@@ -59,7 +59,6 @@ export const PreviewEmployeesFooter = () => {
           >
             <Icon icon='ChevronLeft' />
           </LinkButton>
-          <div className='ml-2'></div>
           <Button onClick={handleSubmit}>Save & Proceed</Button>
         </div>
       </div>
