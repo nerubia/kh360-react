@@ -25,7 +25,7 @@ export const updateEvaluationAdministration = createAsyncThunk(
   "evaluationAdministration/updateEvaluationAdministration",
   async (
     data: {
-      id: string | undefined
+      id: string
       evaluation_data: EvaluationAdministration
     },
     thunkApi
@@ -44,11 +44,28 @@ export const updateEvaluationAdministration = createAsyncThunk(
   }
 )
 
+export const generateStatusEvaluationAdministration = createAsyncThunk(
+  "evaluationAdministration/generateStatusEvaluationAdministration",
+  async (id: string, thunkApi) => {
+    try {
+      const response = await axiosInstance.get(
+        `/admin/evaluation-administrations/${id}/generate-status`
+      )
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
   evaluation_administration: EvaluationAdministration | null
   selectedEmployeeIds: number[]
+  canGenerate: boolean
 }
 
 const initialState: InitialState = {
@@ -56,6 +73,7 @@ const initialState: InitialState = {
   error: null,
   evaluation_administration: null,
   selectedEmployeeIds: [],
+  canGenerate: false,
 }
 
 const evaluationAdministrationSlice = createSlice({
@@ -83,6 +101,28 @@ const evaluationAdministrationSlice = createSlice({
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
+    /**
+     * Generate status
+     */
+    builder.addCase(generateStatusEvaluationAdministration.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(
+      generateStatusEvaluationAdministration.fulfilled,
+      (state, action) => {
+        state.loading = Loading.Fulfilled
+        state.error = null
+        state.canGenerate = action.payload.canGenerate
+      }
+    )
+    builder.addCase(
+      generateStatusEvaluationAdministration.rejected,
+      (state, action) => {
+        state.loading = Loading.Rejected
+        state.error = action.payload as string
+      }
+    )
   },
 })
 

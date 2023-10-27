@@ -91,6 +91,18 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
         }
       )
 
+      await mockRequest(
+        page,
+        "/admin/evaluation-administrations/1/generate-status",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            canGenerate: false,
+          }),
+        }
+      )
+
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
       }
@@ -170,6 +182,18 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
         }
       )
 
+      await mockRequest(
+        page,
+        "/admin/evaluation-administrations/1/generate-status",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            canGenerate: false,
+          }),
+        }
+      )
+
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
       }
@@ -239,6 +263,18 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
               hasNextPage: false,
               totalPages: 1,
             },
+          }),
+        }
+      )
+
+      await mockRequest(
+        page,
+        "/admin/evaluation-administrations/1/generate-status",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            canGenerate: false,
           }),
         }
       )
@@ -314,6 +350,18 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
               hasNextPage: false,
               totalPages: 1,
             },
+          }),
+        }
+      )
+
+      await mockRequest(
+        page,
+        "/admin/evaluation-administrations/1/generate-status",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            canGenerate: false,
           }),
         }
       )
@@ -477,6 +525,18 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
         }
       )
 
+      await mockRequest(
+        page,
+        "/admin/evaluation-administrations/1/generate-status",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            canGenerate: false,
+          }),
+        }
+      )
+
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
       }
@@ -541,6 +601,18 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
               hasNextPage: false,
               totalPages: 1,
             },
+          }),
+        }
+      )
+
+      await mockRequest(
+        page,
+        "/admin/evaluation-administrations/1/generate-status",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            canGenerate: false,
           }),
         }
       )
@@ -617,6 +689,123 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
       await page.waitForLoadState("networkidle")
 
       await expect(page).toHaveURL("/admin/evaluation-administrations")
+    })
+
+    test("should not allow to generate if evaluees are not ready", async ({
+      page,
+      isMobile,
+    }) => {
+      await loginUser("admin", page)
+
+      await page.goto("/admin/evaluation-administrations/1/evaluees")
+
+      await mockRequest(
+        page,
+        "/admin/evaluation-results?evaluation_administration_id=1",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            data: [],
+            pageInfo: {
+              hasPreviousPage: false,
+              hasNextPage: false,
+              totalPages: 1,
+            },
+          }),
+        }
+      )
+
+      await mockRequest(
+        page,
+        "/admin/evaluation-administrations/1/generate-status",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            canGenerate: false,
+          }),
+        }
+      )
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await expect(
+        page.getByRole("button", { name: "Generate Evaluations" })
+      ).toBeDisabled()
+    })
+
+    test("should allow to generate if evaluees are ready", async ({
+      page,
+      isMobile,
+    }) => {
+      await loginUser("admin", page)
+
+      await page.goto("/admin/evaluation-administrations/1/evaluees")
+
+      await mockRequest(
+        page,
+        "/admin/evaluation-results?evaluation_administration_id=1",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            data: [],
+            pageInfo: {
+              hasPreviousPage: false,
+              hasNextPage: false,
+              totalPages: 1,
+            },
+          }),
+        }
+      )
+
+      await mockRequest(
+        page,
+        "/admin/evaluation-administrations/1/generate-status",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            canGenerate: true,
+          }),
+        }
+      )
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await mockRequest(page, "/admin/evaluation-administrations/1/generate", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          id: 1,
+        }),
+      })
+
+      await page.getByRole("button", { name: "Generate Evaluations" }).click()
+
+      await mockRequest(page, "/admin/evaluation-administrations", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
+
+      await expect(page).toHaveURL("/admin/evaluation-administrations")
+
+      await expect(
+        page.getByText("Evaluations have been generated successfully.")
+      ).toBeVisible()
     })
   })
 })

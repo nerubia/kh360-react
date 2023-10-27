@@ -7,7 +7,7 @@ import { Loading } from "../../types/loadingType"
 
 export const getEvaluationResult = createAsyncThunk(
   "evaluationResult/getEvaluationResult",
-  async (id: string | undefined, thunkApi) => {
+  async (id: string, thunkApi) => {
     try {
       const response = await axiosInstance.get(
         `/admin/evaluation-results/${id}`

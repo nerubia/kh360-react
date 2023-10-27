@@ -19,7 +19,7 @@ export default function ViewEvaluation() {
     if (id !== undefined) {
       void appDispatch(getEvaluationAdministration(id))
     }
-  }, [id])
+  }, [])
 
   return (
     <div className='flex flex-col gap-4'>

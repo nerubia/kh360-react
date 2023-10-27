@@ -22,7 +22,7 @@ export const EvaluatorsRoles = () => {
   )
 
   useEffect(() => {
-    if (evaluation_result === null) {
+    if (evaluation_result === null && evaluation_result_id !== undefined) {
       void appDispatch(getEvaluationResult(evaluation_result_id))
     }
     void appDispatch(
