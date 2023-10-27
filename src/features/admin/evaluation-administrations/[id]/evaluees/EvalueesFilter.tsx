@@ -4,25 +4,19 @@ import { Input } from "../../../../../components/input/Input"
 import { CustomSelect } from "../../../../../components/select/CustomSelect"
 import { Button } from "../../../../../components/button/Button"
 import { type Option } from "../../../../../types/optionType"
+import { EvaluationResultStatus } from "../../../../../types/evaluationResultType"
 
-const filterOptions: Option[] = [
-  {
-    label: "All",
-    value: "all",
-  },
-  {
-    label: "Reviewed",
-    value: "reviewed",
-  },
-  {
-    label: "Pending",
-    value: "pending",
-  },
-  {
-    label: "Draft",
-    value: "draft",
-  },
-]
+const filterOptions: Option[] = Object.values(EvaluationResultStatus).map(
+  (value) => ({
+    label: value,
+    value,
+  })
+)
+
+filterOptions.unshift({
+  label: "All",
+  value: "all",
+})
 
 export const EvalueesFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams()

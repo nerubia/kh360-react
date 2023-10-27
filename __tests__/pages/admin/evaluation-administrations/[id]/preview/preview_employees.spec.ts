@@ -586,13 +586,10 @@ test.describe("Admin - Preview Employees", () => {
         }),
       })
 
-      await mockRequest(page, "/admin/evaluations/1/evaluees", {
+      await mockRequest(page, "/admin/evaluation-results", {
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify({
-          id: 1,
-          employee_ids: [1],
-        }),
+        body: JSON.stringify([1]),
       })
 
       await page.getByRole("button", { name: "Save & Proceed" }).click()

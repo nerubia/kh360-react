@@ -56,7 +56,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
             data: [
               {
                 id: 1,
-                status: "reviewed",
+                status: "For Review",
                 users: {
                   first_name: "Cat",
                   last_name: "admin",
@@ -65,7 +65,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
               },
               {
                 id: 2,
-                status: "pending",
+                status: "Draft",
                 users: {
                   first_name: "J",
                   last_name: "admin",
@@ -74,7 +74,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
               },
               {
                 id: 3,
-                status: "draft",
+                status: "Ready",
                 users: {
                   first_name: "Nino",
                   last_name: "admin",
@@ -104,9 +104,9 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
         page.getByRole("heading", { name: "Evaluees" })
       ).toBeVisible()
 
-      await expect(page.getByText("admin, Catreviewed")).toBeVisible()
-      await expect(page.getByText("admin, Jpending")).toBeVisible()
-      await expect(page.getByText("admin, Ninodraft")).toBeVisible()
+      await expect(page.getByText("admin, CatFor Review")).toBeVisible()
+      await expect(page.getByText("admin, JDraft")).toBeVisible()
+      await expect(page.getByText("admin, NinoReady")).toBeVisible()
 
       await expect(
         page.getByRole("button", { name: "Cancel & Exit" })
@@ -135,7 +135,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
             data: [
               {
                 id: 1,
-                status: "reviewed",
+                status: "For Review",
                 users: {
                   first_name: "Cat",
                   last_name: "admin",
@@ -144,7 +144,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
               },
               {
                 id: 2,
-                status: "pending",
+                status: "Draft",
                 users: {
                   first_name: "J",
                   last_name: "admin",
@@ -153,7 +153,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
               },
               {
                 id: 3,
-                status: "draft",
+                status: "Ready",
                 users: {
                   first_name: "Nino",
                   last_name: "admin",
@@ -176,7 +176,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
 
       await page
         .locator("div")
-        .filter({ hasText: /^admin, CatReviewed$/ })
+        .filter({ hasText: /^admin, CatFor Review$/ })
         .getByRole("button")
         .first()
         .click()
@@ -208,7 +208,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
             data: [
               {
                 id: 1,
-                status: "reviewed",
+                status: "For Review",
                 users: {
                   first_name: "Cat",
                   last_name: "admin",
@@ -217,7 +217,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
               },
               {
                 id: 2,
-                status: "pending",
+                status: "Draft",
                 users: {
                   first_name: "J",
                   last_name: "admin",
@@ -226,7 +226,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
               },
               {
                 id: 3,
-                status: "draft",
+                status: "Ready",
                 users: {
                   first_name: "Nino",
                   last_name: "admin",
@@ -249,7 +249,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
 
       await page
         .locator("div")
-        .filter({ hasText: /^admin, CatReviewed$/ })
+        .filter({ hasText: /^admin, CatFor Review$/ })
         .getByRole("button")
         .first()
         .click()
@@ -283,7 +283,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
             data: [
               {
                 id: 1,
-                status: "reviewed",
+                status: "For Review",
                 users: {
                   first_name: "Cat",
                   last_name: "admin",
@@ -292,7 +292,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
               },
               {
                 id: 2,
-                status: "pending",
+                status: "Draft",
                 users: {
                   first_name: "J",
                   last_name: "admin",
@@ -301,7 +301,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
               },
               {
                 id: 3,
-                status: "draft",
+                status: "Ready",
                 users: {
                   first_name: "Nino",
                   last_name: "admin",
@@ -442,7 +442,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
             data: [
               {
                 id: 1,
-                status: "reviewed",
+                status: "For Review",
                 users: {
                   first_name: "Cat",
                   last_name: "admin",
@@ -451,7 +451,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
               },
               {
                 id: 2,
-                status: "pending",
+                status: "Draft",
                 users: {
                   first_name: "J",
                   last_name: "admin",
@@ -460,7 +460,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
               },
               {
                 id: 3,
-                status: "draft",
+                status: "Ready",
                 users: {
                   first_name: "Nino",
                   last_name: "admin",
@@ -510,7 +510,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
             data: [
               {
                 id: 1,
-                status: "reviewed",
+                status: "For Review",
                 users: {
                   first_name: "Cat",
                   last_name: "admin",
@@ -519,7 +519,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
               },
               {
                 id: 2,
-                status: "pending",
+                status: "Draft",
                 users: {
                   first_name: "J",
                   last_name: "admin",
@@ -528,7 +528,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
               },
               {
                 id: 3,
-                status: "draft",
+                status: "Ready",
                 users: {
                   first_name: "Nino",
                   last_name: "admin",

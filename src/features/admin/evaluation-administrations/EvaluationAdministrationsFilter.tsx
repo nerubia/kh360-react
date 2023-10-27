@@ -4,25 +4,19 @@ import { type Option } from "../../../types/optionType"
 import { Input } from "../../../components/input/Input"
 import { CustomSelect } from "../../../components/select/CustomSelect"
 import { Button } from "../../../components/button/Button"
+import { EvaluationAdministrationStatus } from "../../../types/evaluationAdministrationType"
 
-const filterOptions: Option[] = [
-  {
-    label: "All",
-    value: "all",
-  },
-  {
-    label: "Completed",
-    value: "completed",
-  },
-  {
-    label: "Ongoing",
-    value: "ongoing",
-  },
-  {
-    label: "Draft",
-    value: "draft",
-  },
-]
+const filterOptions: Option[] = Object.values(
+  EvaluationAdministrationStatus
+).map((value) => ({
+  label: value,
+  value,
+}))
+
+filterOptions.unshift({
+  label: "All",
+  value: "all",
+})
 
 export const EvaluationAdministrationsFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams()

@@ -8,7 +8,6 @@ import {
   type EvaluationResult,
   EvaluationResultStatus,
 } from "../../../../../types/evaluationResultType"
-import { capitalizeWord } from "../../../../../utils/capitalizeWord"
 import Dialog from "../../../../../components/dialog/Dialog"
 import { Loading } from "../../../../../types/loadingType"
 import { setAlert } from "../../../../../redux/slices/appSlice"
@@ -20,14 +19,14 @@ import {
 } from "../../../../../redux/slices/evaluationResultsSlice"
 
 const getStatusColor = (status: string | undefined) => {
-  if (status === EvaluationResultStatus.Reviewed) {
-    return "text-green-500"
-  }
-  if (status === EvaluationResultStatus.Pending) {
+  if (status === EvaluationResultStatus.ForReview) {
     return "text-primary-500"
   }
   if (status === EvaluationResultStatus.Draft) {
     return "text-gray-500"
+  }
+  if (status === EvaluationResultStatus.Ready) {
+    return "text-green-500"
   }
 }
 
@@ -121,7 +120,7 @@ export const EvalueesList = () => {
                 </Button>
               </div>
               <div className={getStatusColor(evaluationResult.status)}>
-                {capitalizeWord(evaluationResult.status)}
+                {evaluationResult.status}
               </div>
             </div>
           ))}

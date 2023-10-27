@@ -14,7 +14,7 @@ export interface EvaluationResultFilters {
 }
 
 export enum EvaluationResultStatus {
-  Reviewed = "reviewed",
-  Pending = "pending",
-  Draft = "draft",
+  ForReview = "For Review",
+  Draft = "Draft",
+  Ready = "Ready",
 }
