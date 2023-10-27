@@ -7,6 +7,7 @@ import {
 } from "../../types/evaluationResultType"
 import { axiosInstance } from "../../utils/axiosInstance"
 import { Loading } from "../../types/loadingType"
+import { type EvaluationResultsFormData } from "../../types/formDataType"
 
 export const getEvaluationResults = createAsyncThunk(
   "evaluationResults/getEvaluationResults",
@@ -15,6 +16,23 @@ export const getEvaluationResults = createAsyncThunk(
       const response = await axiosInstance.get(`/admin/evaluation-results`, {
         params,
       })
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const createEvaluationResults = createAsyncThunk(
+  "evaluationResults/createEvaluationResults",
+  async (data: EvaluationResultsFormData, thunkApi) => {
+    try {
+      const response = await axiosInstance.post(
+        `admin/evaluation-results`,
+        data
+      )
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError

@@ -15,3 +15,8 @@ export interface EvaluationFormData {
   email_content?: string
   status?: string
 }
+
+export interface EvaluationResultsFormData {
+  evaluation_administration_id?: string
+  employee_ids: number[]
+}

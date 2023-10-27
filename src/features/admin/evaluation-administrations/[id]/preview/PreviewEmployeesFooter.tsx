@@ -5,8 +5,8 @@ import { useAppSelector } from "../../../../../hooks/useAppSelector"
 import { Button, LinkButton } from "../../../../../components/button/Button"
 import { Icon } from "../../../../../components/icon/Icon"
 import Dialog from "../../../../../components/dialog/Dialog"
-import { createEvaluees } from "../../../../../redux/slices/evaluationAdministrationSlice"
 import { setAlert } from "../../../../../redux/slices/appSlice"
+import { createEvaluationResults } from "../../../../../redux/slices/evaluationResultsSlice"
 
 export const PreviewEmployeesFooter = () => {
   const { id } = useParams()
@@ -26,8 +26,8 @@ export const PreviewEmployeesFooter = () => {
   const handleSubmit = async () => {
     try {
       const result = await appDispatch(
-        createEvaluees({
-          id,
+        createEvaluationResults({
+          evaluation_administration_id: id,
           employee_ids: selectedEmployeeIds,
         })
       )

@@ -44,29 +44,6 @@ export const updateEvaluationAdministration = createAsyncThunk(
   }
 )
 
-export const createEvaluees = createAsyncThunk(
-  "evaluation/createEvaluees",
-  async (
-    data: {
-      id: string | undefined
-      employee_ids: number[]
-    },
-    thunkApi
-  ) => {
-    try {
-      const response = await axiosInstance.post(
-        `admin/evaluations/${data.id}/evaluees`,
-        data
-      )
-      return response.data
-    } catch (error) {
-      const axiosError = error as AxiosError
-      const response = axiosError.response?.data as ApiError
-      return thunkApi.rejectWithValue(response.message)
-    }
-  }
-)
-
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
