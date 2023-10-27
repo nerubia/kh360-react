@@ -43,7 +43,7 @@ export const EditEvaluationForm = () => {
     if (id !== undefined) {
       void appDispatch(getEvaluationAdministration(id))
     }
-  }, [id])
+  }, [])
 
   useEffect(() => {
     if (evaluation_administration !== null) {
@@ -75,28 +75,30 @@ export const EditEvaluationForm = () => {
   }, [emailTemplate])
 
   const handleSubmit = async () => {
-    try {
-      await createEvaluationSchema.validate(formData, {
-        abortEarly: false,
-      })
-      const result = await appDispatch(
-        updateEvaluationAdministration({
-          id,
-          evaluation_data: formData,
+    if (id !== undefined) {
+      try {
+        await createEvaluationSchema.validate(formData, {
+          abortEarly: false,
         })
-      )
-      if (result.payload.id !== undefined) {
-        navigate(
-          `/admin/evaluation-administrations/${result.payload.id}/select`
+        const result = await appDispatch(
+          updateEvaluationAdministration({
+            id,
+            evaluation_data: formData,
+          })
         )
-      }
-    } catch (error) {
-      if (error instanceof ValidationError) {
-        const errors: Partial<EvaluationFormData> = {}
-        error.inner.forEach((err) => {
-          errors[err.path as keyof EvaluationFormData] = err.message
-        })
-        setValidationErrors(errors)
+        if (result.payload.id !== undefined) {
+          navigate(
+            `/admin/evaluation-administrations/${result.payload.id}/select`
+          )
+        }
+      } catch (error) {
+        if (error instanceof ValidationError) {
+          const errors: Partial<EvaluationFormData> = {}
+          error.inner.forEach((err) => {
+            errors[err.path as keyof EvaluationFormData] = err.message
+          })
+          setValidationErrors(errors)
+        }
       }
     }
   }

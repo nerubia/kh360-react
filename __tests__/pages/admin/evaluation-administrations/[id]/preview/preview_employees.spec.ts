@@ -621,6 +621,18 @@ test.describe("Admin - Preview Employees", () => {
         }
       )
 
+      await mockRequest(
+        page,
+        "/admin/evaluation-administrations/1/generate-status",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            canGenerate: false,
+          }),
+        }
+      )
+
       await page.waitForLoadState("networkidle")
 
       await expect(page).toHaveURL(
