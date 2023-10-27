@@ -41,7 +41,7 @@ test.describe("Admin - Evaluations", () => {
   })
 
   test.describe("as Admin", () => {
-    test("should render correctly", async ({ page }) => {
+    test("should render correctly", async ({ page, isMobile }) => {
       await loginUser("admin", page)
 
       await page.goto("/admin/evaluation-administrations/1")
@@ -110,7 +110,9 @@ test.describe("Admin - Evaluations", () => {
         }),
       })
 
-      await page.waitForLoadState("networkidle")
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
 
       await expect(
         page.getByText("Evaluation Schedule(Jan 1, 2024 to Jan 3, 2024)")
