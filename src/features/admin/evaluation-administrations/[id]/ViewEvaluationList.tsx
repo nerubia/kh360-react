@@ -1,246 +1,207 @@
 import { useState } from "react"
 import { Icon } from "../../../../components/icon/Icon"
+import { useAppSelector } from "../../../../hooks/useAppSelector"
+import { Loading } from "../../../../types/loadingType"
+import { formatDate } from "../../../../utils/formatDate"
+import { Button, LinkButton } from "../../../../components/button/Button"
+import { EvaluationAdministrationStatus } from "../../../../types/evaluationAdministrationType"
 
 export const ViewEvaluationList = () => {
+  const { loading, evaluation_administration } = useAppSelector(
+    (state) => state.evaluationAdministration
+  )
+
   const toggleEmployeeDetails = (index: number) => {
-    const updatedOpenEmployeeDetails: boolean[] = [...openEmployeeDetails]
-    updatedOpenEmployeeDetails[index] = !updatedOpenEmployeeDetails[index]
-    setOpenEmployeeDetails(updatedOpenEmployeeDetails)
+    const updatedToggledState: boolean[] = [...employeeDetailsToggledState]
+    updatedToggledState[index] = !updatedToggledState[index]
+    setEmployeeDetailsToggledState(updatedToggledState)
   }
 
-  const toggleProjectDetails = (
+  const toggleEvaluationDetails = (
     employeeIndex: number,
     projectIndex: number
   ) => {
-    const updatedOpenProjectDetails: boolean[][] = [...openProjectDetails]
-    updatedOpenProjectDetails[employeeIndex][projectIndex] =
-      !updatedOpenProjectDetails[employeeIndex][projectIndex]
-    setOpenProjectDetails(updatedOpenProjectDetails)
+    const updatedToggledState: boolean[][] = [...evaluationDetailsToggledState]
+    updatedToggledState[employeeIndex][projectIndex] =
+      !updatedToggledState[employeeIndex][projectIndex]
+    setEvaluationDetailsToggledState(updatedToggledState)
   }
 
-  const employeesData = [
-    {
-      last_name: "Axe",
-      first_name: "Emma",
-      templates: [
-        {
-          name: "BOD Evaluation",
-          start_date: "2023-01-01",
-          end_date: "2023-05-31",
-          evaluators: [
-            {
-              last_name: "Eve",
-              first_name: "Aluator",
-              role: "Dev",
-              start_date: "2023-01-01",
-              end_date: "2023-12-31",
-              project_name: "KH360",
-              percent_involvement: "10",
-            },
-            {
-              last_name: "Eve",
-              first_name: "Aluator2",
-              role: "Dev",
-              start_date: "2023-01-01",
-              end_date: "2023-12-31",
-              project_name: "KH360",
-              percent_involvement: "50",
-            },
-          ],
-        },
-        {
-          name: "DEV Evaluation",
-          start_date: "2023-06-01",
-          end_date: "2023-12-31",
-          evaluators: [
-            {
-              last_name: "Eve",
-              first_name: "Aluator",
-              role: "Dev",
-              start_date: "2023-01-01",
-              end_date: "2023-12-31",
-              project_name: "PHQ",
-              percent_involvement: "20",
-            },
-            {
-              last_name: "Eve",
-              first_name: "Aluator2",
-              role: "Dev",
-              start_date: "2023-01-01",
-              end_date: "2023-12-31",
-              project_name: "iassess",
-              percent_involvement: "30",
-            },
-          ],
-        },
-        {
-          name: "Peer Evaluation",
-          start_date: "2023-06-01",
-          end_date: "2023-12-31",
-          evaluators: [
-            {
-              last_name: "Eve",
-              first_name: "Aluator",
-              role: "Dev",
-              start_date: "2023-01-01",
-              end_date: "2023-12-31",
-              project_name: "PHQ",
-              percent_involvement: "10",
-            },
-            {
-              last_name: "Eve",
-              first_name: "Aluator2",
-              role: "Dev",
-              start_date: "2023-01-01",
-              end_date: "2023-12-31",
-              project_name: "PHQ",
-              percent_involvement: "50",
-            },
-          ],
-        },
-      ],
-    },
-    {
-      last_name: "Axe",
-      first_name: "Emma",
-      templates: [
-        {
-          name: "Project A",
-          start_date: "2023-01-01",
-          end_date: "2023-05-31",
-          evaluators: [
-            {
-              last_name: "Eve",
-              first_name: "Aluator",
-              role: "Dev",
-              start_date: "2023-01-01",
-              end_date: "2023-12-31",
-              project_name: "PHQ",
-              percent_involvement: "20",
-            },
-            {
-              last_name: "Eve",
-              first_name: "Aluator2",
-              role: "Dev",
-              start_date: "2023-01-01",
-              end_date: "2023-12-31",
-              project_name: "PHQ",
-              percent_involvement: "25",
-            },
-          ],
-        },
-        {
-          name: "Template B",
-          start_date: "2023-06-01",
-          end_date: "2023-12-31",
-        },
-        {
-          name: "Template C",
-          start_date: "2023-06-01",
-          end_date: "2023-12-31",
-        },
-      ],
-    },
-  ]
+  const [employeeDetailsToggledState, setEmployeeDetailsToggledState] =
+    useState<boolean[]>(
+      Array(evaluation_administration?.evaluation_results?.length).fill(false)
+    )
 
-  const [openEmployeeDetails, setOpenEmployeeDetails] = useState<boolean[]>(
-    Array(employeesData.length).fill(false)
-  )
-  const [openProjectDetails, setOpenProjectDetails] = useState<boolean[][]>(
-    Array.from({ length: employeesData.length }, () => [false])
-  )
+  const [evaluationDetailsToggledState, setEvaluationDetailsToggledState] =
+    useState<boolean[][]>(
+      Array.from(
+        {
+          length: evaluation_administration?.evaluation_results
+            ?.length as number,
+        },
+        () => [false]
+      )
+    )
 
   return (
     <>
       <div className='flex-1 flex flex-col gap-8 overflow-y-scroll overflow-x-hidden'>
-        <div className='flex flex-col'>
-          {employeesData.map((employee, employeeIndex) => (
-            <div key={employeeIndex} className='mb-2'>
-              <button
-                onClick={() => toggleEmployeeDetails(employeeIndex)}
-                className='text-sm'
-              >
-                <div className='flex items-center'>
-                  <span className='text-xs'>
-                    {openEmployeeDetails[employeeIndex] ? (
-                      <Icon icon='ChevronDown' />
-                    ) : (
-                      <Icon icon='ChevronRight' />
-                    )}
-                  </span>
-                  <span className='mr-1'>
-                    {employee.last_name}, {employee.first_name}
-                  </span>
-                </div>
-              </button>
-              {openEmployeeDetails[employeeIndex] && (
-                <div>
-                  {employee.templates !== null
-                    ? employee.templates.map((template, templateIndex) => (
-                        <div key={templateIndex} className='mb-2 ml-4'>
-                          <button
-                            onClick={() =>
-                              toggleProjectDetails(employeeIndex, templateIndex)
-                            }
-                            className='text-sm'
-                          >
-                            <div className='flex items-center'>
-                              <span className='text-xs'>
-                                {openProjectDetails[employeeIndex][
-                                  templateIndex
-                                ] ? (
-                                  <Icon icon='ChevronDown' />
-                                ) : (
-                                  <Icon icon='ChevronRight' />
-                                )}
-                              </span>
-                              <span className='mr-1'>{template.name}</span>
-                            </div>
-                          </button>
-                          {openProjectDetails[employeeIndex][templateIndex] ? (
-                            <table className='w-full ml-8'>
-                              <thead className='sticky top-0 bg-white text-left'>
-                                <tr>
-                                  <th>Evaluator</th>
-                                  <th>Project</th>
-                                  <th>Role</th>
-                                  <th>%</th>
-                                  <th>Duration</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {template.evaluators !== undefined
-                                  ? template.evaluators.map(
-                                      (evaluator, evaluatorIndex) => (
-                                        <tr key={evaluatorIndex}>
-                                          <td>
-                                            {evaluator.last_name},{" "}
-                                            {evaluator.first_name}
-                                          </td>
-                                          <td>{evaluator.project_name}</td>
-                                          <td>{evaluator.role}</td>
-                                          <td>
-                                            {evaluator.percent_involvement}%
-                                          </td>
-                                          <td>
-                                            {evaluator.start_date} to{" "}
-                                            {evaluator.end_date}
-                                          </td>
-                                        </tr>
-                                      )
-                                    )
-                                  : null}
-                              </tbody>
-                            </table>
-                          ) : null}
+        {loading === Loading.Pending && <div>Loading...</div>}
+        {loading === Loading.Fulfilled && evaluation_administration == null && (
+          <div>Not found</div>
+        )}
+        {loading === Loading.Fulfilled &&
+          evaluation_administration !== null && (
+            <div className='flex flex-col'>
+              {evaluation_administration.evaluation_results?.map(
+                (evaluationResult, evaluationIndex) => (
+                  <div key={evaluationIndex} className='mb-2'>
+                    <div className='flex gap-2 mb-2'>
+                      {(evaluation_administration.status ===
+                        EvaluationAdministrationStatus.Pending ||
+                        evaluation_administration.status ===
+                          EvaluationAdministrationStatus.Ongoing) && (
+                        <LinkButton
+                          to={`/admin/evaluation-administrations/${evaluation_administration.id}/evaluees/${evaluationResult.id}/evaluators/${evaluationResult.evaluation_templates[0]?.evaluation_template_id}`}
+                          variant={"unstyled"}
+                        >
+                          <Icon icon='PenSquare' />
+                        </LinkButton>
+                      )}
+                      <Button
+                        onClick={() => toggleEmployeeDetails(evaluationIndex)}
+                        variant={"unstyled"}
+                      >
+                        <div className='flex items-center'>
+                          <span className='text-xs'>
+                            {employeeDetailsToggledState[evaluationIndex] ? (
+                              <Icon icon='ChevronDown' />
+                            ) : (
+                              <Icon icon='ChevronRight' />
+                            )}
+                          </span>
+                          <span className='mr-1'>
+                            {evaluationResult.evaluee?.last_name},{" "}
+                            {evaluationResult.evaluee?.first_name}
+                          </span>
                         </div>
-                      ))
-                    : null}
-                </div>
+                      </Button>
+                    </div>
+                    {employeeDetailsToggledState[evaluationIndex] && (
+                      <div>
+                        {evaluationResult.evaluation_templates !== null
+                          ? evaluationResult.evaluation_templates.map(
+                              (template, templateIndex) => (
+                                <div key={templateIndex} className='mb-2 ml-4'>
+                                  <button
+                                    onClick={() =>
+                                      toggleEvaluationDetails(
+                                        evaluationIndex,
+                                        templateIndex
+                                      )
+                                    }
+                                    className='text-sm'
+                                  >
+                                    <div className='flex items-center ml-5'>
+                                      <span className='text-xs'>
+                                        {evaluationDetailsToggledState[
+                                          evaluationIndex
+                                        ][templateIndex] ? (
+                                          <Icon icon='ChevronDown' />
+                                        ) : (
+                                          <Icon icon='ChevronRight' />
+                                        )}
+                                      </span>
+                                      <span>
+                                        {template.evaluation_template_name} [{" "}
+                                        {
+                                          template.evaluation_details[0]
+                                            .evaluator_role?.short_name
+                                        }{" "}
+                                        ]
+                                      </span>
+                                    </div>
+                                  </button>
+                                  {evaluationDetailsToggledState[
+                                    evaluationIndex
+                                  ][templateIndex] && (
+                                    <table className='w-10/12 ml-11 table-fixed'>
+                                      <thead className='sticky top-0 bg-white text-left'>
+                                        <tr>
+                                          <th>Evaluator</th>
+                                          <th>Project</th>
+                                          <th>Evaluee Role</th>
+                                          <th>%</th>
+                                          <th>Duration</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        {template.evaluation_details !== null
+                                          ? template.evaluation_details.map(
+                                              (
+                                                evaluationDetails,
+                                                evaluationDetailsIndex
+                                              ) => (
+                                                <tr
+                                                  key={evaluationDetailsIndex}
+                                                >
+                                                  <td>
+                                                    {
+                                                      evaluationDetails
+                                                        .evaluator?.last_name
+                                                    }
+                                                    ,{" "}
+                                                    {
+                                                      evaluationDetails
+                                                        .evaluator?.first_name
+                                                    }
+                                                  </td>
+                                                  <td>
+                                                    {
+                                                      evaluationDetails.project
+                                                        ?.name
+                                                    }
+                                                  </td>
+                                                  <td>
+                                                    {
+                                                      evaluationDetails
+                                                        .evaluee_role
+                                                        ?.short_name
+                                                    }
+                                                  </td>
+                                                  <td>
+                                                    {
+                                                      evaluationDetails.percent_involvement
+                                                    }
+                                                    %
+                                                  </td>
+                                                  <td>
+                                                    {formatDate(
+                                                      evaluationDetails.eval_start_date
+                                                    )}{" "}
+                                                    to{" "}
+                                                    {formatDate(
+                                                      evaluationDetails.eval_end_date
+                                                    )}
+                                                  </td>
+                                                </tr>
+                                              )
+                                            )
+                                          : null}
+                                      </tbody>
+                                    </table>
+                                  )}
+                                </div>
+                              )
+                            )
+                          : null}
+                      </div>
+                    )}
+                  </div>
+                )
               )}
             </div>
-          ))}
-        </div>
+          )}
       </div>
     </>
   )
