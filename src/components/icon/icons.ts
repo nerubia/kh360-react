@@ -13,6 +13,7 @@ export const icons = {
   Google: lazy(async () => await import("./icons/GoogleIcon")),
   Logout: lazy(async () => await import("./icons/LogoutIcon")),
   Menu: lazy(async () => await import("./icons/MenuIcon")),
+  PenSquare: lazy(async () => await import("./icons/PenSquareIcon")),
   Plus: lazy(async () => await import("./icons/PlusIcon")),
   Star: lazy(async () => await import("./icons/StarIcon")),
 }
