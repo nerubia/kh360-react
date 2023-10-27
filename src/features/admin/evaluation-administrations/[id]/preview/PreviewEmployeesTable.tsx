@@ -5,6 +5,7 @@ import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
 import { Icon } from "../../../../../components/icon/Icon"
 import { formatDate } from "../../../../../utils/formatDate"
+import { Divider } from "../../../../../components/divider/Divider"
 
 export const PreviewEmployeesTable = () => {
   const appDispatch = useAppDispatch()
@@ -74,7 +75,7 @@ export const PreviewEmployeesTable = () => {
             )}
           </table>
         </div>
-        <div className='border-t border-gray-300 w-full'></div>
+        <Divider orientation='horizontal' />
         <div className='flex-1 bg-white-100'>
           <button
             onClick={() => setShowExcluded(!showExcluded)}
