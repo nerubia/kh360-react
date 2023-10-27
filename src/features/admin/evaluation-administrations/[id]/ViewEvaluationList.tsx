@@ -62,6 +62,7 @@ export const ViewEvaluationList = () => {
                         evaluation_administration.status ===
                           EvaluationAdministrationStatus.Ongoing) && (
                         <LinkButton
+                          testId='EditButton'
                           to={`/admin/evaluation-administrations/${evaluation_administration.id}/evaluees/${evaluationResult.id}/evaluators/${evaluationResult.evaluation_templates[0]?.evaluation_template_id}`}
                           variant={"unstyled"}
                         >
