@@ -1,15 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
 import { type ApiError } from "../../types/apiErrorType"
-import { type User, type EmployeeFilters } from "../../types/userType"
+import { type User, type UserFilters } from "../../types/userType"
 import { axiosInstance } from "../../utils/axiosInstance"
 import { Loading } from "../../types/loadingType"
 
-export const getEmployees = createAsyncThunk(
-  "employees/getEmployees",
-  async (params: EmployeeFilters | undefined, thunkApi) => {
+export const getUsers = createAsyncThunk(
+  "users/getUsers",
+  async (params: UserFilters | undefined, thunkApi) => {
     try {
-      const response = await axiosInstance.get("/admin/employees", {
+      const response = await axiosInstance.get("/admin/users", {
         params,
       })
       return response.data
@@ -21,11 +21,11 @@ export const getEmployees = createAsyncThunk(
   }
 )
 
-export const getAllEmployees = createAsyncThunk(
-  "employees/getAllEmployees",
-  async (params: EmployeeFilters | undefined, thunkApi) => {
+export const getAllUsers = createAsyncThunk(
+  "users/getAllUsers",
+  async (params: UserFilters | undefined, thunkApi) => {
     try {
-      const response = await axiosInstance.get("/admin/employees/all", {
+      const response = await axiosInstance.get("/admin/users/all", {
         params,
       })
       return response.data
@@ -40,8 +40,8 @@ export const getAllEmployees = createAsyncThunk(
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
-  employees: User[]
-  allEmployees: User[]
+  users: User[]
+  allUsers: User[]
   hasPreviousPage: boolean
   hasNextPage: boolean
   totalPages: number
@@ -51,15 +51,15 @@ interface InitialState {
 const initialState: InitialState = {
   loading: Loading.Idle,
   error: null,
-  employees: [],
-  allEmployees: [],
+  users: [],
+  allUsers: [],
   hasPreviousPage: false,
   hasNextPage: false,
   totalPages: 0,
   checkedAll: false,
 }
 
-const employeesSlice = createSlice({
+const usersSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
@@ -68,39 +68,43 @@ const employeesSlice = createSlice({
     },
   },
   extraReducers(builder) {
-    // list
-    builder.addCase(getEmployees.pending, (state) => {
+    /**
+     * List
+     */
+    builder.addCase(getUsers.pending, (state) => {
       state.loading = Loading.Pending
       state.error = null
     })
-    builder.addCase(getEmployees.fulfilled, (state, action) => {
+    builder.addCase(getUsers.fulfilled, (state, action) => {
       state.loading = Loading.Fulfilled
       state.error = null
-      state.employees = action.payload.data
+      state.users = action.payload.data
       state.hasPreviousPage = action.payload.pageInfo.hasPreviousPage
       state.hasNextPage = action.payload.pageInfo.hasNextPage
       state.totalPages = action.payload.pageInfo.totalPages
     })
-    builder.addCase(getEmployees.rejected, (state, action) => {
+    builder.addCase(getUsers.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
-
-    builder.addCase(getAllEmployees.pending, (state) => {
+    /**
+     * ALl
+     */
+    builder.addCase(getAllUsers.pending, (state) => {
       state.loading = Loading.Pending
       state.error = null
     })
-    builder.addCase(getAllEmployees.fulfilled, (state, action) => {
+    builder.addCase(getAllUsers.fulfilled, (state, action) => {
       state.loading = Loading.Fulfilled
       state.error = null
-      state.allEmployees = action.payload.data
+      state.allUsers = action.payload.data
     })
-    builder.addCase(getAllEmployees.rejected, (state, action) => {
+    builder.addCase(getAllUsers.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
   },
 })
 
-export const { setCheckedAll } = employeesSlice.actions
-export default employeesSlice.reducer
+export const { setCheckedAll } = usersSlice.actions
+export default usersSlice.reducer

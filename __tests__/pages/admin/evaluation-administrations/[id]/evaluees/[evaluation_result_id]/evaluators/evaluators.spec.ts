@@ -52,7 +52,7 @@ test.describe("Admin - Select Evaluators", () => {
         "/admin/evaluation-administrations/1/evaluees/1/evaluators/4"
       )
 
-      await mockRequest(page, "/admin/evaluees/1", {
+      await mockRequest(page, "/admin/evaluation-results/1", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
@@ -69,7 +69,7 @@ test.describe("Admin - Select Evaluators", () => {
 
       await mockRequest(
         page,
-        "/admin/evaluees/1/templates?id=1&evaluation_result_id=1",
+        "/admin/evaluation-results/1/templates?id=1&evaluation_result_id=1",
         {
           status: 200,
           contentType: "application/json",
@@ -220,7 +220,7 @@ test.describe("Admin - Select Evaluators", () => {
         "/admin/evaluation-administrations/1/evaluees/1/evaluators/4"
       )
 
-      await mockRequest(page, "/admin/evaluees/1", {
+      await mockRequest(page, "/admin/evaluation-results/1", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
@@ -237,7 +237,7 @@ test.describe("Admin - Select Evaluators", () => {
 
       await mockRequest(
         page,
-        "/admin/evaluees/1/templates?id=1&evaluation_result_id=1",
+        "/admin/evaluation-results/1/templates?id=1&evaluation_result_id=1",
         {
           status: 200,
           contentType: "application/json",
@@ -263,7 +263,7 @@ test.describe("Admin - Select Evaluators", () => {
 
       await mockRequest(
         page,
-        "/admin/evaluees?evaluation_administration_id=1",
+        "/admin/evaluation-results?evaluation_administration_id=1",
         {
           status: 200,
           contentType: "application/json",

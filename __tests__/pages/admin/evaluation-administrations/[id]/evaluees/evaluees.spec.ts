@@ -324,7 +324,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
 
       await page.getByTestId("BackButton").click()
 
-      await mockRequest(page, "/admin/employees", {
+      await mockRequest(page, "/admin/users", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
@@ -377,7 +377,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
         }),
       })
 
-      await mockRequest(page, "/admin/employees/all", {
+      await mockRequest(page, "/admin/users/all", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
@@ -399,7 +399,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
         }),
       })
 
-      await mockRequest(page, "/admin/employees/all", {
+      await mockRequest(page, "/admin/users/all", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({

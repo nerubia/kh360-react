@@ -179,7 +179,7 @@ test.describe("Admin - Create Evaluation", () => {
 
       await page.getByRole("button", { name: "Save & Proceed" }).click()
 
-      await mockRequest(page, "/admin/employees", {
+      await mockRequest(page, "/admin/users", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
@@ -206,7 +206,7 @@ test.describe("Admin - Create Evaluation", () => {
         }),
       })
 
-      await mockRequest(page, "/admin/employees/all", {
+      await mockRequest(page, "/admin/users/all", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({

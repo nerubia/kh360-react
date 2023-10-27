@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { type User } from "../../../../../types/userType"
-import { getAllEmployees } from "../../../../../redux/slices/employeesSlice"
+import { getAllUsers } from "../../../../../redux/slices/usersSlice"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
 import { Icon } from "../../../../../components/icon/Icon"
@@ -11,12 +11,12 @@ export const PreviewEmployeesTable = () => {
   const { selectedEmployeeIds } = useAppSelector(
     (state) => state.evaluationAdministration
   )
-  const { allEmployees } = useAppSelector((state) => state.employees)
+  const { allUsers } = useAppSelector((state) => state.users)
   const [showIncluded, setShowIncluded] = useState(true)
   const [showExcluded, setShowExcluded] = useState(true)
 
   useEffect(() => {
-    void appDispatch(getAllEmployees())
+    void appDispatch(getAllUsers())
   }, [])
 
   return (
@@ -57,16 +57,16 @@ export const PreviewEmployeesTable = () => {
             </thead>
             {showIncluded && (
               <tbody>
-                {allEmployees.map((employee: User) =>
-                  selectedEmployeeIds.includes(employee.id) ? (
-                    <tr key={employee.id}>
+                {allUsers.map((user: User) =>
+                  selectedEmployeeIds.includes(user.id) ? (
+                    <tr key={user.id}>
                       <td></td>
                       <td>
-                        {employee.last_name}, {employee.first_name}
+                        {user.last_name}, {user.first_name}
                       </td>
-                      <td>{formatDate(employee.user_details?.start_date)}</td>
-                      <td>{employee.user_details?.user_position}</td>
-                      <td>{employee.user_details?.user_type}</td>
+                      <td>{formatDate(user.user_details?.start_date)}</td>
+                      <td>{user.user_details?.user_position}</td>
+                      <td>{user.user_details?.user_type}</td>
                     </tr>
                   ) : null
                 )}
@@ -82,7 +82,7 @@ export const PreviewEmployeesTable = () => {
           >
             <div className='flex items-center'>
               <span className='mr-1'>
-                {allEmployees.length - selectedEmployeeIds.length}{" "}
+                {allUsers.length - selectedEmployeeIds.length}{" "}
               </span>
               <span className='mr-1'>Excluded</span>
               <span className='text-xs'>
@@ -97,7 +97,7 @@ export const PreviewEmployeesTable = () => {
           {showExcluded && (
             <table className='w-full table-fixed'>
               <tbody>
-                {allEmployees.map((employee: User) =>
+                {allUsers.map((employee: User) =>
                   !selectedEmployeeIds.includes(employee.id) ? (
                     <tr key={employee.id}>
                       <td className='w-20'></td>
