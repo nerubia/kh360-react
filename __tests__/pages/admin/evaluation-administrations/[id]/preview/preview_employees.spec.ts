@@ -46,7 +46,7 @@ test.describe("Admin - Preview Employees", () => {
 
       await page.goto("/admin/evaluation-administrations/1/preview")
 
-      await mockRequest(page, "/admin/employees/all", {
+      await mockRequest(page, "/admin/users/all", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
@@ -142,7 +142,7 @@ test.describe("Admin - Preview Employees", () => {
 
       await page.goto("/admin/evaluation-administrations/1/preview")
 
-      await mockRequest(page, "/admin/employees/all", {
+      await mockRequest(page, "/admin/users/all", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
@@ -213,7 +213,7 @@ test.describe("Admin - Preview Employees", () => {
 
       await page.goto("/admin/evaluation-administrations/1/select")
 
-      await mockRequest(page, "/admin/employees", {
+      await mockRequest(page, "/admin/users", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
@@ -240,7 +240,7 @@ test.describe("Admin - Preview Employees", () => {
         }),
       })
 
-      await mockRequest(page, "/admin/employees/all", {
+      await mockRequest(page, "/admin/users/all", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
@@ -341,7 +341,7 @@ test.describe("Admin - Preview Employees", () => {
 
       await page.goto("/admin/evaluation-administrations/1/preview")
 
-      await mockRequest(page, "/admin/employees/all", {
+      await mockRequest(page, "/admin/users/all", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
@@ -395,7 +395,7 @@ test.describe("Admin - Preview Employees", () => {
 
       await page.getByTestId("BackButton").click()
 
-      await mockRequest(page, "/admin/employees", {
+      await mockRequest(page, "/admin/users", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
@@ -448,7 +448,7 @@ test.describe("Admin - Preview Employees", () => {
         }),
       })
 
-      await mockRequest(page, "/admin/employees/all", {
+      await mockRequest(page, "/admin/users/all", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
@@ -478,7 +478,7 @@ test.describe("Admin - Preview Employees", () => {
 
       await page.goto("/admin/evaluation-administrations/1/select")
 
-      await mockRequest(page, "/admin/employees", {
+      await mockRequest(page, "/admin/users", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
@@ -505,7 +505,7 @@ test.describe("Admin - Preview Employees", () => {
         }),
       })
 
-      await mockRequest(page, "/admin/employees/all", {
+      await mockRequest(page, "/admin/users/all", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
@@ -538,7 +538,7 @@ test.describe("Admin - Preview Employees", () => {
 
       await page.getByRole("link", { name: "Check & Preview" }).click()
 
-      await mockRequest(page, "/admin/employees/all", {
+      await mockRequest(page, "/admin/users/all", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({

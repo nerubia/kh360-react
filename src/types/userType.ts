@@ -1,16 +1,16 @@
 export interface User {
   id: number
   slug?: string
-  email: string
-  first_name: string
-  last_name: string
-  is_active: boolean
+  email?: string
+  first_name?: string
+  last_name?: string
+  is_active?: boolean
   user_details?: UserDetails
-  roles: string[]
+  roles?: string[]
   picture?: string
 }
 
-export interface EmployeeFilters {
+export interface UserFilters {
   name?: string
   user_type?: string
   page?: string

@@ -5,7 +5,7 @@ import { type Option } from "../../../../../types/optionType"
 import { useSearchParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
-import { getEmployees } from "../../../../../redux/slices/employeesSlice"
+import { getUsers } from "../../../../../redux/slices/usersSlice"
 
 const filterOptions: Option[] = [
   {
@@ -36,7 +36,7 @@ export const SelectEmployeesFilter = () => {
 
   useEffect(() => {
     void appDispatch(
-      getEmployees({
+      getUsers({
         name: searchParams.get("name") ?? undefined,
         user_type: searchParams.get("user_type") ?? undefined,
         page: searchParams.get("page") ?? undefined,

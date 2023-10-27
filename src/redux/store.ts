@@ -1,27 +1,28 @@
 import { configureStore } from "@reduxjs/toolkit"
 import appReducer from "./slices/appSlice"
 import authReducer from "./slices/authSlice"
+
+import emailTemplateReducer from "./slices/emailTemplateSlice"
 import evaluationAdministrationReducer from "./slices/evaluationAdministrationSlice"
 import evaluationAdministrationsReducer from "./slices/evaluationAdministrationsSlice"
-import evaluationsReducer from "./slices/evaluationsSlice"
-import employeesReducer from "./slices/employeesSlice"
-import emailTemplateReducer from "./slices/emailTemplateSlice"
-import evaluationTemplatesReducer from "./slices/evaluationTemplatesSlice"
 import evaluationResultReducer from "./slices/evaluationResultSlice"
 import evaluationResultsReducer from "./slices/evaluationResultsSlice"
+import evaluationsReducer from "./slices/evaluationsSlice"
+import evaluationTemplatesReducer from "./slices/evaluationTemplatesSlice"
+import usersReducer from "./slices/usersSlice"
 
 export const store = configureStore({
   reducer: {
     app: appReducer,
     auth: authReducer,
+    emailTemplate: emailTemplateReducer,
     evaluationAdministration: evaluationAdministrationReducer,
     evaluationAdministrations: evaluationAdministrationsReducer,
-    evaluations: evaluationsReducer,
-    employees: employeesReducer,
-    emailTemplate: emailTemplateReducer,
-    evaluationTemplates: evaluationTemplatesReducer,
     evaluationResult: evaluationResultReducer,
     evaluationResults: evaluationResultsReducer,
+    evaluations: evaluationsReducer,
+    evaluationTemplates: evaluationTemplatesReducer,
+    users: usersReducer,
   },
 })
 

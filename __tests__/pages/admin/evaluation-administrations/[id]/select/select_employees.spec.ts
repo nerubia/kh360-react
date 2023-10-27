@@ -46,7 +46,7 @@ test.describe("Admin - Select Employees", () => {
 
       await page.goto("/admin/evaluation-administrations/1/select")
 
-      await mockRequest(page, "/admin/employees", {
+      await mockRequest(page, "/admin/users", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
@@ -99,7 +99,7 @@ test.describe("Admin - Select Employees", () => {
         }),
       })
 
-      await mockRequest(page, "/admin/employees/all", {
+      await mockRequest(page, "/admin/users/all", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
@@ -217,7 +217,7 @@ test.describe("Admin - Select Employees", () => {
 
       await page.goto("/admin/evaluation-administrations/1/select")
 
-      await mockRequest(page, "/admin/employees", {
+      await mockRequest(page, "/admin/users", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
@@ -244,7 +244,7 @@ test.describe("Admin - Select Employees", () => {
         }),
       })
 
-      await mockRequest(page, "/admin/employees/all", {
+      await mockRequest(page, "/admin/users/all", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
@@ -292,7 +292,7 @@ test.describe("Admin - Select Employees", () => {
 
       await page.goto("/admin/evaluation-administrations/1/select")
 
-      await mockRequest(page, "/admin/employees", {
+      await mockRequest(page, "/admin/users", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
@@ -319,7 +319,7 @@ test.describe("Admin - Select Employees", () => {
         }),
       })
 
-      await mockRequest(page, "/admin/employees/all", {
+      await mockRequest(page, "/admin/users/all", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
@@ -368,7 +368,7 @@ test.describe("Admin - Select Employees", () => {
 
       await page.goto("/admin/evaluation-administrations/1/select")
 
-      await mockRequest(page, "/admin/employees", {
+      await mockRequest(page, "/admin/users", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
@@ -395,7 +395,7 @@ test.describe("Admin - Select Employees", () => {
         }),
       })
 
-      await mockRequest(page, "/admin/employees/all", {
+      await mockRequest(page, "/admin/users/all", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({

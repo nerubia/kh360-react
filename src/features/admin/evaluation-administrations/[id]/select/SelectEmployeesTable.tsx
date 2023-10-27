@@ -3,9 +3,9 @@ import { Checkbox } from "../../../../../components/checkbox/Checkbox"
 import { Pagination } from "../../../../../components/pagination/Pagination"
 import { setSelectedEmployeeIds } from "../../../../../redux/slices/evaluationAdministrationSlice"
 import {
-  getAllEmployees,
+  getAllUsers,
   setCheckedAll,
-} from "../../../../../redux/slices/employeesSlice"
+} from "../../../../../redux/slices/usersSlice"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
 import { formatDate } from "../../../../../utils/formatDate"
@@ -16,17 +16,17 @@ export const SelectEmployeesTable = () => {
     (state) => state.evaluationAdministration
   )
   const {
-    employees,
+    users,
     checkedAll,
-    allEmployees,
+    allUsers,
     hasPreviousPage,
     hasNextPage,
     totalPages,
-  } = useAppSelector((state) => state.employees)
+  } = useAppSelector((state) => state.users)
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      const employeeIds = allEmployees.map((employee) => employee.id)
+      const employeeIds = allUsers.map((user) => user.id)
       appDispatch(setSelectedEmployeeIds(employeeIds))
       appDispatch(setCheckedAll(true))
     } else {
@@ -47,7 +47,7 @@ export const SelectEmployeesTable = () => {
   }
 
   useEffect(() => {
-    void appDispatch(getAllEmployees())
+    void appDispatch(getAllUsers())
   }, [])
 
   return (
@@ -70,24 +70,24 @@ export const SelectEmployeesTable = () => {
               </tr>
             </thead>
             <tbody>
-              {employees?.map((employee) => (
-                <tr key={employee?.id}>
+              {users.map((user) => (
+                <tr key={user.id}>
                   <td>
                     <div className='w-fit'>
                       <Checkbox
-                        checked={selectedEmployeeIds.includes(employee?.id)}
+                        checked={selectedEmployeeIds.includes(user.id)}
                         onChange={(checked) =>
-                          handleClickCheckbox(checked, employee?.id)
+                          handleClickCheckbox(checked, user.id)
                         }
                       />
                     </div>
                   </td>
                   <td>
-                    {employee.last_name}, {employee.first_name}
+                    {user.last_name}, {user.first_name}
                   </td>
-                  <td>{formatDate(employee.user_details?.start_date)}</td>
-                  <td>{employee.user_details?.user_position}</td>
-                  <td>{employee.user_details?.user_type}</td>
+                  <td>{formatDate(user.user_details?.start_date)}</td>
+                  <td>{user.user_details?.user_position}</td>
+                  <td>{user.user_details?.user_type}</td>
                 </tr>
               ))}
             </tbody>
