@@ -25,12 +25,16 @@ interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
   evaluation_result: EvaluationResult | null
+  previousId?: number
+  nextId?: number
 }
 
 const initialState: InitialState = {
   loading: Loading.Idle,
   error: null,
   evaluation_result: null,
+  previousId: undefined,
+  nextId: undefined,
 }
 
 const evaluationResultSlice = createSlice({
@@ -50,7 +54,9 @@ const evaluationResultSlice = createSlice({
     builder.addCase(getEvaluationResult.fulfilled, (state, action) => {
       state.loading = Loading.Fulfilled
       state.error = null
-      state.evaluation_result = action.payload
+      state.evaluation_result = action.payload.data
+      state.previousId = action.payload.previousId
+      state.nextId = action.payload.nextId
     })
     builder.addCase(getEvaluationResult.rejected, (state, action) => {
       state.loading = Loading.Rejected

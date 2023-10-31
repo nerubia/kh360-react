@@ -1,37 +1,21 @@
 import { useEffect, useState } from "react"
-import { useNavigate, useParams, useSearchParams } from "react-router-dom"
+import { useParams, useSearchParams } from "react-router-dom"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
-import { Button } from "../../../../../components/button/Button"
+import { Button, LinkButton } from "../../../../../components/button/Button"
 import { Icon } from "../../../../../components/icon/Icon"
-import {
-  type EvaluationResult,
-  EvaluationResultStatus,
-} from "../../../../../types/evaluationResultType"
+import { type EvaluationResult } from "../../../../../types/evaluationResultType"
 import Dialog from "../../../../../components/dialog/Dialog"
 import { Loading } from "../../../../../types/loadingType"
 import { setAlert } from "../../../../../redux/slices/appSlice"
 import { Pagination } from "../../../../../components/pagination/Pagination"
-import { setEvaluationResult } from "../../../../../redux/slices/evaluationResultSlice"
 import {
   deleteEvaluationResult,
   getEvaluationResults,
 } from "../../../../../redux/slices/evaluationResultsSlice"
-
-const getStatusColor = (status: string | undefined) => {
-  if (status === EvaluationResultStatus.ForReview) {
-    return "text-primary-500"
-  }
-  if (status === EvaluationResultStatus.Draft) {
-    return "text-gray-500"
-  }
-  if (status === EvaluationResultStatus.Ready) {
-    return "text-green-500"
-  }
-}
+import { getEvaluationResultStatusColor } from "../../../../../utils/color"
 
 export const EvalueesList = () => {
-  const navigate = useNavigate()
   const { id } = useParams()
   const [searchParams] = useSearchParams()
 
@@ -58,13 +42,6 @@ export const EvalueesList = () => {
       })
     )
   }, [searchParams])
-
-  const handleClickEvaluee = async (evaluationResult: EvaluationResult) => {
-    appDispatch(setEvaluationResult(evaluationResult))
-    navigate(
-      `/admin/evaluation-administrations/${id}/evaluees/${evaluationResult.id}/evaluators/all`
-    )
-  }
 
   const handleDeleteEvaluee = async () => {
     try {
@@ -107,19 +84,21 @@ export const EvalueesList = () => {
                 alt={`Avatar of ${evaluationResult.users?.first_name} ${evaluationResult.users?.first_name}`}
               />
               <div className='flex-1 flex'>
-                <Button
+                <LinkButton
                   variant='unstyled'
-                  onClick={async () =>
-                    await handleClickEvaluee(evaluationResult)
-                  }
+                  to={`/admin/evaluation-administrations/${id}/evaluees/${evaluationResult.id}/evaluators/all`}
                 >
                   <p className='text-lg font-bold'>
                     {evaluationResult.users?.last_name},{" "}
                     {evaluationResult.users?.first_name}
                   </p>
-                </Button>
+                </LinkButton>
               </div>
-              <div className={getStatusColor(evaluationResult.status)}>
+              <div
+                className={getEvaluationResultStatusColor(
+                  evaluationResult.status
+                )}
+              >
                 {evaluationResult.status}
               </div>
             </div>

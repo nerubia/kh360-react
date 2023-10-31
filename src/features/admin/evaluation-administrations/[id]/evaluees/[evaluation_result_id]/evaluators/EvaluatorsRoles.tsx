@@ -1,14 +1,12 @@
 import { useNavigate, useParams } from "react-router-dom"
-import {
-  Button,
-  LinkButton,
-} from "../../../../../../../components/button/Button"
+import { LinkButton } from "../../../../../../../components/button/Button"
 import { Icon } from "../../../../../../../components/icon/Icon"
 import { useEffect } from "react"
 import { getEvaluationTemplates } from "../../../../../../../redux/slices/evaluationTemplatesSlice"
 import { useAppSelector } from "../../../../../../../hooks/useAppSelector"
 import { useAppDispatch } from "../../../../../../../hooks/useAppDispatch"
 import { getEvaluationResult } from "../../../../../../../redux/slices/evaluationResultSlice"
+import { getEvaluationResultStatusColor } from "../../../../../../../utils/color"
 
 export const EvaluatorsRoles = () => {
   const navigate = useNavigate()
@@ -17,12 +15,12 @@ export const EvaluatorsRoles = () => {
   const { evaluation_templates } = useAppSelector(
     (state) => state.evaluationTemplates
   )
-  const { evaluation_result } = useAppSelector(
+  const { evaluation_result, previousId, nextId } = useAppSelector(
     (state) => state.evaluationResult
   )
 
   useEffect(() => {
-    if (evaluation_result === null && evaluation_result_id !== undefined) {
+    if (evaluation_result_id !== undefined) {
       void appDispatch(getEvaluationResult(evaluation_result_id))
     }
     void appDispatch(
@@ -31,7 +29,7 @@ export const EvaluatorsRoles = () => {
         evaluation_result_id,
       })
     )
-  }, [])
+  }, [evaluation_result_id])
 
   useEffect(() => {
     if (evaluation_template_id === "all" && evaluation_templates.length > 0) {
@@ -44,9 +42,17 @@ export const EvaluatorsRoles = () => {
   return (
     <div className='w-96 h-[calc(100vh_-_104px)] flex flex-col gap-4'>
       <div className='flex items-center gap-4 rounded-md'>
-        <Button variant='unstyled'>
-          <Icon icon='ChevronLeft' />
-        </Button>
+        <div className='w-6'>
+          {previousId !== undefined && (
+            <LinkButton
+              testId='PreviousButton'
+              variant='unstyled'
+              to={`/admin/evaluation-administrations/${id}/evaluees/${previousId}/evaluators/all`}
+            >
+              <Icon icon='ChevronLeft' />
+            </LinkButton>
+          )}
+        </div>
         <div className='flex-1 flex items-center gap-4'>
           <img
             className='w-10 h-10 rounded-full'
@@ -54,16 +60,30 @@ export const EvaluatorsRoles = () => {
             alt={`Avatar of ${evaluation_result?.users?.first_name} ${evaluation_result?.users?.first_name}`}
           />
           <div className='flex-1'>
-            <p>
-              {evaluation_result?.users?.first_name}{" "}
-              {evaluation_result?.users?.last_name}
+            <p className='font-bold'>
+              {evaluation_result?.users?.last_name},{" "}
+              {evaluation_result?.users?.first_name}
             </p>
-            <p>{evaluation_result?.status}</p>
+            <p
+              className={getEvaluationResultStatusColor(
+                evaluation_result?.status
+              )}
+            >
+              {evaluation_result?.status}
+            </p>
           </div>
         </div>
-        <Button variant='unstyled'>
-          <Icon icon='ChevronRight' />
-        </Button>
+        <div className='w-6'>
+          {nextId !== undefined && (
+            <LinkButton
+              testId='NextButton'
+              variant='unstyled'
+              to={`/admin/evaluation-administrations/${id}/evaluees/${nextId}/evaluators/all`}
+            >
+              <Icon icon='ChevronRight' />
+            </LinkButton>
+          )}
+        </div>
       </div>
       <h2 className='text-lg text-center font-bold'>Evaluators Roles</h2>
       <div className='flex-1 flex flex-col gap-2 overflow-y-scroll'>
