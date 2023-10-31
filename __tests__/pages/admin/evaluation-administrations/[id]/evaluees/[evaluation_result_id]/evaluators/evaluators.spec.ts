@@ -56,14 +56,17 @@ test.describe("Admin - Select Evaluators", () => {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
-          id: 22,
-          status: "pending",
-          users: {
-            slug: "sample-user",
-            first_name: "Sample",
-            last_name: "User",
-            picture: null,
+          data: {
+            id: 1,
+            status: "pending",
+            users: {
+              slug: "sample-user",
+              first_name: "Sample",
+              last_name: "User",
+              picture: null,
+            },
           },
+          nextId: 2,
         }),
       })
 
@@ -161,7 +164,7 @@ test.describe("Admin - Select Evaluators", () => {
         await page.getByTestId("SidebarCloseButton").click()
       }
 
-      await expect(page.getByText("Sample User")).toBeVisible()
+      await expect(page.getByText("User, Sample")).toBeVisible()
       await expect(page.getByText("pending")).toBeVisible()
 
       await expect(
@@ -208,6 +211,244 @@ test.describe("Admin - Select Evaluators", () => {
       await expect(
         page.getByRole("button", { name: "Mark as Ready" })
       ).toBeVisible()
+    })
+
+    test("should allow to go to next evaluation result", async ({
+      page,
+      isMobile,
+    }) => {
+      await loginUser("admin", page)
+
+      await page.goto(
+        "/admin/evaluation-administrations/1/evaluees/1/evaluators/4"
+      )
+
+      await mockRequest(page, "/admin/evaluation-results/1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: {
+            id: 1,
+            status: "pending",
+            users: {
+              slug: "sample-user",
+              first_name: "Sample",
+              last_name: "User",
+              picture: null,
+            },
+          },
+          nextId: 2,
+        }),
+      })
+
+      await mockRequest(
+        page,
+        "/admin/evaluation-results/1/templates?id=1&evaluation_result_id=1",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([
+            {
+              id: 4,
+              name: "DEV Evaluation by PM",
+              display_name: "PM Evaluation",
+            },
+            {
+              id: 5,
+              name: "DEV Evaluation by Dev Peers",
+              display_name: "Peer Evaluation",
+            },
+            {
+              id: 6,
+              name: "DEV Evaluation by Code Reviewer",
+              display_name: "Code Reviewer Evaluation",
+            },
+            {
+              id: 7,
+              name: "DEV Evaluation by QA",
+              display_name: "QA Evaluation",
+            },
+          ]),
+        }
+      )
+
+      await mockRequest(
+        page,
+        "/admin/evaluations?evaluation_result_id=1&evaluation_template_id=4",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([
+            {
+              id: 1,
+              eval_start_date: "2023-10-16T00:00:00.000Z",
+              eval_end_date: "2023-12-31T00:00:00.000Z",
+              percent_involvement: "75",
+              evaluator: {
+                first_name: "First",
+                last_name: "Evaluator",
+              },
+              project: {
+                name: "iAssess",
+              },
+              project_role: {
+                name: "Developer",
+              },
+            },
+            {
+              id: 2,
+              eval_start_date: "2023-01-01T00:00:00.000Z",
+              eval_end_date: "2023-10-15T00:00:00.000Z",
+              percent_involvement: "100",
+              evaluator: {
+                first_name: "Second",
+                last_name: "Evaluator",
+              },
+              project: {
+                name: "ProductHQ",
+              },
+              project_role: {
+                name: "Developer",
+              },
+            },
+            {
+              id: 3,
+              eval_start_date: "2023-01-01T00:00:00.000Z",
+              eval_end_date: "2023-10-15T00:00:00.000Z",
+              percent_involvement: "100",
+              evaluator: {
+                first_name: "Third",
+                last_name: "Evaluator",
+              },
+              project: {
+                name: "ProductHQ",
+              },
+              project_role: {
+                name: "Developer",
+              },
+            },
+          ]),
+        }
+      )
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await mockRequest(page, "/admin/evaluation-results/2", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: {
+            id: 1,
+            status: "pending",
+            users: {
+              slug: "sample-user",
+              first_name: "Sample",
+              last_name: "User",
+              picture: null,
+            },
+          },
+          previousId: 1,
+          nextId: 3,
+        }),
+      })
+
+      await mockRequest(
+        page,
+        "/admin/evaluation-results/1/templates?id=1&evaluation_result_id=2",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([
+            {
+              id: 4,
+              name: "DEV Evaluation by PM",
+              display_name: "PM Evaluation",
+            },
+            {
+              id: 5,
+              name: "DEV Evaluation by Dev Peers",
+              display_name: "Peer Evaluation",
+            },
+            {
+              id: 6,
+              name: "DEV Evaluation by Code Reviewer",
+              display_name: "Code Reviewer Evaluation",
+            },
+            {
+              id: 7,
+              name: "DEV Evaluation by QA",
+              display_name: "QA Evaluation",
+            },
+          ]),
+        }
+      )
+
+      await mockRequest(
+        page,
+        "/admin/evaluations?evaluation_result_id=2&evaluation_template_id=4",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([
+            {
+              id: 1,
+              eval_start_date: "2023-10-16T00:00:00.000Z",
+              eval_end_date: "2023-12-31T00:00:00.000Z",
+              percent_involvement: "75",
+              evaluator: {
+                first_name: "First",
+                last_name: "Evaluator",
+              },
+              project: {
+                name: "iAssess",
+              },
+              project_role: {
+                name: "Developer",
+              },
+            },
+            {
+              id: 2,
+              eval_start_date: "2023-01-01T00:00:00.000Z",
+              eval_end_date: "2023-10-15T00:00:00.000Z",
+              percent_involvement: "100",
+              evaluator: {
+                first_name: "Second",
+                last_name: "Evaluator",
+              },
+              project: {
+                name: "ProductHQ",
+              },
+              project_role: {
+                name: "Developer",
+              },
+            },
+            {
+              id: 3,
+              eval_start_date: "2023-01-01T00:00:00.000Z",
+              eval_end_date: "2023-10-15T00:00:00.000Z",
+              percent_involvement: "100",
+              evaluator: {
+                first_name: "Third",
+                last_name: "Evaluator",
+              },
+              project: {
+                name: "ProductHQ",
+              },
+              project_role: {
+                name: "Developer",
+              },
+            },
+          ]),
+        }
+      )
+
+      await page.getByTestId("NextButton").click()
+
+      await expect(page).toHaveURL(
+        "/admin/evaluation-administrations/1/evaluees/2/evaluators/4"
+      )
     })
 
     test("should allow to go back to employee list", async ({
