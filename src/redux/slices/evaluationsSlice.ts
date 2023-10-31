@@ -24,6 +24,31 @@ export const getEvaluations = createAsyncThunk(
   }
 )
 
+export const setForEvaluation = createAsyncThunk(
+  "evaluations/setForEvaluation",
+  async (
+    data: {
+      id: string
+      for_evaluation: boolean
+    },
+    thunkApi
+  ) => {
+    try {
+      const response = await axiosInstance.patch(
+        `/admin/evaluations/${data.id}/set-for-evaluation`,
+        {
+          for_evaluation: data.for_evaluation,
+        }
+      )
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null

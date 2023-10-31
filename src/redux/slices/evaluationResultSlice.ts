@@ -21,6 +21,31 @@ export const getEvaluationResult = createAsyncThunk(
   }
 )
 
+export const setEvaluationResultStatus = createAsyncThunk(
+  "evaluationResult/setEvaluationResultStatus",
+  async (
+    data: {
+      id: string
+      status: string
+    },
+    thunkApi
+  ) => {
+    try {
+      const response = await axiosInstance.patch(
+        `/admin/evaluation-results/${data.id}/set-status`,
+        {
+          status: data.status,
+        }
+      )
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
@@ -46,7 +71,9 @@ const evaluationResultSlice = createSlice({
     },
   },
   extraReducers(builder) {
-    // get
+    /**
+     * Get
+     */
     builder.addCase(getEvaluationResult.pending, (state) => {
       state.loading = Loading.Pending
       state.error = null
@@ -59,6 +86,25 @@ const evaluationResultSlice = createSlice({
       state.nextId = action.payload.nextId
     })
     builder.addCase(getEvaluationResult.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Set status
+     */
+    builder.addCase(setEvaluationResultStatus.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(setEvaluationResultStatus.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.evaluation_result = {
+        ...state.evaluation_result,
+        status: action.payload.status,
+      }
+    })
+    builder.addCase(setEvaluationResultStatus.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })

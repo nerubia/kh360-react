@@ -10,6 +10,7 @@ export interface Evaluation {
   evaluator?: User
   project?: Project
   project_role?: ProjectRole
+  for_evaluation?: boolean
 }
 
 export interface EvaluationFilters {

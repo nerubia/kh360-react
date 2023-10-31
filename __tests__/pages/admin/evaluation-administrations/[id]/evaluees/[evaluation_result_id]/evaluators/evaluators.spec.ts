@@ -391,56 +391,7 @@ test.describe("Admin - Select Evaluators", () => {
         {
           status: 200,
           contentType: "application/json",
-          body: JSON.stringify([
-            {
-              id: 1,
-              eval_start_date: "2023-10-16T00:00:00.000Z",
-              eval_end_date: "2023-12-31T00:00:00.000Z",
-              percent_involvement: "75",
-              evaluator: {
-                first_name: "First",
-                last_name: "Evaluator",
-              },
-              project: {
-                name: "iAssess",
-              },
-              project_role: {
-                name: "Developer",
-              },
-            },
-            {
-              id: 2,
-              eval_start_date: "2023-01-01T00:00:00.000Z",
-              eval_end_date: "2023-10-15T00:00:00.000Z",
-              percent_involvement: "100",
-              evaluator: {
-                first_name: "Second",
-                last_name: "Evaluator",
-              },
-              project: {
-                name: "ProductHQ",
-              },
-              project_role: {
-                name: "Developer",
-              },
-            },
-            {
-              id: 3,
-              eval_start_date: "2023-01-01T00:00:00.000Z",
-              eval_end_date: "2023-10-15T00:00:00.000Z",
-              percent_involvement: "100",
-              evaluator: {
-                first_name: "Third",
-                last_name: "Evaluator",
-              },
-              project: {
-                name: "ProductHQ",
-              },
-              project_role: {
-                name: "Developer",
-              },
-            },
-          ]),
+          body: JSON.stringify([]),
         }
       )
 
@@ -509,35 +460,183 @@ test.describe("Admin - Select Evaluators", () => {
           status: 200,
           contentType: "application/json",
           body: JSON.stringify({
-            data: [
-              {
-                id: 1,
-                status: "reviewed",
-                users: {
-                  first_name: "Cat",
-                  last_name: "admin",
-                  picture: null,
-                },
-              },
-              {
-                id: 2,
-                status: "pending",
-                users: {
-                  first_name: "J",
-                  last_name: "admin",
-                  picture: null,
-                },
-              },
-              {
-                id: 3,
-                status: "draft",
-                users: {
-                  first_name: "Nino",
-                  last_name: "admin",
-                  picture: null,
-                },
-              },
-            ],
+            data: [],
+            pageInfo: {
+              hasPreviousPage: false,
+              hasNextPage: false,
+              totalPages: 1,
+            },
+          }),
+        }
+      )
+
+      await mockRequest(
+        page,
+        "/admin/evaluation-administrations/1/generate-status",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            canGenerate: false,
+          }),
+        }
+      )
+
+      await expect(page).toHaveURL(
+        "/admin/evaluation-administrations/1/evaluees"
+      )
+    })
+
+    test("should allow to save as draft", async ({ page, isMobile }) => {
+      await loginUser("admin", page)
+
+      await page.goto(
+        "/admin/evaluation-administrations/1/evaluees/1/evaluators/4"
+      )
+
+      await mockRequest(page, "/admin/evaluation-results/1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          id: 22,
+          status: "pending",
+          users: {
+            slug: "sample-user",
+            first_name: "Sample",
+            last_name: "User",
+            picture: null,
+          },
+        }),
+      })
+
+      await mockRequest(
+        page,
+        "/admin/evaluation-results/1/templates?id=1&evaluation_result_id=1",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([]),
+        }
+      )
+
+      await mockRequest(
+        page,
+        "/admin/evaluations?evaluation_result_id=1&evaluation_template_id=4",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([]),
+        }
+      )
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await mockRequest(page, "/admin/evaluation-results/1/set-status", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ id: "1", status: "Draft" }),
+      })
+
+      await page.getByRole("button", { name: "Save as Draft" }).click()
+
+      await mockRequest(
+        page,
+        "/admin/evaluation-results?evaluation_administration_id=1",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            data: [],
+            pageInfo: {
+              hasPreviousPage: false,
+              hasNextPage: false,
+              totalPages: 1,
+            },
+          }),
+        }
+      )
+
+      await mockRequest(
+        page,
+        "/admin/evaluation-administrations/1/generate-status",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            canGenerate: false,
+          }),
+        }
+      )
+
+      await expect(page).toHaveURL(
+        "/admin/evaluation-administrations/1/evaluees"
+      )
+    })
+
+    test("should allow to mark as ready", async ({ page, isMobile }) => {
+      await loginUser("admin", page)
+
+      await page.goto(
+        "/admin/evaluation-administrations/1/evaluees/1/evaluators/4"
+      )
+
+      await mockRequest(page, "/admin/evaluation-results/1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          id: 22,
+          status: "pending",
+          users: {
+            slug: "sample-user",
+            first_name: "Sample",
+            last_name: "User",
+            picture: null,
+          },
+        }),
+      })
+
+      await mockRequest(
+        page,
+        "/admin/evaluation-results/1/templates?id=1&evaluation_result_id=1",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([]),
+        }
+      )
+
+      await mockRequest(
+        page,
+        "/admin/evaluations?evaluation_result_id=1&evaluation_template_id=4",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([]),
+        }
+      )
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await mockRequest(page, "/admin/evaluation-results/1/set-status", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ id: "1", status: "Ready" }),
+      })
+
+      await page.getByRole("button", { name: "Mark as Ready" }).click()
+
+      await mockRequest(
+        page,
+        "/admin/evaluation-results?evaluation_administration_id=1",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            data: [],
             pageInfo: {
               hasPreviousPage: false,
               hasNextPage: false,
