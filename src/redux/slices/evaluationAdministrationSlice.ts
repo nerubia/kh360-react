@@ -33,7 +33,7 @@ export const updateEvaluationAdministration = createAsyncThunk(
   ) => {
     try {
       const response = await axiosInstance.put(
-        `/admin/evaluation-administrations/${data.id}/update`,
+        `/admin/evaluation-administrations/${data.id}`,
         data.evaluation_data
       )
       return response.data
