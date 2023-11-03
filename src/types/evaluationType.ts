@@ -7,10 +7,12 @@ export interface Evaluation {
   eval_start_date?: string
   eval_end_date?: string
   percent_involvement?: string
+  status?: string
+  for_evaluation?: boolean
   evaluator?: User
+  evaluee?: User
   project?: Project
   project_role?: ProjectRole
-  for_evaluation?: boolean
 }
 
 export interface EvaluationFilters {
