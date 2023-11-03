@@ -47,7 +47,7 @@ export const createEvaluationAdministration = createAsyncThunk(
 
 export const generateEvaluationAdministration = createAsyncThunk(
   "evaluationAdministration/getEvaluationAdministraion",
-  async (id: string, thunkApi) => {
+  async (id: number, thunkApi) => {
     try {
       const response = await axiosInstance.post(
         `/admin/evaluation-administrations/${id}/generate`

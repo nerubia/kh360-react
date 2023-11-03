@@ -44,7 +44,7 @@ export const createEvaluationResults = createAsyncThunk(
 
 export const deleteEvaluationResult = createAsyncThunk(
   "evaluationResults/deleteEvaluationResult",
-  async (id: number | undefined, thunkApi) => {
+  async (id: number, thunkApi) => {
     try {
       const response = await axiosInstance.delete(
         `/admin/evaluation-results/${id}`

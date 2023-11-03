@@ -17,6 +17,7 @@ export interface UserFilters {
 }
 
 export interface UserDetails {
+  id: number
   user_type?: string
   user_position?: string
   start_date?: string

@@ -35,7 +35,7 @@ export const EvaluatorsList = () => {
     }
   }, [evaluation_template_id])
 
-  const handleClickCheckbox = (checked: boolean, evaluationId?: string) => {
+  const handleClickCheckbox = (evaluationId: number, checked: boolean) => {
     if (evaluationId !== undefined) {
       void appDispatch(
         setForEvaluation({
@@ -51,7 +51,7 @@ export const EvaluatorsList = () => {
       try {
         const result = await appDispatch(
           setEvaluationResultStatus({
-            id: evaluation_result_id,
+            id: parseInt(evaluation_result_id),
             status,
           })
         )
@@ -89,7 +89,7 @@ export const EvaluatorsList = () => {
                   <Checkbox
                     checked={evaluation.for_evaluation}
                     onChange={(checked) =>
-                      handleClickCheckbox(checked, evaluation.id)
+                      handleClickCheckbox(evaluation.id, checked)
                     }
                   />
                   {evaluation.evaluator?.last_name},{" "}

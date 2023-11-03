@@ -41,7 +41,7 @@ export const EditEvaluationForm = () => {
 
   useEffect(() => {
     if (id !== undefined) {
-      void appDispatch(getEvaluationAdministration(id))
+      void appDispatch(getEvaluationAdministration(parseInt(id)))
     }
   }, [])
 
@@ -82,7 +82,7 @@ export const EditEvaluationForm = () => {
         })
         const result = await appDispatch(
           updateEvaluationAdministration({
-            id,
+            id: parseInt(id),
             evaluation_data: formData,
           })
         )

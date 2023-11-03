@@ -1,5 +1,5 @@
 export interface EvaluationTemplate {
-  id?: string
+  id: number
   display_name?: string
 }
 
