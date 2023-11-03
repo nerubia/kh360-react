@@ -5,7 +5,7 @@ import { loginUser } from "../../../utils/loginUser"
 
 setupPlaywright()
 
-test.describe("Admin - Evaluations", () => {
+test.describe("Admin - Evaluation administrations", () => {
   test.beforeEach(async ({ page }) => {
     await mockRequest(page, "/auth/refresh", {
       status: 403,
@@ -19,7 +19,9 @@ test.describe("Admin - Evaluations", () => {
   })
 
   test.describe("as Guest", () => {
-    test("should not allow to view the admin evaluations", async ({ page }) => {
+    test("should not allow to view the admin evaluation administrations", async ({
+      page,
+    }) => {
       await page.goto("/admin/evaluation-administrations")
 
       await expect(page).toHaveURL("/auth/login")
@@ -27,7 +29,9 @@ test.describe("Admin - Evaluations", () => {
   })
 
   test.describe("as Employee", () => {
-    test("should not allow to view the admin evaluations", async ({ page }) => {
+    test("should not allow to view the admin evaluation administrations", async ({
+      page,
+    }) => {
       await loginUser("employee", page)
 
       await page.goto("/admin/evaluation-administrations")

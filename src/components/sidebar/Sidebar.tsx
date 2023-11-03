@@ -50,6 +50,9 @@ export const Sidebar = () => {
           <LinkButton variant='menu' fullWidth center={false} to='/sample'>
             Sample
           </LinkButton>
+          <LinkButton variant='menu' fullWidth center={false} to='/evaluations'>
+            Evaluations
+          </LinkButton>
           {isAdmin && (
             <LinkButton
               variant='menu'
