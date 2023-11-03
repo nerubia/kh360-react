@@ -22,6 +22,9 @@ const ResetPassword = lazy(
 const PrivateRoute = lazy(async () => await import("./routes/PrivateRoute"))
 const Dashboard = lazy(async () => await import("./pages/dashboard/dashboard"))
 const Sample = lazy(async () => await import("./pages/sample/sample"))
+const Evaluations = lazy(
+  async () => await import("./pages/evaluations/evaluations")
+)
 
 const AdminRoute = lazy(async () => await import("./routes/AdminRoute"))
 
@@ -116,6 +119,10 @@ const router = createBrowserRouter([
           {
             path: "/sample",
             element: <Sample />,
+          },
+          {
+            path: "/evaluations",
+            element: <Evaluations />,
           },
           {
             element: <AdminRoute />,
