@@ -17,7 +17,7 @@ export default function ViewEvaluation() {
 
   useEffect(() => {
     if (id !== undefined) {
-      void appDispatch(getEvaluationAdministration(id))
+      void appDispatch(getEvaluationAdministration(parseInt(id)))
     }
   }, [])
 

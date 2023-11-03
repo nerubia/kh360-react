@@ -7,7 +7,7 @@ import { Loading } from "../../types/loadingType"
 
 export const getEvaluationResult = createAsyncThunk(
   "evaluationResult/getEvaluationResult",
-  async (id: string, thunkApi) => {
+  async (id: number, thunkApi) => {
     try {
       const response = await axiosInstance.get(
         `/admin/evaluation-results/${id}`
@@ -25,7 +25,7 @@ export const setEvaluationResultStatus = createAsyncThunk(
   "evaluationResult/setEvaluationResultStatus",
   async (
     data: {
-      id: string
+      id: number
       status: string
     },
     thunkApi
@@ -99,9 +99,11 @@ const evaluationResultSlice = createSlice({
     builder.addCase(setEvaluationResultStatus.fulfilled, (state, action) => {
       state.loading = Loading.Fulfilled
       state.error = null
-      state.evaluation_result = {
-        ...state.evaluation_result,
-        status: action.payload.status,
+      if (state.evaluation_result !== null) {
+        state.evaluation_result = {
+          ...state.evaluation_result,
+          status: action.payload.status,
+        }
       }
     })
     builder.addCase(setEvaluationResultStatus.rejected, (state, action) => {

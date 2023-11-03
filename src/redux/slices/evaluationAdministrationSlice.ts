@@ -4,10 +4,11 @@ import { type ApiError } from "../../types/apiErrorType"
 import { type EvaluationAdministration } from "../../types/evaluationAdministrationType"
 import { axiosInstance } from "../../utils/axiosInstance"
 import { Loading } from "../../types/loadingType"
+import { type EvaluationFormData } from "../../types/formDataType"
 
 export const getEvaluationAdministration = createAsyncThunk(
   "evaluationAdministration/getEvaluationAdministraion",
-  async (id: string, thunkApi) => {
+  async (id: number, thunkApi) => {
     try {
       const response = await axiosInstance.get(
         `/admin/evaluation-administrations/${id}`
@@ -25,8 +26,8 @@ export const updateEvaluationAdministration = createAsyncThunk(
   "evaluationAdministration/updateEvaluationAdministration",
   async (
     data: {
-      id: string
-      evaluation_data: EvaluationAdministration
+      id: number
+      evaluation_data: EvaluationFormData
     },
     thunkApi
   ) => {
@@ -46,7 +47,7 @@ export const updateEvaluationAdministration = createAsyncThunk(
 
 export const generateStatusEvaluationAdministration = createAsyncThunk(
   "evaluationAdministration/generateStatusEvaluationAdministration",
-  async (id: string, thunkApi) => {
+  async (id: number, thunkApi) => {
     try {
       const response = await axiosInstance.get(
         `/admin/evaluation-administrations/${id}/generate-status`

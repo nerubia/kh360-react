@@ -3,7 +3,7 @@ import { type Project } from "./projectType"
 import { type User } from "./userType"
 
 export interface Evaluation {
-  id?: string
+  id: number
   eval_start_date?: string
   eval_end_date?: string
   percent_involvement?: string

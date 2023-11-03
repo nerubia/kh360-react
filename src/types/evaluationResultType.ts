@@ -1,7 +1,7 @@
 import { type User } from "./userType"
 
 export interface EvaluationResult {
-  id?: number
+  id: number
   status?: string
   users?: User
 }

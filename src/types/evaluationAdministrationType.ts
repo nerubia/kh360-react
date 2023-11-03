@@ -1,5 +1,5 @@
 export interface EvaluationAdministration {
-  id?: string
+  id: number
   name?: string
   eval_period_start_date?: string
   eval_period_end_date?: string

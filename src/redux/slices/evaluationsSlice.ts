@@ -28,7 +28,7 @@ export const setForEvaluation = createAsyncThunk(
   "evaluations/setForEvaluation",
   async (
     data: {
-      id: string
+      id: number
       for_evaluation: boolean
     },
     thunkApi

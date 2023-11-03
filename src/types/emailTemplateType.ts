@@ -1,5 +1,5 @@
 export interface EmailTemplate {
-  id?: string
+  id: number
   name?: string
   template_type?: string
   subject?: string

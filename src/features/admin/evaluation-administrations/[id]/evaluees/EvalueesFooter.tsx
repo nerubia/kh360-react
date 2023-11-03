@@ -23,7 +23,7 @@ export const EvalueesFooter = () => {
 
   useEffect(() => {
     if (id !== undefined) {
-      void appDispatch(generateStatusEvaluationAdministration(id))
+      void appDispatch(generateStatusEvaluationAdministration(parseInt(id)))
     }
   }, [])
 
@@ -34,7 +34,9 @@ export const EvalueesFooter = () => {
   const handleGenerate = async () => {
     if (id !== undefined) {
       try {
-        const result = await appDispatch(generateEvaluationAdministration(id))
+        const result = await appDispatch(
+          generateEvaluationAdministration(parseInt(id))
+        )
         if (typeof result.payload === "string") {
           appDispatch(
             setAlert({

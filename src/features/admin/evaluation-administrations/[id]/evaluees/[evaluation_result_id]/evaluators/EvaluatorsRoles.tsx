@@ -21,7 +21,7 @@ export const EvaluatorsRoles = () => {
 
   useEffect(() => {
     if (evaluation_result_id !== undefined) {
-      void appDispatch(getEvaluationResult(evaluation_result_id))
+      void appDispatch(getEvaluationResult(parseInt(evaluation_result_id)))
     }
     void appDispatch(
       getEvaluationTemplates({

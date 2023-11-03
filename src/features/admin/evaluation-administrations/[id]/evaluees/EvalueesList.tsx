@@ -44,20 +44,22 @@ export const EvalueesList = () => {
   }, [searchParams])
 
   const handleDeleteEvaluee = async () => {
-    try {
-      const result = await appDispatch(
-        deleteEvaluationResult(selectedEvaluee?.id)
-      )
-      if (result.payload.id !== undefined) {
-        appDispatch(
-          setAlert({
-            description: `${selectedEvaluee?.users?.first_name} ${selectedEvaluee?.users?.last_name} successfully removed.`,
-            variant: "success",
-          })
+    if (selectedEvaluee !== undefined) {
+      try {
+        const result = await appDispatch(
+          deleteEvaluationResult(selectedEvaluee.id)
         )
-        setSelectedEvaluee(undefined)
-      }
-    } catch (error) {}
+        if (result.payload.id !== undefined) {
+          appDispatch(
+            setAlert({
+              description: `${selectedEvaluee?.users?.first_name} ${selectedEvaluee?.users?.last_name} successfully removed.`,
+              variant: "success",
+            })
+          )
+          setSelectedEvaluee(undefined)
+        }
+      } catch (error) {}
+    }
   }
 
   return (
