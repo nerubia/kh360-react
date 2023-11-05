@@ -57,56 +57,8 @@ test.describe("Admin - Edit Evaluation Administration", () => {
           eval_period_start_date: "2023-01-01T00:00:00.000Z",
           eval_period_end_date: "2023-12-31T00:00:00.000Z",
           remarks: "Remarks 1",
-          email_subject: "Subject 1",
-          email_content: "Content 1",
-          status: "Pending",
-          evaluation_results: [
-            {
-              id: 1,
-              evaluee: {
-                first_name: "Niño Allen",
-                last_name: "Ardiente",
-              },
-              evaluation_templates: [
-                {
-                  evaluation_template_id: 7,
-                  evaluation_template_name: "QA Evaluation",
-                  evaluation_details: [
-                    {
-                      id: 207,
-                      evaluator: {
-                        id: 20050,
-                        first_name: "Clarice",
-                        last_name: "Cañedo",
-                      },
-                      project: {
-                        id: 15,
-                        slug: "iassess",
-                        name: "iAssess",
-                        status: "Ongoing",
-                      },
-                      evaluee_role: {
-                        id: 5,
-                        name: "Developer",
-                        short_name: "DEV",
-                      },
-                      evaluator_role: {
-                        id: 6,
-                        name: "Quality Assurance",
-                        short_name: "QA",
-                        is_evaluee: true,
-                      },
-                      percent_involvement: "75",
-                      eval_start_date: "2023-10-16T00:00:00.000Z",
-                      eval_end_date: "2023-12-31T00:00:00.000Z",
-                      evaluation_template_id: 7,
-                      evaluation_template_name: "QA Evaluation",
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
+          email_subject: "Email subject",
+          email_content: "Email content",
         }),
       })
 
@@ -114,21 +66,25 @@ test.describe("Admin - Edit Evaluation Administration", () => {
         await page.getByTestId("SidebarCloseButton").click()
       }
 
-      await expect(page.getByPlaceholder("Evaluation name")).toBeVisible()
+      await expect(page.getByPlaceholder("Evaluation name")).toHaveValue(
+        "Evaluation 1"
+      )
 
-      await expect(page.getByLabel("Period (from)")).toBeVisible()
-      await expect(page.getByLabel("Period (to)")).toBeVisible()
-      await expect(page.getByLabel("Schedule (from)")).toBeVisible()
-      await expect(page.getByLabel("Schedule (to)")).toBeVisible()
+      await expect(page.getByLabel("Period (from)")).toHaveValue("2023-01-01")
+      await expect(page.getByLabel("Period (to)")).toHaveValue("2023-12-31")
+      await expect(page.getByLabel("Schedule (from)")).toHaveValue("2024-01-01")
+      await expect(page.getByLabel("Schedule (to)")).toHaveValue("2024-01-03")
 
-      await expect(
-        page.getByLabel("Evaluation description/notes")
-      ).toBeVisible()
+      await expect(page.getByLabel("Evaluation description/notes")).toHaveValue(
+        "Remarks 1"
+      )
 
-      await expect(page.getByPlaceholder("Subject")).toBeVisible()
+      await expect(page.getByPlaceholder("Subject")).toHaveValue(
+        "Email subject"
+      )
       await expect(
         page.getByRole("textbox", { name: "Some description" })
-      ).toBeVisible()
+      ).toHaveValue("Email content")
 
       await expect(
         page.getByRole("button", { name: "Cancel & Exit" })
@@ -171,56 +127,6 @@ test.describe("Admin - Edit Evaluation Administration", () => {
           eval_period_start_date: "2023-01-01T00:00:00.000Z",
           eval_period_end_date: "2023-12-31T00:00:00.000Z",
           remarks: "Remarks 1",
-          email_subject: "Subject 1",
-          email_content: "Content 1",
-          status: "Pending",
-          evaluation_results: [
-            {
-              id: 1,
-              evaluee: {
-                first_name: "Niño Allen",
-                last_name: "Ardiente",
-              },
-              evaluation_templates: [
-                {
-                  evaluation_template_id: 7,
-                  evaluation_template_name: "QA Evaluation",
-                  evaluation_details: [
-                    {
-                      id: 207,
-                      evaluator: {
-                        id: 20050,
-                        first_name: "Clarice",
-                        last_name: "Cañedo",
-                      },
-                      project: {
-                        id: 15,
-                        slug: "iassess",
-                        name: "iAssess",
-                        status: "Ongoing",
-                      },
-                      evaluee_role: {
-                        id: 5,
-                        name: "Developer",
-                        short_name: "DEV",
-                      },
-                      evaluator_role: {
-                        id: 6,
-                        name: "Quality Assurance",
-                        short_name: "QA",
-                        is_evaluee: true,
-                      },
-                      percent_involvement: "75",
-                      eval_start_date: "2023-10-16T00:00:00.000Z",
-                      eval_end_date: "2023-12-31T00:00:00.000Z",
-                      evaluation_template_id: 7,
-                      evaluation_template_name: "QA Evaluation",
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
         }),
       })
 
@@ -270,56 +176,8 @@ test.describe("Admin - Edit Evaluation Administration", () => {
           eval_period_start_date: "2023-01-01T00:00:00.000Z",
           eval_period_end_date: "2023-12-31T00:00:00.000Z",
           remarks: "Remarks 1",
-          email_subject: "Subject 1",
-          email_content: "Content 1",
-          status: "Pending",
-          evaluation_results: [
-            {
-              id: 1,
-              evaluee: {
-                first_name: "Niño Allen",
-                last_name: "Ardiente",
-              },
-              evaluation_templates: [
-                {
-                  evaluation_template_id: 7,
-                  evaluation_template_name: "QA Evaluation",
-                  evaluation_details: [
-                    {
-                      id: 207,
-                      evaluator: {
-                        id: 20050,
-                        first_name: "Clarice",
-                        last_name: "Cañedo",
-                      },
-                      project: {
-                        id: 15,
-                        slug: "iassess",
-                        name: "iAssess",
-                        status: "Ongoing",
-                      },
-                      evaluee_role: {
-                        id: 5,
-                        name: "Developer",
-                        short_name: "DEV",
-                      },
-                      evaluator_role: {
-                        id: 6,
-                        name: "Quality Assurance",
-                        short_name: "QA",
-                        is_evaluee: true,
-                      },
-                      percent_involvement: "75",
-                      eval_start_date: "2023-10-16T00:00:00.000Z",
-                      eval_end_date: "2023-12-31T00:00:00.000Z",
-                      evaluation_template_id: 7,
-                      evaluation_template_name: "QA Evaluation",
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
+          email_subject: "Email subject",
+          email_content: "Email content",
         }),
       })
 
@@ -428,56 +286,6 @@ test.describe("Admin - Edit Evaluation Administration", () => {
           eval_period_start_date: "2023-01-01T00:00:00.000Z",
           eval_period_end_date: "2023-12-31T00:00:00.000Z",
           remarks: "Remarks 1",
-          email_subject: "Subject 1",
-          email_content: "Content 1",
-          status: "Pending",
-          evaluation_results: [
-            {
-              id: 1,
-              evaluee: {
-                first_name: "Niño Allen",
-                last_name: "Ardiente",
-              },
-              evaluation_templates: [
-                {
-                  evaluation_template_id: 7,
-                  evaluation_template_name: "QA Evaluation",
-                  evaluation_details: [
-                    {
-                      id: 207,
-                      evaluator: {
-                        id: 20050,
-                        first_name: "Clarice",
-                        last_name: "Cañedo",
-                      },
-                      project: {
-                        id: 15,
-                        slug: "iassess",
-                        name: "iAssess",
-                        status: "Ongoing",
-                      },
-                      evaluee_role: {
-                        id: 5,
-                        name: "Developer",
-                        short_name: "DEV",
-                      },
-                      evaluator_role: {
-                        id: 6,
-                        name: "Quality Assurance",
-                        short_name: "QA",
-                        is_evaluee: true,
-                      },
-                      percent_involvement: "75",
-                      eval_start_date: "2023-10-16T00:00:00.000Z",
-                      eval_end_date: "2023-12-31T00:00:00.000Z",
-                      evaluation_template_id: 7,
-                      evaluation_template_name: "QA Evaluation",
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
         }),
       })
 
@@ -532,56 +340,6 @@ test.describe("Admin - Edit Evaluation Administration", () => {
           eval_period_start_date: "2023-01-01T00:00:00.000Z",
           eval_period_end_date: "2023-12-31T00:00:00.000Z",
           remarks: "Remarks 1",
-          email_subject: "Subject 1",
-          email_content: "Content 1",
-          status: "Pending",
-          evaluation_results: [
-            {
-              id: 1,
-              evaluee: {
-                first_name: "Niño Allen",
-                last_name: "Ardiente",
-              },
-              evaluation_templates: [
-                {
-                  evaluation_template_id: 7,
-                  evaluation_template_name: "QA Evaluation",
-                  evaluation_details: [
-                    {
-                      id: 207,
-                      evaluator: {
-                        id: 20050,
-                        first_name: "Clarice",
-                        last_name: "Cañedo",
-                      },
-                      project: {
-                        id: 15,
-                        slug: "iassess",
-                        name: "iAssess",
-                        status: "Ongoing",
-                      },
-                      evaluee_role: {
-                        id: 5,
-                        name: "Developer",
-                        short_name: "DEV",
-                      },
-                      evaluator_role: {
-                        id: 6,
-                        name: "Quality Assurance",
-                        short_name: "QA",
-                        is_evaluee: true,
-                      },
-                      percent_involvement: "75",
-                      eval_start_date: "2023-10-16T00:00:00.000Z",
-                      eval_end_date: "2023-12-31T00:00:00.000Z",
-                      evaluation_template_id: 7,
-                      evaluation_template_name: "QA Evaluation",
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
         }),
       })
 
