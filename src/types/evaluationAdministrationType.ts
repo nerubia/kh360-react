@@ -1,4 +1,3 @@
-import { type EvaluationResult } from "../types/evaluationType"
 export interface EvaluationAdministration {
   id: number
   name?: string
@@ -10,7 +9,6 @@ export interface EvaluationAdministration {
   email_subject?: string
   email_content?: string
   status?: string
-  evaluation_results?: EvaluationResult[]
 }
 
 export interface EvaluationAdministrationFilters {

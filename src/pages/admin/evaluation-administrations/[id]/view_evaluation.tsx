@@ -13,12 +13,14 @@ export default function ViewEvaluation() {
   const { loading, evaluation_administration } = useAppSelector(
     (state) => state.evaluationAdministration
   )
+  const { loading: loading_evaluation_results, evaluation_results } =
+    useAppSelector((state) => state.evaluationResults)
 
   useEffect(() => {
     if (id !== undefined) {
       void appDispatch(getEvaluationAdministration(parseInt(id)))
     }
-  }, [])
+  }, [id])
 
   return (
     <div className='flex flex-col gap-2'>
@@ -27,9 +29,17 @@ export default function ViewEvaluation() {
         <div>Not found</div>
       )}
       {loading === Loading.Fulfilled && evaluation_administration !== null && (
-        <div className='h-[calc(100vh_-_104px)] flex flex-col gap-2'>
+        <div
+          className='h-[calc(100vh_-_104px)] flex flex-col gap-2'
+          id='scroll-container'
+        >
           <ViewEvaluationHeader />
-          <ViewEvaluationList />
+          {loading_evaluation_results === Loading.Pending && (
+            <div>Loading...</div>
+          )}
+          {loading_evaluation_results === Loading.Fulfilled &&
+            evaluation_results === null && <div>Not found</div>}
+          {evaluation_results !== null && <ViewEvaluationList />}
         </div>
       )}
     </div>

@@ -60,55 +60,125 @@ test.describe("Admin - Evaluations", () => {
           email_subject: "Subject 1",
           email_content: "Content 1",
           status: "Pending",
-          evaluation_results: [
-            {
-              id: 1,
-              evaluee: {
-                first_name: "Niño Allen",
-                last_name: "Ardiente",
-              },
-              evaluation_templates: [
-                {
-                  evaluation_template_id: 7,
-                  evaluation_template_name: "QA Evaluation",
-                  evaluation_details: [
-                    {
-                      id: 207,
-                      evaluator: {
-                        id: 20050,
-                        first_name: "Clarice",
-                        last_name: "Cañedo",
-                      },
-                      project: {
-                        id: 15,
-                        slug: "iassess",
-                        name: "iAssess",
-                        status: "Ongoing",
-                      },
-                      evaluee_role: {
-                        id: 5,
-                        name: "Developer",
-                        short_name: "DEV",
-                      },
-                      evaluator_role: {
-                        id: 6,
-                        name: "Quality Assurance",
-                        short_name: "QA",
-                        is_evaluee: true,
-                      },
-                      percent_involvement: "75",
-                      eval_start_date: "2023-10-16T00:00:00.000Z",
-                      eval_end_date: "2023-12-31T00:00:00.000Z",
-                      evaluation_template_id: 7,
-                      evaluation_template_name: "QA Evaluation",
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
         }),
       })
+
+      await mockRequest(
+        page,
+        "/admin/evaluation-results?evaluation_administration_id=1",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            data: [
+              {
+                id: 1,
+                status: "For Review",
+                users: {
+                  first_name: "Sample",
+                  last_name: "User",
+                  picture: null,
+                },
+              },
+            ],
+            pageInfo: {
+              hasPreviousPage: false,
+              hasNextPage: false,
+              totalPages: 1,
+            },
+          }),
+        }
+      )
+
+      await mockRequest(
+        page,
+        "/admin/evaluation-results/1/templates?id=1&evaluation_result_id=1&for_evaluation=true",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([
+            {
+              id: 4,
+              name: "DEV Evaluation by PM",
+              display_name: "PM Evaluation",
+            },
+            {
+              id: 5,
+              name: "DEV Evaluation by Dev Peers",
+              display_name: "Peer Evaluation",
+            },
+            {
+              id: 6,
+              name: "DEV Evaluation by Code Reviewer",
+              display_name: "Code Reviewer Evaluation",
+            },
+            {
+              id: 7,
+              name: "DEV Evaluation by QA",
+              display_name: "QA Evaluation",
+            },
+          ]),
+        }
+      )
+
+      await mockRequest(
+        page,
+        "/admin/evaluations?evaluation_result_id=1&evaluation_template_id=4&for_evaluation=true",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([
+            {
+              id: 1,
+              eval_start_date: "2023-10-16T00:00:00.000Z",
+              eval_end_date: "2023-12-31T00:00:00.000Z",
+              percent_involvement: "75",
+              evaluator: {
+                first_name: "First",
+                last_name: "Evaluator",
+              },
+              project: {
+                name: "iAssess",
+              },
+              project_role: {
+                name: "Developer",
+              },
+            },
+            {
+              id: 2,
+              eval_start_date: "2023-01-01T00:00:00.000Z",
+              eval_end_date: "2023-10-15T00:00:00.000Z",
+              percent_involvement: "100",
+              evaluator: {
+                first_name: "Second",
+                last_name: "Evaluator",
+              },
+              project: {
+                name: "ProductHQ",
+              },
+              project_role: {
+                name: "Developer",
+              },
+            },
+            {
+              id: 3,
+              eval_start_date: "2023-01-01T00:00:00.000Z",
+              eval_end_date: "2023-10-15T00:00:00.000Z",
+              percent_involvement: "100",
+              evaluator: {
+                first_name: "Third",
+                last_name: "Evaluator",
+              },
+              project: {
+                name: "ProductHQ",
+              },
+              project_role: {
+                name: "Developer",
+              },
+            },
+          ]),
+        }
+      )
 
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
@@ -124,20 +194,30 @@ test.describe("Admin - Evaluations", () => {
       ).toBeVisible()
 
       await expect(
-        page.getByRole("button", { name: "Ardiente, Niño Allen" })
+        page.getByRole("button", { name: "User, Sample" })
       ).toBeVisible()
 
       await expect(page.getByTestId("EditButton")).toBeVisible()
-
-      await page.getByRole("button", { name: "Ardiente, Niño Allen" }).click()
+      await page.getByRole("button", { name: "User, Sample" }).click()
 
       await expect(
-        page.getByRole("button", { name: "QA Evaluation [ QA ]" })
+        page.getByRole("button", { name: "PM Evaluation" })
+      ).toBeVisible()
+      await expect(
+        page.getByRole("button", { name: "Peer Evaluation" })
+      ).toBeVisible()
+      await expect(
+        page.getByRole("button", { name: "Code Reviewer Evaluation" })
+      ).toBeVisible()
+      await expect(
+        page.getByRole("button", { name: "QA Evaluation" })
       ).toBeVisible()
 
-      await page.getByRole("button", { name: "QA Evaluation [ QA ]" }).click()
+      await page.getByRole("button", { name: "PM Evaluation" }).click()
 
-      await expect(page.getByRole("cell", { name: "Evaluator" })).toBeVisible()
+      await expect(
+        page.getByRole("cell", { name: "Evaluator", exact: true })
+      ).toBeVisible()
       await expect(page.getByRole("cell", { name: "Project" })).toBeVisible()
       await expect(
         page.getByRole("cell", { name: "Evaluee Role" })
@@ -148,10 +228,12 @@ test.describe("Admin - Evaluations", () => {
       await expect(page.getByRole("cell", { name: "Duration" })).toBeVisible()
 
       await expect(
-        page.getByRole("cell", { name: "Cañedo, Clarice" })
+        page.getByRole("cell", { name: "Evaluator, First" })
       ).toBeVisible()
       await expect(page.getByRole("cell", { name: "iAssess" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "DEV" })).toBeVisible()
+      await expect(
+        page.getByRole("cell", { name: "Developer" }).first()
+      ).toBeVisible()
       await expect(page.getByRole("cell", { name: "75%" })).toBeVisible()
       await expect(
         page.getByRole("cell", { name: "2023-10-16 to 2023-12-31" })
@@ -180,55 +262,35 @@ test.describe("Admin - Evaluations", () => {
           email_subject: "Subject 1",
           email_content: "Content 1",
           status: "Pending",
-          evaluation_results: [
-            {
-              id: 1,
-              evaluee: {
-                first_name: "Niño Allen",
-                last_name: "Ardiente",
-              },
-              evaluation_templates: [
-                {
-                  evaluation_template_id: 7,
-                  evaluation_template_name: "QA Evaluation",
-                  evaluation_details: [
-                    {
-                      id: 207,
-                      evaluator: {
-                        id: 20050,
-                        first_name: "Clarice",
-                        last_name: "Cañedo",
-                      },
-                      project: {
-                        id: 15,
-                        slug: "iassess",
-                        name: "iAssess",
-                        status: "Ongoing",
-                      },
-                      evaluee_role: {
-                        id: 5,
-                        name: "Developer",
-                        short_name: "DEV",
-                      },
-                      evaluator_role: {
-                        id: 6,
-                        name: "Quality Assurance",
-                        short_name: "QA",
-                        is_evaluee: true,
-                      },
-                      percent_involvement: "75",
-                      eval_start_date: "2023-10-16T00:00:00.000Z",
-                      eval_end_date: "2023-12-31T00:00:00.000Z",
-                      evaluation_template_id: 7,
-                      evaluation_template_name: "QA Evaluation",
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
         }),
       })
+
+      await mockRequest(
+        page,
+        "/admin/evaluation-results?evaluation_administration_id=1",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            data: [
+              {
+                id: 1,
+                status: "For Review",
+                users: {
+                  first_name: "Sample",
+                  last_name: "User",
+                  picture: null,
+                },
+              },
+            ],
+            pageInfo: {
+              hasPreviousPage: false,
+              hasNextPage: false,
+              totalPages: 1,
+            },
+          }),
+        }
+      )
 
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
@@ -261,55 +323,66 @@ test.describe("Admin - Evaluations", () => {
           email_subject: "Subject 1",
           email_content: "Content 1",
           status: "Pending",
-          evaluation_results: [
-            {
-              id: 1,
-              evaluee: {
-                first_name: "Niño Allen",
-                last_name: "Ardiente",
-              },
-              evaluation_templates: [
-                {
-                  evaluation_template_id: 7,
-                  evaluation_template_name: "QA Evaluation",
-                  evaluation_details: [
-                    {
-                      id: 207,
-                      evaluator: {
-                        id: 20050,
-                        first_name: "Clarice",
-                        last_name: "Cañedo",
-                      },
-                      project: {
-                        id: 15,
-                        slug: "iassess",
-                        name: "iAssess",
-                        status: "Ongoing",
-                      },
-                      evaluee_role: {
-                        id: 5,
-                        name: "Developer",
-                        short_name: "DEV",
-                      },
-                      evaluator_role: {
-                        id: 6,
-                        name: "Quality Assurance",
-                        short_name: "QA",
-                        is_evaluee: true,
-                      },
-                      percent_involvement: "75",
-                      eval_start_date: "2023-10-16T00:00:00.000Z",
-                      eval_end_date: "2023-12-31T00:00:00.000Z",
-                      evaluation_template_id: 7,
-                      evaluation_template_name: "QA Evaluation",
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
         }),
       })
+
+      await mockRequest(
+        page,
+        "/admin/evaluation-results?evaluation_administration_id=1",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            data: [
+              {
+                id: 1,
+                status: "For Review",
+                users: {
+                  first_name: "Sample",
+                  last_name: "User",
+                  picture: null,
+                },
+              },
+            ],
+            pageInfo: {
+              hasPreviousPage: false,
+              hasNextPage: false,
+              totalPages: 1,
+            },
+          }),
+        }
+      )
+
+      await mockRequest(
+        page,
+        "/admin/evaluation-results/1/templates?id=1&evaluation_result_id=1&for_evaluation=true",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([
+            {
+              id: 4,
+              name: "DEV Evaluation by PM",
+              display_name: "PM Evaluation",
+            },
+            {
+              id: 5,
+              name: "DEV Evaluation by Dev Peers",
+              display_name: "Peer Evaluation",
+            },
+            {
+              id: 6,
+              name: "DEV Evaluation by Code Reviewer",
+              display_name: "Code Reviewer Evaluation",
+            },
+            {
+              id: 7,
+              name: "DEV Evaluation by QA",
+              display_name: "QA Evaluation",
+            },
+          ]),
+        }
+      )
 
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
@@ -319,14 +392,18 @@ test.describe("Admin - Evaluations", () => {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
-          id: 22,
-          status: "pending",
-          users: {
-            slug: "sample-user",
-            first_name: "Sample",
-            last_name: "User",
-            picture: null,
+          data: {
+            id: 1,
+            status: "pending",
+            users: {
+              slug: "sample-user",
+              first_name: "Sample",
+              last_name: "User",
+              picture: null,
+            },
           },
+          previousId: 1,
+          nextId: 3,
         }),
       })
 
@@ -336,13 +413,34 @@ test.describe("Admin - Evaluations", () => {
         {
           status: 200,
           contentType: "application/json",
-          body: JSON.stringify([]),
+          body: JSON.stringify([
+            {
+              id: 4,
+              name: "DEV Evaluation by PM",
+              display_name: "PM Evaluation",
+            },
+            {
+              id: 5,
+              name: "DEV Evaluation by Dev Peers",
+              display_name: "Peer Evaluation",
+            },
+            {
+              id: 6,
+              name: "DEV Evaluation by Code Reviewer",
+              display_name: "Code Reviewer Evaluation",
+            },
+            {
+              id: 7,
+              name: "DEV Evaluation by QA",
+              display_name: "QA Evaluation",
+            },
+          ]),
         }
       )
 
       await mockRequest(
         page,
-        "/admin/evaluations?evaluation_result_id=1&evaluation_template_id=7",
+        "/admin/evaluations?evaluation_result_id=1&evaluation_template_id=4",
         {
           status: 200,
           contentType: "application/json",
@@ -353,7 +451,7 @@ test.describe("Admin - Evaluations", () => {
       await page.getByTestId("EditButton").click()
 
       await expect(page).toHaveURL(
-        "/admin/evaluation-administrations/1/evaluees/1/evaluators/7"
+        "/admin/evaluation-administrations/1/evaluees/1/evaluators/4"
       )
     })
   })
