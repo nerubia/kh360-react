@@ -26,6 +26,7 @@ export const SelectEmployeesFooter = () => {
         </Button>
         <div className='flex items-center gap-2'>
           <Button
+            testId='BackButton'
             variant='primaryOutline'
             size='medium'
             onClick={toggleBackDialog}
