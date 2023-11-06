@@ -66,7 +66,7 @@ export const EvaluationAdministrationsFilter = () => {
       </div>
       <div className='flex items-end gap-4'>
         <Button onClick={handleSearch}>Search</Button>
-        <Button variant='destructive' onClick={handleClear}>
+        <Button variant='primaryOutline' onClick={handleClear}>
           Clear
         </Button>
       </div>

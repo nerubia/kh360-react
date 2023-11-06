@@ -30,7 +30,7 @@ export const EvaluationAdministrationsTable = () => {
   return (
     <div className='flex flex-col gap-8'>
       <table className='w-full table-fixed'>
-        <thead className='text-left'>
+        <thead className='text-left border-b-2'>
           <tr>
             <th>Name</th>
             <th>Period</th>
