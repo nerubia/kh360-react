@@ -25,7 +25,7 @@ export default function ViewEvaluation() {
   return (
     <div className='flex flex-col gap-2'>
       {loading === Loading.Pending && <div>Loading...</div>}
-      {loading === Loading.Fulfilled && evaluation_administration == null && (
+      {loading === Loading.Fulfilled && evaluation_administration === null && (
         <div>Not found</div>
       )}
       {loading === Loading.Fulfilled && evaluation_administration !== null && (
