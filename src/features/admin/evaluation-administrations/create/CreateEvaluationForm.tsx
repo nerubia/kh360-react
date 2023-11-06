@@ -90,7 +90,7 @@ export const CreateEvaluationForm = () => {
 
   return (
     <div className='flex flex-col gap-10'>
-      <div className='flex flex-col w-1/2 gap-4'>
+      <div className='flex flex-col md:w-1/2 gap-4'>
         <div>
           <h1 className='text-lg font-bold'>Evaluation Name</h1>
           <Input
