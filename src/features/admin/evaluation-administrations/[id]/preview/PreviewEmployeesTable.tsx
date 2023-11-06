@@ -75,7 +75,7 @@ export const PreviewEmployeesTable = () => {
             )}
           </table>
         </div>
-        <Divider orientation='horizontal' />
+        <Divider />
         <div className='flex-1 bg-white-100'>
           <button
             onClick={() => setShowExcluded(!showExcluded)}
