@@ -46,7 +46,9 @@ export const LoginForm = () => {
 
   return (
     <div className='flex flex-col gap-4'>
-      <h1 className='text-lg font-bold'>Login</h1>
+      <div className='flex justify-center'>
+        <img className='h-32' src='/logo.png' />
+      </div>
       <Input
         name='email'
         type='email'
