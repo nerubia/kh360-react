@@ -162,6 +162,7 @@ export const ViewEvaluationList = () => {
     const updatedToggledState: boolean[][] = [...evaluationDetailsToggledState]
     updatedToggledState[employeeIndex][projectIndex] =
       !updatedToggledState[employeeIndex][projectIndex]
+
     setEvaluationDetailsToggledState(updatedToggledState)
 
     const evaluationDetailsKey = `${employeeIndex}_${projectIndex}`
@@ -315,6 +316,7 @@ export const ViewEvaluationList = () => {
                             {evaluationDetailsToggledState[evaluationIndex][
                               templateIndex
                             ] &&
+                              template.evaluation_details !== undefined &&
                               template.evaluation_details !== null && (
                                 <table className='w-10/12 ml-11 table-fixed'>
                                   <thead className='sticky top-0 bg-white text-left'>
