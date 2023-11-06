@@ -53,7 +53,7 @@ export const SelectEmployeesFooter = () => {
         </Dialog.Actions>
       </Dialog>
       <Dialog open={showBackDialog}>
-        <Dialog.Title>Go back to previous step</Dialog.Title>
+        <Dialog.Title>Go back</Dialog.Title>
         <Dialog.Description>
           Are you sure you want to go back? <br />
           If you go back, your data won&apos;t be saved.
