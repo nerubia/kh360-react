@@ -16,14 +16,6 @@ test.describe("Admin - Preview Employees", () => {
       status: 200,
       contentType: "application/json",
     })
-    await mockRequest(
-      page,
-      "/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap",
-      {
-        status: 200,
-        contentType: "application/json",
-      }
-    )
   })
 
   test.describe("as Guest", () => {
