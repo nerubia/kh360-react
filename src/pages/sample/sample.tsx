@@ -51,25 +51,6 @@ export default function Sample() {
         </Button>
       </div>
       <div className='flex flex-col gap-4'>
-        <p>Font weight</p>
-        <p className='font-thin'>
-          Sample text - Thin (100) (not available on google font?)
-        </p>
-        <p className='font-extralight'>Sample text - Extra light (200)</p>
-        <p className='font-light'>Sample text - Light (300) - default ?</p>
-        <p>Sample text - Light (300) - default ?</p>
-        <p className='font-normal'>Sample text - Normal (400)</p>
-        <p className='font-medium'>Sample text - Medium (500)</p>
-        <p className='font-semibold'>Sample text - Semi bold (600)</p>
-        <p className='font-bold'>Sample text - Bold (700)</p>
-        <p className='font-extrabold'>
-          Sample text - Extra bold (800) (not available on google font?)
-        </p>
-        <p className='font-black'>
-          Sample text - Black (900) (not available on google font?)
-        </p>
-      </div>
-      <div className='flex flex-col gap-4'>
         <p>Sample button variants</p>
         <div className='flex gap-4'>
           <Button size='small'>Small primary</Button>
