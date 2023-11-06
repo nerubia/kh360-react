@@ -90,7 +90,7 @@ export const CreateEvaluationForm = () => {
 
   return (
     <div className='flex flex-col gap-10'>
-      <div className='flex flex-col gap-4'>
+      <div className='flex flex-col w-1/2 gap-4'>
         <div>
           <h1 className='text-lg font-bold'>Evaluation Name</h1>
           <Input
@@ -159,15 +159,15 @@ export const CreateEvaluationForm = () => {
             </div>
           </div>
         </div>
-        <TextArea
-          label='Description'
-          name='remarks'
-          placeholder='Some description'
-          value={formData.remarks}
-          onChange={handleTextAreaChange}
-          error={validationErrors.remarks}
-        />
       </div>
+      <TextArea
+        label='Description'
+        name='remarks'
+        placeholder='Some description'
+        value={formData.remarks}
+        onChange={handleTextAreaChange}
+        error={validationErrors.remarks}
+      />
       <div className='flex flex-col gap-4'>
         <h1 className='text-lg font-bold'>Email</h1>
         <Input
