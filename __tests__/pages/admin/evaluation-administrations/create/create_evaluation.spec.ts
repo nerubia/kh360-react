@@ -69,14 +69,18 @@ test.describe("Admin - Create Evaluation", () => {
 
       await expect(page.getByPlaceholder("Evaluation name")).toBeVisible()
 
-      await expect(page.getByLabel("Period (from)")).toBeVisible()
-      await expect(page.getByLabel("Period (to)")).toBeVisible()
-      await expect(page.getByLabel("Schedule (from)")).toBeVisible()
-      await expect(page.getByLabel("Schedule (to)")).toBeVisible()
-
+      await expect(page.locator("#eval_period_start_date")).toBeVisible()
       await expect(
-        page.getByLabel("Evaluation description/notes")
+        page.getByRole("heading", { name: "to" }).first()
       ).toBeVisible()
+      await expect(page.locator("#eval_period_end_date")).toBeVisible()
+      await expect(
+        page.getByRole("heading", { name: "to" }).nth(1).first()
+      ).toBeVisible()
+      await expect(page.locator("#eval_schedule_start_date")).toBeVisible()
+      await expect(page.locator("#eval_schedule_end_date")).toBeVisible()
+
+      await expect(page.getByLabel("Description")).toBeVisible()
 
       await expect(page.getByPlaceholder("Subject")).toBeVisible()
       await expect(
@@ -171,11 +175,11 @@ test.describe("Admin - Create Evaluation", () => {
       }
 
       await page.getByPlaceholder("Evaluation name").fill("Evaluation name")
-      await page.getByLabel("Period (from)").fill("2023-01-01")
-      await page.getByLabel("Period (to)").fill("2023-01-02")
-      await page.getByLabel("Schedule (from)").fill("2023-01-03")
-      await page.getByLabel("Schedule (to)").fill("2023-01-04")
-      await page.getByLabel("Evaluation description/notes").fill("Description")
+      await page.locator("#eval_period_start_date").fill("2023-01-01")
+      await page.locator("#eval_period_end_date").fill("2023-01-02")
+      await page.locator("#eval_schedule_start_date").fill("2023-01-03")
+      await page.locator("#eval_schedule_end_date").fill("2023-01-04")
+      await page.getByLabel("Description").fill("Description")
 
       await page.getByRole("button", { name: "Save & Proceed" }).click()
 
