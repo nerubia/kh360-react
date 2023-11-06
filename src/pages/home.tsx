@@ -1,9 +1,12 @@
-import { NavLink } from "react-router-dom"
+import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 
 export default function Home() {
-  return (
-    <div className='bg-blue-500'>
-      <NavLink to='/auth/login'>Login</NavLink>
-    </div>
-  )
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    navigate("/auth/login")
+  }, [])
+
+  return <div className='bg-blue-500'>Home</div>
 }
