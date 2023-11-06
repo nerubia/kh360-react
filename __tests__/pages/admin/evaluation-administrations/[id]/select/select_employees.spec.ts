@@ -490,5 +490,159 @@ test.describe("Admin - Select Employees", () => {
 
       await expect(page).toHaveURL("/admin/evaluation-administrations")
     })
+
+    test("should render back confirmation modal correctly", async ({
+      page,
+      isMobile,
+    }) => {
+      await loginUser("admin", page)
+
+      await page.goto("/admin/evaluation-administrations/1/select")
+
+      await mockRequest(page, "/admin/users", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              email: "sample1@gmail.com",
+              first_name: "Adam",
+              last_name: "Baker",
+              is_active: true,
+              user_details: {
+                start_date: "2023-04-12T00:00:00.000Z",
+                user_id: 1,
+                user_position: "Project Manager",
+                user_type: "Regular",
+              },
+            },
+          ],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
+
+      await mockRequest(page, "/admin/users/all", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              email: "sample1@gmail.com",
+              first_name: "Adam",
+              last_name: "Baker",
+              is_active: true,
+              user_details: {
+                start_date: "2023-04-12T00:00:00.000Z",
+                user_id: 1,
+                user_position: "Project Manager",
+                user_type: "Regular",
+              },
+            },
+          ],
+        }),
+      })
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await page.getByTestId("BackButton").click()
+
+      await expect(page.getByRole("heading", { name: "Go back" })).toBeVisible()
+      await expect(
+        page.getByText(
+          "Are you sure you want to go back? If you go back, your data won't be saved."
+        )
+      ).toBeVisible()
+      await expect(page.getByRole("button", { name: "No" })).toBeVisible()
+      await expect(page.getByRole("link", { name: "Yes" })).toBeVisible()
+    })
+
+    test("should allow to go back", async ({ page, isMobile }) => {
+      await loginUser("admin", page)
+
+      await page.goto("/admin/evaluation-administrations/1/select")
+
+      await mockRequest(page, "/admin/users", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              email: "sample1@gmail.com",
+              first_name: "Adam",
+              last_name: "Baker",
+              is_active: true,
+              user_details: {
+                start_date: "2023-04-12T00:00:00.000Z",
+                user_id: 1,
+                user_position: "Project Manager",
+                user_type: "Regular",
+              },
+            },
+          ],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
+
+      await mockRequest(page, "/admin/users/all", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              email: "sample1@gmail.com",
+              first_name: "Adam",
+              last_name: "Baker",
+              is_active: true,
+              user_details: {
+                start_date: "2023-04-12T00:00:00.000Z",
+                user_id: 1,
+                user_position: "Project Manager",
+                user_type: "Regular",
+              },
+            },
+          ],
+        }),
+      })
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await mockRequest(page, "/admin/evaluation-administrations/1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          id: 1,
+          name: "Evaluation 1",
+          eval_schedule_start_date: "2024-01-01T00:00:00.000Z",
+          eval_schedule_end_date: "2024-01-03T00:00:00.000Z",
+          eval_period_start_date: "2023-01-01T00:00:00.000Z",
+          eval_period_end_date: "2023-12-31T00:00:00.000Z",
+          remarks: "Remarks 1",
+          email_subject: "Email subject",
+          email_content: "Email content",
+        }),
+      })
+
+      await page.getByTestId("BackButton").click()
+
+      await page.getByRole("link", { name: "Yes" }).click()
+
+      await expect(page).toHaveURL("/admin/evaluation-administrations/1/edit")
+    })
   })
 })
