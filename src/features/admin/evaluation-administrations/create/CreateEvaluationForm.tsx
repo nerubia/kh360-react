@@ -91,75 +91,76 @@ export const CreateEvaluationForm = () => {
   return (
     <div className='flex flex-col gap-10'>
       <div className='flex flex-col gap-4'>
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
-          <div>
-            <h1 className='text-lg font-bold'>Evaluation Name</h1>
-            <Input
-              label='Evaluation name'
-              name='name'
-              placeholder='Evaluation name'
-              value={formData.name}
-              onChange={handleInputChange}
-              error={validationErrors.name}
-            />
-          </div>
-          <div className='flex flex-col gap-4'>
-            <div>
-              <h1 className='text-lg font-bold'>Evaluation Period</h1>
-              <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
-                <Input
-                  label='Period (from)'
-                  name='eval_period_start_date'
-                  type='date'
-                  placeholder='Evaluation period'
-                  value={formData.eval_period_start_date}
-                  onChange={handleInputChange}
-                  error={validationErrors.eval_period_start_date}
-                  max={formData.eval_period_end_date}
-                />
-                <Input
-                  label='Period (to)'
-                  name='eval_period_end_date'
-                  type='date'
-                  placeholder='Evaluation period'
-                  value={formData.eval_period_end_date}
-                  onChange={handleInputChange}
-                  error={validationErrors.eval_period_end_date}
-                  min={formData.eval_period_start_date}
-                  max={formData.eval_schedule_start_date}
-                />
-              </div>
+        <div>
+          <h1 className='text-lg font-bold'>Evaluation Name</h1>
+          <Input
+            name='name'
+            placeholder='Evaluation name'
+            value={formData.name}
+            onChange={handleInputChange}
+            error={validationErrors.name}
+          />
+        </div>
+        <div>
+          <h1 className='text-lg font-bold'>Evaluation Period</h1>
+          <div className='flex items-center gap-4'>
+            <div className='w-1/2'>
+              <Input
+                name='eval_period_start_date'
+                type='date'
+                placeholder='Evaluation period'
+                value={formData.eval_period_start_date}
+                onChange={handleInputChange}
+                error={validationErrors.eval_period_start_date}
+                max={formData.eval_period_end_date}
+              />
             </div>
-            <div>
-              <h1 className='text-lg font-bold'>Evaluation Schedule</h1>
-              <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
-                <Input
-                  label='Schedule (from)'
-                  name='eval_schedule_start_date'
-                  type='date'
-                  placeholder='Evaluation schedule'
-                  value={formData.eval_schedule_start_date}
-                  onChange={handleInputChange}
-                  min={formData.eval_period_end_date}
-                  max={formData.eval_schedule_end_date}
-                  error={validationErrors.eval_schedule_start_date}
-                />
-                <Input
-                  label='Schedule (to)'
-                  name='eval_schedule_end_date'
-                  type='date'
-                  placeholder='Evaluation schedule'
-                  value={formData.eval_schedule_end_date}
-                  onChange={handleInputChange}
-                  error={validationErrors.eval_schedule_end_date}
-                  min={formData.eval_schedule_start_date}
-                />
-              </div>
+            <h1 className='text-lg font-bold'>to</h1>
+            <div className='w-1/2'>
+              <Input
+                name='eval_period_end_date'
+                type='date'
+                placeholder='Evaluation period'
+                value={formData.eval_period_end_date}
+                onChange={handleInputChange}
+                error={validationErrors.eval_period_end_date}
+                min={formData.eval_period_start_date}
+                max={formData.eval_schedule_start_date}
+              />
+            </div>
+          </div>
+        </div>
+        <div>
+          <h1 className='text-lg font-bold'>Evaluation Schedule</h1>
+          <div className='flex items-center gap-4'>
+            <div className='w-1/2'>
+              <Input
+                name='eval_schedule_start_date'
+                type='date'
+                placeholder='Evaluation schedule'
+                value={formData.eval_schedule_start_date}
+                onChange={handleInputChange}
+                min={formData.eval_period_end_date}
+                max={formData.eval_schedule_end_date}
+                error={validationErrors.eval_schedule_start_date}
+              />
+            </div>
+            <h1 className='text-lg font-bold text-center'>to</h1>
+            <div className='w-1/2'>
+              <Input
+                name='eval_schedule_end_date'
+                type='date'
+                placeholder='Evaluation schedule'
+                value={formData.eval_schedule_end_date}
+                onChange={handleInputChange}
+                error={validationErrors.eval_schedule_end_date}
+                min={formData.eval_schedule_start_date}
+              />
             </div>
           </div>
         </div>
         <TextArea
-          label='Evaluation description/notes'
+          label='Description'
           name='remarks'
           placeholder='Some description'
           value={formData.remarks}
