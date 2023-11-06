@@ -28,7 +28,7 @@ export const EvaluationAdministrationsTable = () => {
     )
   }, [searchParams])
 
-  const handleViewEvaluation = (id: number | undefined) => {
+  const handleViewEvaluation = (id: number) => {
     navigate(`/admin/evaluation-administrations/${id}`)
   }
 
