@@ -536,7 +536,7 @@ test.describe("Admin - Preview Employees", () => {
         .getByRole("checkbox")
         .check()
 
-      await page.getByRole("link", { name: "Check & Preview" }).click()
+      await page.getByRole("link", { name: "Check & Review" }).click()
 
       await mockRequest(page, "/admin/users/all", {
         status: 200,
