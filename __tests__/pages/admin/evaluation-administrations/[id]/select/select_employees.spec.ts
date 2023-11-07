@@ -554,7 +554,7 @@ test.describe("Admin - Select Employees", () => {
 
       await page.getByTestId("BackButton").click()
 
-      await expect(page.getByRole("heading", { name: "Go back" })).toBeVisible()
+      await expect(page.getByRole("heading", { name: "Go Back" })).toBeVisible()
       await expect(
         page.getByText(
           "Are you sure you want to go back? If you go back, your data won't be saved."
