@@ -26,7 +26,7 @@ export const CustomSelect = ({
       <Select
         classNames={{
           container: () => "w-full md:w-40",
-          control: () => "h-[42px]",
+          control: () => "h-[38px]",
         }}
         inputId={name}
         value={value}

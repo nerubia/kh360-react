@@ -31,7 +31,7 @@ export const Input = ({
       <input
         className={`${
           error != null ? "border-red-500" : ""
-        } border px-4 py-2 rounded-md`}
+        } border px-4 py-1.5 rounded-md`}
         id={name}
         name={name}
         type={type}

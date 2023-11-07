@@ -69,7 +69,7 @@ const button = cva(
       },
       size: {
         small: ["text-sm", "px-2", "py-1"],
-        medium: ["text-base", "px-4", "py-2"],
+        medium: ["text-base", "px-4", "py-1.5"],
       },
       center: {
         true: "justify-center",
