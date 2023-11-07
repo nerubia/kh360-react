@@ -82,10 +82,10 @@ test.describe("Admin - Create Evaluation", () => {
 
       await expect(page.getByLabel("Description")).toBeVisible()
 
-      await expect(page.getByPlaceholder("Subject")).toBeVisible()
-      await expect(
-        page.getByRole("textbox", { name: "Some description" })
-      ).toBeVisible()
+      await expect(page.getByPlaceholder("Subject")).toHaveValue("Subject 1")
+      await expect(page.getByPlaceholder("Email content")).toHaveValue(
+        "Content 1"
+      )
 
       await expect(
         page.getByRole("button", { name: "Cancel & Exit" })
