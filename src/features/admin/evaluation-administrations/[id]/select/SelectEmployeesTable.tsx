@@ -2,10 +2,7 @@ import { useEffect } from "react"
 import { Checkbox } from "../../../../../components/checkbox/Checkbox"
 import { Pagination } from "../../../../../components/pagination/Pagination"
 import { setSelectedEmployeeIds } from "../../../../../redux/slices/evaluationAdministrationSlice"
-import {
-  getAllUsers,
-  setCheckedAll,
-} from "../../../../../redux/slices/usersSlice"
+import { getAllUsers } from "../../../../../redux/slices/usersSlice"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
 import { formatDate } from "../../../../../utils/formatDate"
@@ -15,22 +12,23 @@ export const SelectEmployeesTable = () => {
   const { selectedEmployeeIds } = useAppSelector(
     (state) => state.evaluationAdministration
   )
-  const {
-    users,
-    checkedAll,
-    allUsers,
-    hasPreviousPage,
-    hasNextPage,
-    totalPages,
-  } = useAppSelector((state) => state.users)
+  const { users, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
+    (state) => state.users
+  )
 
   const handleSelectAll = (checked: boolean) => {
+    let employeeIds = users.map((user) => user.id)
     if (checked) {
-      const employeeIds = allUsers.map((user) => user.id)
-      appDispatch(setSelectedEmployeeIds(employeeIds))
-      appDispatch(setCheckedAll(true))
+      appDispatch(
+        setSelectedEmployeeIds([...selectedEmployeeIds, ...employeeIds])
+      )
     } else {
-      appDispatch(setSelectedEmployeeIds(""))
+      employeeIds = users.map((user) => user.id)
+      appDispatch(
+        setSelectedEmployeeIds(
+          selectedEmployeeIds.filter((id) => !employeeIds.includes(id))
+        )
+      )
     }
   }
 
@@ -59,7 +57,9 @@ export const SelectEmployeesTable = () => {
               <tr>
                 <th>
                   <Checkbox
-                    checked={checkedAll}
+                    checked={users.every((user) =>
+                      selectedEmployeeIds.includes(user.id)
+                    )}
                     onChange={(checked) => handleSelectAll(checked)}
                   />
                 </th>
@@ -85,9 +85,13 @@ export const SelectEmployeesTable = () => {
                   <td>
                     {user.last_name}, {user.first_name}
                   </td>
-                  <td>{formatDate(user.user_details?.start_date)}</td>
+                  <td>
+                    {user.user_details?.start_date !== null
+                      ? formatDate(user.user_details?.start_date)
+                      : ""}
+                  </td>
                   <td>{user.user_details?.user_position}</td>
-                  <td>{user.user_details?.user_type}</td>
+                  <td className='capitalize'>{user.user_details?.user_type}</td>
                 </tr>
               ))}
             </tbody>

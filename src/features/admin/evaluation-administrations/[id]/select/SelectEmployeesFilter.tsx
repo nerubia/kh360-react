@@ -64,7 +64,7 @@ export const SelectEmployeesFilter = () => {
       <div className='flex-1 flex flex-col md:flex-row gap-4'>
         <div className='flex-1'>
           <Input
-            label='Name/Email'
+            label='Name'
             name='search'
             placeholder='Search by name'
             onChange={(e) => setName(e.target.value)}
