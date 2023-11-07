@@ -62,7 +62,7 @@ export const ViewEvaluationList = () => {
           page: currPage.toString(),
         })
       )
-      setIsInsertingData(!isInsertingData)
+      setIsInsertingData((prevIsInsertingData) => !prevIsInsertingData)
     }
 
     if (!lastList && prevPage !== currPage && hasNextPage) {
@@ -102,7 +102,7 @@ export const ViewEvaluationList = () => {
       const { scrollTop, scrollHeight, clientHeight } = listInnerRef.current
       const threshold = 1
       if (scrollTop + clientHeight + threshold >= scrollHeight) {
-        setCurrPage(currPage + 1)
+        setCurrPage((prevPage) => prevPage + 1)
       }
     }
   }
@@ -135,7 +135,10 @@ export const ViewEvaluationList = () => {
           for_evaluation: true,
         })
       )
-      setDispatchedEmployees([...dispatchedEmployees, index])
+      setDispatchedEmployees((prevDispatchedEmployees) => [
+        ...prevDispatchedEmployees,
+        index,
+      ])
       setSelectedEvaluationResultId(evaluation_result_id)
     }
   }
@@ -175,8 +178,8 @@ export const ViewEvaluationList = () => {
           for_evaluation: true,
         })
       )
-      setDispatchedEvaluationDetails([
-        ...dispatchedEvaluationDetails,
+      setDispatchedEvaluationDetails((prevDispatchedDetails) => [
+        ...prevDispatchedDetails,
         evaluationDetailsKey,
       ])
       setSelectedEvaluationTemplateId(evaluation_template_id)
