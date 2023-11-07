@@ -1,8 +1,6 @@
-import { useEffect } from "react"
 import { Checkbox } from "../../../../../components/checkbox/Checkbox"
 import { Pagination } from "../../../../../components/pagination/Pagination"
 import { setSelectedEmployeeIds } from "../../../../../redux/slices/evaluationAdministrationSlice"
-import { getAllUsers } from "../../../../../redux/slices/usersSlice"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
 import { formatDate } from "../../../../../utils/formatDate"
@@ -43,10 +41,6 @@ export const SelectEmployeesTable = () => {
       )
     }
   }
-
-  useEffect(() => {
-    void appDispatch(getAllUsers())
-  }, [])
 
   return (
     <>
