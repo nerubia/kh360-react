@@ -92,7 +92,7 @@ export const CreateEvaluationForm = () => {
     <div className='flex flex-col gap-10'>
       <div className='flex flex-col md:w-1/2 gap-4'>
         <div>
-          <h1 className='text-lg font-medium'>Evaluation Name</h1>
+          <h1 className='font-medium'>Evaluation Name</h1>
           <Input
             name='name'
             placeholder='Evaluation name'
@@ -102,7 +102,7 @@ export const CreateEvaluationForm = () => {
           />
         </div>
         <div className='flex flex-col'>
-          <h1 className='text-lg font-medium'>Evaluation Period</h1>
+          <h1 className='font-medium'>Evaluation Period</h1>
           <div className='flex flex-col sm:flex-row items-center gap-4'>
             <div className='w-full'>
               <Input
@@ -115,7 +115,7 @@ export const CreateEvaluationForm = () => {
                 max={formData.eval_period_end_date}
               />
             </div>
-            <h1 className='text-lg font-medium'>to</h1>
+            <h1 className='font-medium'>to</h1>
             <div className='w-full'>
               <Input
                 name='eval_period_end_date'
@@ -131,7 +131,7 @@ export const CreateEvaluationForm = () => {
           </div>
         </div>
         <div>
-          <h1 className='text-lg font-medium'>Evaluation Schedule</h1>
+          <h1 className='font-medium'>Evaluation Schedule</h1>
           <div className='flex flex-col sm:flex-row items-center gap-4'>
             <div className='w-full'>
               <Input
@@ -145,7 +145,7 @@ export const CreateEvaluationForm = () => {
                 error={validationErrors.eval_schedule_start_date}
               />
             </div>
-            <h1 className='text-lg font-medium text-center'>to</h1>
+            <h1 className='font-medium text-center'>to</h1>
             <div className='w-full'>
               <Input
                 name='eval_schedule_end_date'
