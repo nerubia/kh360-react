@@ -62,11 +62,7 @@ const initialState: InitialState = {
 const usersSlice = createSlice({
   name: "app",
   initialState,
-  reducers: {
-    setCheckedAll: (state, action) => {
-      state.checkedAll = action.payload
-    },
-  },
+  reducers: {},
   extraReducers(builder) {
     /**
      * List
@@ -106,5 +102,4 @@ const usersSlice = createSlice({
   },
 })
 
-export const { setCheckedAll } = usersSlice.actions
 export default usersSlice.reducer

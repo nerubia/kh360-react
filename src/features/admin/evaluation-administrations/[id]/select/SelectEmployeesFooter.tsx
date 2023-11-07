@@ -1,12 +1,15 @@
 import { useState } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { Button, LinkButton } from "../../../../../components/button/Button"
 import { Icon } from "../../../../../components/icon/Icon"
 import Dialog from "../../../../../components/dialog/Dialog"
+import { setSelectedEmployeeIds } from "../../../../../redux/slices/evaluationAdministrationSlice"
+import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 
 export const SelectEmployeesFooter = () => {
   const { id } = useParams()
-
+  const appDispatch = useAppDispatch()
+  const navigate = useNavigate()
   const [showCancelDialog, setShowCancelDialog] = useState<boolean>(false)
   const [showBackDialog, setShowBackDialog] = useState<boolean>(false)
 
@@ -16,6 +19,16 @@ export const SelectEmployeesFooter = () => {
 
   const toggleBackDialog = () => {
     setShowBackDialog((prev) => !prev)
+  }
+
+  const handleGoBack = () => {
+    appDispatch(setSelectedEmployeeIds([]))
+    navigate(`/admin/evaluation-administrations/${id}/edit`)
+  }
+
+  const handleCancelAndExit = () => {
+    appDispatch(setSelectedEmployeeIds([]))
+    navigate(`/admin/evaluation-administrations`)
   }
 
   return (
@@ -34,7 +47,7 @@ export const SelectEmployeesFooter = () => {
             <Icon icon='ChevronLeft' />
           </Button>
           <LinkButton to={`/admin/evaluation-administrations/${id}/preview`}>
-            Check & Preview
+            Check & Review
           </LinkButton>
         </div>
       </div>
@@ -48,9 +61,9 @@ export const SelectEmployeesFooter = () => {
           <Button variant='primaryOutline' onClick={toggleCancelDialog}>
             No
           </Button>
-          <LinkButton variant='primary' to='/admin/evaluation-administrations'>
+          <Button variant='primary' onClick={handleCancelAndExit}>
             Yes
-          </LinkButton>
+          </Button>
         </Dialog.Actions>
       </Dialog>
       <Dialog open={showBackDialog}>
@@ -63,12 +76,9 @@ export const SelectEmployeesFooter = () => {
           <Button variant='primaryOutline' onClick={toggleBackDialog}>
             No
           </Button>
-          <LinkButton
-            variant='primary'
-            to={`/admin/evaluation-administrations/${id}/edit`}
-          >
+          <Button variant='primary' onClick={handleGoBack}>
             Yes
-          </LinkButton>
+          </Button>
         </Dialog.Actions>
       </Dialog>
     </>
