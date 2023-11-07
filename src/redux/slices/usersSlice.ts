@@ -45,7 +45,6 @@ interface InitialState {
   hasPreviousPage: boolean
   hasNextPage: boolean
   totalPages: number
-  checkedAll: boolean
 }
 
 const initialState: InitialState = {
@@ -56,7 +55,6 @@ const initialState: InitialState = {
   hasPreviousPage: false,
   hasNextPage: false,
   totalPages: 0,
-  checkedAll: false,
 }
 
 const usersSlice = createSlice({
