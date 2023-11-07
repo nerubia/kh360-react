@@ -29,6 +29,8 @@ export const EvaluationAdministrationsFilter = () => {
   const handleSearch = async () => {
     if (name.length !== 0) {
       searchParams.set("name", name)
+    } else {
+      searchParams.delete("name")
     }
     searchParams.set("status", status)
     searchParams.set("page", "1")

@@ -47,6 +47,8 @@ export const SelectEmployeesFilter = () => {
   const handleSearch = async () => {
     if (name.length !== 0) {
       searchParams.set("name", name)
+    } else {
+      searchParams.delete("name")
     }
     searchParams.set("user_type", employee_type)
     searchParams.set("page", "1")
