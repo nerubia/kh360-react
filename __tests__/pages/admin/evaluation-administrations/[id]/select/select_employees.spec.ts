@@ -281,7 +281,7 @@ test.describe("Admin - Select Employees", () => {
         )
       ).toBeVisible()
       await expect(page.getByRole("button", { name: "No" })).toBeVisible()
-      await expect(page.getByRole("link", { name: "Yes" })).toBeVisible()
+      await expect(page.getByRole("button", { name: "Yes" })).toBeVisible()
     })
 
     test("should go to check and preview page succesfully", async ({
@@ -356,7 +356,7 @@ test.describe("Admin - Select Employees", () => {
         .getByRole("checkbox")
         .check()
 
-      await page.getByRole("link", { name: "Check & Preview" }).click()
+      await page.getByRole("link", { name: "Check & Review" }).click()
 
       await expect(page).toHaveURL(
         "/admin/evaluation-administrations/1/preview"
@@ -421,9 +421,6 @@ test.describe("Admin - Select Employees", () => {
         await page.getByTestId("SidebarCloseButton").click()
       }
 
-      await page.getByRole("button", { name: "Cancel & Exit" }).click()
-      await page.getByRole("link", { name: "Yes" }).click()
-
       await mockRequest(page, "/admin/evaluation-administrations", {
         status: 200,
         contentType: "application/json",
@@ -487,6 +484,9 @@ test.describe("Admin - Select Employees", () => {
       })
 
       await page.waitForLoadState("networkidle")
+
+      await page.getByRole("button", { name: "Cancel & Exit" }).click()
+      await page.getByRole("button", { name: "Yes" }).click()
 
       await expect(page).toHaveURL("/admin/evaluation-administrations")
     })
@@ -561,7 +561,7 @@ test.describe("Admin - Select Employees", () => {
         )
       ).toBeVisible()
       await expect(page.getByRole("button", { name: "No" })).toBeVisible()
-      await expect(page.getByRole("link", { name: "Yes" })).toBeVisible()
+      await expect(page.getByRole("button", { name: "Yes" })).toBeVisible()
     })
 
     test("should allow to go back", async ({ page, isMobile }) => {
@@ -640,7 +640,7 @@ test.describe("Admin - Select Employees", () => {
 
       await page.getByTestId("BackButton").click()
 
-      await page.getByRole("link", { name: "Yes" }).click()
+      await page.getByRole("button", { name: "Yes" }).click()
 
       await expect(page).toHaveURL("/admin/evaluation-administrations/1/edit")
     })
