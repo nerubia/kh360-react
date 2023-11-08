@@ -37,7 +37,7 @@ export const Alert = ({ children, variant }: AlertProps) => {
     <div className={alert({ variant })}>
       <div className='absolute top-1 right-1'>
         <Button variant='unstyled' size='small' onClick={handleClose}>
-          <Icon icon='Close' />
+          <Icon icon='Close' color='white' />
         </Button>
       </div>
       {children}

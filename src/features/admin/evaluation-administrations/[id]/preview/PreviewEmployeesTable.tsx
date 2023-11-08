@@ -46,9 +46,9 @@ export const PreviewEmployeesTable = () => {
                       <span className='mr-1'>Included</span>
                       <span className='text-xs'>
                         {showIncluded ? (
-                          <Icon icon='ChevronDown' />
+                          <Icon icon='ChevronDown' color='black' />
                         ) : (
-                          <Icon icon='ChevronUp' />
+                          <Icon icon='ChevronUp' color='black' />
                         )}
                       </span>
                     </div>
@@ -88,9 +88,9 @@ export const PreviewEmployeesTable = () => {
               <span className='mr-1'>Excluded</span>
               <span className='text-xs'>
                 {showExcluded ? (
-                  <Icon icon='ChevronDown' />
+                  <Icon icon='ChevronDown' color='black' />
                 ) : (
-                  <Icon icon='ChevronUp' />
+                  <Icon icon='ChevronUp' color='black' />
                 )}
               </span>
             </div>

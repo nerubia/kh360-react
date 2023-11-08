@@ -2,12 +2,15 @@ import { EvaluationResultStatus } from "../types/evaluationResultType"
 
 export const getEvaluationResultStatusColor = (status: string | undefined) => {
   if (status === EvaluationResultStatus.ForReview) {
-    return "text-primary-500"
+    return "pink"
   }
   if (status === EvaluationResultStatus.Draft) {
-    return "text-gray-500"
+    return "yellow"
   }
   if (status === EvaluationResultStatus.Ready) {
-    return "text-green-500"
+    return "green"
+  }
+  if (status === EvaluationResultStatus.Completed) {
+    return "blue"
   }
 }

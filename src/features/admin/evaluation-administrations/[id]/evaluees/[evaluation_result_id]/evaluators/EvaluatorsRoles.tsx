@@ -48,7 +48,7 @@ export const EvaluatorsRoles = () => {
               variant='unstyled'
               to={`/admin/evaluation-administrations/${id}/evaluees/${previousId}/evaluators/all`}
             >
-              <Icon icon='ChevronLeft' />
+              <Icon icon='ChevronLeft' color='black' />
             </LinkButton>
           )}
         </div>
@@ -79,7 +79,7 @@ export const EvaluatorsRoles = () => {
               variant='unstyled'
               to={`/admin/evaluation-administrations/${id}/evaluees/${nextId}/evaluators/all`}
             >
-              <Icon icon='ChevronRight' />
+              <Icon icon='ChevronRight' color='black' />
             </LinkButton>
           )}
         </div>
