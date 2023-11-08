@@ -130,7 +130,6 @@ export const ViewEvaluationList = () => {
     if (!dispatchedEmployees.includes(index)) {
       void appDispatch(
         getEvaluationTemplates({
-          id,
           evaluation_result_id,
           for_evaluation: true,
         })
@@ -216,7 +215,6 @@ export const ViewEvaluationList = () => {
   ) => {
     void appDispatch(
       getEvaluationTemplates({
-        id,
         evaluation_result_id,
         for_evaluation: true,
       })

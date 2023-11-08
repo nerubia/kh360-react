@@ -92,7 +92,7 @@ test.describe("Admin - Evaluations", () => {
 
       await mockRequest(
         page,
-        "/admin/evaluation-results/1/templates?id=1&evaluation_result_id=1&for_evaluation=true",
+        "/admin/evaluation-templates?evaluation_result_id=1&for_evaluation=true",
         {
           status: 200,
           contentType: "application/json",
@@ -355,7 +355,7 @@ test.describe("Admin - Evaluations", () => {
 
       await mockRequest(
         page,
-        "/admin/evaluation-results/1/templates?id=1&evaluation_result_id=1&for_evaluation=true",
+        "/admin/evaluation-templates?evaluation_result_id=1&for_evaluation=true",
         {
           status: 200,
           contentType: "application/json",
@@ -409,7 +409,7 @@ test.describe("Admin - Evaluations", () => {
 
       await mockRequest(
         page,
-        "/admin/evaluation-results/1/templates?id=1&evaluation_result_id=1",
+        "/admin/evaluation-templates?evaluation_result_id=1",
         {
           status: 200,
           contentType: "application/json",

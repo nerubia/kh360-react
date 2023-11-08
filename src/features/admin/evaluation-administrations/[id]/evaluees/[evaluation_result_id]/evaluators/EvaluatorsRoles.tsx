@@ -25,7 +25,6 @@ export const EvaluatorsRoles = () => {
     }
     void appDispatch(
       getEvaluationTemplates({
-        id,
         evaluation_result_id,
       })
     )
