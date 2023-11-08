@@ -52,12 +52,12 @@ export const EvaluationAdministrationsTable = () => {
             >
               <td>{evaluationAdministration.name}</td>
               <td>
-                {formatDate(evaluationAdministration.eval_period_start_date)} -{" "}
+                {formatDate(evaluationAdministration.eval_period_start_date)} to{" "}
                 {formatDate(evaluationAdministration.eval_period_end_date)}
               </td>
               <td>
                 {formatDate(evaluationAdministration.eval_schedule_start_date)}{" "}
-                - {formatDate(evaluationAdministration.eval_schedule_end_date)}
+                to {formatDate(evaluationAdministration.eval_schedule_end_date)}
               </td>
               <td>{evaluationAdministration.status}</td>
             </tr>
