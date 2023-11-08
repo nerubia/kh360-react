@@ -14,7 +14,7 @@ export const PreviewEmployeesTable = () => {
   )
   const { allUsers } = useAppSelector((state) => state.users)
   const [showIncluded, setShowIncluded] = useState(true)
-  const [showExcluded, setShowExcluded] = useState(true)
+  const [showExcluded, setShowExcluded] = useState(false)
 
   useEffect(() => {
     void appDispatch(getAllUsers())
@@ -30,7 +30,7 @@ export const PreviewEmployeesTable = () => {
                 <th className='w-20'></th>
                 <th>Name</th>
                 <th>Date Started</th>
-                <th>Role</th>
+                <th>Position</th>
                 <th>Employee Type</th>
               </tr>
               <tr>
@@ -67,7 +67,9 @@ export const PreviewEmployeesTable = () => {
                       </td>
                       <td>{formatDate(user.user_details?.start_date)}</td>
                       <td>{user.user_details?.user_position}</td>
-                      <td>{user.user_details?.user_type}</td>
+                      <td className='capitalize'>
+                        {user.user_details?.user_type}
+                      </td>
                     </tr>
                   ) : null
                 )}
@@ -107,7 +109,9 @@ export const PreviewEmployeesTable = () => {
                       </td>
                       <td>{formatDate(employee.user_details?.start_date)}</td>
                       <td>{employee.user_details?.user_position}</td>
-                      <td>{employee.user_details?.user_type}</td>
+                      <td className='capitalize'>
+                        {employee.user_details?.user_type}
+                      </td>
                     </tr>
                   ) : null
                 )}
