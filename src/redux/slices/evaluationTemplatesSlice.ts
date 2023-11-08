@@ -12,12 +12,9 @@ export const getEvaluationTemplates = createAsyncThunk(
   "evaluationTemplate/getEvaluationTemplates",
   async (params: EvaluationTemplateFilters, thunkApi) => {
     try {
-      const response = await axiosInstance.get(
-        `/admin/evaluation-results/${params.id}/templates`,
-        {
-          params,
-        }
-      )
+      const response = await axiosInstance.get("/admin/evaluation-templates", {
+        params,
+      })
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError

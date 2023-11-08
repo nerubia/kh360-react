@@ -7,7 +7,6 @@ export interface EvaluationTemplate {
 }
 
 export interface EvaluationTemplateFilters {
-  id?: string
   evaluation_result_id?: string
   for_evaluation?: boolean
 }
