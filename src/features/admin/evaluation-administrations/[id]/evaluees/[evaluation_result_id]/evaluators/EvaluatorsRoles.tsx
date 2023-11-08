@@ -53,11 +53,16 @@ export const EvaluatorsRoles = () => {
           )}
         </div>
         <div className='flex-1 flex items-center gap-4'>
-          <img
-            className='w-10 h-10 rounded-full'
-            src={evaluation_result?.users?.picture}
-            alt={`Avatar of ${evaluation_result?.users?.first_name} ${evaluation_result?.users?.first_name}`}
-          />
+          {evaluation_result?.users?.picture === undefined ||
+          evaluation_result.users?.picture === null ? (
+            <Icon icon='UserFill' />
+          ) : (
+            <img
+              className='w-10 h-10 rounded-full'
+              src={evaluation_result?.users?.picture}
+              alt={`Avatar of ${evaluation_result?.users?.first_name} ${evaluation_result?.users?.first_name}`}
+            />
+          )}
           <div className='flex-1'>
             <p className='font-bold'>
               {evaluation_result?.users?.last_name},{" "}
