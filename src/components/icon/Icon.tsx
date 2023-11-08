@@ -11,9 +11,6 @@ const iconVariants = cva([], {
       red: "text-red-500",
     },
   },
-  defaultVariants: {
-    color: "primary",
-  },
 })
 
 interface IconProps extends VariantProps<typeof iconVariants> {
