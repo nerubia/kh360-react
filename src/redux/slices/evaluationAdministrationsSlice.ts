@@ -68,6 +68,7 @@ interface InitialState {
   hasPreviousPage: boolean
   hasNextPage: boolean
   totalPages: number
+  totalItems: number
 }
 
 const initialState: InitialState = {
@@ -77,6 +78,7 @@ const initialState: InitialState = {
   hasPreviousPage: false,
   hasNextPage: false,
   totalPages: 0,
+  totalItems: 0,
 }
 
 const evaluationAdministrationsSlice = createSlice({
@@ -98,6 +100,7 @@ const evaluationAdministrationsSlice = createSlice({
       state.hasPreviousPage = action.payload.pageInfo.hasPreviousPage
       state.hasNextPage = action.payload.pageInfo.hasNextPage
       state.totalPages = action.payload.pageInfo.totalPages
+      state.totalItems = action.payload.pageInfo.totalItems
     })
     builder.addCase(getEvaluationAdministrations.rejected, (state, action) => {
       state.loading = Loading.Rejected
