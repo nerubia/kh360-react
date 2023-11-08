@@ -356,7 +356,7 @@ test.describe("Admin - Select Employees", () => {
         .getByRole("checkbox")
         .check()
 
-      await page.getByRole("link", { name: "Check & Review" }).click()
+      await page.getByRole("button", { name: "Check & Review" }).click()
 
       await expect(page).toHaveURL(
         "/admin/evaluation-administrations/1/preview"

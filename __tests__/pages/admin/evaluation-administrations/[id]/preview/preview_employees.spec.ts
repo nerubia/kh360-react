@@ -531,12 +531,14 @@ test.describe("Admin - Preview Employees", () => {
         await page.getByTestId("SidebarCloseButton").click()
       }
 
+      await page.waitForLoadState("networkidle")
+
       await page
         .getByRole("row", { name: "Name Date Started Position Employee Type" })
         .getByRole("checkbox")
         .check()
 
-      await page.getByRole("link", { name: "Check & Review" }).click()
+      await page.getByRole("button", { name: "Check & Review" }).click()
 
       await mockRequest(page, "/admin/users/all", {
         status: 200,
