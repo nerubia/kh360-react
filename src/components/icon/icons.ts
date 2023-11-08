@@ -16,4 +16,6 @@ export const icons = {
   PenSquare: lazy(async () => await import("./icons/PenSquareIcon")),
   Plus: lazy(async () => await import("./icons/PlusIcon")),
   Star: lazy(async () => await import("./icons/StarIcon")),
+  Trash: lazy(async () => await import("./icons/TrashIcon")),
+  UserFill: lazy(async () => await import("./icons/UserFillIcon")),
 }

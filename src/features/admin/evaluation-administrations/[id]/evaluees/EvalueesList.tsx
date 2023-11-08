@@ -14,6 +14,7 @@ import {
   getEvaluationResults,
 } from "../../../../../redux/slices/evaluationResultsSlice"
 import { getEvaluationResultStatusColor } from "../../../../../utils/color"
+import { Badge } from "../../../../../components/badge/Badge"
 
 export const EvalueesList = () => {
   const { id } = useParams()
@@ -69,39 +70,46 @@ export const EvalueesList = () => {
           {evaluation_results.map((evaluationResult) => (
             <div
               key={evaluationResult.id}
-              className='relative flex items-center gap-4 p-4 border rounded-md'
+              className='relative flex flex-col md:flex-row justify-between items-center gap-4 p-4 border rounded-md'
             >
-              <div className='absolute top-1 right-1'>
+              <div className='flex  gap-4'>
+                {evaluationResult.users?.picture === undefined ||
+                evaluationResult.users?.picture === null ? (
+                  <Icon icon='UserFill' />
+                ) : (
+                  <img
+                    className='w-10 h-10 rounded-full'
+                    src={evaluationResult.users.picture}
+                    alt={`Avatar of ${evaluationResult.users?.first_name} ${evaluationResult.users?.first_name}`}
+                  />
+                )}
+                <div className='flex'>
+                  <LinkButton
+                    variant='unstyled'
+                    to={`/admin/evaluation-administrations/${id}/evaluees/${evaluationResult.id}/evaluators/all`}
+                  >
+                    <p className='text-lg underline font-bold'>
+                      {evaluationResult.users?.last_name},{" "}
+                      {evaluationResult.users?.first_name}
+                    </p>
+                  </LinkButton>
+                </div>
+              </div>
+              <div className='flex items-center gap-4'>
+                <Badge
+                  color={getEvaluationResultStatusColor(
+                    evaluationResult.status
+                  )}
+                >
+                  {evaluationResult.status}
+                </Badge>
                 <Button
                   variant='unstyled'
                   size='small'
                   onClick={() => setSelectedEvaluee(evaluationResult)}
                 >
-                  <Icon icon='Close' />
+                  <Icon icon='Trash' color='red' />
                 </Button>
-              </div>
-              <img
-                className='w-10 h-10 rounded-full'
-                src={evaluationResult.users?.picture}
-                alt={`Avatar of ${evaluationResult.users?.first_name} ${evaluationResult.users?.first_name}`}
-              />
-              <div className='flex-1 flex'>
-                <LinkButton
-                  variant='unstyled'
-                  to={`/admin/evaluation-administrations/${id}/evaluees/${evaluationResult.id}/evaluators/all`}
-                >
-                  <p className='text-lg font-bold'>
-                    {evaluationResult.users?.last_name},{" "}
-                    {evaluationResult.users?.first_name}
-                  </p>
-                </LinkButton>
-              </div>
-              <div
-                className={getEvaluationResultStatusColor(
-                  evaluationResult.status
-                )}
-              >
-                {evaluationResult.status}
               </div>
             </div>
           ))}

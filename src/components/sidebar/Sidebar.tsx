@@ -34,7 +34,7 @@ export const Sidebar = () => {
             size='small'
             onClick={toggleSidebar}
           >
-            <Icon icon='Close' />
+            <Icon icon='Close' color='white' />
           </Button>
         </div>
         <div className='flex justify-center'>
@@ -65,7 +65,7 @@ export const Sidebar = () => {
           )}
         </div>
         <Button fullWidth onClick={handleLogout}>
-          <Icon icon='Logout' />
+          <Icon icon='Logout' color='white' />
           Logout
         </Button>
       </div>

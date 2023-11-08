@@ -6,8 +6,8 @@ import { EvalueesHeader } from "../../../../../features/admin/evaluation-adminis
 export default function Evaluees() {
   return (
     <div className='h-[calc(100vh_-_104px)] flex flex-col gap-8'>
-      <EvalueesFilter />
       <EvalueesHeader />
+      <EvalueesFilter />
       <EvalueesList />
       <EvalueesFooter />
     </div>

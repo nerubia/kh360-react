@@ -38,7 +38,7 @@ export default function Sample() {
   }
 
   return (
-    <div className='flex flex-col gap-4'>
+    <div className='flex flex-col gap-8'>
       <h1 className='text-lg font-bold'>Sample</h1>
       <p>
         Welcome {user?.first_name} {user?.last_name}
@@ -51,7 +51,7 @@ export default function Sample() {
         </Button>
       </div>
       <div className='flex flex-col gap-4'>
-        <p>Sample button variants</p>
+        <p className='font-bold'># Sample button variants</p>
         <div className='flex gap-4'>
           <Button size='small'>Small primary</Button>
           <Button size='small' loading={true}>
@@ -140,7 +140,18 @@ export default function Sample() {
         </div>
       </div>
       <div className='flex flex-col gap-4'>
-        <p>Sample icons</p>
+        <p className='font-bold'># Sample badges</p>
+        <div className='flex gap-2'>
+          <Badge>Default - Primary</Badge>
+          <Badge color='pink'>Pink</Badge>
+          <Badge color='yellow'>Yellow</Badge>
+          <Badge color='green'>Green</Badge>
+          <Badge color='blue'>Blue</Badge>
+          <Badge color='gray'>Gray</Badge>
+        </div>
+      </div>
+      <div className='flex flex-col gap-4'>
+        <p className='font-bold'># Sample icons</p>
         <div className='flex flex-wrap gap-2'>
           <Icon icon='ChevronLeft' />
           <Icon icon='Close' />
@@ -152,7 +163,7 @@ export default function Sample() {
         </div>
       </div>
       <div className='flex flex-col gap-4'>
-        <p>Sample alerts</p>
+        <p className='font-bold'># Sample alerts</p>
         <div className='flex flex-col gap-2'>
           <Alert>Primary alert</Alert>
           <Alert variant='success'>Success alert</Alert>
@@ -404,7 +415,7 @@ export default function Sample() {
                 <div className='flex-1 flex flex-col text-start'>
                   <div className='flex justify-between'>
                     <p className='text-sm'>Full name</p>
-                    <Badge name='Draft' variant='secondary' />
+                    <Badge color='gray'>Draft</Badge>
                   </div>
                   <p className='text-xs'>ProductHQ [QA Evaluation]</p>
                 </div>
@@ -416,7 +427,7 @@ export default function Sample() {
                 <div className='flex-1 flex flex-col text-start'>
                   <div className='flex justify-between'>
                     <p className='text-sm'>Full name</p>
-                    <Badge name='Done' variant='success' />
+                    <Badge color='green'>Done</Badge>
                   </div>
                   <p className='text-xs'>ProductHQ [PM Evaluation]</p>
                 </div>
@@ -513,7 +524,7 @@ export default function Sample() {
                 <div className='flex-1 flex flex-col text-start'>
                   <div className='flex justify-between'>
                     <p className='text-white text-sm'>Full name</p>
-                    <Badge name='Draft' variant='secondary' />
+                    <Badge color='gray'>Draft</Badge>
                   </div>
                   <p className='text-white text-xs'>
                     ProductHQ [QA Evaluation]
@@ -527,7 +538,7 @@ export default function Sample() {
                 <div className='flex-1 flex flex-col text-start'>
                   <div className='flex justify-between'>
                     <p className='text-sm'>Full name</p>
-                    <Badge name='Draft' variant='secondary' />
+                    <Badge color='gray'>Draft</Badge>
                   </div>
                   <p className='text-xs'>ProductHQ [QA Evaluation]</p>
                 </div>
@@ -539,7 +550,7 @@ export default function Sample() {
                 <div className='flex-1 flex flex-col text-start'>
                   <div className='flex justify-between'>
                     <p className='text-sm'>Full name</p>
-                    <Badge name='Done' variant='success' />
+                    <Badge color='green'>Done</Badge>
                   </div>
                   <p className='text-xs'>ProductHQ [PM Evaluation]</p>
                 </div>
