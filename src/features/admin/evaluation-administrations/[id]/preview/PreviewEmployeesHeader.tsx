@@ -1,7 +1,9 @@
+import { PageTitle } from "../../../../../components/shared/PageTitle"
+
 export const PreviewEmployeesHeader = () => {
   return (
     <div>
-      <h1 className='text-2xl font-bold'>Review Employees</h1>
+      <PageTitle>Review Employees</PageTitle>
     </div>
   )
 }

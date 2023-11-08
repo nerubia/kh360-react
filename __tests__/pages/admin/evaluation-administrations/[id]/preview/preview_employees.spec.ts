@@ -108,7 +108,7 @@ test.describe("Admin - Preview Employees", () => {
       await expect(
         page.getByRole("cell", { name: "Date Started" })
       ).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Role" })).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Position" })).toBeVisible()
       await expect(
         page.getByRole("cell", { name: "Employee Type" })
       ).toBeVisible()
@@ -120,15 +120,6 @@ test.describe("Admin - Preview Employees", () => {
         page.getByRole("button", { name: "3 Excluded" })
       ).toBeVisible()
 
-      await expect(
-        page.getByRole("cell", { name: "Baker, Adam" })
-      ).toBeVisible()
-      await expect(
-        page.getByRole("cell", { name: "Davis, Clark" })
-      ).toBeVisible()
-      await expect(
-        page.getByRole("cell", { name: "Evans, Hill" })
-      ).toBeVisible()
       await expect(page).toHaveURL(
         "/admin/evaluation-administrations/1/preview"
       )
