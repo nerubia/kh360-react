@@ -32,7 +32,7 @@ export const Pagination = ({
           }}
           disabled={!hasPreviousPage}
         >
-          <Icon icon='ChevronsLeft' color='white' />
+          <Icon icon='ChevronsLeft' />
         </Button>
         <Button
           size='small'
@@ -43,7 +43,7 @@ export const Pagination = ({
           }}
           disabled={!hasPreviousPage}
         >
-          <Icon icon='ChevronLeft' color='white' />
+          <Icon icon='ChevronLeft' />
         </Button>
         <Button
           size='small'
@@ -54,7 +54,7 @@ export const Pagination = ({
           }}
           disabled={!hasNextPage}
         >
-          <Icon icon='ChevronRight' color='white' />
+          <Icon icon='ChevronRight' />
         </Button>
         <Button
           size='small'
@@ -68,7 +68,7 @@ export const Pagination = ({
           }}
           disabled={!hasNextPage}
         >
-          <Icon icon='ChevronsRight' color='white' />
+          <Icon icon='ChevronsRight' />
         </Button>
       </div>
       <p className='text-sm'>

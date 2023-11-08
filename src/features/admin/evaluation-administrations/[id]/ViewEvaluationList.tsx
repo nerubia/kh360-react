@@ -255,7 +255,7 @@ export const ViewEvaluationList = () => {
                     }
                     variant={"unstyled"}
                   >
-                    <Icon icon='PenSquare' color='black' />
+                    <Icon icon='PenSquare' />
                   </Button>
                 )}
                 <Button
@@ -270,9 +270,9 @@ export const ViewEvaluationList = () => {
                   <div className='flex items-center'>
                     <span className='text-xs'>
                       {evaluationResultToggledState[evaluationIndex] ? (
-                        <Icon icon='ChevronDown' color='black' />
+                        <Icon icon='ChevronDown' />
                       ) : (
-                        <Icon icon='ChevronRight' color='black' />
+                        <Icon icon='ChevronRight' />
                       )}
                     </span>
                     <span className='mr-1'>
@@ -306,9 +306,9 @@ export const ViewEvaluationList = () => {
                                   {evaluationDetailsToggledState[
                                     evaluationIndex
                                   ][templateIndex] ? (
-                                    <Icon icon='ChevronDown' color='black' />
+                                    <Icon icon='ChevronDown' />
                                   ) : (
-                                    <Icon icon='ChevronRight' color='black' />
+                                    <Icon icon='ChevronRight' />
                                   )}
                                 </span>
                                 <span>{template.display_name}</span>
