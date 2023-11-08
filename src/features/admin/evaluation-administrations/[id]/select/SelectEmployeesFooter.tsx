@@ -1,15 +1,20 @@
 import { useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-import { Button, LinkButton } from "../../../../../components/button/Button"
+import { Button } from "../../../../../components/button/Button"
 import { Icon } from "../../../../../components/icon/Icon"
 import Dialog from "../../../../../components/dialog/Dialog"
 import { setSelectedEmployeeIds } from "../../../../../redux/slices/evaluationAdministrationSlice"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
+import { useAppSelector } from "../../../../../hooks/useAppSelector"
 
 export const SelectEmployeesFooter = () => {
   const { id } = useParams()
-  const appDispatch = useAppDispatch()
   const navigate = useNavigate()
+  const appDispatch = useAppDispatch()
+  const { selectedEmployeeIds } = useAppSelector(
+    (state) => state.evaluationAdministration
+  )
+
   const [showCancelDialog, setShowCancelDialog] = useState<boolean>(false)
   const [showBackDialog, setShowBackDialog] = useState<boolean>(false)
 
@@ -31,6 +36,10 @@ export const SelectEmployeesFooter = () => {
     navigate(`/admin/evaluation-administrations`)
   }
 
+  const handleCheckAndReview = () => {
+    navigate(`/admin/evaluation-administrations/${id}/preview`)
+  }
+
   return (
     <>
       <div className='flex justify-between'>
@@ -46,9 +55,12 @@ export const SelectEmployeesFooter = () => {
           >
             <Icon icon='ChevronLeft' />
           </Button>
-          <LinkButton to={`/admin/evaluation-administrations/${id}/preview`}>
+          <Button
+            onClick={handleCheckAndReview}
+            disabled={selectedEmployeeIds.length === 0}
+          >
             Check & Review
-          </LinkButton>
+          </Button>
         </div>
       </div>
       <Dialog open={showCancelDialog}>
