@@ -30,10 +30,21 @@ export const SelectEmployeesTable = () => {
   }, [])
 
   useEffect(() => {
-    const includedIds = evaluation_results.map(
-      (evaluationResult) => evaluationResult.users?.id
+    const includedIds: number[] = []
+    for (const evaluationResult of evaluation_results) {
+      if (evaluationResult.users != null) {
+        includedIds.push(evaluationResult.users.id)
+      }
+    }
+    appDispatch(
+      setSelectedEmployeeIds(
+        selectedEmployeeIds.concat(
+          includedIds.filter(
+            (includedId) => !selectedEmployeeIds.includes(includedId)
+          )
+        )
+      )
     )
-    appDispatch(setSelectedEmployeeIds(includedIds))
   }, [evaluation_results])
 
   const handleSelectAll = (checked: boolean) => {
