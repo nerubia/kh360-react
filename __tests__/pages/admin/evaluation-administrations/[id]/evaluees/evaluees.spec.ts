@@ -469,6 +469,16 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
         }),
       })
 
+      await mockRequest(
+        page,
+        "/admin/evaluation-results/all?evaluation_administration_id=1",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([]),
+        }
+      )
+
       await expect(page).toHaveURL("/admin/evaluation-administrations/1/select")
     })
 
