@@ -75,7 +75,7 @@ export const EvalueesList = () => {
               <div className='flex  gap-4'>
                 {evaluationResult.users?.picture === undefined ||
                 evaluationResult.users?.picture === null ? (
-                  <Icon icon='UserFill' />
+                  <Icon icon='UserFill' color='primary' />
                 ) : (
                   <img
                     className='w-10 h-10 rounded-full'

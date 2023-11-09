@@ -70,7 +70,7 @@ export const EvaluatorsList = () => {
   }
 
   return (
-    <div className='w-full h-[calc(100vh_-_104px)] flex flex-col'>
+    <div className='w-full h-[calc(100vh_-_185px)] flex flex-col pt-4'>
       <div className='flex-1 flex-col overflow-y-scroll'>
         <table className='relative w-full'>
           <thead className='sticky top-0 bg-white text-left'>
