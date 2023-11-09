@@ -147,6 +147,16 @@ test.describe("Admin - Select Employees", () => {
         }),
       })
 
+      await mockRequest(
+        page,
+        "/admin/evaluation-results/all?evaluation_administration_id=1",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([]),
+        }
+      )
+
       await page.waitForLoadState("networkidle")
 
       await expect(page.getByPlaceholder("Search by name")).toBeVisible()
@@ -266,6 +276,16 @@ test.describe("Admin - Select Employees", () => {
         }),
       })
 
+      await mockRequest(
+        page,
+        "/admin/evaluation-results/all?evaluation_administration_id=1",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([]),
+        }
+      )
+
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
       }
@@ -340,6 +360,16 @@ test.describe("Admin - Select Employees", () => {
           ],
         }),
       })
+
+      await mockRequest(
+        page,
+        "/admin/evaluation-results/all?evaluation_administration_id=1",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([]),
+        }
+      )
 
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
@@ -416,6 +446,16 @@ test.describe("Admin - Select Employees", () => {
           ],
         }),
       })
+
+      await mockRequest(
+        page,
+        "/admin/evaluation-results/all?evaluation_administration_id=1",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([]),
+        }
+      )
 
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
@@ -548,6 +588,16 @@ test.describe("Admin - Select Employees", () => {
         }),
       })
 
+      await mockRequest(
+        page,
+        "/admin/evaluation-results/all?evaluation_administration_id=1",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([]),
+        }
+      )
+
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
       }
@@ -617,6 +667,16 @@ test.describe("Admin - Select Employees", () => {
           ],
         }),
       })
+
+      await mockRequest(
+        page,
+        "/admin/evaluation-results/all?evaluation_administration_id=1",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([]),
+        }
+      )
 
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()

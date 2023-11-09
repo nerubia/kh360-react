@@ -1,18 +1,40 @@
+import { useEffect } from "react"
+import { useParams } from "react-router-dom"
 import { Checkbox } from "../../../../../components/checkbox/Checkbox"
 import { Pagination } from "../../../../../components/pagination/Pagination"
 import { setSelectedEmployeeIds } from "../../../../../redux/slices/evaluationAdministrationSlice"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
 import { formatDate } from "../../../../../utils/formatDate"
+import { getEvaluationResultIds } from "../../../../../redux/slices/evaluationResultsSlice"
 
 export const SelectEmployeesTable = () => {
+  const { id } = useParams()
   const appDispatch = useAppDispatch()
   const { selectedEmployeeIds } = useAppSelector(
     (state) => state.evaluationAdministration
   )
+  const { evaluation_results } = useAppSelector(
+    (state) => state.evaluationResults
+  )
   const { users, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
     (state) => state.users
   )
+
+  useEffect(() => {
+    void appDispatch(
+      getEvaluationResultIds({
+        evaluation_administration_id: id,
+      })
+    )
+  }, [])
+
+  useEffect(() => {
+    const includedIds = evaluation_results.map(
+      (evaluationResult) => evaluationResult.users?.id
+    )
+    appDispatch(setSelectedEmployeeIds(includedIds))
+  }, [evaluation_results])
 
   const handleSelectAll = (checked: boolean) => {
     let employeeIds = users.map((user) => user.id)

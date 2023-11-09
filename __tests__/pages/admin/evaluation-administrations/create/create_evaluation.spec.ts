@@ -232,6 +232,16 @@ test.describe("Admin - Create Evaluation", () => {
         }),
       })
 
+      await mockRequest(
+        page,
+        "/admin/evaluation-results/all?evaluation_administration_id=1",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([]),
+        }
+      )
+
       await page.waitForLoadState("networkidle")
 
       await expect(page).toHaveURL("/admin/evaluation-administrations/1/select")
