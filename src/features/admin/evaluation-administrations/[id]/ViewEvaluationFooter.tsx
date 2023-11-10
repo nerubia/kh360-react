@@ -6,7 +6,7 @@ export const ViewEvaluationFooter = () => {
   const navigate = useNavigate()
 
   const handleGoBack = () => {
-    navigate(`/admin/evaluation-administrations/`)
+    navigate(`/admin/evaluation-administrations`)
   }
 
   return (
