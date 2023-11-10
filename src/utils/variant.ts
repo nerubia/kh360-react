@@ -1,8 +1,10 @@
 import { EvaluationResultStatus } from "../types/evaluationResultType"
 
-export const getEvaluationResultStatusColor = (status: string | undefined) => {
+export const getEvaluationResultStatusVariant = (
+  status: string | undefined
+) => {
   if (status === EvaluationResultStatus.ForReview) {
-    return "pink"
+    return "greenOutline"
   }
   if (status === EvaluationResultStatus.Draft) {
     return "yellow"

@@ -13,7 +13,7 @@ import {
   deleteEvaluationResult,
   getEvaluationResults,
 } from "../../../../../redux/slices/evaluationResultsSlice"
-import { getEvaluationResultStatusColor } from "../../../../../utils/color"
+import { getEvaluationResultStatusVariant } from "../../../../../utils/variant"
 import { Badge } from "../../../../../components/badge/Badge"
 
 export const EvalueesList = () => {
@@ -97,7 +97,7 @@ export const EvalueesList = () => {
               </div>
               <div className='flex items-center gap-4'>
                 <Badge
-                  color={getEvaluationResultStatusColor(
+                  variant={getEvaluationResultStatusVariant(
                     evaluationResult.status
                   )}
                 >
