@@ -143,11 +143,12 @@ export default function Sample() {
         <p className='font-bold'># Sample badges</p>
         <div className='flex gap-2'>
           <Badge>Default - Primary</Badge>
-          <Badge color='pink'>Pink</Badge>
-          <Badge color='yellow'>Yellow</Badge>
-          <Badge color='green'>Green</Badge>
-          <Badge color='blue'>Blue</Badge>
-          <Badge color='gray'>Gray</Badge>
+          <Badge variant='pink'>Pink</Badge>
+          <Badge variant='yellow'>Yellow</Badge>
+          <Badge variant='green'>Green</Badge>
+          <Badge variant='blue'>Blue</Badge>
+          <Badge variant='gray'>Gray</Badge>
+          <Badge variant='greenOutline'>Green outline</Badge>
         </div>
       </div>
       <div className='flex flex-col gap-4'>
@@ -415,7 +416,7 @@ export default function Sample() {
                 <div className='flex-1 flex flex-col text-start'>
                   <div className='flex justify-between'>
                     <p className='text-sm'>Full name</p>
-                    <Badge color='gray'>Draft</Badge>
+                    <Badge variant='gray'>Draft</Badge>
                   </div>
                   <p className='text-xs'>ProductHQ [QA Evaluation]</p>
                 </div>
@@ -427,7 +428,7 @@ export default function Sample() {
                 <div className='flex-1 flex flex-col text-start'>
                   <div className='flex justify-between'>
                     <p className='text-sm'>Full name</p>
-                    <Badge color='green'>Done</Badge>
+                    <Badge variant='green'>Done</Badge>
                   </div>
                   <p className='text-xs'>ProductHQ [PM Evaluation]</p>
                 </div>
@@ -524,7 +525,7 @@ export default function Sample() {
                 <div className='flex-1 flex flex-col text-start'>
                   <div className='flex justify-between'>
                     <p className='text-white text-sm'>Full name</p>
-                    <Badge color='gray'>Draft</Badge>
+                    <Badge variant='gray'>Draft</Badge>
                   </div>
                   <p className='text-white text-xs'>
                     ProductHQ [QA Evaluation]
@@ -538,7 +539,7 @@ export default function Sample() {
                 <div className='flex-1 flex flex-col text-start'>
                   <div className='flex justify-between'>
                     <p className='text-sm'>Full name</p>
-                    <Badge color='gray'>Draft</Badge>
+                    <Badge variant='gray'>Draft</Badge>
                   </div>
                   <p className='text-xs'>ProductHQ [QA Evaluation]</p>
                 </div>
@@ -550,7 +551,7 @@ export default function Sample() {
                 <div className='flex-1 flex flex-col text-start'>
                   <div className='flex justify-between'>
                     <p className='text-sm'>Full name</p>
-                    <Badge color='green'>Done</Badge>
+                    <Badge variant='green'>Done</Badge>
                   </div>
                   <p className='text-xs'>ProductHQ [PM Evaluation]</p>
                 </div>

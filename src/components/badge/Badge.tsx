@@ -2,6 +2,8 @@ import { type VariantProps, cva } from "class-variance-authority"
 
 const badge = cva(
   [
+    "flex",
+    "items-center",
     "text-white",
     "text-[10px]",
     "leading-4",
@@ -12,17 +14,18 @@ const badge = cva(
   ],
   {
     variants: {
-      color: {
+      variant: {
         primary: ["bg-primary-500"],
         pink: ["bg-pink-500"],
         yellow: ["bg-yellow-500"],
         green: ["bg-green-500"],
         blue: ["bg-blue-500"],
         gray: ["bg-gray-500"],
+        greenOutline: ["border", "border-green-500", "text-green-500"],
       },
     },
     defaultVariants: {
-      color: "primary",
+      variant: "primary",
     },
   }
 )
@@ -31,6 +34,6 @@ interface BadgeProps extends VariantProps<typeof badge> {
   children: React.ReactNode
 }
 
-export const Badge = ({ children, color }: BadgeProps) => {
-  return <span className={badge({ color })}>{children}</span>
+export const Badge = ({ children, variant }: BadgeProps) => {
+  return <span className={badge({ variant })}>{children}</span>
 }

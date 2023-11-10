@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom"
 import { LinkButton } from "../../../../../../../components/button/Button"
 import { Icon } from "../../../../../../../components/icon/Icon"
 import { useAppSelector } from "../../../../../../../hooks/useAppSelector"
-import { getEvaluationResultStatusColor } from "../../../../../../../utils/color"
+import { getEvaluationResultStatusVariant } from "../../../../../../../utils/variant"
 import { Badge } from "../../../../../../../components/badge/Badge"
 
 export const EvaluatorsUser = () => {
@@ -42,7 +42,9 @@ export const EvaluatorsUser = () => {
             {evaluation_result?.users?.first_name}
           </p>
           <Badge
-            color={getEvaluationResultStatusColor(evaluation_result?.status)}
+            variant={getEvaluationResultStatusVariant(
+              evaluation_result?.status
+            )}
           >
             {evaluation_result?.status}
           </Badge>
