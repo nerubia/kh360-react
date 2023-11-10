@@ -30,6 +30,7 @@ export const EvaluationsCriteria = () => {
     useAppSelector((state) => state.user)
   const [evaluation, setEvaluation] = useState<Evaluation>()
   const [comment, setComment] = useState<string>("")
+  const [errorMessage, setErrorMessage] = useState<string>("")
 
   useEffect(() => {
     if (evaluation_id !== "all") {
@@ -47,6 +48,7 @@ export const EvaluationsCriteria = () => {
   }, [evaluation_id, user_evaluations])
 
   useEffect(() => {
+    setErrorMessage("")
     if (evaluation?.comments !== undefined && evaluation?.comments !== null) {
       setComment(evaluation.comments)
     } else {
@@ -58,6 +60,7 @@ export const EvaluationsCriteria = () => {
     answerOptionId: number,
     evaluationRatingId: number
   ) => {
+    setErrorMessage("")
     if (evaluation_id !== undefined) {
       try {
         const result = await appDispatch(
@@ -80,14 +83,6 @@ export const EvaluationsCriteria = () => {
             })
           )
         }
-        if (typeof result === "string") {
-          void appDispatch(
-            setAlert({
-              description: result,
-              variant: "destructive",
-            })
-          )
-        }
       } catch (error) {}
     }
   }
@@ -97,6 +92,7 @@ export const EvaluationsCriteria = () => {
   ) => {
     const { value } = e.target
     setComment(value)
+    setErrorMessage("")
   }
 
   const handleOnBlur = async (e: React.FocusEvent<HTMLTextAreaElement>) => {
@@ -109,14 +105,7 @@ export const EvaluationsCriteria = () => {
             comment: value,
           })
         )
-        if (typeof result.payload === "string") {
-          void appDispatch(
-            setAlert({
-              description: result.payload,
-              variant: "destructive",
-            })
-          )
-        } else if (result.payload !== undefined) {
+        if (result.payload !== undefined) {
           setComment(result.payload.comment)
         }
       } catch (error) {}
@@ -129,14 +118,12 @@ export const EvaluationsCriteria = () => {
         const result = await appDispatch(
           submitEvaluation(parseInt(evaluation_id))
         )
-        if (typeof result.payload === "string") {
-          void appDispatch(
-            setAlert({
-              description: result.payload,
-              variant: "destructive",
-            })
-          )
-        } else if (result.payload !== undefined) {
+        /* eslint-disable */
+        console.log(result.payload)
+        if (
+          result.payload !== undefined &&
+          result.type === "user/submitEvaluation/fulfilled"
+        ) {
           void appDispatch(
             setAlert({
               description: `Evaluation successfully submitted.`,
@@ -149,6 +136,8 @@ export const EvaluationsCriteria = () => {
               for_evaluation: true,
             })
           )
+        } else if (result.type === "user/submitEvaluation/rejected") {
+          setErrorMessage(result.payload)
         }
       } catch (error) {}
     }
@@ -204,25 +193,10 @@ export const EvaluationsCriteria = () => {
                   onChange={handleTextAreaChange}
                   onBlur={handleOnBlur}
                   disabled={loading_comment === Loading.Pending}
-                  error={
-                    evaluation_template_contents.every(
-                      (rating) =>
-                        rating.evaluationRating?.ratingSequenceNumber === 2
-                    ) && comment.length <= 0
-                      ? "Comment is required"
-                      : undefined
-                  }
+                  error={errorMessage}
                 />
                 <div className='flex justify-end'>
-                  <Button
-                    onClick={async () => await handleSubmit()}
-                    disabled={evaluation_template_contents.every((rating) => {
-                      return (
-                        rating.evaluationRating?.ratingSequenceNumber === 2 &&
-                        comment.length === 0
-                      )
-                    })}
-                  >
+                  <Button onClick={async () => await handleSubmit()}>
                     Submit
                   </Button>
                 </div>

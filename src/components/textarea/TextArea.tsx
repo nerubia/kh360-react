@@ -28,7 +28,7 @@ export const TextArea = ({
       )}
       <textarea
         className={`${
-          error != null ? "border-red-500" : ""
+          error != null && error !== "" ? "border-red-500" : ""
         } w-full p-4 border rounded-md resize-none`}
         id={name}
         name={name}
@@ -39,7 +39,9 @@ export const TextArea = ({
         rows={5}
         disabled={disabled}
       ></textarea>
-      {error != null && <p className='text-red-500 text-sm'>{error}</p>}
+      {error != null && error !== "" && (
+        <p className='text-red-500 text-sm'>{error}</p>
+      )}
     </div>
   )
 }
