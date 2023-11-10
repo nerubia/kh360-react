@@ -6,6 +6,7 @@ import { getEvaluationAdministration } from "../../../../redux/slices/evaluation
 import { Loading } from "../../../../types/loadingType"
 import { ViewEvaluationHeader } from "../../../../features/admin/evaluation-administrations/[id]/ViewEvaluationHeader"
 import { ViewEvaluationList } from "../../../../features/admin/evaluation-administrations/[id]/ViewEvaluationList"
+import { ViewEvaluationFooter } from "../../../../features/admin/evaluation-administrations/[id]/ViewEvaluationFooter"
 
 export default function ViewEvaluation() {
   const { id } = useParams()
@@ -28,20 +29,24 @@ export default function ViewEvaluation() {
       {loading === Loading.Fulfilled && evaluation_administration === null && (
         <div>Not found</div>
       )}
-      {loading === Loading.Fulfilled && evaluation_administration !== null && (
-        <div
-          className='h-[calc(100vh_-_104px)] flex flex-col gap-2'
-          id='scroll-container'
-        >
-          <ViewEvaluationHeader />
-          {loading_evaluation_results === Loading.Pending && (
-            <div>Loading...</div>
+      <div
+        className='h-[calc(100vh_-_104px)] flex flex-col gap-2'
+        id='scroll-container'
+      >
+        {loading === Loading.Fulfilled &&
+          evaluation_administration !== null && (
+            <>
+              <ViewEvaluationHeader />
+              {loading_evaluation_results === Loading.Pending && (
+                <div>Loading...</div>
+              )}
+              {loading_evaluation_results === Loading.Fulfilled &&
+                evaluation_results === null && <div>Not found</div>}
+              {evaluation_results !== null && <ViewEvaluationList />}
+            </>
           )}
-          {loading_evaluation_results === Loading.Fulfilled &&
-            evaluation_results === null && <div>Not found</div>}
-          {evaluation_results !== null && <ViewEvaluationList />}
-        </div>
-      )}
+        <ViewEvaluationFooter />
+      </div>
     </div>
   )
 }
