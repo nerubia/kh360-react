@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { Icon } from "../../../components/icon/Icon"
 import { Button } from "../../../components/button/Button"
+import { StarRating } from "../../../components/rating/StarRating"
 import { getEvaluationTemplateContents } from "../../../redux/slices/evaluationTemplateContentsSlice"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../hooks/useAppSelector"
-import { AnswerOptions } from "../../../types/answerOptionType"
 import {
   submitAnswer,
   submitComment,
@@ -20,7 +19,6 @@ import {
 } from "../../../types/evaluationType"
 import { formatDate } from "../../../utils/formatDate"
 import { TextArea } from "../../../components/textarea/TextArea"
-import { getAnswerOptionVariant } from "../../../utils/variant"
 
 export const EvaluationsCriteria = () => {
   const { id, evaluation_id } = useParams()
@@ -28,10 +26,10 @@ export const EvaluationsCriteria = () => {
   const { evaluation_template_contents } = useAppSelector(
     (state) => state.evaluationTemplateContents
   )
-  const { loading, loading_answer, loading_comment, user_evaluations } =
+  const { loading, loading_comment, loading_answer, user_evaluations } =
     useAppSelector((state) => state.user)
   const [evaluation, setEvaluation] = useState<Evaluation>()
-  const [comments, setComments] = useState<string>("")
+  const [comment, setComment] = useState<string>("")
 
   useEffect(() => {
     if (evaluation_id !== "all") {
@@ -50,9 +48,9 @@ export const EvaluationsCriteria = () => {
 
   useEffect(() => {
     if (evaluation?.comments !== undefined && evaluation?.comments !== null) {
-      setComments(evaluation.comments)
+      setComment(evaluation.comments)
     } else {
-      setComments("")
+      setComment("")
     }
   }, [evaluation])
 
@@ -98,7 +96,7 @@ export const EvaluationsCriteria = () => {
     e: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     const { value } = e.target
-    setComments(value)
+    setComment(value)
   }
 
   const handleOnBlur = async (e: React.FocusEvent<HTMLTextAreaElement>) => {
@@ -119,7 +117,7 @@ export const EvaluationsCriteria = () => {
             })
           )
         } else if (result.payload !== undefined) {
-          setComments(result.payload.comment)
+          setComment(result.payload.comment)
         }
       } catch (error) {}
     }
@@ -185,53 +183,12 @@ export const EvaluationsCriteria = () => {
                   </h1>
                   <p>{templateContent.description}</p>
                 </div>
-                <div className='flex flex-row items-center'>
-                  {templateContent.answerOptions !== undefined &&
-                    templateContent.answerId ===
-                      AnswerOptions.FivePointStarRating && (
-                      <>
-                        {templateContent.answerOptions.map((answerOption) => {
-                          return (
-                            <div key={answerOption.id}>
-                              {templateContent.evaluationRating === null ? (
-                                <h1>Rating not found</h1>
-                              ) : (
-                                <>
-                                  <Button
-                                    testId={`OptionButton${answerOption.id}`}
-                                    key={answerOption.id}
-                                    disabled={
-                                      loading_answer === Loading.Pending ||
-                                      evaluation?.status ===
-                                        EvaluationStatus.Submitted
-                                    }
-                                    variant={getAnswerOptionVariant(
-                                      answerOption.sequence_no,
-                                      templateContent.evaluationRating
-                                        .ratingSequenceNumber
-                                    )}
-                                    onClick={async () =>
-                                      await handleOnClickStar(
-                                        answerOption.id,
-                                        templateContent.evaluationRating.id
-                                      )
-                                    }
-                                    size='small'
-                                  >
-                                    {answerOption.sequence_no === 1 ? (
-                                      "N/A"
-                                    ) : (
-                                      <Icon icon='Star' />
-                                    )}
-                                  </Button>
-                                </>
-                              )}
-                            </div>
-                          )
-                        })}
-                      </>
-                    )}
-                </div>
+                <StarRating
+                  templateContent={templateContent}
+                  loadingAnswer={loading_answer}
+                  evaluation={evaluation}
+                  handleOnClick={handleOnClickStar}
+                />
               </div>
             ))}
             <h1 className='text-lg font-bold'>Comments</h1>
@@ -243,7 +200,7 @@ export const EvaluationsCriteria = () => {
                   label='Evaluation description/notes'
                   name='remarks'
                   placeholder='Comments'
-                  value={comments}
+                  value={comment}
                   onChange={handleTextAreaChange}
                   onBlur={handleOnBlur}
                   disabled={loading_comment === Loading.Pending}
@@ -251,7 +208,7 @@ export const EvaluationsCriteria = () => {
                     evaluation_template_contents.every(
                       (rating) =>
                         rating.evaluationRating?.ratingSequenceNumber === 2
-                    ) && comments.length <= 0
+                    ) && comment.length <= 0
                       ? "Comment is required"
                       : undefined
                   }
@@ -262,7 +219,7 @@ export const EvaluationsCriteria = () => {
                     disabled={evaluation_template_contents.every((rating) => {
                       return (
                         rating.evaluationRating?.ratingSequenceNumber === 2 &&
-                        comments.length === 0
+                        comment.length === 0
                       )
                     })}
                   >
@@ -271,7 +228,7 @@ export const EvaluationsCriteria = () => {
                 </div>
               </>
             ) : (
-              <p>{comments}</p>
+              <p>{comment}</p>
             )}
           </div>
         )}
