@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import {
   Button,
@@ -6,7 +7,6 @@ import {
 import { Checkbox } from "../../../../../../../components/checkbox/Checkbox"
 import { useAppDispatch } from "../../../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../../../hooks/useAppSelector"
-import { useEffect } from "react"
 import {
   getEvaluations,
   setForEvaluation,
@@ -16,6 +16,7 @@ import { setEvaluationResultStatus } from "../../../../../../../redux/slices/eva
 import { EvaluationResultStatus } from "../../../../../../../types/evaluationResultType"
 import { Loading } from "../../../../../../../types/loadingType"
 import { setAlert } from "../../../../../../../redux/slices/appSlice"
+import { type Evaluation } from "../../../../../../../types/evaluationType"
 
 export const EvaluatorsList = () => {
   const navigate = useNavigate()
@@ -23,6 +24,7 @@ export const EvaluatorsList = () => {
   const appDispatch = useAppDispatch()
   const { loading } = useAppSelector((state) => state.evaluationResult)
   const { evaluations } = useAppSelector((state) => state.evaluations)
+  const [sortedEvaluations, setSortedEvaluations] = useState<Evaluation[]>([])
 
   useEffect(() => {
     if (evaluation_template_id !== "all") {
@@ -34,6 +36,28 @@ export const EvaluatorsList = () => {
       )
     }
   }, [evaluation_template_id])
+
+  useEffect(() => {
+    const newEvaluations = [...evaluations]
+    const sorted = newEvaluations.sort((a: Evaluation, b: Evaluation) => {
+      const projectComparison = (a.project?.name ?? "").localeCompare(
+        b.project?.name ?? ""
+      )
+      if (projectComparison !== 0) {
+        return projectComparison
+      }
+      const lastNameComparison = (a.evaluator?.last_name ?? "").localeCompare(
+        b.evaluator?.last_name ?? ""
+      )
+      if (lastNameComparison !== 0) {
+        return lastNameComparison
+      }
+      return (a.evaluator?.first_name ?? "").localeCompare(
+        b.evaluator?.first_name ?? ""
+      )
+    })
+    setSortedEvaluations(sorted)
+  }, [evaluations])
 
   const handleClickCheckbox = (evaluationId: number, checked: boolean) => {
     if (evaluationId !== undefined) {
@@ -83,7 +107,7 @@ export const EvaluatorsList = () => {
             </tr>
           </thead>
           <tbody>
-            {evaluations.map((evaluation) => (
+            {sortedEvaluations.map((evaluation) => (
               <tr key={evaluation.id}>
                 <td className='flex gap-2'>
                   <Checkbox
