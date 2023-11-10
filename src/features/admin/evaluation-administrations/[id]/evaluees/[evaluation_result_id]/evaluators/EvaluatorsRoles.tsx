@@ -18,23 +18,27 @@ export const EvaluatorsRoles = () => {
     if (evaluation_result_id !== undefined) {
       void appDispatch(getEvaluationResult(parseInt(evaluation_result_id)))
     }
-    void appDispatch(
+    void getTemplates()
+  }, [evaluation_result_id])
+
+  const getTemplates = async () => {
+    const result = await appDispatch(
       getEvaluationTemplates({
         evaluation_result_id,
       })
     )
-  }, [evaluation_result_id])
-
-  useEffect(() => {
-    if (evaluation_template_id === "all" && evaluation_templates.length > 0) {
+    if (
+      result.type === "evaluationTemplate/getEvaluationTemplates/fulfilled" &&
+      evaluation_template_id === "all"
+    ) {
       navigate(
-        `/admin/evaluation-administrations/${id}/evaluees/${evaluation_result_id}/evaluators/${evaluation_templates[0].id}`
+        `/admin/evaluation-administrations/${id}/evaluees/${evaluation_result_id}/evaluators/${result.payload[0].id}`
       )
     }
-  }, [evaluation_templates])
+  }
 
   return (
-    <div className='w-96 h-[calc(100vh_-_185px)] pt-4'>
+    <div className='w-80 h-[calc(100vh_-_185px)] pt-4'>
       <div className='flex-1 flex flex-col gap-2 overflow-y-scroll'>
         {evaluation_templates.map((template) => (
           <LinkButton

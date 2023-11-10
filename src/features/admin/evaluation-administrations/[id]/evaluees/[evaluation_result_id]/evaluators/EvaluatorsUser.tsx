@@ -13,7 +13,7 @@ export const EvaluatorsUser = () => {
   )
 
   return (
-    <div className='w-fit flex items-center gap-4 pb-4'>
+    <div className='w-80 flex items-center pb-4'>
       <div className='w-6'>
         {previousId !== undefined && (
           <LinkButton

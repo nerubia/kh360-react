@@ -70,16 +70,16 @@ export const EvaluatorsList = () => {
   }
 
   return (
-    <div className='w-full h-[calc(100vh_-_185px)] flex flex-col pt-4'>
+    <div className='flex-1 h-[calc(100vh_-_185px)] flex flex-col pt-4'>
       <div className='flex-1 flex-col overflow-y-scroll'>
         <table className='relative w-full'>
           <thead className='sticky top-0 bg-white text-left'>
             <tr>
-              <th>Evaluator</th>
-              <th>Project</th>
-              <th>Evaluee Role</th>
-              <th>%</th>
-              <th>Duration</th>
+              <th className='pb-2'>Evaluator</th>
+              <th className='pb-2'>Project</th>
+              <th className='pb-2'>Evaluee Role</th>
+              <th className='pb-2'>%</th>
+              <th className='pb-2'>Duration</th>
             </tr>
           </thead>
           <tbody>
