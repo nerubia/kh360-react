@@ -13,7 +13,7 @@ export const getEvaluationTemplateContents = createAsyncThunk(
   async (params: EvaluationTemplateContentFilters, thunkApi) => {
     try {
       const response = await axiosInstance.get(
-        "/admin/evaluation-template-contents",
+        "/user/evaluation-template-contents",
         {
           params,
         }
