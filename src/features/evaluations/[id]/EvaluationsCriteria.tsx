@@ -198,6 +198,7 @@ export const EvaluationsCriteria = () => {
                               ) : (
                                 <>
                                   <Button
+                                    testId={`OptionButton${answerOption.id}`}
                                     key={answerOption.id}
                                     disabled={
                                       loading_answer === Loading.Pending ||
@@ -241,7 +242,7 @@ export const EvaluationsCriteria = () => {
                 <TextArea
                   label='Evaluation description/notes'
                   name='remarks'
-                  placeholder='Some description'
+                  placeholder='Comments'
                   value={comments}
                   onChange={handleTextAreaChange}
                   onBlur={handleOnBlur}
