@@ -66,6 +66,17 @@ const button = cva(
           "[&.active]:text-white",
           "[&.active]:cursor-default",
         ],
+        star: [
+          "text-orange-500",
+          "active:text-orange-500",
+          "hover:text-orange-500",
+        ],
+        starEmpty: [
+          "hover:text-orange-200",
+          "active:text-orange-200",
+          "disabled:text-gray-100",
+        ],
+        starGhost: ["hover:text-orange-200", "text-gray-100"],
       },
       size: {
         small: ["text-sm", "px-2", "py-1"],

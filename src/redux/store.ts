@@ -9,7 +9,9 @@ import evaluationResultReducer from "./slices/evaluationResultSlice"
 import evaluationResultsReducer from "./slices/evaluationResultsSlice"
 import evaluationsReducer from "./slices/evaluationsSlice"
 import evaluationTemplatesReducer from "./slices/evaluationTemplatesSlice"
+import evaluationTemplateContentsReducer from "./slices/evaluationTemplateContentsSlice"
 import usersReducer from "./slices/usersSlice"
+import userReducer from "./slices/userSlice"
 
 export const store = configureStore({
   reducer: {
@@ -22,7 +24,9 @@ export const store = configureStore({
     evaluationResults: evaluationResultsReducer,
     evaluations: evaluationsReducer,
     evaluationTemplates: evaluationTemplatesReducer,
+    evaluationTemplateContents: evaluationTemplateContentsReducer,
     users: usersReducer,
+    user: userReducer,
   },
 })
 

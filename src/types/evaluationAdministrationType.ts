@@ -9,6 +9,9 @@ export interface EvaluationAdministration {
   email_subject?: string
   email_content?: string
   status?: string
+  totalEvaluations?: number
+  totalSubmitted?: number
+  totalPending?: number
 }
 
 export interface EvaluationAdministrationFilters {
