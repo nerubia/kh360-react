@@ -1,4 +1,5 @@
 import { EvaluationResultStatus } from "../types/evaluationResultType"
+import { EvaluationStatus } from "../types/evaluationType"
 
 export const getEvaluationResultStatusVariant = (
   status: string | undefined
@@ -14,5 +15,30 @@ export const getEvaluationResultStatusVariant = (
   }
   if (status === EvaluationResultStatus.Completed) {
     return "blue"
+  }
+}
+
+export const getEvaluationStatusVariant = (status: string | undefined) => {
+  if (status === EvaluationStatus.Open) {
+    return "yellow"
+  }
+  if (status === EvaluationStatus.Ongoing) {
+    return "green"
+  }
+  if (status === EvaluationStatus.Submitted) {
+    return "blue"
+  }
+}
+
+export const getAnswerOptionVariant = (
+  sequenceNumber: number,
+  evaluationRating: number
+) => {
+  if (sequenceNumber === 1) {
+    return "primary"
+  } else if (sequenceNumber <= (evaluationRating ?? 0)) {
+    return "star"
+  } else {
+    return "starEmpty"
   }
 }

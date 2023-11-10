@@ -22,3 +22,7 @@ export interface UserDetails {
   user_position?: string
   start_date?: string
 }
+export interface UserEvaluationsFilter {
+  evaluation_administration_id?: number
+  for_evaluation: boolean
+}
