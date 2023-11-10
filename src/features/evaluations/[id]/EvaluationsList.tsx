@@ -74,7 +74,6 @@ export const EvaluationsList = () => {
                     />
                   )}
                 </div>
-                {/* bg-primary-500 px-4 py-2 rounded-md */}
                 <div
                   className={`flex-1 flex flex-col text-start ${
                     evaluation.status === EvaluationStatus.Open
