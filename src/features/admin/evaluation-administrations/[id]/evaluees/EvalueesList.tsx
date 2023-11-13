@@ -100,6 +100,7 @@ export const EvalueesList = () => {
                   variant={getEvaluationResultStatusVariant(
                     evaluationResult.status
                   )}
+                  size='small'
                 >
                   {evaluationResult.status}
                 </Badge>

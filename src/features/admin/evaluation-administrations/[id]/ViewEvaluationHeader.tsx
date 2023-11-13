@@ -40,7 +40,6 @@ export const ViewEvaluationHeader = () => {
             <div className='flex gap-4 primary-outline items-end mb-4'>
               <PageTitle>{evaluation_administration?.name}</PageTitle>
               <Badge
-                size='medium'
                 variant={getEvaluationAdministrationStatusVariant(
                   evaluation_administration?.status
                 )}

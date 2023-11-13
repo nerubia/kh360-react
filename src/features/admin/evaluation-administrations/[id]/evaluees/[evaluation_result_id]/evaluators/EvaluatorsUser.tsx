@@ -45,6 +45,7 @@ export const EvaluatorsUser = () => {
             variant={getEvaluationResultStatusVariant(
               evaluation_result?.status
             )}
+            size='small'
           >
             {evaluation_result?.status}
           </Badge>
