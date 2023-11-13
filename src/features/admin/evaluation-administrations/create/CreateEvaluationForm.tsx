@@ -12,6 +12,8 @@ import { getDefaultEmailTemplate } from "../../../../redux/slices/emailTemplateS
 import Dialog from "../../../../components/dialog/Dialog"
 import { type EvaluationFormData } from "../../../../types/formDataType"
 import { createEvaluationAdministration } from "../../../../redux/slices/evaluationAdministrationsSlice"
+import { setSelectedEmployeeIds } from "../../../../redux/slices/evaluationAdministrationSlice"
+import { setEvaluationResults } from "../../../../redux/slices/evaluationResultsSlice"
 
 export const CreateEvaluationForm = () => {
   const navigate = useNavigate()
@@ -57,6 +59,8 @@ export const CreateEvaluationForm = () => {
       })
       const result = await appDispatch(createEvaluationAdministration(formData))
       if (result.payload.id !== undefined) {
+        appDispatch(setEvaluationResults([]))
+        appDispatch(setSelectedEmployeeIds([]))
         navigate(
           `/admin/evaluation-administrations/${result.payload.id}/select`
         )

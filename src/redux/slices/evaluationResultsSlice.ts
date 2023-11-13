@@ -98,7 +98,11 @@ const initialState: InitialState = {
 const evaluationResultsSlice = createSlice({
   name: "app",
   initialState,
-  reducers: {},
+  reducers: {
+    setEvaluationResults: (state, action) => {
+      state.evaluation_results = action.payload
+    },
+  },
   extraReducers(builder) {
     /**
      * List
@@ -157,4 +161,5 @@ const evaluationResultsSlice = createSlice({
   },
 })
 
+export const { setEvaluationResults } = evaluationResultsSlice.actions
 export default evaluationResultsSlice.reducer
