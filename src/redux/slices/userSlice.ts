@@ -151,7 +151,19 @@ const initialState: InitialState = {
 const userSlice = createSlice({
   name: "app",
   initialState,
-  reducers: {},
+  reducers: {
+    updateEvaluationStatusById: (state, action) => {
+      const { id, status } = action.payload
+
+      const index = state.user_evaluations.findIndex(
+        (evaluation) => evaluation.id === parseInt(id)
+      )
+
+      if (index !== -1) {
+        state.user_evaluations[index].status = status
+      }
+    },
+  },
   extraReducers(builder) {
     /**
      * List user evaluations
@@ -244,4 +256,5 @@ const userSlice = createSlice({
   },
 })
 
+export const { updateEvaluationStatusById } = userSlice.actions
 export default userSlice.reducer

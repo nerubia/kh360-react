@@ -43,8 +43,22 @@ const evaluationTemplateContentsSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
-    setEvaluationTemplateContents: (state, action) => {
-      state.evaluation_template_contents = action.payload
+    updateEvaluationRatingById: (state, action) => {
+      const { evalutionTemplateId, answerOptionId, ratingSequenceNumber } =
+        action.payload
+
+      const index = state.evaluation_template_contents.findIndex(
+        (template) => template.id === parseInt(evalutionTemplateId)
+      )
+
+      if (index !== -1) {
+        state.evaluation_template_contents[
+          index
+        ].evaluationRating.answer_option_id = answerOptionId
+        state.evaluation_template_contents[
+          index
+        ].evaluationRating.ratingSequenceNumber = ratingSequenceNumber
+      }
     },
   },
   extraReducers(builder) {
@@ -69,6 +83,6 @@ const evaluationTemplateContentsSlice = createSlice({
   },
 })
 
-export const { setEvaluationTemplateContents } =
+export const { updateEvaluationRatingById } =
   evaluationTemplateContentsSlice.actions
 export default evaluationTemplateContentsSlice.reducer

@@ -10,7 +10,12 @@ interface StarRatingProps {
   templateContent: EvaluationTemplateContent
   loadingAnswer: Loading
   evaluation?: Evaluation | null
-  handleOnClick: (id: number, ratingId: number) => Promise<void>
+  handleOnClick: (
+    id: number,
+    ratingId: number,
+    templateContentId: number,
+    ratingSequenceNumber: number
+  ) => Promise<void>
 }
 
 export const StarRating = ({
@@ -44,7 +49,9 @@ export const StarRating = ({
                       onClick={async () =>
                         await handleOnClick(
                           answerOption.id,
-                          templateContent.evaluationRating.id
+                          templateContent.evaluationRating.id,
+                          templateContent.id,
+                          answerOption.sequence_no
                         )
                       }
                       size='small'
