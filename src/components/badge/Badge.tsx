@@ -6,11 +6,8 @@ const badge = cva(
     "h-fit",
     "flex",
     "items-center",
-    "text-[10px]",
     "leading-4",
     "font-medium",
-    "px-2.5",
-    "py-0.5",
     "rounded-full",
   ],
   {
@@ -25,11 +22,13 @@ const badge = cva(
         greenOutline: ["border", "border-green-500", "text-green-500"],
       },
       size: {
+        small: ["text-[10px]", "px-2.5", "py-0.5"],
         medium: ["text-base", "px-4", "py-1.5"],
       },
     },
     defaultVariants: {
       variant: "primary",
+      size: "medium",
     },
   }
 )
