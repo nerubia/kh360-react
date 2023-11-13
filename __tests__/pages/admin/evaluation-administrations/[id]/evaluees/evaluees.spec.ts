@@ -210,7 +210,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
       ).toBeVisible()
       await expect(
         page.getByText(
-          "Are you sure you want to remove Cat admin? This action cannot be reverted."
+          "Are you sure you want to remove admin, Cat? This action cannot be reverted."
         )
       ).toBeVisible()
       await expect(page.getByTestId("DialogNoButton")).toBeVisible()

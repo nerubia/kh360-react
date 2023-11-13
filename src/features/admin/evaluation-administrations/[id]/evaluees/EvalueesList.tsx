@@ -125,8 +125,8 @@ export const EvalueesList = () => {
       <Dialog open={selectedEvaluee !== undefined}>
         <Dialog.Title>Delete Evaluee</Dialog.Title>
         <Dialog.Description>
-          Are you sure you want to remove {selectedEvaluee?.users?.first_name}{" "}
-          {selectedEvaluee?.users?.last_name}? <br />
+          Are you sure you want to remove {selectedEvaluee?.users?.last_name},{" "}
+          {selectedEvaluee?.users?.first_name}? <br />
           This action cannot be reverted.
         </Dialog.Description>
         <Dialog.Actions>
