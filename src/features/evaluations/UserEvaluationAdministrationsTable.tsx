@@ -35,12 +35,12 @@ export const UserEvaluationAdministrationsTable = () => {
       <table className='w-full table-fixed'>
         <thead className='text-left border-b-2'>
           <tr>
-            <th>Name</th>
-            <th>Period</th>
-            <th>Schedule</th>
-            <th>Total Evaluations</th>
-            <th>Total Submitted</th>
-            <th>Total Pending</th>
+            <th className='pb-2'>Name</th>
+            <th className='pb-2'>Period</th>
+            <th className='pb-2'>Schedule</th>
+            <th className='pb-2'>Total Evaluations</th>
+            <th className='pb-2'>Total Submitted</th>
+            <th className='pb-2'>Total Pending</th>
           </tr>
         </thead>
         <tbody>
@@ -50,18 +50,22 @@ export const UserEvaluationAdministrationsTable = () => {
               key={evaluationAdministration.id}
               onClick={() => handleViewEvaluation(evaluationAdministration.id)}
             >
-              <td>{evaluationAdministration.name}</td>
-              <td>
+              <td className='py-2'>{evaluationAdministration.name}</td>
+              <td className='py-2'>
                 {formatDate(evaluationAdministration.eval_period_start_date)} to{" "}
                 {formatDate(evaluationAdministration.eval_period_end_date)}
               </td>
-              <td>
+              <td className='py-2'>
                 {formatDate(evaluationAdministration.eval_schedule_start_date)}{" "}
                 to {formatDate(evaluationAdministration.eval_schedule_end_date)}
               </td>
-              <td>{evaluationAdministration.totalEvaluations}</td>
-              <td>{evaluationAdministration.totalSubmitted}</td>
-              <td>{evaluationAdministration.totalPending}</td>
+              <td className='py-2'>
+                {evaluationAdministration.totalEvaluations}
+              </td>
+              <td className='py-2'>
+                {evaluationAdministration.totalSubmitted}
+              </td>
+              <td className='py-2'>{evaluationAdministration.totalPending}</td>
             </tr>
           ))}
         </tbody>

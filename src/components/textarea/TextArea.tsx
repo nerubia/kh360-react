@@ -3,9 +3,9 @@ interface TextAreaInterface {
   name: string
   placeholder: string
   value?: string
+  error?: string | null
   onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
   onBlur?: (event: React.FocusEvent<HTMLTextAreaElement>) => void
-  error?: string
   disabled?: boolean
 }
 
@@ -28,7 +28,7 @@ export const TextArea = ({
       )}
       <textarea
         className={`${
-          error != null && error !== "" ? "border-red-500" : ""
+          error != null ? "border-red-500" : ""
         } w-full p-4 border rounded-md resize-none`}
         id={name}
         name={name}
@@ -39,9 +39,7 @@ export const TextArea = ({
         rows={5}
         disabled={disabled}
       ></textarea>
-      {error != null && error !== "" && (
-        <p className='text-red-500 text-sm'>{error}</p>
-      )}
+      {error != null && <p className='text-red-500 text-sm'>{error}</p>}
     </div>
   )
 }
