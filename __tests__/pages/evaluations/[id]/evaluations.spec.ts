@@ -34,7 +34,7 @@ test.describe("User - Evaluations", () => {
 
       await mockRequest(
         page,
-        "/user/evaluations?evaluation_administration_id=1&for_evaluation=true",
+        "/user/evaluations?evaluation_administration_id=1&for_evaluation=1",
         {
           status: 200,
           contentType: "application/json",
@@ -75,7 +75,7 @@ test.describe("User - Evaluations", () => {
 
       await mockRequest(
         page,
-        "/admin/evaluation-template-contents?evaluation_id=1",
+        "/user/evaluation-template-contents?evaluation_id=1",
         {
           status: 200,
           contentType: "application/json",
@@ -168,7 +168,7 @@ test.describe("User - Evaluations", () => {
 
       await mockRequest(
         page,
-        "/user/evaluations?evaluation_administration_id=1&for_evaluation=true",
+        "/user/evaluations?evaluation_administration_id=1&for_evaluation=1",
         {
           status: 200,
           contentType: "application/json",
@@ -209,7 +209,7 @@ test.describe("User - Evaluations", () => {
 
       await mockRequest(
         page,
-        "/admin/evaluation-template-contents?evaluation_id=1",
+        "/user/evaluation-template-contents?evaluation_id=1",
         {
           status: 200,
           contentType: "application/json",
@@ -258,9 +258,19 @@ test.describe("User - Evaluations", () => {
         }
       )
 
+      await mockRequest(page, "/user/evaluations/1/submit-evaluation", {
+        status: 400,
+        contentType: "application/json",
+        body: JSON.stringify({
+          message: "Comment is required.",
+        }),
+      })
+
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
       }
+
+      await page.getByRole("button", { name: "Submit" }).click()
 
       await expect(page.getByText("Comment is required")).toBeVisible()
     })
