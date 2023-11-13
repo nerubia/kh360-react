@@ -24,19 +24,20 @@ export const getEvaluations = createAsyncThunk(
   }
 )
 
-export const setForEvaluation = createAsyncThunk(
-  "evaluations/setForEvaluation",
+export const setForEvaluations = createAsyncThunk(
+  "evaluations/setForEvaluations",
   async (
     data: {
-      id: number
+      evaluation_ids: number[]
       for_evaluation: boolean
     },
     thunkApi
   ) => {
     try {
       const response = await axiosInstance.patch(
-        `/admin/evaluations/${data.id}/set-for-evaluation`,
+        "/admin/evaluations/set-for-evaluations",
         {
+          evaluation_ids: data.evaluation_ids,
           for_evaluation: data.for_evaluation,
         }
       )
@@ -79,6 +80,30 @@ const evaluationsSlice = createSlice({
       state.evaluations = action.payload
     })
     builder.addCase(getEvaluations.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Set for_evaluation
+     */
+    builder.addCase(setForEvaluations.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(setForEvaluations.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      const employeeIds = action.payload.evaluation_ids as number[]
+      state.evaluations = state.evaluations.map((evaluation) =>
+        employeeIds.includes(evaluation.id)
+          ? {
+              ...evaluation,
+              for_evaluation: action.payload.for_evaluation,
+            }
+          : evaluation
+      )
+    })
+    builder.addCase(setForEvaluations.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
