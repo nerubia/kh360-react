@@ -61,7 +61,7 @@ export const generateStatusEvaluationAdministration = createAsyncThunk(
   }
 )
 
-export const deleteEvaluationAdminsitration = createAsyncThunk(
+export const deleteEvaluationAdministration = createAsyncThunk(
   "evaluationAdministration/delete",
   async (id: number, thunkApi) => {
     try {
