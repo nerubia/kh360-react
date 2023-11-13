@@ -1,6 +1,26 @@
 import { EvaluationResultStatus } from "../types/evaluationResultType"
 import { EvaluationStatus } from "../types/evaluationType"
+import { EvaluationAdministrationStatus } from "../types/evaluationAdministrationType"
 
+export const getEvaluationAdministrationStatusVariant = (
+  status: string | undefined
+) => {
+  if (status === EvaluationAdministrationStatus.Draft) {
+    return "greenOutline"
+  }
+  if (status === EvaluationAdministrationStatus.Pending) {
+    return "yellow"
+  }
+  if (status === EvaluationAdministrationStatus.Ongoing) {
+    return "green"
+  }
+  if (status === EvaluationAdministrationStatus.Closed) {
+    return "blue"
+  }
+  if (status === EvaluationAdministrationStatus.Cancelled) {
+    return "gray"
+  }
+}
 export const getEvaluationResultStatusVariant = (
   status: string | undefined
 ) => {

@@ -8,6 +8,9 @@ import { Icon } from "../../../../components/icon/Icon"
 import Dialog from "../../../../components/dialog/Dialog"
 import { deleteEvaluationAdministration } from "../../../../redux/slices/evaluationAdministrationSlice"
 import { useAppDispatch } from "../../../../hooks/useAppDispatch"
+import { PageTitle } from "../../../../components/shared/PageTitle"
+import { Badge } from "../../../../components/badge/Badge"
+import { getEvaluationAdministrationStatusVariant } from "../../../../utils/variant"
 
 export const ViewEvaluationHeader = () => {
   const navigate = useNavigate()
@@ -31,21 +34,35 @@ export const ViewEvaluationHeader = () => {
 
   return (
     <>
-      <div className='text-right'>
-        <h1>Evaluation Schedule</h1>(
-        {formatDate(evaluation_administration?.eval_schedule_start_date)} to{" "}
-        {formatDate(evaluation_administration?.eval_schedule_end_date)})
-      </div>
       <div className='flex flex-col'>
-        <div className='flex justify-between items-center  mt-2'>
+        <div className='flex justify-between items-end mt-2'>
           <div>
-            <h1 className='text-2xl font-bold'>
-              {evaluation_administration?.name}
-            </h1>
-            <div>
-              Evaluation Period (
-              {formatDate(evaluation_administration?.eval_period_start_date)} to{" "}
-              {formatDate(evaluation_administration?.eval_period_start_date)})
+            <div className='flex gap-4 primary-outline items-end mb-4'>
+              <PageTitle>{evaluation_administration?.name}</PageTitle>
+              <Badge
+                size='medium'
+                variant={getEvaluationAdministrationStatusVariant(
+                  evaluation_administration?.status
+                )}
+              >
+                <div className='uppercase'>
+                  {evaluation_administration?.status}
+                </div>
+              </Badge>
+            </div>
+            <div className='flex gap-3'>
+              <div className='font-bold'>Evaluation Period: </div>
+              {formatDate(
+                evaluation_administration?.eval_period_start_date
+              )} to{" "}
+              {formatDate(evaluation_administration?.eval_period_end_date)}
+            </div>
+            <div className='flex gap-3'>
+              <div className='font-bold'>Evaluation Schedule: </div>
+              {formatDate(
+                evaluation_administration?.eval_schedule_start_date
+              )}{" "}
+              to {formatDate(evaluation_administration?.eval_schedule_end_date)}
             </div>
           </div>
           <div className='flex justify-between gap-4'>
