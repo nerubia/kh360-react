@@ -185,7 +185,14 @@ test.describe("Admin - Evaluations", () => {
       }
 
       await expect(
-        page.getByText("Evaluation Schedule(2024-01-01 to 2024-01-03)")
+        page.getByRole("heading", { name: "Evaluation 1" })
+      ).toBeVisible()
+      await expect(page.getByText("Pending")).toBeVisible()
+      await expect(
+        page.getByText("Evaluation Period: 2023-01-01 to 2023-12-31")
+      ).toBeVisible()
+      await expect(
+        page.getByText("Evaluation Schedule: 2024-01-01 to 2024-01-03")
       ).toBeVisible()
       await expect(page.getByRole("link", { name: "Progress" })).toBeVisible()
       await expect(page.getByRole("link", { name: "Edit" })).toBeVisible()
