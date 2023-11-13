@@ -62,7 +62,7 @@ export const EvaluationsCriteria = () => {
   const handleOnClickStar = async (
     answerOptionId: number,
     evaluationRatingId: number,
-    evalutionTemplateId: number,
+    evaluationTemplateId: number,
     ratingSequenceNumber: number
   ) => {
     setErrorMessage("")
@@ -84,7 +84,7 @@ export const EvaluationsCriteria = () => {
           )
           void appDispatch(
             updateEvaluationRatingById({
-              evalutionTemplateId,
+              evaluationTemplateId,
               answerOptionId,
               ratingSequenceNumber,
             })

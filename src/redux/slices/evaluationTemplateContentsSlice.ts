@@ -44,11 +44,11 @@ const evaluationTemplateContentsSlice = createSlice({
   initialState,
   reducers: {
     updateEvaluationRatingById: (state, action) => {
-      const { evalutionTemplateId, answerOptionId, ratingSequenceNumber } =
+      const { evaluationTemplateId, answerOptionId, ratingSequenceNumber } =
         action.payload
 
       const index = state.evaluation_template_contents.findIndex(
-        (template) => template.id === parseInt(evalutionTemplateId)
+        (template) => template.id === evaluationTemplateId
       )
 
       if (index !== -1) {
