@@ -2,14 +2,17 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { Button } from "../../../components/button/Button"
 import { StarRating } from "../../../components/rating/StarRating"
-import { getEvaluationTemplateContents } from "../../../redux/slices/evaluationTemplateContentsSlice"
+import {
+  getEvaluationTemplateContents,
+  updateEvaluationRatingById,
+} from "../../../redux/slices/evaluationTemplateContentsSlice"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../hooks/useAppSelector"
 import {
   submitAnswer,
   submitComment,
   submitEvaluation,
-  getUserEvaluations,
+  updateEvaluationStatusById,
 } from "../../../redux/slices/userSlice"
 import { Loading } from "../../../types/loadingType"
 import { setAlert } from "../../../redux/slices/appSlice"
@@ -45,7 +48,7 @@ export const EvaluationsCriteria = () => {
         )
       )
     }
-  }, [evaluation_id, user_evaluations])
+  })
 
   useEffect(() => {
     setErrorMessage("")
@@ -58,7 +61,9 @@ export const EvaluationsCriteria = () => {
 
   const handleOnClickStar = async (
     answerOptionId: number,
-    evaluationRatingId: number
+    evaluationRatingId: number,
+    evalutionTemplateId: number,
+    ratingSequenceNumber: number
   ) => {
     setErrorMessage("")
     if (evaluation_id !== undefined) {
@@ -72,14 +77,16 @@ export const EvaluationsCriteria = () => {
         )
         if (result.payload.id !== undefined && id !== undefined) {
           void appDispatch(
-            getEvaluationTemplateContents({
-              evaluation_id,
+            updateEvaluationStatusById({
+              id: result.payload.id,
+              status: result.payload.status,
             })
           )
           void appDispatch(
-            getUserEvaluations({
-              evaluation_administration_id: parseInt(id),
-              for_evaluation: true,
+            updateEvaluationRatingById({
+              evalutionTemplateId,
+              answerOptionId,
+              ratingSequenceNumber,
             })
           )
         }
@@ -131,9 +138,9 @@ export const EvaluationsCriteria = () => {
             })
           )
           void appDispatch(
-            getUserEvaluations({
-              evaluation_administration_id: parseInt(id),
-              for_evaluation: true,
+            updateEvaluationStatusById({
+              id: result.payload.id,
+              status: result.payload.status,
             })
           )
         } else if (result.type === "user/submitEvaluation/rejected") {
