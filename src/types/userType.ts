@@ -24,5 +24,5 @@ export interface UserDetails {
 }
 export interface UserEvaluationsFilter {
   evaluation_administration_id?: number
-  for_evaluation: boolean
+  for_evaluation: number
 }

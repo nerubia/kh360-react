@@ -48,7 +48,7 @@ export const EvaluationsCriteria = () => {
         )
       )
     }
-  }, [])
+  }, [evaluation_id, user_evaluations])
 
   useEffect(() => {
     setErrorMessage("")

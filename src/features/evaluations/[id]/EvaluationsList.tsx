@@ -13,7 +13,7 @@ import { type Evaluation } from "../../../types/evaluationType"
 
 export const EvaluationsList = () => {
   const navigate = useNavigate()
-  const { id, evaluation_id } = useParams()
+  const { id } = useParams()
   const appDispatch = useAppDispatch()
   const { loading, user_evaluations } = useAppSelector((state) => state.user)
   const [sortedEvaluations, setSortedEvaluations] = useState<Evaluation[]>([])
@@ -26,21 +26,12 @@ export const EvaluationsList = () => {
 
   const getEvaluations = async () => {
     if (id !== undefined) {
-      const result = await appDispatch(
+      await appDispatch(
         getUserEvaluations({
           evaluation_administration_id: parseInt(id),
-          for_evaluation: true,
+          for_evaluation: 1,
         })
       )
-      if (
-        result.type === "user/getUserEvaluations/fulfilled" &&
-        result.payload.length > 0 &&
-        evaluation_id === "all"
-      ) {
-        navigate(
-          `/evaluation-administrations/${id}/evaluations/${result.payload[0].id}`
-        )
-      }
     }
   }
 
@@ -79,6 +70,14 @@ export const EvaluationsList = () => {
       setSortedEvaluations(finalSortedEvaluations)
     }
   }, [user_evaluations])
+
+  useEffect(() => {
+    if (sortedEvaluations.length > 0) {
+      navigate(
+        `/evaluation-administrations/${id}/evaluations/${sortedEvaluations[0].id}`
+      )
+    }
+  }, [sortedEvaluations])
 
   return (
     <>
