@@ -99,17 +99,17 @@ export const EvaluatorsList = () => {
         <table className='relative w-full'>
           <thead className='sticky top-0 bg-white text-left'>
             <tr>
-              <th className='pb-2'>Evaluator</th>
-              <th className='pb-2'>Project</th>
-              <th className='pb-2'>Evaluee Role</th>
-              <th className='pb-2'>%</th>
-              <th className='pb-2'>Duration</th>
+              <th className='pb-3'>Evaluator</th>
+              <th className='pb-3'>Project</th>
+              <th className='pb-3'>Evaluee Role</th>
+              <th className='pb-3'>%</th>
+              <th className='pb-3'>Duration</th>
             </tr>
           </thead>
           <tbody>
             {sortedEvaluations.map((evaluation) => (
               <tr key={evaluation.id}>
-                <td className='flex gap-2'>
+                <td className='flex gap-2 pb-2'>
                   <Checkbox
                     checked={evaluation.for_evaluation}
                     onChange={(checked) =>
@@ -119,10 +119,10 @@ export const EvaluatorsList = () => {
                   {evaluation.evaluator?.last_name},{" "}
                   {evaluation.evaluator?.first_name}
                 </td>
-                <td>{evaluation.project?.name}</td>
-                <td>{evaluation.project_role?.name}</td>
-                <td>{evaluation.percent_involvement}%</td>
-                <td>
+                <td className='pb-2'>{evaluation.project?.name}</td>
+                <td className='pb-2'>{evaluation.project_role?.name}</td>
+                <td className='pb-2'>{evaluation.percent_involvement}%</td>
+                <td className='pb-2'>
                   {formatDate(evaluation.eval_start_date)} to{" "}
                   {formatDate(evaluation.eval_end_date)}
                 </td>
