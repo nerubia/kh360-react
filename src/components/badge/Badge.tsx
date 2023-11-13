@@ -24,6 +24,9 @@ const badge = cva(
         gray: ["bg-gray-500", "text-white"],
         greenOutline: ["border", "border-green-500", "text-green-500"],
       },
+      size: {
+        medium: ["text-base", "px-4", "py-1.5"],
+      },
     },
     defaultVariants: {
       variant: "primary",
@@ -35,6 +38,6 @@ interface BadgeProps extends VariantProps<typeof badge> {
   children: React.ReactNode
 }
 
-export const Badge = ({ children, variant }: BadgeProps) => {
-  return <span className={badge({ variant })}>{children}</span>
+export const Badge = ({ children, variant, size }: BadgeProps) => {
+  return <span className={badge({ variant, size })}>{children}</span>
 }
