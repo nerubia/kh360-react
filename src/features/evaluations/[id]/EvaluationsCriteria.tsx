@@ -48,7 +48,7 @@ export const EvaluationsCriteria = () => {
         )
       )
     }
-  })
+  }, [])
 
   useEffect(() => {
     setErrorMessage("")
@@ -125,8 +125,6 @@ export const EvaluationsCriteria = () => {
         const result = await appDispatch(
           submitEvaluation(parseInt(evaluation_id))
         )
-        /* eslint-disable */
-        console.log(result.payload)
         if (
           result.payload !== undefined &&
           result.type === "user/submitEvaluation/fulfilled"
