@@ -35,7 +35,7 @@ export const ViewEvaluationHeader = () => {
   return (
     <>
       <div className='flex flex-col'>
-        <div className='flex justify-between items-end mt-2'>
+        <div className='flex flex-col justify-between items-start md:items-end mt-2 md:flex-row gap-4'>
           <div>
             <div className='flex gap-4 primary-outline items-end mb-4'>
               <PageTitle>{evaluation_administration?.name}</PageTitle>
@@ -107,8 +107,8 @@ export const ViewEvaluationHeader = () => {
             </Dialog>
           </div>
         </div>
-        <div className='mt-4'>{evaluation_administration?.remarks}</div>
       </div>
+      <div className='mt-4'>{evaluation_administration?.remarks}</div>
       <h1 className='text-2xl font-bold mt-5 mb-5'>Employees</h1>
     </>
   )
