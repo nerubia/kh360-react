@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { Badge } from "../../../components/badge/Badge"
 import { useAppSelector } from "../../../hooks/useAppSelector"
@@ -9,12 +9,14 @@ import { getUserEvaluations } from "../../../redux/slices/userSlice"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { Loading } from "../../../types/loadingType"
 import { getEvaluationStatusVariant } from "../../../utils/variant"
+import { type Evaluation } from "../../../types/evaluationType"
 
 export const EvaluationsList = () => {
   const navigate = useNavigate()
   const { id, evaluation_id } = useParams()
   const appDispatch = useAppDispatch()
   const { loading, user_evaluations } = useAppSelector((state) => state.user)
+  const [sortedEvaluations, setSortedEvaluations] = useState<Evaluation[]>([])
 
   useEffect(() => {
     if (id !== undefined) {
@@ -42,6 +44,42 @@ export const EvaluationsList = () => {
     }
   }
 
+  useEffect(() => {
+    if (user_evaluations !== undefined && user_evaluations.length > 0) {
+      const newEvaluations = [...user_evaluations]
+      const sortedEvaluations = newEvaluations.sort(
+        (a: Evaluation, b: Evaluation) => {
+          const aEvaluee = a.evaluee
+          const bEvaluee = b.evaluee
+
+          const lastNameComparison = (aEvaluee?.last_name ?? "").localeCompare(
+            bEvaluee?.last_name ?? ""
+          )
+
+          if (lastNameComparison === 0) {
+            return (aEvaluee?.first_name ?? "").localeCompare(
+              bEvaluee?.first_name ?? ""
+            )
+          }
+          return lastNameComparison
+        }
+      )
+
+      const submittedEvaluations = sortedEvaluations.filter(
+        (evaluation) => evaluation.status === EvaluationStatus.Submitted
+      )
+      const otherEvaluations = sortedEvaluations.filter(
+        (evaluation) => evaluation.status !== EvaluationStatus.Submitted
+      )
+
+      const finalSortedEvaluations = [
+        ...otherEvaluations,
+        ...submittedEvaluations,
+      ]
+      setSortedEvaluations(finalSortedEvaluations)
+    }
+  }, [user_evaluations])
+
   return (
     <>
       {loading === Loading.Pending && <div>Loading...</div>}
@@ -54,7 +92,7 @@ export const EvaluationsList = () => {
       <div className='w-96 flex flex-col gap-4 overflow-y-scroll'>
         {loading === Loading.Fulfilled && user_evaluations.length > 0 && (
           <>
-            {user_evaluations.map((evaluation) => (
+            {sortedEvaluations.map((evaluation) => (
               <LinkButton
                 key={evaluation.id}
                 variant='project'
