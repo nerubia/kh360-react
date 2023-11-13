@@ -6,7 +6,7 @@ import { EvaluationAdministrationStatus } from "../../../../types/evaluationAdmi
 import { formatDate } from "../../../../utils/formatDate"
 import { Icon } from "../../../../components/icon/Icon"
 import Dialog from "../../../../components/dialog/Dialog"
-import { deleteEvaluationAdminsitration } from "../../../../redux/slices/evaluationAdministrationSlice"
+import { deleteEvaluationAdministration } from "../../../../redux/slices/evaluationAdministrationSlice"
 import { useAppDispatch } from "../../../../hooks/useAppDispatch"
 
 export const ViewEvaluationHeader = () => {
@@ -25,7 +25,7 @@ export const ViewEvaluationHeader = () => {
   const handleDelete = () => {
     navigate("/admin/evaluation-administrations")
     if (id !== undefined) {
-      void appDispatch(deleteEvaluationAdminsitration(parseInt(id)))
+      void appDispatch(deleteEvaluationAdministration(parseInt(id)))
     }
   }
 
@@ -63,7 +63,6 @@ export const ViewEvaluationHeader = () => {
             ) : null}
             <LinkButton
               variant='primary'
-              size='medium'
               to={`/admin/evaluation-administrations/${id}/edit`}
             >
               Edit
