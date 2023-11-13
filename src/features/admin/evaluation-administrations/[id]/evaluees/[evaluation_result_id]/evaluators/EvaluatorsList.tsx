@@ -9,7 +9,7 @@ import { useAppDispatch } from "../../../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../../../hooks/useAppSelector"
 import {
   getEvaluations,
-  setForEvaluation,
+  setForEvaluations,
 } from "../../../../../../../redux/slices/evaluationsSlice"
 import { formatDate } from "../../../../../../../utils/formatDate"
 import { setEvaluationResultStatus } from "../../../../../../../redux/slices/evaluationResultSlice"
@@ -59,11 +59,20 @@ export const EvaluatorsList = () => {
     setSortedEvaluations(sorted)
   }, [evaluations])
 
+  const handleSelectAll = (checked: boolean) => {
+    void appDispatch(
+      setForEvaluations({
+        evaluation_ids: sortedEvaluations.map((evaluation) => evaluation.id),
+        for_evaluation: checked,
+      })
+    )
+  }
+
   const handleClickCheckbox = (evaluationId: number, checked: boolean) => {
     if (evaluationId !== undefined) {
       void appDispatch(
-        setForEvaluation({
-          id: evaluationId,
+        setForEvaluations({
+          evaluation_ids: [evaluationId],
           for_evaluation: checked,
         })
       )
@@ -99,6 +108,14 @@ export const EvaluatorsList = () => {
         <table className='relative w-full'>
           <thead className='sticky top-0 bg-white text-left'>
             <tr>
+              <th className='pb-3'>
+                <Checkbox
+                  checked={sortedEvaluations.every(
+                    (evaluation) => evaluation.for_evaluation
+                  )}
+                  onChange={(checked) => handleSelectAll(checked)}
+                />
+              </th>
               <th className='pb-3'>Evaluator</th>
               <th className='pb-3'>Project</th>
               <th className='pb-3'>Evaluee Role</th>
@@ -109,13 +126,15 @@ export const EvaluatorsList = () => {
           <tbody>
             {sortedEvaluations.map((evaluation) => (
               <tr key={evaluation.id}>
-                <td className='flex gap-2 pb-2'>
+                <td className='pb-2'>
                   <Checkbox
                     checked={evaluation.for_evaluation}
                     onChange={(checked) =>
                       handleClickCheckbox(evaluation.id, checked)
                     }
                   />
+                </td>
+                <td className='pb-2'>
                   {evaluation.evaluator?.last_name},{" "}
                   {evaluation.evaluator?.first_name}
                 </td>
