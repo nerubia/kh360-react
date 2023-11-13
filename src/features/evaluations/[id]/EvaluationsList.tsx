@@ -19,21 +19,18 @@ export const EvaluationsList = () => {
   const [sortedEvaluations, setSortedEvaluations] = useState<Evaluation[]>([])
 
   useEffect(() => {
-    if (id !== undefined) {
-      void getEvaluations()
+    const getEvaluations = async () => {
+      if (id !== undefined) {
+        await appDispatch(
+          getUserEvaluations({
+            evaluation_administration_id: parseInt(id),
+            for_evaluation: 1,
+          })
+        )
+      }
     }
+    void getEvaluations()
   }, [id])
-
-  const getEvaluations = async () => {
-    if (id !== undefined) {
-      await appDispatch(
-        getUserEvaluations({
-          evaluation_administration_id: parseInt(id),
-          for_evaluation: 1,
-        })
-      )
-    }
-  }
 
   useEffect(() => {
     if (user_evaluations !== undefined && user_evaluations.length > 0) {
@@ -47,12 +44,12 @@ export const EvaluationsList = () => {
             bEvaluee?.last_name ?? ""
           )
 
-          if (lastNameComparison === 0) {
-            return (aEvaluee?.first_name ?? "").localeCompare(
-              bEvaluee?.first_name ?? ""
-            )
+          if (lastNameComparison !== 0) {
+            return lastNameComparison
           }
-          return lastNameComparison
+          return (a.evaluator?.first_name ?? "").localeCompare(
+            b.evaluator?.first_name ?? ""
+          )
         }
       )
 

@@ -33,7 +33,7 @@ export const EvaluationsCriteria = () => {
     useAppSelector((state) => state.user)
   const [evaluation, setEvaluation] = useState<Evaluation>()
   const [comment, setComment] = useState<string>("")
-  const [errorMessage, setErrorMessage] = useState<string>("")
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   useEffect(() => {
     if (evaluation_id !== "all") {
@@ -51,7 +51,7 @@ export const EvaluationsCriteria = () => {
   }, [evaluation_id, user_evaluations])
 
   useEffect(() => {
-    setErrorMessage("")
+    setErrorMessage(null)
     if (evaluation?.comments !== undefined && evaluation?.comments !== null) {
       setComment(evaluation.comments)
     } else {
@@ -65,7 +65,7 @@ export const EvaluationsCriteria = () => {
     evaluationTemplateId: number,
     ratingSequenceNumber: number
   ) => {
-    setErrorMessage("")
+    setErrorMessage(null)
     if (evaluation_id !== undefined) {
       try {
         const result = await appDispatch(
@@ -99,7 +99,7 @@ export const EvaluationsCriteria = () => {
   ) => {
     const { value } = e.target
     setComment(value)
-    setErrorMessage("")
+    setErrorMessage(null)
   }
 
   const handleOnBlur = async (e: React.FocusEvent<HTMLTextAreaElement>) => {
