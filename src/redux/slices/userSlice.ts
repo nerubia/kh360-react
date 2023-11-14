@@ -142,13 +142,16 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     updateEvaluationStatusById: (state, action) => {
-      const { id, status } = action.payload
+      const { id, status, comment } = action.payload
 
       const index = state.user_evaluations.findIndex(
         (evaluation) => evaluation.id === parseInt(id)
       )
 
       if (index !== -1) {
+        if (comment !== undefined) {
+          state.user_evaluations[index].comments = comment
+        }
         state.user_evaluations[index].status = status
       }
     },

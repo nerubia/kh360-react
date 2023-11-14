@@ -21,20 +21,31 @@ export const EvaluationsList = () => {
   useEffect(() => {
     const getEvaluations = async () => {
       if (id !== undefined) {
-        await appDispatch(
+        const result = await appDispatch(
           getUserEvaluations({
             evaluation_administration_id: parseInt(id),
             for_evaluation: 1,
           })
         )
+        if (
+          result.type === "user/getUserEvaluations/fulfilled" &&
+          result.payload.length > 0
+        ) {
+          const finalSortedEvaluations = sortEvaluations(result.payload)
+          if (finalSortedEvaluations !== undefined) {
+            navigate(
+              `/evaluation-administrations/${id}/evaluations/${finalSortedEvaluations[0].id}`
+            )
+          }
+        }
       }
     }
     void getEvaluations()
   }, [id])
 
-  useEffect(() => {
-    if (user_evaluations !== undefined && user_evaluations.length > 0) {
-      const newEvaluations = [...user_evaluations]
+  const sortEvaluations = (evaluations: Evaluation[]) => {
+    if (evaluations !== undefined && evaluations.length > 0) {
+      const newEvaluations = [...evaluations]
       const sortedEvaluations = newEvaluations.sort(
         (a: Evaluation, b: Evaluation) => {
           const aEvaluee = a.evaluee
@@ -60,21 +71,19 @@ export const EvaluationsList = () => {
         (evaluation) => evaluation.status !== EvaluationStatus.Submitted
       )
 
-      const finalSortedEvaluations = [
+      const finalSortedEvaluations: Evaluation[] = [
         ...otherEvaluations,
         ...submittedEvaluations,
       ]
+
       setSortedEvaluations(finalSortedEvaluations)
+      return finalSortedEvaluations
     }
-  }, [user_evaluations])
+  }
 
   useEffect(() => {
-    if (sortedEvaluations.length > 0) {
-      navigate(
-        `/evaluation-administrations/${id}/evaluations/${sortedEvaluations[0].id}`
-      )
-    }
-  }, [sortedEvaluations])
+    sortEvaluations(user_evaluations)
+  }, [user_evaluations])
 
   return (
     <>
@@ -123,6 +132,7 @@ export const EvaluationsList = () => {
                     </p>
                     <Badge
                       variant={getEvaluationStatusVariant(evaluation?.status)}
+                      size='small'
                     >
                       {evaluation.status}
                     </Badge>
