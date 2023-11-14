@@ -19,9 +19,7 @@ test.describe("Admin - Edit Evaluation Administration", () => {
   })
 
   test.describe("as Guest", () => {
-    test("should not allow to view the admin edit evaluation administration", async ({
-      page,
-    }) => {
+    test("should not allow to view the admin edit evaluation administration", async ({ page }) => {
       await page.goto("/admin/evaluation-administrations/1/edit")
 
       await expect(page).toHaveURL("/auth/login")
@@ -29,9 +27,7 @@ test.describe("Admin - Edit Evaluation Administration", () => {
   })
 
   test.describe("as Employee", () => {
-    test("should not allow to view the admin edit evaluation administration", async ({
-      page,
-    }) => {
+    test("should not allow to view the admin edit evaluation administration", async ({ page }) => {
       await loginUser("employee", page)
 
       await page.goto("/admin/evaluation-administrations/1/edit")
@@ -66,32 +62,22 @@ test.describe("Admin - Edit Evaluation Administration", () => {
         await page.getByTestId("SidebarCloseButton").click()
       }
 
-      await expect(page.getByPlaceholder("Evaluation name")).toHaveValue(
-        "Evaluation 1"
-      )
+      await expect(page.getByPlaceholder("Evaluation name")).toHaveValue("Evaluation 1")
 
       await expect(page.getByLabel("Period (from)")).toHaveValue("2023-01-01")
       await expect(page.getByLabel("Period (to)")).toHaveValue("2023-12-31")
       await expect(page.getByLabel("Schedule (from)")).toHaveValue("2024-01-01")
       await expect(page.getByLabel("Schedule (to)")).toHaveValue("2024-01-03")
 
-      await expect(page.getByLabel("Evaluation description/notes")).toHaveValue(
-        "Remarks 1"
+      await expect(page.getByLabel("Evaluation description/notes")).toHaveValue("Remarks 1")
+
+      await expect(page.getByPlaceholder("Subject")).toHaveValue("Email subject")
+      await expect(page.getByRole("textbox", { name: "Some description" })).toHaveValue(
+        "Email content"
       )
 
-      await expect(page.getByPlaceholder("Subject")).toHaveValue(
-        "Email subject"
-      )
-      await expect(
-        page.getByRole("textbox", { name: "Some description" })
-      ).toHaveValue("Email content")
-
-      await expect(
-        page.getByRole("button", { name: "Cancel & Exit" })
-      ).toBeVisible()
-      await expect(
-        page.getByRole("button", { name: "Save & Proceed" })
-      ).toBeVisible()
+      await expect(page.getByRole("button", { name: "Cancel & Exit" })).toBeVisible()
+      await expect(page.getByRole("button", { name: "Save & Proceed" })).toBeVisible()
     })
 
     test("should show validation errors", async ({ page, isMobile }) => {
@@ -99,7 +85,7 @@ test.describe("Admin - Edit Evaluation Administration", () => {
 
       await page.goto("/admin/evaluation-administrations/1/edit")
 
-      await mockRequest(page, "/admin/email/templates/default", {
+      await mockRequest(page, "/admin/email-templates/default", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
@@ -144,18 +130,10 @@ test.describe("Admin - Edit Evaluation Administration", () => {
       await page.getByRole("button", { name: "Save & Proceed" }).click()
 
       await expect(page.getByText("Name is required")).toBeVisible()
-      await expect(
-        page.getByText("Start period must be before end period")
-      ).toBeVisible()
-      await expect(
-        page.getByText("End period must not be later than start schedule")
-      ).toBeVisible()
-      await expect(
-        page.getByText("End period must not be later than start schedule")
-      ).toBeVisible()
-      await expect(
-        page.getByText("Start schedule must be before end schedule")
-      ).toBeVisible()
+      await expect(page.getByText("Start period must be before end period")).toBeVisible()
+      await expect(page.getByText("End period must not be later than start schedule")).toBeVisible()
+      await expect(page.getByText("End period must not be later than start schedule")).toBeVisible()
+      await expect(page.getByText("Start schedule must be before end schedule")).toBeVisible()
       await expect(page.getByText("End schedule is required")).toBeVisible()
       await expect(page.getByText("Description is required")).toBeVisible()
     })
@@ -181,7 +159,7 @@ test.describe("Admin - Edit Evaluation Administration", () => {
         }),
       })
 
-      await mockRequest(page, "/admin/email/templates/default", {
+      await mockRequest(page, "/admin/email-templates/default", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
@@ -207,9 +185,7 @@ test.describe("Admin - Edit Evaluation Administration", () => {
       await page.getByLabel("Period (to)").fill("2023-01-03")
       await page.getByLabel("Schedule (from)").fill("2023-01-04")
       await page.getByLabel("Schedule (to)").fill("2023-01-05")
-      await page
-        .getByLabel("Evaluation description/notes")
-        .fill("Description Edited")
+      await page.getByLabel("Evaluation description/notes").fill("Description Edited")
 
       await page.getByRole("button", { name: "Save & Proceed" }).click()
 
@@ -262,25 +238,18 @@ test.describe("Admin - Edit Evaluation Administration", () => {
         }),
       })
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-results/all?evaluation_administration_id=1",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify([]),
-        }
-      )
+      await mockRequest(page, "/admin/evaluation-results/all?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([]),
+      })
 
       await page.waitForLoadState("networkidle")
 
       await expect(page).toHaveURL("/admin/evaluation-administrations/1/select")
     })
 
-    test("should render cancel & exit modal correctly", async ({
-      page,
-      isMobile,
-    }) => {
+    test("should render cancel & exit modal correctly", async ({ page, isMobile }) => {
       await loginUser("admin", page)
 
       await page.goto("/admin/evaluation-administrations/1/edit")
@@ -299,7 +268,7 @@ test.describe("Admin - Edit Evaluation Administration", () => {
         }),
       })
 
-      await mockRequest(page, "/admin/email/templates/default", {
+      await mockRequest(page, "/admin/email-templates/default", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
@@ -322,9 +291,7 @@ test.describe("Admin - Edit Evaluation Administration", () => {
 
       await page.getByRole("button", { name: "Cancel & Exit" }).click()
 
-      await expect(
-        page.getByRole("heading", { name: "Cancel & Exit" })
-      ).toBeVisible()
+      await expect(page.getByRole("heading", { name: "Cancel & Exit" })).toBeVisible()
       await expect(
         page.getByText(
           "Are you sure you want to cancel and exit? If you cancel, your data won't be save"
@@ -353,7 +320,7 @@ test.describe("Admin - Edit Evaluation Administration", () => {
         }),
       })
 
-      await mockRequest(page, "/admin/email/templates/default", {
+      await mockRequest(page, "/admin/email-templates/default", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({

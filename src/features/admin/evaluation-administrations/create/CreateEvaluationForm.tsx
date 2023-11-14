@@ -8,7 +8,7 @@ import { Input } from "../../../../components/input/Input"
 import { TextArea } from "../../../../components/textarea/TextArea"
 import { createEvaluationSchema } from "../../../../utils/validation/evaluations/createEvaluationSchema"
 import { Loading } from "../../../../types/loadingType"
-import { getDefaultEmailTemplate } from "../../../../redux/slices/emailTemplateSlice"
+import { getDefaultEmailTemplate } from "../../../../redux/slices/email-template-slice"
 import Dialog from "../../../../components/dialog/Dialog"
 import { type EvaluationFormData } from "../../../../types/formDataType"
 import { createEvaluationAdministration } from "../../../../redux/slices/evaluationAdministrationsSlice"
@@ -18,9 +18,7 @@ import { setEvaluationResults } from "../../../../redux/slices/evaluationResults
 export const CreateEvaluationForm = () => {
   const navigate = useNavigate()
   const appDispatch = useAppDispatch()
-  const { loading, error } = useAppSelector(
-    (state) => state.evaluationAdministrations
-  )
+  const { loading, error } = useAppSelector((state) => state.evaluationAdministrations)
   const { emailTemplate } = useAppSelector((state) => state.emailTemplate)
 
   const [formData, setFormData] = useState<EvaluationFormData>({
@@ -33,9 +31,7 @@ export const CreateEvaluationForm = () => {
     email_subject: "",
     email_content: "",
   })
-  const [validationErrors, setValidationErrors] = useState<
-    Partial<EvaluationFormData>
-  >({})
+  const [validationErrors, setValidationErrors] = useState<Partial<EvaluationFormData>>({})
   const [showDialog, setShowDialog] = useState<boolean>(false)
 
   useEffect(() => {
@@ -61,9 +57,7 @@ export const CreateEvaluationForm = () => {
       if (result.payload.id !== undefined) {
         appDispatch(setEvaluationResults([]))
         appDispatch(setSelectedEmployeeIds([]))
-        navigate(
-          `/admin/evaluation-administrations/${result.payload.id}/select`
-        )
+        navigate(`/admin/evaluation-administrations/${result.payload.id}/select`)
       }
     } catch (error) {
       if (error instanceof ValidationError) {
@@ -81,9 +75,7 @@ export const CreateEvaluationForm = () => {
     setFormData({ ...formData, [name]: value })
   }
 
-  const handleTextAreaChange = async (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
+  const handleTextAreaChange = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
   }
