@@ -8,7 +8,7 @@ import { Button } from "../../../../components/button/Button"
 import { EvaluationAdministrationStatus } from "../../../../types/evaluationAdministrationType"
 import { getEvaluationTemplates } from "../../../../redux/slices/evaluationTemplatesSlice"
 import { getEvaluations } from "../../../../redux/slices/evaluationsSlice"
-import { type EvaluationResult } from "../../../../types/evaluationResultType"
+import { type EvaluationResult } from "../../../../types/evaluation-result-type"
 import { getEvaluationResults } from "../../../../redux/slices/evaluationResultsSlice"
 
 export const ViewEvaluationList = () => {

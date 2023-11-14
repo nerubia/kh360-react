@@ -1,4 +1,4 @@
-import { EvaluationResultStatus } from "../types/evaluationResultType"
+import { EvaluationResultStatus } from "../types/evaluation-result-type"
 import { EvaluationStatus } from "../types/evaluationType"
 import { EvaluationAdministrationStatus } from "../types/evaluationAdministrationType"
 
