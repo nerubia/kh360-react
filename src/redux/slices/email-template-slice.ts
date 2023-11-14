@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
 import { type ApiError } from "../../types/apiErrorType"
-import { type EmailTemplate } from "../../types/emailTemplateType"
+import { type EmailTemplate } from "../../types/email-template-type"
 import { Loading } from "../../types/loadingType"
 import { axiosInstance } from "../../utils/axiosInstance"
 
@@ -9,7 +9,7 @@ export const getDefaultEmailTemplate = createAsyncThunk(
   "emailTemplate/getDefaultEmailTemplate",
   async (_, thunkApi) => {
     try {
-      const response = await axiosInstance.get(`/admin/email/templates/default`)
+      const response = await axiosInstance.get(`/admin/email-templates/default`)
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError

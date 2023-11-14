@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit"
 import appReducer from "./slices/appSlice"
 import authReducer from "./slices/authSlice"
 
-import emailTemplateReducer from "./slices/emailTemplateSlice"
+import emailTemplateReducer from "./slices/email-template-slice"
 import evaluationAdministrationReducer from "./slices/evaluationAdministrationSlice"
 import evaluationAdministrationsReducer from "./slices/evaluationAdministrationsSlice"
 import evaluationResultReducer from "./slices/evaluationResultSlice"
