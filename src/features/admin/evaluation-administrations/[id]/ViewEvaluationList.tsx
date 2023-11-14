@@ -153,21 +153,23 @@ export const ViewEvaluationList = () => {
         })
       )
     }
-  }, [evaluation_templates, selectedEvaluationResultId])
+  }, [evaluation_templates])
 
   const toggleEvaluationDetails = (
     employeeIndex: number,
-    projectIndex: number,
+    templateIndex: number,
     evaluation_result_id: string | undefined,
     evaluation_template_id: string | undefined
   ) => {
-    const updatedToggledState: boolean[][] = [...evaluationDetailsToggledState]
-    updatedToggledState[employeeIndex][projectIndex] =
-      !updatedToggledState[employeeIndex][projectIndex]
+    const updatedToggledState: boolean[][] = evaluationDetailsToggledState.map(
+      (row) => [...row]
+    )
+    updatedToggledState[employeeIndex][templateIndex] =
+      !updatedToggledState[employeeIndex][templateIndex]
 
     setEvaluationDetailsToggledState(updatedToggledState)
 
-    const evaluationDetailsKey = `${employeeIndex}_${projectIndex}`
+    const evaluationDetailsKey = `${employeeIndex}_${templateIndex}`
 
     if (!dispatchedEvaluationDetails.includes(evaluationDetailsKey)) {
       void appDispatch(
@@ -181,6 +183,7 @@ export const ViewEvaluationList = () => {
         ...prevDispatchedDetails,
         evaluationDetailsKey,
       ])
+      setSelectedEvaluationResultId(evaluation_result_id)
       setSelectedEvaluationTemplateId(evaluation_template_id)
     }
   }
@@ -188,7 +191,8 @@ export const ViewEvaluationList = () => {
   useEffect(() => {
     if (
       selectedEvaluationTemplateId !== undefined &&
-      selectedEvaluationResultId !== undefined
+      selectedEvaluationResultId !== undefined &&
+      evaluations.length > 0
     ) {
       setEvaluationResults((prevResults) =>
         prevResults.map((result) => {
@@ -208,7 +212,7 @@ export const ViewEvaluationList = () => {
         })
       )
     }
-  }, [evaluations, selectedEvaluationResultId, selectedEvaluationTemplateId])
+  }, [evaluations])
 
   const handleEditEvaluationResult = (
     evaluation_result_id: string | undefined
