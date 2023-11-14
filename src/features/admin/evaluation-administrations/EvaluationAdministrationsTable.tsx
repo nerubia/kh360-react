@@ -5,6 +5,7 @@ import { useAppSelector } from "../../../hooks/useAppSelector"
 import { formatDate } from "../../../utils/formatDate"
 import { Pagination } from "../../../components/pagination/Pagination"
 import { getEvaluationAdministrations } from "../../../redux/slices/evaluationAdministrationsSlice"
+import { setEvaluationResults } from "../../../redux/slices/evaluationResultsSlice"
 
 export const EvaluationAdministrationsTable = () => {
   const navigate = useNavigate()
@@ -29,6 +30,7 @@ export const EvaluationAdministrationsTable = () => {
   }, [searchParams])
 
   const handleViewEvaluation = (id: number) => {
+    appDispatch(setEvaluationResults([]))
     navigate(`/admin/evaluation-administrations/${id}`)
   }
 
