@@ -4,7 +4,7 @@ import { Input } from "../../../../../components/input/Input"
 import { CustomSelect } from "../../../../../components/select/CustomSelect"
 import { Button } from "../../../../../components/button/Button"
 import { type Option } from "../../../../../types/optionType"
-import { EvaluationResultStatus } from "../../../../../types/evaluationResultType"
+import { EvaluationResultStatus } from "../../../../../types/evaluation-result-type"
 
 const filterOptions: Option[] = Object.values(EvaluationResultStatus).map(
   (value) => ({
