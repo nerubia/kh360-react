@@ -80,6 +80,7 @@ export const EvaluationsCriteria = () => {
             updateEvaluationStatusById({
               id: result.payload.id,
               status: result.payload.status,
+              comment,
             })
           )
           void appDispatch(
@@ -104,7 +105,7 @@ export const EvaluationsCriteria = () => {
 
   const handleOnBlur = async (e: React.FocusEvent<HTMLTextAreaElement>) => {
     const { value } = e.target
-    if (evaluation_id !== undefined && id !== undefined) {
+    if (evaluation_id !== undefined && id !== undefined && value.length > 0) {
       try {
         const result = await appDispatch(
           submitComment({
@@ -114,6 +115,13 @@ export const EvaluationsCriteria = () => {
         )
         if (result.payload !== undefined) {
           setComment(result.payload.comment)
+          void appDispatch(
+            updateEvaluationStatusById({
+              id: result.payload.id,
+              status: EvaluationStatus.Ongoing,
+              comment: result.payload.comment,
+            })
+          )
         }
       } catch (error) {}
     }
@@ -139,6 +147,7 @@ export const EvaluationsCriteria = () => {
             updateEvaluationStatusById({
               id: result.payload.id,
               status: result.payload.status,
+              comment,
             })
           )
         } else if (result.type === "user/submitEvaluation/rejected") {
