@@ -13,13 +13,10 @@ import {
   submitComment,
   submitEvaluation,
   updateEvaluationStatusById,
-} from "../../../redux/slices/userSlice"
+} from "../../../redux/slices/user-slice"
 import { Loading } from "../../../types/loadingType"
 import { setAlert } from "../../../redux/slices/appSlice"
-import {
-  EvaluationStatus,
-  type Evaluation,
-} from "../../../types/evaluationType"
+import { EvaluationStatus, type Evaluation } from "../../../types/evaluationType"
 import { formatDate } from "../../../utils/formatDate"
 import { TextArea } from "../../../components/textarea/TextArea"
 
@@ -29,8 +26,9 @@ export const EvaluationsCriteria = () => {
   const { evaluation_template_contents } = useAppSelector(
     (state) => state.evaluationTemplateContents
   )
-  const { loading, loading_comment, loading_answer, user_evaluations } =
-    useAppSelector((state) => state.user)
+  const { loading, loading_comment, loading_answer, user_evaluations } = useAppSelector(
+    (state) => state.user
+  )
   const [evaluation, setEvaluation] = useState<Evaluation>()
   const [comment, setComment] = useState<string>("")
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
@@ -43,9 +41,7 @@ export const EvaluationsCriteria = () => {
         })
       )
       setEvaluation(
-        user_evaluations?.find(
-          (evaluation) => evaluation.id === parseInt(evaluation_id as string)
-        )
+        user_evaluations?.find((evaluation) => evaluation.id === parseInt(evaluation_id as string))
       )
     }
   }, [evaluation_id, user_evaluations])
@@ -95,9 +91,7 @@ export const EvaluationsCriteria = () => {
     }
   }
 
-  const handleTextAreaChange = async (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
+  const handleTextAreaChange = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = e.target
     setComment(value)
     setErrorMessage(null)
@@ -130,13 +124,8 @@ export const EvaluationsCriteria = () => {
   const handleSubmit = async () => {
     if (evaluation_id !== undefined && id !== undefined) {
       try {
-        const result = await appDispatch(
-          submitEvaluation(parseInt(evaluation_id))
-        )
-        if (
-          result.payload !== undefined &&
-          result.type === "user/submitEvaluation/fulfilled"
-        ) {
+        const result = await appDispatch(submitEvaluation(parseInt(evaluation_id)))
+        if (result.payload !== undefined && result.type === "user/submitEvaluation/fulfilled") {
           void appDispatch(
             setAlert({
               description: `Evaluation successfully submitted.`,
@@ -160,15 +149,15 @@ export const EvaluationsCriteria = () => {
   return (
     <>
       {loading === Loading.Pending && <div>Loading...</div>}
-      {loading === Loading.Fulfilled &&
-        evaluation_template_contents === null && <div>Not found</div>}
+      {loading === Loading.Fulfilled && evaluation_template_contents === null && (
+        <div>Not found</div>
+      )}
       {loading === Loading.Fulfilled &&
         evaluation_template_contents !== null &&
         user_evaluations.length > 0 && (
           <div className='w-full flex flex-col gap-4 overflow-y-scroll'>
             <div className='text-lg font-bold'>
-              <h1>Project Assignment Duration</h1>(
-              {formatDate(evaluation?.eval_start_date)} to{" "}
+              <h1>Project Assignment Duration</h1>({formatDate(evaluation?.eval_start_date)} to{" "}
               {formatDate(evaluation?.eval_end_date)})
             </div>
             {evaluation_template_contents.map((templateContent) => (
@@ -181,9 +170,7 @@ export const EvaluationsCriteria = () => {
                 key={templateContent.id}
               >
                 <div className='w-1/2'>
-                  <h1 className='text-lg font-medium'>
-                    {templateContent.name}
-                  </h1>
+                  <h1 className='text-lg font-medium'>{templateContent.name}</h1>
                   <p>{templateContent.description}</p>
                 </div>
                 <StarRating
@@ -195,8 +182,9 @@ export const EvaluationsCriteria = () => {
               </div>
             ))}
             <h1 className='text-lg font-bold'>Comments</h1>
-            {evaluation?.status === EvaluationStatus.Submitted &&
-              evaluation?.comments === null && <div>No comments</div>}
+            {evaluation?.status === EvaluationStatus.Submitted && evaluation?.comments === null && (
+              <div>No comments</div>
+            )}
             {evaluation?.status !== EvaluationStatus.Submitted ? (
               <>
                 <TextArea
@@ -210,9 +198,7 @@ export const EvaluationsCriteria = () => {
                   error={errorMessage}
                 />
                 <div className='flex justify-end'>
-                  <Button onClick={async () => await handleSubmit()}>
-                    Submit
-                  </Button>
+                  <Button onClick={async () => await handleSubmit()}>Submit</Button>
                 </div>
               </>
             ) : (

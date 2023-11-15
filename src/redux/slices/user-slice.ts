@@ -32,12 +32,9 @@ export const getUserEvaluationAdministrations = createAsyncThunk(
   "user/getUserEvaluationAdministrations",
   async (params: EvaluationAdministrationFilters, thunkApi) => {
     try {
-      const response = await axiosInstance.get(
-        "/user/evaluation-administrations",
-        {
-          params,
-        }
-      )
+      const response = await axiosInstance.get("/user/evaluation-administrations", {
+        params,
+      })
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -99,21 +96,9 @@ export const submitEvaluation = createAsyncThunk(
 
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
-  loading_answer:
-    | Loading.Idle
-    | Loading.Pending
-    | Loading.Fulfilled
-    | Loading.Rejected
-  loading_comment:
-    | Loading.Idle
-    | Loading.Pending
-    | Loading.Fulfilled
-    | Loading.Rejected
-  loading_submit_evaluation:
-    | Loading.Idle
-    | Loading.Pending
-    | Loading.Fulfilled
-    | Loading.Rejected
+  loading_answer: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
+  loading_comment: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
+  loading_submit_evaluation: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
   user_evaluations: Evaluation[]
   user_evaluation_administrations: EvaluationAdministration[]
@@ -144,9 +129,7 @@ const userSlice = createSlice({
     updateEvaluationStatusById: (state, action) => {
       const { id, status, comment } = action.payload
 
-      const index = state.user_evaluations.findIndex(
-        (evaluation) => evaluation.id === parseInt(id)
-      )
+      const index = state.user_evaluations.findIndex((evaluation) => evaluation.id === parseInt(id))
 
       if (index !== -1) {
         if (comment !== undefined) {
@@ -181,25 +164,19 @@ const userSlice = createSlice({
       state.loading = Loading.Pending
       state.error = null
     })
-    builder.addCase(
-      getUserEvaluationAdministrations.fulfilled,
-      (state, action) => {
-        state.loading = Loading.Fulfilled
-        state.error = null
-        state.user_evaluation_administrations = action.payload.data
-        state.hasPreviousPage = action.payload.pageInfo.hasPreviousPage
-        state.hasNextPage = action.payload.pageInfo.hasNextPage
-        state.totalPages = action.payload.pageInfo.totalPages
-        state.totalItems = action.payload.pageInfo.totalItems
-      }
-    )
-    builder.addCase(
-      getUserEvaluationAdministrations.rejected,
-      (state, action) => {
-        state.loading = Loading.Rejected
-        state.error = action.payload as string
-      }
-    )
+    builder.addCase(getUserEvaluationAdministrations.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.user_evaluation_administrations = action.payload.data
+      state.hasPreviousPage = action.payload.pageInfo.hasPreviousPage
+      state.hasNextPage = action.payload.pageInfo.hasNextPage
+      state.totalPages = action.payload.pageInfo.totalPages
+      state.totalItems = action.payload.pageInfo.totalItems
+    })
+    builder.addCase(getUserEvaluationAdministrations.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
     /**
      * Submit answer
      */

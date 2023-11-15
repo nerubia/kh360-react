@@ -5,7 +5,7 @@ import { useAppSelector } from "../../../hooks/useAppSelector"
 import { LinkButton } from "../../../components/button/Button"
 import { Icon } from "../../../components/icon/Icon"
 import { EvaluationStatus } from "../../../types/evaluationType"
-import { getUserEvaluations } from "../../../redux/slices/userSlice"
+import { getUserEvaluations } from "../../../redux/slices/user-slice"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { Loading } from "../../../types/loadingType"
 import { getEvaluationStatusVariant } from "../../../utils/variant"
@@ -27,10 +27,7 @@ export const EvaluationsList = () => {
             for_evaluation: 1,
           })
         )
-        if (
-          result.type === "user/getUserEvaluations/fulfilled" &&
-          result.payload.length > 0
-        ) {
+        if (result.type === "user/getUserEvaluations/fulfilled" && result.payload.length > 0) {
           const finalSortedEvaluations = sortEvaluations(result.payload)
           if (finalSortedEvaluations !== undefined) {
             navigate(
@@ -46,23 +43,19 @@ export const EvaluationsList = () => {
   const sortEvaluations = (evaluations: Evaluation[]) => {
     if (evaluations !== undefined && evaluations.length > 0) {
       const newEvaluations = [...evaluations]
-      const sortedEvaluations = newEvaluations.sort(
-        (a: Evaluation, b: Evaluation) => {
-          const aEvaluee = a.evaluee
-          const bEvaluee = b.evaluee
+      const sortedEvaluations = newEvaluations.sort((a: Evaluation, b: Evaluation) => {
+        const aEvaluee = a.evaluee
+        const bEvaluee = b.evaluee
 
-          const lastNameComparison = (aEvaluee?.last_name ?? "").localeCompare(
-            bEvaluee?.last_name ?? ""
-          )
+        const lastNameComparison = (aEvaluee?.last_name ?? "").localeCompare(
+          bEvaluee?.last_name ?? ""
+        )
 
-          if (lastNameComparison !== 0) {
-            return lastNameComparison
-          }
-          return (a.evaluator?.first_name ?? "").localeCompare(
-            b.evaluator?.first_name ?? ""
-          )
+        if (lastNameComparison !== 0) {
+          return lastNameComparison
         }
-      )
+        return (a.evaluator?.first_name ?? "").localeCompare(b.evaluator?.first_name ?? "")
+      })
 
       const submittedEvaluations = sortedEvaluations.filter(
         (evaluation) => evaluation.status === EvaluationStatus.Submitted
@@ -71,10 +64,7 @@ export const EvaluationsList = () => {
         (evaluation) => evaluation.status !== EvaluationStatus.Submitted
       )
 
-      const finalSortedEvaluations: Evaluation[] = [
-        ...otherEvaluations,
-        ...submittedEvaluations,
-      ]
+      const finalSortedEvaluations: Evaluation[] = [...otherEvaluations, ...submittedEvaluations]
 
       setSortedEvaluations(finalSortedEvaluations)
       return finalSortedEvaluations
@@ -88,9 +78,7 @@ export const EvaluationsList = () => {
   return (
     <>
       {loading === Loading.Pending && <div>Loading...</div>}
-      {loading === Loading.Fulfilled && user_evaluations === null && (
-        <div>Not found</div>
-      )}
+      {loading === Loading.Fulfilled && user_evaluations === null && <div>Not found</div>}
       {loading === Loading.Fulfilled && user_evaluations.length === 0 && (
         <div>No evaluations available yet.</div>
       )}
@@ -119,9 +107,7 @@ export const EvaluationsList = () => {
                 </div>
                 <div
                   className={`flex-1 flex flex-col text-start ${
-                    evaluation.status === EvaluationStatus.Open
-                      ? "font-bold"
-                      : ""
+                    evaluation.status === EvaluationStatus.Open ? "font-bold" : ""
                   }`}
                 >
                   <div className='flex justify-between gap-4'>
@@ -130,16 +116,12 @@ export const EvaluationsList = () => {
                       {", "}
                       {evaluation.evaluee?.first_name}
                     </p>
-                    <Badge
-                      variant={getEvaluationStatusVariant(evaluation?.status)}
-                      size='small'
-                    >
+                    <Badge variant={getEvaluationStatusVariant(evaluation?.status)} size='small'>
                       {evaluation.status}
                     </Badge>
                   </div>
                   <p className='text-xs'>
-                    {evaluation.project?.name} [
-                    {evaluation.project_role?.short_name}]
+                    {evaluation.project?.name} [{evaluation.project_role?.short_name}]
                   </p>
                 </div>
               </LinkButton>

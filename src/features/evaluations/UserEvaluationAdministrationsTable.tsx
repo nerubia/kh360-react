@@ -4,19 +4,15 @@ import { useAppDispatch } from "../../hooks/useAppDispatch"
 import { useAppSelector } from "../../hooks/useAppSelector"
 import { formatDate } from "../../utils/formatDate"
 import { Pagination } from "../../components/pagination/Pagination"
-import { getUserEvaluationAdministrations } from "../../redux/slices/userSlice"
+import { getUserEvaluationAdministrations } from "../../redux/slices/user-slice"
 
 export const UserEvaluationAdministrationsTable = () => {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
 
   const appDispatch = useAppDispatch()
-  const {
-    user_evaluation_administrations,
-    hasPreviousPage,
-    hasNextPage,
-    totalPages,
-  } = useAppSelector((state) => state.user)
+  const { user_evaluation_administrations, hasPreviousPage, hasNextPage, totalPages } =
+    useAppSelector((state) => state.user)
 
   useEffect(() => {
     void appDispatch(
@@ -56,15 +52,11 @@ export const UserEvaluationAdministrationsTable = () => {
                 {formatDate(evaluationAdministration.eval_period_end_date)}
               </td>
               <td className='py-2'>
-                {formatDate(evaluationAdministration.eval_schedule_start_date)}{" "}
-                to {formatDate(evaluationAdministration.eval_schedule_end_date)}
+                {formatDate(evaluationAdministration.eval_schedule_start_date)} to{" "}
+                {formatDate(evaluationAdministration.eval_schedule_end_date)}
               </td>
-              <td className='py-2'>
-                {evaluationAdministration.totalEvaluations}
-              </td>
-              <td className='py-2'>
-                {evaluationAdministration.totalSubmitted}
-              </td>
+              <td className='py-2'>{evaluationAdministration.totalEvaluations}</td>
+              <td className='py-2'>{evaluationAdministration.totalSubmitted}</td>
               <td className='py-2'>{evaluationAdministration.totalPending}</td>
             </tr>
           ))}
