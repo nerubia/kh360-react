@@ -11,7 +11,7 @@ import evaluationsReducer from "./slices/evaluationsSlice"
 import evaluationTemplatesReducer from "./slices/evaluationTemplatesSlice"
 import evaluationTemplateContentsReducer from "./slices/evaluationTemplateContentsSlice"
 import usersReducer from "./slices/usersSlice"
-import userReducer from "./slices/userSlice"
+import userReducer from "./slices/user-slice"
 
 export const store = configureStore({
   reducer: {
