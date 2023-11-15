@@ -51,16 +51,16 @@ export const EvaluationAdministrationsTable = () => {
               key={evaluationAdministration.id}
               onClick={() => handleViewEvaluation(evaluationAdministration.id)}
             >
-              <td className='pb-2'>{evaluationAdministration.name}</td>
-              <td className='pb-2'>
+              <td className='py-1'>{evaluationAdministration.name}</td>
+              <td className='py-1'>
                 {formatDate(evaluationAdministration.eval_period_start_date)} to{" "}
                 {formatDate(evaluationAdministration.eval_period_end_date)}
               </td>
-              <td className='pb-2'>
+              <td className='py-1'>
                 {formatDate(evaluationAdministration.eval_schedule_start_date)} to{" "}
                 {formatDate(evaluationAdministration.eval_schedule_end_date)}
               </td>
-              <td className='pb-2'>
+              <td className='py-1'>
                 <Badge
                   variant={getEvaluationAdministrationStatusVariant(
                     evaluationAdministration?.status
