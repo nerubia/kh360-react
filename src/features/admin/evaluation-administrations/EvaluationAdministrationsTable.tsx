@@ -6,18 +6,17 @@ import { formatDate } from "../../../utils/formatDate"
 import { Pagination } from "../../../components/pagination/Pagination"
 import { getEvaluationAdministrations } from "../../../redux/slices/evaluationAdministrationsSlice"
 import { setEvaluationResults } from "../../../redux/slices/evaluationResultsSlice"
+import { Badge } from "../../../components/badge/Badge"
+import { getEvaluationAdministrationStatusVariant } from "../../../utils/variant"
 
 export const EvaluationAdministrationsTable = () => {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
 
   const appDispatch = useAppDispatch()
-  const {
-    evaluation_administrations,
-    hasPreviousPage,
-    hasNextPage,
-    totalPages,
-  } = useAppSelector((state) => state.evaluationAdministrations)
+  const { evaluation_administrations, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
+    (state) => state.evaluationAdministrations
+  )
 
   useEffect(() => {
     void appDispatch(
@@ -37,12 +36,12 @@ export const EvaluationAdministrationsTable = () => {
   return (
     <div className='flex flex-col gap-8'>
       <table className='w-full table-fixed'>
-        <thead className='text-left border-b-2'>
+        <thead className='text-left'>
           <tr>
-            <th>Name</th>
-            <th>Period</th>
-            <th>Schedule</th>
-            <th>Status</th>
+            <th className='pb-3'>Name</th>
+            <th className='pb-3'>Period</th>
+            <th className='pb-3'>Schedule</th>
+            <th className='pb-3'>Status</th>
           </tr>
         </thead>
         <tbody>
@@ -52,27 +51,38 @@ export const EvaluationAdministrationsTable = () => {
               key={evaluationAdministration.id}
               onClick={() => handleViewEvaluation(evaluationAdministration.id)}
             >
-              <td>{evaluationAdministration.name}</td>
-              <td>
+              <td className='pb-2'>{evaluationAdministration.name}</td>
+              <td className='pb-2'>
                 {formatDate(evaluationAdministration.eval_period_start_date)} to{" "}
                 {formatDate(evaluationAdministration.eval_period_end_date)}
               </td>
-              <td>
-                {formatDate(evaluationAdministration.eval_schedule_start_date)}{" "}
-                to {formatDate(evaluationAdministration.eval_schedule_end_date)}
+              <td className='pb-2'>
+                {formatDate(evaluationAdministration.eval_schedule_start_date)} to{" "}
+                {formatDate(evaluationAdministration.eval_schedule_end_date)}
               </td>
-              <td>{evaluationAdministration.status}</td>
+              <td className='pb-2'>
+                <Badge
+                  variant={getEvaluationAdministrationStatusVariant(
+                    evaluationAdministration?.status
+                  )}
+                  size='small'
+                >
+                  <div className='uppercase'>{evaluationAdministration?.status}</div>
+                </Badge>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <div className='flex justify-center'>
-        <Pagination
-          hasPreviousPage={hasPreviousPage}
-          hasNextPage={hasNextPage}
-          totalPages={totalPages}
-        />
-      </div>
+      {totalPages !== 1 && (
+        <div className='flex justify-center'>
+          <Pagination
+            hasPreviousPage={hasPreviousPage}
+            hasNextPage={hasNextPage}
+            totalPages={totalPages}
+          />
+        </div>
+      )}
     </div>
   )
 }
