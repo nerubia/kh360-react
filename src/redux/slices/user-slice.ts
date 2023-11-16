@@ -43,26 +43,13 @@ export const getUserEvaluationAdministrations = createAsyncThunk(
   }
 )
 
-export const saveAnswers = createAsyncThunk("user/saveAnswers", async (data: Answers, thunkApi) => {
-  try {
-    const response = await axiosInstance.post(
-      `/user/evaluations/${data.evaluation_id}/save-answers`,
-      data
-    )
-    return response.data
-  } catch (error) {
-    const axiosError = error as AxiosError
-    const response = axiosError.response?.data as ApiError
-    return thunkApi.rejectWithValue(response.message)
-  }
-})
-
 export const submitEvaluation = createAsyncThunk(
   "user/submitEvaluation",
-  async (evaluation_id: number, thunkApi) => {
+  async (data: Answers, thunkApi) => {
     try {
       const response = await axiosInstance.post(
-        `/user/evaluations/${evaluation_id}/submit-evaluation`
+        `/user/evaluations/${data.evaluation_id}/submit-evaluation`,
+        data
       )
       return response.data
     } catch (error) {

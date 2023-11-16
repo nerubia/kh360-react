@@ -9,11 +9,7 @@ import {
 } from "../../../redux/slices/evaluation-template-contents-slice"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../hooks/useAppSelector"
-import {
-  saveAnswers,
-  submitEvaluation,
-  updateEvaluationStatusById,
-} from "../../../redux/slices/user-slice"
+import { submitEvaluation, updateEvaluationStatusById } from "../../../redux/slices/user-slice"
 import { Loading } from "../../../types/loadingType"
 import { setAlert } from "../../../redux/slices/appSlice"
 import { EvaluationStatus, type Evaluation } from "../../../types/evaluationType"
@@ -96,11 +92,12 @@ export const EvaluationsCriteria = () => {
           (content) => content.evaluationRating.answer_option_id
         )
         const result = await appDispatch(
-          saveAnswers({
+          submitEvaluation({
             evaluation_id: parseInt(evaluation_id),
             evaluation_rating_ids,
             answer_option_ids,
             comment,
+            is_submitting: false,
           })
         )
         if (result.payload !== undefined) {
@@ -127,42 +124,34 @@ export const EvaluationsCriteria = () => {
         const answer_option_ids = evaluation_template_contents.map(
           (content) => content.evaluationRating.answer_option_id
         )
-
-        const saveAnswersResult = await appDispatch(
-          saveAnswers({
+        void appDispatch(setIsEditing(false))
+        const result = await appDispatch(
+          submitEvaluation({
             evaluation_id: parseInt(evaluation_id),
             evaluation_rating_ids,
             answer_option_ids,
             comment,
+            is_submitting: true,
           })
         )
-        if (saveAnswersResult.payload !== undefined) {
-          setComment(saveAnswersResult.payload.comment)
-          void appDispatch(setIsEditing(false))
-          const submitEvaluationResult = await appDispatch(
-            submitEvaluation(parseInt(evaluation_id))
+        if (result.payload !== undefined && result.type === "user/submitEvaluation/fulfilled") {
+          setComment(result.payload.comment)
+          void appDispatch(
+            setAlert({
+              description: `Evaluation successfully submitted.`,
+              variant: "success",
+            })
           )
-          if (
-            submitEvaluationResult.payload !== undefined &&
-            submitEvaluationResult.type === "user/submitEvaluation/fulfilled"
-          ) {
-            void appDispatch(
-              setAlert({
-                description: `Evaluation successfully submitted.`,
-                variant: "success",
-              })
-            )
-            void appDispatch(
-              updateEvaluationStatusById({
-                id: submitEvaluationResult.payload.id,
-                status: submitEvaluationResult.payload.status,
-                comment,
-              })
-            )
-            void appDispatch(setIsEditing(false))
-          } else if (submitEvaluationResult.type === "user/submitEvaluation/rejected") {
-            setErrorMessage(submitEvaluationResult.payload)
-          }
+          void appDispatch(
+            updateEvaluationStatusById({
+              id: result.payload.id,
+              status: result.payload.status,
+              comment,
+            })
+          )
+          void appDispatch(setIsEditing(false))
+        } else if (result.type === "user/submitEvaluation/rejected") {
+          setErrorMessage(result.payload)
         }
       } catch (error) {}
     }
@@ -224,7 +213,7 @@ export const EvaluationsCriteria = () => {
                 </div>
               </>
             ) : (
-              <p>{comment}</p>
+              <p className='mb-10'>{comment}</p>
             )}
           </div>
         )}
