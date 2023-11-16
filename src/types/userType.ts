@@ -8,6 +8,7 @@ export interface User {
   user_details?: UserDetails
   roles?: string[]
   picture?: string
+  role?: string
 }
 
 export interface UserFilters {
