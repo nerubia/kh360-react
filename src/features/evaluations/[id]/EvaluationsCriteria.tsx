@@ -6,7 +6,7 @@ import {
   getEvaluationTemplateContents,
   updateEvaluationRatingById,
   setIsEditing,
-} from "../../../redux/slices/evaluationTemplateContentsSlice"
+} from "../../../redux/slices/evaluation-template-contents-slice"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../hooks/useAppSelector"
 import {

@@ -9,7 +9,7 @@ import evaluationResultReducer from "./slices/evaluationResultSlice"
 import evaluationResultsReducer from "./slices/evaluationResultsSlice"
 import evaluationsReducer from "./slices/evaluationsSlice"
 import evaluationTemplatesReducer from "./slices/evaluationTemplatesSlice"
-import evaluationTemplateContentsReducer from "./slices/evaluationTemplateContentsSlice"
+import evaluationTemplateContentsReducer from "./slices/evaluation-template-contents-slice"
 import usersReducer from "./slices/usersSlice"
 import userReducer from "./slices/user-slice"
 
