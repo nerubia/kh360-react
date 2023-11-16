@@ -1,10 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
 import { type ApiError } from "../../types/apiErrorType"
-import {
-  type EvaluationFilters,
-  type Evaluation,
-} from "../../types/evaluationType"
+import { type EvaluationFilters, type Evaluation } from "../../types/evaluationType"
 import { axiosInstance } from "../../utils/axiosInstance"
 import { Loading } from "../../types/loadingType"
 
@@ -34,13 +31,10 @@ export const setForEvaluations = createAsyncThunk(
     thunkApi
   ) => {
     try {
-      const response = await axiosInstance.patch(
-        "/admin/evaluations/set-for-evaluations",
-        {
-          evaluation_ids: data.evaluation_ids,
-          for_evaluation: data.for_evaluation,
-        }
-      )
+      const response = await axiosInstance.patch("/admin/evaluations/set-for-evaluations", {
+        evaluation_ids: data.evaluation_ids,
+        for_evaluation: data.for_evaluation,
+      })
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError

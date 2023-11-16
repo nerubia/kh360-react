@@ -10,6 +10,7 @@ export interface Evaluation {
   percent_involvement?: string
   status?: string
   for_evaluation?: boolean
+  is_external?: boolean
   evaluator?: User
   evaluee?: User
   project?: Project
