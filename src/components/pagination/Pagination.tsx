@@ -8,11 +8,7 @@ interface PaginationProps {
   totalPages: number
 }
 
-export const Pagination = ({
-  hasPreviousPage,
-  hasNextPage,
-  totalPages,
-}: PaginationProps) => {
+export const Pagination = ({ hasPreviousPage, hasNextPage, totalPages }: PaginationProps) => {
   const [searchParams, setSearchParams] = useSearchParams()
   const page = searchParams.get("page")
   const currentPage = page !== null ? parseInt(page) : 1
@@ -21,7 +17,7 @@ export const Pagination = ({
     <div className='flex flex-col items-center gap-4'>
       <div className='flex gap-2'>
         <Button
-          size='small'
+          size='extraSmall'
           onClick={() => {
             let targetPage = 1
             if (currentPage - 10 > 1) {
@@ -35,7 +31,7 @@ export const Pagination = ({
           <Icon icon='ChevronsLeft' />
         </Button>
         <Button
-          size='small'
+          size='extraSmall'
           onClick={() => {
             const targetPage = currentPage - 1
             searchParams.set("page", targetPage.toString())
@@ -46,7 +42,7 @@ export const Pagination = ({
           <Icon icon='ChevronLeft' />
         </Button>
         <Button
-          size='small'
+          size='extraSmall'
           onClick={() => {
             const targetPage = currentPage + 1
             searchParams.set("page", targetPage.toString())
@@ -57,7 +53,7 @@ export const Pagination = ({
           <Icon icon='ChevronRight' />
         </Button>
         <Button
-          size='small'
+          size='extraSmall'
           onClick={() => {
             let targetPage = totalPages
             if (currentPage + 10 < totalPages) {

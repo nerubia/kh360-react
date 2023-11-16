@@ -88,6 +88,7 @@ const button = cva(["w-fit", "h-fit", "rounded-md", "flex", "items-center", "gap
       ],
     },
     size: {
+      extraSmall: ["text-xs", "px-1.5", "py-0.5"],
       small: ["text-sm", "px-2", "py-1"],
       medium: ["text-base", "px-4", "py-1.5"],
     },
