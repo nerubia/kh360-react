@@ -5,12 +5,12 @@ import { StarRating } from "../../../components/rating/StarRating"
 import {
   getEvaluationTemplateContents,
   updateEvaluationRatingById,
+  setIsEditing,
 } from "../../../redux/slices/evaluationTemplateContentsSlice"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../hooks/useAppSelector"
 import {
-  submitAnswer,
-  submitComment,
+  saveAnswers,
   submitEvaluation,
   updateEvaluationStatusById,
 } from "../../../redux/slices/user-slice"
@@ -23,7 +23,7 @@ import { TextArea } from "../../../components/textarea/TextArea"
 export const EvaluationsCriteria = () => {
   const { id, evaluation_id } = useParams()
   const appDispatch = useAppDispatch()
-  const { evaluation_template_contents } = useAppSelector(
+  const { evaluation_template_contents, is_editing } = useAppSelector(
     (state) => state.evaluationTemplateContents
   )
   const { loading, loading_comment, loading_answer, user_evaluations } = useAppSelector(
@@ -32,6 +32,10 @@ export const EvaluationsCriteria = () => {
   const [evaluation, setEvaluation] = useState<Evaluation>()
   const [comment, setComment] = useState<string>("")
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
+  useEffect(() => {
+    void appDispatch(setIsEditing(false))
+  }, [evaluation_id])
 
   useEffect(() => {
     if (evaluation_id !== "all") {
@@ -57,58 +61,51 @@ export const EvaluationsCriteria = () => {
 
   const handleOnClickStar = async (
     answerOptionId: number,
-    evaluationRatingId: number,
     evaluationTemplateId: number,
     ratingSequenceNumber: number
   ) => {
     setErrorMessage(null)
     if (evaluation_id !== undefined) {
-      try {
-        const result = await appDispatch(
-          submitAnswer({
-            evaluation_id: parseInt(evaluation_id),
-            evaluation_rating_id: evaluationRatingId,
-            answer_option_id: answerOptionId,
-          })
-        )
-        if (result.payload.id !== undefined && id !== undefined) {
-          void appDispatch(
-            updateEvaluationStatusById({
-              id: result.payload.id,
-              status: result.payload.status,
-              comment,
-            })
-          )
-          void appDispatch(
-            updateEvaluationRatingById({
-              evaluationTemplateId,
-              answerOptionId,
-              ratingSequenceNumber,
-            })
-          )
-        }
-      } catch (error) {}
+      void appDispatch(
+        updateEvaluationRatingById({
+          evaluationTemplateId,
+          answerOptionId,
+          ratingSequenceNumber,
+        })
+      )
+      void appDispatch(setIsEditing(true))
     }
   }
 
   const handleTextAreaChange = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = e.target
+    if (evaluation?.comments === null || value !== evaluation?.comments) {
+      void appDispatch(setIsEditing(true))
+    }
     setComment(value)
     setErrorMessage(null)
   }
 
-  const handleOnBlur = async (e: React.FocusEvent<HTMLTextAreaElement>) => {
-    const { value } = e.target
-    if (evaluation_id !== undefined && id !== undefined && value.length > 0) {
+  const handleSave = async () => {
+    if (evaluation_id !== undefined) {
       try {
+        const evaluation_rating_ids = evaluation_template_contents.map(
+          (content) => content.evaluationRating.id
+        )
+        const answer_option_ids = evaluation_template_contents.map(
+          (content) => content.evaluationRating.answer_option_id
+        )
         const result = await appDispatch(
-          submitComment({
+          saveAnswers({
             evaluation_id: parseInt(evaluation_id),
-            comment: value,
+            evaluation_rating_ids,
+            answer_option_ids,
+            comment,
           })
         )
         if (result.payload !== undefined) {
           setComment(result.payload.comment)
+          void appDispatch(setIsEditing(false))
           void appDispatch(
             updateEvaluationStatusById({
               id: result.payload.id,
@@ -124,23 +121,48 @@ export const EvaluationsCriteria = () => {
   const handleSubmit = async () => {
     if (evaluation_id !== undefined && id !== undefined) {
       try {
-        const result = await appDispatch(submitEvaluation(parseInt(evaluation_id)))
-        if (result.payload !== undefined && result.type === "user/submitEvaluation/fulfilled") {
-          void appDispatch(
-            setAlert({
-              description: `Evaluation successfully submitted.`,
-              variant: "success",
-            })
+        const evaluation_rating_ids = evaluation_template_contents.map(
+          (content) => content.evaluationRating.id
+        )
+        const answer_option_ids = evaluation_template_contents.map(
+          (content) => content.evaluationRating.answer_option_id
+        )
+
+        const saveAnswersResult = await appDispatch(
+          saveAnswers({
+            evaluation_id: parseInt(evaluation_id),
+            evaluation_rating_ids,
+            answer_option_ids,
+            comment,
+          })
+        )
+        if (saveAnswersResult.payload !== undefined) {
+          setComment(saveAnswersResult.payload.comment)
+          void appDispatch(setIsEditing(false))
+          const submitEvaluationResult = await appDispatch(
+            submitEvaluation(parseInt(evaluation_id))
           )
-          void appDispatch(
-            updateEvaluationStatusById({
-              id: result.payload.id,
-              status: result.payload.status,
-              comment,
-            })
-          )
-        } else if (result.type === "user/submitEvaluation/rejected") {
-          setErrorMessage(result.payload)
+          if (
+            submitEvaluationResult.payload !== undefined &&
+            submitEvaluationResult.type === "user/submitEvaluation/fulfilled"
+          ) {
+            void appDispatch(
+              setAlert({
+                description: `Evaluation successfully submitted.`,
+                variant: "success",
+              })
+            )
+            void appDispatch(
+              updateEvaluationStatusById({
+                id: submitEvaluationResult.payload.id,
+                status: submitEvaluationResult.payload.status,
+                comment,
+              })
+            )
+            void appDispatch(setIsEditing(false))
+          } else if (submitEvaluationResult.type === "user/submitEvaluation/rejected") {
+            setErrorMessage(submitEvaluationResult.payload)
+          }
         }
       } catch (error) {}
     }
@@ -155,50 +177,50 @@ export const EvaluationsCriteria = () => {
       {loading === Loading.Fulfilled &&
         evaluation_template_contents !== null &&
         user_evaluations.length > 0 && (
-          <div className='w-full flex flex-col gap-4 overflow-y-scroll'>
-            <div className='text-lg font-bold'>
+          <div className='flex flex-col overflow-y-scroll pr-5 mr-4 w-3/4'>
+            <div className='text-lg font-bold text-primary-500 mb-2'>
               <h1>Project Assignment Duration</h1>({formatDate(evaluation?.eval_start_date)} to{" "}
               {formatDate(evaluation?.eval_end_date)})
             </div>
             {evaluation_template_contents.map((templateContent) => (
-              <div
-                className={`flex justify-between ${
-                  templateContent.evaluationRating !== null &&
-                  templateContent.evaluationRating.ratingSequenceNumber === 1 &&
-                  `text-gray-200`
-                }`}
-                key={templateContent.id}
-              >
-                <div className='w-1/2'>
-                  <h1 className='text-lg font-medium'>{templateContent.name}</h1>
-                  <p>{templateContent.description}</p>
+              <div key={templateContent.id} className='hover:bg-primary-50'>
+                <div className='flex justify-between py-3'>
+                  <div className='w-4/6'>
+                    <h1 className='text-lg font-medium text-primary-500'>{templateContent.name}</h1>
+                    <p className='text-sm'>{templateContent.description}</p>
+                  </div>
+                  <StarRating
+                    templateContent={templateContent}
+                    loadingAnswer={loading_answer}
+                    evaluation={evaluation}
+                    handleOnClick={handleOnClickStar}
+                  />
                 </div>
-                <StarRating
-                  templateContent={templateContent}
-                  loadingAnswer={loading_answer}
-                  evaluation={evaluation}
-                  handleOnClick={handleOnClickStar}
-                />
               </div>
             ))}
-            <h1 className='text-lg font-bold'>Comments</h1>
+            <h1 className='text-lg font-bold text-primary-500 mt-10 mb-2'>Comments</h1>
             {evaluation?.status === EvaluationStatus.Submitted && evaluation?.comments === null && (
               <div>No comments</div>
             )}
             {evaluation?.status !== EvaluationStatus.Submitted ? (
               <>
                 <TextArea
-                  label='Evaluation description/notes'
                   name='remarks'
                   placeholder='Comments'
                   value={comment}
                   onChange={handleTextAreaChange}
-                  onBlur={handleOnBlur}
                   disabled={loading_comment === Loading.Pending}
                   error={errorMessage}
                 />
-                <div className='flex justify-end'>
-                  <Button onClick={async () => await handleSubmit()}>Submit</Button>
+                <div className='flex justify-end my-4 gap-4'>
+                  <Button
+                    disabled={!is_editing}
+                    variant='primaryOutline'
+                    onClick={async () => await handleSave()}
+                  >
+                    Save
+                  </Button>
+                  <Button onClick={async () => await handleSubmit()}>Save & Submit</Button>
                 </div>
               </>
             ) : (

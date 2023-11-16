@@ -2,9 +2,7 @@ import { EvaluationResultStatus } from "../types/evaluation-result-type"
 import { EvaluationStatus } from "../types/evaluationType"
 import { EvaluationAdministrationStatus } from "../types/evaluationAdministrationType"
 
-export const getEvaluationAdministrationStatusVariant = (
-  status: string | undefined
-) => {
+export const getEvaluationAdministrationStatusVariant = (status: string | undefined) => {
   if (status === EvaluationAdministrationStatus.Draft) {
     return "greenOutline"
   }
@@ -21,9 +19,7 @@ export const getEvaluationAdministrationStatusVariant = (
     return "gray"
   }
 }
-export const getEvaluationResultStatusVariant = (
-  status: string | undefined
-) => {
+export const getEvaluationResultStatusVariant = (status: string | undefined) => {
   if (status === EvaluationResultStatus.ForReview) {
     return "greenOutline"
   }
@@ -50,12 +46,13 @@ export const getEvaluationStatusVariant = (status: string | undefined) => {
   }
 }
 
-export const getAnswerOptionVariant = (
-  sequenceNumber: number,
-  evaluationRating: number
-) => {
+export const getAnswerOptionVariant = (sequenceNumber: number, evaluationRating: number) => {
   if (sequenceNumber === 1) {
-    return "primary"
+    if (evaluationRating === 1) {
+      return "NAOption"
+    } else {
+      return "NAOptionEmpty"
+    }
   } else if (sequenceNumber <= (evaluationRating ?? 0)) {
     return "star"
   } else {

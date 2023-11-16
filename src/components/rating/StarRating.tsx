@@ -12,7 +12,6 @@ interface StarRatingProps {
   evaluation?: Evaluation | null
   handleOnClick: (
     id: number,
-    ratingId: number,
     templateContentId: number,
     ratingSequenceNumber: number
   ) => Promise<void>
@@ -49,18 +48,13 @@ export const StarRating = ({
                       onClick={async () =>
                         await handleOnClick(
                           answerOption.id,
-                          templateContent.evaluationRating.id,
                           templateContent.id,
                           answerOption.sequence_no
                         )
                       }
                       size='small'
                     >
-                      {answerOption.sequence_no === 1 ? (
-                        "N/A"
-                      ) : (
-                        <Icon icon='Star' />
-                      )}
+                      {answerOption.sequence_no === 1 ? "N/A" : <Icon icon='Star' />}
                     </Button>
                   </>
                 )}
