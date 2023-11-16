@@ -3,8 +3,7 @@ import { type AxiosError } from "axios"
 import { type ApiError } from "../../types/apiErrorType"
 import { type UserEvaluationsFilter } from "../../types/userType"
 import { type Evaluation } from "../../types/evaluationType"
-import { type Answer } from "../../types/answerType"
-import { type Comment } from "../../types/commentType"
+import { type Answers } from "../../types/answerType"
 import {
   type EvaluationAdministration,
   type EvaluationAdministrationFilters,
@@ -44,39 +43,19 @@ export const getUserEvaluationAdministrations = createAsyncThunk(
   }
 )
 
-export const submitAnswer = createAsyncThunk(
-  "user/submitAnswer",
-  async (data: Answer, thunkApi) => {
-    try {
-      const response = await axiosInstance.post(
-        `/user/evaluations/${data.evaluation_id}/submit-answer`,
-        data
-      )
-      return response.data
-    } catch (error) {
-      const axiosError = error as AxiosError
-      const response = axiosError.response?.data as ApiError
-      return thunkApi.rejectWithValue(response.message)
-    }
+export const saveAnswers = createAsyncThunk("user/saveAnswers", async (data: Answers, thunkApi) => {
+  try {
+    const response = await axiosInstance.post(
+      `/user/evaluations/${data.evaluation_id}/save-answers`,
+      data
+    )
+    return response.data
+  } catch (error) {
+    const axiosError = error as AxiosError
+    const response = axiosError.response?.data as ApiError
+    return thunkApi.rejectWithValue(response.message)
   }
-)
-
-export const submitComment = createAsyncThunk(
-  "user/submitComment",
-  async (data: Comment, thunkApi) => {
-    try {
-      const response = await axiosInstance.post(
-        `/user/evaluations/${data.evaluation_id}/submit-comment`,
-        data
-      )
-      return response.data
-    } catch (error) {
-      const axiosError = error as AxiosError
-      const response = axiosError.response?.data as ApiError
-      return thunkApi.rejectWithValue(response.message)
-    }
-  }
-)
+})
 
 export const submitEvaluation = createAsyncThunk(
   "user/submitEvaluation",
@@ -175,36 +154,6 @@ const userSlice = createSlice({
     })
     builder.addCase(getUserEvaluationAdministrations.rejected, (state, action) => {
       state.loading = Loading.Rejected
-      state.error = action.payload as string
-    })
-    /**
-     * Submit answer
-     */
-    builder.addCase(submitAnswer.pending, (state) => {
-      state.loading_answer = Loading.Pending
-      state.error = null
-    })
-    builder.addCase(submitAnswer.fulfilled, (state) => {
-      state.loading_answer = Loading.Fulfilled
-      state.error = null
-    })
-    builder.addCase(submitAnswer.rejected, (state, action) => {
-      state.loading_answer = Loading.Rejected
-      state.error = action.payload as string
-    })
-    /**
-     * Submit comment
-     */
-    builder.addCase(submitComment.pending, (state) => {
-      state.loading_comment = Loading.Pending
-      state.error = null
-    })
-    builder.addCase(submitComment.fulfilled, (state) => {
-      state.loading_comment = Loading.Fulfilled
-      state.error = null
-    })
-    builder.addCase(submitComment.rejected, (state, action) => {
-      state.loading_comment = Loading.Rejected
       state.error = action.payload as string
     })
     /**

@@ -7,7 +7,7 @@ export default function Evaluations() {
   return (
     <>
       <EvaluationsHeader />
-      <div className='h-[calc(100vh_-_160px)] flex flex-row gap-4'>
+      <div className='h-[calc(100vh_-_180px)] flex flex-row gap-4 w-5/6 shadow-md'>
         <EvaluationsList />
         <Divider orientation='vertical' />
         <EvaluationsCriteria />

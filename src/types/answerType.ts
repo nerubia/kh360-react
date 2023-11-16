@@ -1,5 +1,6 @@
-export interface Answer {
+export interface Answers {
   evaluation_id: number
-  evaluation_rating_id: number
-  answer_option_id: number
+  evaluation_rating_ids: number[]
+  answer_option_ids: number[]
+  comment: string
 }

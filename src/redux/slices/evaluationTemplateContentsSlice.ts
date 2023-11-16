@@ -12,12 +12,9 @@ export const getEvaluationTemplateContents = createAsyncThunk(
   "evaluationTemplate/getEvaluationTemplateContents",
   async (params: EvaluationTemplateContentFilters, thunkApi) => {
     try {
-      const response = await axiosInstance.get(
-        "/user/evaluation-template-contents",
-        {
-          params,
-        }
-      )
+      const response = await axiosInstance.get("/user/evaluation-template-contents", {
+        params,
+      })
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -31,33 +28,34 @@ interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
   evaluation_template_contents: EvaluationTemplateContent[]
+  is_editing: boolean
 }
 
 const initialState: InitialState = {
   loading: Loading.Idle,
   error: null,
   evaluation_template_contents: [],
+  is_editing: false,
 }
 
 const evaluationTemplateContentsSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
+    setIsEditing: (state, action) => {
+      state.is_editing = action.payload
+    },
     updateEvaluationRatingById: (state, action) => {
-      const { evaluationTemplateId, answerOptionId, ratingSequenceNumber } =
-        action.payload
+      const { evaluationTemplateId, answerOptionId, ratingSequenceNumber } = action.payload
 
       const index = state.evaluation_template_contents.findIndex(
         (template) => template.id === evaluationTemplateId
       )
 
       if (index !== -1) {
-        state.evaluation_template_contents[
-          index
-        ].evaluationRating.answer_option_id = answerOptionId
-        state.evaluation_template_contents[
-          index
-        ].evaluationRating.ratingSequenceNumber = ratingSequenceNumber
+        state.evaluation_template_contents[index].evaluationRating.answer_option_id = answerOptionId
+        state.evaluation_template_contents[index].evaluationRating.ratingSequenceNumber =
+          ratingSequenceNumber
       }
     },
   },
@@ -67,14 +65,11 @@ const evaluationTemplateContentsSlice = createSlice({
       state.loading = Loading.Pending
       state.error = null
     })
-    builder.addCase(
-      getEvaluationTemplateContents.fulfilled,
-      (state, action) => {
-        state.loading = Loading.Fulfilled
-        state.error = null
-        state.evaluation_template_contents = action.payload
-      }
-    )
+    builder.addCase(getEvaluationTemplateContents.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.evaluation_template_contents = action.payload
+    })
     builder.addCase(getEvaluationTemplateContents.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
@@ -83,6 +78,5 @@ const evaluationTemplateContentsSlice = createSlice({
   },
 })
 
-export const { updateEvaluationRatingById } =
-  evaluationTemplateContentsSlice.actions
+export const { setIsEditing, updateEvaluationRatingById } = evaluationTemplateContentsSlice.actions
 export default evaluationTemplateContentsSlice.reducer
