@@ -19,19 +19,17 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
   })
 
   test.describe("as Guest", () => {
-    test("should not allow to view the evaluation evaluees page", async ({
-      page,
-    }) => {
+    test("should not allow to view the evaluation evaluees page", async ({ page }) => {
       await page.goto("/admin/evaluation-administrations/1/evaluees")
 
-      await expect(page).toHaveURL("/auth/login")
+      await expect(page).toHaveURL(
+        "/auth/login?callback=/admin/evaluation-administrations/1/evaluees"
+      )
     })
   })
 
   test.describe("as Employee", () => {
-    test("should not allow to view the evaluation evaluees page", async ({
-      page,
-    }) => {
+    test("should not allow to view the evaluation evaluees page", async ({ page }) => {
       await loginUser("employee", page)
 
       await page.goto("/admin/evaluation-administrations/1/evaluees")
@@ -46,62 +44,54 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
 
       await page.goto("/admin/evaluation-administrations/1/evaluees")
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-results?evaluation_administration_id=1",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({
-            data: [
-              {
-                id: 1,
-                status: "For Review",
-                users: {
-                  first_name: "Cat",
-                  last_name: "admin",
-                  picture: null,
-                },
+      await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              status: "For Review",
+              users: {
+                first_name: "Cat",
+                last_name: "admin",
+                picture: null,
               },
-              {
-                id: 2,
-                status: "Draft",
-                users: {
-                  first_name: "J",
-                  last_name: "admin",
-                  picture: null,
-                },
-              },
-              {
-                id: 3,
-                status: "Ready",
-                users: {
-                  first_name: "Nino",
-                  last_name: "admin",
-                  picture: null,
-                },
-              },
-            ],
-            pageInfo: {
-              hasPreviousPage: false,
-              hasNextPage: false,
-              totalPages: 1,
             },
-          }),
-        }
-      )
+            {
+              id: 2,
+              status: "Draft",
+              users: {
+                first_name: "J",
+                last_name: "admin",
+                picture: null,
+              },
+            },
+            {
+              id: 3,
+              status: "Ready",
+              users: {
+                first_name: "Nino",
+                last_name: "admin",
+                picture: null,
+              },
+            },
+          ],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-administrations/1/generate-status",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({
-            canGenerate: false,
-          }),
-        }
-      )
+      await mockRequest(page, "/admin/evaluation-administrations/1/generate-status", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          canGenerate: false,
+        }),
+      })
 
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
@@ -112,87 +102,70 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
       await expect(page.getByRole("button", { name: "Search" })).toBeVisible()
       await expect(page.getByRole("button", { name: "Clear" })).toBeVisible()
 
-      await expect(
-        page.getByRole("heading", { name: "Evaluees" })
-      ).toBeVisible()
+      await expect(page.getByRole("heading", { name: "Evaluees" })).toBeVisible()
 
       await expect(page.getByText("admin, CatFor Review")).toBeVisible()
       await expect(page.getByText("admin, JDraft")).toBeVisible()
       await expect(page.getByText("admin, NinoReady")).toBeVisible()
 
-      await expect(
-        page.getByRole("button", { name: "Cancel & Exit" })
-      ).toBeVisible()
+      await expect(page.getByRole("button", { name: "Cancel & Exit" })).toBeVisible()
       await expect(page.getByTestId("BackButton")).toBeVisible()
-      await expect(
-        page.getByRole("button", { name: "Generate Evaluations" })
-      ).toBeVisible()
+      await expect(page.getByRole("button", { name: "Generate Evaluations" })).toBeVisible()
     })
 
-    test("should render delete evaluee modal correctly", async ({
-      page,
-      isMobile,
-    }) => {
+    test("should render delete evaluee modal correctly", async ({ page, isMobile }) => {
       await loginUser("admin", page)
 
       await page.goto("/admin/evaluation-administrations/1/evaluees")
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-results?evaluation_administration_id=1",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({
-            data: [
-              {
-                id: 1,
-                status: "For Review",
-                users: {
-                  first_name: "Cat",
-                  last_name: "admin",
-                  picture: null,
-                },
+      await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              status: "For Review",
+              users: {
+                first_name: "Cat",
+                last_name: "admin",
+                picture: null,
               },
-              {
-                id: 2,
-                status: "Draft",
-                users: {
-                  first_name: "J",
-                  last_name: "admin",
-                  picture: null,
-                },
-              },
-              {
-                id: 3,
-                status: "Ready",
-                users: {
-                  first_name: "Nino",
-                  last_name: "admin",
-                  picture: null,
-                },
-              },
-            ],
-            pageInfo: {
-              hasPreviousPage: false,
-              hasNextPage: false,
-              totalPages: 1,
             },
-          }),
-        }
-      )
+            {
+              id: 2,
+              status: "Draft",
+              users: {
+                first_name: "J",
+                last_name: "admin",
+                picture: null,
+              },
+            },
+            {
+              id: 3,
+              status: "Ready",
+              users: {
+                first_name: "Nino",
+                last_name: "admin",
+                picture: null,
+              },
+            },
+          ],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-administrations/1/generate-status",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({
-            canGenerate: false,
-          }),
-        }
-      )
+      await mockRequest(page, "/admin/evaluation-administrations/1/generate-status", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          canGenerate: false,
+        }),
+      })
 
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
@@ -205,9 +178,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
         .first()
         .click()
 
-      await expect(
-        page.getByRole("heading", { name: "Delete Evaluee" })
-      ).toBeVisible()
+      await expect(page.getByRole("heading", { name: "Delete Evaluee" })).toBeVisible()
       await expect(
         page.getByText(
           "Are you sure you want to remove admin, Cat? This action cannot be reverted."
@@ -222,62 +193,54 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
 
       await page.goto("/admin/evaluation-administrations/1/evaluees")
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-results?evaluation_administration_id=1",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({
-            data: [
-              {
-                id: 1,
-                status: "For Review",
-                users: {
-                  first_name: "Cat",
-                  last_name: "admin",
-                  picture: null,
-                },
+      await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              status: "For Review",
+              users: {
+                first_name: "Cat",
+                last_name: "admin",
+                picture: null,
               },
-              {
-                id: 2,
-                status: "Draft",
-                users: {
-                  first_name: "J",
-                  last_name: "admin",
-                  picture: null,
-                },
-              },
-              {
-                id: 3,
-                status: "Ready",
-                users: {
-                  first_name: "Nino",
-                  last_name: "admin",
-                  picture: null,
-                },
-              },
-            ],
-            pageInfo: {
-              hasPreviousPage: false,
-              hasNextPage: false,
-              totalPages: 1,
             },
-          }),
-        }
-      )
+            {
+              id: 2,
+              status: "Draft",
+              users: {
+                first_name: "J",
+                last_name: "admin",
+                picture: null,
+              },
+            },
+            {
+              id: 3,
+              status: "Ready",
+              users: {
+                first_name: "Nino",
+                last_name: "admin",
+                picture: null,
+              },
+            },
+          ],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-administrations/1/generate-status",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({
-            canGenerate: false,
-          }),
-        }
-      )
+      await mockRequest(page, "/admin/evaluation-administrations/1/generate-status", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          canGenerate: false,
+        }),
+      })
 
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
@@ -298,9 +261,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
 
       await page.getByTestId("DialogYesButton").click()
 
-      await expect(
-        page.getByText("Cat admin successfully removed.")
-      ).toBeVisible()
+      await expect(page.getByText("Cat admin successfully removed.")).toBeVisible()
       await expect(page.getByText("admin, Catreviewed")).not.toBeVisible()
     })
 
@@ -309,62 +270,54 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
 
       await page.goto("/admin/evaluation-administrations/1/evaluees")
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-results?evaluation_administration_id=1",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({
-            data: [
-              {
-                id: 1,
-                status: "For Review",
-                users: {
-                  first_name: "Cat",
-                  last_name: "admin",
-                  picture: null,
-                },
+      await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              status: "For Review",
+              users: {
+                first_name: "Cat",
+                last_name: "admin",
+                picture: null,
               },
-              {
-                id: 2,
-                status: "Draft",
-                users: {
-                  first_name: "J",
-                  last_name: "admin",
-                  picture: null,
-                },
-              },
-              {
-                id: 3,
-                status: "Ready",
-                users: {
-                  first_name: "Nino",
-                  last_name: "admin",
-                  picture: null,
-                },
-              },
-            ],
-            pageInfo: {
-              hasPreviousPage: false,
-              hasNextPage: false,
-              totalPages: 1,
             },
-          }),
-        }
-      )
+            {
+              id: 2,
+              status: "Draft",
+              users: {
+                first_name: "J",
+                last_name: "admin",
+                picture: null,
+              },
+            },
+            {
+              id: 3,
+              status: "Ready",
+              users: {
+                first_name: "Nino",
+                last_name: "admin",
+                picture: null,
+              },
+            },
+          ],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-administrations/1/generate-status",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({
-            canGenerate: false,
-          }),
-        }
-      )
+      await mockRequest(page, "/admin/evaluation-administrations/1/generate-status", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          canGenerate: false,
+        }),
+      })
 
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
@@ -469,83 +422,68 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
         }),
       })
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-results/all?evaluation_administration_id=1",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify([]),
-        }
-      )
+      await mockRequest(page, "/admin/evaluation-results/all?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([]),
+      })
 
       await expect(page).toHaveURL("/admin/evaluation-administrations/1/select")
     })
 
-    test("should render cancel & exit modal correctly", async ({
-      page,
-      isMobile,
-    }) => {
+    test("should render cancel & exit modal correctly", async ({ page, isMobile }) => {
       await loginUser("admin", page)
 
       await page.goto("/admin/evaluation-administrations/1/evaluees")
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-results?evaluation_administration_id=1",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({
-            data: [
-              {
-                id: 1,
-                status: "For Review",
-                users: {
-                  first_name: "Cat",
-                  last_name: "admin",
-                  picture: null,
-                },
+      await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              status: "For Review",
+              users: {
+                first_name: "Cat",
+                last_name: "admin",
+                picture: null,
               },
-              {
-                id: 2,
-                status: "Draft",
-                users: {
-                  first_name: "J",
-                  last_name: "admin",
-                  picture: null,
-                },
-              },
-              {
-                id: 3,
-                status: "Ready",
-                users: {
-                  first_name: "Nino",
-                  last_name: "admin",
-                  picture: null,
-                },
-              },
-            ],
-            pageInfo: {
-              hasPreviousPage: false,
-              hasNextPage: false,
-              totalPages: 1,
             },
-          }),
-        }
-      )
+            {
+              id: 2,
+              status: "Draft",
+              users: {
+                first_name: "J",
+                last_name: "admin",
+                picture: null,
+              },
+            },
+            {
+              id: 3,
+              status: "Ready",
+              users: {
+                first_name: "Nino",
+                last_name: "admin",
+                picture: null,
+              },
+            },
+          ],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-administrations/1/generate-status",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({
-            canGenerate: false,
-          }),
-        }
-      )
+      await mockRequest(page, "/admin/evaluation-administrations/1/generate-status", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          canGenerate: false,
+        }),
+      })
 
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
@@ -553,9 +491,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
 
       await page.getByRole("button", { name: "Cancel & Exit" }).click()
 
-      await expect(
-        page.getByRole("heading", { name: "Cancel & Exit" })
-      ).toBeVisible()
+      await expect(page.getByRole("heading", { name: "Cancel & Exit" })).toBeVisible()
       await expect(
         page.getByText(
           "Are you sure you want to cancel and exit? If you cancel, your data won't be save"
@@ -570,62 +506,54 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
 
       await page.goto("/admin/evaluation-administrations/1/evaluees")
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-results?evaluation_administration_id=1",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({
-            data: [
-              {
-                id: 1,
-                status: "For Review",
-                users: {
-                  first_name: "Cat",
-                  last_name: "admin",
-                  picture: null,
-                },
+      await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              status: "For Review",
+              users: {
+                first_name: "Cat",
+                last_name: "admin",
+                picture: null,
               },
-              {
-                id: 2,
-                status: "Draft",
-                users: {
-                  first_name: "J",
-                  last_name: "admin",
-                  picture: null,
-                },
-              },
-              {
-                id: 3,
-                status: "Ready",
-                users: {
-                  first_name: "Nino",
-                  last_name: "admin",
-                  picture: null,
-                },
-              },
-            ],
-            pageInfo: {
-              hasPreviousPage: false,
-              hasNextPage: false,
-              totalPages: 1,
             },
-          }),
-        }
-      )
+            {
+              id: 2,
+              status: "Draft",
+              users: {
+                first_name: "J",
+                last_name: "admin",
+                picture: null,
+              },
+            },
+            {
+              id: 3,
+              status: "Ready",
+              users: {
+                first_name: "Nino",
+                last_name: "admin",
+                picture: null,
+              },
+            },
+          ],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-administrations/1/generate-status",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({
-            canGenerate: false,
-          }),
-        }
-      )
+      await mockRequest(page, "/admin/evaluation-administrations/1/generate-status", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          canGenerate: false,
+        }),
+      })
 
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
@@ -701,88 +629,64 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
       await expect(page).toHaveURL("/admin/evaluation-administrations")
     })
 
-    test("should not allow to generate if evaluees are not ready", async ({
-      page,
-      isMobile,
-    }) => {
+    test("should not allow to generate if evaluees are not ready", async ({ page, isMobile }) => {
       await loginUser("admin", page)
 
       await page.goto("/admin/evaluation-administrations/1/evaluees")
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-results?evaluation_administration_id=1",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({
-            data: [],
-            pageInfo: {
-              hasPreviousPage: false,
-              hasNextPage: false,
-              totalPages: 1,
-            },
-          }),
-        }
-      )
+      await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-administrations/1/generate-status",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({
-            canGenerate: false,
-          }),
-        }
-      )
+      await mockRequest(page, "/admin/evaluation-administrations/1/generate-status", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          canGenerate: false,
+        }),
+      })
 
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
       }
 
-      await expect(
-        page.getByRole("button", { name: "Generate Evaluations" })
-      ).toBeDisabled()
+      await expect(page.getByRole("button", { name: "Generate Evaluations" })).toBeDisabled()
     })
 
-    test("should allow to generate if evaluees are ready", async ({
-      page,
-      isMobile,
-    }) => {
+    test("should allow to generate if evaluees are ready", async ({ page, isMobile }) => {
       await loginUser("admin", page)
 
       await page.goto("/admin/evaluation-administrations/1/evaluees")
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-results?evaluation_administration_id=1",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({
-            data: [],
-            pageInfo: {
-              hasPreviousPage: false,
-              hasNextPage: false,
-              totalPages: 1,
-            },
-          }),
-        }
-      )
+      await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-administrations/1/generate-status",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({
-            canGenerate: true,
-          }),
-        }
-      )
+      await mockRequest(page, "/admin/evaluation-administrations/1/generate-status", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          canGenerate: true,
+        }),
+      })
 
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
@@ -813,9 +717,7 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
 
       await expect(page).toHaveURL("/admin/evaluation-administrations")
 
-      await expect(
-        page.getByText("Evaluations have been generated successfully.")
-      ).toBeVisible()
+      await expect(page.getByText("Evaluations have been generated successfully.")).toBeVisible()
     })
   })
 })

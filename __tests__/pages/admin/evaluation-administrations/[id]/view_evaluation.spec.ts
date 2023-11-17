@@ -19,19 +19,15 @@ test.describe("Admin - Evaluations", () => {
   })
 
   test.describe("as Guest", () => {
-    test("should not allow to view the admin view evaluation", async ({
-      page,
-    }) => {
+    test("should not allow to view the admin view evaluation", async ({ page }) => {
       await page.goto("/admin/evaluation-administrations/1")
 
-      await expect(page).toHaveURL("/auth/login")
+      await expect(page).toHaveURL("/auth/login?callback=/admin/evaluation-administrations/1")
     })
   })
 
   test.describe("as Employee", () => {
-    test("should not allow to view the admin view evaluation", async ({
-      page,
-    }) => {
+    test("should not allow to view the admin view evaluation", async ({ page }) => {
       await loginUser("employee", page)
 
       await page.goto("/admin/evaluation-administrations/1")
@@ -63,32 +59,28 @@ test.describe("Admin - Evaluations", () => {
         }),
       })
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-results?evaluation_administration_id=1",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({
-            data: [
-              {
-                id: 1,
-                status: "For Review",
-                users: {
-                  first_name: "Sample",
-                  last_name: "User",
-                  picture: null,
-                },
+      await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              status: "For Review",
+              users: {
+                first_name: "Sample",
+                last_name: "User",
+                picture: null,
               },
-            ],
-            pageInfo: {
-              hasPreviousPage: false,
-              hasNextPage: false,
-              totalPages: 1,
             },
-          }),
-        }
-      )
+          ],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
 
       await mockRequest(
         page,
@@ -184,67 +176,37 @@ test.describe("Admin - Evaluations", () => {
         await page.getByTestId("SidebarCloseButton").click()
       }
 
-      await expect(
-        page.getByRole("heading", { name: "Evaluation 1" })
-      ).toBeVisible()
+      await expect(page.getByRole("heading", { name: "Evaluation 1" })).toBeVisible()
       await expect(page.getByText("Pending")).toBeVisible()
-      await expect(
-        page.getByText("Evaluation Period: 2023-01-01 to 2023-12-31")
-      ).toBeVisible()
-      await expect(
-        page.getByText("Evaluation Schedule: 2024-01-01 to 2024-01-03")
-      ).toBeVisible()
+      await expect(page.getByText("Evaluation Period: 2023-01-01 to 2023-12-31")).toBeVisible()
+      await expect(page.getByText("Evaluation Schedule: 2024-01-01 to 2024-01-03")).toBeVisible()
       await expect(page.getByRole("link", { name: "Progress" })).toBeVisible()
       await expect(page.getByRole("link", { name: "Edit" })).toBeVisible()
-      await expect(
-        page.getByRole("heading", { name: "Employees" })
-      ).toBeVisible()
+      await expect(page.getByRole("heading", { name: "Employees" })).toBeVisible()
 
-      await expect(
-        page.getByRole("button", { name: "User, Sample" })
-      ).toBeVisible()
+      await expect(page.getByRole("button", { name: "User, Sample" })).toBeVisible()
 
       await expect(page.getByTestId("EditButton")).toBeVisible()
       await page.getByRole("button", { name: "User, Sample" }).click()
 
-      await expect(
-        page.getByRole("button", { name: "PM Evaluation" })
-      ).toBeVisible()
-      await expect(
-        page.getByRole("button", { name: "Peer Evaluation" })
-      ).toBeVisible()
-      await expect(
-        page.getByRole("button", { name: "Code Reviewer Evaluation" })
-      ).toBeVisible()
-      await expect(
-        page.getByRole("button", { name: "QA Evaluation" })
-      ).toBeVisible()
+      await expect(page.getByRole("button", { name: "PM Evaluation" })).toBeVisible()
+      await expect(page.getByRole("button", { name: "Peer Evaluation" })).toBeVisible()
+      await expect(page.getByRole("button", { name: "Code Reviewer Evaluation" })).toBeVisible()
+      await expect(page.getByRole("button", { name: "QA Evaluation" })).toBeVisible()
 
       await page.getByRole("button", { name: "PM Evaluation" }).click()
 
-      await expect(
-        page.getByRole("cell", { name: "Evaluator", exact: true })
-      ).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Evaluator", exact: true })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Project" })).toBeVisible()
-      await expect(
-        page.getByRole("cell", { name: "Evaluee Role" })
-      ).toBeVisible()
-      await expect(
-        page.getByRole("cell", { name: "%", exact: true })
-      ).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Evaluee Role" })).toBeVisible()
+      await expect(page.getByRole("cell", { name: "%", exact: true })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Duration" })).toBeVisible()
 
-      await expect(
-        page.getByRole("cell", { name: "Evaluator, First" })
-      ).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Evaluator, First" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "iAssess" })).toBeVisible()
-      await expect(
-        page.getByRole("cell", { name: "Developer" }).first()
-      ).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Developer" }).first()).toBeVisible()
       await expect(page.getByRole("cell", { name: "75%" })).toBeVisible()
-      await expect(
-        page.getByRole("cell", { name: "2023-10-16 to 2023-12-31" })
-      ).toBeVisible()
+      await expect(page.getByRole("cell", { name: "2023-10-16 to 2023-12-31" })).toBeVisible()
       await expect(page.getByTestId("BackButton")).toBeVisible()
     })
 
@@ -270,32 +232,28 @@ test.describe("Admin - Evaluations", () => {
         }),
       })
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-results?evaluation_administration_id=1",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({
-            data: [
-              {
-                id: 1,
-                status: "For Review",
-                users: {
-                  first_name: "Sample",
-                  last_name: "User",
-                  picture: null,
-                },
+      await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              status: "For Review",
+              users: {
+                first_name: "Sample",
+                last_name: "User",
+                picture: null,
               },
-            ],
-            pageInfo: {
-              hasPreviousPage: false,
-              hasNextPage: false,
-              totalPages: 1,
             },
-          }),
-        }
-      )
+          ],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
 
       await mockRequest(
         page,
@@ -485,32 +443,28 @@ test.describe("Admin - Evaluations", () => {
         }),
       })
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-results?evaluation_administration_id=1",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({
-            data: [
-              {
-                id: 1,
-                status: "For Review",
-                users: {
-                  first_name: "Sample",
-                  last_name: "User",
-                  picture: null,
-                },
+      await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              status: "For Review",
+              users: {
+                first_name: "Sample",
+                last_name: "User",
+                picture: null,
               },
-            ],
-            pageInfo: {
-              hasPreviousPage: false,
-              hasNextPage: false,
-              totalPages: 1,
             },
-          }),
-        }
-      )
+          ],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
 
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
@@ -521,10 +475,7 @@ test.describe("Admin - Evaluations", () => {
       await expect(page).toHaveURL("/admin/evaluation-administrations/1/edit")
     })
 
-    test("should go to evaluators page succesfully", async ({
-      page,
-      isMobile,
-    }) => {
+    test("should go to evaluators page succesfully", async ({ page, isMobile }) => {
       await loginUser("admin", page)
 
       await page.goto("/admin/evaluation-administrations/1")
@@ -546,32 +497,28 @@ test.describe("Admin - Evaluations", () => {
         }),
       })
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-results?evaluation_administration_id=1",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({
-            data: [
-              {
-                id: 1,
-                status: "For Review",
-                users: {
-                  first_name: "Sample",
-                  last_name: "User",
-                  picture: null,
-                },
+      await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              status: "For Review",
+              users: {
+                first_name: "Sample",
+                last_name: "User",
+                picture: null,
               },
-            ],
-            pageInfo: {
-              hasPreviousPage: false,
-              hasNextPage: false,
-              totalPages: 1,
             },
-          }),
-        }
-      )
+          ],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
 
       await mockRequest(
         page,
@@ -627,36 +574,32 @@ test.describe("Admin - Evaluations", () => {
         }),
       })
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-templates?evaluation_result_id=1",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify([
-            {
-              id: 4,
-              name: "DEV Evaluation by PM",
-              display_name: "PM Evaluation",
-            },
-            {
-              id: 5,
-              name: "DEV Evaluation by Dev Peers",
-              display_name: "Peer Evaluation",
-            },
-            {
-              id: 6,
-              name: "DEV Evaluation by Code Reviewer",
-              display_name: "Code Reviewer Evaluation",
-            },
-            {
-              id: 7,
-              name: "DEV Evaluation by QA",
-              display_name: "QA Evaluation",
-            },
-          ]),
-        }
-      )
+      await mockRequest(page, "/admin/evaluation-templates?evaluation_result_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            id: 4,
+            name: "DEV Evaluation by PM",
+            display_name: "PM Evaluation",
+          },
+          {
+            id: 5,
+            name: "DEV Evaluation by Dev Peers",
+            display_name: "Peer Evaluation",
+          },
+          {
+            id: 6,
+            name: "DEV Evaluation by Code Reviewer",
+            display_name: "Code Reviewer Evaluation",
+          },
+          {
+            id: 7,
+            name: "DEV Evaluation by QA",
+            display_name: "QA Evaluation",
+          },
+        ]),
+      })
 
       await mockRequest(
         page,
@@ -670,9 +613,7 @@ test.describe("Admin - Evaluations", () => {
 
       await page.getByTestId("EditButton").click()
 
-      await expect(page).toHaveURL(
-        "/admin/evaluation-administrations/1/evaluees/1/evaluators/4"
-      )
+      await expect(page).toHaveURL("/admin/evaluation-administrations/1/evaluees/1/evaluators/4")
     })
   })
 })

@@ -19,19 +19,15 @@ test.describe("Admin - Evaluation administrations", () => {
   })
 
   test.describe("as Guest", () => {
-    test("should not allow to view the admin evaluation administrations", async ({
-      page,
-    }) => {
+    test("should not allow to view the admin evaluation administrations", async ({ page }) => {
       await page.goto("/admin/evaluation-administrations")
 
-      await expect(page).toHaveURL("/auth/login")
+      await expect(page).toHaveURL("/auth/login?callback=/admin/evaluation-administrations")
     })
   })
 
   test.describe("as Employee", () => {
-    test("should not allow to view the admin evaluation administrations", async ({
-      page,
-    }) => {
+    test("should not allow to view the admin evaluation administrations", async ({ page }) => {
       await loginUser("employee", page)
 
       await page.goto("/admin/evaluation-administrations")
@@ -115,27 +111,17 @@ test.describe("Admin - Evaluation administrations", () => {
       await expect(page.getByRole("button", { name: "Search" })).toBeVisible()
       await expect(page.getByRole("button", { name: "Clear" })).toBeVisible()
 
-      await expect(
-        page.getByRole("heading", { name: "Evaluations" })
-      ).toBeVisible()
-      await expect(
-        page.getByRole("link", { name: "Create Evaluations" })
-      ).toBeVisible()
+      await expect(page.getByRole("heading", { name: "Evaluations" })).toBeVisible()
+      await expect(page.getByRole("link", { name: "Create Evaluations" })).toBeVisible()
 
       await expect(page.getByRole("cell", { name: "Name" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Period" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Schedule" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Status" })).toBeVisible()
 
-      await expect(
-        page.getByRole("cell", { name: "Evaluation 1" })
-      ).toBeVisible()
-      await expect(
-        page.getByRole("cell", { name: "Evaluation 2" })
-      ).toBeVisible()
-      await expect(
-        page.getByRole("cell", { name: "Evaluation 3" })
-      ).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Evaluation 1" })).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Evaluation 2" })).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Evaluation 3" })).toBeVisible()
     })
   })
 })

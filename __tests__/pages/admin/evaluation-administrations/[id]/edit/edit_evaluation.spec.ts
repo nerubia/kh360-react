@@ -22,7 +22,7 @@ test.describe("Admin - Edit Evaluation Administration", () => {
     test("should not allow to view the admin edit evaluation administration", async ({ page }) => {
       await page.goto("/admin/evaluation-administrations/1/edit")
 
-      await expect(page).toHaveURL("/auth/login")
+      await expect(page).toHaveURL("/auth/login?callback=/admin/evaluation-administrations/1/edit")
     })
   })
 

@@ -22,7 +22,9 @@ test.describe("User - Evaluations", () => {
     test("should not allow to view the evaluations", async ({ page }) => {
       await page.goto("/evaluation-administrations/1/evaluations/1")
 
-      await expect(page).toHaveURL("/auth/login")
+      await expect(page).toHaveURL(
+        "/auth/login?callback=/evaluation-administrations/1/evaluations/1"
+      )
     })
   })
 

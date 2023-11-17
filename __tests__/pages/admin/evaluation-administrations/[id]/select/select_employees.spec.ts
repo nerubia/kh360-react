@@ -19,19 +19,17 @@ test.describe("Admin - Select Employees", () => {
   })
 
   test.describe("as Guest", () => {
-    test("should not allow to view the admin select employees", async ({
-      page,
-    }) => {
+    test("should not allow to view the admin select employees", async ({ page }) => {
       await page.goto("/admin/evaluation-administrations/1/select")
 
-      await expect(page).toHaveURL("/auth/login")
+      await expect(page).toHaveURL(
+        "/auth/login?callback=/admin/evaluation-administrations/1/select"
+      )
     })
   })
 
   test.describe("as Employee", () => {
-    test("should not allow to view the admin select employees", async ({
-      page,
-    }) => {
+    test("should not allow to view the admin select employees", async ({ page }) => {
       await loginUser("employee", page)
 
       await page.goto("/admin/evaluation-administrations/1/select")
@@ -147,15 +145,11 @@ test.describe("Admin - Select Employees", () => {
         }),
       })
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-results/all?evaluation_administration_id=1",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify([]),
-        }
-      )
+      await mockRequest(page, "/admin/evaluation-results/all?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([]),
+      })
 
       await page.waitForLoadState("networkidle")
 
@@ -194,35 +188,20 @@ test.describe("Admin - Select Employees", () => {
         await page.getByTestId("SidebarCloseButton").click()
       }
 
-      await expect(
-        page.getByRole("heading", { name: "Select Employees" })
-      ).toBeVisible()
+      await expect(page.getByRole("heading", { name: "Select Employees" })).toBeVisible()
 
       await expect(page.getByRole("cell", { name: "Name" })).toBeVisible()
-      await expect(
-        page.getByRole("cell", { name: "Date Started" })
-      ).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Date Started" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Position" })).toBeVisible()
-      await expect(
-        page.getByRole("cell", { name: "Employee Type" })
-      ).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Employee Type" })).toBeVisible()
 
-      await expect(
-        page.getByRole("cell", { name: "Baker, Adam" })
-      ).toBeVisible()
-      await expect(
-        page.getByRole("cell", { name: "Davis, Clark" })
-      ).toBeVisible()
-      await expect(
-        page.getByRole("cell", { name: "Evans, Hill" })
-      ).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Baker, Adam" })).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Davis, Clark" })).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Evans, Hill" })).toBeVisible()
       await expect(page).toHaveURL("/admin/evaluation-administrations/1/select")
     })
 
-    test("should render cancel & exit modal correctly", async ({
-      page,
-      isMobile,
-    }) => {
+    test("should render cancel & exit modal correctly", async ({ page, isMobile }) => {
       await loginUser("admin", page)
 
       await page.goto("/admin/evaluation-administrations/1/select")
@@ -276,15 +255,11 @@ test.describe("Admin - Select Employees", () => {
         }),
       })
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-results/all?evaluation_administration_id=1",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify([]),
-        }
-      )
+      await mockRequest(page, "/admin/evaluation-results/all?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([]),
+      })
 
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
@@ -292,9 +267,7 @@ test.describe("Admin - Select Employees", () => {
 
       await page.getByRole("button", { name: "Cancel & Exit" }).click()
 
-      await expect(
-        page.getByRole("heading", { name: "Cancel & Exit" })
-      ).toBeVisible()
+      await expect(page.getByRole("heading", { name: "Cancel & Exit" })).toBeVisible()
       await expect(
         page.getByText(
           "Are you sure you want to cancel and exit? If you cancel, your data won't be save"
@@ -304,10 +277,7 @@ test.describe("Admin - Select Employees", () => {
       await expect(page.getByRole("button", { name: "Yes" })).toBeVisible()
     })
 
-    test("should go to check and preview page succesfully", async ({
-      page,
-      isMobile,
-    }) => {
+    test("should go to check and preview page succesfully", async ({ page, isMobile }) => {
       await loginUser("admin", page)
 
       await page.goto("/admin/evaluation-administrations/1/select")
@@ -361,15 +331,11 @@ test.describe("Admin - Select Employees", () => {
         }),
       })
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-results/all?evaluation_administration_id=1",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify([]),
-        }
-      )
+      await mockRequest(page, "/admin/evaluation-results/all?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([]),
+      })
 
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
@@ -388,9 +354,7 @@ test.describe("Admin - Select Employees", () => {
 
       await page.getByRole("button", { name: "Check & Review" }).click()
 
-      await expect(page).toHaveURL(
-        "/admin/evaluation-administrations/1/preview"
-      )
+      await expect(page).toHaveURL("/admin/evaluation-administrations/1/preview")
     })
 
     test("should allow to cancel & exit", async ({ page, isMobile }) => {
@@ -447,15 +411,11 @@ test.describe("Admin - Select Employees", () => {
         }),
       })
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-results/all?evaluation_administration_id=1",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify([]),
-        }
-      )
+      await mockRequest(page, "/admin/evaluation-results/all?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([]),
+      })
 
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
@@ -531,10 +491,7 @@ test.describe("Admin - Select Employees", () => {
       await expect(page).toHaveURL("/admin/evaluation-administrations")
     })
 
-    test("should render back confirmation modal correctly", async ({
-      page,
-      isMobile,
-    }) => {
+    test("should render back confirmation modal correctly", async ({ page, isMobile }) => {
       await loginUser("admin", page)
 
       await page.goto("/admin/evaluation-administrations/1/select")
@@ -588,15 +545,11 @@ test.describe("Admin - Select Employees", () => {
         }),
       })
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-results/all?evaluation_administration_id=1",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify([]),
-        }
-      )
+      await mockRequest(page, "/admin/evaluation-results/all?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([]),
+      })
 
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
@@ -668,15 +621,11 @@ test.describe("Admin - Select Employees", () => {
         }),
       })
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-results/all?evaluation_administration_id=1",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify([]),
-        }
-      )
+      await mockRequest(page, "/admin/evaluation-results/all?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([]),
+      })
 
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
