@@ -19,19 +19,17 @@ test.describe("Admin - Preview Employees", () => {
   })
 
   test.describe("as Guest", () => {
-    test("should not allow to view the admin preview employees", async ({
-      page,
-    }) => {
+    test("should not allow to view the admin preview employees", async ({ page }) => {
       await page.goto("/admin/evaluation-administrations/1/preview")
 
-      await expect(page).toHaveURL("/auth/login")
+      await expect(page).toHaveURL(
+        "/auth/login?callback=/admin/evaluation-administrations/1/preview"
+      )
     })
   })
 
   test.describe("as Employee", () => {
-    test("should not allow to view the admin preview employees", async ({
-      page,
-    }) => {
+    test("should not allow to view the admin preview employees", async ({ page }) => {
       await loginUser("employee", page)
 
       await page.goto("/admin/evaluation-administrations/1/preview")
@@ -100,35 +98,20 @@ test.describe("Admin - Preview Employees", () => {
         await page.getByTestId("SidebarCloseButton").click()
       }
 
-      await expect(
-        page.getByRole("heading", { name: "Review Employees" })
-      ).toBeVisible()
+      await expect(page.getByRole("heading", { name: "Review Employees" })).toBeVisible()
 
       await expect(page.getByRole("cell", { name: "Name" })).toBeVisible()
-      await expect(
-        page.getByRole("cell", { name: "Date Started" })
-      ).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Date Started" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Position" })).toBeVisible()
-      await expect(
-        page.getByRole("cell", { name: "Employee Type" })
-      ).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Employee Type" })).toBeVisible()
 
-      await expect(
-        page.getByRole("button", { name: "0 Included" })
-      ).toBeVisible()
-      await expect(
-        page.getByRole("button", { name: "3 Excluded" })
-      ).toBeVisible()
+      await expect(page.getByRole("button", { name: "0 Included" })).toBeVisible()
+      await expect(page.getByRole("button", { name: "3 Excluded" })).toBeVisible()
 
-      await expect(page).toHaveURL(
-        "/admin/evaluation-administrations/1/preview"
-      )
+      await expect(page).toHaveURL("/admin/evaluation-administrations/1/preview")
     })
 
-    test("should render cancel & exit modal correctly", async ({
-      page,
-      isMobile,
-    }) => {
+    test("should render cancel & exit modal correctly", async ({ page, isMobile }) => {
       await loginUser("admin", page)
 
       await page.goto("/admin/evaluation-administrations/1/preview")
@@ -187,9 +170,7 @@ test.describe("Admin - Preview Employees", () => {
 
       await page.getByRole("button", { name: "Cancel & Exit" }).click()
 
-      await expect(
-        page.getByRole("heading", { name: "Cancel & Exit" })
-      ).toBeVisible()
+      await expect(page.getByRole("heading", { name: "Cancel & Exit" })).toBeVisible()
       await expect(
         page.getByText(
           "Are you sure you want to cancel and exit? If you cancel, your data won't be save"
@@ -461,15 +442,11 @@ test.describe("Admin - Preview Employees", () => {
         }),
       })
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-results/all?evaluation_administration_id=1",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify([]),
-        }
-      )
+      await mockRequest(page, "/admin/evaluation-results/all?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([]),
+      })
 
       await expect(page).toHaveURL("/admin/evaluation-administrations/1/select")
     })
@@ -528,15 +505,11 @@ test.describe("Admin - Preview Employees", () => {
         }),
       })
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-results/all?evaluation_administration_id=1",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify([]),
-        }
-      )
+      await mockRequest(page, "/admin/evaluation-results/all?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([]),
+      })
 
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
@@ -607,50 +580,40 @@ test.describe("Admin - Preview Employees", () => {
 
       await page.getByRole("button", { name: "Save & Proceed" }).click()
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-results?evaluation_administration_id=1",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({
-            data: [
-              {
-                id: 1,
-                status: "reviewed",
-                users: {
-                  first_name: "Adam",
-                  last_name: "Baker",
-                  picture: null,
-                },
+      await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              status: "reviewed",
+              users: {
+                first_name: "Adam",
+                last_name: "Baker",
+                picture: null,
               },
-            ],
-            pageInfo: {
-              hasPreviousPage: false,
-              hasNextPage: false,
-              totalPages: 1,
             },
-          }),
-        }
-      )
+          ],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-administrations/1/generate-status",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({
-            canGenerate: false,
-          }),
-        }
-      )
+      await mockRequest(page, "/admin/evaluation-administrations/1/generate-status", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          canGenerate: false,
+        }),
+      })
 
       await page.waitForLoadState("networkidle")
 
-      await expect(page).toHaveURL(
-        "/admin/evaluation-administrations/1/evaluees"
-      )
+      await expect(page).toHaveURL("/admin/evaluation-administrations/1/evaluees")
     })
   })
 })

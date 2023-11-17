@@ -22,7 +22,7 @@ test.describe("User - Evaluations", () => {
     test("should not allow to view the evaluations", async ({ page }) => {
       await page.goto("/evaluation-administrations")
 
-      await expect(page).toHaveURL("/auth/login")
+      await expect(page).toHaveURL("/auth/login?callback=/evaluation-administrations")
     })
   })
 
@@ -89,25 +89,13 @@ test.describe("User - Evaluations", () => {
       await expect(page.getByRole("cell", { name: "Name" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Period" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Schedule" })).toBeVisible()
-      await expect(
-        page.getByRole("cell", { name: "Total Evaluations" })
-      ).toBeVisible()
-      await expect(
-        page.getByRole("cell", { name: "Total Submitted" })
-      ).toBeVisible()
-      await expect(
-        page.getByRole("cell", { name: "Total Pending" })
-      ).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Total Evaluations" })).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Total Submitted" })).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Total Pending" })).toBeVisible()
 
-      await expect(
-        page.getByRole("cell", { name: "Evaluation 1" })
-      ).toBeVisible()
-      await expect(
-        page.getByRole("cell", { name: "Evaluation 2" })
-      ).toBeVisible()
-      await expect(
-        page.getByRole("cell", { name: "Evaluation 3" })
-      ).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Evaluation 1" })).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Evaluation 2" })).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Evaluation 3" })).toBeVisible()
     })
   })
 })

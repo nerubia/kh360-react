@@ -21,9 +21,7 @@ test.describe("Login", () => {
     await page.goto("/auth/login")
     await expect(page.getByRole("textbox", { name: "Email" })).toBeVisible()
     await expect(page.getByRole("textbox", { name: "Password" })).toBeVisible()
-    await expect(
-      page.getByRole("link", { name: "Forgot password?" })
-    ).toBeVisible()
+    await expect(page.getByRole("link", { name: "Forgot password?" })).toBeVisible()
     await expect(page.getByRole("button", { name: "Login" })).toBeVisible()
   })
 
@@ -38,9 +36,7 @@ test.describe("Login", () => {
     await page.getByRole("textbox", { name: "Password" }).fill("1234")
     await page.getByRole("button", { name: "Login" }).click()
     await expect(page.getByText("Invalid email format")).toBeVisible()
-    await expect(
-      page.getByText("Password must be at least 8 characters")
-    ).toBeVisible()
+    await expect(page.getByText("Password must be at least 8 characters")).toBeVisible()
   })
 
   test("should login succesfully", async ({ page }) => {
@@ -62,6 +58,6 @@ test.describe("Login", () => {
   test("should not allow to view the dashboard", async ({ page }) => {
     await page.goto("/dashboard")
 
-    await expect(page).toHaveURL("/auth/login")
+    await expect(page).toHaveURL("/auth/login?callback=/dashboard")
   })
 })

@@ -22,7 +22,9 @@ test.describe("Admin - Select Evaluators", () => {
     test("should not allow to view the evaluation evaluees page", async ({ page }) => {
       await page.goto("/admin/evaluation-administrations/1/evaluees/1/evaluators/4")
 
-      await expect(page).toHaveURL("/auth/login")
+      await expect(page).toHaveURL(
+        "/auth/login?callback=/admin/evaluation-administrations/1/evaluees/1/evaluators/4"
+      )
     })
   })
 
