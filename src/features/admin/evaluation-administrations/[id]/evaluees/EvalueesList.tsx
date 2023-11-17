@@ -21,17 +21,11 @@ export const EvalueesList = () => {
   const [searchParams] = useSearchParams()
 
   const appDispatch = useAppDispatch()
-  const {
-    loading,
-    evaluation_results,
-    hasPreviousPage,
-    hasNextPage,
-    totalPages,
-  } = useAppSelector((state) => state.evaluationResults)
+  const { loading, evaluation_results, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
+    (state) => state.evaluationResults
+  )
 
-  const [selectedEvaluee, setSelectedEvaluee] = useState<
-    EvaluationResult | undefined
-  >(undefined)
+  const [selectedEvaluee, setSelectedEvaluee] = useState<EvaluationResult | undefined>(undefined)
 
   useEffect(() => {
     void appDispatch(
@@ -47,9 +41,7 @@ export const EvalueesList = () => {
   const handleDeleteEvaluee = async () => {
     if (selectedEvaluee !== undefined) {
       try {
-        const result = await appDispatch(
-          deleteEvaluationResult(selectedEvaluee.id)
-        )
+        const result = await appDispatch(deleteEvaluationResult(selectedEvaluee.id))
         if (result.payload.id !== undefined) {
           appDispatch(
             setAlert({
@@ -72,10 +64,10 @@ export const EvalueesList = () => {
               key={evaluationResult.id}
               className='relative flex flex-col md:flex-row justify-between items-center gap-4 p-4 border rounded-md'
             >
-              <div className='flex  gap-4'>
+              <div className='flex items-center gap-4'>
                 {evaluationResult.users?.picture === undefined ||
                 evaluationResult.users?.picture === null ? (
-                  <Icon icon='UserFill' color='primary' />
+                  <Icon icon='UserFill' color='primary' size='large' />
                 ) : (
                   <img
                     className='w-10 h-10 rounded-full'
@@ -89,17 +81,14 @@ export const EvalueesList = () => {
                     to={`/admin/evaluation-administrations/${id}/evaluees/${evaluationResult.id}/evaluators/all`}
                   >
                     <p className='text-lg underline font-bold'>
-                      {evaluationResult.users?.last_name},{" "}
-                      {evaluationResult.users?.first_name}
+                      {evaluationResult.users?.last_name}, {evaluationResult.users?.first_name}
                     </p>
                   </LinkButton>
                 </div>
               </div>
               <div className='flex items-center gap-4'>
                 <Badge
-                  variant={getEvaluationResultStatusVariant(
-                    evaluationResult.status
-                  )}
+                  variant={getEvaluationResultStatusVariant(evaluationResult.status)}
                   size='small'
                 >
                   {evaluationResult.status}
@@ -109,7 +98,7 @@ export const EvalueesList = () => {
                   size='small'
                   onClick={() => setSelectedEvaluee(evaluationResult)}
                 >
-                  <Icon icon='Trash' color='red' />
+                  <Icon icon='Trash' color='red' size='small' />
                 </Button>
               </div>
             </div>

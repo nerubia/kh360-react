@@ -1,9 +1,9 @@
-export default function UserFill() {
+export default function UserFill({ size }: { size: number }) {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
-      width='32'
-      height='32'
+      width={size}
+      height={size}
       fill='currentColor'
       viewBox='0 0 16 16'
     >

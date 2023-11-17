@@ -117,9 +117,7 @@ export default function Sample() {
           </Button>
         </div>
         <div className='flex gap-4'>
-          <Button variant='destructiveOutline'>
-            Medium destructive outline
-          </Button>
+          <Button variant='destructiveOutline'>Medium destructive outline</Button>
           <Button variant='destructiveOutline' loading={true}>
             Medium destructive outline
           </Button>
@@ -142,6 +140,27 @@ export default function Sample() {
       <div className='flex flex-col gap-4'>
         <p className='font-bold'># Sample badges</p>
         <div className='flex gap-2'>
+          <Badge size='small'>Default - Primary</Badge>
+          <Badge variant='pink' size='small'>
+            Pink
+          </Badge>
+          <Badge variant='yellow' size='small'>
+            Yellow
+          </Badge>
+          <Badge variant='green' size='small'>
+            Green
+          </Badge>
+          <Badge variant='blue' size='small'>
+            Blue
+          </Badge>
+          <Badge variant='gray' size='small'>
+            Gray
+          </Badge>
+          <Badge variant='greenOutline' size='small'>
+            Green outline
+          </Badge>
+        </div>
+        <div className='flex gap-2'>
           <Badge>Default - Primary</Badge>
           <Badge variant='pink'>Pink</Badge>
           <Badge variant='yellow'>Yellow</Badge>
@@ -154,13 +173,61 @@ export default function Sample() {
       <div className='flex flex-col gap-4'>
         <p className='font-bold'># Sample icons</p>
         <div className='flex flex-wrap gap-2'>
+          <Icon icon='Check' size='small' />
+          <Icon icon='ChevronDown' size='small' />
+          <Icon icon='ChevronLeft' size='small' />
+          <Icon icon='ChevronRight' size='small' />
+          <Icon icon='ChevronsLeft' size='small' />
+          <Icon icon='ChevronsRight' size='small' />
+          <Icon icon='ChevronUp' size='small' />
+          <Icon icon='Close' size='small' />
+          <Icon icon='Dashboard' size='small' />
+          <Icon icon='Google' size='small' />
+          <Icon icon='Logout' size='small' />
+          <Icon icon='Menu' size='small' />
+          <Icon icon='PenSquare' size='small' />
+          <Icon icon='Plus' size='small' />
+          <Icon icon='Star' size='small' />
+          <Icon icon='Trash' size='small' />
+          <Icon icon='UserFill' size='small' />
+        </div>
+        <div className='flex flex-wrap gap-2'>
+          <Icon icon='Check' />
+          <Icon icon='ChevronDown' />
           <Icon icon='ChevronLeft' />
+          <Icon icon='ChevronRight' />
+          <Icon icon='ChevronsLeft' />
+          <Icon icon='ChevronsRight' />
+          <Icon icon='ChevronUp' />
           <Icon icon='Close' />
           <Icon icon='Dashboard' />
           <Icon icon='Google' />
           <Icon icon='Logout' />
           <Icon icon='Menu' />
+          <Icon icon='PenSquare' />
+          <Icon icon='Plus' />
           <Icon icon='Star' />
+          <Icon icon='Trash' />
+          <Icon icon='UserFill' />
+        </div>
+        <div className='flex flex-wrap gap-2'>
+          <Icon icon='Check' size='large' />
+          <Icon icon='ChevronDown' size='large' />
+          <Icon icon='ChevronLeft' size='large' />
+          <Icon icon='ChevronRight' size='large' />
+          <Icon icon='ChevronsLeft' size='large' />
+          <Icon icon='ChevronsRight' size='large' />
+          <Icon icon='ChevronUp' size='large' />
+          <Icon icon='Close' size='large' />
+          <Icon icon='Dashboard' size='large' />
+          <Icon icon='Google' size='large' />
+          <Icon icon='Logout' size='large' />
+          <Icon icon='Menu' size='large' />
+          <Icon icon='PenSquare' size='large' />
+          <Icon icon='Plus' size='large' />
+          <Icon icon='Star' size='large' />
+          <Icon icon='Trash' size='large' />
+          <Icon icon='UserFill' size='large' />
         </div>
       </div>
       <div className='flex flex-col gap-4'>
@@ -180,8 +247,8 @@ export default function Sample() {
             <div className='w-1/2'>
               <h1 className='text-lg font-medium'>Criteria 1</h1>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque
-                hic enim eos aut ullam ipsum.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque hic enim eos aut
+                ullam ipsum.
               </p>
             </div>
             <select>
@@ -194,8 +261,8 @@ export default function Sample() {
             <div className='w-1/2'>
               <h1 className='text-lg font-medium'>Criteria 2</h1>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque
-                hic enim eos aut ullam ipsum.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque hic enim eos aut
+                ullam ipsum.
               </p>
             </div>
             <select>
@@ -208,8 +275,8 @@ export default function Sample() {
             <div className='w-1/2'>
               <h1 className='text-lg font-medium'>Criteria 3</h1>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque
-                hic enim eos aut ullam ipsum.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque hic enim eos aut
+                ullam ipsum.
               </p>
             </div>
             <select>
@@ -238,8 +305,8 @@ export default function Sample() {
             <div className='w-1/2'>
               <h1 className='text-lg font-medium'>Criteria 1</h1>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque
-                hic enim eos aut ullam ipsum.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque hic enim eos aut
+                ullam ipsum.
               </p>
             </div>
             <div>
@@ -264,8 +331,8 @@ export default function Sample() {
             <div className='w-1/2'>
               <h1 className='text-lg font-medium'>Criteria 2</h1>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque
-                hic enim eos aut ullam ipsum.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque hic enim eos aut
+                ullam ipsum.
               </p>
             </div>
             <div>
@@ -290,8 +357,8 @@ export default function Sample() {
             <div className='w-1/2'>
               <h1 className='text-lg font-medium'>Criteria 3</h1>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque
-                hic enim eos aut ullam ipsum.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque hic enim eos aut
+                ullam ipsum.
               </p>
             </div>
             <div>
@@ -331,8 +398,8 @@ export default function Sample() {
           <div>
             <h1 className='text-center text-lg font-medium'>Criteria 1</h1>
             <p className='text-center '>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque
-              hic enim eos aut ullam ipsum.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque hic enim eos aut ullam
+              ipsum.
             </p>
           </div>
           <div className='flex flex-col gap-2'>
@@ -354,8 +421,8 @@ export default function Sample() {
           <div>
             <h1 className='text-center text-lg font-medium'>Criteria 1</h1>
             <p className='text-center '>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque
-              hic enim eos aut ullam ipsum.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque hic enim eos aut ullam
+              ipsum.
             </p>
           </div>
           <div className='flex justify-center'>
@@ -404,9 +471,7 @@ export default function Sample() {
                       Draft
                     </span>
                   </div>
-                  <p className='text-white text-xs'>
-                    ProductHQ [QA Evaluation]
-                  </p>
+                  <p className='text-white text-xs'>ProductHQ [QA Evaluation]</p>
                 </div>
               </div>
             </button>
@@ -487,10 +552,7 @@ export default function Sample() {
             } w-full lg:w-[600px] lg:flex flex-col`}
           >
             <div className='p-5'>
-              <button
-                className='w-fit lg:hidden'
-                onClick={() => setActivePage("first")}
-              >
+              <button className='w-fit lg:hidden' onClick={() => setActivePage("first")}>
                 <Icon icon='ChevronLeft' />
               </button>
             </div>
@@ -527,9 +589,7 @@ export default function Sample() {
                     <p className='text-white text-sm'>Full name</p>
                     <Badge variant='gray'>Draft</Badge>
                   </div>
-                  <p className='text-white text-xs'>
-                    ProductHQ [QA Evaluation]
-                  </p>
+                  <p className='text-white text-xs'>ProductHQ [QA Evaluation]</p>
                 </div>
               </div>
             </button>
@@ -624,8 +684,8 @@ export default function Sample() {
               <div className='w-1/2'>
                 <h1 className='text-lg font-medium'>Criteria 1</h1>
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Cumque hic enim eos aut ullam ipsum.
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque hic enim eos aut
+                  ullam ipsum.
                 </p>
               </div>
               <div>
@@ -650,8 +710,8 @@ export default function Sample() {
               <div className='w-1/2'>
                 <h1 className='text-lg font-medium'>Criteria 2</h1>
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Cumque hic enim eos aut ullam ipsum.
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque hic enim eos aut
+                  ullam ipsum.
                 </p>
               </div>
               <div>
@@ -676,8 +736,8 @@ export default function Sample() {
               <div className='w-1/2'>
                 <h1 className='text-lg font-medium'>Criteria 3</h1>
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Cumque hic enim eos aut ullam ipsum.
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque hic enim eos aut
+                  ullam ipsum.
                 </p>
               </div>
               <div>

@@ -17,7 +17,7 @@ export const Pagination = ({ hasPreviousPage, hasNextPage, totalPages }: Paginat
     <div className='flex flex-col items-center gap-4'>
       <div className='flex gap-2'>
         <Button
-          size='extraSmall'
+          size='small'
           onClick={() => {
             let targetPage = 1
             if (currentPage - 10 > 1) {
@@ -28,10 +28,10 @@ export const Pagination = ({ hasPreviousPage, hasNextPage, totalPages }: Paginat
           }}
           disabled={!hasPreviousPage}
         >
-          <Icon icon='ChevronsLeft' />
+          <Icon icon='ChevronsLeft' size='small' />
         </Button>
         <Button
-          size='extraSmall'
+          size='small'
           onClick={() => {
             const targetPage = currentPage - 1
             searchParams.set("page", targetPage.toString())
@@ -39,10 +39,10 @@ export const Pagination = ({ hasPreviousPage, hasNextPage, totalPages }: Paginat
           }}
           disabled={!hasPreviousPage}
         >
-          <Icon icon='ChevronLeft' />
+          <Icon icon='ChevronLeft' size='small' />
         </Button>
         <Button
-          size='extraSmall'
+          size='small'
           onClick={() => {
             const targetPage = currentPage + 1
             searchParams.set("page", targetPage.toString())
@@ -50,10 +50,10 @@ export const Pagination = ({ hasPreviousPage, hasNextPage, totalPages }: Paginat
           }}
           disabled={!hasNextPage}
         >
-          <Icon icon='ChevronRight' />
+          <Icon icon='ChevronRight' size='small' />
         </Button>
         <Button
-          size='extraSmall'
+          size='small'
           onClick={() => {
             let targetPage = totalPages
             if (currentPage + 10 < totalPages) {
@@ -64,7 +64,7 @@ export const Pagination = ({ hasPreviousPage, hasNextPage, totalPages }: Paginat
           }}
           disabled={!hasNextPage}
         >
-          <Icon icon='ChevronsRight' />
+          <Icon icon='ChevronsRight' size='small' />
         </Button>
       </div>
       <p className='text-sm'>

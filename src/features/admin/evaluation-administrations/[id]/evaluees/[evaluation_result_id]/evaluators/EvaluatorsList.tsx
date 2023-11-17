@@ -157,7 +157,7 @@ export const EvaluatorsList = () => {
       <div className='pt-5'>
         <PageSubTitle>External Evaluators</PageSubTitle>
         <Button variant='ghost' size='small'>
-          <Icon icon='Plus' color='primary' />
+          <Icon icon='Plus' color='primary' size='small' />
           <p className='text-primary-500 uppercase'>Add external evaluators</p>
         </Button>
       </div>

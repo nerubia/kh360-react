@@ -28,7 +28,7 @@ export const EvaluatorsUser = () => {
       <div className='flex-1 flex items-center gap-4'>
         {evaluation_result?.users?.picture === undefined ||
         evaluation_result.users?.picture === null ? (
-          <Icon icon='UserFill' color='primary' />
+          <Icon icon='UserFill' color='primary' size='large' />
         ) : (
           <img
             className='w-10 h-10 rounded-full'
@@ -38,15 +38,9 @@ export const EvaluatorsUser = () => {
         )}
         <div className='flex-1'>
           <p className='font-bold'>
-            {evaluation_result?.users?.last_name},{" "}
-            {evaluation_result?.users?.first_name}
+            {evaluation_result?.users?.last_name}, {evaluation_result?.users?.first_name}
           </p>
-          <Badge
-            variant={getEvaluationResultStatusVariant(
-              evaluation_result?.status
-            )}
-            size='small'
-          >
+          <Badge variant={getEvaluationResultStatusVariant(evaluation_result?.status)} size='small'>
             {evaluation_result?.status}
           </Badge>
         </div>
