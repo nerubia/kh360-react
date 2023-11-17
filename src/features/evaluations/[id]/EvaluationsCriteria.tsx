@@ -124,7 +124,6 @@ export const EvaluationsCriteria = () => {
         const answer_option_ids = evaluation_template_contents.map(
           (content) => content.evaluationRating.answer_option_id
         )
-        void appDispatch(setIsEditing(false))
         const result = await appDispatch(
           submitEvaluation({
             evaluation_id: parseInt(evaluation_id),
@@ -136,6 +135,7 @@ export const EvaluationsCriteria = () => {
         )
         if (result.payload !== undefined && result.type === "user/submitEvaluation/fulfilled") {
           setComment(result.payload.comment)
+          void appDispatch(setIsEditing(false))
           void appDispatch(
             setAlert({
               description: `Evaluation successfully submitted.`,
@@ -188,9 +188,10 @@ export const EvaluationsCriteria = () => {
               </div>
             ))}
             <h1 className='text-lg font-bold text-primary-500 mt-10 mb-2'>Comments</h1>
-            {evaluation?.status === EvaluationStatus.Submitted && evaluation?.comments === null && (
-              <div>No comments</div>
-            )}
+            {evaluation?.status === EvaluationStatus.Submitted &&
+              (evaluation?.comments === null || evaluation?.comments === "") && (
+                <div>No comments</div>
+              )}
             {evaluation?.status !== EvaluationStatus.Submitted ? (
               <>
                 <TextArea
