@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom"
 import { Button } from "../../../../../components/button/Button"
 import { Icon } from "../../../../../components/icon/Icon"
 import Dialog from "../../../../../components/dialog/Dialog"
-import { setSelectedEmployeeIds } from "../../../../../redux/slices/evaluationAdministrationSlice"
+import { setSelectedEmployeeIds } from "../../../../../redux/slices/evaluation-administration-slice"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
 
@@ -11,9 +11,7 @@ export const SelectEmployeesFooter = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const appDispatch = useAppDispatch()
-  const { selectedEmployeeIds } = useAppSelector(
-    (state) => state.evaluationAdministration
-  )
+  const { selectedEmployeeIds } = useAppSelector((state) => state.evaluationAdministration)
 
   const [showCancelDialog, setShowCancelDialog] = useState<boolean>(false)
   const [showBackDialog, setShowBackDialog] = useState<boolean>(false)
@@ -55,10 +53,7 @@ export const SelectEmployeesFooter = () => {
           >
             <Icon icon='ChevronLeft' />
           </Button>
-          <Button
-            onClick={handleCheckAndReview}
-            disabled={selectedEmployeeIds.length === 0}
-          >
+          <Button onClick={handleCheckAndReview} disabled={selectedEmployeeIds.length === 0}>
             Check & Review
           </Button>
         </div>

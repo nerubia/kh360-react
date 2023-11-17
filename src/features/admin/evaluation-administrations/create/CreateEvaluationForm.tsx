@@ -11,8 +11,8 @@ import { Loading } from "../../../../types/loadingType"
 import { getDefaultEmailTemplate } from "../../../../redux/slices/email-template-slice"
 import Dialog from "../../../../components/dialog/Dialog"
 import { type EvaluationFormData } from "../../../../types/formDataType"
-import { createEvaluationAdministration } from "../../../../redux/slices/evaluationAdministrationsSlice"
-import { setSelectedEmployeeIds } from "../../../../redux/slices/evaluationAdministrationSlice"
+import { createEvaluationAdministration } from "../../../../redux/slices/evaluation-administrations-slice"
+import { setSelectedEmployeeIds } from "../../../../redux/slices/evaluation-administration-slice"
 import { setEvaluationResults } from "../../../../redux/slices/evaluationResultsSlice"
 
 export const CreateEvaluationForm = () => {

@@ -4,19 +4,17 @@ import { Button, LinkButton } from "../../../../../components/button/Button"
 import { Icon } from "../../../../../components/icon/Icon"
 import Dialog from "../../../../../components/dialog/Dialog"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
-import { generateEvaluationAdministration } from "../../../../../redux/slices/evaluationAdministrationsSlice"
+import { generateEvaluationAdministration } from "../../../../../redux/slices/evaluation-administrations-slice"
 import { setAlert } from "../../../../../redux/slices/appSlice"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
 import { Loading } from "../../../../../types/loadingType"
-import { generateStatusEvaluationAdministration } from "../../../../../redux/slices/evaluationAdministrationSlice"
+import { generateStatusEvaluationAdministration } from "../../../../../redux/slices/evaluation-administration-slice"
 
 export const EvalueesFooter = () => {
   const navigate = useNavigate()
   const { id } = useParams()
   const appDispatch = useAppDispatch()
-  const { canGenerate } = useAppSelector(
-    (state) => state.evaluationAdministration
-  )
+  const { canGenerate } = useAppSelector((state) => state.evaluationAdministration)
   const { loading } = useAppSelector((state) => state.evaluationAdministrations)
 
   const [showDialog, setShowDialog] = useState<boolean>(false)
@@ -34,9 +32,7 @@ export const EvalueesFooter = () => {
   const handleGenerate = async () => {
     if (id !== undefined) {
       try {
-        const result = await appDispatch(
-          generateEvaluationAdministration(parseInt(id))
-        )
+        const result = await appDispatch(generateEvaluationAdministration(parseInt(id)))
         if (typeof result.payload === "string") {
           appDispatch(
             setAlert({
@@ -87,11 +83,7 @@ export const EvalueesFooter = () => {
           If you cancel, your data won&apos;t be saved.
         </Dialog.Description>
         <Dialog.Actions>
-          <Button
-            testId='DialogNoButton'
-            variant='primaryOutline'
-            onClick={toggleDialog}
-          >
+          <Button testId='DialogNoButton' variant='primaryOutline' onClick={toggleDialog}>
             No
           </Button>
           <LinkButton

@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { Checkbox } from "../../../../../components/checkbox/Checkbox"
 import { Pagination } from "../../../../../components/pagination/Pagination"
-import { setSelectedEmployeeIds } from "../../../../../redux/slices/evaluationAdministrationSlice"
+import { setSelectedEmployeeIds } from "../../../../../redux/slices/evaluation-administration-slice"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
 import { formatDate } from "../../../../../utils/formatDate"
@@ -11,15 +11,9 @@ import { getEvaluationResultIds } from "../../../../../redux/slices/evaluationRe
 export const SelectEmployeesTable = () => {
   const { id } = useParams()
   const appDispatch = useAppDispatch()
-  const { selectedEmployeeIds } = useAppSelector(
-    (state) => state.evaluationAdministration
-  )
-  const { evaluation_results } = useAppSelector(
-    (state) => state.evaluationResults
-  )
-  const { users, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
-    (state) => state.users
-  )
+  const { selectedEmployeeIds } = useAppSelector((state) => state.evaluationAdministration)
+  const { evaluation_results } = useAppSelector((state) => state.evaluationResults)
+  const { users, hasPreviousPage, hasNextPage, totalPages } = useAppSelector((state) => state.users)
 
   useEffect(() => {
     void appDispatch(
@@ -39,9 +33,7 @@ export const SelectEmployeesTable = () => {
     appDispatch(
       setSelectedEmployeeIds(
         selectedEmployeeIds.concat(
-          includedIds.filter(
-            (includedId) => !selectedEmployeeIds.includes(includedId)
-          )
+          includedIds.filter((includedId) => !selectedEmployeeIds.includes(includedId))
         )
       )
     )
@@ -50,15 +42,11 @@ export const SelectEmployeesTable = () => {
   const handleSelectAll = (checked: boolean) => {
     let employeeIds = users.map((user) => user.id)
     if (checked) {
-      appDispatch(
-        setSelectedEmployeeIds([...selectedEmployeeIds, ...employeeIds])
-      )
+      appDispatch(setSelectedEmployeeIds([...selectedEmployeeIds, ...employeeIds]))
     } else {
       employeeIds = users.map((user) => user.id)
       appDispatch(
-        setSelectedEmployeeIds(
-          selectedEmployeeIds.filter((id) => !employeeIds.includes(id))
-        )
+        setSelectedEmployeeIds(selectedEmployeeIds.filter((id) => !employeeIds.includes(id)))
       )
     }
   }
@@ -67,11 +55,7 @@ export const SelectEmployeesTable = () => {
     if (checked) {
       appDispatch(setSelectedEmployeeIds([...selectedEmployeeIds, employeeId]))
     } else {
-      appDispatch(
-        setSelectedEmployeeIds(
-          selectedEmployeeIds.filter((id) => id !== employeeId)
-        )
-      )
+      appDispatch(setSelectedEmployeeIds(selectedEmployeeIds.filter((id) => id !== employeeId)))
     }
   }
 
@@ -84,9 +68,7 @@ export const SelectEmployeesTable = () => {
               <tr>
                 <th>
                   <Checkbox
-                    checked={users.every((user) =>
-                      selectedEmployeeIds.includes(user.id)
-                    )}
+                    checked={users.every((user) => selectedEmployeeIds.includes(user.id))}
                     onChange={(checked) => handleSelectAll(checked)}
                   />
                 </th>
@@ -103,9 +85,7 @@ export const SelectEmployeesTable = () => {
                     <div className='w-fit'>
                       <Checkbox
                         checked={selectedEmployeeIds.includes(user.id)}
-                        onChange={(checked) =>
-                          handleClickCheckbox(checked, user.id)
-                        }
+                        onChange={(checked) => handleClickCheckbox(checked, user.id)}
                       />
                     </div>
                   </td>

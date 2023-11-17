@@ -13,12 +13,9 @@ export const getEvaluationAdministrations = createAsyncThunk(
   "evaluationAdministration/getEvaluationAdministrations",
   async (params: EvaluationAdministrationFilters | undefined, thunkApi) => {
     try {
-      const response = await axiosInstance.get(
-        "/admin/evaluation-administrations",
-        {
-          params,
-        }
-      )
+      const response = await axiosInstance.get("/admin/evaluation-administrations", {
+        params,
+      })
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -32,10 +29,7 @@ export const createEvaluationAdministration = createAsyncThunk(
   "evaluationAdministration/createEvaluationAdministration",
   async (data: EvaluationFormData, thunkApi) => {
     try {
-      const response = await axiosInstance.post(
-        "/admin/evaluation-administrations",
-        data
-      )
+      const response = await axiosInstance.post("/admin/evaluation-administrations", data)
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -49,9 +43,7 @@ export const generateEvaluationAdministration = createAsyncThunk(
   "evaluationAdministration/getEvaluationAdministraion",
   async (id: number, thunkApi) => {
     try {
-      const response = await axiosInstance.post(
-        `/admin/evaluation-administrations/${id}/generate`
-      )
+      const response = await axiosInstance.post(`/admin/evaluation-administrations/${id}/generate`)
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -117,13 +109,10 @@ const evaluationAdministrationsSlice = createSlice({
       state.loading = Loading.Fulfilled
       state.error = null
     })
-    builder.addCase(
-      createEvaluationAdministration.rejected,
-      (state, action) => {
-        state.loading = Loading.Rejected
-        state.error = action.payload as string
-      }
-    )
+    builder.addCase(createEvaluationAdministration.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
     /**
      * Generate
      */
@@ -135,13 +124,10 @@ const evaluationAdministrationsSlice = createSlice({
       state.loading = Loading.Fulfilled
       state.error = null
     })
-    builder.addCase(
-      generateEvaluationAdministration.rejected,
-      (state, action) => {
-        state.loading = Loading.Rejected
-        state.error = action.payload as string
-      }
-    )
+    builder.addCase(generateEvaluationAdministration.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
   },
 })
 
