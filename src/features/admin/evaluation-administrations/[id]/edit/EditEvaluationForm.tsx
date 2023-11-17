@@ -13,7 +13,7 @@ import { type EvaluationFormData } from "../../../../../types/formDataType"
 import {
   getEvaluationAdministration,
   updateEvaluationAdministration,
-} from "../../../../../redux/slices/evaluationAdministrationSlice"
+} from "../../../../../redux/slices/evaluation-administration-slice"
 
 export const EditEvaluationForm = () => {
   const navigate = useNavigate()
@@ -34,9 +34,7 @@ export const EditEvaluationForm = () => {
     email_subject: "",
     email_content: "",
   })
-  const [validationErrors, setValidationErrors] = useState<
-    Partial<EvaluationFormData>
-  >({})
+  const [validationErrors, setValidationErrors] = useState<Partial<EvaluationFormData>>({})
   const [showDialog, setShowDialog] = useState<boolean>(false)
 
   useEffect(() => {
@@ -49,14 +47,11 @@ export const EditEvaluationForm = () => {
     if (evaluation_administration !== null) {
       setFormData({
         name: evaluation_administration?.name,
-        eval_period_start_date:
-          evaluation_administration?.eval_period_start_date?.split("T")[0],
-        eval_period_end_date:
-          evaluation_administration?.eval_period_end_date?.split("T")[0],
+        eval_period_start_date: evaluation_administration?.eval_period_start_date?.split("T")[0],
+        eval_period_end_date: evaluation_administration?.eval_period_end_date?.split("T")[0],
         eval_schedule_start_date:
           evaluation_administration?.eval_schedule_start_date?.split("T")[0],
-        eval_schedule_end_date:
-          evaluation_administration?.eval_schedule_end_date?.split("T")[0],
+        eval_schedule_end_date: evaluation_administration?.eval_schedule_end_date?.split("T")[0],
         remarks: evaluation_administration?.remarks,
         email_subject: evaluation_administration?.email_subject,
         email_content: evaluation_administration?.email_content,
@@ -87,9 +82,7 @@ export const EditEvaluationForm = () => {
           })
         )
         if (result.payload.id !== undefined) {
-          navigate(
-            `/admin/evaluation-administrations/${result.payload.id}/select`
-          )
+          navigate(`/admin/evaluation-administrations/${result.payload.id}/select`)
         }
       } catch (error) {
         if (error instanceof ValidationError) {
@@ -108,9 +101,7 @@ export const EditEvaluationForm = () => {
     setFormData({ ...formData, [name]: value })
   }
 
-  const handleTextAreaChange = async (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
+  const handleTextAreaChange = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
   }
@@ -243,10 +234,7 @@ export const EditEvaluationForm = () => {
               <Button variant='primaryOutline' onClick={toggleDialog}>
                 No
               </Button>
-              <LinkButton
-                variant='primary'
-                to='/admin/evaluation-administrations'
-              >
+              <LinkButton variant='primary' to='/admin/evaluation-administrations'>
                 Yes
               </LinkButton>
             </Dialog.Actions>
