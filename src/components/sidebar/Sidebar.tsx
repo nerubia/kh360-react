@@ -4,13 +4,33 @@ import { useAdmin } from "../../hooks/useAdmin"
 import { setActiveSidebar } from "../../redux/slices/appSlice"
 import { logout } from "../../redux/slices/authSlice"
 import { Icon } from "../icon/Icon"
-import { Button, LinkButton } from "../button/Button"
+import { Button } from "../button/Button"
+import { Menu } from "../../components/shared/Menu"
 
 export const Sidebar = () => {
   const { activeSidebar } = useAppSelector((state) => state.app)
   const { user } = useAppSelector((state) => state.auth)
   const appDispatch = useAppDispatch()
   const isAdmin = useAdmin()
+
+  const MenuLinks = [
+    {
+      title: "Dashboard",
+      link: "/dashboard",
+    },
+    {
+      title: "Sample",
+      link: "/sample",
+    },
+    {
+      title: "Evaluations",
+      link: "/evaluation-administrations",
+    },
+    {
+      title: "Admin",
+      link: "/admin/evaluation-administrations",
+    },
+  ]
 
   const toggleSidebar = () => {
     appDispatch(setActiveSidebar(!activeSidebar))
@@ -28,12 +48,7 @@ export const Sidebar = () => {
     >
       <div className='relative h-full flex flex-col gap-4 p-5'>
         <div className='block absolute top-5 md:hidden'>
-          <Button
-            testId='SidebarCloseButton'
-            variant='ghost'
-            size='small'
-            onClick={toggleSidebar}
-          >
+          <Button testId='SidebarCloseButton' variant='ghost' size='small' onClick={toggleSidebar}>
             <Icon icon='Close' />
           </Button>
         </div>
@@ -44,30 +59,17 @@ export const Sidebar = () => {
           {user?.first_name} {user?.last_name}
         </h1>
         <div className='flex-1 flex flex-col gap-2'>
-          <LinkButton variant='menu' fullWidth center={false} to='/dashboard'>
-            Dashboard
-          </LinkButton>
-          <LinkButton variant='menu' fullWidth center={false} to='/sample'>
-            Sample
-          </LinkButton>
-          <LinkButton
-            variant='menu'
-            fullWidth
-            center={false}
-            to='/evaluation-administrations'
-          >
-            Evaluations
-          </LinkButton>
-          {isAdmin && (
-            <LinkButton
-              variant='menu'
-              fullWidth
-              center={false}
-              to='/admin/evaluation-administrations'
+          {MenuLinks.map((menu, index) => (
+            <Menu
+              key={index}
+              to={menu.link}
+              isEvaluation={false}
+              isAdmin={isAdmin}
+              className='w-fit rounded-md flex items-center gap-2 bg-primary-500 text-white hover:bg-primary-600 active:bg-primary-700 disabled:bg-primary-200 [&.active]:bg-primary-700 [&.active]:cursor-default h-9 text-base px-4 !w-full'
             >
-              Admin
-            </LinkButton>
-          )}
+              {menu.title}
+            </Menu>
+          ))}
         </div>
         <Button fullWidth onClick={handleLogout}>
           <Icon icon='Logout' />

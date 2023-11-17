@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-import { Badge } from "../../../components/badge/Badge"
 import { useAppSelector } from "../../../hooks/useAppSelector"
 import { Button } from "../../../components/button/Button"
 import { Icon } from "../../../components/icon/Icon"
@@ -8,9 +7,11 @@ import { EvaluationStatus } from "../../../types/evaluation-type"
 import { getUserEvaluations } from "../../../redux/slices/user-slice"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { Loading } from "../../../types/loadingType"
-import { getEvaluationStatusVariant } from "../../../utils/variant"
 import { type Evaluation } from "../../../types/evaluation-type"
+import { Menu } from "../../../components/shared/Menu"
 import Dialog from "../../../components/dialog/Dialog"
+import { Badge } from "../../../components/badge/Badge"
+import { getEvaluationStatusVariant } from "../../../utils/variant"
 
 export const EvaluationsList = () => {
   const navigate = useNavigate()
@@ -118,16 +119,18 @@ export const EvaluationsList = () => {
           evaluation_id !== undefined && (
             <>
               {sortedEvaluations.map((evaluation) => (
-                <Button
+                <Menu
                   key={evaluation.id}
-                  variant={`${evaluation.id === parseInt(evaluation_id) ? "primary" : "project"}`}
-                  fullWidth
-                  center={false}
+                  isEvaluation={true}
+                  evaluation_id={evaluation_id}
+                  evaluation={evaluation}
+                  to=''
                   onClick={
                     is_editing
                       ? () => handleOnClickEvaluation(evaluation.id)
                       : () => handleNavigate(evaluation.id)
                   }
+                  className='w-fit !w-full rounded-md flex items-center gap-2 p-2'
                 >
                   <div className='flex items-center justify-center w-10 h-10 rounded-full py-2'>
                     {evaluation.evaluee?.picture === undefined ||
@@ -165,7 +168,7 @@ export const EvaluationsList = () => {
                       {evaluation.project?.name} [{evaluation.project_role?.short_name}]
                     </p>
                   </div>
-                </Button>
+                </Menu>
               ))}
               <Dialog open={showDialog && is_editing}>
                 <Dialog.Title>Confirm Discard Changes</Dialog.Title>

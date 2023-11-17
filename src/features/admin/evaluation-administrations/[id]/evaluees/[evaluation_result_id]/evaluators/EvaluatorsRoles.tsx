@@ -1,18 +1,16 @@
 import { useNavigate, useParams } from "react-router-dom"
-import { LinkButton } from "../../../../../../../components/button/Button"
 import { useEffect } from "react"
 import { getEvaluationTemplates } from "../../../../../../../redux/slices/evaluationTemplatesSlice"
 import { useAppSelector } from "../../../../../../../hooks/useAppSelector"
 import { useAppDispatch } from "../../../../../../../hooks/useAppDispatch"
 import { getEvaluationResult } from "../../../../../../../redux/slices/evaluationResultSlice"
+import { Menu } from "../../../../../../../components/shared/Menu"
 
 export const EvaluatorsRoles = () => {
   const navigate = useNavigate()
   const { id, evaluation_result_id, evaluation_template_id } = useParams()
   const appDispatch = useAppDispatch()
-  const { evaluation_templates } = useAppSelector(
-    (state) => state.evaluationTemplates
-  )
+  const { evaluation_templates } = useAppSelector((state) => state.evaluationTemplates)
 
   useEffect(() => {
     if (evaluation_result_id !== undefined) {
@@ -41,15 +39,15 @@ export const EvaluatorsRoles = () => {
     <div className='w-80 h-[calc(100vh_-_185px)] pt-4'>
       <div className='flex-1 flex flex-col gap-2 overflow-y-scroll'>
         {evaluation_templates.map((template) => (
-          <LinkButton
+          <Menu
             key={template.id}
-            variant='project'
-            fullWidth
-            center={false}
+            isEvaluation={false}
+            isAdmin={true}
             to={`/admin/evaluation-administrations/${id}/evaluees/${evaluation_result_id}/evaluators/${template.id}`}
+            className='w-fit rounded-md flex items-center gap-2 text-black hover:bg-gray-100 active:bg-primary-500 [&.active]:bg-primary-500 [&.active]:text-white [&.active]:cursor-default h-9 text-base px-4 !w-full'
           >
             {template.display_name}
-          </LinkButton>
+          </Menu>
         ))}
       </div>
     </div>
