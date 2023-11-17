@@ -1,5 +1,5 @@
 import { type User } from "./userType"
-import { type EvaluationTemplate } from "./evaluationTemplateType"
+import { type EvaluationTemplate } from "./evaluation-template-type"
 
 export interface EvaluationResult {
   id: number
@@ -21,4 +21,5 @@ export enum EvaluationResultStatus {
   Ready = "Ready",
   Ongoing = "Ongoing",
   Completed = "Completed",
+  Cancelled = "Cancelled",
 }

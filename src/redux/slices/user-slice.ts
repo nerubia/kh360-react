@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
 import { type ApiError } from "../../types/apiErrorType"
 import { type UserEvaluationsFilter } from "../../types/userType"
-import { type Evaluation } from "../../types/evaluationType"
+import { type Evaluation } from "../../types/evaluation-type"
 import { type Answers } from "../../types/answer-type"
 import {
   type EvaluationAdministration,

@@ -13,7 +13,7 @@ import { setEvaluationResultStatus } from "../../../../../../../redux/slices/eva
 import { EvaluationResultStatus } from "../../../../../../../types/evaluation-result-type"
 import { Loading } from "../../../../../../../types/loadingType"
 import { setAlert } from "../../../../../../../redux/slices/appSlice"
-import { type Evaluation } from "../../../../../../../types/evaluationType"
+import { type Evaluation } from "../../../../../../../types/evaluation-type"
 import { PageSubTitle } from "../../../../../../../components/shared/PageSubTitle"
 import { Icon } from "../../../../../../../components/icon/Icon"
 
