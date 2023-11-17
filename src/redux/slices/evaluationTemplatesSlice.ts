@@ -4,7 +4,7 @@ import { type ApiError } from "../../types/apiErrorType"
 import {
   type EvaluationTemplateFilters,
   type EvaluationTemplate,
-} from "../../types/evaluationTemplateType"
+} from "../../types/evaluation-template-type"
 import { axiosInstance } from "../../utils/axiosInstance"
 import { Loading } from "../../types/loadingType"
 

@@ -2,7 +2,7 @@ import { Icon } from "../../components/icon/Icon"
 import { getAnswerOptionVariant } from "../../utils/variant"
 import { Button } from "../../components/button/Button"
 import { AnswerOptions } from "../../types/answerOptionType"
-import { EvaluationStatus, type Evaluation } from "../../types/evaluationType"
+import { EvaluationStatus, type Evaluation } from "../../types/evaluation-type"
 import { Loading } from "../../types/loadingType"
 import { type EvaluationTemplateContent } from "../../types/evaluationTemplateContentType"
 

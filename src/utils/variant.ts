@@ -1,5 +1,5 @@
 import { EvaluationResultStatus } from "../types/evaluation-result-type"
-import { EvaluationStatus } from "../types/evaluationType"
+import { EvaluationStatus } from "../types/evaluation-type"
 import { EvaluationAdministrationStatus } from "../types/evaluationAdministrationType"
 
 export const getEvaluationAdministrationStatusVariant = (status: string | undefined) => {

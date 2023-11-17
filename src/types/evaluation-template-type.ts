@@ -1,4 +1,4 @@
-import { type Evaluation } from "./evaluationType"
+import { type Evaluation } from "./evaluation-type"
 
 export interface EvaluationTemplate {
   id: number

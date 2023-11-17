@@ -12,7 +12,7 @@ import { useAppSelector } from "../../../hooks/useAppSelector"
 import { submitEvaluation, updateEvaluationStatusById } from "../../../redux/slices/user-slice"
 import { Loading } from "../../../types/loadingType"
 import { setAlert } from "../../../redux/slices/appSlice"
-import { EvaluationStatus, type Evaluation } from "../../../types/evaluationType"
+import { EvaluationStatus, type Evaluation } from "../../../types/evaluation-type"
 import { formatDate } from "../../../utils/formatDate"
 import { TextArea } from "../../../components/textarea/TextArea"
 
