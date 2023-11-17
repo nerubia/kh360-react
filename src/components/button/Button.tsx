@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom"
 import { type VariantProps, cva } from "class-variance-authority"
 import { Spinner } from "../spinner/Spinner"
 
-const button = cva(["w-fit", "h-fit", "rounded-md", "flex", "items-center", "gap-2"], {
+const button = cva(["w-fit", "rounded-md", "flex", "items-center", "gap-2"], {
   variants: {
     variant: {
       primary: [
@@ -88,9 +88,8 @@ const button = cva(["w-fit", "h-fit", "rounded-md", "flex", "items-center", "gap
       ],
     },
     size: {
-      extraSmall: ["text-xs", "px-1.5", "py-0.5"],
-      small: ["text-sm", "px-2", "py-1"],
-      medium: ["text-base", "px-4", "py-1.5"],
+      small: ["h-7", "text-sm", "px-2"],
+      medium: ["h-9", "text-base", "px-4"],
     },
     center: {
       true: "justify-center",
