@@ -1,4 +1,4 @@
-import { type Evaluation } from "../../types/evaluationType"
+import { type Evaluation } from "../../types/evaluation-type"
 import { NavLink } from "react-router-dom"
 
 interface MenuProps {
