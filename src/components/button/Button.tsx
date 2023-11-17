@@ -43,23 +43,6 @@ const button = cva(["w-fit", "rounded-md", "flex", "items-center", "gap-2"], {
       ],
       ghost: ["hover:bg-gray-100", "active:bg-gray-200", "disabled:bg-gray-100"],
       unstyled: ["!p-0"],
-      menu: [
-        "bg-primary-500",
-        "text-white",
-        "hover:bg-primary-600",
-        "active:bg-primary-700",
-        "disabled:bg-primary-200",
-        "[&.active]:bg-primary-700",
-        "[&.active]:cursor-default",
-      ],
-      project: [
-        "text-black",
-        "hover:bg-gray-100",
-        "active:bg-primary-500",
-        "[&.active]:bg-primary-500",
-        "[&.active]:text-white",
-        "[&.active]:cursor-default",
-      ],
       star: ["text-primary-500", "active:text-primary-500", "hover:text-primary-500"],
       starEmpty: [
         "text-gray-200",
