@@ -6,11 +6,16 @@ import { EvaluationAdministrationStatus } from "../../../../types/evaluationAdmi
 import { formatDate } from "../../../../utils/formatDate"
 import { Icon } from "../../../../components/icon/Icon"
 import Dialog from "../../../../components/dialog/Dialog"
-import { deleteEvaluationAdministration } from "../../../../redux/slices/evaluation-administration-slice"
+import {
+  cancelEvaluationAdministration,
+  closeEvaluationAdministration,
+  deleteEvaluationAdministration,
+} from "../../../../redux/slices/evaluation-administration-slice"
 import { useAppDispatch } from "../../../../hooks/useAppDispatch"
 import { PageTitle } from "../../../../components/shared/PageTitle"
 import { Badge } from "../../../../components/badge/Badge"
 import { getEvaluationAdministrationStatusVariant } from "../../../../utils/variant"
+import Dropdown from "../../../../components/ui/dropdown/dropdown"
 
 export const ViewEvaluationHeader = () => {
   const navigate = useNavigate()
@@ -23,10 +28,24 @@ export const ViewEvaluationHeader = () => {
     setShowDialog((prev) => !prev)
   }
 
-  const handleDelete = () => {
-    navigate("/admin/evaluation-administrations")
+  const handleDelete = async () => {
     if (id !== undefined) {
-      void appDispatch(deleteEvaluationAdministration(parseInt(id)))
+      await appDispatch(deleteEvaluationAdministration(parseInt(id)))
+      navigate("/admin/evaluation-administrations")
+    }
+  }
+
+  const handleCancel = async () => {
+    if (id !== undefined) {
+      await appDispatch(cancelEvaluationAdministration(parseInt(id)))
+      navigate("/admin/evaluation-administrations")
+    }
+  }
+
+  const handleClose = async () => {
+    if (id !== undefined) {
+      await appDispatch(closeEvaluationAdministration(parseInt(id)))
+      navigate("/admin/evaluation-administrations")
     }
   }
 
@@ -65,14 +84,44 @@ export const ViewEvaluationHeader = () => {
                 Progress
               </LinkButton>
             ) : null}
-            <LinkButton variant='primary' to={`/admin/evaluation-administrations/${id}/edit`}>
-              Edit
-            </LinkButton>
-            {evaluation_administration?.status === EvaluationAdministrationStatus.Draft ? (
-              <Button variant='destructive' onClick={toggleDialog}>
-                <Icon icon='Trash' />
-              </Button>
-            ) : null}
+            <Dropdown>
+              <Dropdown.Trigger>
+                <Button>
+                  More actions
+                  <Icon icon='ChevronDown' />
+                </Button>
+              </Dropdown.Trigger>
+              <Dropdown.Content>
+                {(evaluation_administration?.status === EvaluationAdministrationStatus.Draft ||
+                  evaluation_administration?.status === EvaluationAdministrationStatus.Pending) && (
+                  <Dropdown.Item
+                    onClick={() => navigate(`/admin/evaluation-administrations/${id}/edit`)}
+                  >
+                    <Icon icon='PenSquare' />
+                    Edit
+                  </Dropdown.Item>
+                )}
+                {(evaluation_administration?.status === EvaluationAdministrationStatus.Pending ||
+                  evaluation_administration?.status === EvaluationAdministrationStatus.Ongoing) && (
+                  <Dropdown.Item onClick={handleCancel}>
+                    <Icon icon='Ban' />
+                    Cancel
+                  </Dropdown.Item>
+                )}
+                {evaluation_administration?.status === EvaluationAdministrationStatus.Draft && (
+                  <Dropdown.Item onClick={toggleDialog}>
+                    <Icon icon='Trash' />
+                    Delete
+                  </Dropdown.Item>
+                )}
+                {evaluation_administration?.status === EvaluationAdministrationStatus.Ongoing && (
+                  <Dropdown.Item onClick={handleClose}>
+                    <Icon icon='Close' />
+                    Close
+                  </Dropdown.Item>
+                )}
+              </Dropdown.Content>
+            </Dropdown>
             <Dialog open={showDialog}>
               <Dialog.Title>Delete Evaluation</Dialog.Title>
               <Dialog.Description>

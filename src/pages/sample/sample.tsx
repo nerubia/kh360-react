@@ -8,6 +8,7 @@ import { useTitle } from "../../hooks/useTitle"
 import { logout } from "../../redux/slices/authSlice"
 import { getProfile, sendMail } from "../../services/api"
 import { Alert } from "../../components/alert/Alert"
+import Dropdown from "../../components/ui/dropdown/dropdown"
 
 export default function Sample() {
   useTitle("Sample")
@@ -135,6 +136,104 @@ export default function Sample() {
           <Button variant='ghost' loading={true}>
             Medium ghost
           </Button>
+        </div>
+      </div>
+      <div className='flex flex-col gap-4'>
+        <p className='font-bold'># Sample dropdown</p>
+        <div className='flex gap-4'>
+          <Dropdown>
+            <Dropdown.Trigger>
+              <Button>Sample dropdown</Button>
+            </Dropdown.Trigger>
+            <Dropdown.Content>
+              <Dropdown.Item
+                onClick={() => {
+                  // eslint-disable-next-line no-console
+                  console.log("Item 1 clicked")
+                }}
+              >
+                Item 1
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  // eslint-disable-next-line no-console
+                  console.log("Item 2 clicked")
+                }}
+              >
+                Item 2
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  // eslint-disable-next-line no-console
+                  console.log("Item 3 clicked")
+                }}
+              >
+                Item 3
+              </Dropdown.Item>
+            </Dropdown.Content>
+          </Dropdown>
+          <Dropdown>
+            <Dropdown.Trigger>
+              <Button variant='primaryOutline'>Sample dropdown</Button>
+            </Dropdown.Trigger>
+            <Dropdown.Content>
+              <Dropdown.Item
+                onClick={() => {
+                  // eslint-disable-next-line no-console
+                  console.log("Item 1 clicked")
+                }}
+              >
+                Item 1
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  // eslint-disable-next-line no-console
+                  console.log("Item 2 clicked")
+                }}
+              >
+                Item 2
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  // eslint-disable-next-line no-console
+                  console.log("Item 3 clicked")
+                }}
+              >
+                Item 3
+              </Dropdown.Item>
+            </Dropdown.Content>
+          </Dropdown>
+          <Dropdown>
+            <Dropdown.Trigger>
+              <Button variant='destructive'>Sample dropdown</Button>
+            </Dropdown.Trigger>
+            <Dropdown.Content>
+              <Dropdown.Item
+                onClick={() => {
+                  // eslint-disable-next-line no-console
+                  console.log("Item 1 clicked")
+                }}
+              >
+                Item 1
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  // eslint-disable-next-line no-console
+                  console.log("Item 2 clicked")
+                }}
+              >
+                Item 2
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  // eslint-disable-next-line no-console
+                  console.log("Item 3 clicked")
+                }}
+              >
+                Item 3
+              </Dropdown.Item>
+            </Dropdown.Content>
+          </Dropdown>
         </div>
       </div>
       <div className='flex flex-col gap-4'>
