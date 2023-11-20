@@ -1,17 +1,27 @@
 import { type VariantProps, cva } from "class-variance-authority"
 
 const badge = cva(
-  ["w-fit", "h-fit", "flex", "items-center", "leading-4", "font-medium", "rounded-full"],
+  [
+    "w-fit",
+    "h-fit",
+    "flex",
+    "items-center",
+    "leading-4",
+    "font-medium",
+    "border",
+    "border-current",
+    "rounded-full",
+  ],
   {
     variants: {
       variant: {
-        primary: ["bg-primary-500", "text-white"],
-        pink: ["bg-pink-500", "text-white"],
-        yellow: ["bg-yellow-500", "text-white"],
-        green: ["bg-green-500", "text-white"],
-        blue: ["bg-blue-500", "text-white"],
-        gray: ["bg-gray-500", "text-white"],
-        greenOutline: ["border", "border-green-500", "text-green-500"],
+        primary: ["bg-primary-200", "text-primary-600"],
+        pink: ["bg-pink-200", "text-pink-600"],
+        yellow: ["bg-yellow-200", "text-yellow-600"],
+        green: ["bg-green-200", "text-green-600"],
+        blue: ["bg-blue-200", "text-blue-600"],
+        gray: ["bg-gray-200", "text-gray-600"],
+        red: ["bg-red-200", "text-red-600"],
       },
       size: {
         small: ["text-[10px]", "px-2.5", "py-0.5"],

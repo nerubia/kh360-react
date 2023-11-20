@@ -4,7 +4,7 @@ import { EvaluationAdministrationStatus } from "../types/evaluationAdministratio
 
 export const getEvaluationAdministrationStatusVariant = (status: string | undefined) => {
   if (status === EvaluationAdministrationStatus.Draft) {
-    return "greenOutline"
+    return "primary"
   }
   if (status === EvaluationAdministrationStatus.Pending) {
     return "yellow"
@@ -19,22 +19,29 @@ export const getEvaluationAdministrationStatusVariant = (status: string | undefi
     return "gray"
   }
 }
+
 export const getEvaluationResultStatusVariant = (status: string | undefined) => {
   if (status === EvaluationResultStatus.ForReview) {
-    return "greenOutline"
+    return "yellow"
   }
   if (status === EvaluationResultStatus.Draft) {
-    return "yellow"
+    return "primary"
   }
   if (status === EvaluationResultStatus.Ready) {
     return "green"
   }
-  if (status === EvaluationResultStatus.Completed) {
+  if (status === EvaluationResultStatus.Ongoing) {
     return "blue"
+  }
+  if (status === EvaluationResultStatus.Completed) {
+    return "pink"
   }
 }
 
 export const getEvaluationStatusVariant = (status: string | undefined) => {
+  if (status === EvaluationStatus.Draft) {
+    return "primary"
+  }
   if (status === EvaluationStatus.Open) {
     return "yellow"
   }
@@ -43,6 +50,12 @@ export const getEvaluationStatusVariant = (status: string | undefined) => {
   }
   if (status === EvaluationStatus.Submitted) {
     return "blue"
+  }
+  if (status === EvaluationStatus.Cancelled) {
+    return "gray"
+  }
+  if (status === EvaluationStatus.Expired) {
+    return "red"
   }
 }
 

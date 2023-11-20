@@ -156,8 +156,8 @@ export default function Sample() {
           <Badge variant='gray' size='small'>
             Gray
           </Badge>
-          <Badge variant='greenOutline' size='small'>
-            Green outline
+          <Badge variant='red' size='small'>
+            Red
           </Badge>
         </div>
         <div className='flex gap-2'>
@@ -167,7 +167,7 @@ export default function Sample() {
           <Badge variant='green'>Green</Badge>
           <Badge variant='blue'>Blue</Badge>
           <Badge variant='gray'>Gray</Badge>
-          <Badge variant='greenOutline'>Green outline</Badge>
+          <Badge variant='red'>Red</Badge>
         </div>
       </div>
       <div className='flex flex-col gap-4'>
