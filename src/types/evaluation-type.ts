@@ -1,6 +1,7 @@
 import { type ProjectRole } from "./projectRoleType"
 import { type Project } from "./projectType"
 import { type User } from "./userType"
+import { type EvaluationTemplate } from "./evaluation-template-type"
 
 export interface Evaluation {
   id: number
@@ -15,6 +16,7 @@ export interface Evaluation {
   evaluee?: User
   project?: Project
   project_role?: ProjectRole
+  template?: EvaluationTemplate
 }
 
 export interface EvaluationFilters {
