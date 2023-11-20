@@ -181,7 +181,7 @@ test.describe("Admin - Evaluations", () => {
       await expect(page.getByText("Evaluation Period: 2023-01-01 to 2023-12-31")).toBeVisible()
       await expect(page.getByText("Evaluation Schedule: 2024-01-01 to 2024-01-03")).toBeVisible()
       await expect(page.getByRole("link", { name: "Progress" })).toBeVisible()
-      await expect(page.getByRole("link", { name: "Edit" })).toBeVisible()
+      await expect(page.getByRole("button", { name: "More actions" })).toBeVisible()
       await expect(page.getByRole("heading", { name: "Employees" })).toBeVisible()
 
       await expect(page.getByRole("button", { name: "User, Sample" })).toBeVisible()
@@ -418,10 +418,7 @@ test.describe("Admin - Evaluations", () => {
       await expect(page).toHaveURL("/admin/evaluation-administrations")
     })
 
-    test("should go to edit evaluation administration page succesfully", async ({
-      page,
-      isMobile,
-    }) => {
+    test("should allow to edit", async ({ page, isMobile }) => {
       await loginUser("admin", page)
 
       await page.goto("/admin/evaluation-administrations/1")
@@ -470,9 +467,234 @@ test.describe("Admin - Evaluations", () => {
         await page.getByTestId("SidebarCloseButton").click()
       }
 
-      await page.getByRole("link", { name: "Edit" }).click()
+      await page.getByRole("button", { name: "More actions" }).click()
+      await page.getByRole("button", { name: "Edit" }).click()
 
       await expect(page).toHaveURL("/admin/evaluation-administrations/1/edit")
+    })
+
+    test("should allow to cancel", async ({ page, isMobile }) => {
+      await loginUser("admin", page)
+
+      await page.goto("/admin/evaluation-administrations/1")
+
+      await mockRequest(page, "/admin/evaluation-administrations/1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          id: 1,
+          name: "Evaluation 1",
+          eval_schedule_start_date: "2024-01-01T00:00:00.000Z",
+          eval_schedule_end_date: "2024-01-03T00:00:00.000Z",
+          eval_period_start_date: "2023-01-01T00:00:00.000Z",
+          eval_period_end_date: "2023-12-31T00:00:00.000Z",
+          remarks: "Remarks 1",
+          email_subject: "Subject 1",
+          email_content: "Content 1",
+          status: "Pending",
+        }),
+      })
+
+      await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              status: "For Review",
+              users: {
+                first_name: "Sample",
+                last_name: "User",
+                picture: null,
+              },
+            },
+          ],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await mockRequest(page, "/admin/evaluation-administrations/1/cancel", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({}),
+      })
+
+      await page.getByRole("button", { name: "More actions" }).click()
+      await page.getByRole("button", { name: "Cancel" }).click()
+
+      await mockRequest(page, "/admin/evaluation-administrations", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
+
+      await expect(page).toHaveURL("/admin/evaluation-administrations")
+    })
+
+    test("should allow to close", async ({ page, isMobile }) => {
+      await loginUser("admin", page)
+
+      await page.goto("/admin/evaluation-administrations/1")
+
+      await mockRequest(page, "/admin/evaluation-administrations/1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          id: 1,
+          name: "Evaluation 1",
+          eval_schedule_start_date: "2024-01-01T00:00:00.000Z",
+          eval_schedule_end_date: "2024-01-03T00:00:00.000Z",
+          eval_period_start_date: "2023-01-01T00:00:00.000Z",
+          eval_period_end_date: "2023-12-31T00:00:00.000Z",
+          remarks: "Remarks 1",
+          email_subject: "Subject 1",
+          email_content: "Content 1",
+          status: "Ongoing",
+        }),
+      })
+
+      await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              status: "For Review",
+              users: {
+                first_name: "Sample",
+                last_name: "User",
+                picture: null,
+              },
+            },
+          ],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await mockRequest(page, "/admin/evaluation-administrations/1/close", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({}),
+      })
+
+      await page.getByRole("button", { name: "More actions" }).click()
+      await page.getByRole("button", { name: "Close" }).click()
+
+      await mockRequest(page, "/admin/evaluation-administrations", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
+
+      await expect(page).toHaveURL("/admin/evaluation-administrations")
+    })
+
+    test("should allow to delete", async ({ page, isMobile }) => {
+      await loginUser("admin", page)
+
+      await page.goto("/admin/evaluation-administrations/1")
+
+      await mockRequest(page, "/admin/evaluation-administrations/1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          id: 1,
+          name: "Evaluation 1",
+          eval_schedule_start_date: "2024-01-01T00:00:00.000Z",
+          eval_schedule_end_date: "2024-01-03T00:00:00.000Z",
+          eval_period_start_date: "2023-01-01T00:00:00.000Z",
+          eval_period_end_date: "2023-12-31T00:00:00.000Z",
+          remarks: "Remarks 1",
+          email_subject: "Subject 1",
+          email_content: "Content 1",
+          status: "Draft",
+        }),
+      })
+
+      await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              status: "For Review",
+              users: {
+                first_name: "Sample",
+                last_name: "User",
+                picture: null,
+              },
+            },
+          ],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await page.getByRole("button", { name: "More actions" }).click()
+      await page.getByRole("button", { name: "Delete" }).click()
+
+      await mockRequest(page, "/admin/evaluation-administrations/1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({}),
+      })
+
+      await page.getByRole("button", { name: "Yes" }).click()
+
+      await mockRequest(page, "/admin/evaluation-administrations", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
+
+      await expect(page).toHaveURL("/admin/evaluation-administrations")
     })
 
     test("should go to evaluators page succesfully", async ({ page, isMobile }) => {

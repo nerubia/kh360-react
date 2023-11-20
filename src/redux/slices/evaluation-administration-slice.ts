@@ -73,6 +73,34 @@ export const deleteEvaluationAdministration = createAsyncThunk(
   }
 )
 
+export const cancelEvaluationAdministration = createAsyncThunk(
+  "evaluationAdministration/cancel",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.post(`/admin/evaluation-administrations/${id}/cancel`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const closeEvaluationAdministration = createAsyncThunk(
+  "evaluationAdministration/close",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.post(`/admin/evaluation-administrations/${id}/close`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null

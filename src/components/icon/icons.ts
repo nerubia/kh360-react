@@ -1,6 +1,7 @@
 import { lazy } from "react"
 
 export const icons = {
+  Ban: lazy(async () => await import("./icons/BanIcon")),
   Check: lazy(async () => await import("./icons/CheckIcon")),
   ChevronUp: lazy(async () => await import("./icons/ChevronUpIcon")),
   ChevronDown: lazy(async () => await import("./icons/ChevronDownIcon")),
