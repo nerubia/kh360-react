@@ -113,7 +113,7 @@ export const EvaluationsList = () => {
       {loading === Loading.Fulfilled && user_evaluations.length === 0 && (
         <div>No evaluations available yet.</div>
       )}
-      <div className='w-96 flex flex-col overflow-y-scroll'>
+      <div className='md:w-96 flex flex-col m-4'>
         {loading === Loading.Fulfilled &&
           user_evaluations.length > 0 &&
           evaluation_id !== undefined && (
