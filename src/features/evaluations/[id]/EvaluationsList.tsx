@@ -130,7 +130,7 @@ export const EvaluationsList = () => {
                       ? () => handleOnClickEvaluation(evaluation.id)
                       : () => handleNavigate(evaluation.id)
                   }
-                  className='w-fit !w-full rounded-md flex items-center gap-2 p-2'
+                  className='w-full rounded-md flex items-center gap-2 p-2'
                 >
                   <div className='flex items-center justify-center w-10 h-10 rounded-full py-2'>
                     {evaluation.evaluee?.picture === undefined ||

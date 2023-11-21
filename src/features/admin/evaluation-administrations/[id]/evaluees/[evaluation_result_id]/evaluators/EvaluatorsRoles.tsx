@@ -44,7 +44,7 @@ export const EvaluatorsRoles = () => {
             isEvaluation={false}
             isAdmin={true}
             to={`/admin/evaluation-administrations/${id}/evaluees/${evaluation_result_id}/evaluators/${template.id}`}
-            className='w-fit rounded-md flex items-center gap-2 text-black hover:bg-gray-100 active:bg-primary-500 [&.active]:bg-primary-500 [&.active]:text-white [&.active]:cursor-default h-9 text-base px-4 !w-full'
+            className='w-full rounded-md flex items-center gap-2 text-black hover:bg-gray-100 active:bg-primary-500 [&.active]:bg-primary-500 [&.active]:text-white [&.active]:cursor-default h-9 text-base px-4'
           >
             {template.display_name}
           </Menu>
