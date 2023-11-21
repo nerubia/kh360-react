@@ -38,11 +38,18 @@ export const ExternalEvaluatorsFilter = () => {
           <Input
             label='Name'
             name='search'
-            placeholder='Search by name or company'
+            placeholder='Search by name'
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
         </div>
+        <Input
+          label='Company'
+          name='search'
+          placeholder='Search by company'
+          value={company}
+          onChange={(e) => setCompany(e.target.value)}
+        />
         <Input
           label='Role'
           name='search'
