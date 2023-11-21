@@ -72,7 +72,8 @@ test.describe("Admin - External Evaluators", () => {
       await page.waitForLoadState("networkidle")
 
       await expect(page.getByRole("heading", { name: "External Evaluators" })).toBeVisible()
-      await expect(page.getByPlaceholder("Search by name or company")).toBeVisible()
+      await expect(page.getByPlaceholder("Search by name")).toBeVisible()
+      await expect(page.getByPlaceholder("Search by company")).toBeVisible()
       await expect(page.getByPlaceholder("Search by role")).toBeVisible()
       await expect(page.getByRole("button", { name: "Search" })).toBeVisible()
       await expect(page.getByRole("button", { name: "Clear" })).toBeVisible()
