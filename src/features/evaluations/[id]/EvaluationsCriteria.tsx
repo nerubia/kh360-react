@@ -13,7 +13,7 @@ import { submitEvaluation, updateEvaluationStatusById } from "../../../redux/sli
 import { Loading } from "../../../types/loadingType"
 import { setAlert } from "../../../redux/slices/appSlice"
 import { EvaluationStatus, type Evaluation } from "../../../types/evaluation-type"
-import { formatDate } from "../../../utils/format-date"
+import { formatDateRange } from "../../../utils/format-date"
 import { TextArea } from "../../../components/textarea/TextArea"
 
 export const EvaluationsCriteria = () => {
@@ -166,11 +166,28 @@ export const EvaluationsCriteria = () => {
       {loading === Loading.Fulfilled &&
         evaluation_template_contents !== null &&
         user_evaluations.length > 0 && (
-          <div className='flex flex-col overflow-y-scroll pr-5 mr-4 w-3/4'>
-            <div className='text-lg font-bold text-primary-500 mb-2'>
-              <h1>Project Assignment Duration</h1>({formatDate(evaluation?.eval_start_date)} to{" "}
-              {formatDate(evaluation?.eval_end_date)})
+          <div className='flex flex-col overflow-y-scroll pr-5 mx-4 md:w-3/4'>
+            <div className='text-xl font-bold text-primary-500 mb-1'>
+              <h1>
+                {evaluation?.evaluee?.last_name}
+                {", "} {evaluation?.evaluee?.first_name}
+              </h1>
             </div>
+            {evaluation?.project === null ? (
+              <p className='text-base font-bold mb-1'>
+                {evaluation.template?.project_role?.name !== undefined
+                  ? evaluation.template?.project_role?.name
+                  : evaluation.template?.display_name ?? ""}
+              </p>
+            ) : (
+              <p className='text-base font-bold mb-1'>
+                {evaluation?.project?.name} [{evaluation?.project_role?.short_name}]
+              </p>
+            )}
+            <h1 className='mb-4 text-sm'>
+              Evaluation Period:{" "}
+              {formatDateRange(evaluation?.eval_start_date, evaluation?.eval_end_date)}
+            </h1>
             {evaluation_template_contents.map((templateContent) => (
               <div key={templateContent.id} className='hover:bg-primary-50'>
                 <div className='flex justify-between py-3'>
