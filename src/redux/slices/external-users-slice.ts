@@ -4,7 +4,7 @@ import { type ApiError } from "../../types/apiErrorType"
 import {
   type ExternalEvaluator,
   type ExternalEvaluatorFilters,
-} from "../../types/external-evaluator-type"
+} from "../../types/external-user-type"
 import { axiosInstance } from "../../utils/axiosInstance"
 import { Loading } from "../../types/loadingType"
 
@@ -44,7 +44,7 @@ const initialState: InitialState = {
   totalItems: 0,
 }
 
-const externalEvaluatorsSlice = createSlice({
+const externalUsersSlice = createSlice({
   name: "app",
   initialState,
   reducers: {},
@@ -73,4 +73,4 @@ const externalEvaluatorsSlice = createSlice({
   },
 })
 
-export default externalEvaluatorsSlice.reducer
+export default externalUsersSlice.reducer
