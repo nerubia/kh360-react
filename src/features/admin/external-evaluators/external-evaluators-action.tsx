@@ -9,7 +9,7 @@ export const ExternalEvaluatorsAction = () => {
       <h2 className='text-gray-400'>
         {totalItems} {totalItems === 1 ? "Result" : "Results"} Found
       </h2>
-      <LinkButton to='/admin/external-evaluators/add'>Add External Evaluator</LinkButton>
+      <LinkButton to={`/admin/external-evaluators/create`}>Add External Evaluator</LinkButton>
     </div>
   )
 }

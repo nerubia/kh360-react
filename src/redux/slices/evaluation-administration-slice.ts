@@ -1,7 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
 import { type ApiError } from "../../types/apiErrorType"
-import { type EvaluationAdministration } from "../../types/evaluationAdministrationType"
+import {
+  type EvaluationAdministration,
+  type ExternalEvaluatorData,
+} from "../../types/evaluation-administration-type"
 import { axiosInstance } from "../../utils/axiosInstance"
 import { Loading } from "../../types/loadingType"
 import { type EvaluationFormData } from "../../types/formDataType"
@@ -101,11 +104,29 @@ export const closeEvaluationAdministration = createAsyncThunk(
   }
 )
 
+export const addExternalEvaluators = createAsyncThunk(
+  "evaluationAdministration/addExternalEvaluators",
+  async (data: ExternalEvaluatorData, thunkApi) => {
+    try {
+      const response = await axiosInstance.post(
+        `/admin/evaluation-administrations/${data.id}/add-external-evaluators`,
+        data
+      )
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
   evaluation_administration: EvaluationAdministration | null
   selectedEmployeeIds: number[]
+  selectedExternalUserIds: number[]
   canGenerate: boolean
 }
 
@@ -114,6 +135,7 @@ const initialState: InitialState = {
   error: null,
   evaluation_administration: null,
   selectedEmployeeIds: [],
+  selectedExternalUserIds: [],
   canGenerate: false,
 }
 
@@ -123,6 +145,9 @@ const evaluationAdministrationSlice = createSlice({
   reducers: {
     setSelectedEmployeeIds: (state, action) => {
       state.selectedEmployeeIds = action.payload
+    },
+    setSelectedExternalUserIds: (state, action) => {
+      state.selectedExternalUserIds = action.payload
     },
   },
   extraReducers(builder) {
@@ -161,5 +186,6 @@ const evaluationAdministrationSlice = createSlice({
   },
 })
 
-export const { setSelectedEmployeeIds } = evaluationAdministrationSlice.actions
+export const { setSelectedEmployeeIds, setSelectedExternalUserIds } =
+  evaluationAdministrationSlice.actions
 export default evaluationAdministrationSlice.reducer

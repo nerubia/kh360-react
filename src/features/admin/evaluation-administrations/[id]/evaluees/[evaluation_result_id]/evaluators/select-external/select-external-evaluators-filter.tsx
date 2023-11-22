@@ -1,41 +1,33 @@
 import { useState } from "react"
 import { useSearchParams } from "react-router-dom"
-import { type Option } from "../../../types/optionType"
-import { Input } from "../../../components/input/Input"
-import { CustomSelect } from "../../../components/select/CustomSelect"
-import { Button } from "../../../components/button/Button"
-import { EvaluationAdministrationStatus } from "../../../types/evaluation-administration-type"
+import { Input } from "../../../../../../../../components/input/Input"
+import { Button } from "../../../../../../../../components/button/Button"
 
-const filterOptions: Option[] = Object.values(EvaluationAdministrationStatus).map((value) => ({
-  label: value,
-  value,
-}))
-
-filterOptions.unshift({
-  label: "All",
-  value: "all",
-})
-
-export const EvaluationAdministrationsFilter = () => {
+export const SelectExternalEvaluatorsFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const [name, setName] = useState<string>(searchParams.get("name") ?? "")
-  const [status, setStatus] = useState<string>(searchParams.get("status") ?? "all")
+  const [company, setCompany] = useState<string>(searchParams.get("company") ?? "")
+  const [role, setRole] = useState<string>(searchParams.get("role") ?? "")
 
   const handleSearch = async () => {
-    if (name.length !== 0) {
+    if (name.length !== 0 || company.length !== 0 || role.length !== 0) {
       searchParams.set("name", name)
+      searchParams.set("company", company)
+      searchParams.set("role", role)
     } else {
       searchParams.delete("name")
+      searchParams.delete("company", company)
+      searchParams.delete("role", role)
     }
-    searchParams.set("status", status)
     searchParams.set("page", "1")
     setSearchParams(searchParams)
   }
 
   const handleClear = async () => {
     setName("")
-    setStatus("all")
+    setCompany("")
+    setRole("")
     setSearchParams({})
   }
 
@@ -51,13 +43,19 @@ export const EvaluationAdministrationsFilter = () => {
             onChange={(e) => setName(e.target.value)}
           />
         </div>
-        <CustomSelect
-          data-test-id='StatusFilter'
-          label='Status'
-          name='status'
-          value={filterOptions.find((option) => option.value === status)}
-          onChange={(option) => setStatus(option !== null ? option.value : "all")}
-          options={filterOptions}
+        <Input
+          label='Company'
+          name='search'
+          placeholder='Search by company'
+          value={company}
+          onChange={(e) => setCompany(e.target.value)}
+        />
+        <Input
+          label='Role'
+          name='search'
+          placeholder='Search by role'
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
         />
       </div>
       <div className='flex items-end gap-4'>

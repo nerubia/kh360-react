@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams, useLocation } from "react-router-dom"
 import { Button, LinkButton } from "../../../../../../../components/button/Button"
 import { Checkbox } from "../../../../../../../components/checkbox/Checkbox"
 import { useAppDispatch } from "../../../../../../../hooks/useAppDispatch"
@@ -16,11 +16,13 @@ import { setAlert } from "../../../../../../../redux/slices/appSlice"
 import { type Evaluation } from "../../../../../../../types/evaluation-type"
 import { PageSubTitle } from "../../../../../../../components/shared/PageSubTitle"
 import { Icon } from "../../../../../../../components/icon/Icon"
+import { setSelectedExternalUserIds } from "../../../../../../../redux/slices/evaluation-administration-slice"
 
 export const EvaluatorsList = () => {
   const navigate = useNavigate()
   const { id, evaluation_result_id, evaluation_template_id } = useParams()
   const appDispatch = useAppDispatch()
+  const location = useLocation()
   const { loading } = useAppSelector((state) => state.evaluationResult)
   const { evaluations } = useAppSelector((state) => state.evaluations)
   const [sortedEvaluations, setSortedEvaluations] = useState<Evaluation[]>([])
@@ -34,6 +36,7 @@ export const EvaluatorsList = () => {
           evaluation_template_id,
         })
       )
+      void appDispatch(setSelectedExternalUserIds([]))
     }
   }, [evaluation_template_id])
 
@@ -103,10 +106,16 @@ export const EvaluatorsList = () => {
     }
   }
 
+  const handleAddNew = () => {
+    navigate(
+      `/admin/external-evaluators/create?callback=${location.pathname}&evaluation_administration=${id}&evaluation_template=${evaluation_template_id}&evaluation_result=${evaluation_result_id}&evaluee=${evaluations[0].evaluee?.id}`
+    )
+  }
+
   return (
     <div className='flex-1 h-[calc(100vh_-_185px)] flex flex-col pt-4'>
       <PageSubTitle>Evaluators</PageSubTitle>
-      <div className='flex-1 overflow-y-scroll'>
+      <div className='flex-1 overflow-y-scroll mt-2'>
         <table className='relative w-full'>
           <thead className='sticky top-0 bg-white text-left'>
             <tr>
@@ -156,12 +165,8 @@ export const EvaluatorsList = () => {
       </div>
       <div className='pt-5'>
         <PageSubTitle>External Evaluators</PageSubTitle>
-        <Button variant='ghost' size='small'>
-          <Icon icon='Plus' color='primary' size='small' />
-          <p className='text-primary-500 uppercase'>Add external evaluators</p>
-        </Button>
       </div>
-      <div className='flex-1 overflow-y-scroll'>
+      <div className='flex-1 overflow-y-scroll my-2'>
         <table className='relative w-full'>
           <thead className='sticky top-0 bg-white text-left'>
             <tr>
@@ -199,6 +204,20 @@ export const EvaluatorsList = () => {
               ))}
           </tbody>
         </table>
+      </div>
+      <div className='flex gap-4 mt-3'>
+        <Button variant='ghost' size='small' onClick={handleAddNew}>
+          <Icon icon='Plus' color='primary' size='small' />
+          <p className='text-primary-500 uppercase'>Add new</p>
+        </Button>
+        <LinkButton
+          variant='ghost'
+          size='small'
+          to={`/admin/evaluation-administrations/${id}/evaluees/${evaluation_result_id}/evaluators/${evaluation_template_id}/select-external`}
+        >
+          <Icon icon='Plus' color='primary' size='small' />
+          <p className='text-primary-500 uppercase'>Add from list</p>
+        </LinkButton>
       </div>
       <div className='flex flex-col md:flex-row justify-between gap-2 pt-5'>
         <LinkButton

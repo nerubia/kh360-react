@@ -1,6 +1,6 @@
 import { EvaluationResultStatus } from "../types/evaluation-result-type"
 import { EvaluationStatus } from "../types/evaluation-type"
-import { EvaluationAdministrationStatus } from "../types/evaluationAdministrationType"
+import { EvaluationAdministrationStatus } from "../types/evaluation-administration-type"
 
 export const getEvaluationAdministrationStatusVariant = (status: string | undefined) => {
   if (status === EvaluationAdministrationStatus.Draft) {
