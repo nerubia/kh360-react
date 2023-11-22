@@ -4,14 +4,12 @@ import { getAllUsers } from "../../../../../redux/slices/usersSlice"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
 import { Icon } from "../../../../../components/icon/Icon"
-import { formatDate } from "../../../../../utils/formatDate"
+import { formatDate } from "../../../../../utils/format-date"
 import { Divider } from "../../../../../components/divider/Divider"
 
 export const PreviewEmployeesTable = () => {
   const appDispatch = useAppDispatch()
-  const { selectedEmployeeIds } = useAppSelector(
-    (state) => state.evaluationAdministration
-  )
+  const { selectedEmployeeIds } = useAppSelector((state) => state.evaluationAdministration)
   const { allUsers } = useAppSelector((state) => state.users)
   const [showIncluded, setShowIncluded] = useState(true)
   const [showExcluded, setShowExcluded] = useState(false)
@@ -35,21 +33,12 @@ export const PreviewEmployeesTable = () => {
               </tr>
               <tr>
                 <td>
-                  <button
-                    onClick={() => setShowIncluded(!showIncluded)}
-                    className='text-sm p-1'
-                  >
+                  <button onClick={() => setShowIncluded(!showIncluded)} className='text-sm p-1'>
                     <div className='flex items-center'>
-                      <span className='mr-1'>
-                        {selectedEmployeeIds.length}{" "}
-                      </span>
+                      <span className='mr-1'>{selectedEmployeeIds.length} </span>
                       <span className='mr-1'>Included</span>
                       <span className='text-xs'>
-                        {showIncluded ? (
-                          <Icon icon='ChevronDown' />
-                        ) : (
-                          <Icon icon='ChevronUp' />
-                        )}
+                        {showIncluded ? <Icon icon='ChevronDown' /> : <Icon icon='ChevronUp' />}
                       </span>
                     </div>
                   </button>
@@ -67,9 +56,7 @@ export const PreviewEmployeesTable = () => {
                       </td>
                       <td>{formatDate(user.user_details?.start_date)}</td>
                       <td>{user.user_details?.user_position}</td>
-                      <td className='capitalize'>
-                        {user.user_details?.user_type}
-                      </td>
+                      <td className='capitalize'>{user.user_details?.user_type}</td>
                     </tr>
                   ) : null
                 )}
@@ -79,21 +66,12 @@ export const PreviewEmployeesTable = () => {
         </div>
         <Divider />
         <div className='flex-1 bg-white-100'>
-          <button
-            onClick={() => setShowExcluded(!showExcluded)}
-            className='text-sm p-1'
-          >
+          <button onClick={() => setShowExcluded(!showExcluded)} className='text-sm p-1'>
             <div className='flex items-center'>
-              <span className='mr-1'>
-                {allUsers.length - selectedEmployeeIds.length}{" "}
-              </span>
+              <span className='mr-1'>{allUsers.length - selectedEmployeeIds.length} </span>
               <span className='mr-1'>Excluded</span>
               <span className='text-xs'>
-                {showExcluded ? (
-                  <Icon icon='ChevronDown' />
-                ) : (
-                  <Icon icon='ChevronUp' />
-                )}
+                {showExcluded ? <Icon icon='ChevronDown' /> : <Icon icon='ChevronUp' />}
               </span>
             </div>
           </button>
@@ -109,9 +87,7 @@ export const PreviewEmployeesTable = () => {
                       </td>
                       <td>{formatDate(employee.user_details?.start_date)}</td>
                       <td>{employee.user_details?.user_position}</td>
-                      <td className='capitalize'>
-                        {employee.user_details?.user_type}
-                      </td>
+                      <td className='capitalize'>{employee.user_details?.user_type}</td>
                     </tr>
                   ) : null
                 )}

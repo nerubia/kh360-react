@@ -70,6 +70,7 @@ interface InitialState {
   user_evaluation_administrations: EvaluationAdministration[]
   hasPreviousPage: boolean
   hasNextPage: boolean
+  currentPage: number
   totalPages: number
   totalItems: number
 }
@@ -84,6 +85,7 @@ const initialState: InitialState = {
   user_evaluation_administrations: [],
   hasPreviousPage: false,
   hasNextPage: false,
+  currentPage: 0,
   totalPages: 0,
   totalItems: 0,
 }
@@ -133,9 +135,21 @@ const userSlice = createSlice({
     builder.addCase(getUserEvaluationAdministrations.fulfilled, (state, action) => {
       state.loading = Loading.Fulfilled
       state.error = null
-      state.user_evaluation_administrations = action.payload.data
+      const newData: EvaluationAdministration[] = []
+      const payloadData = action.payload.data as EvaluationAdministration[]
+      for (const data of payloadData) {
+        if (
+          !state.user_evaluation_administrations.some(
+            (evaluationAdministration) => evaluationAdministration.id === data.id
+          )
+        ) {
+          newData.push(data)
+        }
+      }
+      state.user_evaluation_administrations = [...state.user_evaluation_administrations, ...newData]
       state.hasPreviousPage = action.payload.pageInfo.hasPreviousPage
       state.hasNextPage = action.payload.pageInfo.hasNextPage
+      state.currentPage = action.payload.pageInfo.currentPage
       state.totalPages = action.payload.pageInfo.totalPages
       state.totalItems = action.payload.pageInfo.totalItems
     })
