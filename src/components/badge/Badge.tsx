@@ -15,13 +15,13 @@ const badge = cva(
   {
     variants: {
       variant: {
-        primary: ["bg-primary-200", "text-primary-600"],
-        pink: ["bg-pink-200", "text-pink-600"],
-        yellow: ["bg-yellow-200", "text-yellow-600"],
-        green: ["bg-green-200", "text-green-600"],
-        blue: ["bg-blue-200", "text-blue-600"],
-        gray: ["bg-gray-200", "text-gray-600"],
-        red: ["bg-red-200", "text-red-600"],
+        primary: ["bg-[#fbefff]", "text-[#8250df]", "border-[#e6ceff]"],
+        pink: ["bg-[#fff0f7]", "text-[#bf3989]", "border-[#ffe4f3]"],
+        yellow: ["bg-[#fff8c5]", "text-[#9b6700]", "border-[#f1dd9f]"],
+        green: ["bg-[#dafbe1]", "text-[#1b7f37]", "border-[#bbeec7]"],
+        blue: ["bg-[#ddf4ff]", "text-[#0a69da]", "border-[#b7e0ff]"],
+        gray: ["bg-[#f6f8fa]", "text-[#646d76]", "border-[#dbe1e6]"],
+        red: ["bg-[#ffebe8]", "text-[#d1242f]", "border-[#ffcac8]"],
       },
       size: {
         small: ["text-[10px]", "px-2.5", "py-0.5"],
