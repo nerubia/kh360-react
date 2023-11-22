@@ -128,11 +128,9 @@ test.describe("User - Evaluations", () => {
           name: "User, Evaluee ONGOING Sample Project [PM]",
         })
       ).toBeVisible()
-      await expect(page.getByRole("heading", { name: "User, Evaluee" })).toBeVisible()
+      await expect(page.getByText("User, Evaluee").nth(1)).toBeVisible()
       await expect(page.getByText("Sample Project [PM]").nth(1)).toBeVisible()
-      await expect(
-        page.getByRole("heading", { name: "Evaluation Period: Jan 1 - Oct 15, 2023" })
-      ).toBeVisible()
+      await expect(page.getByText("Evaluation Period: Jan 1 - Oct 15, 2023")).toBeVisible()
       await expect(page.getByRole("heading", { name: "PM Skillset" })).toBeVisible()
       await expect(
         page.getByText(

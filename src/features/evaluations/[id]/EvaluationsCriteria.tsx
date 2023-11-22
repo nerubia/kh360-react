@@ -168,10 +168,10 @@ export const EvaluationsCriteria = () => {
         user_evaluations.length > 0 && (
           <div className='flex flex-col overflow-y-scroll pr-5 mx-4 md:w-3/4'>
             <div className='text-xl font-bold text-primary-500 mb-1'>
-              <h1>
+              <p>
                 {evaluation?.evaluee?.last_name}
                 {", "} {evaluation?.evaluee?.first_name}
-              </h1>
+              </p>
             </div>
             {evaluation?.project === null ? (
               <p className='text-base font-bold mb-1'>
@@ -184,10 +184,10 @@ export const EvaluationsCriteria = () => {
                 {evaluation?.project?.name} [{evaluation?.project_role?.short_name}]
               </p>
             )}
-            <h1 className='mb-4 text-sm'>
+            <p className='mb-4 text-sm'>
               Evaluation Period:{" "}
               {formatDateRange(evaluation?.eval_start_date, evaluation?.eval_end_date)}
-            </h1>
+            </p>
             {evaluation_template_contents.map((templateContent) => (
               <div key={templateContent.id} className='hover:bg-primary-50'>
                 <div className='flex justify-between py-3'>
