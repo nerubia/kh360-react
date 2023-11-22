@@ -1,16 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
 import { type ApiError } from "../../types/apiErrorType"
-import {
-  type ExternalEvaluator,
-  type ExternalEvaluatorFilters,
-} from "../../types/external-user-type"
 import { axiosInstance } from "../../utils/axiosInstance"
 import { Loading } from "../../types/loadingType"
+import { type ExternalUser, type ExternalUserFilters } from "../../types/external-user-type"
+import { type ExternalUserFormData } from "../../types/formDataType"
 
-export const getExternalEvaluators = createAsyncThunk(
-  "admin/getExternalEvaluators",
-  async (params: ExternalEvaluatorFilters | undefined, thunkApi) => {
+export const getExternalUsers = createAsyncThunk(
+  "externalUser/getExternalUsers",
+  async (params: ExternalUserFilters | undefined, thunkApi) => {
     try {
       const response = await axiosInstance.get("/admin/external-users", {
         params,
@@ -24,10 +22,24 @@ export const getExternalEvaluators = createAsyncThunk(
   }
 )
 
+export const createExternalUser = createAsyncThunk(
+  "externalUser/createExternalUser",
+  async (data: ExternalUserFormData, thunkApi) => {
+    try {
+      const response = await axiosInstance.post("/admin/external-users", data)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
-  external_evaluators: ExternalEvaluator[]
+  external_users: ExternalUser[]
   hasPreviousPage: boolean
   hasNextPage: boolean
   totalPages: number
@@ -37,14 +49,14 @@ interface InitialState {
 const initialState: InitialState = {
   loading: Loading.Idle,
   error: null,
-  external_evaluators: [],
+  external_users: [],
   hasPreviousPage: false,
   hasNextPage: false,
   totalPages: 0,
   totalItems: 0,
 }
 
-const externalUsersSlice = createSlice({
+const externalEvaluatorsSlice = createSlice({
   name: "app",
   initialState,
   reducers: {},
@@ -52,25 +64,39 @@ const externalUsersSlice = createSlice({
     /**
      * List external evaluators
      */
-    builder.addCase(getExternalEvaluators.pending, (state) => {
+    builder.addCase(getExternalUsers.pending, (state) => {
       state.loading = Loading.Pending
       state.error = null
     })
-    builder.addCase(getExternalEvaluators.fulfilled, (state, action) => {
+    builder.addCase(getExternalUsers.fulfilled, (state, action) => {
       state.loading = Loading.Fulfilled
       state.error = null
-      state.external_evaluators = action.payload.data
+      state.external_users = action.payload.data
       state.hasPreviousPage = action.payload.pageInfo.hasPreviousPage
       state.hasNextPage = action.payload.pageInfo.hasNextPage
       state.totalPages = action.payload.pageInfo.totalPages
       state.totalItems = action.payload.pageInfo.totalItems
     })
-    builder.addCase(getExternalEvaluators.rejected, (state, action) => {
+    builder.addCase(getExternalUsers.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
-      state.external_evaluators = []
+    })
+    /**
+     * Create
+     */
+    builder.addCase(createExternalUser.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(createExternalUser.fulfilled, (state) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+    })
+    builder.addCase(createExternalUser.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
     })
   },
 })
 
-export default externalUsersSlice.reducer
+export default externalEvaluatorsSlice.reducer

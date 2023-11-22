@@ -2,7 +2,7 @@ import { LinkButton } from "../../../components/button/Button"
 import { useAppSelector } from "../../../hooks/useAppSelector"
 
 export const ExternalEvaluatorsAction = () => {
-  const { totalItems } = useAppSelector((state) => state.externalEvaluators)
+  const { totalItems } = useAppSelector((state) => state.externalUsers)
 
   return (
     <div className='flex flex-col items-center md:flex-row justify-between gap-4'>

@@ -20,3 +20,12 @@ export interface EvaluationResultsFormData {
   evaluation_administration_id?: string
   employee_ids: number[]
 }
+
+export interface ExternalUserFormData {
+  first_name?: string
+  middle_name?: string
+  last_name?: string
+  email?: string
+  role?: string
+  company?: string
+}

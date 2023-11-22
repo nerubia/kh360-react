@@ -1,4 +1,4 @@
-export interface ExternalEvaluator {
+export interface ExternalUser {
   id: number
   email: string
   first_name: string
@@ -8,7 +8,7 @@ export interface ExternalEvaluator {
   company: string
 }
 
-export interface ExternalEvaluatorFilters {
+export interface ExternalUserFilters {
   name?: string
   company?: string
   role?: string

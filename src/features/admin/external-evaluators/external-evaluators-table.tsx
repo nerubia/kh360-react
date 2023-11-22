@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../hooks/useAppSelector"
 import { Pagination } from "../../../components/pagination/Pagination"
-import { getExternalEvaluators } from "../../../redux/slices/external-users-slice"
+import { getExternalUsers } from "../../../redux/slices/external-users-slice"
 import { Icon } from "../../../components/icon/Icon"
 import { Button, LinkButton } from "../../../components/button/Button"
 import Dialog from "../../../components/dialog/Dialog"
@@ -13,13 +13,13 @@ export const ExternalEvaluatorsTable = () => {
   const [showDialog, setShowDialog] = useState<boolean>(false)
 
   const appDispatch = useAppDispatch()
-  const { external_evaluators, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
-    (state) => state.externalEvaluators
+  const { external_users, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
+    (state) => state.externalUsers
   )
 
   useEffect(() => {
     void appDispatch(
-      getExternalEvaluators({
+      getExternalUsers({
         name: searchParams.get("name") ?? undefined,
         company: searchParams.get("company") ?? undefined,
         role: searchParams.get("role") ?? undefined,
@@ -45,7 +45,7 @@ export const ExternalEvaluatorsTable = () => {
           </tr>
         </thead>
         <tbody>
-          {external_evaluators.map((externalEvaluator) => (
+          {external_users.map((externalEvaluator) => (
             <tr key={externalEvaluator.id}>
               <td className='py-1'>
                 {externalEvaluator.last_name}, {externalEvaluator.first_name}{" "}

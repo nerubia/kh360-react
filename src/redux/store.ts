@@ -26,7 +26,7 @@ export const store = configureStore({
     evaluations: evaluationsReducer,
     evaluationTemplates: evaluationTemplatesReducer,
     evaluationTemplateContents: evaluationTemplateContentsReducer,
-    externalEvaluators: externalUsersReducer,
+    externalUsers: externalUsersReducer,
     users: usersReducer,
     user: userReducer,
   },
