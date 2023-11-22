@@ -7,7 +7,7 @@ import { type Answers } from "../../types/answer-type"
 import {
   type EvaluationAdministration,
   type EvaluationAdministrationFilters,
-} from "../../types/evaluationAdministrationType"
+} from "../../types/evaluation-administration-type"
 import { axiosInstance } from "../../utils/axiosInstance"
 import { Loading } from "../../types/loadingType"
 

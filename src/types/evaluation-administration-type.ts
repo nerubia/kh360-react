@@ -20,6 +20,14 @@ export interface EvaluationAdministrationFilters {
   page?: string
 }
 
+export interface ExternalEvaluatorData {
+  id: number
+  evaluation_template_id: number
+  evaluation_result_id: number
+  evaluee_id: number
+  external_user_ids: number[]
+}
+
 export enum EvaluationAdministrationStatus {
   Draft = "Draft",
   Pending = "Pending",

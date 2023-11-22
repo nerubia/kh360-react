@@ -11,11 +11,16 @@ import { setAlert } from "../../../../redux/slices/appSlice"
 import { useAppSelector } from "../../../../hooks/useAppSelector"
 import { Loading } from "../../../../types/loadingType"
 import { createExternalUser } from "../../../../redux/slices/external-users-slice"
+import { addExternalEvaluators } from "../../../../redux/slices/evaluation-administration-slice"
 
 export const CreateExternalEvaluatorForm = () => {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const callback = searchParams.get("callback")
+  const evaluation_administration_id = searchParams.get("evaluation_administration")
+  const evaluation_template_id = searchParams.get("evaluation_template")
+  const evaluation_result_id = searchParams.get("evaluation_result")
+  const evaluee_id = searchParams.get("evaluee")
 
   const appDispatch = useAppDispatch()
   const { loading } = useAppSelector((state) => state.externalUsers)
@@ -47,13 +52,48 @@ export const CreateExternalEvaluatorForm = () => {
       })
       const result = await appDispatch(createExternalUser(formData))
       if (result.payload.id !== undefined) {
-        navigate(callback ?? "/admin/external-evaluators")
-        appDispatch(
-          setAlert({
-            description: "Added new external evaluator",
-            variant: "success",
-          })
-        )
+        if (
+          evaluation_administration_id !== null &&
+          evaluation_template_id !== null &&
+          evaluation_result_id !== null &&
+          evaluee_id !== null
+        ) {
+          try {
+            const resultExternal = await appDispatch(
+              addExternalEvaluators({
+                id: parseInt(evaluation_administration_id),
+                evaluation_template_id: parseInt(evaluation_template_id),
+                evaluation_result_id: parseInt(evaluation_result_id),
+                evaluee_id: parseInt(evaluee_id),
+                external_user_ids: [result.payload.id],
+              })
+            )
+            if (resultExternal.payload.id !== undefined) {
+              navigate(callback ?? "/admin/external-evaluators")
+              appDispatch(
+                setAlert({
+                  description: "Added new external evaluator",
+                  variant: "success",
+                })
+              )
+            } else if (typeof resultExternal.payload === "string") {
+              appDispatch(
+                setAlert({
+                  description: resultExternal.payload,
+                  variant: "destructive",
+                })
+              )
+            }
+          } catch (error) {}
+        } else {
+          navigate(callback ?? "/admin/external-evaluators")
+          appDispatch(
+            setAlert({
+              description: "Added new external evaluator",
+              variant: "success",
+            })
+          )
+        }
       }
     } catch (error) {
       if (error instanceof ValidationError) {

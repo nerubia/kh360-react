@@ -17,6 +17,7 @@ export interface Evaluation {
   project?: Project
   project_role?: ProjectRole
   template?: EvaluationTemplate
+  external_evaluator_id: number
 }
 
 export interface EvaluationFilters {

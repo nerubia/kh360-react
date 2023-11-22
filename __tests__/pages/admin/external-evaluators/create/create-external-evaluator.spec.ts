@@ -134,6 +134,33 @@ test.describe("Admin - Create External Evaluator", () => {
         await page.getByTestId("SidebarCloseButton").click()
       }
 
+      await mockRequest(page, "/admin/external-users", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              email: "john@nerubia.com",
+              first_name: "John",
+              middle_name: null,
+              last_name: "Doe",
+              role: "Developer",
+              company: "Sample Agency",
+              created_by_id: null,
+              updated_by_id: null,
+              created_at: null,
+              updated_at: null,
+            },
+          ],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
+
       await page.getByRole("button", { name: "Cancel" }).click()
       await page.getByRole("link", { name: "Yes" }).click()
 

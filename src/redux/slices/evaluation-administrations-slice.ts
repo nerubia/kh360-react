@@ -7,7 +7,7 @@ import { type EvaluationFormData } from "../../types/formDataType"
 import {
   type EvaluationAdministrationFilters,
   type EvaluationAdministration,
-} from "../../types/evaluationAdministrationType"
+} from "../../types/evaluation-administration-type"
 
 export const getEvaluationAdministrations = createAsyncThunk(
   "evaluationAdministration/getEvaluationAdministrations",
