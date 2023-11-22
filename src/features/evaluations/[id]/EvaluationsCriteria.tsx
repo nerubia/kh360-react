@@ -13,7 +13,7 @@ import { submitEvaluation, updateEvaluationStatusById } from "../../../redux/sli
 import { Loading } from "../../../types/loadingType"
 import { setAlert } from "../../../redux/slices/appSlice"
 import { EvaluationStatus, type Evaluation } from "../../../types/evaluation-type"
-import { formatDate } from "../../../utils/formatDate"
+import { formatDate } from "../../../utils/format-date"
 import { TextArea } from "../../../components/textarea/TextArea"
 
 export const EvaluationsCriteria = () => {

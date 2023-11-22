@@ -3,7 +3,7 @@ import { Button, LinkButton } from "../../../../components/button/Button"
 import { useAppSelector } from "../../../../hooks/useAppSelector"
 import { useNavigate, useParams } from "react-router-dom"
 import { EvaluationAdministrationStatus } from "../../../../types/evaluationAdministrationType"
-import { formatDate } from "../../../../utils/formatDate"
+import { formatDate } from "../../../../utils/format-date"
 import { Icon } from "../../../../components/icon/Icon"
 import Dialog from "../../../../components/dialog/Dialog"
 import {

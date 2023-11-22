@@ -5,7 +5,7 @@ import { Pagination } from "../../../../../components/pagination/Pagination"
 import { setSelectedEmployeeIds } from "../../../../../redux/slices/evaluation-administration-slice"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
-import { formatDate } from "../../../../../utils/formatDate"
+import { formatDate } from "../../../../../utils/format-date"
 import { getEvaluationResultIds } from "../../../../../redux/slices/evaluationResultsSlice"
 
 export const SelectEmployeesTable = () => {
