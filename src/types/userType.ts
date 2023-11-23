@@ -9,6 +9,8 @@ export interface User {
   roles?: string[]
   picture?: string
   role?: string
+  company?: string
+  is_external?: boolean
 }
 
 export interface UserFilters {

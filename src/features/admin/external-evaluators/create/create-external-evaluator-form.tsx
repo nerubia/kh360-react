@@ -51,7 +51,14 @@ export const CreateExternalEvaluatorForm = () => {
         abortEarly: false,
       })
       const result = await appDispatch(createExternalUser(formData))
-      if (result.payload.id !== undefined) {
+      if (typeof result.payload === "string") {
+        appDispatch(
+          setAlert({
+            description: result.payload,
+            variant: "destructive",
+          })
+        )
+      } else if (result.payload.id !== undefined) {
         if (
           evaluation_administration_id !== null &&
           evaluation_template_id !== null &&

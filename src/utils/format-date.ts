@@ -10,6 +10,12 @@ export const convertToFullDate = (date?: string) => {
   return format(utcDate, "MMMM d, yyyy", { timeZone: "UTC" })
 }
 
+export const convertToFullDateAndTime = (date?: string) => {
+  const inputDate = new Date(date ?? "")
+  const utcDate = utcToZonedTime(inputDate, "UTC")
+  return format(utcDate, "MMMM d, yyyy 'at' HH:mm:ss a", { timeZone: "UTC" })
+}
+
 export const formatDateRange = (start_date?: string, end_date?: string) => {
   const options: Intl.DateTimeFormatOptions = {
     month: "short",

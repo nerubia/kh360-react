@@ -7,8 +7,11 @@ const Layout = lazy(async () => await import("./components/layouts/Layout"))
 const DashboardLayout = lazy(async () => await import("./components/layouts/DashboardLayout"))
 
 const Home = lazy(async () => await import("./pages/home"))
-const AuthRoute = lazy(async () => await import("./routes/AuthRoute"))
+const ExternalEvaluations = lazy(
+  async () => await import("./pages/external-evaluations/external-evaluations")
+)
 
+const AuthRoute = lazy(async () => await import("./routes/AuthRoute"))
 const Login = lazy(async () => await import("./pages/auth/login"))
 const ForgotPassword = lazy(async () => await import("./pages/auth/forgot_password"))
 const ResetPassword = lazy(async () => await import("./pages/auth/reset_password"))
@@ -76,6 +79,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/external-evaluations/:id/evaluations/:evaluation_id",
+        element: <ExternalEvaluations />,
       },
     ],
   },

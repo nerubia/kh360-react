@@ -18,9 +18,7 @@ export default function Login() {
             <span className='bg-white px-2'>Or continue with</span>
           </div>
         </div>
-        <GoogleOAuthProvider
-          clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID as string}
-        >
+        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID as string}>
           <LoginOptions />
         </GoogleOAuthProvider>
       </div>
