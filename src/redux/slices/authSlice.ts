@@ -5,22 +5,19 @@ import { type ApiError } from "../../types/apiErrorType"
 import { type User } from "../../types/userType"
 import { refreshUserToken } from "../../services/api"
 import { Loading } from "../../types/loadingType"
-import { type LoginFormData } from "../../types/formDataType"
+import { type ExternalAuthFormData, type LoginFormData } from "../../types/formDataType"
 import { axiosInstance } from "../../utils/axiosInstance"
 
-export const login = createAsyncThunk(
-  "auth/login",
-  async (data: LoginFormData, thunkApi) => {
-    try {
-      const response = await axiosInstance.post("/auth/login", data)
-      return response.data
-    } catch (error) {
-      const axiosError = error as AxiosError
-      const response = axiosError.response?.data as ApiError
-      return thunkApi.rejectWithValue(response.message)
-    }
+export const login = createAsyncThunk("auth/login", async (data: LoginFormData, thunkApi) => {
+  try {
+    const response = await axiosInstance.post("/auth/login", data)
+    return response.data
+  } catch (error) {
+    const axiosError = error as AxiosError
+    const response = axiosError.response?.data as ApiError
+    return thunkApi.rejectWithValue(response.message)
   }
-)
+})
 
 export const loginWithGoogle = createAsyncThunk(
   "auth/loginWithGoogle",
@@ -36,11 +33,11 @@ export const loginWithGoogle = createAsyncThunk(
   }
 )
 
-export const refreshToken = createAsyncThunk(
-  "auth/refreshToken",
-  async (_, thunkApi) => {
+export const loginAsExternalUser = createAsyncThunk(
+  "auth/loginAsExternalUser",
+  async (data: ExternalAuthFormData, thunkApi) => {
     try {
-      const response = await refreshUserToken()
+      const response = await axiosInstance.post("/auth/login/external-user", data)
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -49,6 +46,52 @@ export const refreshToken = createAsyncThunk(
     }
   }
 )
+
+export const resendCode = createAsyncThunk(
+  "auth/resendCode",
+  async (data: ExternalAuthFormData, thunkApi) => {
+    try {
+      const response = await axiosInstance.post("/auth/login/external-user/resend-code", data)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const getExternalUserStatus = createAsyncThunk(
+  "auth/getExternalUserStatus",
+  async (
+    params: {
+      token: string
+    },
+    thunkApi
+  ) => {
+    try {
+      const response = await axiosInstance.get("/auth/login/external-user/status", {
+        params,
+      })
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const refreshToken = createAsyncThunk("auth/refreshToken", async (_, thunkApi) => {
+  try {
+    const response = await refreshUserToken()
+    return response.data
+  } catch (error) {
+    const axiosError = error as AxiosError
+    const response = axiosError.response?.data as ApiError
+    return thunkApi.rejectWithValue(response.message)
+  }
+})
 
 export const logout = createAsyncThunk("auth/logout", async (_, thunkApi) => {
   try {
@@ -84,7 +127,9 @@ const authSlice = createSlice({
     },
   },
   extraReducers(builder) {
-    // login
+    /**
+     * Login
+     */
     builder.addCase(login.pending, (state) => {
       state.loading = Loading.Pending
       state.error = null
@@ -99,7 +144,9 @@ const authSlice = createSlice({
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
-    // login with google
+    /**
+     * Login with google
+     */
     builder.addCase(loginWithGoogle.pending, (state) => {
       state.loading = Loading.Pending
       state.error = null
@@ -114,7 +161,41 @@ const authSlice = createSlice({
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
-    // refresh token
+    /**
+     * Login as external user
+     */
+    builder.addCase(loginAsExternalUser.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(loginAsExternalUser.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.access_token = action.payload.access_token
+      state.user = action.payload.user
+    })
+    builder.addCase(loginAsExternalUser.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Resend code
+     */
+    builder.addCase(resendCode.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(resendCode.fulfilled, (state) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+    })
+    builder.addCase(resendCode.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Refresh token
+     */
     builder.addCase(refreshToken.pending, (state) => {
       state.loading = Loading.Pending
       state.error = null
@@ -130,7 +211,9 @@ const authSlice = createSlice({
     builder.addCase(refreshToken.rejected, (state) => {
       state.loading = Loading.Rejected
     })
-    // logout
+    /**
+     * Logout
+     */
     builder.addCase(logout.pending, (state) => {
       state.loading = Loading.Pending
     })

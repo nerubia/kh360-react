@@ -3,6 +3,11 @@ export interface LoginFormData {
   password: string
 }
 
+export interface ExternalAuthFormData {
+  token?: string
+  code?: string
+}
+
 export interface EvaluationFormData {
   id?: string
   name?: string
