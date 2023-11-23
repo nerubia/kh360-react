@@ -3,7 +3,7 @@ import { LinkButton } from "../../../../../../../components/button/Button"
 import { Icon } from "../../../../../../../components/icon/Icon"
 import { useAppSelector } from "../../../../../../../hooks/useAppSelector"
 import { getEvaluationResultStatusVariant } from "../../../../../../../utils/variant"
-import { Badge } from "../../../../../../../components/badge/Badge"
+import { Badge } from "../../../../../../../components/ui/badge/Badge"
 
 export const EvaluatorsUser = () => {
   const { id } = useParams()
