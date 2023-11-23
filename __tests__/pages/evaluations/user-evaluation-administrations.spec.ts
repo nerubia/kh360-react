@@ -87,23 +87,21 @@ test.describe("User - Evaluations", () => {
 
       await expect(page.getByRole("heading", { name: "Performance Evaluations" })).toBeVisible()
 
-      await expect(page.getByRole("button", { name: "Evaluation 1" })).toBeVisible()
-      await expect(page.getByText("Evaluation Period: Jul 22 - Sep 22, 2023").first()).toBeVisible()
-      await expect(page.getByText("This is description").first()).toBeVisible()
-      await expect(page.getByText("0 out of 3 Evaluations Submitted")).toBeVisible()
-      await expect(page.getByText("Evaluate By: March 14, 2023").first()).toBeVisible()
-
-      await expect(page.getByRole("button", { name: "Evaluation 2" })).toBeVisible()
-      await expect(page.getByText("Evaluation Period: Jul 22 - Sep 22, 2023").nth(1)).toBeVisible()
-      await expect(page.getByText("This is description").nth(1)).toBeVisible()
-      await expect(page.getByText("1 out of 3 Evaluations Submitted")).toBeVisible()
-      await expect(page.getByText("Evaluate By: March 14, 2023").nth(1)).toBeVisible()
-
-      await expect(page.getByRole("button", { name: "Evaluation 3" })).toBeVisible()
-      await expect(page.getByText("Evaluation Period: Jul 22 - Sep 22, 2023").nth(2)).toBeVisible()
-      await expect(page.getByText("This is description").nth(2)).toBeVisible()
-      await expect(page.getByText("2 out of 4 Evaluations Submitted")).toBeVisible()
-      await expect(page.getByText("Evaluate By: March 14, 2023").nth(2)).toBeVisible()
+      await expect(
+        page.getByRole("link", {
+          name: "Evaluation 1 0 out of 3 Evaluations Submitted Evaluate By: March 14, 2023 Evaluation Period: Jul 22 - Sep 22, 2023 This is description",
+        })
+      ).toBeVisible()
+      await expect(
+        page.getByRole("link", {
+          name: "Evaluation 2 1 out of 3 Evaluations Submitted Evaluate By: March 14, 2023 Evaluation Period: Jul 22 - Sep 22, 2023 This is description",
+        })
+      ).toBeVisible()
+      await expect(
+        page.getByRole("link", {
+          name: "Evaluation 3 2 out of 4 Evaluations Submitted Evaluate By: March 14, 2023 Evaluation Period: Jul 22 - Sep 22, 2023 This is description",
+        })
+      ).toBeVisible()
     })
   })
 })
