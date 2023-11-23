@@ -7,7 +7,6 @@ interface MenuProps {
   is_editing?: boolean
   to: string
   testId?: string
-  isAdmin?: boolean
   isEvaluation: boolean
   children: React.ReactNode
   className: string
@@ -17,7 +16,6 @@ interface MenuProps {
 export const Menu = ({
   evaluation,
   evaluation_id,
-  isAdmin,
   isEvaluation,
   to,
   testId,
@@ -40,11 +38,9 @@ export const Menu = ({
           {children}
         </button>
       ) : (
-        isAdmin === true && (
-          <NavLink data-testid={testId} to={to} className={className}>
-            {children}
-          </NavLink>
-        )
+        <NavLink data-testid={testId} to={to} className={className}>
+          {children}
+        </NavLink>
       )}
     </>
   )
