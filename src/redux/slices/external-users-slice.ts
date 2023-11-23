@@ -36,6 +36,29 @@ export const createExternalUser = createAsyncThunk(
   }
 )
 
+export const updateExternalUser = createAsyncThunk(
+  "externalUser/updateExternalUser",
+  async (
+    data: {
+      id: number
+      external_user_data: ExternalUserFormData
+    },
+    thunkApi
+  ) => {
+    try {
+      const response = await axiosInstance.put(
+        `/admin/external-users/${data.id}`,
+        data.external_user_data
+      )
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
@@ -93,6 +116,21 @@ const externalEvaluatorsSlice = createSlice({
       state.error = null
     })
     builder.addCase(createExternalUser.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Update
+     */
+    builder.addCase(updateExternalUser.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(updateExternalUser.fulfilled, (state) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+    })
+    builder.addCase(updateExternalUser.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
