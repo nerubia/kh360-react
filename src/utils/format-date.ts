@@ -1,16 +1,27 @@
-import { format } from "date-fns"
+import { format, utcToZonedTime } from "date-fns-tz"
 
 export const formatDate = (date?: string) => {
   return date?.split("T")[0]
 }
 
 export const convertToFullDate = (date?: string) => {
-  return format(new Date(date ?? ""), "MMMM d, yyyy")
+  const inputDate = new Date(date ?? "")
+  const utcDate = utcToZonedTime(inputDate, "UTC")
+  return format(utcDate, "MMMM d, yyyy", { timeZone: "UTC" })
 }
 
 export const formatDateRange = (start_date?: string, end_date?: string) => {
-  const options: Intl.DateTimeFormatOptions = { month: "short", day: "numeric", year: "numeric" }
-  const monthAndDateOnly: Intl.DateTimeFormatOptions = { month: "short", day: "numeric" }
+  const options: Intl.DateTimeFormatOptions = {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  }
+  const monthAndDateOnly: Intl.DateTimeFormatOptions = {
+    month: "short",
+    day: "numeric",
+    timeZone: "UTC",
+  }
 
   if (
     start_date === undefined ||
@@ -29,11 +40,11 @@ export const formatDateRange = (start_date?: string, end_date?: string) => {
   let formattedDate = startDate.toLocaleDateString("en-US", monthAndDateOnly)
 
   if (
-    startDate.getMonth() === endDate.getMonth() &&
-    startDate.getFullYear() === endDate.getFullYear()
+    startDate.getUTCMonth() === endDate.getUTCMonth() &&
+    startDate.getUTCFullYear() === endDate.getUTCFullYear()
   ) {
-    formattedDate += ` - ${endDate.getDate()}, ${endDate.getFullYear()}`
-  } else if (startDate.getFullYear() === endDate.getFullYear()) {
+    formattedDate += ` - ${endDate.getUTCDate()}, ${endDate.getUTCFullYear()}`
+  } else if (startDate.getUTCFullYear() === endDate.getUTCFullYear()) {
     formattedDate += ` - ${endDate.toLocaleDateString("en-US", options)}`
   } else {
     formattedDate = `${startDate.toLocaleDateString(
