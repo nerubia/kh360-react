@@ -6,7 +6,7 @@ import { formatDate } from "../../../utils/format-date"
 import { Pagination } from "../../../components/pagination/Pagination"
 import { getEvaluationAdministrations } from "../../../redux/slices/evaluation-administrations-slice"
 import { setEvaluationResults } from "../../../redux/slices/evaluationResultsSlice"
-import { Badge } from "../../../components/badge/Badge"
+import { Badge } from "../../../components/ui/badge/Badge"
 import { getEvaluationAdministrationStatusVariant } from "../../../utils/variant"
 
 export const EvaluationAdministrationsTable = () => {

@@ -10,7 +10,7 @@ import { Loading } from "../../../types/loadingType"
 import { type Evaluation } from "../../../types/evaluation-type"
 import { Menu } from "../../../components/shared/Menu"
 import Dialog from "../../../components/dialog/Dialog"
-import { Badge } from "../../../components/badge/Badge"
+import { Badge } from "../../../components/ui/badge/Badge"
 import { getEvaluationStatusVariant } from "../../../utils/variant"
 
 export const EvaluationsList = () => {
