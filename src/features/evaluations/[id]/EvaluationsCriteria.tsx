@@ -110,6 +110,12 @@ export const EvaluationsCriteria = () => {
               comment: result.payload.comment,
             })
           )
+          void appDispatch(
+            setAlert({
+              description: `Evaluation successfully saved.`,
+              variant: "success",
+            })
+          )
         }
       } catch (error) {}
     }
