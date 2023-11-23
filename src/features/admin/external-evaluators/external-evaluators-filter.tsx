@@ -37,7 +37,7 @@ export const ExternalEvaluatorsFilter = () => {
         <div className='flex-1'>
           <Input
             label='Name'
-            name='search'
+            name='searchName'
             placeholder='Search by name'
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -45,14 +45,14 @@ export const ExternalEvaluatorsFilter = () => {
         </div>
         <Input
           label='Company'
-          name='search'
+          name='searchCompany'
           placeholder='Search by company'
           value={company}
           onChange={(e) => setCompany(e.target.value)}
         />
         <Input
           label='Role'
-          name='search'
+          name='searchRole'
           placeholder='Search by role'
           value={role}
           onChange={(e) => setRole(e.target.value)}
