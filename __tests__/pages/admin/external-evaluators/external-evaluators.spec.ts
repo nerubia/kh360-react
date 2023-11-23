@@ -78,7 +78,7 @@ test.describe("Admin - External Evaluators", () => {
       await expect(page.getByRole("button", { name: "Search" })).toBeVisible()
       await expect(page.getByRole("button", { name: "Clear" })).toBeVisible()
 
-      await expect(page.getByRole("link", { name: "Add External Evaluator" })).toBeVisible()
+      await expect(page.getByRole("button", { name: "Add External Evaluator" })).toBeVisible()
 
       await expect(page.getByRole("cell", { name: "Name" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Email Address" })).toBeVisible()

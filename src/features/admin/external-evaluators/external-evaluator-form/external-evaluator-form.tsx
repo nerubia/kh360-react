@@ -10,10 +10,13 @@ import { useAppDispatch } from "../../../../hooks/useAppDispatch"
 import { setAlert } from "../../../../redux/slices/appSlice"
 import { useAppSelector } from "../../../../hooks/useAppSelector"
 import { Loading } from "../../../../types/loadingType"
-import { createExternalUser } from "../../../../redux/slices/external-users-slice"
+import {
+  createExternalUser,
+  updateExternalUser,
+} from "../../../../redux/slices/external-users-slice"
 import { addExternalEvaluators } from "../../../../redux/slices/evaluation-administration-slice"
 
-export const CreateExternalEvaluatorForm = () => {
+export const ExternalEvaluatorForm = () => {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const callback = searchParams.get("callback")
@@ -23,15 +26,16 @@ export const CreateExternalEvaluatorForm = () => {
   const evaluee_id = searchParams.get("evaluee")
 
   const appDispatch = useAppDispatch()
+  const { external_user } = useAppSelector((state) => state.externalUser)
   const { loading } = useAppSelector((state) => state.externalUsers)
 
   const [formData, setFormData] = useState<ExternalUserFormData>({
-    first_name: "",
-    middle_name: "",
-    last_name: "",
-    email: "",
-    role: "",
-    company: "",
+    first_name: external_user?.first_name ?? "",
+    middle_name: external_user?.middle_name ?? "",
+    last_name: external_user?.last_name ?? "",
+    email: external_user?.email ?? "",
+    role: external_user?.role ?? "",
+    company: external_user?.company ?? "",
   })
   const [validationErrors, setValidationErrors] = useState<Partial<ExternalUserFormData>>({})
   const [showDialog, setShowDialog] = useState<boolean>(false)
@@ -51,14 +55,15 @@ export const CreateExternalEvaluatorForm = () => {
         abortEarly: false,
       })
       const result = await appDispatch(createExternalUser(formData))
-      if (typeof result.payload === "string") {
+      if (result.type === "externalUser/createExternalUser/rejected") {
         appDispatch(
           setAlert({
             description: result.payload,
             variant: "destructive",
           })
         )
-      } else if (result.payload.id !== undefined) {
+      }
+      if (result.type === "externalUser/createExternalUser/fulfilled") {
         if (
           evaluation_administration_id !== null &&
           evaluation_template_id !== null &&
@@ -113,34 +118,81 @@ export const CreateExternalEvaluatorForm = () => {
     }
   }
 
+  const handleUpdate = async () => {
+    if (external_user !== null) {
+      try {
+        await createExternalUserSchema.validate(formData, {
+          abortEarly: false,
+        })
+        const result = await appDispatch(
+          updateExternalUser({
+            id: external_user?.id,
+            external_user_data: formData,
+          })
+        )
+        if (result.type === "externalUser/updateExternalUser/fulfilled") {
+          navigate(callback ?? "/admin/external-evaluators")
+          appDispatch(
+            setAlert({
+              description: "Updated successfully",
+              variant: "success",
+            })
+          )
+        }
+        if (result.type === "externalUser/updateExternalUser/rejected") {
+          appDispatch(
+            setAlert({
+              description: result.payload,
+              variant: "destructive",
+            })
+          )
+        }
+      } catch (error) {
+        if (error instanceof ValidationError) {
+          const errors: Partial<ExternalUserFormData> = {}
+          error.inner.forEach((err) => {
+            errors[err.path as keyof ExternalUserFormData] = err.message
+          })
+          setValidationErrors(errors)
+        }
+      }
+    }
+  }
+
   return (
     <div className='flex flex-col gap-10'>
       <div className='flex flex-col md:w-1/2 gap-4'>
-        <div className='flex flex-col gap-4 md:flex-row'>
-          <Input
-            label='First name'
-            name='first_name'
-            placeholder='First name'
-            value={formData.first_name}
-            onChange={handleInputChange}
-            error={validationErrors.first_name}
-          />
-          <Input
-            label='Middle name'
-            name='middle_name'
-            placeholder='Middle name'
-            value={formData.middle_name}
-            onChange={handleInputChange}
-            error={validationErrors.middle_name}
-          />
-          <Input
-            label='Last name'
-            name='last_name'
-            placeholder='Last name'
-            value={formData.last_name}
-            onChange={handleInputChange}
-            error={validationErrors.last_name}
-          />
+        <div className='flex flex-wrap gap-4'>
+          <div className='flex-1'>
+            <Input
+              label='First name'
+              name='first_name'
+              placeholder='First name'
+              value={formData.first_name}
+              onChange={handleInputChange}
+              error={validationErrors.first_name}
+            />
+          </div>
+          <div className='flex-1'>
+            <Input
+              label='Middle name'
+              name='middle_name'
+              placeholder='Middle name'
+              value={formData.middle_name}
+              onChange={handleInputChange}
+              error={validationErrors.middle_name}
+            />
+          </div>
+          <div className='flex-1'>
+            <Input
+              label='Last name'
+              name='last_name'
+              placeholder='Last name'
+              value={formData.last_name}
+              onChange={handleInputChange}
+              error={validationErrors.last_name}
+            />
+          </div>
         </div>
         <Input
           label='Email'
@@ -167,11 +219,14 @@ export const CreateExternalEvaluatorForm = () => {
           error={validationErrors.company}
         />
       </div>
-      <div className='flex justify-between'>
+      <div className='flex justify-between md:w-1/2'>
         <Button variant='primaryOutline' onClick={toggleDialog}>
           Cancel
         </Button>
-        <Button onClick={handleSubmit} loading={loading === Loading.Pending}>
+        <Button
+          onClick={external_user === null ? handleSubmit : handleUpdate}
+          loading={loading === Loading.Pending}
+        >
           Save
         </Button>
       </div>

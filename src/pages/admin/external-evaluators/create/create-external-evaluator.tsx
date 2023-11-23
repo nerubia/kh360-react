@@ -1,5 +1,5 @@
-import { CreateExternalEvaluatorForm } from "../../../../features/admin/external-evaluators/create/create-external-evaluator-form"
-import { CreateExternalEvaluatorHeader } from "../../../../features/admin/external-evaluators/create/create-external-evaluator-header"
+import { ExternalEvaluatorForm } from "../../../../features/admin/external-evaluators/external-evaluator-form/external-evaluator-form"
+import { ExternalEvaluatorHeader } from "../../../../features/admin/external-evaluators/external-evaluator-form/external-evaluator-header"
 import { useTitle } from "../../../../hooks/useTitle"
 
 export default function CreateExternalEvaluator() {
@@ -7,8 +7,8 @@ export default function CreateExternalEvaluator() {
 
   return (
     <div className='flex flex-col gap-5'>
-      <CreateExternalEvaluatorHeader />
-      <CreateExternalEvaluatorForm />
+      <ExternalEvaluatorHeader title='Add External Evaluator' />
+      <ExternalEvaluatorForm />
     </div>
   )
 }
