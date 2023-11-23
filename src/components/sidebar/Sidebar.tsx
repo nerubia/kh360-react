@@ -18,26 +18,31 @@ export const Sidebar = () => {
     {
       title: "Sample",
       link: "/sample",
+      access: "Public",
     },
     {
       title: "Dashboard",
       link: "/dashboard",
       icon: "Dashboard",
+      access: "Public",
     },
     {
       title: "Evaluations",
       link: "/evaluation-administrations",
       icon: "Star",
+      access: "Public",
     },
     {
       title: "Evaluation Admin",
       link: "/admin/evaluation-administrations",
       icon: "PenSquare",
+      access: "Admin",
     },
     {
       title: "External Evaluators",
       link: "/admin/external-evaluators",
       icon: "UserFill",
+      access: "Admin",
     },
   ]
 
@@ -68,18 +73,20 @@ export const Sidebar = () => {
           {user?.first_name} {user?.last_name}
         </h1>
         <div className='flex-1 flex flex-col gap-2'>
-          {MenuLinks.map((menu, index) => (
-            <Menu
-              key={index}
-              to={menu.link}
-              isEvaluation={false}
-              isAdmin={isAdmin}
-              className='w-full rounded-md flex items-center gap-2 bg-primary-500 text-white hover:bg-primary-600 active:bg-primary-700 disabled:bg-primary-200 [&.active]:bg-primary-700 [&.active]:cursor-default h-9 text-base px-4'
-            >
-              {menu.icon != null && <Icon icon={menu.icon as keyof typeof icons} />}
-              {menu.title}
-            </Menu>
-          ))}
+          {MenuLinks.map(
+            (menu, index) =>
+              ((menu.access === "Admin" && isAdmin) || menu.access === "Public") && (
+                <Menu
+                  key={index}
+                  to={menu.link}
+                  isEvaluation={false}
+                  className='w-full rounded-md flex items-center gap-2 bg-primary-500 text-white hover:bg-primary-600 active:bg-primary-700 disabled:bg-primary-200 [&.active]:bg-primary-700 [&.active]:cursor-default h-9 text-base px-4'
+                >
+                  {menu.icon != null && <Icon icon={menu.icon as keyof typeof icons} />}
+                  {menu.title}
+                </Menu>
+              )
+          )}
           <Button fullWidth center={false} onClick={handleLogout}>
             <Icon icon='Logout' />
             Logout
