@@ -118,6 +118,26 @@ test.describe("User - Evaluations", () => {
         ]),
       })
 
+      await mockRequest(page, "/admin/email-templates/na-rating", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            id: 2,
+            name: "Performance Evaluation NA Rating - Ninja",
+            template_type: "Performance Evaluation NA Rating",
+            is_default: false,
+            subject: "🤷‍♂️ Whoa, N.A. Ninja! 🤷‍♀️",
+            content:
+              "Looks like we&apos;ve hit the Not Applicable zone! &#128640; No worries, we&apos;re all",
+            created_by_id: null,
+            updated_by_id: null,
+            created_at: null,
+            updated_at: null,
+          },
+        ]),
+      })
+
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
       }
@@ -233,6 +253,26 @@ test.describe("User - Evaluations", () => {
                 sequence_no: 6,
               },
             ],
+          },
+        ]),
+      })
+
+      await mockRequest(page, "/admin/email-templates/na-rating", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            id: 2,
+            name: "Performance Evaluation NA Rating - Ninja",
+            template_type: "Performance Evaluation NA Rating",
+            is_default: false,
+            subject: "🤷‍♂️ Whoa, N.A. Ninja! 🤷‍♀️",
+            content:
+              "Looks like we&apos;ve hit the Not Applicable zone! &#128640; No worries, we&apos;re all",
+            created_by_id: null,
+            updated_by_id: null,
+            created_at: null,
+            updated_at: null,
           },
         ]),
       })

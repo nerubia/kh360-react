@@ -5,7 +5,8 @@ interface InputProps {
   placeholder: string
   value?: string
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-  error?: string
+  onBlur?: (event: React.ChangeEvent<HTMLInputElement>) => void
+  error?: string | null
   min?: string
   max?: string
 }
@@ -17,6 +18,7 @@ export const Input = ({
   placeholder,
   value,
   onChange,
+  onBlur,
   error,
   min,
   max,
@@ -29,15 +31,14 @@ export const Input = ({
         </label>
       )}
       <input
-        className={`${
-          error != null ? "border-red-500" : ""
-        } border px-4 py-1.5 rounded-md`}
+        className={`${error != null ? "border-red-500" : ""} border px-4 py-1.5 rounded-md`}
         id={name}
         name={name}
         type={type}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        onBlur={onBlur}
         min={min}
         max={max}
       />

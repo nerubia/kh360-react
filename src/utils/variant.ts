@@ -1,6 +1,7 @@
 import { EvaluationResultStatus } from "../types/evaluation-result-type"
 import { EvaluationStatus } from "../types/evaluation-type"
 import { EvaluationAdministrationStatus } from "../types/evaluation-administration-type"
+import { AnswerType } from "../types/answer-option-type"
 
 export const getEvaluationAdministrationStatusVariant = (status: string | undefined) => {
   if (status === EvaluationAdministrationStatus.Draft) {
@@ -59,8 +60,12 @@ export const getEvaluationStatusVariant = (status: string | undefined) => {
   }
 }
 
-export const getAnswerOptionVariant = (sequenceNumber: number, evaluationRating: number) => {
-  if (sequenceNumber === 1) {
+export const getAnswerOptionVariant = (
+  sequenceNumber: number,
+  evaluationRating: number,
+  answerType: string
+) => {
+  if (answerType === AnswerType.NA) {
     if (evaluationRating === 1) {
       return "NAOption"
     } else {

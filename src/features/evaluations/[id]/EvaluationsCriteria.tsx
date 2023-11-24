@@ -15,6 +15,10 @@ import { setAlert } from "../../../redux/slices/appSlice"
 import { EvaluationStatus, type Evaluation } from "../../../types/evaluation-type"
 import { formatDateRange } from "../../../utils/format-date"
 import { TextArea } from "../../../components/textarea/TextArea"
+import Dialog from "../../../components/dialog/Dialog"
+import { AnswerType } from "../../../types/answer-option-type"
+import { getNARatingTemplates } from "../../../redux/slices/email-template-slice"
+import { type EmailTemplate } from "../../../types/email-template-type"
 
 export const EvaluationsCriteria = () => {
   const { id, evaluation_id } = useParams()
@@ -25,13 +29,22 @@ export const EvaluationsCriteria = () => {
   const { loading, loading_comment, loading_answer, user_evaluations } = useAppSelector(
     (state) => state.user
   )
+  const { naRatingTemplates } = useAppSelector((state) => state.emailTemplate)
+
   const [evaluation, setEvaluation] = useState<Evaluation>()
   const [comment, setComment] = useState<string>("")
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [showDialog, setShowDialog] = useState<boolean>(false)
+  const [naRatingTemplate, setNaRatingTemplate] = useState<EmailTemplate>()
+  const [currentNATemplateIndex, setCurrentNATemplateIndex] = useState<number>(0)
 
   useEffect(() => {
     void appDispatch(setIsEditing(false))
   }, [evaluation_id])
+
+  useEffect(() => {
+    void appDispatch(getNARatingTemplates())
+  }, [])
 
   useEffect(() => {
     if (evaluation_id !== "all") {
@@ -55,11 +68,34 @@ export const EvaluationsCriteria = () => {
     }
   }, [evaluation])
 
+  const handleSetNaRatingTemplate = () => {
+    if (naRatingTemplates.length > 0) {
+      if (naRatingTemplates.length > 0) {
+        const nextIndex = (currentNATemplateIndex + 1) % naRatingTemplates.length
+
+        const nextTemplate = naRatingTemplates[nextIndex]
+
+        setNaRatingTemplate(nextTemplate)
+        setCurrentNATemplateIndex(nextIndex)
+      }
+    }
+  }
+
+  const toggleDialog = () => {
+    setShowDialog((prev) => !prev)
+  }
+
   const handleOnClickStar = async (
     answerOptionId: number,
     evaluationTemplateId: number,
-    ratingSequenceNumber: number
+    ratingSequenceNumber: number,
+    ratingAnswerType: string,
+    ratingComment?: string
   ) => {
+    if (ratingAnswerType === AnswerType.NA && ratingComment === undefined) {
+      handleSetNaRatingTemplate()
+      toggleDialog()
+    }
     setErrorMessage(null)
     if (evaluation_id !== undefined) {
       void appDispatch(
@@ -67,6 +103,8 @@ export const EvaluationsCriteria = () => {
           evaluationTemplateId,
           answerOptionId,
           ratingSequenceNumber,
+          ratingAnswerType,
+          ratingComment,
         })
       )
       void appDispatch(setIsEditing(true))
@@ -82,46 +120,7 @@ export const EvaluationsCriteria = () => {
     setErrorMessage(null)
   }
 
-  const handleSave = async () => {
-    if (evaluation_id !== undefined) {
-      try {
-        const evaluation_rating_ids = evaluation_template_contents.map(
-          (content) => content.evaluationRating.id
-        )
-        const answer_option_ids = evaluation_template_contents.map(
-          (content) => content.evaluationRating.answer_option_id
-        )
-        const result = await appDispatch(
-          submitEvaluation({
-            evaluation_id: parseInt(evaluation_id),
-            evaluation_rating_ids,
-            answer_option_ids,
-            comment,
-            is_submitting: false,
-          })
-        )
-        if (result.payload !== undefined) {
-          setComment(result.payload.comment)
-          void appDispatch(setIsEditing(false))
-          void appDispatch(
-            updateEvaluationStatusById({
-              id: result.payload.id,
-              status: EvaluationStatus.Ongoing,
-              comment: result.payload.comment,
-            })
-          )
-          void appDispatch(
-            setAlert({
-              description: `Evaluation successfully saved.`,
-              variant: "success",
-            })
-          )
-        }
-      } catch (error) {}
-    }
-  }
-
-  const handleSubmit = async () => {
+  const handleSubmit = async (is_submitting: boolean) => {
     if (evaluation_id !== undefined && id !== undefined) {
       try {
         const evaluation_rating_ids = evaluation_template_contents.map(
@@ -130,21 +129,25 @@ export const EvaluationsCriteria = () => {
         const answer_option_ids = evaluation_template_contents.map(
           (content) => content.evaluationRating.answer_option_id
         )
+        const evaluation_rating_comments = evaluation_template_contents.map(
+          (content) => content.evaluationRating.comments
+        )
         const result = await appDispatch(
           submitEvaluation({
             evaluation_id: parseInt(evaluation_id),
             evaluation_rating_ids,
+            evaluation_rating_comments,
             answer_option_ids,
             comment,
-            is_submitting: true,
+            is_submitting,
           })
         )
-        if (result.payload !== undefined && result.type === "user/submitEvaluation/fulfilled") {
+        if (result.type === "user/submitEvaluation/fulfilled") {
           setComment(result.payload.comment)
           void appDispatch(setIsEditing(false))
           void appDispatch(
             setAlert({
-              description: `Evaluation successfully submitted.`,
+              description: `Evaluation successfully ${is_submitting ? "submitted" : "saved"}.`,
               variant: "success",
             })
           )
@@ -157,7 +160,14 @@ export const EvaluationsCriteria = () => {
           )
           void appDispatch(setIsEditing(false))
         } else if (result.type === "user/submitEvaluation/rejected") {
-          setErrorMessage(result.payload)
+          void appDispatch(
+            appDispatch(
+              setAlert({
+                description: result.payload,
+                variant: "destructive",
+              })
+            )
+          )
         }
       } catch (error) {}
     }
@@ -231,11 +241,11 @@ export const EvaluationsCriteria = () => {
                   <Button
                     disabled={!is_editing}
                     variant='primaryOutline'
-                    onClick={async () => await handleSave()}
+                    onClick={async () => await handleSubmit(false)}
                   >
                     Save
                   </Button>
-                  <Button onClick={async () => await handleSubmit()}>Save & Submit</Button>
+                  <Button onClick={async () => await handleSubmit(true)}>Save & Submit</Button>
                 </div>
               </>
             ) : (
@@ -243,6 +253,15 @@ export const EvaluationsCriteria = () => {
             )}
           </div>
         )}
+      <Dialog open={showDialog}>
+        <Dialog.Title>{naRatingTemplate?.subject}</Dialog.Title>
+        <Dialog.Description>{naRatingTemplate?.content}</Dialog.Description>
+        <Dialog.Actions>
+          <Button variant='primary' onClick={toggleDialog}>
+            Ok
+          </Button>
+        </Dialog.Actions>
+      </Dialog>
     </>
   )
 }
