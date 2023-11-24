@@ -17,8 +17,8 @@ import { formatDateRange } from "../../../utils/format-date"
 import { TextArea } from "../../../components/textarea/TextArea"
 import Dialog from "../../../components/dialog/Dialog"
 import { AnswerType } from "../../../types/answer-option-type"
-import { getNARatingTemplates } from "../../../redux/slices/email-template-slice"
-import { type EmailTemplate } from "../../../types/email-template-type"
+import { getRatingTemplates } from "../../../redux/slices/email-template-slice"
+import { type EmailTemplate, TemplateType } from "../../../types/email-template-type"
 
 export const EvaluationsCriteria = () => {
   const { id, evaluation_id } = useParams()
@@ -29,22 +29,43 @@ export const EvaluationsCriteria = () => {
   const { loading, loading_comment, loading_answer, user_evaluations } = useAppSelector(
     (state) => state.user
   )
-  const { naRatingTemplates } = useAppSelector((state) => state.emailTemplate)
+  const { ratingTemplates } = useAppSelector((state) => state.emailTemplate)
 
   const [evaluation, setEvaluation] = useState<Evaluation>()
   const [comment, setComment] = useState<string>("")
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [showDialog, setShowDialog] = useState<boolean>(false)
-  const [naRatingTemplate, setNaRatingTemplate] = useState<EmailTemplate>()
+  const [dialogMessage, setDialogMessage] = useState<EmailTemplate>()
   const [currentNATemplateIndex, setCurrentNATemplateIndex] = useState<number>(0)
+  const [currentHighRatingTemplateIndex, setCurrentHighRatingTemplateIndex] = useState<number>(0)
+  const [currentLowRatingTemplateIndex, setCurrentLowRatingTemplateIndex] = useState<number>(0)
+  const [isRatingHigh, setIsRatingHigh] = useState<boolean>(false)
+  const [isRatingLow, setIsRatingLow] = useState<boolean>(false)
 
   useEffect(() => {
     void appDispatch(setIsEditing(false))
   }, [evaluation_id])
 
   useEffect(() => {
-    void appDispatch(getNARatingTemplates())
+    void appDispatch(getRatingTemplates())
   }, [])
+
+  useEffect(() => {
+    const evaluationRatings = evaluation_template_contents.map(
+      (templateContent) => templateContent.evaluationRating
+    )
+    const highestCount = evaluationRatings.filter(
+      (rating) => rating.ratingAnswerType === AnswerType.Highest
+    ).length
+    const lowestCount = evaluationRatings.filter(
+      (rating) => rating.ratingAnswerType === AnswerType.Lowest
+    ).length
+    const highestCountPercentage = (highestCount / evaluationRatings.length) * 100
+    const lowestCountPercentage = (lowestCount / evaluationRatings.length) * 100
+
+    setIsRatingHigh(highestCountPercentage >= 75)
+    setIsRatingLow(lowestCountPercentage >= 75)
+  }, [evaluation_template_contents])
 
   useEffect(() => {
     if (evaluation_id !== "all") {
@@ -68,16 +89,38 @@ export const EvaluationsCriteria = () => {
     }
   }, [evaluation])
 
-  const handleSetNaRatingTemplate = () => {
-    if (naRatingTemplates.length > 0) {
-      if (naRatingTemplates.length > 0) {
-        const nextIndex = (currentNATemplateIndex + 1) % naRatingTemplates.length
+  const getFilteredTemplates = (templateType: string) => {
+    return ratingTemplates.filter((template) => template.template_type === templateType)
+  }
 
-        const nextTemplate = naRatingTemplates[nextIndex]
+  const getNextIndex = (currentIndex: number, templatesLength: number) => {
+    return (currentIndex + 1) % templatesLength
+  }
 
-        setNaRatingTemplate(nextTemplate)
+  const handleSetRatingTemplate = (isNa: boolean) => {
+    let nextIndex, nextTemplate
+
+    if (ratingTemplates.length > 0) {
+      if (isRatingHigh) {
+        const highRatingTemplates = getFilteredTemplates(TemplateType.HighRating)
+        nextIndex = getNextIndex(currentHighRatingTemplateIndex, highRatingTemplates.length)
+        nextTemplate = highRatingTemplates[nextIndex]
+        setCurrentHighRatingTemplateIndex(nextIndex)
+      }
+      if (isRatingLow) {
+        const lowRatingTemplates = getFilteredTemplates(TemplateType.LowRating)
+        nextIndex = getNextIndex(currentLowRatingTemplateIndex, lowRatingTemplates.length)
+        nextTemplate = lowRatingTemplates[nextIndex]
+        setCurrentLowRatingTemplateIndex(nextIndex)
+      }
+      if (isNa) {
+        const naRatingTemplates = getFilteredTemplates(TemplateType.NARating)
+        nextIndex = getNextIndex(currentNATemplateIndex, naRatingTemplates.length)
+        nextTemplate = naRatingTemplates[nextIndex]
         setCurrentNATemplateIndex(nextIndex)
       }
+
+      setDialogMessage(nextTemplate)
     }
   }
 
@@ -93,7 +136,8 @@ export const EvaluationsCriteria = () => {
     ratingComment?: string
   ) => {
     if (ratingAnswerType === AnswerType.NA && ratingComment === undefined) {
-      handleSetNaRatingTemplate()
+      const isNa = true
+      handleSetRatingTemplate(isNa)
       toggleDialog()
     }
     setErrorMessage(null)
@@ -121,7 +165,15 @@ export const EvaluationsCriteria = () => {
   }
 
   const handleSubmit = async (is_submitting: boolean) => {
-    if (evaluation_id !== undefined && id !== undefined) {
+    if (
+      is_submitting &&
+      ((isRatingHigh && comment.length === 0) || (isRatingLow && comment.length === 0))
+    ) {
+      const isNA = false
+      handleSetRatingTemplate(isNA)
+      toggleDialog()
+      setErrorMessage("Comment is required.")
+    } else if (evaluation_id !== undefined && id !== undefined) {
       try {
         const evaluation_rating_ids = evaluation_template_contents.map(
           (content) => content.evaluationRating.id
@@ -254,8 +306,8 @@ export const EvaluationsCriteria = () => {
           </div>
         )}
       <Dialog open={showDialog}>
-        <Dialog.Title>{naRatingTemplate?.subject}</Dialog.Title>
-        <Dialog.Description>{naRatingTemplate?.content}</Dialog.Description>
+        <Dialog.Title>{dialogMessage?.subject}</Dialog.Title>
+        <Dialog.Description>{dialogMessage?.content}</Dialog.Description>
         <Dialog.Actions>
           <Button variant='primary' onClick={toggleDialog}>
             Ok
