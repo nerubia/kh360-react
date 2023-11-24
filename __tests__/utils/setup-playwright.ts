@@ -14,9 +14,7 @@ export const setupPlaywright = () => {
       if (!url.includes(baseURL as string)) {
         const headers = response.headers()
         if (headers["mock-request"] === undefined) {
-          throw new Error(
-            `Unhandled request. Please use a mockRequest. API: ${url}`
-          )
+          throw new Error(`Unhandled request. Please use a mockRequest. API: ${url}`)
         }
       }
     })
