@@ -118,7 +118,7 @@ test.describe("User - Evaluations", () => {
         ]),
       })
 
-      await mockRequest(page, "/admin/email-templates/na-rating", {
+      await mockRequest(page, "/user/rating-templates", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify([
@@ -257,7 +257,7 @@ test.describe("User - Evaluations", () => {
         ]),
       })
 
-      await mockRequest(page, "/admin/email-templates/na-rating", {
+      await mockRequest(page, "/user/rating-templates", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify([
