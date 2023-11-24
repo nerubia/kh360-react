@@ -1,4 +1,4 @@
-import { type AnswerOption } from "./answerOptionType"
+import { type AnswerOption } from "./answer-option-type"
 import { type EvaluationRating } from "./evaluationRatingType"
 
 export interface EvaluationTemplateContent {

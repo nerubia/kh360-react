@@ -19,16 +19,31 @@ export const getDefaultEmailTemplate = createAsyncThunk(
   }
 )
 
+export const getNARatingTemplates = createAsyncThunk(
+  "emailTemplate/getNARatingTemplates",
+  async (_, thunkApi) => {
+    try {
+      const response = await axiosInstance.get(`/admin/email-templates/na-rating`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
   emailTemplate: EmailTemplate | null
+  naRatingTemplates: EmailTemplate[]
 }
 
 const initialState: InitialState = {
   loading: Loading.Idle,
   error: null,
   emailTemplate: null,
+  naRatingTemplates: [],
 }
 
 const emailTemplateSlice = createSlice({
@@ -36,7 +51,7 @@ const emailTemplateSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers(builder) {
-    // get
+    // get default email template
     builder.addCase(getDefaultEmailTemplate.pending, (state) => {
       state.loading = Loading.Pending
       state.error = null
@@ -47,6 +62,20 @@ const emailTemplateSlice = createSlice({
       state.emailTemplate = action.payload
     })
     builder.addCase(getDefaultEmailTemplate.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    // get NA rating templates
+    builder.addCase(getNARatingTemplates.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getNARatingTemplates.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.naRatingTemplates = action.payload
+    })
+    builder.addCase(getNARatingTemplates.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })

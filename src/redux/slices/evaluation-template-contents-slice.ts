@@ -46,7 +46,13 @@ const evaluationTemplateContentsSlice = createSlice({
       state.is_editing = action.payload
     },
     updateEvaluationRatingById: (state, action) => {
-      const { evaluationTemplateId, answerOptionId, ratingSequenceNumber } = action.payload
+      const {
+        evaluationTemplateId,
+        answerOptionId,
+        ratingSequenceNumber,
+        ratingAnswerType,
+        ratingComment,
+      } = action.payload
 
       const index = state.evaluation_template_contents.findIndex(
         (template) => template.id === evaluationTemplateId
@@ -56,6 +62,20 @@ const evaluationTemplateContentsSlice = createSlice({
         state.evaluation_template_contents[index].evaluationRating.answer_option_id = answerOptionId
         state.evaluation_template_contents[index].evaluationRating.ratingSequenceNumber =
           ratingSequenceNumber
+        state.evaluation_template_contents[index].evaluationRating.ratingAnswerType =
+          ratingAnswerType
+        state.evaluation_template_contents[index].evaluationRating.comments = ratingComment
+      }
+    },
+    updateEvaluationRatingCommentById: (state, action) => {
+      const { evaluationTemplateId, ratingComment } = action.payload
+
+      const index = state.evaluation_template_contents.findIndex(
+        (template) => template.id === evaluationTemplateId
+      )
+
+      if (index !== -1) {
+        state.evaluation_template_contents[index].evaluationRating.comments = ratingComment
       }
     },
   },
@@ -78,5 +98,6 @@ const evaluationTemplateContentsSlice = createSlice({
   },
 })
 
-export const { setIsEditing, updateEvaluationRatingById } = evaluationTemplateContentsSlice.actions
+export const { setIsEditing, updateEvaluationRatingById, updateEvaluationRatingCommentById } =
+  evaluationTemplateContentsSlice.actions
 export default evaluationTemplateContentsSlice.reducer
