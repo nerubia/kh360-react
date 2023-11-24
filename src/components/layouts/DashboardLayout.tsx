@@ -5,13 +5,11 @@ import { useAppDispatch } from "../../hooks/useAppDispatch"
 import { setActiveSidebar } from "../../redux/slices/appSlice"
 import { Icon } from "../icon/Icon"
 import { Sidebar } from "../sidebar/Sidebar"
-import { Button } from "../button/Button"
-import { Alert } from "../alert/Alert"
+import { Button } from "../ui/button/button"
+import { Alert } from "../ui/alert/alert"
 
 export default function DashboardLayout() {
-  const { activeSidebar, alertDescription, alertVariant } = useAppSelector(
-    (state) => state.app
-  )
+  const { activeSidebar, alertDescription, alertVariant } = useAppSelector((state) => state.app)
   const appDispatch = useAppDispatch()
 
   const toggleSidebar = () => {
@@ -21,11 +19,7 @@ export default function DashboardLayout() {
   return (
     <div className='flex '>
       <Sidebar />
-      <div
-        className={`${
-          activeSidebar ? "md:ml-64" : ""
-        } w-full transition-all duration-300`}
-      >
+      <div className={`${activeSidebar ? "md:ml-64" : ""} w-full transition-all duration-300`}>
         <div className='h-16 flex items-center px-5'>
           <Button variant='ghost' size='small' onClick={toggleSidebar}>
             <Icon icon='Menu' />

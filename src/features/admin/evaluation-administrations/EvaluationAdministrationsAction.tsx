@@ -1,4 +1,4 @@
-import { LinkButton } from "../../../components/button/Button"
+import { LinkButton } from "../../../components/ui/button/button"
 import { useAppSelector } from "../../../hooks/useAppSelector"
 
 export const EvaluationAdministrationsAction = () => {

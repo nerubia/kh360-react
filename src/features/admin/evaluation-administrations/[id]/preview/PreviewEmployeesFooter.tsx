@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
-import { Button, LinkButton } from "../../../../../components/button/Button"
+import { Button, LinkButton } from "../../../../../components/ui/button/button"
 import { Icon } from "../../../../../components/icon/Icon"
 import Dialog from "../../../../../components/dialog/Dialog"
 import { setAlert } from "../../../../../redux/slices/appSlice"
@@ -15,9 +15,7 @@ export const PreviewEmployeesFooter = () => {
 
   const [showDialog, setShowDialog] = useState<boolean>(false)
 
-  const { selectedEmployeeIds } = useAppSelector(
-    (state) => state.evaluationAdministration
-  )
+  const { selectedEmployeeIds } = useAppSelector((state) => state.evaluationAdministration)
 
   const toggleDialog = () => {
     setShowDialog((prev) => !prev)

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams, useLocation } from "react-router-dom"
-import { Button, LinkButton } from "../../../../../../../components/button/Button"
+import { Button, LinkButton } from "../../../../../../../components/ui/button/button"
 import { Checkbox } from "../../../../../../../components/checkbox/Checkbox"
 import { useAppDispatch } from "../../../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../../../hooks/useAppSelector"

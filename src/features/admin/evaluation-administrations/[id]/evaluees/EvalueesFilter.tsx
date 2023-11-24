@@ -2,16 +2,14 @@ import { useState } from "react"
 import { useSearchParams } from "react-router-dom"
 import { Input } from "../../../../../components/input/Input"
 import { CustomSelect } from "../../../../../components/select/CustomSelect"
-import { Button } from "../../../../../components/button/Button"
+import { Button } from "../../../../../components/ui/button/button"
 import { type Option } from "../../../../../types/optionType"
 import { EvaluationResultStatus } from "../../../../../types/evaluation-result-type"
 
-const filterOptions: Option[] = Object.values(EvaluationResultStatus).map(
-  (value) => ({
-    label: value,
-    value,
-  })
-)
+const filterOptions: Option[] = Object.values(EvaluationResultStatus).map((value) => ({
+  label: value,
+  value,
+}))
 
 filterOptions.unshift({
   label: "All",
@@ -22,9 +20,7 @@ export const EvalueesFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const [name, setName] = useState<string>(searchParams.get("name") ?? "")
-  const [status, setStatus] = useState<string>(
-    searchParams.get("status") ?? "all"
-  )
+  const [status, setStatus] = useState<string>(searchParams.get("status") ?? "all")
 
   const handleSearch = async () => {
     if (name.length !== 0) {
@@ -60,9 +56,7 @@ export const EvalueesFilter = () => {
           label='Review Status'
           name='status'
           value={filterOptions.find((option) => option.value === status)}
-          onChange={(option) =>
-            setStatus(option !== null ? option.value : "all")
-          }
+          onChange={(option) => setStatus(option !== null ? option.value : "all")}
           options={filterOptions}
         />
       </div>

@@ -4,7 +4,7 @@ import { useAdmin } from "../../hooks/useAdmin"
 import { setActiveSidebar } from "../../redux/slices/appSlice"
 import { logout } from "../../redux/slices/authSlice"
 import { Icon } from "../icon/Icon"
-import { Button } from "../button/Button"
+import { Button } from "../ui/button/button"
 import { Menu } from "../../components/shared/Menu"
 import { type icons } from "../icon/icons"
 

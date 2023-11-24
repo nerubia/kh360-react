@@ -1,4 +1,4 @@
-import { Button } from "../../../../../components/button/Button"
+import { Button } from "../../../../../components/ui/button/button"
 import { Input } from "../../../../../components/input/Input"
 import { CustomSelect } from "../../../../../components/select/CustomSelect"
 import { type Option } from "../../../../../types/optionType"
@@ -30,9 +30,7 @@ export const SelectEmployeesFilter = () => {
   const appDispatch = useAppDispatch()
   const [searchParams, setSearchParams] = useSearchParams()
   const [name, setName] = useState<string>(searchParams.get("name") ?? "")
-  const [employee_type, setEmployeeType] = useState<string>(
-    searchParams.get("status") ?? "all"
-  )
+  const [employee_type, setEmployeeType] = useState<string>(searchParams.get("status") ?? "all")
 
   useEffect(() => {
     void appDispatch(
@@ -77,9 +75,7 @@ export const SelectEmployeesFilter = () => {
           label='Employee Type'
           name='employee-type'
           value={filterOptions.find((option) => option.value === employee_type)}
-          onChange={(option) =>
-            setEmployeeType(option !== null ? option.value : "all")
-          }
+          onChange={(option) => setEmployeeType(option !== null ? option.value : "all")}
           options={filterOptions}
         />
       </div>

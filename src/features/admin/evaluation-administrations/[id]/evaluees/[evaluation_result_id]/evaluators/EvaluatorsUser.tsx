@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom"
-import { LinkButton } from "../../../../../../../components/button/Button"
+import { LinkButton } from "../../../../../../../components/ui/button/button"
 import { Icon } from "../../../../../../../components/icon/Icon"
 import { useAppSelector } from "../../../../../../../hooks/useAppSelector"
 import { getEvaluationResultStatusVariant } from "../../../../../../../utils/variant"

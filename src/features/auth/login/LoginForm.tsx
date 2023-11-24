@@ -5,7 +5,7 @@ import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../hooks/useAppSelector"
 import { login } from "../../../redux/slices/authSlice"
 import { Input } from "../../../components/input/Input"
-import { Button } from "../../../components/button/Button"
+import { Button } from "../../../components/ui/button/button"
 import { loginSchema } from "../../../utils/validation/auth/loginSchema"
 import { Loading } from "../../../types/loadingType"
 import { type LoginFormData } from "../../../types/formDataType"
@@ -18,9 +18,7 @@ export const LoginForm = () => {
     email: "",
     password: "",
   })
-  const [validationErrors, setValidationErrors] = useState<
-    Partial<LoginFormData>
-  >({})
+  const [validationErrors, setValidationErrors] = useState<Partial<LoginFormData>>({})
 
   const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -69,11 +67,7 @@ export const LoginForm = () => {
         </Link>
       </div>
       {error != null && <p className='text-red-500'>{error}</p>}
-      <Button
-        fullWidth
-        onClick={handleSubmit}
-        loading={loading === Loading.Pending}
-      >
+      <Button fullWidth onClick={handleSubmit} loading={loading === Loading.Pending}>
         Login
       </Button>
     </div>

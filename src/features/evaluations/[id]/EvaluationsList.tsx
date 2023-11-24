@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { useAppSelector } from "../../../hooks/useAppSelector"
-import { Button } from "../../../components/button/Button"
+import { Button } from "../../../components/ui/button/button"
 import { Icon } from "../../../components/icon/Icon"
 import { EvaluationStatus } from "../../../types/evaluation-type"
 import { getUserEvaluations } from "../../../redux/slices/user-slice"
