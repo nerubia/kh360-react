@@ -1,5 +1,5 @@
 import { type Page } from "@playwright/test"
-import { mockRequest } from "./mockRequest"
+import { mockRequest } from "./mock-request"
 
 export const loginUser = async (user: "employee" | "admin", page: Page) => {
   if (user === "employee") {

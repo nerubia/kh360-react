@@ -7,11 +7,7 @@ interface ResponseObject {
   status?: number
 }
 
-export const mockRequest = async (
-  page: Page,
-  url: string,
-  response: ResponseObject
-) => {
+export const mockRequest = async (page: Page, url: string, response: ResponseObject) => {
   await page.route(`*/**${url}`, async (route) => {
     await route.fulfill({
       ...response,
