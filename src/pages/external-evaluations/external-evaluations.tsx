@@ -1,5 +1,5 @@
 import { Divider } from "../../components/divider/Divider"
-import { EvaluationsCriteria } from "../../features/evaluations/[id]/EvaluationsCriteria"
+import { EvaluationsCriteria } from "../../features/evaluations/[id]/evaluations-criteria"
 import { EvaluationsHeader } from "../../features/evaluations/[id]/EvaluationsHeader"
 import { EvaluationsList } from "../../features/evaluations/[id]/EvaluationsList"
 import { ExternalAuthForm } from "../../features/external-evaluations/external-auth-form"
