@@ -1,5 +1,5 @@
 import { type AnswerOption } from "./answer-option-type"
-import { type EvaluationRating } from "./evaluationRatingType"
+import { type EvaluationRating } from "./evaluation-rating-type"
 
 export interface EvaluationTemplateContent {
   id: number

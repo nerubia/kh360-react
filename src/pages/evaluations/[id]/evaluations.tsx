@@ -1,6 +1,6 @@
 import { EvaluationsHeader } from "../../../features/evaluations/[id]/EvaluationsHeader"
 import { EvaluationsList } from "../../../features/evaluations/[id]/EvaluationsList"
-import { EvaluationsCriteria } from "../../../features/evaluations/[id]/EvaluationsCriteria"
+import { EvaluationsCriteria } from "../../../features/evaluations/[id]/evaluations-criteria"
 import { Divider } from "../../../components/divider/Divider"
 
 export default function Evaluations() {

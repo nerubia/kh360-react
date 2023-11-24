@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react"
-import { Icon } from "../../components/icon/Icon"
-import { getAnswerOptionVariant } from "../../utils/variant"
-import { Button } from "../../components/button/Button"
-import { AnswerOptions, AnswerType } from "../../types/answer-option-type"
-import { EvaluationStatus, type Evaluation } from "../../types/evaluation-type"
-import { Loading } from "../../types/loadingType"
-import { type EvaluationTemplateContent } from "../../types/evaluationTemplateContentType"
-import { Input } from "../../components/input/Input"
+import { Icon } from "../../icon/Icon"
+import { getAnswerOptionVariant } from "../../../utils/variant"
+import { Button } from "../../button/Button"
+import { AnswerOptions, AnswerType } from "../../../types/answer-option-type"
+import { EvaluationStatus, type Evaluation } from "../../../types/evaluation-type"
+import { Loading } from "../../../types/loadingType"
+import { type EvaluationTemplateContent } from "../../../types/evaluation-template-content-type"
+import { Input } from "../../input/Input"
 import {
   updateEvaluationRatingById,
   updateEvaluationRatingCommentById,
-} from "../../redux/slices/evaluation-template-contents-slice"
-import { useAppDispatch } from "../../hooks/useAppDispatch"
+} from "../../../redux/slices/evaluation-template-contents-slice"
+import { useAppDispatch } from "../../../hooks/useAppDispatch"
 
 interface StarRatingProps {
   templateContent: EvaluationTemplateContent
