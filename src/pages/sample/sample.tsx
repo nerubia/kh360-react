@@ -1,13 +1,13 @@
 import { useState } from "react"
 import { Badge } from "../../components/ui/badge/Badge"
-import { Button } from "../../components/button/Button"
+import { Button } from "../../components/ui/button/button"
 import { Icon } from "../../components/icon/Icon"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
 import { useAppSelector } from "../../hooks/useAppSelector"
 import { useTitle } from "../../hooks/useTitle"
 import { logout } from "../../redux/slices/authSlice"
 import { getProfile, sendMail } from "../../services/api"
-import { Alert } from "../../components/alert/Alert"
+import { Alert } from "../../components/ui/alert/alert"
 import Dropdown from "../../components/ui/dropdown/dropdown"
 
 export default function Sample() {

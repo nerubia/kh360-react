@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import { Button } from "../../../components/button/Button"
+import { Button } from "../../../components/ui/button/button"
 import { useAppSelector } from "../../../hooks/useAppSelector"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { setExternalUser } from "../../../redux/slices/external-user-slice"

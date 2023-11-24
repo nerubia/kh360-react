@@ -5,7 +5,7 @@ import { useAppSelector } from "../../../hooks/useAppSelector"
 import { Pagination } from "../../../components/pagination/Pagination"
 import { getExternalUsers } from "../../../redux/slices/external-users-slice"
 import { Icon } from "../../../components/icon/Icon"
-import { Button, LinkButton } from "../../../components/button/Button"
+import { Button, LinkButton } from "../../../components/ui/button/button"
 import Dialog from "../../../components/dialog/Dialog"
 
 export const ExternalEvaluatorsTable = () => {

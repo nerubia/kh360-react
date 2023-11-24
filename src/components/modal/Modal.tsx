@@ -1,4 +1,4 @@
-import { Button, LinkButton } from "../../components/button/Button"
+import { Button, LinkButton } from "../ui/button/button"
 import { useAppSelector } from "../../hooks/useAppSelector"
 interface ModalPopupProps {
   show: boolean
@@ -8,13 +8,7 @@ interface ModalPopupProps {
   handleClose: () => void
 }
 
-export const ModalPopup = ({
-  show,
-  title,
-  proceed,
-  handleClose,
-  type,
-}: ModalPopupProps) => {
+export const ModalPopup = ({ show, title, proceed, handleClose, type }: ModalPopupProps) => {
   const { activeSidebar } = useAppSelector((state) => state.app)
 
   return (
@@ -61,9 +55,7 @@ export const ModalPopup = ({
             </div>
           </div>
           <div
-            className={`${
-              activeSidebar ? "md:ml-64" : ""
-            } opacity-25 fixed inset-0 z-40 bg-black`}
+            className={`${activeSidebar ? "md:ml-64" : ""} opacity-25 fixed inset-0 z-40 bg-black`}
           ></div>
         </>
       ) : null}

@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
-import { Button, LinkButton } from "../../../../../components/button/Button"
+import { Button, LinkButton } from "../../../../../components/ui/button/button"
 import { Icon } from "../../../../../components/icon/Icon"
 import Dialog from "../../../../../components/dialog/Dialog"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"

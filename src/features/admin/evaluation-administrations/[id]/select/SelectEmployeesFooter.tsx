@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-import { Button } from "../../../../../components/button/Button"
+import { Button } from "../../../../../components/ui/button/button"
 import { Icon } from "../../../../../components/icon/Icon"
 import Dialog from "../../../../../components/dialog/Dialog"
 import { setSelectedEmployeeIds } from "../../../../../redux/slices/evaluation-administration-slice"

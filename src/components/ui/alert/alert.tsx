@@ -1,8 +1,8 @@
 import { type VariantProps, cva } from "class-variance-authority"
-import { Button } from "../button/Button"
-import { Icon } from "../icon/Icon"
-import { useAppDispatch } from "../../hooks/useAppDispatch"
-import { setAlert } from "../../redux/slices/appSlice"
+import { Button } from "../button/button"
+import { Icon } from "../../icon/Icon"
+import { useAppDispatch } from "../../../hooks/useAppDispatch"
+import { setAlert } from "../../../redux/slices/appSlice"
 import { useEffect } from "react"
 
 const alert = cva(["relative", "p-5", "rounded-md"], {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { Button } from "../../../components/button/Button"
+import { Button } from "../../../components/ui/button/button"
 import { StarRating } from "../../../components/ui/rating/star-rating"
 import {
   getEvaluationTemplateContents,

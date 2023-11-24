@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom"
-import { Button } from "../../../../../../../../components/button/Button"
+import { Button } from "../../../../../../../../components/ui/button/button"
 import { useAppDispatch } from "../../../../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../../../../hooks/useAppSelector"
 import { addExternalEvaluators } from "../../../../../../../../redux/slices/evaluation-administration-slice"

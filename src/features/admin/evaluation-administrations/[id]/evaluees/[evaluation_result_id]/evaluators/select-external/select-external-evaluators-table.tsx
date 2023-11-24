@@ -6,7 +6,7 @@ import { Pagination } from "../../../../../../../../components/pagination/Pagina
 import { getExternalUsers } from "../../../../../../../../redux/slices/external-users-slice"
 import { setSelectedExternalUserIds } from "../../../../../../../../redux/slices/evaluation-administration-slice"
 import { getEvaluations } from "../../../../../../../../redux/slices/evaluationsSlice"
-import { Button } from "../../../../../../../../components/button/Button"
+import { Button } from "../../../../../../../../components/ui/button/button"
 import Dialog from "../../../../../../../../components/dialog/Dialog"
 import { Checkbox } from "../../../../../../../../components/checkbox/Checkbox"
 

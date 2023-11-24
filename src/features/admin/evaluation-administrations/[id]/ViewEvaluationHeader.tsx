@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Button, LinkButton } from "../../../../components/button/Button"
+import { Button, LinkButton } from "../../../../components/ui/button/button"
 import { useAppSelector } from "../../../../hooks/useAppSelector"
 import { useNavigate, useParams } from "react-router-dom"
 import { EvaluationAdministrationStatus } from "../../../../types/evaluation-administration-type"
