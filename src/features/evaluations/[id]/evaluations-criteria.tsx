@@ -6,6 +6,7 @@ import {
   getEvaluationTemplateContents,
   updateEvaluationRatingById,
   setIsEditing,
+  setShowRatingCommentInput,
 } from "../../../redux/slices/evaluation-template-contents-slice"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../hooks/useAppSelector"
@@ -34,7 +35,8 @@ export const EvaluationsCriteria = () => {
   const [evaluation, setEvaluation] = useState<Evaluation>()
   const [comment, setComment] = useState<string>("")
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
-  const [showDialog, setShowDialog] = useState<boolean>(false)
+  const [ratingCommentErrorMessage, setRatingCommentErrorMessage] = useState<string | null>(null)
+  const [showDialog, setShowDialog] = useState<Record<number, boolean>>({})
   const [showSaveDialog, setShowSaveDialog] = useState<boolean>(false)
   const [showSubmitDialog, setShowSubmitDialog] = useState<boolean>(false)
   const [dialogMessage, setDialogMessage] = useState<EmailTemplate>()
@@ -84,6 +86,7 @@ export const EvaluationsCriteria = () => {
 
   useEffect(() => {
     setErrorMessage(null)
+    setRatingCommentErrorMessage(null)
     if (evaluation?.comments !== undefined && evaluation?.comments !== null) {
       setComment(evaluation.comments)
     } else {
@@ -126,8 +129,12 @@ export const EvaluationsCriteria = () => {
     }
   }
 
-  const toggleDialog = () => {
-    setShowDialog((prev) => !prev)
+  const toggleDialog = (templateContentId: number) => {
+    setShowDialog((prev) => {
+      const updatedShowDialog = { ...prev }
+      updatedShowDialog[templateContentId] = !updatedShowDialog[templateContentId]
+      return updatedShowDialog
+    })
   }
 
   const toggleSaveDialog = () => {
@@ -136,6 +143,13 @@ export const EvaluationsCriteria = () => {
 
   const toggleSubmitDialog = () => {
     setShowSubmitDialog((prev) => !prev)
+  }
+
+  const handleOnClickOk = async (templateContentId: number) => {
+    void appDispatch(
+      setShowRatingCommentInput({ evaluationTemplateId: templateContentId, showInput: true })
+    )
+    toggleDialog(templateContentId)
   }
 
   const handleOnClickStar = async (
@@ -148,9 +162,11 @@ export const EvaluationsCriteria = () => {
     if (ratingAnswerType === AnswerType.NA && ratingComment === undefined) {
       const isNa = true
       handleSetRatingTemplate(isNa)
-      toggleDialog()
+      toggleDialog(evaluationTemplateId)
+      void appDispatch(setShowRatingCommentInput({ evaluationTemplateId, showInput: false }))
     }
     setErrorMessage(null)
+    setRatingCommentErrorMessage(null)
     if (evaluation_id !== undefined) {
       void appDispatch(
         updateEvaluationRatingById({
@@ -172,6 +188,7 @@ export const EvaluationsCriteria = () => {
     }
     setComment(value)
     setErrorMessage(null)
+    setRatingCommentErrorMessage(null)
   }
 
   const handleSubmit = async (is_submitting: boolean) => {
@@ -181,7 +198,7 @@ export const EvaluationsCriteria = () => {
     ) {
       const isNA = false
       handleSetRatingTemplate(isNA)
-      toggleDialog()
+      toggleDialog(evaluation_template_contents[0].id)
       setErrorMessage("Comment is required.")
     } else if (evaluation_id !== undefined && id !== undefined) {
       try {
@@ -230,6 +247,7 @@ export const EvaluationsCriteria = () => {
               })
             )
           )
+          setRatingCommentErrorMessage(result.payload)
         }
       } catch (error) {}
     }
@@ -280,8 +298,28 @@ export const EvaluationsCriteria = () => {
                     loadingAnswer={loading_answer}
                     evaluation={evaluation}
                     handleOnClick={handleOnClickStar}
+                    error={ratingCommentErrorMessage}
                   />
                 </div>
+                <Dialog
+                  open={showDialog[templateContent.id]}
+                  width='max-w-min md:min-w-[600px] p-7'
+                >
+                  <Dialog.Title>{dialogMessage?.subject}</Dialog.Title>
+                  <Dialog.Description>
+                    <pre className='font-sans whitespace-pre-wrap break-words'>
+                      {dialogMessage?.content}
+                    </pre>
+                  </Dialog.Description>
+                  <Dialog.Actions>
+                    <Button
+                      variant='primary'
+                      onClick={async () => await handleOnClickOk(templateContent.id)}
+                    >
+                      Ok
+                    </Button>
+                  </Dialog.Actions>
+                </Dialog>
               </div>
             ))}
             <h1 className='text-lg font-bold text-primary-500 mt-10 mb-2'>Comments</h1>
@@ -315,15 +353,6 @@ export const EvaluationsCriteria = () => {
             )}
           </div>
         )}
-      <Dialog open={showDialog}>
-        <Dialog.Title>{dialogMessage?.subject}</Dialog.Title>
-        <Dialog.Description>{dialogMessage?.content}</Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primary' onClick={toggleDialog}>
-            Ok
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
       <Dialog open={showSaveDialog}>
         <Dialog.Title>Save Evaluation</Dialog.Title>
         <Dialog.Description>Are you sure you want to save this evaluation?</Dialog.Description>
