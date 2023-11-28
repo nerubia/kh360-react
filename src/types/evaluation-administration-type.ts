@@ -28,6 +28,11 @@ export interface ExternalEvaluatorData {
   external_user_ids: number[]
 }
 
+export interface sendReminderData {
+  id: number
+  evaluator_id: number
+}
+
 export enum EvaluationAdministrationStatus {
   Draft = "Draft",
   Pending = "Pending",

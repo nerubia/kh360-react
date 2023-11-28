@@ -2,12 +2,14 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
 import { type ApiError } from "../../types/apiErrorType"
 import {
+  type sendReminderData,
   type EvaluationAdministration,
   type ExternalEvaluatorData,
 } from "../../types/evaluation-administration-type"
 import { axiosInstance } from "../../utils/axiosInstance"
 import { Loading } from "../../types/loadingType"
 import { type EvaluationFormData } from "../../types/formDataType"
+import { type User } from "../../types/user-type"
 
 export const getEvaluationAdministration = createAsyncThunk(
   "evaluationAdministration/getEvaluationAdministraion",
@@ -121,10 +123,42 @@ export const addExternalEvaluators = createAsyncThunk(
   }
 )
 
+export const getEvaluators = createAsyncThunk(
+  "evaluationAdministration/getEvaluators",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.get(`/admin/evaluation-administrations/${id}/evaluators`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const sendReminder = createAsyncThunk(
+  "evaluationAdministration/sendReminder",
+  async (data: sendReminderData, thunkApi) => {
+    try {
+      const response = await axiosInstance.post(
+        `/admin/evaluation-administrations/${data.id}/send-reminder`,
+        data
+      )
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
+  loading_evaluators: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
   evaluation_administration: EvaluationAdministration | null
+  evaluators: User[]
   selectedEmployeeIds: number[]
   selectedExternalUserIds: number[]
   canGenerate: boolean
@@ -132,8 +166,10 @@ interface InitialState {
 
 const initialState: InitialState = {
   loading: Loading.Idle,
+  loading_evaluators: Loading.Idle,
   error: null,
   evaluation_administration: null,
+  evaluators: [],
   selectedEmployeeIds: [],
   selectedExternalUserIds: [],
   canGenerate: false,
@@ -180,6 +216,37 @@ const evaluationAdministrationSlice = createSlice({
       state.canGenerate = action.payload.canGenerate
     })
     builder.addCase(generateStatusEvaluationAdministration.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Get evaluators
+     */
+    builder.addCase(getEvaluators.pending, (state) => {
+      state.loading_evaluators = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getEvaluators.fulfilled, (state, action) => {
+      state.loading_evaluators = Loading.Fulfilled
+      state.error = null
+      state.evaluators = action.payload
+    })
+    builder.addCase(getEvaluators.rejected, (state, action) => {
+      state.loading_evaluators = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Send reminder
+     */
+    builder.addCase(sendReminder.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(sendReminder.fulfilled, (state) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+    })
+    builder.addCase(sendReminder.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })

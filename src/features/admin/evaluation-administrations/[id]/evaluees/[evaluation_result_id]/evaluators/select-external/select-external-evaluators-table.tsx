@@ -5,7 +5,7 @@ import { useAppSelector } from "../../../../../../../../hooks/useAppSelector"
 import { Pagination } from "../../../../../../../../components/shared/pagination/pagination"
 import { getExternalUsers } from "../../../../../../../../redux/slices/external-users-slice"
 import { setSelectedExternalUserIds } from "../../../../../../../../redux/slices/evaluation-administration-slice"
-import { getEvaluations } from "../../../../../../../../redux/slices/evaluationsSlice"
+import { getEvaluations } from "../../../../../../../../redux/slices/evaluations-slice"
 import { Checkbox } from "../../../../../../../../components/ui/checkbox/checkbox"
 
 export const SelectExternalEvaluatorsTable = () => {

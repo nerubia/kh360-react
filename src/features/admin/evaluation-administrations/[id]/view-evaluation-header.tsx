@@ -110,7 +110,11 @@ export const ViewEvaluationHeader = () => {
             evaluation_administration?.status === EvaluationAdministrationStatus.Ongoing ||
             evaluation_administration?.status === EvaluationAdministrationStatus.Closed ||
             evaluation_administration?.status === EvaluationAdministrationStatus.Cancelled ? (
-              <LinkButton variant='primary' size='medium' to={``}>
+              <LinkButton
+                variant='primary'
+                size='medium'
+                to={`/admin/evaluation-administrations/${id}/progress`}
+              >
                 Progress
               </LinkButton>
             ) : null}

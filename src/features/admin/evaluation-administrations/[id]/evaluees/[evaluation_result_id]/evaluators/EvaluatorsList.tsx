@@ -7,7 +7,7 @@ import { useAppSelector } from "../../../../../../../hooks/useAppSelector"
 import {
   getEvaluations,
   setForEvaluations,
-} from "../../../../../../../redux/slices/evaluationsSlice"
+} from "../../../../../../../redux/slices/evaluations-slice"
 import { formatDate } from "../../../../../../../utils/format-date"
 import { setEvaluationResultStatus } from "../../../../../../../redux/slices/evaluationResultSlice"
 import { EvaluationResultStatus } from "../../../../../../../types/evaluation-result-type"
