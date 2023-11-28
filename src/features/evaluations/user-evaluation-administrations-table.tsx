@@ -6,7 +6,7 @@ import { getUserEvaluationAdministrations } from "../../redux/slices/user-slice"
 import { Progress } from "../../components/ui/progress/progress"
 import { convertToFullDate, formatDateRange } from "../../utils/format-date"
 import { Loading } from "../../types/loadingType"
-import { Spinner } from "../../components/spinner/Spinner"
+import { Spinner } from "../../components/ui/spinner/spinner"
 
 export const UserEvaluationAdministrationsTable = () => {
   const appDispatch = useAppDispatch()

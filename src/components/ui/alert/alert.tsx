@@ -1,6 +1,6 @@
 import { type VariantProps, cva } from "class-variance-authority"
 import { Button } from "../button/button"
-import { Icon } from "../../icon/Icon"
+import { Icon } from "../icon/icon"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { setAlert } from "../../../redux/slices/appSlice"
 import { useEffect } from "react"

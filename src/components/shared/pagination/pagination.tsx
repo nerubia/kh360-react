@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom"
 import { Button } from "../../ui/button/button"
-import { Icon } from "../../icon/Icon"
+import { Icon } from "../../ui/icon/icon"
 
 interface PaginationProps {
   hasPreviousPage: boolean

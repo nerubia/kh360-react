@@ -1,12 +1,12 @@
-import { useAppSelector } from "../../hooks/useAppSelector"
-import { useAppDispatch } from "../../hooks/useAppDispatch"
-import { useAdmin } from "../../hooks/useAdmin"
-import { setActiveSidebar } from "../../redux/slices/appSlice"
-import { logout } from "../../redux/slices/authSlice"
-import { Icon } from "../icon/Icon"
-import { Button } from "../ui/button/button"
-import { Menu } from "../../components/shared/Menu"
-import { type icons } from "../icon/icons"
+import { useAppSelector } from "../../../hooks/useAppSelector"
+import { useAppDispatch } from "../../../hooks/useAppDispatch"
+import { useAdmin } from "../../../hooks/useAdmin"
+import { setActiveSidebar } from "../../../redux/slices/appSlice"
+import { logout } from "../../../redux/slices/authSlice"
+import { Icon } from "../../ui/icon/icon"
+import { Button } from "../../ui/button/button"
+import { Menu } from "../Menu"
+import { type icons } from "../../ui/icon/icons"
 
 export const Sidebar = () => {
   const { activeSidebar } = useAppSelector((state) => state.app)

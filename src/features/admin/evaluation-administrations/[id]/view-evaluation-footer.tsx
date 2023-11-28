@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { Button } from "../../../../components/ui/button/button"
-import { Icon } from "../../../../components/icon/Icon"
+import { Icon } from "../../../../components/ui/icon/icon"
 import { useAppSelector } from "../../../../hooks/useAppSelector"
 
 export const ViewEvaluationFooter = () => {

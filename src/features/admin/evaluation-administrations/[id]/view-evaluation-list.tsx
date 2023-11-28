@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react"
-import { Icon } from "../../../../components/icon/Icon"
+import { Icon } from "../../../../components/ui/icon/icon"
 import { useParams, useNavigate } from "react-router-dom"
 import { useAppSelector } from "../../../../hooks/useAppSelector"
 import { useAppDispatch } from "../../../../hooks/useAppDispatch"

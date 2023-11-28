@@ -13,7 +13,7 @@ import {
 import { useAppSelector } from "../../hooks/useAppSelector"
 import { Loading } from "../../types/loadingType"
 import { useSearchParams } from "react-router-dom"
-import { Spinner } from "../../components/spinner/Spinner"
+import { Spinner } from "../../components/ui/spinner/spinner"
 import { convertToFullDateAndTime } from "../../utils/format-date"
 import { addHours } from "date-fns"
 
