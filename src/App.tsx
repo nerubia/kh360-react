@@ -2,7 +2,7 @@ import { Provider } from "react-redux"
 import "./App.css"
 import { store } from "./redux/store"
 import { setupAxiosInstance } from "./utils/axiosInstance"
-import { PersistLogin } from "./PersistLogin"
+import { PersistLogin } from "./persist-login"
 
 function App() {
   setupAxiosInstance(store)

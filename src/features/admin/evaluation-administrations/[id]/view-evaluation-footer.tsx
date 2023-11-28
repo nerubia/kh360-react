@@ -1,11 +1,18 @@
 import { useNavigate } from "react-router-dom"
 import { Button } from "../../../../components/ui/button/button"
 import { Icon } from "../../../../components/icon/Icon"
+import { useAppSelector } from "../../../../hooks/useAppSelector"
 
 export const ViewEvaluationFooter = () => {
   const navigate = useNavigate()
 
+  const { previousUrl } = useAppSelector((state) => state.evaluationAdministrations)
+
   const handleGoBack = () => {
+    if (previousUrl !== null) {
+      navigate(previousUrl)
+      return
+    }
     navigate(`/admin/evaluation-administrations`)
   }
 

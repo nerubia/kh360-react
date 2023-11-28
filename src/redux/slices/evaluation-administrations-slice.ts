@@ -61,6 +61,7 @@ interface InitialState {
   hasNextPage: boolean
   totalPages: number
   totalItems: number
+  previousUrl: string | null
 }
 
 const initialState: InitialState = {
@@ -71,12 +72,17 @@ const initialState: InitialState = {
   hasNextPage: false,
   totalPages: 0,
   totalItems: 0,
+  previousUrl: null,
 }
 
 const evaluationAdministrationsSlice = createSlice({
   name: "app",
   initialState,
-  reducers: {},
+  reducers: {
+    setPreviousUrl: (state, action) => {
+      state.previousUrl = action.payload
+    },
+  },
   extraReducers(builder) {
     /**
      * List
@@ -131,4 +137,5 @@ const evaluationAdministrationsSlice = createSlice({
   },
 })
 
+export const { setPreviousUrl } = evaluationAdministrationsSlice.actions
 export default evaluationAdministrationsSlice.reducer

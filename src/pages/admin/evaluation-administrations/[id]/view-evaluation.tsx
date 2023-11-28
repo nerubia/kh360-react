@@ -4,9 +4,9 @@ import { useAppDispatch } from "../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../hooks/useAppSelector"
 import { getEvaluationAdministration } from "../../../../redux/slices/evaluation-administration-slice"
 import { Loading } from "../../../../types/loadingType"
-import { ViewEvaluationHeader } from "../../../../features/admin/evaluation-administrations/[id]/ViewEvaluationHeader"
-import { ViewEvaluationList } from "../../../../features/admin/evaluation-administrations/[id]/ViewEvaluationList"
-import { ViewEvaluationFooter } from "../../../../features/admin/evaluation-administrations/[id]/ViewEvaluationFooter"
+import { ViewEvaluationHeader } from "../../../../features/admin/evaluation-administrations/[id]/view-evaluation-header"
+import { ViewEvaluationList } from "../../../../features/admin/evaluation-administrations/[id]/view-evaluation-list"
+import { ViewEvaluationFooter } from "../../../../features/admin/evaluation-administrations/[id]/view-evaluation-footer"
 
 export default function ViewEvaluation() {
   const { id } = useParams()

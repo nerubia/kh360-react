@@ -34,7 +34,7 @@ const CreateEvaluation = lazy(
   async () => await import("./pages/admin/evaluation-administrations/create/create_evaluation")
 )
 const ViewEvaluation = lazy(
-  async () => await import("./pages/admin/evaluation-administrations/[id]/view_evaluation")
+  async () => await import("./pages/admin/evaluation-administrations/[id]/view-evaluation")
 )
 const EditEvaluation = lazy(
   async () => await import("./pages/admin/evaluation-administrations/[id]/edit/edit_evaluation")

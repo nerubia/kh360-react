@@ -4,12 +4,17 @@ import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../hooks/useAppSelector"
 import { formatDate } from "../../../utils/format-date"
 import { Pagination } from "../../../components/pagination/Pagination"
-import { getEvaluationAdministrations } from "../../../redux/slices/evaluation-administrations-slice"
+import {
+  getEvaluationAdministrations,
+  setPreviousUrl,
+} from "../../../redux/slices/evaluation-administrations-slice"
 import { setEvaluationResults } from "../../../redux/slices/evaluationResultsSlice"
 import { Badge } from "../../../components/ui/badge/Badge"
 import { getEvaluationAdministrationStatusVariant } from "../../../utils/variant"
+import { useFullPath } from "../../../hooks/use-full-path"
 
 export const EvaluationAdministrationsTable = () => {
+  const fullPath = useFullPath()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
 
@@ -30,6 +35,7 @@ export const EvaluationAdministrationsTable = () => {
 
   const handleViewEvaluation = (id: number) => {
     appDispatch(setEvaluationResults([]))
+    appDispatch(setPreviousUrl(fullPath))
     navigate(`/admin/evaluation-administrations/${id}`)
   }
 
