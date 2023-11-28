@@ -9,6 +9,8 @@ import { Input } from "../../input/Input"
 import {
   updateEvaluationRatingById,
   updateEvaluationRatingCommentById,
+  setIsEditing,
+  setShowRatingCommentInput,
 } from "../../../redux/slices/evaluation-template-contents-slice"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { Button } from "../button/button"
@@ -23,6 +25,7 @@ interface StarRatingProps {
     ratingSequenceNumber: number,
     ratingAnswerType: string
   ) => Promise<void>
+  error: string | null
 }
 
 export const StarRating = ({
@@ -30,28 +33,25 @@ export const StarRating = ({
   loadingAnswer,
   evaluation,
   handleOnClick,
+  error,
 }: StarRatingProps) => {
   const appDispatch = useAppDispatch()
   const [comment, setComment] = useState<string>("")
-  const [error, setError] = useState<string | null>(null)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const handleSaveComment = async (templateContentId: number) => {
-    if (comment.length === 0) {
-      setError("Comment is required.")
-    } else {
-      void appDispatch(
-        updateEvaluationRatingCommentById({
-          evaluationTemplateId: templateContentId,
-          ratingComment: comment,
-        })
-      )
-    }
+    void appDispatch(
+      updateEvaluationRatingCommentById({
+        evaluationTemplateId: templateContentId,
+        ratingComment: comment,
+      })
+    )
   }
 
   const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
+    void appDispatch(setIsEditing(true))
     setComment(value)
-    setError(null)
   }
 
   const handleOnClickNa = async () => {
@@ -64,12 +64,24 @@ export const StarRating = ({
         ratingComment: null,
       })
     )
-    setError(null)
   }
 
   useEffect(() => {
     setComment(templateContent.evaluationRating.comments ?? "")
+    if (templateContent.evaluationRating.comments?.length === 0) {
+      void appDispatch(
+        setShowRatingCommentInput({ evaluationTemplateId: templateContent.id, showInput: true })
+      )
+    }
   }, [templateContent])
+
+  useEffect(() => {
+    if (error !== null && comment.length === 0) {
+      setErrorMessage(error)
+    } else {
+      setErrorMessage(null)
+    }
+  }, [error])
 
   return (
     <div className='flex flex-row items-center w-80'>
@@ -127,23 +139,25 @@ export const StarRating = ({
                   )
                 })}
                 {templateContent.evaluationRating.ratingAnswerType === AnswerType.NA &&
-                evaluation?.status !== EvaluationStatus.Submitted ? (
-                  <div className='flex gap-2'>
-                    <div className='w-48 h-1 text-xs'>
-                      <Input
-                        name='comment'
-                        placeholder='Comments'
-                        type='text'
-                        value={comment}
-                        onChange={handleInputChange}
-                        error={error}
-                        onBlur={async () => await handleSaveComment(templateContent.id)}
-                      />
+                  evaluation?.status !== EvaluationStatus.Submitted &&
+                  (templateContent.evaluationRating.showInputComment === true ||
+                    comment.length > 0) && (
+                    <div className='flex gap-2'>
+                      <div className='w-48 h-1 text-xs'>
+                        <Input
+                          name='comment'
+                          placeholder='Comments'
+                          type='text'
+                          value={comment}
+                          onChange={handleInputChange}
+                          onBlur={async () => await handleSaveComment(templateContent.id)}
+                          autoFocus={true}
+                          error={errorMessage}
+                        />
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  <p> {comment} </p>
-                )}
+                  )}
+                {evaluation?.status === EvaluationStatus.Submitted && <p> {comment} </p>}
               </>
             </div>
           </div>

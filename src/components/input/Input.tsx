@@ -9,6 +9,7 @@ interface InputProps {
   error?: string | null
   min?: string
   max?: string
+  autoFocus?: boolean
 }
 
 export const Input = ({
@@ -22,6 +23,7 @@ export const Input = ({
   error,
   min,
   max,
+  autoFocus,
 }: InputProps) => {
   return (
     <div className='flex flex-col'>
@@ -41,6 +43,7 @@ export const Input = ({
         onBlur={onBlur}
         min={min}
         max={max}
+        autoFocus={autoFocus}
       />
       {error != null && <p className='text-red-500 text-sm'>{error}</p>}
     </div>

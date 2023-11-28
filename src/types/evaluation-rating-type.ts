@@ -4,4 +4,5 @@ export interface EvaluationRating {
   ratingSequenceNumber: number
   ratingAnswerType: string
   comments: string
+  showInputComment?: boolean
 }

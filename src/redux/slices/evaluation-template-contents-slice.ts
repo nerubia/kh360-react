@@ -78,6 +78,17 @@ const evaluationTemplateContentsSlice = createSlice({
         state.evaluation_template_contents[index].evaluationRating.comments = ratingComment
       }
     },
+    setShowRatingCommentInput: (state, action) => {
+      const { evaluationTemplateId, showInput } = action.payload
+
+      const index = state.evaluation_template_contents.findIndex(
+        (template) => template.id === evaluationTemplateId
+      )
+
+      if (index !== -1) {
+        state.evaluation_template_contents[index].evaluationRating.showInputComment = showInput
+      }
+    },
   },
   extraReducers(builder) {
     // list
@@ -98,6 +109,10 @@ const evaluationTemplateContentsSlice = createSlice({
   },
 })
 
-export const { setIsEditing, updateEvaluationRatingById, updateEvaluationRatingCommentById } =
-  evaluationTemplateContentsSlice.actions
+export const {
+  setIsEditing,
+  updateEvaluationRatingById,
+  updateEvaluationRatingCommentById,
+  setShowRatingCommentInput,
+} = evaluationTemplateContentsSlice.actions
 export default evaluationTemplateContentsSlice.reducer
