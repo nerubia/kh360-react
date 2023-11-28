@@ -16,29 +16,53 @@ import { PageTitle } from "../../../../components/shared/PageTitle"
 import { Badge } from "../../../../components/ui/badge/Badge"
 import { getEvaluationAdministrationStatusVariant } from "../../../../utils/variant"
 import Dropdown from "../../../../components/ui/dropdown/dropdown"
+import { setAlert } from "../../../../redux/slices/appSlice"
 
 export const ViewEvaluationHeader = () => {
   const navigate = useNavigate()
-  const { evaluation_administration } = useAppSelector((state) => state.evaluationAdministration)
   const { id } = useParams()
-  const [showDialog, setShowDialog] = useState<boolean>(false)
   const appDispatch = useAppDispatch()
+  const { evaluation_administration } = useAppSelector((state) => state.evaluationAdministration)
 
-  const toggleDialog = () => {
-    setShowDialog((prev) => !prev)
+  const [showCancelDialog, setShowCancelDialog] = useState<boolean>(false)
+  const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false)
+  const [showCloseDialog, setShowCloseDialog] = useState<boolean>(false)
+
+  const toggleCancelDialog = () => {
+    setShowCancelDialog((prev) => !prev)
   }
 
-  const handleDelete = async () => {
-    if (id !== undefined) {
-      await appDispatch(deleteEvaluationAdministration(parseInt(id)))
-      navigate("/admin/evaluation-administrations")
-    }
+  const toggleDeleteDialog = () => {
+    setShowDeleteDialog((prev) => !prev)
+  }
+
+  const toggleCloseDialog = () => {
+    setShowCloseDialog((prev) => !prev)
   }
 
   const handleCancel = async () => {
     if (id !== undefined) {
       await appDispatch(cancelEvaluationAdministration(parseInt(id)))
       navigate("/admin/evaluation-administrations")
+      appDispatch(
+        setAlert({
+          description: "Evaluation has been canceled successfully.",
+          variant: "success",
+        })
+      )
+    }
+  }
+
+  const handleDelete = async () => {
+    if (id !== undefined) {
+      await appDispatch(deleteEvaluationAdministration(parseInt(id)))
+      navigate("/admin/evaluation-administrations")
+      appDispatch(
+        setAlert({
+          description: "Evaluation has been deleted successfully.",
+          variant: "success",
+        })
+      )
     }
   }
 
@@ -46,6 +70,12 @@ export const ViewEvaluationHeader = () => {
     if (id !== undefined) {
       await appDispatch(closeEvaluationAdministration(parseInt(id)))
       navigate("/admin/evaluation-administrations")
+      appDispatch(
+        setAlert({
+          description: "Evaluation has been closed successfully.",
+          variant: "success",
+        })
+      )
     }
   }
 
@@ -103,44 +133,72 @@ export const ViewEvaluationHeader = () => {
                 )}
                 {(evaluation_administration?.status === EvaluationAdministrationStatus.Pending ||
                   evaluation_administration?.status === EvaluationAdministrationStatus.Ongoing) && (
-                  <Dropdown.Item onClick={handleCancel}>
+                  <Dropdown.Item onClick={toggleCancelDialog}>
                     <Icon icon='Ban' />
                     Cancel
                   </Dropdown.Item>
                 )}
                 {evaluation_administration?.status === EvaluationAdministrationStatus.Draft && (
-                  <Dropdown.Item onClick={toggleDialog}>
+                  <Dropdown.Item onClick={toggleDeleteDialog}>
                     <Icon icon='Trash' />
                     Delete
                   </Dropdown.Item>
                 )}
                 {evaluation_administration?.status === EvaluationAdministrationStatus.Ongoing && (
-                  <Dropdown.Item onClick={handleClose}>
+                  <Dropdown.Item onClick={toggleCloseDialog}>
                     <Icon icon='Close' />
                     Close
                   </Dropdown.Item>
                 )}
               </Dropdown.Content>
             </Dropdown>
-            <Dialog open={showDialog}>
-              <Dialog.Title>Delete Evaluation</Dialog.Title>
-              <Dialog.Description>
-                Are you sure you want to delete this record? <br /> This action cannot be reverted.
-              </Dialog.Description>
-              <Dialog.Actions>
-                <Button variant='primaryOutline' onClick={toggleDialog}>
-                  No
-                </Button>
-                <Button variant='primary' onClick={handleDelete}>
-                  Yes
-                </Button>
-              </Dialog.Actions>
-            </Dialog>
           </div>
         </div>
       </div>
       <div className='mt-4'>{evaluation_administration?.remarks}</div>
-      <h1 className='text-2xl font-bold mt-5 mb-5'>Employees</h1>
+      <h2 className='text-2xl font-bold mt-5 mb-5'>Employees</h2>
+      <Dialog open={showCancelDialog}>
+        <Dialog.Title>Cancel Evaluation</Dialog.Title>
+        <Dialog.Description>
+          Are you sure you want to cancel this record? <br /> This action cannot be reverted.
+        </Dialog.Description>
+        <Dialog.Actions>
+          <Button variant='primaryOutline' onClick={toggleCancelDialog}>
+            No
+          </Button>
+          <Button variant='primary' onClick={handleCancel}>
+            Yes
+          </Button>
+        </Dialog.Actions>
+      </Dialog>
+      <Dialog open={showDeleteDialog}>
+        <Dialog.Title>Delete Evaluation</Dialog.Title>
+        <Dialog.Description>
+          Are you sure you want to delete this record? <br /> This action cannot be reverted.
+        </Dialog.Description>
+        <Dialog.Actions>
+          <Button variant='primaryOutline' onClick={toggleDeleteDialog}>
+            No
+          </Button>
+          <Button variant='primary' onClick={handleDelete}>
+            Yes
+          </Button>
+        </Dialog.Actions>
+      </Dialog>
+      <Dialog open={showCloseDialog}>
+        <Dialog.Title>Close Evaluation</Dialog.Title>
+        <Dialog.Description>
+          Are you sure you want to close this record? <br /> This action cannot be reverted.
+        </Dialog.Description>
+        <Dialog.Actions>
+          <Button variant='primaryOutline' onClick={toggleCloseDialog}>
+            No
+          </Button>
+          <Button variant='primary' onClick={handleClose}>
+            Yes
+          </Button>
+        </Dialog.Actions>
+      </Dialog>
     </>
   )
 }

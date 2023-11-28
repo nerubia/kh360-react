@@ -544,6 +544,8 @@ test.describe("Admin - Evaluations", () => {
         }),
       })
 
+      await page.getByRole("button", { name: "Yes" }).click()
+
       await expect(page).toHaveURL("/admin/evaluation-administrations")
     })
 
@@ -617,6 +619,8 @@ test.describe("Admin - Evaluations", () => {
           },
         }),
       })
+
+      await page.getByRole("button", { name: "Yes" }).click()
 
       await expect(page).toHaveURL("/admin/evaluation-administrations")
     })
