@@ -35,4 +35,5 @@ export enum EvaluationStatus {
   Submitted = "Submitted",
   Cancelled = "Cancelled",
   Expired = "Expired",
+  Reviewed = "Reviewed",
 }
