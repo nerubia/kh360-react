@@ -15,7 +15,7 @@ import { Loading } from "../../../../../../../types/loadingType"
 import { setAlert } from "../../../../../../../redux/slices/appSlice"
 import { type Evaluation } from "../../../../../../../types/evaluation-type"
 import { PageSubTitle } from "../../../../../../../components/shared/PageSubTitle"
-import { Icon } from "../../../../../../../components/icon/Icon"
+import { Icon } from "../../../../../../../components/ui/icon/icon"
 import { setSelectedExternalUserIds } from "../../../../../../../redux/slices/evaluation-administration-slice"
 
 export const EvaluatorsList = () => {

@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom"
 import { type VariantProps, cva } from "class-variance-authority"
-import { Spinner } from "../../spinner/Spinner"
+import { Spinner } from "../spinner/spinner"
 
 const button = cva(["w-fit", "rounded-md", "flex", "items-center", "gap-2"], {
   variants: {

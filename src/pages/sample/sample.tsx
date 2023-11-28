@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Badge } from "../../components/ui/badge/Badge"
 import { Button } from "../../components/ui/button/button"
-import { Icon } from "../../components/icon/Icon"
+import { Icon } from "../../components/ui/icon/icon"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
 import { useAppSelector } from "../../hooks/useAppSelector"
 import { useTitle } from "../../hooks/useTitle"

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { Icon } from "../../icon/Icon"
+import { Icon } from "../icon/icon"
 import { getAnswerOptionVariant } from "../../../utils/variant"
 import { AnswerOptions, AnswerType } from "../../../types/answer-option-type"
 import { EvaluationStatus, type Evaluation } from "../../../types/evaluation-type"

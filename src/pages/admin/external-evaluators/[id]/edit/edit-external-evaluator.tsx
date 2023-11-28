@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom"
 import { ExternalEvaluatorHeader } from "../../../../../features/admin/external-evaluators/external-evaluator-form/external-evaluator-header"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
 import { Loading } from "../../../../../types/loadingType"
-import { Spinner } from "../../../../../components/spinner/Spinner"
+import { Spinner } from "../../../../../components/ui/spinner/spinner"
 
 export default function EditExternalEvaluator() {
   useTitle("Edit External Evaluator")
