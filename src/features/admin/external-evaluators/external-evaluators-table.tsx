@@ -3,14 +3,16 @@ import { useSearchParams } from "react-router-dom"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../hooks/useAppSelector"
 import { Pagination } from "../../../components/pagination/Pagination"
-import { getExternalUsers } from "../../../redux/slices/external-users-slice"
+import { getExternalUsers, deleteExternalUser } from "../../../redux/slices/external-users-slice"
 import { Icon } from "../../../components/icon/Icon"
 import { Button, LinkButton } from "../../../components/ui/button/button"
 import Dialog from "../../../components/dialog/Dialog"
+import { setAlert } from "../../../redux/slices/appSlice"
 
 export const ExternalEvaluatorsTable = () => {
   const [searchParams] = useSearchParams()
   const [showDialog, setShowDialog] = useState<boolean>(false)
+  const [selectedEvaluatorId, setSelectedEvaluatorId] = useState<number>()
 
   const appDispatch = useAppDispatch()
   const { external_users, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
@@ -28,8 +30,35 @@ export const ExternalEvaluatorsTable = () => {
     )
   }, [searchParams])
 
-  const toggleDialog = () => {
+  const toggleDialog = (id: number | null) => {
+    if (id !== null) {
+      setSelectedEvaluatorId(id)
+    }
     setShowDialog((prev) => !prev)
+  }
+
+  const handleDelete = async () => {
+    if (selectedEvaluatorId !== undefined) {
+      try {
+        const result = await appDispatch(deleteExternalUser(selectedEvaluatorId))
+        if (result.type === "externalUser/deleteExternalUser/rejected") {
+          appDispatch(
+            setAlert({
+              description: result.payload,
+              variant: "destructive",
+            })
+          )
+        }
+        if (result.type === "externalUser/deleteExternalUser/fulfilled") {
+          appDispatch(
+            setAlert({
+              description: "Evaluator deleted successfully",
+              variant: "success",
+            })
+          )
+        }
+      } catch (error) {}
+    }
   }
 
   return (
@@ -62,7 +91,11 @@ export const ExternalEvaluatorsTable = () => {
                 >
                   <Icon icon='PenSquare' />
                 </LinkButton>
-                <Button testId='DeleteButton' variant='unstyled' onClick={toggleDialog}>
+                <Button
+                  testId='DeleteButton'
+                  variant='unstyled'
+                  onClick={() => toggleDialog(externalEvaluator.id)}
+                >
                   <Icon icon='Trash' />
                 </Button>
               </td>
@@ -77,10 +110,16 @@ export const ExternalEvaluatorsTable = () => {
           This will delete all evaluations associated with this evaluator and cannot be reverted.
         </Dialog.Description>
         <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={toggleDialog}>
+          <Button variant='primaryOutline' onClick={() => toggleDialog(null)}>
             No
           </Button>
-          <Button variant='primary' onClick={() => {}}>
+          <Button
+            variant='primary'
+            onClick={async () => {
+              await handleDelete()
+              toggleDialog(null)
+            }}
+          >
             Yes
           </Button>
         </Dialog.Actions>

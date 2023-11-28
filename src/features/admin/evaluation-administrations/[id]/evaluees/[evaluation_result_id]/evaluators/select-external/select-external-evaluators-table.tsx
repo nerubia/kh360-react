@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useParams, useSearchParams } from "react-router-dom"
 import { useAppDispatch } from "../../../../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../../../../hooks/useAppSelector"
@@ -6,13 +6,10 @@ import { Pagination } from "../../../../../../../../components/pagination/Pagina
 import { getExternalUsers } from "../../../../../../../../redux/slices/external-users-slice"
 import { setSelectedExternalUserIds } from "../../../../../../../../redux/slices/evaluation-administration-slice"
 import { getEvaluations } from "../../../../../../../../redux/slices/evaluationsSlice"
-import { Button } from "../../../../../../../../components/ui/button/button"
-import Dialog from "../../../../../../../../components/dialog/Dialog"
 import { Checkbox } from "../../../../../../../../components/checkbox/Checkbox"
 
 export const SelectExternalEvaluatorsTable = () => {
   const [searchParams] = useSearchParams()
-  const [showDialog, setShowDialog] = useState<boolean>(false)
   const { evaluation_result_id, evaluation_template_id } = useParams()
 
   const appDispatch = useAppDispatch()
@@ -60,10 +57,6 @@ export const SelectExternalEvaluatorsTable = () => {
       })
     )
   }, [searchParams])
-
-  const toggleDialog = () => {
-    setShowDialog((prev) => !prev)
-  }
 
   const handleSelectAll = (checked: boolean) => {
     let evaluatorIds = external_users.map((user) => user.id)
@@ -131,20 +124,6 @@ export const SelectExternalEvaluatorsTable = () => {
               ))}
             </tbody>
           </table>
-          <Dialog open={showDialog}>
-            <Dialog.Title>Delete External Evaluator</Dialog.Title>
-            <Dialog.Description>
-              Are you sure you want to delete this evaluator? <br /> This action cannot be reverted.
-            </Dialog.Description>
-            <Dialog.Actions>
-              <Button variant='primaryOutline' onClick={toggleDialog}>
-                No
-              </Button>
-              <Button variant='primary' onClick={() => {}}>
-                Yes
-              </Button>
-            </Dialog.Actions>
-          </Dialog>
         </div>
       </div>
       {totalPages !== 1 && (

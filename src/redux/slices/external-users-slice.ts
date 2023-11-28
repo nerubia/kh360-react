@@ -59,6 +59,20 @@ export const updateExternalUser = createAsyncThunk(
   }
 )
 
+export const deleteExternalUser = createAsyncThunk(
+  "externalUser/deleteExternalUser",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.delete(`/admin/external-users/${id}`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
@@ -131,6 +145,25 @@ const externalEvaluatorsSlice = createSlice({
       state.error = null
     })
     builder.addCase(updateExternalUser.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Delete
+     */
+    builder.addCase(deleteExternalUser.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(deleteExternalUser.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.external_users = state.external_users.filter(
+        (user) => user.id !== parseInt(action.payload.id)
+      )
+      state.totalItems = state.totalItems - 1
+    })
+    builder.addCase(deleteExternalUser.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
