@@ -73,7 +73,8 @@ export const ExternalEvaluatorsTable = () => {
       <Dialog open={showDialog}>
         <Dialog.Title>Delete External Evaluator</Dialog.Title>
         <Dialog.Description>
-          Are you sure you want to delete this evaluator? <br /> This action cannot be reverted.
+          Are you sure you want to delete this evaluator? <br />
+          This will delete all evaluations associated with this evaluator and cannot be reverted.
         </Dialog.Description>
         <Dialog.Actions>
           <Button variant='primaryOutline' onClick={toggleDialog}>
