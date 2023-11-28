@@ -35,6 +35,8 @@ export const EvaluationsCriteria = () => {
   const [comment, setComment] = useState<string>("")
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [showDialog, setShowDialog] = useState<boolean>(false)
+  const [showSaveDialog, setShowSaveDialog] = useState<boolean>(false)
+  const [showSubmitDialog, setShowSubmitDialog] = useState<boolean>(false)
   const [dialogMessage, setDialogMessage] = useState<EmailTemplate>()
   const [currentNATemplateIndex, setCurrentNATemplateIndex] = useState<number>(0)
   const [currentHighRatingTemplateIndex, setCurrentHighRatingTemplateIndex] = useState<number>(0)
@@ -126,6 +128,14 @@ export const EvaluationsCriteria = () => {
 
   const toggleDialog = () => {
     setShowDialog((prev) => !prev)
+  }
+
+  const toggleSaveDialog = () => {
+    setShowSaveDialog((prev) => !prev)
+  }
+
+  const toggleSubmitDialog = () => {
+    setShowSubmitDialog((prev) => !prev)
   }
 
   const handleOnClickStar = async (
@@ -293,11 +303,11 @@ export const EvaluationsCriteria = () => {
                   <Button
                     disabled={!is_editing}
                     variant='primaryOutline'
-                    onClick={async () => await handleSubmit(false)}
+                    onClick={toggleSaveDialog}
                   >
                     Save
                   </Button>
-                  <Button onClick={async () => await handleSubmit(true)}>Save & Submit</Button>
+                  <Button onClick={toggleSubmitDialog}>Save & Submit</Button>
                 </div>
               </>
             ) : (
@@ -311,6 +321,42 @@ export const EvaluationsCriteria = () => {
         <Dialog.Actions>
           <Button variant='primary' onClick={toggleDialog}>
             Ok
+          </Button>
+        </Dialog.Actions>
+      </Dialog>
+      <Dialog open={showSaveDialog}>
+        <Dialog.Title>Save Evaluation</Dialog.Title>
+        <Dialog.Description>Are you sure you want to save this evaluation?</Dialog.Description>
+        <Dialog.Actions>
+          <Button variant='primaryOutline' onClick={toggleSaveDialog}>
+            No
+          </Button>
+          <Button
+            variant='primary'
+            onClick={async () => {
+              toggleSaveDialog()
+              await handleSubmit(false)
+            }}
+          >
+            Yes
+          </Button>
+        </Dialog.Actions>
+      </Dialog>
+      <Dialog open={showSubmitDialog}>
+        <Dialog.Title>Submit Evaluation</Dialog.Title>
+        <Dialog.Description>Are you sure you want to submit this evaluation?</Dialog.Description>
+        <Dialog.Actions>
+          <Button variant='primaryOutline' onClick={toggleSubmitDialog}>
+            No
+          </Button>
+          <Button
+            variant='primary'
+            onClick={async () => {
+              toggleSubmitDialog()
+              await handleSubmit(true)
+            }}
+          >
+            Yes
           </Button>
         </Dialog.Actions>
       </Dialog>
