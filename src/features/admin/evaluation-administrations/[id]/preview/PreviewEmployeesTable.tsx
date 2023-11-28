@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { type User } from "../../../../../types/userType"
+import { type User } from "../../../../../types/user-type"
 import { getAllUsers } from "../../../../../redux/slices/usersSlice"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"

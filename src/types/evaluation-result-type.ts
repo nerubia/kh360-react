@@ -1,4 +1,4 @@
-import { type User } from "./userType"
+import { type User } from "./user-type"
 import { type EvaluationTemplate } from "./evaluation-template-type"
 
 export interface EvaluationResult {

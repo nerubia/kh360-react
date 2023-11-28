@@ -1,3 +1,5 @@
+import { type Evaluation } from "./evaluation-type"
+
 export interface User {
   id: number
   slug?: string
@@ -11,6 +13,9 @@ export interface User {
   role?: string
   company?: string
   is_external?: boolean
+  totalSubmitted?: number
+  totalEvaluations?: number
+  evaluations?: Evaluation[]
 }
 
 export interface UserFilters {

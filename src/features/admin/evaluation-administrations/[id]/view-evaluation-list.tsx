@@ -7,7 +7,7 @@ import { formatDate } from "../../../../utils/format-date"
 import { Button } from "../../../../components/ui/button/button"
 import { EvaluationAdministrationStatus } from "../../../../types/evaluation-administration-type"
 import { getEvaluationTemplates } from "../../../../redux/slices/evaluationTemplatesSlice"
-import { getEvaluations } from "../../../../redux/slices/evaluationsSlice"
+import { getEvaluations } from "../../../../redux/slices/evaluations-slice"
 import { type EvaluationResult } from "../../../../types/evaluation-result-type"
 import { getEvaluationResults } from "../../../../redux/slices/evaluationResultsSlice"
 

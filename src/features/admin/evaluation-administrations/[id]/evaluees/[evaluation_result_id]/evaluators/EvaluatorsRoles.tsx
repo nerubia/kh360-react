@@ -27,7 +27,8 @@ export const EvaluatorsRoles = () => {
     )
     if (
       result.type === "evaluationTemplate/getEvaluationTemplates/fulfilled" &&
-      evaluation_template_id === "all"
+      evaluation_template_id === "all" &&
+      result.payload.length > 0
     ) {
       navigate(
         `/admin/evaluation-administrations/${id}/evaluees/${evaluation_result_id}/evaluators/${result.payload[0].id}`

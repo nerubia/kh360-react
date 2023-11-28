@@ -39,6 +39,10 @@ const ViewEvaluation = lazy(
 const EditEvaluation = lazy(
   async () => await import("./pages/admin/evaluation-administrations/[id]/edit/edit_evaluation")
 )
+const EvaluationProgress = lazy(
+  async () =>
+    await import("./pages/admin/evaluation-administrations/[id]/progress/evaluation-progress")
+)
 const SelectEmployees = lazy(
   async () => await import("./pages/admin/evaluation-administrations/[id]/select/select_employees")
 )
@@ -145,6 +149,10 @@ const router = createBrowserRouter([
               {
                 path: "/admin/evaluation-administrations/:id",
                 element: <ViewEvaluation />,
+              },
+              {
+                path: "/admin/evaluation-administrations/:id/progress",
+                element: <EvaluationProgress />,
               },
               {
                 path: "/admin/evaluation-administrations/:id/edit",

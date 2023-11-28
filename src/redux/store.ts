@@ -7,7 +7,7 @@ import evaluationAdministrationReducer from "./slices/evaluation-administration-
 import evaluationAdministrationsReducer from "./slices/evaluation-administrations-slice"
 import evaluationResultReducer from "./slices/evaluationResultSlice"
 import evaluationResultsReducer from "./slices/evaluationResultsSlice"
-import evaluationsReducer from "./slices/evaluationsSlice"
+import evaluationsReducer from "./slices/evaluations-slice"
 import evaluationTemplatesReducer from "./slices/evaluationTemplatesSlice"
 import evaluationTemplateContentsReducer from "./slices/evaluation-template-contents-slice"
 import externalUserReducer from "./slices/external-user-slice"
