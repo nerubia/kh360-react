@@ -1,5 +1,5 @@
 import Select, { type SingleValue } from "react-select"
-import { type Option } from "../../types/optionType"
+import { type Option } from "../../../types/optionType"
 
 interface SelectProps {
   label?: string
@@ -9,13 +9,7 @@ interface SelectProps {
   options: Option[]
 }
 
-export const CustomSelect = ({
-  label,
-  name,
-  value,
-  onChange,
-  options,
-}: SelectProps) => {
+export const CustomSelect = ({ label, name, value, onChange, options }: SelectProps) => {
   return (
     <div className='flex flex-col'>
       {label != null && (

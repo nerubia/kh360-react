@@ -2,11 +2,11 @@ import { useEffect } from "react"
 import { useParams, useSearchParams } from "react-router-dom"
 import { useAppDispatch } from "../../../../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../../../../hooks/useAppSelector"
-import { Pagination } from "../../../../../../../../components/pagination/Pagination"
+import { Pagination } from "../../../../../../../../components/shared/pagination/pagination"
 import { getExternalUsers } from "../../../../../../../../redux/slices/external-users-slice"
 import { setSelectedExternalUserIds } from "../../../../../../../../redux/slices/evaluation-administration-slice"
 import { getEvaluations } from "../../../../../../../../redux/slices/evaluationsSlice"
-import { Checkbox } from "../../../../../../../../components/checkbox/Checkbox"
+import { Checkbox } from "../../../../../../../../components/ui/checkbox/checkbox"
 
 export const SelectExternalEvaluatorsTable = () => {
   const [searchParams] = useSearchParams()
