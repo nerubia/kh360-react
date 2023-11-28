@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../hooks/useAppSelector"
 import { formatDate } from "../../../utils/format-date"
-import { Pagination } from "../../../components/pagination/Pagination"
+import { Pagination } from "../../../components/shared/pagination/pagination"
 import {
   getEvaluationAdministrations,
   setPreviousUrl,

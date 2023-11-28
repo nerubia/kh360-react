@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams, useLocation } from "react-router-dom"
 import { Button, LinkButton } from "../../../../../../../components/ui/button/button"
-import { Checkbox } from "../../../../../../../components/checkbox/Checkbox"
+import { Checkbox } from "../../../../../../../components/ui/checkbox/checkbox"
 import { useAppDispatch } from "../../../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../../../hooks/useAppSelector"
 import {

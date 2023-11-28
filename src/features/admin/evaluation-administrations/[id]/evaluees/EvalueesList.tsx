@@ -8,7 +8,7 @@ import { type EvaluationResult } from "../../../../../types/evaluation-result-ty
 import Dialog from "../../../../../components/dialog/Dialog"
 import { Loading } from "../../../../../types/loadingType"
 import { setAlert } from "../../../../../redux/slices/appSlice"
-import { Pagination } from "../../../../../components/pagination/Pagination"
+import { Pagination } from "../../../../../components/shared/pagination/pagination"
 import {
   deleteEvaluationResult,
   getEvaluationResults,

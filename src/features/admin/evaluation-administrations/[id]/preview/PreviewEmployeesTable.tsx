@@ -5,7 +5,7 @@ import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
 import { Icon } from "../../../../../components/icon/Icon"
 import { formatDate } from "../../../../../utils/format-date"
-import { Divider } from "../../../../../components/divider/Divider"
+import { Divider } from "../../../../../components/ui/divider/divider"
 
 export const PreviewEmployeesTable = () => {
   const appDispatch = useAppDispatch()

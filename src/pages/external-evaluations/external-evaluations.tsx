@@ -1,4 +1,4 @@
-import { Divider } from "../../components/divider/Divider"
+import { Divider } from "../../components/ui/divider/divider"
 import { EvaluationsCriteria } from "../../features/evaluations/[id]/evaluations-criteria"
 import { EvaluationsHeader } from "../../features/evaluations/[id]/EvaluationsHeader"
 import { EvaluationsList } from "../../features/evaluations/[id]/EvaluationsList"

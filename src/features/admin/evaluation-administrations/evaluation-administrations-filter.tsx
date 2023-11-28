@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useSearchParams } from "react-router-dom"
 import { type Option } from "../../../types/optionType"
 import { Input } from "../../../components/input/Input"
-import { CustomSelect } from "../../../components/select/CustomSelect"
+import { CustomSelect } from "../../../components/ui/select/custom-select"
 import { Button } from "../../../components/ui/button/button"
 import { EvaluationAdministrationStatus } from "../../../types/evaluation-administration-type"
 
