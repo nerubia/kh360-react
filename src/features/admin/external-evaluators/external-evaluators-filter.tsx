@@ -11,14 +11,20 @@ export const ExternalEvaluatorsFilter = () => {
   const [role, setRole] = useState<string>(searchParams.get("role") ?? "")
 
   const handleSearch = async () => {
-    if (name.length !== 0 || company.length !== 0 || role.length !== 0) {
+    if (name.length !== 0) {
       searchParams.set("name", name)
-      searchParams.set("company", company)
-      searchParams.set("role", role)
     } else {
       searchParams.delete("name")
-      searchParams.delete("company", company)
-      searchParams.delete("role", role)
+    }
+    if (company.length !== 0) {
+      searchParams.set("company", company)
+    } else {
+      searchParams.delete("company")
+    }
+    if (role.length !== 0) {
+      searchParams.set("role", role)
+    } else {
+      searchParams.delete("role")
     }
     searchParams.set("page", "1")
     setSearchParams(searchParams)
