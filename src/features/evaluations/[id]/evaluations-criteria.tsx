@@ -301,10 +301,7 @@ export const EvaluationsCriteria = () => {
                     error={ratingCommentErrorMessage}
                   />
                 </div>
-                <Dialog
-                  open={showDialog[templateContent.id]}
-                  width='max-w-min md:min-w-[600px] p-7'
-                >
+                <Dialog open={showDialog[templateContent.id]} size='medium' maxWidthMin={true}>
                   <Dialog.Title>{dialogMessage?.subject}</Dialog.Title>
                   <Dialog.Description>
                     <pre className='font-sans whitespace-pre-wrap break-words'>
