@@ -2,7 +2,7 @@ import axios, { type AxiosInstance } from "axios"
 import { type Store } from "@reduxjs/toolkit"
 import { type RootState } from "../redux/store"
 import { refreshUserToken } from "../services/api"
-import { setAccessToken } from "../redux/slices/authSlice"
+import { setAccessToken } from "../redux/slices/auth-slice"
 
 export let axiosInstance: AxiosInstance
 
@@ -30,10 +30,7 @@ export const setupAxiosInstance = (store: Store<RootState>) => {
     },
     async (error) => {
       const previousRequest = error.config
-      if (
-        error.response.status === 403 &&
-        error.response.data.message !== "PermissionError"
-      ) {
+      if (error.response.status === 403 && error.response.data.message !== "PermissionError") {
         try {
           const tokenResponse = await refreshUserToken()
           store.dispatch(setAccessToken(tokenResponse.data.access_token))

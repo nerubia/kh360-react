@@ -9,7 +9,7 @@ import {
   getExternalUserStatus,
   loginAsExternalUser,
   resendCode,
-} from "../../redux/slices/authSlice"
+} from "../../redux/slices/auth-slice"
 import { useAppSelector } from "../../hooks/useAppSelector"
 import { Loading } from "../../types/loadingType"
 import { useSearchParams } from "react-router-dom"

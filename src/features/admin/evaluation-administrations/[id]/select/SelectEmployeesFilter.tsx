@@ -5,7 +5,7 @@ import { type Option } from "../../../../../types/optionType"
 import { useSearchParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
-import { getUsers } from "../../../../../redux/slices/usersSlice"
+import { getUsers } from "../../../../../redux/slices/users-slice"
 
 const filterOptions: Option[] = [
   {

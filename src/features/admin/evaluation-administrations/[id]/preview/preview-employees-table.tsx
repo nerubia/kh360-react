@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { type User } from "../../../../../types/user-type"
-import { getAllUsers } from "../../../../../redux/slices/usersSlice"
+import { getAllUsers } from "../../../../../redux/slices/users-slice"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
 import { Icon } from "../../../../../components/ui/icon/icon"
