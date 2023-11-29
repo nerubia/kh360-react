@@ -8,7 +8,7 @@ import {
   getEvaluationAdministrations,
   setPreviousUrl,
 } from "../../../redux/slices/evaluation-administrations-slice"
-import { setEvaluationResults } from "../../../redux/slices/evaluationResultsSlice"
+import { setEvaluationResults } from "../../../redux/slices/evaluation-results-slice"
 import { Badge } from "../../../components/ui/badge/Badge"
 import { getEvaluationAdministrationStatusVariant } from "../../../utils/variant"
 import { useFullPath } from "../../../hooks/use-full-path"

@@ -9,7 +9,7 @@ import {
   setForEvaluations,
 } from "../../../../../../../redux/slices/evaluations-slice"
 import { formatDate } from "../../../../../../../utils/format-date"
-import { setEvaluationResultStatus } from "../../../../../../../redux/slices/evaluationResultSlice"
+import { setEvaluationResultStatus } from "../../../../../../../redux/slices/evaluation-result-slice"
 import { EvaluationResultStatus } from "../../../../../../../types/evaluation-result-type"
 import { Loading } from "../../../../../../../types/loadingType"
 import { setAlert } from "../../../../../../../redux/slices/appSlice"

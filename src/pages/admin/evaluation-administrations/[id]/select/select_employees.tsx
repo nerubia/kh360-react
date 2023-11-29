@@ -1,7 +1,7 @@
 import { SelectEmployeesHeader } from "../../../../../features/admin/evaluation-administrations/[id]/select/SelectEmployeesHeader"
 import { SelectEmployeesFooter } from "../../../../../features/admin/evaluation-administrations/[id]/select/SelectEmployeesFooter"
-import { SelectEmployeesTable } from "../../../../../features/admin/evaluation-administrations/[id]/select/SelectEmployeesTable"
-import { SelectEmployeesFilter } from "../../../../../features/admin/evaluation-administrations/[id]/select/SelectEmployeesFilter"
+import { SelectEmployeesTable } from "../../../../../features/admin/evaluation-administrations/[id]/select/select-employees-table"
+import { SelectEmployeesFilter } from "../../../../../features/admin/evaluation-administrations/[id]/select/select-employees-filter"
 
 export default function SelectEmployees() {
   return (

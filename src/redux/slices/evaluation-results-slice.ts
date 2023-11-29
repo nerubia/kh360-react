@@ -5,7 +5,7 @@ import {
   type EvaluationResult,
   type EvaluationResultFilters,
 } from "../../types/evaluation-result-type"
-import { axiosInstance } from "../../utils/axiosInstance"
+import { axiosInstance } from "../../utils/axios-instance"
 import { Loading } from "../../types/loadingType"
 import { type EvaluationResultsFormData } from "../../types/formDataType"
 
@@ -29,10 +29,7 @@ export const createEvaluationResults = createAsyncThunk(
   "evaluationResults/createEvaluationResults",
   async (data: EvaluationResultsFormData, thunkApi) => {
     try {
-      const response = await axiosInstance.post(
-        `admin/evaluation-results`,
-        data
-      )
+      const response = await axiosInstance.post(`admin/evaluation-results`, data)
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -46,9 +43,7 @@ export const deleteEvaluationResult = createAsyncThunk(
   "evaluationResults/deleteEvaluationResult",
   async (id: number, thunkApi) => {
     try {
-      const response = await axiosInstance.delete(
-        `/admin/evaluation-results/${id}`
-      )
+      const response = await axiosInstance.delete(`/admin/evaluation-results/${id}`)
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -62,12 +57,9 @@ export const getEvaluationResultIds = createAsyncThunk(
   "evaluationResults/getEvaluationResultIds",
   async (params: EvaluationResultFilters | undefined, thunkApi) => {
     try {
-      const response = await axiosInstance.get(
-        `/admin/evaluation-results/all`,
-        {
-          params,
-        }
-      )
+      const response = await axiosInstance.get(`/admin/evaluation-results/all`, {
+        params,
+      })
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -134,8 +126,7 @@ const evaluationResultsSlice = createSlice({
       state.loading = Loading.Fulfilled
       state.error = null
       state.evaluation_results = state.evaluation_results.filter(
-        (evaluationResult) =>
-          evaluationResult.id !== parseInt(action.payload.id)
+        (evaluationResult) => evaluationResult.id !== parseInt(action.payload.id)
       )
     })
     builder.addCase(deleteEvaluationResult.rejected, (state, action) => {

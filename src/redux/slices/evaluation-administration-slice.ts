@@ -6,7 +6,7 @@ import {
   type EvaluationAdministration,
   type ExternalEvaluatorData,
 } from "../../types/evaluation-administration-type"
-import { axiosInstance } from "../../utils/axiosInstance"
+import { axiosInstance } from "../../utils/axios-instance"
 import { Loading } from "../../types/loadingType"
 import { type EvaluationFormData } from "../../types/formDataType"
 import { type User } from "../../types/user-type"

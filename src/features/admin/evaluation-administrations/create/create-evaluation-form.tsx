@@ -13,7 +13,7 @@ import Dialog from "../../../../components/dialog/Dialog"
 import { type EvaluationFormData } from "../../../../types/formDataType"
 import { createEvaluationAdministration } from "../../../../redux/slices/evaluation-administrations-slice"
 import { setSelectedEmployeeIds } from "../../../../redux/slices/evaluation-administration-slice"
-import { setEvaluationResults } from "../../../../redux/slices/evaluationResultsSlice"
+import { setEvaluationResults } from "../../../../redux/slices/evaluation-results-slice"
 
 export const CreateEvaluationForm = () => {
   const navigate = useNavigate()

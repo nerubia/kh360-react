@@ -1,4 +1,4 @@
-import { EvalueesList } from "../../../../../features/admin/evaluation-administrations/[id]/evaluees/EvalueesList"
+import { EvalueesList } from "../../../../../features/admin/evaluation-administrations/[id]/evaluees/evaluees-list"
 import { EvalueesFilter } from "../../../../../features/admin/evaluation-administrations/[id]/evaluees/EvalueesFilter"
 import { EvalueesFooter } from "../../../../../features/admin/evaluation-administrations/[id]/evaluees/EvalueesFooter"
 import { EvalueesHeader } from "../../../../../features/admin/evaluation-administrations/[id]/evaluees/EvalueesHeader"

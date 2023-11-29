@@ -6,10 +6,10 @@ import { useAppDispatch } from "../../../../hooks/useAppDispatch"
 import { formatDate } from "../../../../utils/format-date"
 import { Button } from "../../../../components/ui/button/button"
 import { EvaluationAdministrationStatus } from "../../../../types/evaluation-administration-type"
-import { getEvaluationTemplates } from "../../../../redux/slices/evaluationTemplatesSlice"
+import { getEvaluationTemplates } from "../../../../redux/slices/evaluation-templates-slice"
 import { getEvaluations } from "../../../../redux/slices/evaluations-slice"
 import { type EvaluationResult } from "../../../../types/evaluation-result-type"
-import { getEvaluationResults } from "../../../../redux/slices/evaluationResultsSlice"
+import { getEvaluationResults } from "../../../../redux/slices/evaluation-results-slice"
 
 export const ViewEvaluationList = () => {
   const appDispatch = useAppDispatch()

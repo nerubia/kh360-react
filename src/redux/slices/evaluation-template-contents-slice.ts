@@ -5,7 +5,7 @@ import {
   type EvaluationTemplateContent,
   type EvaluationTemplateContentFilters,
 } from "../../types/evaluation-template-content-type"
-import { axiosInstance } from "../../utils/axiosInstance"
+import { axiosInstance } from "../../utils/axios-instance"
 import { Loading } from "../../types/loadingType"
 
 export const getEvaluationTemplateContents = createAsyncThunk(

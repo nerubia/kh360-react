@@ -6,7 +6,7 @@ import { setSelectedEmployeeIds } from "../../../../../redux/slices/evaluation-a
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
 import { formatDate } from "../../../../../utils/format-date"
-import { getEvaluationResultIds } from "../../../../../redux/slices/evaluationResultsSlice"
+import { getEvaluationResultIds } from "../../../../../redux/slices/evaluation-results-slice"
 
 export const SelectEmployeesTable = () => {
   const { id } = useParams()
