@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { Button } from "../../../../../components/ui/button/button"
-import { Icon } from "../../../../../components/icon/Icon"
+import { Icon } from "../../../../../components/ui/icon/icon"
 
 export const EvaluationProgressFooter = () => {
   const navigate = useNavigate()

@@ -31,6 +31,7 @@ export interface ExternalEvaluatorData {
 export interface sendReminderData {
   id: number
   evaluator_id: number
+  email: string
 }
 
 export enum EvaluationAdministrationStatus {

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { Icon } from "../../../../../components/icon/Icon"
+import { Icon } from "../../../../../components/ui/icon/icon"
 import { useParams } from "react-router-dom"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
@@ -76,13 +76,18 @@ export const EvaluationProgressList = () => {
     }
   }, [evaluations])
 
-  const handleOnClickNudge = async (evaluator_name: string, evaluator_id: number) => {
+  const handleOnClickNudge = async (
+    evaluator_name: string,
+    evaluator_id: number,
+    email: string
+  ) => {
     if (id !== undefined) {
       try {
         const result = await appDispatch(
           sendReminder({
             id: parseInt(id),
             evaluator_id,
+            email,
           })
         )
 
@@ -134,7 +139,11 @@ export const EvaluationProgressList = () => {
                   variant='primaryOutline'
                   size='small'
                   onClick={async () =>
-                    await handleOnClickNudge(evaluator.first_name ?? "", evaluator.id)
+                    await handleOnClickNudge(
+                      evaluator.first_name ?? "",
+                      evaluator.id,
+                      evaluator.email ?? ""
+                    )
                   }
                 >
                   Nudge
