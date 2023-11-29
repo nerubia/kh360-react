@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
 import { type ApiError } from "../../types/apiErrorType"
 import { type EvaluationFilters, type Evaluation } from "../../types/evaluation-type"
-import { axiosInstance } from "../../utils/axiosInstance"
+import { axiosInstance } from "../../utils/axios-instance"
 import { Loading } from "../../types/loadingType"
 
 export const getEvaluations = createAsyncThunk(

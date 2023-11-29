@@ -12,7 +12,7 @@ import { Pagination } from "../../../../../components/shared/pagination/paginati
 import {
   deleteEvaluationResult,
   getEvaluationResults,
-} from "../../../../../redux/slices/evaluationResultsSlice"
+} from "../../../../../redux/slices/evaluation-results-slice"
 import { getEvaluationResultStatusVariant } from "../../../../../utils/variant"
 import { Badge } from "../../../../../components/ui/badge/Badge"
 

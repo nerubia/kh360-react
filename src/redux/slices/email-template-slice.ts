@@ -3,7 +3,7 @@ import { type AxiosError } from "axios"
 import { type ApiError } from "../../types/apiErrorType"
 import { type EmailTemplate } from "../../types/email-template-type"
 import { Loading } from "../../types/loadingType"
-import { axiosInstance } from "../../utils/axiosInstance"
+import { axiosInstance } from "../../utils/axios-instance"
 
 export const getDefaultEmailTemplate = createAsyncThunk(
   "emailTemplate/getDefaultEmailTemplate",

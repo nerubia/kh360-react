@@ -6,7 +6,7 @@ import { type User } from "../../types/user-type"
 import { refreshUserToken } from "../../services/api"
 import { Loading } from "../../types/loadingType"
 import { type ExternalAuthFormData, type LoginFormData } from "../../types/formDataType"
-import { axiosInstance } from "../../utils/axiosInstance"
+import { axiosInstance } from "../../utils/axios-instance"
 
 export const login = createAsyncThunk("auth/login", async (data: LoginFormData, thunkApi) => {
   try {

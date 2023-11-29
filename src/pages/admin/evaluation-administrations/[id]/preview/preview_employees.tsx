@@ -1,6 +1,6 @@
 import { PreviewEmployeesHeader } from "../../../../../features/admin/evaluation-administrations/[id]/preview/PreviewEmployeesHeader"
 import { PreviewEmployeesTable } from "../../../../../features/admin/evaluation-administrations/[id]/preview/preview-employees-table"
-import { PreviewEmployeesFooter } from "../../../../../features/admin/evaluation-administrations/[id]/preview/PreviewEmployeesFooter"
+import { PreviewEmployeesFooter } from "../../../../../features/admin/evaluation-administrations/[id]/preview/preview-employees-footer"
 
 export default function PreviewEmployees() {
   return (

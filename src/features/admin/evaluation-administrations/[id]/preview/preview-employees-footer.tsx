@@ -6,7 +6,7 @@ import { Button, LinkButton } from "../../../../../components/ui/button/button"
 import { Icon } from "../../../../../components/ui/icon/icon"
 import Dialog from "../../../../../components/dialog/Dialog"
 import { setAlert } from "../../../../../redux/slices/appSlice"
-import { createEvaluationResults } from "../../../../../redux/slices/evaluationResultsSlice"
+import { createEvaluationResults } from "../../../../../redux/slices/evaluation-results-slice"
 
 export const PreviewEmployeesFooter = () => {
   const { id } = useParams()
