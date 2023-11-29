@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit"
 import appReducer from "./slices/appSlice"
-import authReducer from "./slices/authSlice"
+import authReducer from "./slices/auth-slice"
 
 import emailTemplateReducer from "./slices/email-template-slice"
 import evaluationAdministrationReducer from "./slices/evaluation-administration-slice"
@@ -12,7 +12,7 @@ import evaluationTemplatesReducer from "./slices/evaluationTemplatesSlice"
 import evaluationTemplateContentsReducer from "./slices/evaluation-template-contents-slice"
 import externalUserReducer from "./slices/external-user-slice"
 import externalUsersReducer from "./slices/external-users-slice"
-import usersReducer from "./slices/usersSlice"
+import usersReducer from "./slices/users-slice"
 import userReducer from "./slices/user-slice"
 
 export const store = configureStore({

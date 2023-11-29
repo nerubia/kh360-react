@@ -1,7 +1,7 @@
 import { Suspense, lazy, useEffect, useState } from "react"
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import { useAppDispatch } from "./hooks/useAppDispatch"
-import { refreshToken } from "./redux/slices/authSlice"
+import { refreshToken } from "./redux/slices/auth-slice"
 
 const Layout = lazy(async () => await import("./components/layouts/Layout"))
 const DashboardLayout = lazy(async () => await import("./components/layouts/DashboardLayout"))

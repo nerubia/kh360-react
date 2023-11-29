@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
 import { type ApiError } from "../../types/apiErrorType"
 import {
-  type sendReminderData,
+  type SendReminderData,
   type EvaluationAdministration,
   type ExternalEvaluatorData,
 } from "../../types/evaluation-administration-type"
@@ -139,7 +139,7 @@ export const getEvaluators = createAsyncThunk(
 
 export const sendReminder = createAsyncThunk(
   "evaluationAdministration/sendReminder",
-  async (data: sendReminderData, thunkApi) => {
+  async (data: SendReminderData, thunkApi) => {
     try {
       const response = await axiosInstance.post(
         `/admin/evaluation-administrations/${data.id}/send-reminder`,

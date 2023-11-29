@@ -1,7 +1,7 @@
 import { type CodeResponse, useGoogleLogin } from "@react-oauth/google"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../hooks/useAppSelector"
-import { loginWithGoogle } from "../../../redux/slices/authSlice"
+import { loginWithGoogle } from "../../../redux/slices/auth-slice"
 import { Button } from "../../../components/ui/button/button"
 import { Icon } from "../../../components/ui/icon/icon"
 import { Loading } from "../../../types/loadingType"

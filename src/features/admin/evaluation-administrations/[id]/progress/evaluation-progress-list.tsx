@@ -22,6 +22,7 @@ export const EvaluationProgressList = () => {
   const [sortedEvaluators, setSortedEvaluators] = useState<User[]>(evaluators)
   const [selectedEvaluatorId, setSelectedEvaluatorId] = useState<string>()
   const [dispatchedEmployees, setDispatchedEmployees] = useState<number[]>([])
+  const [evaluatorToggledState, setEvaluatorToggledState] = useState<boolean[]>([])
 
   useEffect(() => {
     if (id !== undefined) {
@@ -46,7 +47,18 @@ export const EvaluationProgressList = () => {
     setSortedEvaluators(sorted)
   }, [evaluators])
 
-  const [evaluatorToggledState, setEvaluatorToggledState] = useState<boolean[]>([])
+  useEffect(() => {
+    if (selectedEvaluatorId !== undefined) {
+      setSortedEvaluators((prevResults) =>
+        prevResults.map((result) => {
+          if (result.id === parseInt(selectedEvaluatorId)) {
+            return { ...result, evaluations }
+          }
+          return result
+        })
+      )
+    }
+  }, [evaluations])
 
   const toggleEvaluator = (index: number, evaluator_id: string | undefined) => {
     const updatedToggledState: boolean[] = [...evaluatorToggledState]
@@ -63,31 +75,18 @@ export const EvaluationProgressList = () => {
     }
   }
 
-  useEffect(() => {
-    if (selectedEvaluatorId !== undefined) {
-      setSortedEvaluators((prevResults) =>
-        prevResults.map((result) => {
-          if (result.id === parseInt(selectedEvaluatorId)) {
-            return { ...result, evaluations }
-          }
-          return result
-        })
-      )
-    }
-  }, [evaluations])
-
   const handleOnClickNudge = async (
     evaluator_name: string,
     evaluator_id: number,
-    email: string
+    is_external: boolean
   ) => {
     if (id !== undefined) {
       try {
         const result = await appDispatch(
           sendReminder({
             id: parseInt(id),
-            evaluator_id,
-            email,
+            user_id: evaluator_id,
+            is_external,
           })
         )
 
@@ -140,9 +139,9 @@ export const EvaluationProgressList = () => {
                   size='small'
                   onClick={async () =>
                     await handleOnClickNudge(
-                      evaluator.first_name ?? "",
+                      evaluator.first_name as string,
                       evaluator.id,
-                      evaluator.email ?? ""
+                      evaluator.is_external as boolean
                     )
                   }
                 >

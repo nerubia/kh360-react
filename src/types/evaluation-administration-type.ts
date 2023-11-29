@@ -28,10 +28,10 @@ export interface ExternalEvaluatorData {
   external_user_ids: number[]
 }
 
-export interface sendReminderData {
+export interface SendReminderData {
   id: number
-  evaluator_id: number
-  email: string
+  user_id: number
+  is_external: boolean
 }
 
 export enum EvaluationAdministrationStatus {
