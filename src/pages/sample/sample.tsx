@@ -272,15 +272,18 @@ export default function Sample() {
       <div className='flex flex-col gap-4'>
         <p className='font-bold'># Sample icons</p>
         <div className='flex flex-wrap gap-2'>
+          <Icon icon='Ban' size='small' />
           <Icon icon='Check' size='small' />
           <Icon icon='ChevronDown' size='small' />
           <Icon icon='ChevronLeft' size='small' />
           <Icon icon='ChevronRight' size='small' />
+          <Icon icon='ChevronUp' size='small' />
           <Icon icon='ChevronsLeft' size='small' />
           <Icon icon='ChevronsRight' size='small' />
-          <Icon icon='ChevronUp' size='small' />
+          <Icon icon='ClipboardCheck' size='small' />
           <Icon icon='Close' size='small' />
           <Icon icon='Dashboard' size='small' />
+          <Icon icon='FileText' size='small' />
           <Icon icon='Google' size='small' />
           <Icon icon='Logout' size='small' />
           <Icon icon='Menu' size='small' />
@@ -291,15 +294,18 @@ export default function Sample() {
           <Icon icon='UserFill' size='small' />
         </div>
         <div className='flex flex-wrap gap-2'>
+          <Icon icon='Ban' />
           <Icon icon='Check' />
           <Icon icon='ChevronDown' />
           <Icon icon='ChevronLeft' />
           <Icon icon='ChevronRight' />
+          <Icon icon='ChevronUp' />
           <Icon icon='ChevronsLeft' />
           <Icon icon='ChevronsRight' />
-          <Icon icon='ChevronUp' />
+          <Icon icon='ClipboardCheck' />
           <Icon icon='Close' />
           <Icon icon='Dashboard' />
+          <Icon icon='FileText' />
           <Icon icon='Google' />
           <Icon icon='Logout' />
           <Icon icon='Menu' />
@@ -310,15 +316,18 @@ export default function Sample() {
           <Icon icon='UserFill' />
         </div>
         <div className='flex flex-wrap gap-2'>
+          <Icon icon='Ban' size='large' />
           <Icon icon='Check' size='large' />
           <Icon icon='ChevronDown' size='large' />
           <Icon icon='ChevronLeft' size='large' />
           <Icon icon='ChevronRight' size='large' />
+          <Icon icon='ChevronUp' size='large' />
           <Icon icon='ChevronsLeft' size='large' />
           <Icon icon='ChevronsRight' size='large' />
-          <Icon icon='ChevronUp' size='large' />
+          <Icon icon='ClipboardCheck' size='large' />
           <Icon icon='Close' size='large' />
           <Icon icon='Dashboard' size='large' />
+          <Icon icon='FileText' size='large' />
           <Icon icon='Google' size='large' />
           <Icon icon='Logout' size='large' />
           <Icon icon='Menu' size='large' />

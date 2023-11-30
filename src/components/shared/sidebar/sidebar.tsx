@@ -14,7 +14,7 @@ export const Sidebar = () => {
   const appDispatch = useAppDispatch()
   const isAdmin = useAdmin()
 
-  const MenuLinks = [
+  const menuLinks = [
     {
       title: "Sample",
       link: "/sample",
@@ -27,9 +27,15 @@ export const Sidebar = () => {
       access: "Public",
     },
     {
-      title: "Evaluations",
+      title: "My Evaluations",
+      link: "/my-evaluations",
+      icon: "ClipboardCheck",
+      access: "Public",
+    },
+    {
+      title: "Evaluation Forms",
       link: "/evaluation-administrations",
-      icon: "Star",
+      icon: "FileText",
       access: "Public",
     },
     {
@@ -73,7 +79,7 @@ export const Sidebar = () => {
           {user?.first_name} {user?.last_name}
         </h1>
         <div className='flex-1 flex flex-col gap-2'>
-          {MenuLinks.map(
+          {menuLinks.map(
             (menu, index) =>
               ((menu.access === "Admin" && isAdmin) || menu.access === "Public") && (
                 <Menu
