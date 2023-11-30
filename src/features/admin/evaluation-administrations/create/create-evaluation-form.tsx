@@ -10,7 +10,7 @@ import { createEvaluationSchema } from "../../../../utils/validation/evaluations
 import { Loading } from "../../../../types/loadingType"
 import { getDefaultEmailTemplate } from "../../../../redux/slices/email-template-slice"
 import Dialog from "../../../../components/dialog/Dialog"
-import { type EvaluationFormData } from "../../../../types/formDataType"
+import { type EvaluationAdministrationFormData } from "../../../../types/form-data-type"
 import { createEvaluationAdministration } from "../../../../redux/slices/evaluation-administrations-slice"
 import { setSelectedEmployeeIds } from "../../../../redux/slices/evaluation-administration-slice"
 import { setEvaluationResults } from "../../../../redux/slices/evaluation-results-slice"
@@ -21,7 +21,7 @@ export const CreateEvaluationForm = () => {
   const { loading, error } = useAppSelector((state) => state.evaluationAdministrations)
   const { emailTemplate } = useAppSelector((state) => state.emailTemplate)
 
-  const [formData, setFormData] = useState<EvaluationFormData>({
+  const [formData, setFormData] = useState<EvaluationAdministrationFormData>({
     name: "",
     eval_period_start_date: "",
     eval_period_end_date: "",
@@ -31,7 +31,9 @@ export const CreateEvaluationForm = () => {
     email_subject: "",
     email_content: "",
   })
-  const [validationErrors, setValidationErrors] = useState<Partial<EvaluationFormData>>({})
+  const [validationErrors, setValidationErrors] = useState<
+    Partial<EvaluationAdministrationFormData>
+  >({})
   const [showDialog, setShowDialog] = useState<boolean>(false)
 
   useEffect(() => {
@@ -61,9 +63,9 @@ export const CreateEvaluationForm = () => {
       }
     } catch (error) {
       if (error instanceof ValidationError) {
-        const errors: Partial<EvaluationFormData> = {}
+        const errors: Partial<EvaluationAdministrationFormData> = {}
         error.inner.forEach((err) => {
-          errors[err.path as keyof EvaluationFormData] = err.message
+          errors[err.path as keyof EvaluationAdministrationFormData] = err.message
         })
         setValidationErrors(errors)
       }

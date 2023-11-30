@@ -9,7 +9,7 @@ import { TextArea } from "../../../../../components/ui/textarea/text-area"
 import { createEvaluationSchema } from "../../../../../utils/validation/evaluations/createEvaluationSchema"
 import { Loading } from "../../../../../types/loadingType"
 import Dialog from "../../../../../components/dialog/Dialog"
-import { type EvaluationFormData } from "../../../../../types/formDataType"
+import { type EvaluationAdministrationFormData } from "../../../../../types/form-data-type"
 import {
   getEvaluationAdministration,
   updateEvaluationAdministration,
@@ -24,7 +24,7 @@ export const EditEvaluationForm = () => {
   )
   const { emailTemplate } = useAppSelector((state) => state.emailTemplate)
 
-  const [formData, setFormData] = useState<EvaluationFormData>({
+  const [formData, setFormData] = useState<EvaluationAdministrationFormData>({
     name: "",
     eval_period_start_date: "",
     eval_period_end_date: "",
@@ -34,7 +34,9 @@ export const EditEvaluationForm = () => {
     email_subject: "",
     email_content: "",
   })
-  const [validationErrors, setValidationErrors] = useState<Partial<EvaluationFormData>>({})
+  const [validationErrors, setValidationErrors] = useState<
+    Partial<EvaluationAdministrationFormData>
+  >({})
   const [showDialog, setShowDialog] = useState<boolean>(false)
 
   useEffect(() => {
@@ -86,9 +88,9 @@ export const EditEvaluationForm = () => {
         }
       } catch (error) {
         if (error instanceof ValidationError) {
-          const errors: Partial<EvaluationFormData> = {}
+          const errors: Partial<EvaluationAdministrationFormData> = {}
           error.inner.forEach((err) => {
-            errors[err.path as keyof EvaluationFormData] = err.message
+            errors[err.path as keyof EvaluationAdministrationFormData] = err.message
           })
           setValidationErrors(errors)
         }

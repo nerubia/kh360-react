@@ -8,7 +8,7 @@ import { Input } from "../../../components/input/Input"
 import { Button } from "../../../components/ui/button/button"
 import { loginSchema } from "../../../utils/validation/auth/loginSchema"
 import { Loading } from "../../../types/loadingType"
-import { type LoginFormData } from "../../../types/formDataType"
+import { type LoginFormData } from "../../../types/form-data-type"
 
 export const LoginForm = () => {
   const appDispatch = useAppDispatch()

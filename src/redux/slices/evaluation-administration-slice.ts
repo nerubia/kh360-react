@@ -8,7 +8,7 @@ import {
 } from "../../types/evaluation-administration-type"
 import { axiosInstance } from "../../utils/axios-instance"
 import { Loading } from "../../types/loadingType"
-import { type EvaluationFormData } from "../../types/formDataType"
+import { type EvaluationAdministrationFormData } from "../../types/form-data-type"
 import { type User } from "../../types/user-type"
 
 export const getEvaluationAdministration = createAsyncThunk(
@@ -30,7 +30,7 @@ export const updateEvaluationAdministration = createAsyncThunk(
   async (
     data: {
       id: number
-      evaluation_data: EvaluationFormData
+      evaluation_data: EvaluationAdministrationFormData
     },
     thunkApi
   ) => {

@@ -3,7 +3,7 @@ import { type AxiosError } from "axios"
 import { type ApiError } from "../../types/apiErrorType"
 import { axiosInstance } from "../../utils/axios-instance"
 import { Loading } from "../../types/loadingType"
-import { type EvaluationFormData } from "../../types/formDataType"
+import { type EvaluationAdministrationFormData } from "../../types/form-data-type"
 import {
   type EvaluationAdministrationFilters,
   type EvaluationAdministration,
@@ -27,7 +27,7 @@ export const getEvaluationAdministrations = createAsyncThunk(
 
 export const createEvaluationAdministration = createAsyncThunk(
   "evaluationAdministration/createEvaluationAdministration",
-  async (data: EvaluationFormData, thunkApi) => {
+  async (data: EvaluationAdministrationFormData, thunkApi) => {
     try {
       const response = await axiosInstance.post("/admin/evaluation-administrations", data)
       return response.data

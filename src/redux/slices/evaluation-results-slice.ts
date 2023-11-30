@@ -7,7 +7,7 @@ import {
 } from "../../types/evaluation-result-type"
 import { axiosInstance } from "../../utils/axios-instance"
 import { Loading } from "../../types/loadingType"
-import { type EvaluationResultsFormData } from "../../types/formDataType"
+import { type EvaluationResultsFormData } from "../../types/form-data-type"
 
 export const getEvaluationResults = createAsyncThunk(
   "evaluationResults/getEvaluationResults",
