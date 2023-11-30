@@ -9,7 +9,7 @@ import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { Loading } from "../../../types/loadingType"
 import { type Evaluation } from "../../../types/evaluation-type"
 import { Menu } from "../../../components/shared/Menu"
-import Dialog from "../../../components/dialog/Dialog"
+import Dialog from "../../../components/ui/dialog/dialog"
 import { Badge } from "../../../components/ui/badge/Badge"
 import { getEvaluationStatusVariant } from "../../../utils/variant"
 

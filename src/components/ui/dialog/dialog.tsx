@@ -1,8 +1,8 @@
-import { useAppSelector } from "../../hooks/useAppSelector"
+import { useAppSelector } from "../../../hooks/useAppSelector"
 import { type VariantProps, cva } from "class-variance-authority"
-import { DialogActions } from "./DialogActions"
-import { DialogDescription } from "./DialogDescription"
-import { DialogTitle } from "./DialogTitle"
+import { DialogActions } from "./dialog-actions"
+import { DialogDescription } from "./dialog-description"
+import { DialogTitle } from "./dialog-title"
 
 const dialog = cva(["w-full", "flex", "flex-col", "gap-4", "p-5", "rounded-md"], {
   variants: {

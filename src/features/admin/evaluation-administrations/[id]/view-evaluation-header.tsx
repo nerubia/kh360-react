@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { EvaluationAdministrationStatus } from "../../../../types/evaluation-administration-type"
 import { formatDate } from "../../../../utils/format-date"
 import { Icon } from "../../../../components/ui/icon/icon"
-import Dialog from "../../../../components/dialog/Dialog"
+import Dialog from "../../../../components/ui/dialog/dialog"
 import {
   cancelEvaluationAdministration,
   closeEvaluationAdministration,

@@ -4,7 +4,7 @@ import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
 import { Button, LinkButton } from "../../../../../components/ui/button/button"
 import { Icon } from "../../../../../components/ui/icon/icon"
-import Dialog from "../../../../../components/dialog/Dialog"
+import Dialog from "../../../../../components/ui/dialog/dialog"
 import { setAlert } from "../../../../../redux/slices/appSlice"
 import { createEvaluationResults } from "../../../../../redux/slices/evaluation-results-slice"
 

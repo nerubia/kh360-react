@@ -5,7 +5,7 @@ import { AnswerOptions, AnswerType } from "../../../types/answer-option-type"
 import { EvaluationStatus, type Evaluation } from "../../../types/evaluation-type"
 import { Loading } from "../../../types/loadingType"
 import { type EvaluationTemplateContent } from "../../../types/evaluation-template-content-type"
-import { Input } from "../../input/Input"
+import { Input } from "../input/input"
 import {
   updateEvaluationRatingById,
   updateEvaluationRatingCommentById,

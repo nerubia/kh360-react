@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { type ExternalAuthFormData } from "../../types/form-data-type"
-import { Input } from "../../components/input/Input"
+import { Input } from "../../components/ui/input/input"
 import { Button } from "../../components/ui/button/button"
 import { ValidationError } from "yup"
 import { externalAuthSchema } from "../../utils/validation/external-evaluator-schema"

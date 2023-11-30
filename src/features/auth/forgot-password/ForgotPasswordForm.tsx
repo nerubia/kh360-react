@@ -1,5 +1,5 @@
 import { Button } from "../../../components/ui/button/button"
-import { Input } from "../../../components/input/Input"
+import { Input } from "../../../components/ui/input/input"
 
 export const ForgotPasswordForm = () => {
   return (
