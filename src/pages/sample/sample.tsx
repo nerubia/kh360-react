@@ -149,7 +149,7 @@ export default function Sample() {
               <Dropdown.Item
                 onClick={() => {
                   // eslint-disable-next-line no-console
-                  console.log("Item 1 clicked")
+                  console.log("Primary - Item 1 clicked")
                 }}
               >
                 Item 1
@@ -157,7 +157,7 @@ export default function Sample() {
               <Dropdown.Item
                 onClick={() => {
                   // eslint-disable-next-line no-console
-                  console.log("Item 2 clicked")
+                  console.log("Primary - Item 2 clicked")
                 }}
               >
                 Item 2
@@ -165,7 +165,7 @@ export default function Sample() {
               <Dropdown.Item
                 onClick={() => {
                   // eslint-disable-next-line no-console
-                  console.log("Item 3 clicked")
+                  console.log("Primary - Item 3 clicked")
                 }}
               >
                 Item 3
@@ -180,7 +180,7 @@ export default function Sample() {
               <Dropdown.Item
                 onClick={() => {
                   // eslint-disable-next-line no-console
-                  console.log("Item 1 clicked")
+                  console.log("Primary Outline - Item 1 clicked")
                 }}
               >
                 Item 1
@@ -188,7 +188,7 @@ export default function Sample() {
               <Dropdown.Item
                 onClick={() => {
                   // eslint-disable-next-line no-console
-                  console.log("Item 2 clicked")
+                  console.log("Primary Outline - Item 2 clicked")
                 }}
               >
                 Item 2
@@ -196,7 +196,7 @@ export default function Sample() {
               <Dropdown.Item
                 onClick={() => {
                   // eslint-disable-next-line no-console
-                  console.log("Item 3 clicked")
+                  console.log("Primary Outline - Item 3 clicked")
                 }}
               >
                 Item 3
@@ -211,7 +211,7 @@ export default function Sample() {
               <Dropdown.Item
                 onClick={() => {
                   // eslint-disable-next-line no-console
-                  console.log("Item 1 clicked")
+                  console.log("Destructive - Item 1 clicked")
                 }}
               >
                 Item 1
@@ -219,7 +219,7 @@ export default function Sample() {
               <Dropdown.Item
                 onClick={() => {
                   // eslint-disable-next-line no-console
-                  console.log("Item 2 clicked")
+                  console.log("Destructive - Item 2 clicked")
                 }}
               >
                 Item 2
@@ -227,7 +227,7 @@ export default function Sample() {
               <Dropdown.Item
                 onClick={() => {
                   // eslint-disable-next-line no-console
-                  console.log("Item 3 clicked")
+                  console.log("Destructive - Item 3 clicked")
                 }}
               >
                 Item 3

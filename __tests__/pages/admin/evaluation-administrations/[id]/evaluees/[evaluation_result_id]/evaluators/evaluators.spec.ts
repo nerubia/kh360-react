@@ -148,6 +148,16 @@ test.describe("Admin - Select Evaluators", () => {
         }
       )
 
+      await mockRequest(
+        page,
+        "/admin/project-members?evaluation_administration_id=1&evaluation_result_id=1&evaluation_template_id=4",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([]),
+        }
+      )
+
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
       }
@@ -161,7 +171,7 @@ test.describe("Admin - Select Evaluators", () => {
       await expect(page.getByRole("link", { name: "QA Evaluation" })).toBeVisible()
 
       await expect(page.getByRole("cell", { name: "Evaluator", exact: true }).first()).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Project" })).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Project" }).first()).toBeVisible()
       await expect(page.getByRole("cell", { name: "Evaluee Role" }).first()).toBeVisible()
       await expect(page.getByRole("cell", { name: "%", exact: true })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Duration" })).toBeVisible()
@@ -284,6 +294,16 @@ test.describe("Admin - Select Evaluators", () => {
         }
       )
 
+      await mockRequest(
+        page,
+        "/admin/project-members?evaluation_administration_id=1&evaluation_result_id=1&evaluation_template_id=4",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([]),
+        }
+      )
+
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
       }
@@ -344,6 +364,16 @@ test.describe("Admin - Select Evaluators", () => {
         }
       )
 
+      await mockRequest(
+        page,
+        "/admin/project-members?evaluation_administration_id=1&evaluation_result_id=2&evaluation_template_id=4",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([]),
+        }
+      )
+
       await page.getByTestId("NextButton").click()
 
       await expect(page).toHaveURL("/admin/evaluation-administrations/1/evaluees/2/evaluators/4")
@@ -378,6 +408,16 @@ test.describe("Admin - Select Evaluators", () => {
       await mockRequest(
         page,
         "/admin/evaluations?evaluation_result_id=1&evaluation_template_id=4",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([]),
+        }
+      )
+
+      await mockRequest(
+        page,
+        "/admin/project-members?evaluation_administration_id=1&evaluation_result_id=1&evaluation_template_id=4",
         {
           status: 200,
           contentType: "application/json",
@@ -451,6 +491,16 @@ test.describe("Admin - Select Evaluators", () => {
         }
       )
 
+      await mockRequest(
+        page,
+        "/admin/project-members?evaluation_administration_id=1&evaluation_result_id=1&evaluation_template_id=4",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([]),
+        }
+      )
+
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
       }
@@ -516,6 +566,16 @@ test.describe("Admin - Select Evaluators", () => {
       await mockRequest(
         page,
         "/admin/evaluations?evaluation_result_id=1&evaluation_template_id=4",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([]),
+        }
+      )
+
+      await mockRequest(
+        page,
+        "/admin/project-members?evaluation_administration_id=1&evaluation_result_id=1&evaluation_template_id=4",
         {
           status: 200,
           contentType: "application/json",

@@ -1,5 +1,5 @@
 import { useTitle } from "../../../../../hooks/useTitle"
-import { EditEvaluationForm } from "../../../../../features/admin/evaluation-administrations/[id]/edit/EditEvaluationForm"
+import { EditEvaluationForm } from "../../../../../features/admin/evaluation-administrations/[id]/edit/edit-evaluation-form"
 
 export default function EditEvaluation() {
   useTitle("Edit Evaluation")

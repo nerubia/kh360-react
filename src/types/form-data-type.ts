@@ -8,7 +8,7 @@ export interface ExternalAuthFormData {
   code?: string
 }
 
-export interface EvaluationFormData {
+export interface EvaluationAdministrationFormData {
   id?: string
   name?: string
   eval_period_start_date?: string
@@ -19,6 +19,11 @@ export interface EvaluationFormData {
   email_subject?: string
   email_content?: string
   status?: string
+}
+
+export interface EvaluationFormData {
+  project_id?: number
+  project_member_id?: number
 }
 
 export interface EvaluationResultsFormData {

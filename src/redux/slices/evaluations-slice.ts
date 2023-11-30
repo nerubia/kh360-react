@@ -4,6 +4,7 @@ import { type ApiError } from "../../types/apiErrorType"
 import { type EvaluationFilters, type Evaluation } from "../../types/evaluation-type"
 import { axiosInstance } from "../../utils/axios-instance"
 import { Loading } from "../../types/loadingType"
+import { type EvaluationFormData } from "../../types/form-data-type"
 
 export const getEvaluations = createAsyncThunk(
   "evaluations/getEvaluations",
@@ -35,6 +36,29 @@ export const setForEvaluations = createAsyncThunk(
         evaluation_ids: data.evaluation_ids,
         for_evaluation: data.for_evaluation,
       })
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const updateProject = createAsyncThunk(
+  "evaluations/updateProject",
+  async (
+    data: {
+      id: number
+      evaluation_data: EvaluationFormData
+    },
+    thunkApi
+  ) => {
+    try {
+      const response = await axiosInstance.patch(
+        `/admin/evaluations/${data.id}`,
+        data.evaluation_data
+      )
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -98,6 +122,29 @@ const evaluationsSlice = createSlice({
       )
     })
     builder.addCase(setForEvaluations.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Update project
+     */
+    builder.addCase(updateProject.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(updateProject.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.evaluations = state.evaluations.map((evaluation) =>
+        evaluation.id === action.payload.id
+          ? {
+              ...evaluation,
+              project: action.payload.project,
+            }
+          : evaluation
+      )
+    })
+    builder.addCase(updateProject.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })

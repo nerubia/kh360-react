@@ -4,7 +4,7 @@ import { type ApiError } from "../../types/apiErrorType"
 import { axiosInstance } from "../../utils/axios-instance"
 import { Loading } from "../../types/loadingType"
 import { type ExternalUser, type ExternalUserFilters } from "../../types/external-user-type"
-import { type ExternalUserFormData } from "../../types/formDataType"
+import { type ExternalUserFormData } from "../../types/form-data-type"
 
 export const getExternalUsers = createAsyncThunk(
   "externalUser/getExternalUsers",

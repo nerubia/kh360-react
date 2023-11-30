@@ -10,6 +10,7 @@ interface DropdownProps {
 function Dropdown({ children }: DropdownProps) {
   const dropdownRef = useRef<HTMLDivElement | null>(null)
   const triggerRef = useRef<HTMLDivElement | null>(null)
+  const itemRef = useRef<HTMLDivElement | null>(null)
   const [open, setOpen] = useState<boolean>(false)
 
   useEffect(() => {
@@ -28,7 +29,7 @@ function Dropdown({ children }: DropdownProps) {
       setOpen((prev) => !prev)
       return
     }
-    if ((event.target as HTMLElement).getAttribute("data-dropdown-item") != null) {
+    if (itemRef.current?.contains(event.target as Node) === true) {
       setOpen(false)
     }
   }
@@ -43,13 +44,15 @@ function Dropdown({ children }: DropdownProps) {
           return null
         })}
       </div>
-      {open &&
-        React.Children.map(children, (child) => {
-          if (React.isValidElement(child) && child.type === Dropdown.Content) {
-            return React.cloneElement(child)
-          }
-          return null
-        })}
+      <div ref={itemRef}>
+        {open &&
+          React.Children.map(children, (child) => {
+            if (React.isValidElement(child) && child.type === Dropdown.Content) {
+              return React.cloneElement(child)
+            }
+            return null
+          })}
+      </div>
     </div>
   )
 }

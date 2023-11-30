@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Input } from "../../../../components/input/Input"
-import { type ExternalUserFormData } from "../../../../types/formDataType"
+import { type ExternalUserFormData } from "../../../../types/form-data-type"
 import { Button, LinkButton } from "../../../../components/ui/button/button"
 import Dialog from "../../../../components/dialog/Dialog"
 import { ValidationError } from "yup"

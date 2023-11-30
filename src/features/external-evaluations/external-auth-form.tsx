@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { type ExternalAuthFormData } from "../../types/formDataType"
+import { type ExternalAuthFormData } from "../../types/form-data-type"
 import { Input } from "../../components/input/Input"
 import { Button } from "../../components/ui/button/button"
 import { ValidationError } from "yup"
