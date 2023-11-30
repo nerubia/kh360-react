@@ -6,7 +6,7 @@ import { Pagination } from "../../../components/shared/pagination/pagination"
 import { getExternalUsers, deleteExternalUser } from "../../../redux/slices/external-users-slice"
 import { Icon } from "../../../components/ui/icon/icon"
 import { Button, LinkButton } from "../../../components/ui/button/button"
-import Dialog from "../../../components/dialog/Dialog"
+import Dialog from "../../../components/ui/dialog/dialog"
 import { setAlert } from "../../../redux/slices/appSlice"
 
 export const ExternalEvaluatorsTable = () => {

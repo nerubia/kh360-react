@@ -4,11 +4,11 @@ import { ValidationError } from "yup"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
 import { Button, LinkButton } from "../../../../../components/ui/button/button"
-import { Input } from "../../../../../components/input/Input"
+import { Input } from "../../../../../components/ui/input/input"
 import { TextArea } from "../../../../../components/ui/textarea/text-area"
 import { createEvaluationSchema } from "../../../../../utils/validation/evaluations/createEvaluationSchema"
 import { Loading } from "../../../../../types/loadingType"
-import Dialog from "../../../../../components/dialog/Dialog"
+import Dialog from "../../../../../components/ui/dialog/dialog"
 import { type EvaluationAdministrationFormData } from "../../../../../types/form-data-type"
 import {
   getEvaluationAdministration,

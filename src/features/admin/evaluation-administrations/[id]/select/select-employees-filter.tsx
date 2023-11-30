@@ -1,5 +1,5 @@
 import { Button } from "../../../../../components/ui/button/button"
-import { Input } from "../../../../../components/input/Input"
+import { Input } from "../../../../../components/ui/input/input"
 import { CustomSelect } from "../../../../../components/ui/select/custom-select"
 import { type Option } from "../../../../../types/optionType"
 import { useSearchParams } from "react-router-dom"
