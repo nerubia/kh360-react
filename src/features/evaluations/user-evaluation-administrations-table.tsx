@@ -42,48 +42,56 @@ export const UserEvaluationAdministrationsTable = () => {
 
   return (
     <div className='flex flex-col gap-8'>
-      {user_evaluation_administrations.map((evaluationAdministration) => (
-        <Link
-          key={evaluationAdministration.id}
-          to={`/evaluation-administrations/${evaluationAdministration.id}/evaluations/all`}
-        >
-          <div className='flex flex-col items-start gap-4 md:flex-row md:justify-between shadow-md rounded-md p-4 hover:bg-slate-100'>
-            <div className='flex flex-col gap-2'>
-              <h2 className='text-primary-500 text-lg font-semibold'>
-                {evaluationAdministration.name}
-              </h2>
-              <Progress
-                value={
-                  ((evaluationAdministration.totalSubmitted ?? 0) /
-                    (evaluationAdministration.totalEvaluations ?? 0)) *
-                  100
-                }
-              />
-              <p className='text-primary-500 text-sm font-semibold pt-2'>
-                {evaluationAdministration.totalSubmitted} out of{" "}
-                {evaluationAdministration.totalEvaluations} Evaluations Submitted
-              </p>
-              <p>
-                Evaluate By: {convertToFullDate(evaluationAdministration.eval_schedule_end_date)}
-              </p>
-              <div>
-                <p>
-                  Evaluation Period:{" "}
-                  {formatDateRange(
-                    evaluationAdministration.eval_period_start_date,
-                    evaluationAdministration.eval_period_end_date
-                  )}
-                </p>
-                <p>{evaluationAdministration.remarks}</p>
-              </div>
-            </div>
-          </div>
-        </Link>
-      ))}
       {loading === Loading.Pending && (
         <div className='text-center'>
           <Spinner />
         </div>
+      )}
+      {loading === Loading.Fulfilled && user_evaluation_administrations?.length === 0 && (
+        <p className=' text-gray-400'>You currently have no pending evaluations.</p>
+      )}
+      {loading === Loading.Fulfilled && user_evaluation_administrations !== null && (
+        <>
+          {user_evaluation_administrations.map((evaluationAdministration) => (
+            <Link
+              key={evaluationAdministration.id}
+              to={`/evaluation-administrations/${evaluationAdministration.id}/evaluations/all`}
+            >
+              <div className='flex flex-col items-start gap-4 md:flex-row md:justify-between shadow-md rounded-md p-4 hover:bg-slate-100'>
+                <div className='flex flex-col gap-2'>
+                  <h2 className='text-primary-500 text-lg font-semibold'>
+                    {evaluationAdministration.name}
+                  </h2>
+                  <Progress
+                    value={
+                      ((evaluationAdministration.totalSubmitted ?? 0) /
+                        (evaluationAdministration.totalEvaluations ?? 0)) *
+                      100
+                    }
+                  />
+                  <p className='text-primary-500 text-sm font-semibold pt-2'>
+                    {evaluationAdministration.totalSubmitted} out of{" "}
+                    {evaluationAdministration.totalEvaluations} Evaluations Submitted
+                  </p>
+                  <p>
+                    Evaluate By:{" "}
+                    {convertToFullDate(evaluationAdministration.eval_schedule_end_date)}
+                  </p>
+                  <div>
+                    <p>
+                      Evaluation Period:{" "}
+                      {formatDateRange(
+                        evaluationAdministration.eval_period_start_date,
+                        evaluationAdministration.eval_period_end_date
+                      )}
+                    </p>
+                    <p>{evaluationAdministration.remarks}</p>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </>
       )}
     </div>
   )
