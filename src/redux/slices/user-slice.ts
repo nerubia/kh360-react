@@ -10,6 +10,7 @@ import {
 } from "../../types/evaluation-administration-type"
 import { axiosInstance } from "../../utils/axios-instance"
 import { Loading } from "../../types/loadingType"
+import { type EvaluationResult } from "../../types/evaluation-result-type"
 
 export const getUserEvaluations = createAsyncThunk(
   "user/getUserEvaluations",
@@ -76,6 +77,20 @@ export const submitEvaluation = createAsyncThunk(
   }
 )
 
+export const getUserEvaluationResult = createAsyncThunk(
+  "user/getUserEvaluationResult",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.get(`/user/my-evaluations/${id}`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   loading_answer: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
@@ -85,6 +100,7 @@ interface InitialState {
   user_evaluations: Evaluation[]
   user_evaluation_administrations: EvaluationAdministration[]
   my_evaluation_administrations: EvaluationAdministration[]
+  user_evaluation_result: EvaluationResult | null
   hasPreviousPage: boolean
   hasNextPage: boolean
   currentPage: number
@@ -101,6 +117,7 @@ const initialState: InitialState = {
   user_evaluations: [],
   user_evaluation_administrations: [],
   my_evaluation_administrations: [],
+  user_evaluation_result: null,
   hasPreviousPage: false,
   hasNextPage: false,
   currentPage: 0,
@@ -220,6 +237,22 @@ const userSlice = createSlice({
     })
     builder.addCase(submitEvaluation.rejected, (state, action) => {
       state.loading_submit_evaluation = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Get user evaluation result
+     */
+    builder.addCase(getUserEvaluationResult.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getUserEvaluationResult.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.user_evaluation_result = action.payload
+    })
+    builder.addCase(getUserEvaluationResult.rejected, (state, action) => {
+      state.loading = Loading.Rejected
       state.error = action.payload as string
     })
   },
