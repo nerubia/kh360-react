@@ -304,5 +304,136 @@ test.describe("User - Evaluations", () => {
 
       await expect(page.getByText("Comment is required")).toBeVisible()
     })
+
+    test("should allow to go back", async ({ page, isMobile }) => {
+      await loginUser("employee", page)
+
+      await page.goto("/evaluation-administrations/1/evaluations/1")
+
+      await mockRequest(page, "/user/evaluations?evaluation_administration_id=1&for_evaluation=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            id: 1,
+            comments: "Comment 1",
+            eval_start_date: "2023-01-01T00:00:00.000Z",
+            eval_end_date: "2023-10-15T00:00:00.000Z",
+            percent_involvement: "50",
+            status: "Ongoing",
+            for_evaluation: true,
+            evaluator: {
+              id: 20222,
+              first_name: "Evaluator",
+              last_name: "User",
+            },
+            evaluee: {
+              id: 5,
+              slug: "sample-user",
+              first_name: "Evaluee",
+              last_name: "User",
+              picture: null,
+            },
+            project: {
+              id: 42,
+              name: "Sample Project",
+            },
+            project_role: {
+              id: 3,
+              name: "Project Manager",
+              short_name: "PM",
+            },
+          },
+        ]),
+      })
+
+      await mockRequest(page, "/user/evaluation-template-contents?evaluation_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            id: 14,
+            name: "PM Skillset",
+            description:
+              "Manage overall team in terms of cost, schedule and quality, how organized PM is",
+            eval_start_date: "2023-01-01T00:00:00.000Z",
+            eval_end_date: "2023-10-15T00:00:00.000Z",
+            evaluationRating: {
+              id: 84,
+              answer_option_id: 5,
+              ratingSequenceNumber: 5,
+            },
+            answerId: 1,
+            answerOptions: [
+              {
+                id: 1,
+                sequence_no: 1,
+              },
+              {
+                id: 2,
+                sequence_no: 2,
+              },
+              {
+                id: 3,
+                sequence_no: 3,
+              },
+              {
+                id: 4,
+                sequence_no: 4,
+              },
+              {
+                id: 5,
+                sequence_no: 5,
+              },
+              {
+                id: 6,
+                sequence_no: 6,
+              },
+            ],
+          },
+        ]),
+      })
+
+      await mockRequest(page, "/user/rating-templates", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            id: 2,
+            name: "Performance Evaluation NA Rating - Ninja",
+            template_type: "Performance Evaluation NA Rating",
+            is_default: false,
+            subject: "🤷‍♂️ Whoa, N.A. Ninja! 🤷‍♀️",
+            content:
+              "Looks like we&apos;ve hit the Not Applicable zone! &#128640; No worries, we&apos;re all",
+            created_by_id: null,
+            updated_by_id: null,
+            created_at: null,
+            updated_at: null,
+          },
+        ]),
+      })
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await page.getByRole("link").nth(4).click()
+
+      await mockRequest(page, "/user/evaluation-administrations", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
+
+      await expect(page).toHaveURL("/evaluation-administrations")
+    })
   })
 })

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { useAppSelector } from "../../../hooks/useAppSelector"
-import { Button } from "../../../components/ui/button/button"
+import { Button, LinkButton } from "../../../components/ui/button/button"
 import { Icon } from "../../../components/ui/icon/icon"
 import { EvaluationStatus } from "../../../types/evaluation-type"
 import { getUserEvaluations } from "../../../redux/slices/user-slice"
@@ -114,87 +114,94 @@ export const EvaluationsList = () => {
         <div>No evaluations available yet.</div>
       )}
       <div className='md:w-96 flex flex-col m-4'>
-        {loading === Loading.Fulfilled &&
-          user_evaluations.length > 0 &&
-          evaluation_id !== undefined && (
-            <>
-              {sortedEvaluations.map((evaluation) => (
-                <Menu
-                  key={evaluation.id}
-                  isEvaluation={true}
-                  evaluation_id={evaluation_id}
-                  evaluation={evaluation}
-                  to=''
-                  onClick={
-                    is_editing
-                      ? () => handleOnClickEvaluation(evaluation.id)
-                      : () => handleNavigate(evaluation.id)
-                  }
-                  className='w-full rounded-md flex items-center gap-2 p-2'
-                >
-                  <div className='flex items-center justify-center w-10 h-10 rounded-full py-2'>
-                    {evaluation.evaluee?.picture === undefined ||
-                    evaluation.evaluee?.picture === null ? (
-                      <Icon icon='UserFill' />
-                    ) : (
-                      <img
-                        className='w-10 h-10 rounded-full'
-                        src={evaluation.evaluee?.picture}
-                        alt={`Avatar of ${evaluation.evaluee.last_name}, ${evaluation.evaluee.first_name}`}
-                      />
-                    )}
-                  </div>
-                  <div
-                    className={`flex-1 flex flex-col text-start ${
-                      evaluation.status === EvaluationStatus.Open ? "font-bold" : ""
-                    }`}
+        <div className='flex-1'>
+          {loading === Loading.Fulfilled &&
+            user_evaluations.length > 0 &&
+            evaluation_id !== undefined && (
+              <>
+                {sortedEvaluations.map((evaluation) => (
+                  <Menu
+                    key={evaluation.id}
+                    isEvaluation={true}
+                    evaluation_id={evaluation_id}
+                    evaluation={evaluation}
+                    to=''
+                    onClick={
+                      is_editing
+                        ? () => handleOnClickEvaluation(evaluation.id)
+                        : () => handleNavigate(evaluation.id)
+                    }
+                    className='w-full rounded-md flex items-center gap-2 p-2'
                   >
-                    <div className='flex justify-between gap-4'>
-                      <p className='text-sm'>
-                        {evaluation.evaluee?.last_name}
-                        {", "}
-                        {evaluation.evaluee?.first_name}
-                      </p>
-                      <div className='uppercase'>
-                        <Badge
-                          variant={getEvaluationStatusVariant(evaluation?.status)}
-                          size='small'
-                        >
-                          {evaluation.status}
-                        </Badge>
-                      </div>
+                    <div className='flex items-center justify-center w-10 h-10 rounded-full py-2'>
+                      {evaluation.evaluee?.picture === undefined ||
+                      evaluation.evaluee?.picture === null ? (
+                        <Icon icon='UserFill' />
+                      ) : (
+                        <img
+                          className='w-10 h-10 rounded-full'
+                          src={evaluation.evaluee?.picture}
+                          alt={`Avatar of ${evaluation.evaluee.last_name}, ${evaluation.evaluee.first_name}`}
+                        />
+                      )}
                     </div>
-                    {evaluation.project === null ? (
-                      <p className='text-xs'>
-                        {evaluation.template?.project_role?.name !== undefined
-                          ? evaluation.template?.project_role?.name
-                          : evaluation.template?.display_name ?? ""}
-                      </p>
-                    ) : (
-                      <p className='text-xs'>
-                        {evaluation.project?.name} [{evaluation.project_role?.short_name}]
-                      </p>
-                    )}
-                  </div>
-                </Menu>
-              ))}
-              <Dialog open={showDialog && is_editing}>
-                <Dialog.Title>Confirm Discard Changes</Dialog.Title>
-                <Dialog.Description>
-                  You have unsaved changes on this page. <br /> Are you sure you want to discard
-                  these changes?
-                </Dialog.Description>
-                <Dialog.Actions>
-                  <Button variant='primaryOutline' onClick={toggleDialog}>
-                    No
-                  </Button>
-                  <Button variant='primary' onClick={() => handleProceed()}>
-                    Yes
-                  </Button>
-                </Dialog.Actions>
-              </Dialog>
-            </>
-          )}
+                    <div
+                      className={`flex-1 flex flex-col text-start ${
+                        evaluation.status === EvaluationStatus.Open ? "font-bold" : ""
+                      }`}
+                    >
+                      <div className='flex justify-between gap-4'>
+                        <p className='text-sm'>
+                          {evaluation.evaluee?.last_name}
+                          {", "}
+                          {evaluation.evaluee?.first_name}
+                        </p>
+                        <div className='uppercase'>
+                          <Badge
+                            variant={getEvaluationStatusVariant(evaluation?.status)}
+                            size='small'
+                          >
+                            {evaluation.status}
+                          </Badge>
+                        </div>
+                      </div>
+                      {evaluation.project === null ? (
+                        <p className='text-xs'>
+                          {evaluation.template?.project_role?.name !== undefined
+                            ? evaluation.template?.project_role?.name
+                            : evaluation.template?.display_name ?? ""}
+                        </p>
+                      ) : (
+                        <p className='text-xs'>
+                          {evaluation.project?.name} [{evaluation.project_role?.short_name}]
+                        </p>
+                      )}
+                    </div>
+                  </Menu>
+                ))}
+                <Dialog open={showDialog && is_editing}>
+                  <Dialog.Title>Confirm Discard Changes</Dialog.Title>
+                  <Dialog.Description>
+                    You have unsaved changes on this page. <br /> Are you sure you want to discard
+                    these changes?
+                  </Dialog.Description>
+                  <Dialog.Actions>
+                    <Button variant='primaryOutline' onClick={toggleDialog}>
+                      No
+                    </Button>
+                    <Button variant='primary' onClick={() => handleProceed()}>
+                      Yes
+                    </Button>
+                  </Dialog.Actions>
+                </Dialog>
+              </>
+            )}
+        </div>
+        <div>
+          <LinkButton to='/evaluation-administrations' variant='primaryOutline'>
+            <Icon icon='ChevronLeft' />
+          </LinkButton>
+        </div>
       </div>
     </>
   )
