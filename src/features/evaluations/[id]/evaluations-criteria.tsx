@@ -20,6 +20,7 @@ import Dialog from "../../../components/ui/dialog/dialog"
 import { AnswerType } from "../../../types/answer-option-type"
 import { getRatingTemplates } from "../../../redux/slices/email-template-slice"
 import { type EmailTemplate, TemplateType } from "../../../types/email-template-type"
+import ReactConfetti from "react-confetti"
 
 export const EvaluationsCriteria = () => {
   const { id, evaluation_id } = useParams()
@@ -30,6 +31,7 @@ export const EvaluationsCriteria = () => {
   const { loading, loading_comment, loading_answer, user_evaluations } = useAppSelector(
     (state) => state.user
   )
+  const { emailTemplate } = useAppSelector((state) => state.emailTemplate)
   const { ratingTemplates } = useAppSelector((state) => state.emailTemplate)
 
   const [evaluation, setEvaluation] = useState<Evaluation>()
@@ -45,6 +47,8 @@ export const EvaluationsCriteria = () => {
   const [currentLowRatingTemplateIndex, setCurrentLowRatingTemplateIndex] = useState<number>(0)
   const [isRatingHigh, setIsRatingHigh] = useState<boolean>(false)
   const [isRatingLow, setIsRatingLow] = useState<boolean>(false)
+  const [showCompletedDialog, setShowCompletedDialog] = useState<boolean>(false)
+  const [completed, setCompleted] = useState<boolean>(false)
 
   useEffect(() => {
     void appDispatch(setIsEditing(false))
@@ -145,6 +149,10 @@ export const EvaluationsCriteria = () => {
     setShowSubmitDialog((prev) => !prev)
   }
 
+  const toggleCompletedDialog = () => {
+    setShowCompletedDialog((prev) => !prev)
+  }
+
   const handleOnClickOk = async (templateContentId: number) => {
     void appDispatch(
       setShowRatingCommentInput({ evaluationTemplateId: templateContentId, showInput: true })
@@ -238,6 +246,15 @@ export const EvaluationsCriteria = () => {
             })
           )
           void appDispatch(setIsEditing(false))
+          if (is_submitting) {
+            const totalSubmitted = user_evaluations.filter(
+              (evaluation) => evaluation.status === EvaluationStatus.Submitted
+            ).length
+            if (user_evaluations.length === totalSubmitted + 1) {
+              setShowCompletedDialog(true)
+              setCompleted(true)
+            }
+          }
         } else if (result.type === "user/submitEvaluation/rejected") {
           void appDispatch(
             appDispatch(
@@ -386,6 +403,16 @@ export const EvaluationsCriteria = () => {
           </Button>
         </Dialog.Actions>
       </Dialog>
+      <Dialog open={showCompletedDialog}>
+        <Dialog.Title>{emailTemplate?.subject}</Dialog.Title>
+        <Dialog.Description>{emailTemplate?.content}</Dialog.Description>
+        <Dialog.Actions>
+          <Button variant='primary' onClick={toggleCompletedDialog}>
+            Close
+          </Button>
+        </Dialog.Actions>
+      </Dialog>
+      {completed && <ReactConfetti />}
     </>
   )
 }
