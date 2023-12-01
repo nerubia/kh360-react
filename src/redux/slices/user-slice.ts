@@ -181,7 +181,8 @@ const userSlice = createSlice({
           newData.push(data)
         }
       }
-      state.user_evaluation_administrations = [...state.user_evaluation_administrations, ...newData]
+      state.user_evaluation_administrations =
+        payloadData.length > 0 ? [...state.user_evaluation_administrations, ...newData] : []
       state.hasPreviousPage = action.payload.pageInfo.hasPreviousPage
       state.hasNextPage = action.payload.pageInfo.hasNextPage
       state.currentPage = action.payload.pageInfo.currentPage
