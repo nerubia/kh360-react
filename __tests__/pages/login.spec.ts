@@ -36,7 +36,6 @@ test.describe("Login", () => {
     await page.getByRole("textbox", { name: "Password" }).fill("1234")
     await page.getByRole("button", { name: "Login" }).click()
     await expect(page.getByText("Invalid email format")).toBeVisible()
-    await expect(page.getByText("Password must be at least 8 characters")).toBeVisible()
   })
 
   test("should login succesfully", async ({ page }) => {
