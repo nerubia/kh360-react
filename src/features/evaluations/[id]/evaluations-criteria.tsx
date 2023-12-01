@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { Button } from "../../../components/ui/button/button"
 import { StarRating } from "../../../components/ui/rating/star-rating"
 import {
@@ -24,6 +24,7 @@ import ReactConfetti from "react-confetti"
 
 export const EvaluationsCriteria = () => {
   const { id, evaluation_id } = useParams()
+  const navigate = useNavigate()
   const appDispatch = useAppDispatch()
   const { evaluation_template_contents, is_editing } = useAppSelector(
     (state) => state.evaluationTemplateContents
@@ -77,11 +78,19 @@ export const EvaluationsCriteria = () => {
 
   useEffect(() => {
     if (evaluation_id !== "all") {
-      void appDispatch(
-        getEvaluationTemplateContents({
-          evaluation_id,
-        })
-      )
+      const getTemplateContents = async () => {
+        try {
+          const result = await appDispatch(
+            getEvaluationTemplateContents({
+              evaluation_id,
+            })
+          )
+          if (result.type === "evaluationTemplate/getEvaluationTemplateContents/rejected") {
+            navigate(`evaluation-administrations/`)
+          }
+        } catch (error) {}
+      }
+      void getTemplateContents()
       setEvaluation(
         user_evaluations?.find((evaluation) => evaluation.id === parseInt(evaluation_id as string))
       )
