@@ -19,6 +19,24 @@ export const getDefaultEmailTemplate = createAsyncThunk(
   }
 )
 
+export const getByTemplateType = createAsyncThunk(
+  "emailTemplate/getByTemplateType",
+  async (template_type: string, thunkApi) => {
+    try {
+      const response = await axiosInstance.get(`/user/email-templates`, {
+        params: {
+          template_type,
+        },
+      })
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const getRatingTemplates = createAsyncThunk(
   "emailTemplate/getRatingTemplates",
   async (_, thunkApi) => {
@@ -32,6 +50,7 @@ export const getRatingTemplates = createAsyncThunk(
     }
   }
 )
+
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
@@ -51,7 +70,9 @@ const emailTemplateSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers(builder) {
-    // get default email template
+    /**
+     * Default email template
+     */
     builder.addCase(getDefaultEmailTemplate.pending, (state) => {
       state.loading = Loading.Pending
       state.error = null
@@ -65,7 +86,25 @@ const emailTemplateSlice = createSlice({
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
-    // get rating message templates
+    /**
+     * By template type
+     */
+    builder.addCase(getByTemplateType.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getByTemplateType.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.emailTemplate = action.payload
+    })
+    builder.addCase(getByTemplateType.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Rating message templates
+     */
     builder.addCase(getRatingTemplates.pending, (state) => {
       state.loading = Loading.Pending
       state.error = null

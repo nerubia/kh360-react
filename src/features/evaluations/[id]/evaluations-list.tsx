@@ -12,6 +12,7 @@ import { Menu } from "../../../components/shared/Menu"
 import Dialog from "../../../components/ui/dialog/dialog"
 import { Badge } from "../../../components/ui/badge/Badge"
 import { getEvaluationStatusVariant } from "../../../utils/variant"
+import { getByTemplateType } from "../../../redux/slices/email-template-slice"
 
 export const EvaluationsList = () => {
   const navigate = useNavigate()
@@ -50,6 +51,7 @@ export const EvaluationsList = () => {
       }
     }
     void getEvaluations()
+    void appDispatch(getByTemplateType("Evaluation Complete Thank You Message"))
   }, [id])
 
   const sortEvaluations = (evaluations: Evaluation[]) => {
