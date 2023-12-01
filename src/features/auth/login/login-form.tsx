@@ -6,7 +6,7 @@ import { useAppSelector } from "../../../hooks/useAppSelector"
 import { login } from "../../../redux/slices/auth-slice"
 import { Input } from "../../../components/ui/input/input"
 import { Button } from "../../../components/ui/button/button"
-import { loginSchema } from "../../../utils/validation/auth/loginSchema"
+import { loginSchema } from "../../../utils/validation/auth-schema"
 import { Loading } from "../../../types/loadingType"
 import { type LoginFormData } from "../../../types/form-data-type"
 
