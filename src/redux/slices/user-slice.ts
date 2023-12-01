@@ -43,6 +43,22 @@ export const getUserEvaluationAdministrations = createAsyncThunk(
   }
 )
 
+export const getEvaluationAdministrationsAsEvaluee = createAsyncThunk(
+  "user/getEvaluationAdministrationsAsEvaluee",
+  async (params: EvaluationAdministrationFilters, thunkApi) => {
+    try {
+      const response = await axiosInstance.get("/user/my-evaluations", {
+        params,
+      })
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const submitEvaluation = createAsyncThunk(
   "user/submitEvaluation",
   async (data: Answers, thunkApi) => {
@@ -68,6 +84,7 @@ interface InitialState {
   error: string | null
   user_evaluations: Evaluation[]
   user_evaluation_administrations: EvaluationAdministration[]
+  my_evaluation_administrations: EvaluationAdministration[]
   hasPreviousPage: boolean
   hasNextPage: boolean
   currentPage: number
@@ -83,6 +100,7 @@ const initialState: InitialState = {
   error: null,
   user_evaluations: [],
   user_evaluation_administrations: [],
+  my_evaluation_administrations: [],
   hasPreviousPage: false,
   hasNextPage: false,
   currentPage: 0,
@@ -154,6 +172,38 @@ const userSlice = createSlice({
       state.totalItems = action.payload.pageInfo.totalItems
     })
     builder.addCase(getUserEvaluationAdministrations.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * List user evaluation administrations (as evaluee)
+     */
+    builder.addCase(getEvaluationAdministrationsAsEvaluee.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getEvaluationAdministrationsAsEvaluee.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      const newData: EvaluationAdministration[] = []
+      const payloadData = action.payload.data as EvaluationAdministration[]
+      for (const data of payloadData) {
+        if (
+          !state.my_evaluation_administrations.some(
+            (evaluationAdministration) => evaluationAdministration.id === data.id
+          )
+        ) {
+          newData.push(data)
+        }
+      }
+      state.my_evaluation_administrations = [...state.my_evaluation_administrations, ...newData]
+      state.hasPreviousPage = action.payload.pageInfo.hasPreviousPage
+      state.hasNextPage = action.payload.pageInfo.hasNextPage
+      state.currentPage = action.payload.pageInfo.currentPage
+      state.totalPages = action.payload.pageInfo.totalPages
+      state.totalItems = action.payload.pageInfo.totalItems
+    })
+    builder.addCase(getEvaluationAdministrationsAsEvaluee.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })

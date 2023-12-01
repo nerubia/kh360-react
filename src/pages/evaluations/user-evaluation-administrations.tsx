@@ -3,7 +3,7 @@ import { UserEvaluationAdministrationsHeader } from "../../features/evaluations/
 import { UserEvaluationAdministrationsTable } from "../../features/evaluations/user-evaluation-administrations-table"
 
 export default function EvaluationAdministrations() {
-  useTitle("Admin Evaluations")
+  useTitle("Performance Evaluations")
 
   return (
     <div className='flex flex-col gap-8'>

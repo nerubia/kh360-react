@@ -12,6 +12,7 @@ export interface EvaluationAdministration {
   totalEvaluations?: number
   totalSubmitted?: number
   totalPending?: number
+  banding?: string
 }
 
 export interface EvaluationAdministrationFilters {
