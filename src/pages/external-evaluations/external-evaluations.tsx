@@ -1,7 +1,7 @@
 import { Divider } from "../../components/ui/divider/divider"
 import { EvaluationsCriteria } from "../../features/evaluations/[id]/evaluations-criteria"
-import { EvaluationsHeader } from "../../features/evaluations/[id]/EvaluationsHeader"
-import { EvaluationsList } from "../../features/evaluations/[id]/EvaluationsList"
+import { EvaluationsHeader } from "../../features/evaluations/[id]/evaluations-header"
+import { EvaluationsList } from "../../features/evaluations/[id]/evaluations-list"
 import { ExternalAuthForm } from "../../features/external-evaluations/external-auth-form"
 import { useAppSelector } from "../../hooks/useAppSelector"
 
