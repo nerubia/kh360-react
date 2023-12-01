@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useNavigate, useParams, useLocation } from "react-router-dom"
 import { Button, LinkButton } from "../../../../../../../components/ui/button/button"
 import { Checkbox } from "../../../../../../../components/ui/checkbox/checkbox"
@@ -7,6 +7,7 @@ import { useAppSelector } from "../../../../../../../hooks/useAppSelector"
 import {
   getEvaluations,
   setForEvaluations,
+  updateProject,
 } from "../../../../../../../redux/slices/evaluations-slice"
 import { formatDate } from "../../../../../../../utils/format-date"
 import { setEvaluationResultStatus } from "../../../../../../../redux/slices/evaluation-result-slice"
@@ -17,6 +18,8 @@ import { type Evaluation } from "../../../../../../../types/evaluation-type"
 import { PageSubTitle } from "../../../../../../../components/shared/PageSubTitle"
 import { Icon } from "../../../../../../../components/ui/icon/icon"
 import { setSelectedExternalUserIds } from "../../../../../../../redux/slices/evaluation-administration-slice"
+import { getProjectMembers } from "../../../../../../../redux/slices/project-members-slice"
+import Dropdown from "../../../../../../../components/ui/dropdown/dropdown"
 
 export const EvaluatorsList = () => {
   const navigate = useNavigate()
@@ -25,6 +28,7 @@ export const EvaluatorsList = () => {
   const location = useLocation()
   const { loading } = useAppSelector((state) => state.evaluationResult)
   const { evaluations } = useAppSelector((state) => state.evaluations)
+  const { project_members } = useAppSelector((state) => state.projectMembers)
   const [sortedEvaluations, setSortedEvaluations] = useState<Evaluation[]>([])
   const [sortedExternalEvaluations, setSortedExternalEvaluations] = useState<Evaluation[]>([])
 
@@ -37,6 +41,13 @@ export const EvaluatorsList = () => {
         })
       )
       void appDispatch(setSelectedExternalUserIds([]))
+      void appDispatch(
+        getProjectMembers({
+          evaluation_administration_id: id,
+          evaluation_result_id,
+          evaluation_template_id,
+        })
+      )
     }
   }, [evaluation_template_id])
 
@@ -112,6 +123,29 @@ export const EvaluatorsList = () => {
     )
   }
 
+  const getAvailableProjects = (evaluatorId?: number) => {
+    const existingProjectIds = sortedExternalEvaluations
+      .filter(
+        (evaluation) => evaluation.evaluator?.id === evaluatorId && evaluation.project !== null
+      )
+      .map((evaluation) => evaluation.project?.id)
+    return project_members.filter(
+      (project_member) => !existingProjectIds.includes(project_member.project?.id)
+    )
+  }
+
+  const setProject = (id: number, project_id?: number, project_member_id?: number) => {
+    void appDispatch(
+      updateProject({
+        id,
+        evaluation_data: {
+          project_id,
+          project_member_id,
+        },
+      })
+    )
+  }
+
   return (
     <div className='flex-1 h-[calc(100vh_-_185px)] flex flex-col pt-4'>
       <PageSubTitle>Evaluators</PageSubTitle>
@@ -182,6 +216,7 @@ export const EvaluatorsList = () => {
               <th className='pb-3'>Evaluator</th>
               <th className='pb-3'>Email address</th>
               <th className='pb-3'>Evaluee Role</th>
+              <th className='pb-3'>Project</th>
             </tr>
           </thead>
           <tbody>
@@ -200,6 +235,48 @@ export const EvaluatorsList = () => {
                   </td>
                   <td className='pb-2'>{evaluation.evaluator?.email}</td>
                   <td className='pb-2'>{evaluation.evaluator?.role}</td>
+                  {evaluation.project === null &&
+                  getAvailableProjects(evaluation.evaluator?.id).length > 0 ? (
+                    <td>
+                      <Dropdown>
+                        <Dropdown.Trigger>
+                          <Button variant='primaryOutline' size='small'>
+                            Select project
+                          </Button>
+                        </Dropdown.Trigger>
+                        <Dropdown.Content>
+                          {getAvailableProjects(evaluation.evaluator?.id).map(
+                            (projectMember, index) => (
+                              <React.Fragment key={index}>
+                                <Dropdown.Item
+                                  onClick={() =>
+                                    setProject(
+                                      evaluation.id,
+                                      projectMember.project?.id,
+                                      projectMember.id
+                                    )
+                                  }
+                                >
+                                  <div className='flex-flex-col'>
+                                    <p className='text-sm font-bold text-start'>
+                                      {projectMember.project?.name} -{" "}
+                                      {projectMember.allocation_rate}%
+                                    </p>
+                                    <p className='text-sm'>
+                                      {formatDate(projectMember.start_date)} to{" "}
+                                      {formatDate(projectMember.end_date)}
+                                    </p>
+                                  </div>
+                                </Dropdown.Item>
+                              </React.Fragment>
+                            )
+                          )}
+                        </Dropdown.Content>
+                      </Dropdown>
+                    </td>
+                  ) : (
+                    <td>{evaluation.project?.name}</td>
+                  )}
                 </tr>
               ))}
           </tbody>
