@@ -277,7 +277,7 @@ export const EvaluationsCriteria = () => {
         <div>Not found</div>
       )}
       {loading === Loading.Fulfilled &&
-        evaluation_template_contents !== null &&
+        evaluation_template_contents.length > 0 &&
         user_evaluations.length > 0 && (
           <div className='flex flex-col overflow-y-scroll pr-5 mx-4 md:w-3/4'>
             <div className='text-xl font-bold text-primary-500 mb-1'>
