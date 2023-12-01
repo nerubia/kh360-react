@@ -9,6 +9,7 @@ import { logout } from "../../redux/slices/auth-slice"
 import { getProfile, sendMail } from "../../services/api"
 import { Alert } from "../../components/ui/alert/alert"
 import Dropdown from "../../components/ui/dropdown/dropdown"
+import Tooltip from "../../components/ui/tooltip/tooltip"
 
 export default function Sample() {
   useTitle("Sample")
@@ -344,6 +345,63 @@ export default function Sample() {
           <Alert>Primary alert</Alert>
           <Alert variant='success'>Success alert</Alert>
           <Alert variant='destructive'>Error alert</Alert>
+        </div>
+      </div>
+      <div className='flex flex-col gap-4'>
+        <p className='font-bold'># Sample tooltip</p>
+        <div className='flex gap-4'>
+          <Tooltip>
+            <Tooltip.Trigger>
+              <Button>Tooltip Top</Button>
+            </Tooltip.Trigger>
+            <Tooltip.Content>Sample tooltip</Tooltip.Content>
+          </Tooltip>
+          <Tooltip placement='topStart'>
+            <Tooltip.Trigger>
+              <Button>Tooltip Top Start</Button>
+            </Tooltip.Trigger>
+            <Tooltip.Content>Sample tooltip</Tooltip.Content>
+          </Tooltip>
+          <Tooltip placement='topEnd'>
+            <Tooltip.Trigger>
+              <Button>Tooltip Top End</Button>
+            </Tooltip.Trigger>
+            <Tooltip.Content>Sample tooltip</Tooltip.Content>
+          </Tooltip>
+        </div>
+        <div className='flex gap-4'>
+          <Tooltip placement='bottom'>
+            <Tooltip.Trigger>
+              <Button>Tooltip Bottom</Button>
+            </Tooltip.Trigger>
+            <Tooltip.Content>Sample tooltip</Tooltip.Content>
+          </Tooltip>
+          <Tooltip placement='bottomStart'>
+            <Tooltip.Trigger>
+              <Button>Tooltip Bottom Start</Button>
+            </Tooltip.Trigger>
+            <Tooltip.Content>Sample tooltip</Tooltip.Content>
+          </Tooltip>
+          <Tooltip placement='bottomEnd'>
+            <Tooltip.Trigger>
+              <Button>Tooltip Bottom End</Button>
+            </Tooltip.Trigger>
+            <Tooltip.Content>Sample tooltip</Tooltip.Content>
+          </Tooltip>
+        </div>
+        <div className='flex gap-4'>
+          <Tooltip placement='left'>
+            <Tooltip.Trigger>
+              <Button>Tooltip Left</Button>
+            </Tooltip.Trigger>
+            <Tooltip.Content>Sample tooltip here</Tooltip.Content>
+          </Tooltip>
+          <Tooltip placement='right'>
+            <Tooltip.Trigger>
+              <Button>Tooltip Right</Button>
+            </Tooltip.Trigger>
+            <Tooltip.Content>Sample tooltip here</Tooltip.Content>
+          </Tooltip>
         </div>
       </div>
 

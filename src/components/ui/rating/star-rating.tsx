@@ -14,6 +14,7 @@ import {
 } from "../../../redux/slices/evaluation-template-contents-slice"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { Button } from "../button/button"
+import Tooltip from "../tooltip/tooltip"
 
 interface StarRatingProps {
   templateContent: EvaluationTemplateContent
@@ -101,37 +102,43 @@ export const StarRating = ({
                             templateContent.evaluationRating.ratingAnswerType === AnswerType.NA) ||
                             templateContent.evaluationRating.ratingAnswerType !==
                               AnswerType.NA) && (
-                            <Button
-                              testId={`OptionButton${answerOption.id}`}
-                              key={answerOption.id}
-                              disabled={
-                                loadingAnswer === Loading.Pending ||
-                                evaluation?.status === EvaluationStatus.Submitted
-                              }
-                              variant={getAnswerOptionVariant(
-                                answerOption.sequence_no,
-                                templateContent.evaluationRating.ratingSequenceNumber,
-                                answerOption.answer_type
-                              )}
-                              onClick={
-                                templateContent.evaluationRating.ratingAnswerType === AnswerType.NA
-                                  ? async () => await handleOnClickNa()
-                                  : async () =>
-                                      await handleOnClick(
-                                        answerOption.id,
-                                        templateContent.id,
-                                        answerOption.sequence_no,
-                                        answerOption.answer_type
-                                      )
-                              }
-                              size='small'
-                            >
-                              {answerOption.answer_type === AnswerType.NA ? (
-                                "N/A"
-                              ) : (
-                                <Icon icon='Star' />
-                              )}
-                            </Button>
+                            <Tooltip placement='topEnd'>
+                              <Tooltip.Trigger>
+                                <Button
+                                  testId={`OptionButton${answerOption.id}`}
+                                  key={answerOption.id}
+                                  disabled={
+                                    loadingAnswer === Loading.Pending ||
+                                    evaluation?.status === EvaluationStatus.Submitted
+                                  }
+                                  variant={getAnswerOptionVariant(
+                                    answerOption.sequence_no,
+                                    templateContent.evaluationRating.ratingSequenceNumber,
+                                    answerOption.answer_type
+                                  )}
+                                  onClick={
+                                    templateContent.evaluationRating.ratingAnswerType ===
+                                    AnswerType.NA
+                                      ? async () => await handleOnClickNa()
+                                      : async () =>
+                                          await handleOnClick(
+                                            answerOption.id,
+                                            templateContent.id,
+                                            answerOption.sequence_no,
+                                            answerOption.answer_type
+                                          )
+                                  }
+                                  size='small'
+                                >
+                                  {answerOption.answer_type === AnswerType.NA ? (
+                                    "N/A"
+                                  ) : (
+                                    <Icon icon='Star' />
+                                  )}
+                                </Button>
+                              </Tooltip.Trigger>
+                              <Tooltip.Content>{answerOption.description}</Tooltip.Content>
+                            </Tooltip>
                           )}
                         </>
                       )}

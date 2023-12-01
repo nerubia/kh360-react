@@ -2,6 +2,7 @@ export interface AnswerOption {
   id: number
   sequence_no: number
   answer_type: string
+  description: string
 }
 
 export enum AnswerOptions {
