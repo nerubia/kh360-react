@@ -53,6 +53,7 @@ export const StarRating = ({
     const { value } = e.target
     void appDispatch(setIsEditing(true))
     setComment(value)
+    setErrorMessage(null)
   }
 
   const handleOnClickNa = async () => {

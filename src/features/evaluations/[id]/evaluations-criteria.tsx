@@ -211,6 +211,42 @@ export const EvaluationsCriteria = () => {
     setRatingCommentErrorMessage(null)
   }
 
+  const handleClickSaveAndSubmit = () => {
+    if ((isRatingHigh && comment.length === 0) || (isRatingLow && comment.length === 0)) {
+      const isNA = false
+      handleSetRatingTemplate(isNA)
+      toggleDialog(evaluation_template_contents[0].id)
+      setErrorMessage("Comment is required.")
+      return
+    }
+    if (
+      evaluation_template_contents.some(
+        (evaluation_template_content) =>
+          evaluation_template_content.evaluationRating.answer_option_id === null
+      )
+    ) {
+      void appDispatch(
+        appDispatch(
+          setAlert({
+            description: "Please set all ratings",
+            variant: "destructive",
+          })
+        )
+      )
+      return
+    }
+    if (
+      evaluation_template_contents.some(
+        (evaluation_template_content) =>
+          evaluation_template_content.evaluationRating.comments === ""
+      )
+    ) {
+      setRatingCommentErrorMessage("Comment on N/A is required.")
+      return
+    }
+    setShowSubmitDialog(true)
+  }
+
   const handleSubmit = async (is_submitting: boolean) => {
     if (
       is_submitting &&
@@ -370,7 +406,7 @@ export const EvaluationsCriteria = () => {
                   >
                     Save
                   </Button>
-                  <Button onClick={toggleSubmitDialog}>Save & Submit</Button>
+                  <Button onClick={handleClickSaveAndSubmit}>Save & Submit</Button>
                 </div>
               </>
             ) : (
