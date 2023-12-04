@@ -159,7 +159,11 @@ export const ViewEvaluationHeader = () => {
           </div>
         </div>
       </div>
-      <div className='mt-4'>{evaluation_administration?.remarks}</div>
+      <div className='mt-4'>
+        <pre className='font-sans whitespace-pre-wrap break-words'>
+          {evaluation_administration?.remarks}
+        </pre>
+      </div>
       <h2 className='text-2xl font-bold mt-5 mb-5'>Employees</h2>
       <Dialog open={showCancelDialog}>
         <Dialog.Title>Cancel Evaluation</Dialog.Title>

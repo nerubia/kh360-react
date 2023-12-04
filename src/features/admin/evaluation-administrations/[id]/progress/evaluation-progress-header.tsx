@@ -36,7 +36,11 @@ export const EvaluationProgressHeader = () => {
           </div>
         </div>
       </div>
-      <div className='mt-4'>{evaluation_administration?.remarks}</div>
+      <div className='mt-4'>
+        <pre className='font-sans whitespace-pre-wrap break-words'>
+          {evaluation_administration?.remarks}
+        </pre>
+      </div>
       <h1 className='text-2xl font-bold mt-5 mb-5'>Evaluators</h1>
     </>
   )
