@@ -12,7 +12,7 @@ import {
   deleteEvaluationAdministration,
 } from "../../../../redux/slices/evaluation-administration-slice"
 import { useAppDispatch } from "../../../../hooks/useAppDispatch"
-import { PageTitle } from "../../../../components/shared/PageTitle"
+import { PageTitle } from "../../../../components/shared/page-title"
 import { Badge } from "../../../../components/ui/badge/Badge"
 import { getEvaluationAdministrationStatusVariant } from "../../../../utils/variant"
 import Dropdown from "../../../../components/ui/dropdown/dropdown"

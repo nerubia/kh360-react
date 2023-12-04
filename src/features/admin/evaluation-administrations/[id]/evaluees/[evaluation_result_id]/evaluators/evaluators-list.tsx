@@ -15,7 +15,7 @@ import { EvaluationResultStatus } from "../../../../../../../types/evaluation-re
 import { Loading } from "../../../../../../../types/loadingType"
 import { setAlert } from "../../../../../../../redux/slices/appSlice"
 import { type Evaluation } from "../../../../../../../types/evaluation-type"
-import { PageSubTitle } from "../../../../../../../components/shared/PageSubTitle"
+import { PageSubTitle } from "../../../../../../../components/shared/page-sub-title"
 import { Icon } from "../../../../../../../components/ui/icon/icon"
 import { setSelectedExternalUserIds } from "../../../../../../../redux/slices/evaluation-administration-slice"
 import { getProjectMembers } from "../../../../../../../redux/slices/project-members-slice"

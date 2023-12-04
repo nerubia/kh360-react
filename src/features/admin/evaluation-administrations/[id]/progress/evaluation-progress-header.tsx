@@ -1,6 +1,6 @@
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
 import { formatDate } from "../../../../../utils/format-date"
-import { PageTitle } from "../../../../../components/shared/PageTitle"
+import { PageTitle } from "../../../../../components/shared/page-title"
 import { Badge } from "../../../../../components/ui/badge/Badge"
 import { getEvaluationAdministrationStatusVariant } from "../../../../../utils/variant"
 
