@@ -161,6 +161,7 @@ export const EvaluationProgressList = () => {
                   <thead className=' bg-white text-left'>
                     <tr>
                       <th className='pb-3'>Evaluee</th>
+                      <th className='pb-3'>Template</th>
                       <th className='pb-3'>Project</th>
                       <th className='pb-3'>Role</th>
                       <th className='pb-3'>Progress</th>
@@ -175,6 +176,7 @@ export const EvaluationProgressList = () => {
                             <td className='py-1'>
                               {evaluation.evaluee?.last_name}, {evaluation.evaluee?.first_name}
                             </td>
+                            <td className='py-1'>{evaluation.template?.display_name}</td>
                             <td className='py-1'>{evaluation.project?.name}</td>
                             <td className='py-1'>{evaluation.project_role?.name}</td>
                             <td className='py-1'>
