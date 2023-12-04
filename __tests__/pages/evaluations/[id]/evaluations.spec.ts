@@ -32,6 +32,16 @@ test.describe("User - Evaluations", () => {
     test("should render correctly", async ({ page, isMobile }) => {
       await loginUser("employee", page)
 
+      await mockRequest(
+        page,
+        "/user/email-templates?template_type=Evaluation+Complete+Thank+You+Message",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({}),
+        }
+      )
+
       await page.goto("/evaluation-administrations/1/evaluations/1")
 
       await mockRequest(page, "/user/evaluations?evaluation_administration_id=1&for_evaluation=1", {
@@ -171,6 +181,16 @@ test.describe("User - Evaluations", () => {
     test("should show validation errors", async ({ page, isMobile }) => {
       await loginUser("employee", page)
 
+      await mockRequest(
+        page,
+        "/user/email-templates?template_type=Evaluation+Complete+Thank+You+Message",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({}),
+        }
+      )
+
       await page.goto("/evaluation-administrations/1/evaluations/1")
 
       await mockRequest(page, "/user/evaluations?evaluation_administration_id=1&for_evaluation=1", {
@@ -308,6 +328,16 @@ test.describe("User - Evaluations", () => {
     test("should allow to go back", async ({ page, isMobile }) => {
       await loginUser("employee", page)
 
+      await mockRequest(
+        page,
+        "/user/email-templates?template_type=Evaluation+Complete+Thank+You+Message",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({}),
+        }
+      )
+
       await page.goto("/evaluation-administrations/1/evaluations/1")
 
       await mockRequest(page, "/user/evaluations?evaluation_administration_id=1&for_evaluation=1", {
@@ -432,6 +462,16 @@ test.describe("User - Evaluations", () => {
           },
         }),
       })
+
+      await mockRequest(
+        page,
+        "/user/email-templates?template_type=Evaluation+Complete+Thank+You+Message",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({}),
+        }
+      )
 
       await expect(page).toHaveURL("/evaluation-administrations")
     })
