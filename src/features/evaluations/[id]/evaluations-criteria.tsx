@@ -295,17 +295,16 @@ export const EvaluationsCriteria = () => {
                 {", "} {evaluation?.evaluee?.first_name}
               </p>
             </div>
-            {evaluation?.project === null ? (
-              <p className='text-base font-bold mb-1'>
-                {evaluation.template?.project_role?.name !== undefined
-                  ? evaluation.template?.project_role?.name
-                  : evaluation.template?.display_name ?? ""}
-              </p>
-            ) : (
-              <p className='text-base font-bold mb-1'>
-                {evaluation?.project?.name} [{evaluation?.project_role?.short_name}]
-              </p>
-            )}
+            <p className='text-base font-bold mb-1'>
+              {evaluation?.project !== null ? (
+                <>
+                  {evaluation?.project?.name} [{evaluation?.project_role?.short_name}] -{" "}
+                  {evaluation?.template?.display_name}
+                </>
+              ) : (
+                <>{evaluation?.template?.display_name}</>
+              )}
+            </p>
             <p className='mb-4 text-sm'>
               Evaluation Period:{" "}
               {formatDateRange(evaluation?.eval_start_date, evaluation?.eval_end_date)}
