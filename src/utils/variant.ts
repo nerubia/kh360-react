@@ -77,3 +77,11 @@ export const getAnswerOptionVariant = (
     return "starEmpty"
   }
 }
+
+export const getProgressVariant = (value: number) => {
+  if (value > 0 && value < 100) {
+    return "green"
+  } else {
+    return "blue"
+  }
+}

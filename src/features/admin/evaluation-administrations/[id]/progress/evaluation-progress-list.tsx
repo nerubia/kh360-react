@@ -12,6 +12,8 @@ import {
 import { getEvaluations } from "../../../../../redux/slices/evaluations-slice"
 import { Progress } from "../../../../../components/ui/progress/progress"
 import { setAlert } from "../../../../../redux/slices/appSlice"
+import { Badge } from "../../../../../components/ui/badge/Badge"
+import { getEvaluationStatusVariant, getProgressVariant } from "../../../../../utils/variant"
 
 export const EvaluationProgressList = () => {
   const appDispatch = useAppDispatch()
@@ -126,6 +128,10 @@ export const EvaluationProgressList = () => {
                         {evaluator.last_name}, {evaluator.first_name}
                       </span>
                       <Progress
+                        variant={getProgressVariant(
+                          ((evaluator.totalSubmitted ?? 0) / (evaluator.totalEvaluations ?? 0)) *
+                            100
+                        )}
                         value={
                           ((evaluator.totalSubmitted ?? 0) / (evaluator.totalEvaluations ?? 0)) *
                           100
@@ -134,19 +140,21 @@ export const EvaluationProgressList = () => {
                     </div>
                   </div>
                 </Button>
-                <Button
-                  variant='primaryOutline'
-                  size='small'
-                  onClick={async () =>
-                    await handleOnClickNudge(
-                      evaluator.first_name as string,
-                      evaluator.id,
-                      evaluator.is_external as boolean
-                    )
-                  }
-                >
-                  Nudge
-                </Button>
+                {evaluator.totalEvaluations !== evaluator.totalSubmitted && (
+                  <Button
+                    variant='primaryOutline'
+                    size='small'
+                    onClick={async () =>
+                      await handleOnClickNudge(
+                        evaluator.first_name as string,
+                        evaluator.id,
+                        evaluator.is_external as boolean
+                      )
+                    }
+                  >
+                    Nudge
+                  </Button>
+                )}
               </div>
               {evaluatorToggledState[evaluatorIndex] && (
                 <table className='w-1/2 ml-14 mb-5 table-fixed'>
@@ -169,7 +177,14 @@ export const EvaluationProgressList = () => {
                             </td>
                             <td className='py-1'>{evaluation.project?.name}</td>
                             <td className='py-1'>{evaluation.project_role?.name}</td>
-                            <td className='py-1'>{evaluation.status}</td>
+                            <td className='py-1'>
+                              <Badge
+                                variant={getEvaluationStatusVariant(evaluation.status)}
+                                size='small'
+                              >
+                                <div className='uppercase'>{evaluation.status}</div>
+                              </Badge>
+                            </td>
                           </tr>
                         ))
                       : null}
