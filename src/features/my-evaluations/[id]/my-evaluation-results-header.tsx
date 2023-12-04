@@ -3,7 +3,7 @@ import { useAppSelector } from "../../../hooks/useAppSelector"
 import { useParams } from "react-router-dom"
 import { formatDateRange } from "../../../utils/format-date"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
-import { PageTitle } from "../../../components/shared/PageTitle"
+import { PageTitle } from "../../../components/shared/page-title"
 import { getUserEvaluationResult } from "../../../redux/slices/user-slice"
 
 export const MyEvaluationResultsHeader = () => {

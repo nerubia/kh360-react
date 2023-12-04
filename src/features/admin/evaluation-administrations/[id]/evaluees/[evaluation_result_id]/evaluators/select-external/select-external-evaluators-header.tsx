@@ -1,4 +1,4 @@
-import { PageTitle } from "../../../../../../../../components/shared/PageTitle"
+import { PageTitle } from "../../../../../../../../components/shared/page-title"
 
 export const SelectExternalEvaluatorsHeader = () => {
   return (
