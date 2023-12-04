@@ -148,6 +148,30 @@ test.describe("User - Evaluations", () => {
         ]),
       })
 
+      await mockRequest(
+        page,
+        "/user/email-templates?template_type=Evaluation+Complete+Thank+You+Message",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([
+            {
+              id: 2,
+              name: "Evaluation Completed 🎉",
+              template_type: "Performance Evaluation NA Rating",
+              is_default: true,
+              subject: "Evaluation Completed 🎉",
+              content:
+                "Thank you for completing the evaluation form! Your feedback is invaluable to us. 🌟",
+              created_by_id: null,
+              updated_by_id: null,
+              created_at: null,
+              updated_at: null,
+            },
+          ]),
+        }
+      )
+
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
       }
@@ -297,6 +321,30 @@ test.describe("User - Evaluations", () => {
         ]),
       })
 
+      await mockRequest(
+        page,
+        "/user/email-templates?template_type=Evaluation+Complete+Thank+You+Message",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([
+            {
+              id: 2,
+              name: "Evaluation Completed 🎉",
+              template_type: "Performance Evaluation NA Rating",
+              is_default: true,
+              subject: "Evaluation Completed 🎉",
+              content:
+                "Thank you for completing the evaluation form! Your feedback is invaluable to us. 🌟",
+              created_by_id: null,
+              updated_by_id: null,
+              created_at: null,
+              updated_at: null,
+            },
+          ]),
+        }
+      )
+
       await mockRequest(page, "/user/evaluations/1/save-answers", {
         status: 200,
         contentType: "application/json",
@@ -443,6 +491,30 @@ test.describe("User - Evaluations", () => {
           },
         ]),
       })
+
+      await mockRequest(
+        page,
+        "/user/email-templates?template_type=Evaluation+Complete+Thank+You+Message",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([
+            {
+              id: 2,
+              name: "Evaluation Completed 🎉",
+              template_type: "Performance Evaluation NA Rating",
+              is_default: true,
+              subject: "Evaluation Completed 🎉",
+              content:
+                "Thank you for completing the evaluation form! Your feedback is invaluable to us. 🌟",
+              created_by_id: null,
+              updated_by_id: null,
+              created_at: null,
+              updated_at: null,
+            },
+          ]),
+        }
+      )
 
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
