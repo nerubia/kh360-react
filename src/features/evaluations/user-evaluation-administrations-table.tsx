@@ -7,15 +7,18 @@ import { Progress } from "../../components/ui/progress/progress"
 import { convertToFullDate, formatDateRange } from "../../utils/format-date"
 import { Loading } from "../../types/loadingType"
 import { Spinner } from "../../components/ui/spinner/spinner"
+import { getByTemplateType } from "../../redux/slices/email-template-slice"
 
 export const UserEvaluationAdministrationsTable = () => {
   const appDispatch = useAppDispatch()
   const { loading, user_evaluation_administrations, hasNextPage, currentPage } = useAppSelector(
     (state) => state.user
   )
+  const { emailTemplate } = useAppSelector((state) => state.emailTemplate)
 
   useEffect(() => {
     void appDispatch(getUserEvaluationAdministrations({}))
+    void appDispatch(getByTemplateType("No Pending Evaluation Forms"))
   }, [])
 
   useEffect(() => {
@@ -48,7 +51,7 @@ export const UserEvaluationAdministrationsTable = () => {
         </div>
       )}
       {loading === Loading.Fulfilled && user_evaluation_administrations?.length === 0 && (
-        <p className=' text-gray-400'>You currently have no pending evaluations.</p>
+        <p className='whitespace-pre-wrap'>{emailTemplate?.content}</p>
       )}
       {loading === Loading.Fulfilled && user_evaluation_administrations !== null && (
         <>
