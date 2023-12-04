@@ -69,8 +69,11 @@ export const EvaluationsCriteria = () => {
     const lowestCount = evaluationRatings.filter(
       (rating) => rating.ratingAnswerType === AnswerType.Lowest
     ).length
-    const highestCountPercentage = (highestCount / evaluationRatings.length) * 100
-    const lowestCountPercentage = (lowestCount / evaluationRatings.length) * 100
+    const allRatingsWithoutNA = evaluationRatings.filter(
+      (rating) => rating.ratingAnswerType !== AnswerType.NA
+    )
+    const highestCountPercentage = (highestCount / allRatingsWithoutNA.length) * 100
+    const lowestCountPercentage = (lowestCount / allRatingsWithoutNA.length) * 100
 
     setIsRatingHigh(highestCountPercentage >= 75)
     setIsRatingLow(lowestCountPercentage >= 75)
