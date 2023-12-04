@@ -85,6 +85,12 @@ test.describe("User - Evaluations", () => {
         }),
       })
 
+      await mockRequest(page, "/user/email-templates?template_type=No+Pending+Evaluation+Forms", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({}),
+      })
+
       await expect(page.getByRole("heading", { name: "Performance Evaluations" })).toBeVisible()
 
       await expect(
