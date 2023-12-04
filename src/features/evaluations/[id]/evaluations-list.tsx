@@ -167,17 +167,12 @@ export const EvaluationsList = () => {
                           </Badge>
                         </div>
                       </div>
-                      {evaluation.project === null ? (
-                        <p className='text-xs'>
-                          {evaluation.template?.project_role?.name !== undefined
-                            ? evaluation.template?.project_role?.name
-                            : evaluation.template?.display_name ?? ""}
-                        </p>
-                      ) : (
+                      {evaluation.project !== null && (
                         <p className='text-xs'>
                           {evaluation.project?.name} [{evaluation.project_role?.short_name}]
                         </p>
                       )}
+                      <p className='text-xs'>{evaluation.template?.display_name}</p>
                     </div>
                   </Menu>
                 ))}
