@@ -7,15 +7,18 @@ import { Link } from "react-router-dom"
 import { formatDateRange } from "../../utils/format-date"
 import { Spinner } from "../../components/ui/spinner/spinner"
 import { Banding } from "../../components/shared/banding/banding"
+import { getByTemplateType } from "../../redux/slices/email-template-slice"
 
 export const MyEvaluationsList = () => {
   const appDispatch = useAppDispatch()
   const { loading, my_evaluation_administrations, hasNextPage, currentPage } = useAppSelector(
     (state) => state.user
   )
+  const { emailTemplate } = useAppSelector((state) => state.emailTemplate)
 
   useEffect(() => {
     void appDispatch(getEvaluationAdministrationsAsEvaluee({}))
+    void appDispatch(getByTemplateType("No Available Evaluation Results"))
   }, [])
 
   useEffect(() => {
@@ -42,6 +45,9 @@ export const MyEvaluationsList = () => {
 
   return (
     <div className='flex flex-col gap-8'>
+      {loading === Loading.Fulfilled && my_evaluation_administrations.length === 0 && (
+        <p className='whitespace-pre-wrap'>{emailTemplate?.content}</p>
+      )}
       {my_evaluation_administrations.map((evaluationAdministration) => (
         <Link
           key={evaluationAdministration.id}
