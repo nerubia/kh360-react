@@ -34,7 +34,7 @@ export const MyEvaluationResultsTable = () => {
                       <td className='py-1 border-b text-center'>{detail.score}</td>
                       <td className='py-1 border-b text-center'>{detail.zscore}</td>
                       <td className='py-1 border-b text-center items-center'>
-                        <Banding banding={user_evaluation_result.banding} size='small' />
+                        <Banding banding={detail.banding} size='small' />
                       </td>
                     </tr>
                   ))}
