@@ -26,45 +26,45 @@ interface BandingProps extends VariantProps<typeof band> {
 export const Banding = ({ banding, size }: BandingProps) => {
   return (
     <div className={`flex gap-3 justify-center`}>
-      <div className={`${banding === "Very Low" ? "bg-red-600 " : "bg-gray-200"} rounded-full p-1`}>
+      <div
+        className={`${banding === "Very Low" ? "bg-[#edc9d4]" : "bg-gray-200"} rounded-full p-1`}
+      >
         <img className={band({ size })} src={veryLow} alt='' />
       </div>
       <div
-        className={`${banding === "Low" ? "bg-orange-600 " : "bg-gray-200"} w-fit rounded-full p-1`}
+        className={`${banding === "Low" ? "bg-[#ffd3c9]" : "bg-gray-200"} w-fit rounded-full p-1`}
       >
         <img className={band({ size })} src={low} alt='' />
       </div>
       <div
         className={`${
-          banding === "Moderate Low" ? "bg-yellow-600 " : "bg-gray-200"
+          banding === "Moderate Low" ? "bg-[#fff7cf]" : "bg-gray-200"
         } w-fit rounded-full p-1`}
       >
         <img className={band({ size })} src={moderateLow} alt='' />
       </div>
       <div
         className={`${
-          banding === "Average" ? "bg-green-600 " : "bg-gray-200"
+          banding === "Average" ? "bg-[#e4f0c9]" : "bg-gray-200"
         } w-fit rounded-full p-1`}
       >
         <img className={band({ size })} src={average} alt='' />
       </div>
       <div
         className={`${
-          banding === "Moderate High" ? "bg-blue-600 " : "bg-gray-200"
+          banding === "Moderate High" ? "bg-[#c7e0ff]" : "bg-gray-200"
         } w-fit rounded-full p-1`}
       >
         <img className={band({ size })} src={moderateHigh} alt='' />
       </div>
       <div
-        className={`${
-          banding === "High" ? "bg-indigo-600 " : "bg-gray-200"
-        } w-fit rounded-full p-1`}
+        className={`${banding === "High" ? "bg-[#cfcfff]" : "bg-gray-200"} w-fit rounded-full p-1`}
       >
         <img className={band({ size })} src={high} alt='' />
       </div>
       <div
         className={`${
-          banding === "Very High" ? "bg-violet-600 " : "bg-gray-200"
+          banding === "Very High" ? "bg-[#bac3ff]" : "bg-gray-200"
         } w-fit rounded-full p-1`}
       >
         <img className={band({ size })} src={veryHigh} alt='' />
