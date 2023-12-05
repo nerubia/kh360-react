@@ -58,6 +58,9 @@ export const getEvaluationStatusVariant = (status: string | undefined) => {
   if (status === EvaluationStatus.Expired) {
     return "red"
   }
+  if (status === EvaluationStatus.ForRemoval) {
+    return "orange"
+  }
 }
 
 export const getAnswerOptionVariant = (

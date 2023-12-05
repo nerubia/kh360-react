@@ -110,7 +110,8 @@ export const StarRating = ({
                                   key={answerOption.id}
                                   disabled={
                                     loadingAnswer === Loading.Pending ||
-                                    evaluation?.status === EvaluationStatus.Submitted
+                                    evaluation?.status === EvaluationStatus.Submitted ||
+                                    evaluation?.status === EvaluationStatus.ForRemoval
                                   }
                                   variant={getAnswerOptionVariant(
                                     answerOption.sequence_no,
@@ -148,6 +149,7 @@ export const StarRating = ({
                 })}
                 {templateContent.evaluationRating.ratingAnswerType === AnswerType.NA &&
                   evaluation?.status !== EvaluationStatus.Submitted &&
+                  evaluation?.status !== EvaluationStatus.ForRemoval &&
                   (templateContent.evaluationRating.showInputComment === true ||
                     comment.length > 0) && (
                     <div className='flex gap-2'>
@@ -165,7 +167,8 @@ export const StarRating = ({
                       </div>
                     </div>
                   )}
-                {evaluation?.status === EvaluationStatus.Submitted && <p> {comment} </p>}
+                {evaluation?.status === EvaluationStatus.Submitted ||
+                  (evaluation?.status === EvaluationStatus.ForRemoval && <p> {comment} </p>)}
               </>
             </div>
           </div>
