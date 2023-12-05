@@ -238,6 +238,7 @@ export const EvaluationsCriteria = () => {
     if (
       evaluation_template_contents.some(
         (evaluation_template_content) =>
+          evaluation_template_content.evaluationRating.answer_option_id === 1 &&
           evaluation_template_content.evaluationRating.comments === ""
       )
     ) {
