@@ -1,11 +1,19 @@
+import { useState } from "react"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
 import { formatDate } from "../../../../../utils/format-date"
 import { PageTitle } from "../../../../../components/shared/page-title"
 import { Badge } from "../../../../../components/ui/badge/Badge"
 import { getEvaluationAdministrationStatusVariant } from "../../../../../utils/variant"
+import { Button } from "../../../../../components/ui/button/button"
+import { Icon } from "../../../../../components/ui/icon/icon"
 
 export const EvaluationProgressHeader = () => {
   const { evaluation_administration } = useAppSelector((state) => state.evaluationAdministration)
+  const [showDescription, setShowDescription] = useState<boolean>(false)
+
+  const toggleDescription = () => {
+    setShowDescription((prev) => !prev)
+  }
 
   return (
     <>
@@ -35,13 +43,19 @@ export const EvaluationProgressHeader = () => {
             </div>
           </div>
         </div>
+        <div className='font-bold'>
+          <Button variant='unstyled' onClick={toggleDescription}>
+            Description:
+            {showDescription ? <Icon icon='ChevronDown' /> : <Icon icon='ChevronUp' />}{" "}
+          </Button>
+        </div>
+        {showDescription && (
+          <pre className='font-sans whitespace-pre-wrap break-words'>
+            {evaluation_administration?.remarks}
+          </pre>
+        )}
       </div>
-      <div className='mt-4'>
-        <pre className='font-sans whitespace-pre-wrap break-words'>
-          {evaluation_administration?.remarks}
-        </pre>
-      </div>
-      <h1 className='text-2xl font-bold mt-5 mb-5'>Evaluators</h1>
+      <h1 className='text-2xl font-bold my-2'>Evaluators</h1>
     </>
   )
 }

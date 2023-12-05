@@ -40,11 +40,11 @@ export const EvaluationProgressList = () => {
       const firstNameB = (b.first_name ?? "").toLowerCase()
       const lastNameB = (b.last_name ?? "").toLowerCase()
 
-      if (firstNameA !== firstNameB) {
-        return firstNameA.localeCompare(firstNameB)
+      if (lastNameA !== lastNameB) {
+        return lastNameA.localeCompare(lastNameB)
       }
 
-      return lastNameA.localeCompare(lastNameB)
+      return firstNameA.localeCompare(firstNameB)
     })
     setSortedEvaluators(sorted)
   }, [evaluators])
@@ -140,6 +140,10 @@ export const EvaluationProgressList = () => {
                     </div>
                   </div>
                 </Button>
+                {Math.round(
+                  ((evaluator.totalSubmitted ?? 0) / (evaluator.totalEvaluations ?? 1)) * 100
+                )}
+                %
                 {evaluator.totalEvaluations !== evaluator.totalSubmitted && (
                   <Button
                     variant='primaryOutline'
@@ -157,14 +161,14 @@ export const EvaluationProgressList = () => {
                 )}
               </div>
               {evaluatorToggledState[evaluatorIndex] && (
-                <table className='w-1/2 ml-14 mb-5 table-fixed'>
+                <table className='w-3/4 ml-14 mb-5 table-fixed'>
                   <thead className=' bg-white text-left'>
                     <tr>
                       <th className='pb-3'>Evaluee</th>
                       <th className='pb-3'>Template</th>
                       <th className='pb-3'>Project</th>
                       <th className='pb-3'>Role</th>
-                      <th className='pb-3'>Progress</th>
+                      <th className='pb-3'>Status</th>
                     </tr>
                   </thead>
                   <tbody>

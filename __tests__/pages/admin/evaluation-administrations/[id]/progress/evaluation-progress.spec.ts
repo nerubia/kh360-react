@@ -156,6 +156,7 @@ test.describe("Admin - Evaluation Progress", () => {
       await expect(page.getByText("Pending")).toBeVisible()
       await expect(page.getByText("Evaluation Period: 2023-01-01 to 2023-12-31")).toBeVisible()
       await expect(page.getByText("Evaluation Schedule: 2024-01-01 to 2024-01-03")).toBeVisible()
+      await expect(page.getByRole("button", { name: "Description:" })).toBeVisible()
       await expect(page.getByRole("heading", { name: "Evaluators" })).toBeVisible()
 
       await expect(page.getByRole("button", { name: "Doe, Jane" })).toBeVisible()
@@ -166,7 +167,7 @@ test.describe("Admin - Evaluation Progress", () => {
       await expect(page.getByRole("cell", { name: "Evaluee", exact: true })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Project" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Role" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Progress" })).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Status" })).toBeVisible()
     })
 
     test("should allow to go back", async ({ page, isMobile }) => {
