@@ -11,6 +11,7 @@ const badge = cva(
         green: ["bg-[#dafbe1]", "text-[#1b7f37]", "border-[#bbeec7]"],
         blue: ["bg-[#ddf4ff]", "text-[#0a69da]", "border-[#b7e0ff]"],
         gray: ["bg-[#f6f8fa]", "text-[#646d76]", "border-[#dbe1e6]"],
+        orange: ["bg-[#fff0e4]", "text-[#bb4b00]", "border-[#ffd1b1]"],
         red: ["bg-[#ffebe8]", "text-[#d1242f]", "border-[#ffcac8]"],
       },
       size: {

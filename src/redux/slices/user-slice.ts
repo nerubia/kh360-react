@@ -91,6 +91,23 @@ export const getUserEvaluationResult = createAsyncThunk(
   }
 )
 
+export const sendRequestToRemove = createAsyncThunk(
+  "user/sendRequestToRemove",
+  async (data: Answers, thunkApi) => {
+    try {
+      const response = await axiosInstance.post(
+        `/user/evaluations/${data.evaluation_id}/request-remove`,
+        data
+      )
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   loading_answer: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
@@ -253,6 +270,21 @@ const userSlice = createSlice({
       state.user_evaluation_result = action.payload
     })
     builder.addCase(getUserEvaluationResult.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Send request to remove
+     */
+    builder.addCase(sendRequestToRemove.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(sendRequestToRemove.fulfilled, (state) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+    })
+    builder.addCase(sendRequestToRemove.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })

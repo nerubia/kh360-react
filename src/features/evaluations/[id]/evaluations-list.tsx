@@ -74,11 +74,20 @@ export const EvaluationsList = () => {
       const submittedEvaluations = sortedEvaluations.filter(
         (evaluation) => evaluation.status === EvaluationStatus.Submitted
       )
+      const forRemovalEvaluations = sortedEvaluations.filter(
+        (evaluation) => evaluation.status === EvaluationStatus.ForRemoval
+      )
       const otherEvaluations = sortedEvaluations.filter(
-        (evaluation) => evaluation.status !== EvaluationStatus.Submitted
+        (evaluation) =>
+          evaluation.status !== EvaluationStatus.Submitted &&
+          evaluation.status !== EvaluationStatus.ForRemoval
       )
 
-      const finalSortedEvaluations: Evaluation[] = [...otherEvaluations, ...submittedEvaluations]
+      const finalSortedEvaluations: Evaluation[] = [
+        ...otherEvaluations,
+        ...submittedEvaluations,
+        ...forRemovalEvaluations,
+      ]
 
       setSortedEvaluations(finalSortedEvaluations)
       return finalSortedEvaluations

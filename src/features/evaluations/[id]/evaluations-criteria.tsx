@@ -10,7 +10,11 @@ import {
 } from "../../../redux/slices/evaluation-template-contents-slice"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../hooks/useAppSelector"
-import { submitEvaluation, updateEvaluationStatusById } from "../../../redux/slices/user-slice"
+import {
+  submitEvaluation,
+  updateEvaluationStatusById,
+  sendRequestToRemove,
+} from "../../../redux/slices/user-slice"
 import { Loading } from "../../../types/loadingType"
 import { setAlert } from "../../../redux/slices/appSlice"
 import { EvaluationStatus, type Evaluation } from "../../../types/evaluation-type"
@@ -42,6 +46,7 @@ export const EvaluationsCriteria = () => {
   const [showDialog, setShowDialog] = useState<Record<number, boolean>>({})
   const [showSaveDialog, setShowSaveDialog] = useState<boolean>(false)
   const [showSubmitDialog, setShowSubmitDialog] = useState<boolean>(false)
+  const [showRequestToRemoveDialog, setShowRequestToRemoveDialog] = useState<boolean>(false)
   const [dialogMessage, setDialogMessage] = useState<EmailTemplate>()
   const [currentNATemplateIndex, setCurrentNATemplateIndex] = useState<number>(0)
   const [currentHighRatingTemplateIndex, setCurrentHighRatingTemplateIndex] = useState<number>(0)
@@ -163,6 +168,10 @@ export const EvaluationsCriteria = () => {
 
   const toggleCompletedDialog = () => {
     setShowCompletedDialog((prev) => !prev)
+  }
+
+  const toggleRequestToRemoveDialog = () => {
+    setShowRequestToRemoveDialog((prev) => !prev)
   }
 
   const handleOnClickOk = async (templateContentId: number) => {
@@ -319,6 +328,29 @@ export const EvaluationsCriteria = () => {
     }
   }
 
+  const handleRequestToRemove = async () => {
+    if (evaluation !== undefined) {
+      if (comment.length === 0 || comment === null) {
+        setErrorMessage("Comment is required.")
+      } else {
+        try {
+          const result = await appDispatch(
+            sendRequestToRemove({ evaluation_id: evaluation?.id, comment })
+          )
+          if (result.type === "user/sendRequestToRemove/fulfilled") {
+            void appDispatch(
+              updateEvaluationStatusById({
+                id: result.payload.id,
+                status: result.payload.status,
+              })
+            )
+            setIsEditing(false)
+          }
+        } catch (error) {}
+      }
+    }
+  }
+
   return (
     <>
       {loading === Loading.Pending && <div>Loading...</div>}
@@ -385,11 +417,13 @@ export const EvaluationsCriteria = () => {
               </div>
             ))}
             <h1 className='text-lg font-bold text-primary-500 mt-10 mb-2'>Comments</h1>
-            {evaluation?.status === EvaluationStatus.Submitted &&
-              (evaluation?.comments === null || evaluation?.comments === "") && (
-                <div>No comments</div>
-              )}
-            {evaluation?.status !== EvaluationStatus.Submitted ? (
+            {evaluation?.status === EvaluationStatus.Submitted ||
+              (evaluation?.status === EvaluationStatus.ForRemoval &&
+                (evaluation?.comments === null || evaluation?.comments === "") && (
+                  <div>No comments</div>
+                ))}
+            {evaluation?.status !== EvaluationStatus.Submitted &&
+            evaluation?.status !== EvaluationStatus.ForRemoval ? (
               <>
                 <TextArea
                   name='remarks'
@@ -399,15 +433,25 @@ export const EvaluationsCriteria = () => {
                   disabled={loading_comment === Loading.Pending}
                   error={errorMessage}
                 />
-                <div className='flex justify-end my-4 gap-4'>
-                  <Button
-                    disabled={!is_editing}
-                    variant='primaryOutline'
-                    onClick={toggleSaveDialog}
-                  >
-                    Save
-                  </Button>
-                  <Button onClick={handleClickSaveAndSubmit}>Save & Submit</Button>
+                <div className='flex justify-between my-4'>
+                  <div className='flex gap-4'>
+                    {(evaluation?.status === EvaluationStatus.Open ||
+                      evaluation?.status === EvaluationStatus.Ongoing) && (
+                      <Button variant='destructiveOutline' onClick={toggleRequestToRemoveDialog}>
+                        Request to Remove
+                      </Button>
+                    )}
+                  </div>
+                  <div className='flex gap-4'>
+                    <Button
+                      disabled={!is_editing}
+                      variant='primaryOutline'
+                      onClick={toggleSaveDialog}
+                    >
+                      Save
+                    </Button>
+                    <Button onClick={handleClickSaveAndSubmit}>Save & Submit</Button>
+                  </div>
                 </div>
               </>
             ) : (
@@ -457,6 +501,27 @@ export const EvaluationsCriteria = () => {
         <Dialog.Actions>
           <Button variant='primary' onClick={toggleCompletedDialog}>
             Close
+          </Button>
+        </Dialog.Actions>
+      </Dialog>
+      <Dialog open={showRequestToRemoveDialog}>
+        <Dialog.Title>Request to Remove</Dialog.Title>
+        <Dialog.Description>
+          Are you sure you want to request for the removal of this evaluation? If you proceed, your
+          ratings won&apos;t be saved, and the evaluation will be marked for removal.
+        </Dialog.Description>
+        <Dialog.Actions>
+          <Button variant='primary' onClick={toggleRequestToRemoveDialog}>
+            No
+          </Button>
+          <Button
+            variant='primary'
+            onClick={async () => {
+              toggleRequestToRemoveDialog()
+              await handleRequestToRemove()
+            }}
+          >
+            Yes
           </Button>
         </Dialog.Actions>
       </Dialog>
