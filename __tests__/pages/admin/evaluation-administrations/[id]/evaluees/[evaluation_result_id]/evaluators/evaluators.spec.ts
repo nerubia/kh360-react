@@ -70,21 +70,41 @@ test.describe("Admin - Select Evaluators", () => {
             id: 4,
             name: "DEV Evaluation by PM",
             display_name: "PM Evaluation",
+            project_role: {
+              id: 5,
+              name: "Developer",
+              short_name: "DEV",
+            },
           },
           {
             id: 5,
             name: "DEV Evaluation by Dev Peers",
             display_name: "Peer Evaluation",
+            project_role: {
+              id: 5,
+              name: "Developer",
+              short_name: "DEV",
+            },
           },
           {
             id: 6,
             name: "DEV Evaluation by Code Reviewer",
             display_name: "Code Reviewer Evaluation",
+            project_role: {
+              id: 5,
+              name: "Developer",
+              short_name: "DEV",
+            },
           },
           {
             id: 7,
             name: "DEV Evaluation by QA",
             display_name: "QA Evaluation",
+            project_role: {
+              id: 5,
+              name: "Developer",
+              short_name: "DEV",
+            },
           },
         ]),
       })
@@ -170,15 +190,22 @@ test.describe("Admin - Select Evaluators", () => {
       await expect(page.getByRole("link", { name: "Code Reviewer Evaluation" })).toBeVisible()
       await expect(page.getByRole("link", { name: "QA Evaluation" })).toBeVisible()
 
+      await expect(
+        page.getByRole("heading", { name: "PM Evaluation for Developer Role" })
+      ).toBeVisible()
+
       await expect(page.getByRole("cell", { name: "Evaluator", exact: true }).first()).toBeVisible()
       await expect(page.getByRole("cell", { name: "Project" }).first()).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Evaluee Role" }).first()).toBeVisible()
-      await expect(page.getByRole("cell", { name: "%", exact: true })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Duration" })).toBeVisible()
+      await expect(page.getByRole("cell", { name: "%" }).first()).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Duration" }).first()).toBeVisible()
 
       await expect(page.getByRole("cell", { name: "Evaluator, First" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Evaluator, Second" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Evaluator, Third" })).toBeVisible()
+
+      await expect(
+        page.getByRole("heading", { name: "External Evaluators for Developer Role" })
+      ).toBeVisible()
 
       await expect(page.getByRole("link", { name: "Back to Employee List" })).toBeVisible()
       await expect(page.getByRole("button", { name: "Save as Draft" })).toBeVisible()

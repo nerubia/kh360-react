@@ -20,6 +20,7 @@ import { Icon } from "../../../../../../../components/ui/icon/icon"
 import { setSelectedExternalUserIds } from "../../../../../../../redux/slices/evaluation-administration-slice"
 import { getProjectMembers } from "../../../../../../../redux/slices/project-members-slice"
 import Dropdown from "../../../../../../../components/ui/dropdown/dropdown"
+import Tooltip from "../../../../../../../components/ui/tooltip/tooltip"
 
 export const EvaluatorsList = () => {
   const navigate = useNavigate()
@@ -29,8 +30,11 @@ export const EvaluatorsList = () => {
   const { loading } = useAppSelector((state) => state.evaluationResult)
   const { evaluations } = useAppSelector((state) => state.evaluations)
   const { project_members } = useAppSelector((state) => state.projectMembers)
+  const { evaluation_templates } = useAppSelector((state) => state.evaluationTemplates)
   const [sortedEvaluations, setSortedEvaluations] = useState<Evaluation[]>([])
   const [sortedExternalEvaluations, setSortedExternalEvaluations] = useState<Evaluation[]>([])
+  const [internalHeader, setInternalHeader] = useState<string>("")
+  const [externalHeader, setExternalHeader] = useState<string>("")
 
   useEffect(() => {
     if (evaluation_template_id !== "all") {
@@ -70,6 +74,15 @@ export const EvaluatorsList = () => {
       sorted.filter((evaluation) => evaluation.is_external === undefined || !evaluation.is_external)
     )
     setSortedExternalEvaluations(sorted.filter((evaluation) => evaluation.is_external === true))
+    if (evaluation_template_id !== undefined) {
+      const template = evaluation_templates.find(
+        (template) => parseInt(evaluation_template_id) === template.id
+      )
+      if (template !== null) {
+        setInternalHeader(`${template?.display_name} for ${template?.project_role?.name} Role`)
+        setExternalHeader(`External Evaluators for ${template?.project_role?.name} Role`)
+      }
+    }
   }, [evaluations])
 
   const handleSelectAll = (checked: boolean, external: boolean) => {
@@ -148,12 +161,12 @@ export const EvaluatorsList = () => {
 
   return (
     <div className='flex-1 h-[calc(100vh_-_185px)] flex flex-col pt-4'>
-      <PageSubTitle>Evaluators</PageSubTitle>
+      <PageSubTitle>{internalHeader}</PageSubTitle>
       <div className='flex-1 overflow-y-scroll mt-2'>
-        <table className='relative w-full'>
+        <table className='relative w-full table-fixed'>
           <thead className='sticky top-0 bg-white text-left'>
             <tr>
-              <th className='pb-3'>
+              <th className='w-10 pb-3'>
                 <Checkbox
                   checked={
                     sortedEvaluations.length > 0 &&
@@ -164,7 +177,6 @@ export const EvaluatorsList = () => {
               </th>
               <th className='pb-3'>Evaluator</th>
               <th className='pb-3'>Project</th>
-              <th className='pb-3'>Evaluee Role</th>
               <th className='pb-3'>%</th>
               <th className='pb-3'>Duration</th>
             </tr>
@@ -176,7 +188,7 @@ export const EvaluatorsList = () => {
               )
               .map((evaluation) => (
                 <tr key={evaluation.id}>
-                  <td className='pb-2'>
+                  <td className='w-fit pb-2'>
                     <Checkbox
                       checked={evaluation.for_evaluation}
                       onChange={(checked) => handleClickCheckbox(evaluation.id, checked)}
@@ -186,7 +198,6 @@ export const EvaluatorsList = () => {
                     {evaluation.evaluator?.last_name}, {evaluation.evaluator?.first_name}
                   </td>
                   <td className='pb-2'>{evaluation.project?.name}</td>
-                  <td className='pb-2'>{evaluation.project_role?.name}</td>
                   <td className='pb-2'>{evaluation.percent_involvement}%</td>
                   <td className='pb-2'>
                     {formatDate(evaluation.eval_start_date)} to{" "}
@@ -198,13 +209,13 @@ export const EvaluatorsList = () => {
         </table>
       </div>
       <div className='pt-5'>
-        <PageSubTitle>External Evaluators</PageSubTitle>
+        <PageSubTitle>{externalHeader}</PageSubTitle>
       </div>
       <div className='flex-1 overflow-y-scroll my-2'>
-        <table className='relative w-full'>
+        <table className='relative w-full table-fixed'>
           <thead className='sticky top-0 bg-white text-left'>
             <tr>
-              <th className='pb-3'>
+              <th className='w-10 pb-3'>
                 <Checkbox
                   checked={
                     sortedExternalEvaluations.length > 0 &&
@@ -214,9 +225,9 @@ export const EvaluatorsList = () => {
                 />
               </th>
               <th className='pb-3'>Evaluator</th>
-              <th className='pb-3'>Email address</th>
-              <th className='pb-3'>Evaluee Role</th>
               <th className='pb-3'>Project</th>
+              <th className='pb-3'>%</th>
+              <th className='pb-3'>Duration</th>
             </tr>
           </thead>
           <tbody>
@@ -231,10 +242,13 @@ export const EvaluatorsList = () => {
                     />
                   </td>
                   <td className='pb-2'>
-                    {evaluation.evaluator?.last_name}, {evaluation.evaluator?.first_name}
+                    <Tooltip>
+                      <Tooltip.Trigger>
+                        {evaluation.evaluator?.last_name}, {evaluation.evaluator?.first_name}
+                      </Tooltip.Trigger>
+                      <Tooltip.Content>{evaluation.evaluator?.email}</Tooltip.Content>
+                    </Tooltip>
                   </td>
-                  <td className='pb-2'>{evaluation.evaluator?.email}</td>
-                  <td className='pb-2'>{evaluation.evaluator?.role}</td>
                   {evaluation.project === null &&
                   getAvailableProjects(evaluation.evaluator?.id).length > 0 ? (
                     <td>
@@ -277,6 +291,11 @@ export const EvaluatorsList = () => {
                   ) : (
                     <td>{evaluation.project?.name}</td>
                   )}
+                  <td className='pb-2'>{evaluation.percent_involvement}%</td>
+                  <td className='pb-2'>
+                    {formatDate(evaluation.eval_start_date)} to{" "}
+                    {formatDate(evaluation.eval_end_date)}
+                  </td>
                 </tr>
               ))}
           </tbody>

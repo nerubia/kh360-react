@@ -139,6 +139,9 @@ const evaluationsSlice = createSlice({
         evaluation.id === action.payload.id
           ? {
               ...evaluation,
+              eval_start_date: action.payload.eval_start_date,
+              eval_end_date: action.payload.eval_end_date,
+              percent_involvement: action.payload.percent_involvement,
               project: action.payload.project,
             }
           : evaluation
