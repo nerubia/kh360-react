@@ -116,15 +116,19 @@ export const EvaluatorsList = () => {
             status,
           })
         )
-        if (typeof result.payload === "string") {
+        if (result.type === "evaluationResult/setEvaluationResultStatus/fulfilled") {
+          navigate(`/admin/evaluation-administrations/${id}/evaluees`)
+        }
+        if (result.type === "evaluationResult/setEvaluationResultStatus/rejected") {
+          navigate(
+            `/admin/evaluation-administrations/${id}/evaluees/${evaluation_result_id}/evaluators/${result.payload.data.template_id}`
+          )
           appDispatch(
             setAlert({
-              description: result.payload,
+              description: result.payload.message,
               variant: "destructive",
             })
           )
-        } else if (result.payload !== undefined) {
-          navigate(`/admin/evaluation-administrations/${id}/evaluees`)
         }
       } catch (error) {}
     }
