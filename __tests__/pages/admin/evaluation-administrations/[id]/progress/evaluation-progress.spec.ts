@@ -90,7 +90,7 @@ test.describe("Admin - Evaluation Progress", () => {
 
       await mockRequest(
         page,
-        "/admin/evaluations?evaluation_administration_id=1&evaluator_id=1&for_evaluation=true",
+        "/admin/evaluations?evaluation_administration_id=1&for_evaluation=true&evaluator_id=1",
         {
           status: 200,
           contentType: "application/json",
@@ -221,7 +221,7 @@ test.describe("Admin - Evaluation Progress", () => {
 
       await mockRequest(
         page,
-        "/admin/evaluations?evaluation_administration_id=1&evaluator_id=1&for_evaluation=true",
+        "/admin/evaluations?evaluation_administration_id=1&for_evaluation=true&evaluator_id=1",
         {
           status: 200,
           contentType: "application/json",
