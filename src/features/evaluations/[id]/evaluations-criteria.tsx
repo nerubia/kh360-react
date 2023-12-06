@@ -41,6 +41,7 @@ export const EvaluationsCriteria = () => {
 
   const [evaluation, setEvaluation] = useState<Evaluation>()
   const [comment, setComment] = useState<string>("")
+  const [recommendation, setRecommendation] = useState<string>("")
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [ratingCommentErrorMessage, setRatingCommentErrorMessage] = useState<string | null>(null)
   const [showDialog, setShowDialog] = useState<Record<number, boolean>>({})
@@ -112,6 +113,11 @@ export const EvaluationsCriteria = () => {
       setComment(evaluation.comments)
     } else {
       setComment("")
+    }
+    if (evaluation?.recommendations !== undefined && evaluation?.recommendations !== null) {
+      setRecommendation(evaluation.recommendations)
+    } else {
+      setRecommendation("")
     }
   }, [evaluation])
 
@@ -220,6 +226,11 @@ export const EvaluationsCriteria = () => {
     setRatingCommentErrorMessage(null)
   }
 
+  const handleRecommendationChange = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { value } = e.target
+    setRecommendation(value)
+  }
+
   const handleClickSaveAndSubmit = () => {
     if ((isRatingHigh && comment.length === 0) || (isRatingLow && comment.length === 0)) {
       const isNA = false
@@ -284,6 +295,7 @@ export const EvaluationsCriteria = () => {
             evaluation_rating_comments,
             answer_option_ids,
             comment,
+            recommendation,
             is_submitting,
           })
         )
@@ -360,7 +372,7 @@ export const EvaluationsCriteria = () => {
       {loading === Loading.Fulfilled &&
         evaluation_template_contents.length > 0 &&
         user_evaluations.length > 0 && (
-          <div className='flex flex-col overflow-y-scroll pr-5 mx-4 md:w-3/4'>
+          <div className='flex flex-col overflow-y-scroll pr-5 pb-5 mx-4 md:w-3/4'>
             <div className='text-xl font-bold text-primary-500 mb-1'>
               <p>
                 {evaluation?.evaluee?.last_name}
@@ -416,7 +428,7 @@ export const EvaluationsCriteria = () => {
                 </Dialog>
               </div>
             ))}
-            <h1 className='text-lg font-bold text-primary-500 mt-10 mb-2'>Comments</h1>
+            <h2 className='text-lg font-bold text-primary-500 mt-10 mb-2'>Comments</h2>
             {evaluation?.status === EvaluationStatus.Submitted ||
               (evaluation?.status === EvaluationStatus.ForRemoval &&
                 (evaluation?.comments === null || evaluation?.comments === "") && (
@@ -433,29 +445,50 @@ export const EvaluationsCriteria = () => {
                   disabled={loading_comment === Loading.Pending}
                   error={errorMessage}
                 />
-                <div className='flex justify-between my-4'>
-                  <div className='flex gap-4'>
-                    {(evaluation?.status === EvaluationStatus.Open ||
-                      evaluation?.status === EvaluationStatus.Ongoing) && (
-                      <Button variant='destructiveOutline' onClick={toggleRequestToRemoveDialog}>
-                        Request to Remove
-                      </Button>
-                    )}
-                  </div>
-                  <div className='flex gap-4'>
-                    <Button
-                      disabled={!is_editing}
-                      variant='primaryOutline'
-                      onClick={toggleSaveDialog}
-                    >
-                      Save
-                    </Button>
-                    <Button onClick={handleClickSaveAndSubmit}>Save & Submit</Button>
-                  </div>
-                </div>
               </>
             ) : (
-              <p className='mb-10'>{comment}</p>
+              <p>{comment}</p>
+            )}
+            {evaluation?.template?.with_recommendation === true && (
+              <h2 className='text-lg font-bold text-primary-500 mt-10 mb-2'>Recommendations</h2>
+            )}
+            {evaluation?.template?.with_recommendation === true && (
+              <>
+                {evaluation?.status !== EvaluationStatus.Submitted ? (
+                  <>
+                    <TextArea
+                      name='recommendations'
+                      placeholder='Recommendations'
+                      value={recommendation}
+                      onChange={handleRecommendationChange}
+                    />
+                  </>
+                ) : (
+                  <p>{recommendation}</p>
+                )}
+              </>
+            )}
+            {evaluation?.status !== EvaluationStatus.Submitted && (
+              <div className='flex justify-between my-4'>
+                <div className='flex gap-4'>
+                  {(evaluation?.status === EvaluationStatus.Open ||
+                    evaluation?.status === EvaluationStatus.Ongoing) && (
+                    <Button variant='destructiveOutline' onClick={toggleRequestToRemoveDialog}>
+                      Request to Remove
+                    </Button>
+                  )}
+                </div>
+                <div className='flex gap-4'>
+                  <Button
+                    disabled={!is_editing}
+                    variant='primaryOutline'
+                    onClick={toggleSaveDialog}
+                  >
+                    Save
+                  </Button>
+                  <Button onClick={handleClickSaveAndSubmit}>Save & Submit</Button>
+                </div>
+              </div>
             )}
           </div>
         )}
