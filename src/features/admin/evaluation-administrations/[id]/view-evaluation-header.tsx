@@ -23,6 +23,7 @@ export const ViewEvaluationHeader = () => {
   const { id } = useParams()
   const appDispatch = useAppDispatch()
   const { evaluation_administration } = useAppSelector((state) => state.evaluationAdministration)
+  const { previousUrl } = useAppSelector((state) => state.evaluationAdministrations)
 
   const [showCancelDialog, setShowCancelDialog] = useState<boolean>(false)
   const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false)
@@ -43,39 +44,51 @@ export const ViewEvaluationHeader = () => {
   const handleCancel = async () => {
     if (id !== undefined) {
       await appDispatch(cancelEvaluationAdministration(parseInt(id)))
-      navigate("/admin/evaluation-administrations")
       appDispatch(
         setAlert({
           description: "Evaluation has been canceled successfully.",
           variant: "success",
         })
       )
+      if (previousUrl !== null) {
+        navigate(previousUrl)
+        return
+      }
+      navigate("/admin/evaluation-administrations")
     }
   }
 
   const handleDelete = async () => {
     if (id !== undefined) {
       await appDispatch(deleteEvaluationAdministration(parseInt(id)))
-      navigate("/admin/evaluation-administrations")
       appDispatch(
         setAlert({
           description: "Evaluation has been deleted successfully.",
           variant: "success",
         })
       )
+      if (previousUrl !== null) {
+        navigate(previousUrl)
+        return
+      }
+      navigate("/admin/evaluation-administrations")
     }
   }
 
   const handleClose = async () => {
     if (id !== undefined) {
       await appDispatch(closeEvaluationAdministration(parseInt(id)))
-      navigate("/admin/evaluation-administrations")
       appDispatch(
         setAlert({
           description: "Evaluation has been closed successfully.",
           variant: "success",
         })
       )
+      if (previousUrl !== null) {
+        navigate(previousUrl)
+        return
+      }
+      navigate("/admin/evaluation-administrations")
     }
   }
 
