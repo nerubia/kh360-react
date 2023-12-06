@@ -62,18 +62,28 @@ export const EvaluationProgressList = () => {
     }
   }, [evaluations])
 
-  const toggleEvaluator = (index: number, evaluator_id: string | undefined) => {
+  const toggleEvaluator = (index: number, user_id?: string, is_external?: boolean) => {
     const updatedToggledState: boolean[] = [...evaluatorToggledState]
     updatedToggledState[index] = !updatedToggledState[index]
     setEvaluatorToggledState(updatedToggledState)
     if (!dispatchedEmployees.includes(index)) {
-      if (evaluator_id !== undefined && id !== undefined) {
+      if (user_id !== undefined && id !== undefined) {
         void appDispatch(
-          getEvaluations({ evaluation_administration_id: id, evaluator_id, for_evaluation: true })
+          getEvaluations({
+            evaluation_administration_id: id,
+            for_evaluation: true,
+            ...(is_external === true
+              ? {
+                  external_evaluator_id: user_id,
+                }
+              : {
+                  evaluator_id: user_id,
+                }),
+          })
         )
       }
       setDispatchedEmployees((prevDispatchedEmployees) => [...prevDispatchedEmployees, index])
-      setSelectedEvaluatorId(evaluator_id)
+      setSelectedEvaluatorId(user_id)
     }
   }
 
@@ -112,7 +122,9 @@ export const EvaluationProgressList = () => {
             <div key={evaluatorIndex} className='mb-2'>
               <div className='flex gap-8 mb-2 items-center'>
                 <Button
-                  onClick={() => toggleEvaluator(evaluatorIndex, evaluator.id?.toString())}
+                  onClick={() =>
+                    toggleEvaluator(evaluatorIndex, evaluator.id?.toString(), evaluator.is_external)
+                  }
                   variant={"unstyled"}
                 >
                   <div className='flex items-center'>

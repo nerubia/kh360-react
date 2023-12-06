@@ -24,6 +24,7 @@ export interface Evaluation {
 export interface EvaluationFilters {
   evaluation_administration_id?: string
   evaluator_id?: string
+  external_evaluator_id?: string
   for_evaluation?: boolean
   evaluation_template_id?: string
   evaluation_result_id?: string
