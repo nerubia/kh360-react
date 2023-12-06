@@ -177,7 +177,11 @@ export const EvaluationsCriteria = () => {
   }
 
   const toggleRequestToRemoveDialog = () => {
-    setShowRequestToRemoveDialog((prev) => !prev)
+    if (comment.length === 0) {
+      setErrorMessage("Comment is required")
+    } else {
+      setShowRequestToRemoveDialog((prev) => !prev)
+    }
   }
 
   const handleOnClickOk = async (templateContentId: number) => {
@@ -342,24 +346,21 @@ export const EvaluationsCriteria = () => {
 
   const handleRequestToRemove = async () => {
     if (evaluation !== undefined) {
-      if (comment.length === 0 || comment === null) {
-        setErrorMessage("Comment is required.")
-      } else {
-        try {
-          const result = await appDispatch(
-            sendRequestToRemove({ evaluation_id: evaluation?.id, comment })
+      try {
+        const result = await appDispatch(
+          sendRequestToRemove({ evaluation_id: evaluation?.id, comment })
+        )
+        if (result.type === "user/sendRequestToRemove/fulfilled") {
+          void appDispatch(
+            updateEvaluationStatusById({
+              id: result.payload.id,
+              status: result.payload.status,
+              comment,
+            })
           )
-          if (result.type === "user/sendRequestToRemove/fulfilled") {
-            void appDispatch(
-              updateEvaluationStatusById({
-                id: result.payload.id,
-                status: result.payload.status,
-              })
-            )
-            setIsEditing(false)
-          }
-        } catch (error) {}
-      }
+          void appDispatch(setIsEditing(false))
+        }
+      } catch (error) {}
     }
   }
 
