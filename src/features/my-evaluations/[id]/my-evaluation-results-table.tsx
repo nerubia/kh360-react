@@ -31,8 +31,12 @@ export const MyEvaluationResultsTable = () => {
                   {user_evaluation_result?.evaluation_result_details.map((detail) => (
                     <tr key={detail.id}>
                       <td className='py-1 border-b'>{detail.template_name}</td>
-                      <td className='py-1 border-b text-center'>{detail.score}</td>
-                      <td className='py-1 border-b text-center'>{detail.zscore}</td>
+                      <td className='py-1 border-b text-center'>
+                        {Number(detail.score).toFixed(2)}
+                      </td>
+                      <td className='py-1 border-b text-center'>
+                        {Number(detail.zscore).toFixed(2)}
+                      </td>
                       <td className='py-1 border-b text-center items-center'>
                         <Banding banding={detail.banding} size='small' />
                       </td>
@@ -40,8 +44,12 @@ export const MyEvaluationResultsTable = () => {
                   ))}
                   <tr>
                     <td className='font-bold py-1'>Total Weighted Score: </td>
-                    <td className='py-1 text-center'>{user_evaluation_result.score}</td>
-                    <td className='py-1 text-center'>{user_evaluation_result.zscore}</td>
+                    <td className='py-1 text-center'>
+                      {Number(user_evaluation_result.score).toFixed(2)}
+                    </td>
+                    <td className='py-1 text-center'>
+                      {Number(user_evaluation_result.zscore).toFixed(2)}
+                    </td>
                     <td className='py-1 text-center'>
                       <Banding banding={user_evaluation_result.banding} size='small' />
                     </td>
