@@ -1,8 +1,10 @@
 import { type Evaluation } from "./evaluation-type"
 import { type ProjectRole } from "./projectRoleType"
+
 export interface EvaluationTemplate {
   id: number
   display_name?: string
+  with_recommendation?: boolean
   project_role?: ProjectRole
   evaluation_details?: Evaluation[]
 }

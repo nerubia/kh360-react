@@ -6,6 +6,7 @@ import { type EvaluationTemplate } from "./evaluation-template-type"
 export interface Evaluation {
   id: number
   comments?: string
+  recommendations?: string
   eval_start_date?: string
   eval_end_date?: string
   percent_involvement?: string
