@@ -41,4 +41,5 @@ export enum EvaluationStatus {
   Expired = "Expired",
   Reviewed = "Reviewed",
   ForRemoval = "For Removal",
+  Removed = "Removed",
 }
