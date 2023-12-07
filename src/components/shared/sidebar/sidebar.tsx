@@ -7,30 +7,32 @@ import { Icon } from "../../ui/icon/icon"
 import { Button } from "../../ui/button/button"
 import { Menu } from "../Menu"
 import { type icons } from "../../ui/icon/icons"
+import { useInternalUser } from "../../../hooks/use-internal-user"
 
 export const Sidebar = () => {
   const { activeSidebar } = useAppSelector((state) => state.app)
   const { user } = useAppSelector((state) => state.auth)
   const appDispatch = useAppDispatch()
+  const isInternal = useInternalUser()
   const isAdmin = useAdmin()
 
   const menuLinks = [
     {
       title: "Sample",
       link: "/sample",
-      access: "Public",
+      access: "Admin",
     },
     {
       title: "Dashboard",
       link: "/dashboard",
       icon: "Dashboard",
-      access: "Public",
+      access: "Internal",
     },
     {
       title: "My Evaluations",
       link: "/my-evaluations",
       icon: "ClipboardCheck",
-      access: "Public",
+      access: "Internal",
     },
     {
       title: "Evaluation Forms",
@@ -81,7 +83,9 @@ export const Sidebar = () => {
         <div className='flex-1 flex flex-col gap-2'>
           {menuLinks.map(
             (menu, index) =>
-              ((menu.access === "Admin" && isAdmin) || menu.access === "Public") && (
+              ((isInternal && menu.access === "Internal") ||
+                (isAdmin && menu.access === "Admin") ||
+                menu.access === "Public") && (
                 <Menu
                   key={index}
                   to={menu.link}
