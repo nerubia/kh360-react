@@ -106,6 +106,20 @@ export const closeEvaluationAdministration = createAsyncThunk(
   }
 )
 
+export const publishEvaluationAdministration = createAsyncThunk(
+  "evaluationAdministration/publish",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.post(`/admin/evaluation-administrations/${id}/publish`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const addExternalEvaluators = createAsyncThunk(
   "evaluationAdministration/addExternalEvaluators",
   async (data: ExternalEvaluatorData, thunkApi) => {
@@ -218,6 +232,21 @@ const evaluationAdministrationSlice = createSlice({
       state.canGenerate = action.payload.canGenerate
     })
     builder.addCase(generateStatusEvaluationAdministration.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Publish
+     */
+    builder.addCase(publishEvaluationAdministration.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(publishEvaluationAdministration.fulfilled, (state) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+    })
+    builder.addCase(publishEvaluationAdministration.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
