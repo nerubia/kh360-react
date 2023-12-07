@@ -520,7 +520,7 @@ test.describe("User - Evaluations", () => {
         await page.getByTestId("SidebarCloseButton").click()
       }
 
-      await page.getByRole("link").nth(4).click()
+      await page.getByRole("link").nth(3).click()
 
       await mockRequest(page, "/user/evaluation-administrations", {
         status: 200,
@@ -535,15 +535,11 @@ test.describe("User - Evaluations", () => {
         }),
       })
 
-      await mockRequest(
-        page,
-        "/user/email-templates?template_type=Evaluation+Complete+Thank+You+Message",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify({}),
-        }
-      )
+      await mockRequest(page, "/user/email-templates?template_type=No+Pending+Evaluation+Forms", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({}),
+      })
 
       await expect(page).toHaveURL("/evaluation-administrations")
     })

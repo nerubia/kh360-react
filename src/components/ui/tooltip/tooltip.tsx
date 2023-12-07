@@ -8,6 +8,7 @@ const tooltip = cva(
     "absolute",
     "z-50",
     "w-max",
+    "max-w-md",
     "bg-[#fff8c5]",
     "text-[#9b6700]",
     "text-xs",

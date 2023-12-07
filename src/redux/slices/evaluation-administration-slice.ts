@@ -106,6 +106,20 @@ export const closeEvaluationAdministration = createAsyncThunk(
   }
 )
 
+export const publishEvaluationAdministration = createAsyncThunk(
+  "evaluationAdministration/publish",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.post(`/admin/evaluation-administrations/${id}/publish`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const addExternalEvaluators = createAsyncThunk(
   "evaluationAdministration/addExternalEvaluators",
   async (data: ExternalEvaluatorData, thunkApi) => {
@@ -156,6 +170,7 @@ export const sendReminder = createAsyncThunk(
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   loading_evaluators: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
+  loading_send: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
   evaluation_administration: EvaluationAdministration | null
   evaluators: User[]
@@ -167,6 +182,7 @@ interface InitialState {
 const initialState: InitialState = {
   loading: Loading.Idle,
   loading_evaluators: Loading.Idle,
+  loading_send: Loading.Idle,
   error: null,
   evaluation_administration: null,
   evaluators: [],
@@ -220,6 +236,21 @@ const evaluationAdministrationSlice = createSlice({
       state.error = action.payload as string
     })
     /**
+     * Publish
+     */
+    builder.addCase(publishEvaluationAdministration.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(publishEvaluationAdministration.fulfilled, (state) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+    })
+    builder.addCase(publishEvaluationAdministration.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
      * Get evaluators
      */
     builder.addCase(getEvaluators.pending, (state) => {
@@ -239,15 +270,15 @@ const evaluationAdministrationSlice = createSlice({
      * Send reminder
      */
     builder.addCase(sendReminder.pending, (state) => {
-      state.loading = Loading.Pending
+      state.loading_send = Loading.Pending
       state.error = null
     })
     builder.addCase(sendReminder.fulfilled, (state) => {
-      state.loading = Loading.Fulfilled
+      state.loading_send = Loading.Fulfilled
       state.error = null
     })
     builder.addCase(sendReminder.rejected, (state, action) => {
-      state.loading = Loading.Rejected
+      state.loading_send = Loading.Rejected
       state.error = action.payload as string
     })
   },

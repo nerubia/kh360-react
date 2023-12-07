@@ -79,7 +79,6 @@ test.describe("User - My Evaluation Results", () => {
       }
 
       await expect(page.getByRole("heading", { name: "Evaluation Results" })).toBeVisible()
-      await expect(page.getByText("Employee Information")).toBeVisible()
       await expect(page.getByText("Name: User, Sample")).toBeVisible()
       await expect(page.getByText("Evaluation Period: Jan 1 - Nov 30, 2023")).toBeVisible()
       await expect(page.getByText("Status: Closed")).toBeVisible()
@@ -89,8 +88,8 @@ test.describe("User - My Evaluation Results", () => {
       await expect(page.getByRole("cell", { name: "Banding", exact: true })).toBeVisible()
 
       await expect(page.getByRole("cell", { name: "PM Evaluation" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "1", exact: true })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "0" }).first()).toBeVisible()
+      await expect(page.getByRole("cell", { name: "1.00" })).toBeVisible()
+      await expect(page.getByRole("cell", { name: "0.00" }).first()).toBeVisible()
 
       await expect(page.getByRole("cell", { name: "Total Weighted Score:" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "1.88" })).toBeVisible()
@@ -180,6 +179,24 @@ test.describe("User - My Evaluation Results", () => {
           },
         }),
       })
+
+      await mockRequest(
+        page,
+        "/user/email-templates?template_type=No+Available+Evaluation+Results",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            content:
+              "Uh-oh! 🤷‍♂️\n\nLooks like our magical elves are still working their charm behind the scenes, and your results haven't arrived just yet. Don't worry, though – good things come to those who wait!\n\nIn the meantime, why not grab a cup of coffee or practice your superhero pose? 🦸‍♀️ We'll have those results ready for you in no time.\n\nStay tuned and keep the positive vibes flowing! ✨",
+            id: 65,
+            is_default: true,
+            name: "No Available Evaluation Results",
+            subject: "",
+            template_type: "No Available Evaluation Results",
+          }),
+        }
+      )
 
       await page.waitForLoadState("networkidle")
 

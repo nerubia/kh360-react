@@ -10,6 +10,9 @@ export const getEvaluationAdministrationStatusVariant = (status: string | undefi
   if (status === EvaluationAdministrationStatus.Pending) {
     return "yellow"
   }
+  if (status === EvaluationAdministrationStatus.Processing) {
+    return "orange"
+  }
   if (status === EvaluationAdministrationStatus.Ongoing) {
     return "green"
   }

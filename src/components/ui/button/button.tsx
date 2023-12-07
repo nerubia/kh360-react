@@ -41,6 +41,13 @@ const button = cva(["w-fit", "rounded-md", "flex", "items-center", "gap-2"], {
         "disabled:border-red-200",
         "disabled:text-red-200",
       ],
+      textLink: [
+        "text-primary-500",
+        "border-b-2",
+        "border-transparent",
+        "hover:text-white",
+        "hover:bg-primary-500",
+      ],
       ghost: ["hover:bg-gray-100", "active:bg-gray-200", "disabled:bg-gray-100"],
       unstyled: ["!p-0"],
       star: ["text-primary-500", "active:text-primary-500", "hover:text-primary-500"],

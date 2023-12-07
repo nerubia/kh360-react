@@ -134,14 +134,14 @@ export const ExternalAuthForm = () => {
               onChange={handleInputChange}
               error={validationErrors.code}
             />
-            <div className='flex justify-end'>
+            <div className='flex justify-center'>
               <Button
                 variant='unstyled'
                 size='small'
                 onClick={handleResendCode}
                 loading={submitLoading === Loading.Pending}
               >
-                Resend verification code?
+                <span className='text-primary-500 underline'>Resend verification code?</span>
               </Button>
             </div>
           </div>

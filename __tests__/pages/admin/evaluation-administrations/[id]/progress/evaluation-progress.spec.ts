@@ -78,7 +78,7 @@ test.describe("Admin - Evaluation Progress", () => {
           {
             email: "janedoe@email.com",
             first_name: "Jane",
-            id: 1,
+            id: 2,
             last_name: "Doe",
             picture: null,
             slug: "Jane-doe",
@@ -90,7 +90,7 @@ test.describe("Admin - Evaluation Progress", () => {
 
       await mockRequest(
         page,
-        "/admin/evaluations?evaluation_administration_id=1&evaluator_id=1&for_evaluation=true",
+        "/admin/evaluations?evaluation_administration_id=1&for_evaluation=true&evaluator_id=2",
         {
           status: 200,
           contentType: "application/json",
@@ -100,9 +100,14 @@ test.describe("Admin - Evaluation Progress", () => {
               eval_start_date: "2023-10-16T00:00:00.000Z",
               eval_end_date: "2023-12-31T00:00:00.000Z",
               percent_involvement: "75",
+              comments: "Sample comment",
               evaluee: {
+                email: "sample@example.com",
                 first_name: "First",
+                id: 2,
                 last_name: "Evaluee",
+                picture: null,
+                slug: "sample-evaluee-first",
               },
               project: {
                 name: "iAssess",
@@ -110,6 +115,23 @@ test.describe("Admin - Evaluation Progress", () => {
               project_role: {
                 name: "Developer",
               },
+              template: {
+                id: 5,
+                display_name: "Peer Evaluation",
+                evaluator_role_id: 5,
+                evaluee_role_id: 5,
+                is_active: true,
+                name: "DEV Evaluation by Dev Peers",
+                rate: "20",
+                template_class: "Internal",
+                template_type: "Project Evaluation",
+                updated_at: null,
+                with_recommendation: false,
+              },
+              status: "Ongoing",
+              for_evaluation: true,
+              is_external: false,
+              external_evaluator_id: null,
             },
             {
               id: 2,
@@ -117,8 +139,12 @@ test.describe("Admin - Evaluation Progress", () => {
               eval_end_date: "2023-10-15T00:00:00.000Z",
               percent_involvement: "100",
               evaluee: {
+                email: "sample2@example.com",
                 first_name: "Second",
+                id: 3,
                 last_name: "Evaluee",
+                picture: null,
+                slug: "sample-evaluee-second",
               },
               project: {
                 name: "ProductHQ",
@@ -126,6 +152,23 @@ test.describe("Admin - Evaluation Progress", () => {
               project_role: {
                 name: "Developer",
               },
+              template: {
+                id: 5,
+                display_name: "Peer Evaluation",
+                evaluator_role_id: 5,
+                evaluee_role_id: 5,
+                is_active: true,
+                name: "DEV Evaluation by Dev Peers",
+                rate: "20",
+                template_class: "Internal",
+                template_type: "Project Evaluation",
+                updated_at: null,
+                with_recommendation: false,
+              },
+              status: "Ongoing",
+              for_evaluation: true,
+              is_external: false,
+              external_evaluator_id: null,
             },
             {
               id: 3,
@@ -133,8 +176,12 @@ test.describe("Admin - Evaluation Progress", () => {
               eval_end_date: "2023-10-15T00:00:00.000Z",
               percent_involvement: "100",
               evaluee: {
+                email: "sample3@example.com",
                 first_name: "Third",
+                id: 4,
                 last_name: "Evaluee",
+                picture: null,
+                slug: "sample-evaluee-third",
               },
               project: {
                 name: "ProductHQ",
@@ -142,6 +189,23 @@ test.describe("Admin - Evaluation Progress", () => {
               project_role: {
                 name: "Developer",
               },
+              template: {
+                id: 5,
+                display_name: "Peer Evaluation",
+                evaluator_role_id: 5,
+                evaluee_role_id: 5,
+                is_active: true,
+                name: "DEV Evaluation by Dev Peers",
+                rate: "20",
+                template_class: "Internal",
+                template_type: "Project Evaluation",
+                updated_at: null,
+                with_recommendation: false,
+              },
+              status: "Ongoing",
+              for_evaluation: true,
+              is_external: false,
+              external_evaluator_id: null,
             },
           ]),
         }
@@ -165,6 +229,7 @@ test.describe("Admin - Evaluation Progress", () => {
       await page.getByRole("button", { name: "Doe, Jane" }).click()
 
       await expect(page.getByRole("cell", { name: "Evaluee", exact: true })).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Template" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Project" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Role" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Status" })).toBeVisible()
@@ -221,7 +286,7 @@ test.describe("Admin - Evaluation Progress", () => {
 
       await mockRequest(
         page,
-        "/admin/evaluations?evaluation_administration_id=1&evaluator_id=1&for_evaluation=true",
+        "/admin/evaluations?evaluation_administration_id=1&for_evaluation=true&evaluator_id=2",
         {
           status: 200,
           contentType: "application/json",
@@ -231,9 +296,14 @@ test.describe("Admin - Evaluation Progress", () => {
               eval_start_date: "2023-10-16T00:00:00.000Z",
               eval_end_date: "2023-12-31T00:00:00.000Z",
               percent_involvement: "75",
+              comments: "Sample comment",
               evaluee: {
+                email: "sample@example.com",
                 first_name: "First",
+                id: 2,
                 last_name: "Evaluee",
+                picture: null,
+                slug: "sample-evaluee-first",
               },
               project: {
                 name: "iAssess",
@@ -241,6 +311,23 @@ test.describe("Admin - Evaluation Progress", () => {
               project_role: {
                 name: "Developer",
               },
+              template: {
+                id: 5,
+                display_name: "Peer Evaluation",
+                evaluator_role_id: 5,
+                evaluee_role_id: 5,
+                is_active: true,
+                name: "DEV Evaluation by Dev Peers",
+                rate: "20",
+                template_class: "Internal",
+                template_type: "Project Evaluation",
+                updated_at: null,
+                with_recommendation: false,
+              },
+              status: "Ongoing",
+              for_evaluation: true,
+              is_external: false,
+              external_evaluator_id: null,
             },
             {
               id: 2,
@@ -248,8 +335,12 @@ test.describe("Admin - Evaluation Progress", () => {
               eval_end_date: "2023-10-15T00:00:00.000Z",
               percent_involvement: "100",
               evaluee: {
+                email: "sample2@example.com",
                 first_name: "Second",
+                id: 3,
                 last_name: "Evaluee",
+                picture: null,
+                slug: "sample-evaluee-second",
               },
               project: {
                 name: "ProductHQ",
@@ -257,6 +348,23 @@ test.describe("Admin - Evaluation Progress", () => {
               project_role: {
                 name: "Developer",
               },
+              template: {
+                id: 5,
+                display_name: "Peer Evaluation",
+                evaluator_role_id: 5,
+                evaluee_role_id: 5,
+                is_active: true,
+                name: "DEV Evaluation by Dev Peers",
+                rate: "20",
+                template_class: "Internal",
+                template_type: "Project Evaluation",
+                updated_at: null,
+                with_recommendation: false,
+              },
+              status: "Ongoing",
+              for_evaluation: true,
+              is_external: false,
+              external_evaluator_id: null,
             },
             {
               id: 3,
@@ -264,8 +372,12 @@ test.describe("Admin - Evaluation Progress", () => {
               eval_end_date: "2023-10-15T00:00:00.000Z",
               percent_involvement: "100",
               evaluee: {
+                email: "sample3@example.com",
                 first_name: "Third",
+                id: 4,
                 last_name: "Evaluee",
+                picture: null,
+                slug: "sample-evaluee-third",
               },
               project: {
                 name: "ProductHQ",
@@ -273,10 +385,29 @@ test.describe("Admin - Evaluation Progress", () => {
               project_role: {
                 name: "Developer",
               },
+              template: {
+                id: 5,
+                display_name: "Peer Evaluation",
+                evaluator_role_id: 5,
+                evaluee_role_id: 5,
+                is_active: true,
+                name: "DEV Evaluation by Dev Peers",
+                rate: "20",
+                template_class: "Internal",
+                template_type: "Project Evaluation",
+                updated_at: null,
+                with_recommendation: false,
+              },
+              status: "Ongoing",
+              for_evaluation: true,
+              is_external: false,
+              external_evaluator_id: null,
             },
           ]),
         }
       )
+
+      await page.waitForLoadState("networkidle")
 
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()

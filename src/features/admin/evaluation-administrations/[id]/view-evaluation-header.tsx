@@ -10,6 +10,7 @@ import {
   cancelEvaluationAdministration,
   closeEvaluationAdministration,
   deleteEvaluationAdministration,
+  publishEvaluationAdministration,
 } from "../../../../redux/slices/evaluation-administration-slice"
 import { useAppDispatch } from "../../../../hooks/useAppDispatch"
 import { PageTitle } from "../../../../components/shared/page-title"
@@ -17,17 +18,21 @@ import { Badge } from "../../../../components/ui/badge/Badge"
 import { getEvaluationAdministrationStatusVariant } from "../../../../utils/variant"
 import Dropdown from "../../../../components/ui/dropdown/dropdown"
 import { setAlert } from "../../../../redux/slices/appSlice"
+import { Loading } from "../../../../types/loadingType"
 
 export const ViewEvaluationHeader = () => {
   const navigate = useNavigate()
   const { id } = useParams()
   const appDispatch = useAppDispatch()
-  const { evaluation_administration } = useAppSelector((state) => state.evaluationAdministration)
+  const { loading, evaluation_administration } = useAppSelector(
+    (state) => state.evaluationAdministration
+  )
   const { previousUrl } = useAppSelector((state) => state.evaluationAdministrations)
 
   const [showCancelDialog, setShowCancelDialog] = useState<boolean>(false)
   const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false)
   const [showCloseDialog, setShowCloseDialog] = useState<boolean>(false)
+  const [showPublishDialog, setShowPublishDialog] = useState<boolean>(false)
 
   const toggleCancelDialog = () => {
     setShowCancelDialog((prev) => !prev)
@@ -39,6 +44,10 @@ export const ViewEvaluationHeader = () => {
 
   const toggleCloseDialog = () => {
     setShowCloseDialog((prev) => !prev)
+  }
+
+  const togglePublishDialog = () => {
+    setShowPublishDialog((prev) => !prev)
   }
 
   const handleCancel = async () => {
@@ -81,6 +90,23 @@ export const ViewEvaluationHeader = () => {
       appDispatch(
         setAlert({
           description: "Evaluation has been closed successfully.",
+          variant: "success",
+        })
+      )
+      if (previousUrl !== null) {
+        navigate(previousUrl)
+        return
+      }
+      navigate("/admin/evaluation-administrations")
+    }
+  }
+
+  const handlePublish = async () => {
+    if (id !== undefined) {
+      await appDispatch(publishEvaluationAdministration(parseInt(id)))
+      appDispatch(
+        setAlert({
+          description: "Evaluation has been published successfully.",
           variant: "success",
         })
       )
@@ -167,6 +193,12 @@ export const ViewEvaluationHeader = () => {
                     Close
                   </Dropdown.Item>
                 )}
+                {evaluation_administration?.status === EvaluationAdministrationStatus.Closed && (
+                  <Dropdown.Item onClick={togglePublishDialog}>
+                    <Icon icon='UploadCloud' />
+                    Publish
+                  </Dropdown.Item>
+                )}
               </Dropdown.Content>
             </Dropdown>
           </div>
@@ -216,6 +248,18 @@ export const ViewEvaluationHeader = () => {
             No
           </Button>
           <Button variant='primary' onClick={handleClose}>
+            Yes
+          </Button>
+        </Dialog.Actions>
+      </Dialog>
+      <Dialog open={showPublishDialog}>
+        <Dialog.Title>Publish Evaluation</Dialog.Title>
+        <Dialog.Description>Are you sure you want to publish this record?</Dialog.Description>
+        <Dialog.Actions>
+          <Button variant='primaryOutline' onClick={togglePublishDialog}>
+            No
+          </Button>
+          <Button variant='primary' onClick={handlePublish} loading={loading === Loading.Pending}>
             Yes
           </Button>
         </Dialog.Actions>

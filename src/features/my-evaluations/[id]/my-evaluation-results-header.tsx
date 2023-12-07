@@ -25,7 +25,6 @@ export const MyEvaluationResultsHeader = () => {
             <div className='flex gap-4 primary-outline items-end mb-4'>
               <PageTitle>Evaluation Results</PageTitle>
             </div>
-            <p className='text-xl font-bold mb-2'>Employee Information</p>
             <div className='flex gap-3'>
               <div className='font-bold md:w-[150px]'>Name: </div>
               {user_evaluation_result?.users?.last_name},{" "}

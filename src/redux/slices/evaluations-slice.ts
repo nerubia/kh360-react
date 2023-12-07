@@ -68,6 +68,34 @@ export const updateProject = createAsyncThunk(
   }
 )
 
+export const approveRequest = createAsyncThunk(
+  "evaluations/approveRequest",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.post(`/admin/evaluations/${id}/approve`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const declineRequest = createAsyncThunk(
+  "evaluations/declineRequest",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.post(`/admin/evaluations/${id}/decline`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
@@ -139,12 +167,45 @@ const evaluationsSlice = createSlice({
         evaluation.id === action.payload.id
           ? {
               ...evaluation,
+              eval_start_date: action.payload.eval_start_date,
+              eval_end_date: action.payload.eval_end_date,
+              percent_involvement: action.payload.percent_involvement,
               project: action.payload.project,
             }
           : evaluation
       )
     })
     builder.addCase(updateProject.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Approve Request
+     */
+    builder.addCase(approveRequest.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(approveRequest.fulfilled, (state) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+    })
+    builder.addCase(approveRequest.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Decline Request
+     */
+    builder.addCase(declineRequest.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(declineRequest.fulfilled, (state) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+    })
+    builder.addCase(declineRequest.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })

@@ -14,6 +14,7 @@ import {
   submitEvaluation,
   updateEvaluationStatusById,
   sendRequestToRemove,
+  updateTotalSubmitted,
 } from "../../../redux/slices/user-slice"
 import { Loading } from "../../../types/loadingType"
 import { setAlert } from "../../../redux/slices/appSlice"
@@ -177,7 +178,11 @@ export const EvaluationsCriteria = () => {
   }
 
   const toggleRequestToRemoveDialog = () => {
-    setShowRequestToRemoveDialog((prev) => !prev)
+    if (comment.length === 0) {
+      setErrorMessage("Comment is required")
+    } else {
+      setShowRequestToRemoveDialog((prev) => !prev)
+    }
   }
 
   const handleOnClickOk = async (templateContentId: number) => {
@@ -325,6 +330,9 @@ export const EvaluationsCriteria = () => {
               setCompleted(true)
             }
           }
+          if (id !== undefined) {
+            appDispatch(updateTotalSubmitted({ id }))
+          }
         } else if (result.type === "user/submitEvaluation/rejected") {
           void appDispatch(
             appDispatch(
@@ -342,24 +350,21 @@ export const EvaluationsCriteria = () => {
 
   const handleRequestToRemove = async () => {
     if (evaluation !== undefined) {
-      if (comment.length === 0 || comment === null) {
-        setErrorMessage("Comment is required.")
-      } else {
-        try {
-          const result = await appDispatch(
-            sendRequestToRemove({ evaluation_id: evaluation?.id, comment })
+      try {
+        const result = await appDispatch(
+          sendRequestToRemove({ evaluation_id: evaluation?.id, comment })
+        )
+        if (result.type === "user/sendRequestToRemove/fulfilled") {
+          void appDispatch(
+            updateEvaluationStatusById({
+              id: result.payload.id,
+              status: result.payload.status,
+              comment,
+            })
           )
-          if (result.type === "user/sendRequestToRemove/fulfilled") {
-            void appDispatch(
-              updateEvaluationStatusById({
-                id: result.payload.id,
-                status: result.payload.status,
-              })
-            )
-            setIsEditing(false)
-          }
-        } catch (error) {}
-      }
+          void appDispatch(setIsEditing(false))
+        }
+      } catch (error) {}
     }
   }
 
@@ -447,7 +452,7 @@ export const EvaluationsCriteria = () => {
                 />
               </>
             ) : (
-              <p>{comment}</p>
+              <pre className='font-sans whitespace-pre-wrap break-words'>{comment}</pre>
             )}
             {evaluation?.template?.with_recommendation === true && (
               <h2 className='text-lg font-bold text-primary-500 mt-10 mb-2'>Recommendations</h2>
@@ -470,24 +475,26 @@ export const EvaluationsCriteria = () => {
             )}
             {evaluation?.status !== EvaluationStatus.Submitted && (
               <div className='flex justify-between my-4'>
-                <div className='flex gap-4'>
-                  {(evaluation?.status === EvaluationStatus.Open ||
-                    evaluation?.status === EvaluationStatus.Ongoing) && (
-                    <Button variant='destructiveOutline' onClick={toggleRequestToRemoveDialog}>
-                      Request to Remove
-                    </Button>
-                  )}
-                </div>
-                <div className='flex gap-4'>
-                  <Button
-                    disabled={!is_editing}
-                    variant='primaryOutline'
-                    onClick={toggleSaveDialog}
-                  >
-                    Save
-                  </Button>
-                  <Button onClick={handleClickSaveAndSubmit}>Save & Submit</Button>
-                </div>
+                {(evaluation?.status === EvaluationStatus.Open ||
+                  evaluation?.status === EvaluationStatus.Ongoing) && (
+                  <>
+                    <div className='flex gap-4'>
+                      <Button variant='destructiveOutline' onClick={toggleRequestToRemoveDialog}>
+                        Request to Remove
+                      </Button>
+                    </div>
+                    <div className='flex gap-4'>
+                      <Button
+                        disabled={!is_editing}
+                        variant='primaryOutline'
+                        onClick={toggleSaveDialog}
+                      >
+                        Save
+                      </Button>
+                      <Button onClick={handleClickSaveAndSubmit}>Save & Submit</Button>
+                    </div>
+                  </>
+                )}
               </div>
             )}
           </div>

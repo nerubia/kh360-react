@@ -39,7 +39,7 @@ export const setEvaluationResultStatus = createAsyncThunk(
     } catch (error) {
       const axiosError = error as AxiosError
       const response = axiosError.response?.data as ApiError
-      return thunkApi.rejectWithValue(response.message)
+      return thunkApi.rejectWithValue(response)
     }
   }
 )
@@ -106,7 +106,8 @@ const evaluationResultSlice = createSlice({
     })
     builder.addCase(setEvaluationResultStatus.rejected, (state, action) => {
       state.loading = Loading.Rejected
-      state.error = action.payload as string
+      const payload = action.payload as ApiError
+      state.error = payload.message
     })
   },
 })
