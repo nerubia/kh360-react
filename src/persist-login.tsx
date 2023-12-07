@@ -17,6 +17,9 @@ const ForgotPassword = lazy(async () => await import("./pages/auth/forgot_passwo
 const ResetPassword = lazy(async () => await import("./pages/auth/reset_password"))
 
 const PrivateRoute = lazy(async () => await import("./routes/PrivateRoute"))
+
+const InternalUserRoute = lazy(async () => await import("./routes/InternalUserRoute"))
+
 const Dashboard = lazy(async () => await import("./pages/dashboard/dashboard"))
 const Sample = lazy(async () => await import("./pages/sample/sample"))
 
@@ -121,22 +124,6 @@ const router = createBrowserRouter([
         element: <DashboardLayout />,
         children: [
           {
-            path: "/dashboard",
-            element: <Dashboard />,
-          },
-          {
-            path: "/sample",
-            element: <Sample />,
-          },
-          {
-            path: "/my-evaluations",
-            element: <MyEvaluations />,
-          },
-          {
-            path: "/my-evaluations/:id",
-            element: <MyEvaluationResults />,
-          },
-          {
             path: "/evaluation-administrations",
             element: <UserEvaluationAdministrations />,
           },
@@ -145,8 +132,29 @@ const router = createBrowserRouter([
             element: <Evaluations />,
           },
           {
+            element: <InternalUserRoute />,
+            children: [
+              {
+                path: "/dashboard",
+                element: <Dashboard />,
+              },
+              {
+                path: "/my-evaluations",
+                element: <MyEvaluations />,
+              },
+              {
+                path: "/my-evaluations/:id",
+                element: <MyEvaluationResults />,
+              },
+            ],
+          },
+          {
             element: <AdminRoute />,
             children: [
+              {
+                path: "/sample",
+                element: <Sample />,
+              },
               /**
                * Evaluation Administrations
                */
