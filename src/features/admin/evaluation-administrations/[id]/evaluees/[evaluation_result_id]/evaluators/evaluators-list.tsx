@@ -79,8 +79,12 @@ export const EvaluatorsList = () => {
         (template) => parseInt(evaluation_template_id) === template.id
       )
       if (template !== null) {
-        setInternalHeader(`${template?.display_name} for ${template?.project_role?.name} Role`)
-        setExternalHeader(`External Evaluators for ${template?.project_role?.name} Role`)
+        const role =
+          template?.project_role?.name !== undefined
+            ? ` for ${template?.project_role?.name} Role`
+            : ""
+        setInternalHeader(`${template?.display_name}${role}`)
+        setExternalHeader(`External Evaluators${role}`)
       }
     }
   }, [evaluations])
