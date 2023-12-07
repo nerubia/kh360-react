@@ -471,24 +471,26 @@ export const EvaluationsCriteria = () => {
             )}
             {evaluation?.status !== EvaluationStatus.Submitted && (
               <div className='flex justify-between my-4'>
-                <div className='flex gap-4'>
-                  {(evaluation?.status === EvaluationStatus.Open ||
-                    evaluation?.status === EvaluationStatus.Ongoing) && (
-                    <Button variant='destructiveOutline' onClick={toggleRequestToRemoveDialog}>
-                      Request to Remove
-                    </Button>
-                  )}
-                </div>
-                <div className='flex gap-4'>
-                  <Button
-                    disabled={!is_editing}
-                    variant='primaryOutline'
-                    onClick={toggleSaveDialog}
-                  >
-                    Save
-                  </Button>
-                  <Button onClick={handleClickSaveAndSubmit}>Save & Submit</Button>
-                </div>
+                {(evaluation?.status === EvaluationStatus.Open ||
+                  evaluation?.status === EvaluationStatus.Ongoing) && (
+                  <>
+                    <div className='flex gap-4'>
+                      <Button variant='destructiveOutline' onClick={toggleRequestToRemoveDialog}>
+                        Request to Remove
+                      </Button>
+                    </div>
+                    <div className='flex gap-4'>
+                      <Button
+                        disabled={!is_editing}
+                        variant='primaryOutline'
+                        onClick={toggleSaveDialog}
+                      >
+                        Save
+                      </Button>
+                      <Button onClick={handleClickSaveAndSubmit}>Save & Submit</Button>
+                    </div>
+                  </>
+                )}
               </div>
             )}
           </div>
