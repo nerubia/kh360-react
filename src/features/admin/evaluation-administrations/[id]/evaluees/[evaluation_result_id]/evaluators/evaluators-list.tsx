@@ -301,8 +301,12 @@ export const EvaluatorsList = () => {
                   )}
                   <td className='pb-2'>{evaluation.percent_involvement}%</td>
                   <td className='pb-2'>
-                    {formatDate(evaluation.eval_start_date)} to{" "}
-                    {formatDate(evaluation.eval_end_date)}
+                    {evaluation.eval_start_date !== null && evaluation.eval_end_date !== null && (
+                      <>
+                        {formatDate(evaluation.eval_start_date)} to{" "}
+                        {formatDate(evaluation.eval_end_date)}
+                      </>
+                    )}
                   </td>
                 </tr>
               ))}
