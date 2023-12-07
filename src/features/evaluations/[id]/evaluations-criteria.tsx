@@ -14,6 +14,7 @@ import {
   submitEvaluation,
   updateEvaluationStatusById,
   sendRequestToRemove,
+  updateTotalSubmitted,
 } from "../../../redux/slices/user-slice"
 import { Loading } from "../../../types/loadingType"
 import { setAlert } from "../../../redux/slices/appSlice"
@@ -328,6 +329,9 @@ export const EvaluationsCriteria = () => {
               setShowCompletedDialog(true)
               setCompleted(true)
             }
+          }
+          if (id !== undefined) {
+            appDispatch(updateTotalSubmitted({ id }))
           }
         } else if (result.type === "user/submitEvaluation/rejected") {
           void appDispatch(

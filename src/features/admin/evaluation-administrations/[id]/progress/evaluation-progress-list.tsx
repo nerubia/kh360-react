@@ -9,6 +9,7 @@ import {
   getEvaluators,
   sendReminder,
 } from "../../../../../redux/slices/evaluation-administration-slice"
+import { updateTotalEvaluations } from "../../../../../redux/slices/user-slice"
 import {
   getEvaluations,
   approveRequest,
@@ -165,10 +166,12 @@ export const EvaluationProgressList = () => {
                   }
                 }
               }
-
               return evaluator
             })
           )
+          if (id !== undefined) {
+            appDispatch(updateTotalEvaluations({ id }))
+          }
         }
       } catch (error) {}
     }

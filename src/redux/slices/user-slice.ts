@@ -158,6 +158,32 @@ const userSlice = createSlice({
         state.user_evaluations[index].status = status
       }
     },
+    updateTotalEvaluations: (state, action) => {
+      const { id } = action.payload
+
+      const index = state.user_evaluation_administrations.findIndex(
+        (evaluationAdministration) => evaluationAdministration.id === parseInt(id)
+      )
+      if (index !== -1) {
+        const newTotal = state.user_evaluation_administrations[index].totalEvaluations
+        if (newTotal !== undefined) {
+          state.user_evaluation_administrations[index].totalEvaluations = newTotal - 1
+        }
+      }
+    },
+    updateTotalSubmitted: (state, action) => {
+      const { id } = action.payload
+
+      const index = state.user_evaluation_administrations.findIndex(
+        (evaluationAdministration) => evaluationAdministration.id === parseInt(id)
+      )
+      if (index !== -1) {
+        const newTotal = state.user_evaluation_administrations[index].totalSubmitted
+        if (newTotal !== undefined) {
+          state.user_evaluation_administrations[index].totalSubmitted = newTotal + 1
+        }
+      }
+    },
   },
   extraReducers(builder) {
     /**
@@ -187,19 +213,23 @@ const userSlice = createSlice({
     builder.addCase(getUserEvaluationAdministrations.fulfilled, (state, action) => {
       state.loading = Loading.Fulfilled
       state.error = null
-      const newData: EvaluationAdministration[] = []
-      const payloadData = action.payload.data as EvaluationAdministration[]
-      for (const data of payloadData) {
-        if (
-          !state.user_evaluation_administrations.some(
-            (evaluationAdministration) => evaluationAdministration.id === data.id
-          )
-        ) {
-          newData.push(data)
+      if (action.payload.pageInfo.currentPage > 1) {
+        const newData: EvaluationAdministration[] = []
+        const payloadData = action.payload.data as EvaluationAdministration[]
+        for (const data of payloadData) {
+          if (
+            !state.user_evaluation_administrations.some(
+              (evaluationAdministration) => evaluationAdministration.id === data.id
+            )
+          ) {
+            newData.push(data)
+          }
         }
+        state.user_evaluation_administrations =
+          payloadData.length > 0 ? [...state.user_evaluation_administrations, ...newData] : []
+      } else {
+        state.user_evaluation_administrations = action.payload.data
       }
-      state.user_evaluation_administrations =
-        payloadData.length > 0 ? [...state.user_evaluation_administrations, ...newData] : []
       state.hasPreviousPage = action.payload.pageInfo.hasPreviousPage
       state.hasNextPage = action.payload.pageInfo.hasNextPage
       state.currentPage = action.payload.pageInfo.currentPage
@@ -291,5 +321,6 @@ const userSlice = createSlice({
   },
 })
 
-export const { updateEvaluationStatusById } = userSlice.actions
+export const { updateEvaluationStatusById, updateTotalEvaluations, updateTotalSubmitted } =
+  userSlice.actions
 export default userSlice.reducer
