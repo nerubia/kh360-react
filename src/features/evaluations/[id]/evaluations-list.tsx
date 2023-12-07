@@ -124,7 +124,7 @@ export const EvaluationsList = () => {
       {loading === Loading.Fulfilled && user_evaluations.length === 0 && (
         <div>No evaluations available yet.</div>
       )}
-      <div className='md:w-96 flex flex-col my-4'>
+      <div className='md:w-96 h-96 md:h-[95%] flex flex-col my-4'>
         <div className='flex-1 overflow-y-auto mb-4 px-2 mx-2'>
           {loading === Loading.Fulfilled &&
             user_evaluations.length > 0 &&
@@ -203,7 +203,7 @@ export const EvaluationsList = () => {
               </>
             )}
         </div>
-        <div>
+        <div className='ml-4'>
           <LinkButton to='/evaluation-administrations' variant='primaryOutline'>
             <Icon icon='ChevronLeft' />
           </LinkButton>

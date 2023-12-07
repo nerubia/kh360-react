@@ -86,7 +86,7 @@ export const StarRating = ({
   }, [error])
 
   return (
-    <div className='flex flex-row items-center w-80'>
+    <div className='flex flex-row items-center justify-start w-60'>
       {templateContent.answerOptions !== undefined &&
         templateContent.answerId === AnswerOptions.FivePointStarRating && (
           <div>
@@ -167,8 +167,8 @@ export const StarRating = ({
                       </div>
                     </div>
                   )}
-                {evaluation?.status === EvaluationStatus.Submitted ||
-                  (evaluation?.status === EvaluationStatus.ForRemoval && <p> {comment} </p>)}
+                {(evaluation?.status === EvaluationStatus.Submitted ||
+                  evaluation?.status === EvaluationStatus.ForRemoval) && <p> {comment} </p>}
               </>
             </div>
           </div>

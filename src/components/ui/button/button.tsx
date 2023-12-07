@@ -63,7 +63,7 @@ const button = cva(["w-fit", "rounded-md", "flex", "items-center", "gap-2"], {
         "text-white",
         "hover:bg-primary-600",
         "active:bg-primary-700",
-        "disabled:bg-primary-200",
+        "disabled:bg-primary-500",
       ],
       NAOptionEmpty: [
         "mr-2.5",
