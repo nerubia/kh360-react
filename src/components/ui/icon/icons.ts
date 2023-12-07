@@ -13,6 +13,7 @@ export const icons = {
   Close: lazy(async () => await import("./icons/close-icon")),
   Dashboard: lazy(async () => await import("./icons/dashboard-icon")),
   FileText: lazy(async () => await import("./icons/file-text-icon")),
+  GanttChart: lazy(async () => await import("./icons/gantt-chart-icon")),
   Google: lazy(async () => await import("./icons/google-icon")),
   Logout: lazy(async () => await import("./icons/logout-icon")),
   Menu: lazy(async () => await import("./icons/menu-icon")),
