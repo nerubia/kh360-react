@@ -21,5 +21,6 @@ export const icons = {
   Plus: lazy(async () => await import("./icons/plus-icon")),
   Star: lazy(async () => await import("./icons/star-icon")),
   Trash: lazy(async () => await import("./icons/trash-icon")),
+  UploadCloud: lazy(async () => await import("./icons/upload-cloud-icon")),
   UserFill: lazy(async () => await import("./icons/user-fill-icon")),
 }

@@ -26,10 +26,10 @@ export default function ViewEvaluation() {
 
   return (
     <div className='flex flex-col gap-2'>
-      {loading === Loading.Pending && <div>Loading...</div>}
+      {loading === Loading.Pending && evaluation_administration === null && <div>Loading...</div>}
       {loading === Loading.Fulfilled && evaluation_administration === null && <div>Not found</div>}
       <div className='h-[calc(100vh_-_104px)] flex flex-col gap-2' id='scroll-container'>
-        {loading === Loading.Fulfilled && evaluation_administration !== null && (
+        {evaluation_administration !== null && (
           <>
             <ViewEvaluationHeader />
             {loading_evaluation_results === Loading.Pending && <div>Loading...</div>}
