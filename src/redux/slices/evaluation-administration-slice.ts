@@ -156,6 +156,7 @@ export const sendReminder = createAsyncThunk(
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   loading_evaluators: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
+  loading_send: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
   evaluation_administration: EvaluationAdministration | null
   evaluators: User[]
@@ -167,6 +168,7 @@ interface InitialState {
 const initialState: InitialState = {
   loading: Loading.Idle,
   loading_evaluators: Loading.Idle,
+  loading_send: Loading.Idle,
   error: null,
   evaluation_administration: null,
   evaluators: [],
@@ -239,15 +241,15 @@ const evaluationAdministrationSlice = createSlice({
      * Send reminder
      */
     builder.addCase(sendReminder.pending, (state) => {
-      state.loading = Loading.Pending
+      state.loading_send = Loading.Pending
       state.error = null
     })
     builder.addCase(sendReminder.fulfilled, (state) => {
-      state.loading = Loading.Fulfilled
+      state.loading_send = Loading.Fulfilled
       state.error = null
     })
     builder.addCase(sendReminder.rejected, (state, action) => {
-      state.loading = Loading.Rejected
+      state.loading_send = Loading.Rejected
       state.error = action.payload as string
     })
   },

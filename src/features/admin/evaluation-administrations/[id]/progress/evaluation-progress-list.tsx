@@ -253,10 +253,12 @@ export const EvaluationProgressList = () => {
                     </div>
                   </div>
                 </Button>
-                {Math.round(
-                  getValue(evaluator.totalSubmitted ?? 0, evaluator.totalEvaluations ?? 0)
-                )}
-                %
+                <div className='w-8 text-right'>
+                  {Math.round(
+                    getValue(evaluator.totalSubmitted ?? 0, evaluator.totalEvaluations ?? 0)
+                  )}
+                  %
+                </div>
                 {evaluator.totalEvaluations !== evaluator.totalSubmitted && (
                   <Button
                     variant='primaryOutline'
