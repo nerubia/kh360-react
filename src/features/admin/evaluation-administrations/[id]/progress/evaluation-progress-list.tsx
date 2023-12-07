@@ -310,7 +310,11 @@ export const EvaluationProgressList = () => {
                                       <div className='uppercase'>{evaluation.status}</div>
                                     </Badge>
                                   </Tooltip.Trigger>
-                                  <Tooltip.Content>{evaluation.comments}</Tooltip.Content>
+                                  <Tooltip.Content>
+                                    <pre className='font-sans whitespace-pre-wrap break-words'>
+                                      {evaluation.comments}
+                                    </pre>
+                                  </Tooltip.Content>
                                 </Tooltip>
                               ) : (
                                 <Badge

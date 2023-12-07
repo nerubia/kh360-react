@@ -448,7 +448,7 @@ export const EvaluationsCriteria = () => {
                 />
               </>
             ) : (
-              <p>{comment}</p>
+              <pre className='font-sans whitespace-pre-wrap break-words'>{comment}</pre>
             )}
             {evaluation?.template?.with_recommendation === true && (
               <h2 className='text-lg font-bold text-primary-500 mt-10 mb-2'>Recommendations</h2>
