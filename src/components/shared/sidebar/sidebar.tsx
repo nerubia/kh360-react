@@ -50,6 +50,12 @@ export const Sidebar = () => {
       icon: "UserFill",
       access: "Admin",
     },
+    {
+      title: "Project Assignments",
+      link: "/admin/project-assignments",
+      icon: "GanttChart",
+      access: "Admin",
+    },
   ]
 
   const toggleSidebar = () => {
