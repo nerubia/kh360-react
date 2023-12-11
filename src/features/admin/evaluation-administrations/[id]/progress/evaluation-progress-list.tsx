@@ -22,10 +22,13 @@ import { getEvaluationStatusVariant, getProgressVariant } from "../../../../../u
 import { EvaluationStatus } from "../../../../../types/evaluation-type"
 import Tooltip from "../../../../../components/ui/tooltip/tooltip"
 import Dialog from "../../../../../components/ui/dialog/dialog"
+import { EvaluationAdministrationStatus } from "../../../../../types/evaluation-administration-type"
 
 export const EvaluationProgressList = () => {
   const appDispatch = useAppDispatch()
   const { id } = useParams()
+
+  const { evaluation_administration } = useAppSelector((state) => state.evaluationAdministration)
   const { evaluators } = useAppSelector((state) => state.evaluationAdministration)
   const { evaluations } = useAppSelector((state) => state.evaluations)
 
@@ -262,21 +265,25 @@ export const EvaluationProgressList = () => {
                   )}
                   %
                 </div>
-                {evaluator.totalEvaluations !== evaluator.totalSubmitted && (
-                  <Button
-                    variant='primaryOutline'
-                    size='small'
-                    onClick={async () =>
-                      await handleOnClickNudge(
-                        evaluator.first_name as string,
-                        evaluator.id,
-                        evaluator.is_external as boolean
-                      )
-                    }
-                  >
-                    Nudge
-                  </Button>
-                )}
+                {evaluator.totalEvaluations !== evaluator.totalSubmitted &&
+                  evaluation_administration?.status !== EvaluationAdministrationStatus.Closed &&
+                  evaluation_administration?.status !== EvaluationAdministrationStatus.Cancelled &&
+                  evaluation_administration?.status !==
+                    EvaluationAdministrationStatus.Published && (
+                    <Button
+                      variant='primaryOutline'
+                      size='small'
+                      onClick={async () =>
+                        await handleOnClickNudge(
+                          evaluator.first_name as string,
+                          evaluator.id,
+                          evaluator.is_external as boolean
+                        )
+                      }
+                    >
+                      Nudge
+                    </Button>
+                  )}
               </div>
               {evaluatorToggledState[evaluatorIndex] && (
                 <table className='w-3/4 ml-14 mb-5 table-fixed'>
