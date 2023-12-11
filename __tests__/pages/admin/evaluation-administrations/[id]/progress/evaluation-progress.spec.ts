@@ -459,5 +459,327 @@ test.describe("Admin - Evaluation Progress", () => {
 
       await expect(page).toHaveURL("/admin/evaluation-administrations/1")
     })
+
+    test("should show nudge button for Draft", async ({ page, isMobile }) => {
+      await loginUser("admin", page)
+
+      await page.goto("/admin/evaluation-administrations/1/progress")
+
+      await mockRequest(page, "/admin/evaluation-administrations/1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          id: 1,
+          name: "Evaluation 1",
+          eval_schedule_start_date: "2024-01-01T00:00:00.000Z",
+          eval_schedule_end_date: "2024-01-03T00:00:00.000Z",
+          eval_period_start_date: "2023-01-01T00:00:00.000Z",
+          eval_period_end_date: "2023-12-31T00:00:00.000Z",
+          remarks: "Remarks 1",
+          email_subject: "Subject 1",
+          email_content: "Content 1",
+          status: "Draft",
+        }),
+      })
+
+      await mockRequest(page, "/admin/evaluation-administrations/1/evaluators", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            email: "johndoe@email.com",
+            first_name: "John",
+            id: 1,
+            last_name: "Doe",
+            picture: null,
+            slug: "john-doe",
+            totalEvaluations: 4,
+            totalSubmitted: 2,
+          },
+        ]),
+      })
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await expect(page.getByRole("button", { name: "Nudge" })).toBeVisible()
+    })
+
+    test("should show nudge button for Pending", async ({ page, isMobile }) => {
+      await loginUser("admin", page)
+
+      await page.goto("/admin/evaluation-administrations/1/progress")
+
+      await mockRequest(page, "/admin/evaluation-administrations/1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          id: 1,
+          name: "Evaluation 1",
+          eval_schedule_start_date: "2024-01-01T00:00:00.000Z",
+          eval_schedule_end_date: "2024-01-03T00:00:00.000Z",
+          eval_period_start_date: "2023-01-01T00:00:00.000Z",
+          eval_period_end_date: "2023-12-31T00:00:00.000Z",
+          remarks: "Remarks 1",
+          email_subject: "Subject 1",
+          email_content: "Content 1",
+          status: "Pending",
+        }),
+      })
+
+      await mockRequest(page, "/admin/evaluation-administrations/1/evaluators", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            email: "johndoe@email.com",
+            first_name: "John",
+            id: 1,
+            last_name: "Doe",
+            picture: null,
+            slug: "john-doe",
+            totalEvaluations: 4,
+            totalSubmitted: 2,
+          },
+        ]),
+      })
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await expect(page.getByRole("button", { name: "Nudge" })).toBeVisible()
+    })
+
+    test("should show nudge button for Processing", async ({ page, isMobile }) => {
+      await loginUser("admin", page)
+
+      await page.goto("/admin/evaluation-administrations/1/progress")
+
+      await mockRequest(page, "/admin/evaluation-administrations/1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          id: 1,
+          name: "Evaluation 1",
+          eval_schedule_start_date: "2024-01-01T00:00:00.000Z",
+          eval_schedule_end_date: "2024-01-03T00:00:00.000Z",
+          eval_period_start_date: "2023-01-01T00:00:00.000Z",
+          eval_period_end_date: "2023-12-31T00:00:00.000Z",
+          remarks: "Remarks 1",
+          email_subject: "Subject 1",
+          email_content: "Content 1",
+          status: "Processing",
+        }),
+      })
+
+      await mockRequest(page, "/admin/evaluation-administrations/1/evaluators", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            email: "johndoe@email.com",
+            first_name: "John",
+            id: 1,
+            last_name: "Doe",
+            picture: null,
+            slug: "john-doe",
+            totalEvaluations: 4,
+            totalSubmitted: 2,
+          },
+        ]),
+      })
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await expect(page.getByRole("button", { name: "Nudge" })).toBeVisible()
+    })
+
+    test("should show nudge button for Ongoing", async ({ page, isMobile }) => {
+      await loginUser("admin", page)
+
+      await page.goto("/admin/evaluation-administrations/1/progress")
+
+      await mockRequest(page, "/admin/evaluation-administrations/1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          id: 1,
+          name: "Evaluation 1",
+          eval_schedule_start_date: "2024-01-01T00:00:00.000Z",
+          eval_schedule_end_date: "2024-01-03T00:00:00.000Z",
+          eval_period_start_date: "2023-01-01T00:00:00.000Z",
+          eval_period_end_date: "2023-12-31T00:00:00.000Z",
+          remarks: "Remarks 1",
+          email_subject: "Subject 1",
+          email_content: "Content 1",
+          status: "Ongoing",
+        }),
+      })
+
+      await mockRequest(page, "/admin/evaluation-administrations/1/evaluators", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            email: "johndoe@email.com",
+            first_name: "John",
+            id: 1,
+            last_name: "Doe",
+            picture: null,
+            slug: "john-doe",
+            totalEvaluations: 4,
+            totalSubmitted: 2,
+          },
+        ]),
+      })
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await expect(page.getByRole("button", { name: "Nudge" })).toBeVisible()
+    })
+
+    test("should not show nudge button for Closed", async ({ page, isMobile }) => {
+      await loginUser("admin", page)
+
+      await page.goto("/admin/evaluation-administrations/1/progress")
+
+      await mockRequest(page, "/admin/evaluation-administrations/1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          id: 1,
+          name: "Evaluation 1",
+          eval_schedule_start_date: "2024-01-01T00:00:00.000Z",
+          eval_schedule_end_date: "2024-01-03T00:00:00.000Z",
+          eval_period_start_date: "2023-01-01T00:00:00.000Z",
+          eval_period_end_date: "2023-12-31T00:00:00.000Z",
+          remarks: "Remarks 1",
+          email_subject: "Subject 1",
+          email_content: "Content 1",
+          status: "Closed",
+        }),
+      })
+
+      await mockRequest(page, "/admin/evaluation-administrations/1/evaluators", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            email: "johndoe@email.com",
+            first_name: "John",
+            id: 1,
+            last_name: "Doe",
+            picture: null,
+            slug: "john-doe",
+            totalEvaluations: 4,
+            totalSubmitted: 2,
+          },
+        ]),
+      })
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await expect(page.getByRole("button", { name: "Nudge" })).not.toBeVisible()
+    })
+
+    test("should not show nudge button for Cancelled", async ({ page, isMobile }) => {
+      await loginUser("admin", page)
+
+      await page.goto("/admin/evaluation-administrations/1/progress")
+
+      await mockRequest(page, "/admin/evaluation-administrations/1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          id: 1,
+          name: "Evaluation 1",
+          eval_schedule_start_date: "2024-01-01T00:00:00.000Z",
+          eval_schedule_end_date: "2024-01-03T00:00:00.000Z",
+          eval_period_start_date: "2023-01-01T00:00:00.000Z",
+          eval_period_end_date: "2023-12-31T00:00:00.000Z",
+          remarks: "Remarks 1",
+          email_subject: "Subject 1",
+          email_content: "Content 1",
+          status: "Cancelled",
+        }),
+      })
+
+      await mockRequest(page, "/admin/evaluation-administrations/1/evaluators", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            email: "johndoe@email.com",
+            first_name: "John",
+            id: 1,
+            last_name: "Doe",
+            picture: null,
+            slug: "john-doe",
+            totalEvaluations: 4,
+            totalSubmitted: 2,
+          },
+        ]),
+      })
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await expect(page.getByRole("button", { name: "Nudge" })).not.toBeVisible()
+    })
+
+    test("should not show nudge button for Published", async ({ page, isMobile }) => {
+      await loginUser("admin", page)
+
+      await page.goto("/admin/evaluation-administrations/1/progress")
+
+      await mockRequest(page, "/admin/evaluation-administrations/1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          id: 1,
+          name: "Evaluation 1",
+          eval_schedule_start_date: "2024-01-01T00:00:00.000Z",
+          eval_schedule_end_date: "2024-01-03T00:00:00.000Z",
+          eval_period_start_date: "2023-01-01T00:00:00.000Z",
+          eval_period_end_date: "2023-12-31T00:00:00.000Z",
+          remarks: "Remarks 1",
+          email_subject: "Subject 1",
+          email_content: "Content 1",
+          status: "Published",
+        }),
+      })
+
+      await mockRequest(page, "/admin/evaluation-administrations/1/evaluators", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            email: "johndoe@email.com",
+            first_name: "John",
+            id: 1,
+            last_name: "Doe",
+            picture: null,
+            slug: "john-doe",
+            totalEvaluations: 4,
+            totalSubmitted: 2,
+          },
+        ]),
+      })
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await expect(page.getByRole("button", { name: "Nudge" })).not.toBeVisible()
+    })
   })
 })
