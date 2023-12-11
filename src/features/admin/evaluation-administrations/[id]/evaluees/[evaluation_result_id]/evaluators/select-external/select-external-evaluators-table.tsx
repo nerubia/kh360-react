@@ -1,16 +1,18 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useParams, useSearchParams } from "react-router-dom"
 import { useAppDispatch } from "../../../../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../../../../hooks/useAppSelector"
 import { Pagination } from "../../../../../../../../components/shared/pagination/pagination"
 import { getExternalUsers } from "../../../../../../../../redux/slices/external-users-slice"
 import { setSelectedExternalUserIds } from "../../../../../../../../redux/slices/evaluation-administration-slice"
+import { getProjectMembers } from "../../../../../../../../redux/slices/project-members-slice"
 import { getEvaluations } from "../../../../../../../../redux/slices/evaluations-slice"
 import { Checkbox } from "../../../../../../../../components/ui/checkbox/checkbox"
+import { type User } from "../../../../../../../../types/user-type"
 
 export const SelectExternalEvaluatorsTable = () => {
   const [searchParams] = useSearchParams()
-  const { evaluation_result_id, evaluation_template_id } = useParams()
+  const { id, evaluation_result_id, evaluation_template_id } = useParams()
 
   const appDispatch = useAppDispatch()
   const { external_users, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
@@ -18,11 +20,20 @@ export const SelectExternalEvaluatorsTable = () => {
   )
   const { evaluations } = useAppSelector((state) => state.evaluations)
   const { selectedExternalUserIds } = useAppSelector((state) => state.evaluationAdministration)
+  const { project_members } = useAppSelector((state) => state.projectMembers)
+  const [filteredExternalUsers, setFilteredExternalUsers] = useState<User[]>([])
 
   useEffect(() => {
     const getEvaluationIds = async () => {
       void appDispatch(
         getEvaluations({
+          evaluation_result_id,
+          evaluation_template_id,
+        })
+      )
+      void appDispatch(
+        getProjectMembers({
+          evaluation_administration_id: id,
           evaluation_result_id,
           evaluation_template_id,
         })
@@ -38,13 +49,6 @@ export const SelectExternalEvaluatorsTable = () => {
         includedIds.push(evaluation.external_evaluator_id)
       }
     }
-    appDispatch(
-      setSelectedExternalUserIds(
-        selectedExternalUserIds.concat(
-          includedIds.filter((includedId) => !selectedExternalUserIds.includes(includedId))
-        )
-      )
-    )
   }, [evaluations])
 
   useEffect(() => {
@@ -57,6 +61,20 @@ export const SelectExternalEvaluatorsTable = () => {
       })
     )
   }, [searchParams])
+
+  useEffect(() => {
+    const filteredUsers = external_users.filter((externalUser) => {
+      const matchingEvaluations = evaluations.filter(
+        (evaluation) => evaluation.external_evaluator_id === externalUser.id
+      )
+      if (project_members.length > 0) {
+        return matchingEvaluations.length !== project_members.length
+      } else {
+        return matchingEvaluations.length === 0
+      }
+    })
+    setFilteredExternalUsers(filteredUsers)
+  }, [project_members, external_users])
 
   const handleSelectAll = (checked: boolean) => {
     let evaluatorIds = external_users.map((user) => user.id)
@@ -91,7 +109,7 @@ export const SelectExternalEvaluatorsTable = () => {
               <tr>
                 <th>
                   <Checkbox
-                    checked={external_users.every((user) =>
+                    checked={filteredExternalUsers.every((user) =>
                       selectedExternalUserIds.includes(user.id)
                     )}
                     onChange={(checked) => handleSelectAll(checked)}
@@ -104,7 +122,7 @@ export const SelectExternalEvaluatorsTable = () => {
               </tr>
             </thead>
             <tbody>
-              {external_users.map((user) => (
+              {filteredExternalUsers.map((user) => (
                 <tr key={user.id}>
                   <td>
                     <div className='w-fit'>
