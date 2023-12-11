@@ -26,7 +26,7 @@ const filterOptions: Option[] = [
   },
 ]
 
-export const SelectEmployeesFilter = () => {
+export const SelectEvalueesFilter = () => {
   const appDispatch = useAppDispatch()
   const [searchParams, setSearchParams] = useSearchParams()
   const [name, setName] = useState<string>(searchParams.get("name") ?? "")
