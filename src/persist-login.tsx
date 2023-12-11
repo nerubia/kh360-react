@@ -20,8 +20,8 @@ const PrivateRoute = lazy(async () => await import("./routes/PrivateRoute"))
 
 const InternalUserRoute = lazy(async () => await import("./routes/InternalUserRoute"))
 
-const Dashboard = lazy(async () => await import("./pages/dashboard/dashboard"))
-const Sample = lazy(async () => await import("./pages/sample/sample"))
+/* const Dashboard = lazy(async () => await import("./pages/dashboard/dashboard"))
+const Sample = lazy(async () => await import("./pages/sample/sample")) */
 
 const MyEvaluations = lazy(async () => await import("./pages/my-evaluations/my-evaluations"))
 const MyEvaluationResults = lazy(
@@ -134,10 +134,10 @@ const router = createBrowserRouter([
           {
             element: <InternalUserRoute />,
             children: [
-              {
+              /* {
                 path: "/dashboard",
                 element: <Dashboard />,
-              },
+              }, */
               {
                 path: "/my-evaluations",
                 element: <MyEvaluations />,
@@ -151,10 +151,10 @@ const router = createBrowserRouter([
           {
             element: <AdminRoute />,
             children: [
-              {
+              /* {
                 path: "/sample",
                 element: <Sample />,
-              },
+              }, */
               /**
                * Evaluation Administrations
                */
