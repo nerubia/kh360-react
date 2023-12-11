@@ -50,8 +50,8 @@ const EvaluationProgress = lazy(
   async () =>
     await import("./pages/admin/evaluation-administrations/[id]/progress/evaluation-progress")
 )
-const SelectEmployees = lazy(
-  async () => await import("./pages/admin/evaluation-administrations/[id]/select/select_employees")
+const SelectEvaluees = lazy(
+  async () => await import("./pages/admin/evaluation-administrations/[id]/select/select-evaluees")
 )
 const PreviewEmployees = lazy(
   async () =>
@@ -180,7 +180,7 @@ const router = createBrowserRouter([
               },
               {
                 path: "/admin/evaluation-administrations/:id/select",
-                element: <SelectEmployees />,
+                element: <SelectEvaluees />,
               },
               {
                 path: "/admin/evaluation-administrations/:id/preview",

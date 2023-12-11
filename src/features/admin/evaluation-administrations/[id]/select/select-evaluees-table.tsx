@@ -8,7 +8,7 @@ import { useAppSelector } from "../../../../../hooks/useAppSelector"
 import { formatDate } from "../../../../../utils/format-date"
 import { getEvaluationResultIds } from "../../../../../redux/slices/evaluation-results-slice"
 
-export const SelectEmployeesTable = () => {
+export const SelectEvalueesTable = () => {
   const { id } = useParams()
   const appDispatch = useAppDispatch()
   const { selectedEmployeeIds } = useAppSelector((state) => state.evaluationAdministration)
