@@ -51,12 +51,17 @@ test.describe("Login", () => {
     await page.getByRole("textbox", { name: "Password" }).fill("password")
     await page.getByRole("button", { name: "Login" }).click()
 
-    await expect(page).toHaveURL("/dashboard")
+    await expect(page).toHaveURL("/my-evaluations")
   })
 
-  test("should not allow to view the dashboard", async ({ page }) => {
+  /* test("should not allow to view the dashboard", async ({ page }) => {
     await page.goto("/dashboard")
 
     await expect(page).toHaveURL("/auth/login?callback=/dashboard")
+  }) */
+  test("should not allow to view the my evaluations", async ({ page }) => {
+    await page.goto("/my-evaluations")
+
+    await expect(page).toHaveURL("/auth/login?callback=/my-evaluations")
   })
 })
