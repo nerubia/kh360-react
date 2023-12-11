@@ -839,6 +839,16 @@ test.describe("Admin - Evaluations", () => {
 
       await page.getByTestId("EditButton").click()
 
+      await mockRequest(
+        page,
+        "/admin/project-members?evaluation_administration_id=1&evaluation_result_id=1&evaluation_template_id=4",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([]),
+        }
+      )
+
       await expect(page).toHaveURL("/admin/evaluation-administrations/1/evaluees/1/evaluators/4")
     })
   })

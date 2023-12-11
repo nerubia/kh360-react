@@ -17,7 +17,7 @@ export const Sidebar = () => {
   const isAdmin = useAdmin()
 
   const menuLinks = [
-    {
+    /* {
       title: "Sample",
       link: "/sample",
       access: "Admin",
@@ -27,7 +27,7 @@ export const Sidebar = () => {
       link: "/dashboard",
       icon: "Dashboard",
       access: "Internal",
-    },
+    }, */
     {
       title: "My Evaluations",
       link: "/my-evaluations",
