@@ -7,7 +7,7 @@ import { setSelectedEmployeeIds } from "../../../../../redux/slices/evaluation-a
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
 
-export const SelectEmployeesFooter = () => {
+export const SelectEvalueesFooter = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const appDispatch = useAppDispatch()
