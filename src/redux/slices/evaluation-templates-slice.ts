@@ -24,6 +24,20 @@ export const getEvaluationTemplates = createAsyncThunk(
   }
 )
 
+export const getActiveTemplates = createAsyncThunk(
+  "evaluationTemplate/getActiveTemplates",
+  async (_, thunkApi) => {
+    try {
+      const response = await axiosInstance.get("/admin/evaluation-templates/active")
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
@@ -41,7 +55,9 @@ const evaluationTemplatesSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers(builder) {
-    // list
+    /**
+     * List
+     */
     builder.addCase(getEvaluationTemplates.pending, (state) => {
       state.loading = Loading.Pending
       state.error = null
@@ -52,6 +68,22 @@ const evaluationTemplatesSlice = createSlice({
       state.evaluation_templates = action.payload
     })
     builder.addCase(getEvaluationTemplates.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * List active
+     */
+    builder.addCase(getActiveTemplates.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getActiveTemplates.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.evaluation_templates = action.payload
+    })
+    builder.addCase(getActiveTemplates.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
