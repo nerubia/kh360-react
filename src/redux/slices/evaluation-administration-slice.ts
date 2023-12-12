@@ -8,7 +8,10 @@ import {
 } from "../../types/evaluation-administration-type"
 import { axiosInstance } from "../../utils/axios-instance"
 import { Loading } from "../../types/loadingType"
-import { type EvaluationAdministrationFormData } from "../../types/form-data-type"
+import {
+  type EvaluatorFormData,
+  type EvaluationAdministrationFormData,
+} from "../../types/form-data-type"
 import { type User } from "../../types/user-type"
 
 export const getEvaluationAdministration = createAsyncThunk(
@@ -151,6 +154,23 @@ export const getEvaluators = createAsyncThunk(
   }
 )
 
+export const addEvaluator = createAsyncThunk(
+  "evaluationAdministration/addEvaluator",
+  async (data: EvaluatorFormData, thunkApi) => {
+    try {
+      const response = await axiosInstance.post(
+        `/admin/evaluation-administrations/${data.id}/evaluators`,
+        data
+      )
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const sendReminder = createAsyncThunk(
   "evaluationAdministration/sendReminder",
   async (data: SendReminderData, thunkApi) => {
@@ -263,6 +283,21 @@ const evaluationAdministrationSlice = createSlice({
       state.evaluators = action.payload
     })
     builder.addCase(getEvaluators.rejected, (state, action) => {
+      state.loading_evaluators = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Add evaluator
+     */
+    builder.addCase(addEvaluator.pending, (state) => {
+      state.loading_evaluators = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(addEvaluator.fulfilled, (state) => {
+      state.loading_evaluators = Loading.Fulfilled
+      state.error = null
+    })
+    builder.addCase(addEvaluator.rejected, (state, action) => {
       state.loading_evaluators = Loading.Rejected
       state.error = action.payload as string
     })
