@@ -39,3 +39,13 @@ export interface ExternalUserFormData {
   role?: string
   company?: string
 }
+
+export interface EvaluatorFormData {
+  id?: string
+  evaluation_template_id?: string
+  evaluation_result_id?: string
+  evaluee_id?: string
+  project_member_id?: string
+  user_id?: string
+  is_external?: string
+}
