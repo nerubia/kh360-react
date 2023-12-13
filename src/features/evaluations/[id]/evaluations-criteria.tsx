@@ -593,7 +593,7 @@ export const EvaluationsCriteria = () => {
           </Button>
         </Dialog.Actions>
       </Dialog>
-      <Dialog open={showCompletedDialog}>
+      <Dialog open={showCompletedDialog} size='medium' maxWidthMin={true}>
         <Dialog.Title>{emailTemplate?.subject}</Dialog.Title>
         <Dialog.Description>
           <pre className='font-sans whitespace-pre-wrap break-words'>{emailTemplate?.content}</pre>
@@ -634,9 +634,8 @@ export const EvaluationsCriteria = () => {
               {evaluation?.evaluee?.first_name} for {evaluation?.project?.name} Project.
               <br />
               <br />
-              If the ratings for{" "}
-              {formatDateRange(evaluation?.eval_start_date, evaluation?.eval_end_date)} are the
-              same, then you can select which evaluation record below to copy.
+              If you want to copy the ratings from previous evaluations, select which evaluation
+              below to use.
             </p>
             <div className='flex flex-col gap-2'>
               {similarEvaluations.map((similarEvaluation) => (
@@ -645,20 +644,12 @@ export const EvaluationsCriteria = () => {
                   onClick={() => handleGetTemplateContents(similarEvaluation)}
                 >
                   <div className='flex flex-col rounded-md p-2 bg-primary-50 hover:bg-primary-100'>
-                    <p>
-                      {evaluation?.evaluee?.last_name}
-                      {", "} {evaluation?.evaluee?.first_name}
-                    </p>
                     <div className='text-sm'>
-                      {evaluation?.project !== null ? (
-                        <>
-                          {evaluation?.project?.name} [{evaluation?.project_role?.short_name}] -{" "}
-                          {evaluation?.template?.display_name}
-                        </>
-                      ) : (
-                        <>{evaluation?.template?.display_name}</>
-                      )}{" "}
-                      {formatDateRange(evaluation?.eval_start_date, evaluation?.eval_end_date)}
+                      Copy the evaluation ratings from{" "}
+                      {formatDateRange(
+                        similarEvaluation?.eval_start_date,
+                        similarEvaluation?.eval_end_date
+                      )}
                     </div>
                   </div>
                 </button>
