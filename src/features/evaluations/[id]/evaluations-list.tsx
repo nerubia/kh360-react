@@ -18,6 +18,7 @@ export const EvaluationsList = () => {
   const navigate = useNavigate()
   const { id, evaluation_id } = useParams()
   const appDispatch = useAppDispatch()
+  const { user } = useAppSelector((state) => state.auth)
   const { loading, user_evaluations } = useAppSelector((state) => state.user)
   const { is_editing } = useAppSelector((state) => state.evaluationTemplateContents)
   const [sortedEvaluations, setSortedEvaluations] = useState<Evaluation[]>([])
@@ -51,7 +52,11 @@ export const EvaluationsList = () => {
       }
     }
     void getEvaluations()
-    void appDispatch(getByTemplateType("Evaluation Complete Thank You Message"))
+    if (user?.is_external === true) {
+      void appDispatch(getByTemplateType("Evaluation Complete Thank You Message External"))
+    } else {
+      void appDispatch(getByTemplateType("Evaluation Complete Thank You Message"))
+    }
   }, [id])
 
   const sortEvaluations = (evaluations: Evaluation[]) => {

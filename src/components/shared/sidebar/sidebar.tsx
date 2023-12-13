@@ -81,7 +81,7 @@ export const Sidebar = () => {
           </Button>
         </div>
         <div className='flex justify-center'>
-          <img className='h-20' src='/logo.png' />
+          <img className='h-20 rounded-full ' src='/logo.png' />
         </div>
         <h1 className='text-white text-lg text-center font-bold'>
           {user?.first_name} {user?.last_name}

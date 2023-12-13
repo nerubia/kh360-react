@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Input } from "../../../../components/ui/input/input"
 import { type ExternalUserFormData } from "../../../../types/form-data-type"
 import { Button, LinkButton } from "../../../../components/ui/button/button"
@@ -15,6 +15,9 @@ import {
   updateExternalUser,
 } from "../../../../redux/slices/external-users-slice"
 import { addExternalEvaluators } from "../../../../redux/slices/evaluation-administration-slice"
+import { getActiveTemplates } from "../../../../redux/slices/evaluation-templates-slice"
+import { CustomSelect } from "../../../../components/ui/select/custom-select"
+import { type Option } from "../../../../types/optionType"
 
 export const ExternalEvaluatorForm = () => {
   const navigate = useNavigate()
@@ -25,9 +28,14 @@ export const ExternalEvaluatorForm = () => {
   const evaluation_result_id = searchParams.get("evaluation_result")
   const evaluee_id = searchParams.get("evaluee")
 
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string>(
+    evaluation_template_id ?? "all"
+  )
+
   const appDispatch = useAppDispatch()
   const { external_user } = useAppSelector((state) => state.externalUser)
   const { loading } = useAppSelector((state) => state.externalUsers)
+  const { evaluation_templates } = useAppSelector((state) => state.evaluationTemplates)
 
   const [formData, setFormData] = useState<ExternalUserFormData>({
     first_name: external_user?.first_name ?? "",
@@ -39,6 +47,26 @@ export const ExternalEvaluatorForm = () => {
   })
   const [validationErrors, setValidationErrors] = useState<Partial<ExternalUserFormData>>({})
   const [showDialog, setShowDialog] = useState<boolean>(false)
+  const [activeTemplates, setActiveTemplates] = useState<Option[]>([])
+
+  useEffect(() => {
+    void appDispatch(getActiveTemplates())
+  }, [])
+
+  useEffect(() => {
+    const templates = [...evaluation_templates]
+    const options: Option[] = templates.map((template) => {
+      const role =
+        template?.project_role?.name !== undefined
+          ? ` for ${template?.project_role?.name} Role`
+          : ""
+      return {
+        label: `${template.display_name}${role}`,
+        value: template.id.toString(),
+      }
+    })
+    setActiveTemplates(options)
+  }, [evaluation_templates])
 
   const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -74,14 +102,20 @@ export const ExternalEvaluatorForm = () => {
             const resultExternal = await appDispatch(
               addExternalEvaluators({
                 id: parseInt(evaluation_administration_id),
-                evaluation_template_id: parseInt(evaluation_template_id),
+                evaluation_template_id:
+                  parseInt(selectedTemplateId) ?? parseInt(evaluation_template_id),
                 evaluation_result_id: parseInt(evaluation_result_id),
                 evaluee_id: parseInt(evaluee_id),
                 external_user_ids: [result.payload.id],
               })
             )
             if (resultExternal.payload.id !== undefined) {
-              navigate(callback ?? "/admin/external-evaluators")
+              if (selectedTemplateId !== undefined) {
+                const updatedCallback = callback?.replace(/\/\d+$/, `/${selectedTemplateId}`)
+                navigate(updatedCallback ?? "/admin/external-evaluators")
+              } else {
+                navigate(callback ?? "/admin/external-evaluators")
+              }
               appDispatch(
                 setAlert({
                   description: "Added new external evaluator",
@@ -218,6 +252,19 @@ export const ExternalEvaluatorForm = () => {
           onChange={handleInputChange}
           error={validationErrors.company}
         />
+        {callback !== null && (
+          <CustomSelect
+            data-test-id='SelectEvaluationTemplate'
+            label='Evaluation Template'
+            name='evaluationTemplate'
+            value={activeTemplates.find((option) =>
+              option.value === selectedTemplateId ? option.label : ""
+            )}
+            onChange={(option) => setSelectedTemplateId(option !== null ? option.value : "all")}
+            options={activeTemplates}
+            fullWidth={true}
+          />
+        )}
       </div>
       <div className='flex justify-between md:w-1/2'>
         <Button variant='primaryOutline' onClick={toggleDialog}>
