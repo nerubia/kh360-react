@@ -149,6 +149,7 @@ export const ViewEvaluationHeader = () => {
             evaluation_administration?.status === EvaluationAdministrationStatus.Ongoing ||
             evaluation_administration?.status === EvaluationAdministrationStatus.Closed ||
             evaluation_administration?.status === EvaluationAdministrationStatus.Cancelled ||
+            evaluation_administration?.status === EvaluationAdministrationStatus.Processing ||
             evaluation_administration?.status === EvaluationAdministrationStatus.Published ? (
               <LinkButton
                 variant='primary'
