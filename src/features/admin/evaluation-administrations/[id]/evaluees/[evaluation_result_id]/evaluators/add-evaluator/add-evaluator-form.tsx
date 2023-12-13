@@ -34,7 +34,7 @@ export const AddEvaluatorForm = () => {
 
   const [formData, setFormData] = useState<EvaluatorFormData>({
     id,
-    evaluation_template_id: "",
+    evaluation_template_id,
     evaluation_result_id,
     evaluee_id: "",
     project_member_id: undefined,
