@@ -26,7 +26,6 @@ import { AnswerType } from "../../../types/answer-option-type"
 import { getRatingTemplates } from "../../../redux/slices/email-template-slice"
 import { type EmailTemplate, TemplateType } from "../../../types/email-template-type"
 import ReactConfetti from "react-confetti"
-import { type EvaluationTemplateContent } from "../../../types/evaluation-template-content-type"
 
 export const EvaluationsCriteria = () => {
   const { id, evaluation_id } = useParams()
@@ -42,7 +41,6 @@ export const EvaluationsCriteria = () => {
   const { ratingTemplates } = useAppSelector((state) => state.emailTemplate)
 
   const [evaluation, setEvaluation] = useState<Evaluation>()
-  const [similarEvaluations, setSimilarEvaluations] = useState<Evaluation[]>([])
   const [comment, setComment] = useState<string>("")
   const [recommendation, setRecommendation] = useState<string>("")
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
@@ -58,10 +56,7 @@ export const EvaluationsCriteria = () => {
   const [isRatingHigh, setIsRatingHigh] = useState<boolean>(false)
   const [isRatingLow, setIsRatingLow] = useState<boolean>(false)
   const [showCompletedDialog, setShowCompletedDialog] = useState<boolean>(false)
-  const [showSimilarEvaluationsDialog, setShowSimilarEvaluationsDialog] = useState<boolean>(false)
   const [completed, setCompleted] = useState<boolean>(false)
-
-  const [evaluationRatingIds, setEvaluationRatingIds] = useState<number[]>([])
 
   useEffect(() => {
     void appDispatch(setIsEditing(false))
@@ -100,12 +95,6 @@ export const EvaluationsCriteria = () => {
               evaluation_id,
             })
           )
-          if (result.type === "evaluationTemplate/getEvaluationTemplateContents/fulfilled") {
-            const evaluationTemplateContents = result.payload as EvaluationTemplateContent[]
-            setEvaluationRatingIds(
-              evaluationTemplateContents.map((content) => content.evaluationRating.id)
-            )
-          }
           if (result.type === "evaluationTemplate/getEvaluationTemplateContents/rejected") {
             navigate(`evaluation-administrations/`)
           }
@@ -130,23 +119,6 @@ export const EvaluationsCriteria = () => {
       setRecommendation(evaluation.recommendations)
     } else {
       setRecommendation("")
-    }
-    const similarUserEvaluations = user_evaluations.filter((userEvaluation) => {
-      if (
-        evaluation?.id !== userEvaluation.id &&
-        evaluation?.status !== EvaluationStatus.Submitted &&
-        evaluation?.template?.id === userEvaluation.template?.id &&
-        evaluation?.evaluee?.id === userEvaluation.evaluee?.id &&
-        evaluation?.project?.id === userEvaluation.project?.id &&
-        userEvaluation.status === EvaluationStatus.Submitted
-      ) {
-        return userEvaluation
-      }
-      return null
-    })
-    setSimilarEvaluations(similarUserEvaluations)
-    if (similarUserEvaluations.length > 0) {
-      setShowSimilarEvaluationsDialog(true)
     }
   }, [evaluation])
 
@@ -211,10 +183,6 @@ export const EvaluationsCriteria = () => {
     } else {
       setShowRequestToRemoveDialog((prev) => !prev)
     }
-  }
-
-  const toggleSimilarEvaluationsDialog = () => {
-    setShowSimilarEvaluationsDialog((prev) => !prev)
   }
 
   const handleOnClickOk = async (templateContentId: number) => {
@@ -316,6 +284,9 @@ export const EvaluationsCriteria = () => {
       setErrorMessage("Comment is required.")
     } else if (evaluation_id !== undefined && id !== undefined) {
       try {
+        const evaluation_rating_ids = evaluation_template_contents.map(
+          (content) => content.evaluationRating.id
+        )
         const answer_option_ids = evaluation_template_contents.map(
           (content) => content.evaluationRating.answer_option_id
         )
@@ -325,7 +296,7 @@ export const EvaluationsCriteria = () => {
         const result = await appDispatch(
           submitEvaluation({
             evaluation_id: parseInt(evaluation_id),
-            evaluation_rating_ids: evaluationRatingIds,
+            evaluation_rating_ids,
             evaluation_rating_comments,
             answer_option_ids,
             comment,
@@ -397,26 +368,6 @@ export const EvaluationsCriteria = () => {
     }
   }
 
-  const handleGetTemplateContents = (evaluation: Evaluation) => {
-    void appDispatch(
-      getEvaluationTemplateContents({
-        evaluation_id: evaluation.id.toString(),
-      })
-    )
-    if (evaluation?.comments !== undefined && evaluation?.comments !== null) {
-      setComment(evaluation.comments)
-    } else {
-      setComment("")
-    }
-    if (evaluation?.recommendations !== undefined && evaluation?.recommendations !== null) {
-      setRecommendation(evaluation.recommendations)
-    } else {
-      setRecommendation("")
-    }
-    void appDispatch(setIsEditing(true))
-    toggleSimilarEvaluationsDialog()
-  }
-
   return (
     <>
       {loading === Loading.Pending && <div>Loading...</div>}
@@ -427,35 +378,26 @@ export const EvaluationsCriteria = () => {
         evaluation_template_contents.length > 0 &&
         user_evaluations.length > 0 && (
           <div className='flex flex-col overflow-y-scroll pr-5 pb-5 mx-4 md:w-3/4'>
-            <div className='flex justify-between items-center'>
-              <div className='flex-flex-col'>
-                <div className='text-xl font-bold text-primary-500 mb-1'>
-                  <p>
-                    {evaluation?.evaluee?.last_name}
-                    {", "} {evaluation?.evaluee?.first_name}
-                  </p>
-                </div>
-                <p className='text-base font-bold mb-1'>
-                  {evaluation?.project !== null ? (
-                    <>
-                      {evaluation?.project?.name} [{evaluation?.project_role?.short_name}] -{" "}
-                      {evaluation?.template?.display_name}
-                    </>
-                  ) : (
-                    <>{evaluation?.template?.display_name}</>
-                  )}
-                </p>
-                <p className='mb-4 text-sm'>
-                  Evaluation Period:{" "}
-                  {formatDateRange(evaluation?.eval_start_date, evaluation?.eval_end_date)}
-                </p>
-              </div>
-              {similarEvaluations.length > 0 && (
-                <Button variant='primaryOutline' onClick={toggleSimilarEvaluationsDialog}>
-                  Copy Evaluation
-                </Button>
-              )}
+            <div className='text-xl font-bold text-primary-500 mb-1'>
+              <p>
+                {evaluation?.evaluee?.last_name}
+                {", "} {evaluation?.evaluee?.first_name}
+              </p>
             </div>
+            <p className='text-base font-bold mb-1'>
+              {evaluation?.project !== null ? (
+                <>
+                  {evaluation?.project?.name} [{evaluation?.project_role?.short_name}] -{" "}
+                  {evaluation?.template?.display_name}
+                </>
+              ) : (
+                <>{evaluation?.template?.display_name}</>
+              )}
+            </p>
+            <p className='mb-4 text-sm'>
+              Evaluation Period:{" "}
+              {formatDateRange(evaluation?.eval_start_date, evaluation?.eval_end_date)}
+            </p>
             {evaluation_template_contents.map((templateContent) => (
               <div key={templateContent.id} className='hover:bg-primary-50 rounded-md'>
                 <div className='flex p-4'>
@@ -622,44 +564,6 @@ export const EvaluationsCriteria = () => {
             }}
           >
             Yes
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
-      <Dialog open={showSimilarEvaluationsDialog}>
-        <Dialog.Title>Copy Evaluation</Dialog.Title>
-        <Dialog.Description>
-          <div className='flex flex-col gap-4'>
-            <p>
-              You have already submitted an evaluation for {evaluation?.evaluee?.last_name},{" "}
-              {evaluation?.evaluee?.first_name} for {evaluation?.project?.name} Project.
-              <br />
-              <br />
-              If you want to copy the ratings from previous evaluations, select which evaluation
-              below to use.
-            </p>
-            <div className='flex flex-col gap-2'>
-              {similarEvaluations.map((similarEvaluation) => (
-                <button
-                  key={similarEvaluation.id}
-                  onClick={() => handleGetTemplateContents(similarEvaluation)}
-                >
-                  <div className='flex flex-col rounded-md p-2 bg-primary-50 hover:bg-primary-100'>
-                    <div className='text-sm'>
-                      Copy the evaluation ratings from{" "}
-                      {formatDateRange(
-                        similarEvaluation?.eval_start_date,
-                        similarEvaluation?.eval_end_date
-                      )}
-                    </div>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primary' onClick={toggleSimilarEvaluationsDialog}>
-            Close
           </Button>
         </Dialog.Actions>
       </Dialog>
