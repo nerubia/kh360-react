@@ -595,7 +595,9 @@ export const EvaluationsCriteria = () => {
       </Dialog>
       <Dialog open={showCompletedDialog}>
         <Dialog.Title>{emailTemplate?.subject}</Dialog.Title>
-        <Dialog.Description>{emailTemplate?.content}</Dialog.Description>
+        <Dialog.Description>
+          <pre className='font-sans whitespace-pre-wrap break-words'>{emailTemplate?.content}</pre>
+        </Dialog.Description>
         <Dialog.Actions>
           <Button variant='primary' onClick={toggleCompletedDialog}>
             Close
