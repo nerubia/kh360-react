@@ -399,8 +399,8 @@ export const EvaluationsCriteria = () => {
               {formatDateRange(evaluation?.eval_start_date, evaluation?.eval_end_date)}
             </p>
             {evaluation_template_contents.map((templateContent) => (
-              <div key={templateContent.id} className='hover:bg-primary-50'>
-                <div className='flex py-3'>
+              <div key={templateContent.id} className='hover:bg-primary-50 rounded-md'>
+                <div className='flex p-4'>
                   <div className='w-9/12 mr-5'>
                     <h1 className='text-base font-medium text-primary-500'>
                       {templateContent.name}
