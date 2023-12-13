@@ -8,7 +8,7 @@ export default function Login() {
 
   return (
     <div className='flex justify-center pt-10 p-4'>
-      <div className='w-full sm:w-96 flex flex-col p-4 shadow-md'>
+      <div className='w-full sm:w-96 flex flex-col p-4 shadow-md rounded-md'>
         <LoginForm />
         <div className='relative py-10'>
           <div className='absolute inset-0 flex items-center'>
