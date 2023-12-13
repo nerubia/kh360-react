@@ -624,14 +624,17 @@ export const EvaluationsCriteria = () => {
         </Dialog.Actions>
       </Dialog>
       <Dialog open={showSimilarEvaluationsDialog}>
-        <Dialog.Title>Similar Evaluations</Dialog.Title>
+        <Dialog.Title>Copy Evaluation</Dialog.Title>
         <Dialog.Description>
           <div className='flex flex-col gap-4'>
             <p>
-              You have previously submitted an evaluation for {evaluation?.evaluee?.last_name},{" "}
-              {evaluation?.evaluee?.first_name} for {evaluation?.project?.name} Project for{" "}
-              {formatDateRange(evaluation?.eval_start_date, evaluation?.eval_end_date)}. Please
-              select on any submitted evaluations below to copy, or click CLOSE to dismiss.
+              You have already submitted an evaluation for {evaluation?.evaluee?.last_name},{" "}
+              {evaluation?.evaluee?.first_name} for {evaluation?.project?.name} Project.
+              <br />
+              <br />
+              If the ratings for{" "}
+              {formatDateRange(evaluation?.eval_start_date, evaluation?.eval_end_date)} are the
+              same, then you can select which evaluation record below to copy.
             </p>
             <div className='flex flex-col gap-2'>
               {similarEvaluations.map((similarEvaluation) => (
@@ -639,7 +642,7 @@ export const EvaluationsCriteria = () => {
                   key={similarEvaluation.id}
                   onClick={() => handleGetTemplateContents(similarEvaluation)}
                 >
-                  <div className='flex flex-col rounded-md p-2 hover:bg-primary-50'>
+                  <div className='flex flex-col rounded-md p-2 bg-primary-50 hover:bg-primary-100'>
                     <p>
                       {evaluation?.evaluee?.last_name}
                       {", "} {evaluation?.evaluee?.first_name}
@@ -652,7 +655,7 @@ export const EvaluationsCriteria = () => {
                         </>
                       ) : (
                         <>{evaluation?.template?.display_name}</>
-                      )}
+                      )}{" "}
                       {formatDateRange(evaluation?.eval_start_date, evaluation?.eval_end_date)}
                     </div>
                   </div>
