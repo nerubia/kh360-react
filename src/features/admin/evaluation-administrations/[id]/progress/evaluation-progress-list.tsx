@@ -17,31 +17,28 @@ import {
 } from "../../../../../redux/slices/evaluations-slice"
 import { Progress } from "../../../../../components/ui/progress/progress"
 import { setAlert } from "../../../../../redux/slices/appSlice"
-import { Badge } from "../../../../../components/ui/badge/badge"
+import { Badge } from "../../../../../components/ui/badge/Badge"
 import { getEvaluationStatusVariant, getProgressVariant } from "../../../../../utils/variant"
 import { EvaluationStatus } from "../../../../../types/evaluation-type"
 import Tooltip from "../../../../../components/ui/tooltip/tooltip"
 import Dialog from "../../../../../components/ui/dialog/dialog"
 import { EvaluationAdministrationStatus } from "../../../../../types/evaluation-administration-type"
-import { convertToFullDateAndTime, formatDate } from "../../../../../utils/format-date"
+import { formatDate } from "../../../../../utils/format-date"
 
 export const EvaluationProgressList = () => {
   const appDispatch = useAppDispatch()
   const { id } = useParams()
 
-  const { user } = useAppSelector((state) => state.auth)
   const { evaluation_administration } = useAppSelector((state) => state.evaluationAdministration)
   const { evaluators } = useAppSelector((state) => state.evaluationAdministration)
   const { evaluations } = useAppSelector((state) => state.evaluations)
 
   const [sortedEvaluators, setSortedEvaluators] = useState<User[]>(evaluators)
   const [selectedEvaluatorId, setSelectedEvaluatorId] = useState<number | null>(null)
-  const [selectedEvaluator, setSelectedEvaluator] = useState<User | null>(null)
   const [dispatchedEmployees, setDispatchedEmployees] = useState<number[]>([])
   const [evaluatorToggledState, setEvaluatorToggledState] = useState<boolean[]>([])
   const [showApproveDialog, setShowApproveDialog] = useState<boolean>(false)
   const [showDeclineDialog, setShowDeclineDialog] = useState<boolean>(false)
-  const [showEmailLogDialog, setShowEmailLogDialog] = useState<boolean>(false)
   const [selectedEvaluationId, setSelectedEvaluationId] = useState<number | null>(null)
 
   useEffect(() => {
@@ -141,13 +138,6 @@ export const EvaluationProgressList = () => {
   const toggleDeclineDialog = (id: number | null) => {
     setSelectedEvaluationId(id)
     setShowDeclineDialog((prev) => !prev)
-  }
-
-  const toggleEmailLogDialog = (evaluator_id: number | null) => {
-    setSelectedEvaluator(
-      sortedEvaluators.find((evaluator) => evaluator.id === evaluator_id) ?? null
-    )
-    setShowEmailLogDialog((prev) => !prev)
   }
 
   const handleApprove = async () => {
@@ -266,7 +256,6 @@ export const EvaluationProgressList = () => {
                           evaluator.totalSubmitted ?? 0,
                           evaluator.totalEvaluations ?? 0
                         )}
-                        width='w-96'
                       />
                     </div>
                   </div>
@@ -282,57 +271,19 @@ export const EvaluationProgressList = () => {
                   evaluation_administration?.status !== EvaluationAdministrationStatus.Cancelled &&
                   evaluation_administration?.status !==
                     EvaluationAdministrationStatus.Published && (
-                    <Tooltip placement='bottomStart'>
-                      <Tooltip.Trigger>
-                        <Button
-                          variant='primaryOutline'
-                          size='small'
-                          onClick={async () =>
-                            await handleOnClickNudge(
-                              evaluator.first_name as string,
-                              evaluator.id,
-                              evaluator.is_external as boolean
-                            )
-                          }
-                        >
-                          Nudge
-                        </Button>
-                      </Tooltip.Trigger>
-                      <Tooltip.Content>
-                        {evaluator.email_logs?.length === 0 && <p>No reminders sent.</p>}
-                        {evaluator.email_logs !== undefined &&
-                          evaluator.email_logs.length > 0 &&
-                          evaluator.email_logs.length <= 3 && (
-                            <p>
-                              {evaluator.email_logs.length}{" "}
-                              {evaluator.email_logs.length === 1 ? "reminder" : "reminders"} sent.
-                              Reminders sent last:
-                            </p>
-                          )}
-                        {evaluator.email_logs !== undefined && evaluator.email_logs.length > 3 && (
-                          <p>
-                            {evaluator.email_logs.length} reminders sent. Latest reminders sent
-                            last:
-                          </p>
-                        )}
-                        {evaluator.email_logs
-                          ?.slice(0, 3)
-                          .map((emailLog) => (
-                            <p key={emailLog.id}>
-                              - {convertToFullDateAndTime(emailLog.sent_at, user)}
-                            </p>
-                          ))}
-                        {evaluator.email_logs !== undefined && evaluator.email_logs.length > 3 && (
-                          <Button
-                            variant='unstyled'
-                            size='small'
-                            onClick={() => toggleEmailLogDialog(evaluator.id)}
-                          >
-                            <span className='text-primary-500 text-xs underline'>View More</span>
-                          </Button>
-                        )}
-                      </Tooltip.Content>
-                    </Tooltip>
+                    <Button
+                      variant='primaryOutline'
+                      size='small'
+                      onClick={async () =>
+                        await handleOnClickNudge(
+                          evaluator.first_name as string,
+                          evaluator.id,
+                          evaluator.is_external as boolean
+                        )
+                      }
+                    >
+                      Nudge
+                    </Button>
                   )}
               </div>
               {evaluatorToggledState[evaluatorIndex] && (
@@ -359,14 +310,7 @@ export const EvaluationProgressList = () => {
                             <td className='py-1'>{evaluation.template?.display_name}</td>
                             <td className='py-1'>
                               <Tooltip placement='topEnd'>
-                                <Tooltip.Trigger>
-                                  <div className='flex gap-2 items-center'>
-                                    {evaluation.project?.name}{" "}
-                                    {evaluation.project !== null && (
-                                      <Icon icon='Calendar' size={"extraSmall"} color={"primary"} />
-                                    )}
-                                  </div>
-                                </Tooltip.Trigger>
+                                <Tooltip.Trigger>{evaluation.project?.name}</Tooltip.Trigger>
                                 <Tooltip.Content>
                                   <pre className='font-sans whitespace-pre-wrap break-words'>
                                     {formatDate(evaluation.eval_start_date)} to{" "}
@@ -467,22 +411,6 @@ export const EvaluationProgressList = () => {
               }}
             >
               Yes
-            </Button>
-          </Dialog.Actions>
-        </Dialog>
-        <Dialog open={showEmailLogDialog}>
-          <Dialog.Title>Email Logs</Dialog.Title>
-          <Dialog.Description>
-            <p>
-              {selectedEvaluator?.email_logs?.length} reminders sent. Latest reminders sent last:
-            </p>
-            {selectedEvaluator?.email_logs?.map((emailLog) => (
-              <p key={emailLog.id}>- {convertToFullDateAndTime(emailLog.sent_at, user)}</p>
-            ))}
-          </Dialog.Description>
-          <Dialog.Actions>
-            <Button variant='primary' onClick={() => toggleEmailLogDialog(null)}>
-              Close
             </Button>
           </Dialog.Actions>
         </Dialog>
