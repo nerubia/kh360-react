@@ -5,7 +5,6 @@ import { Checkbox } from "../../../../../../../components/ui/checkbox/checkbox"
 import { useAppDispatch } from "../../../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../../../hooks/useAppSelector"
 import {
-  deleteEvaluation,
   getEvaluations,
   setForEvaluations,
   updateProject,
@@ -22,7 +21,6 @@ import { setSelectedExternalUserIds } from "../../../../../../../redux/slices/ev
 import { getProjectMembers } from "../../../../../../../redux/slices/project-members-slice"
 import Dropdown from "../../../../../../../components/ui/dropdown/dropdown"
 import Tooltip from "../../../../../../../components/ui/tooltip/tooltip"
-import Dialog from "../../../../../../../components/ui/dialog/dialog"
 
 export const EvaluatorsList = () => {
   const navigate = useNavigate()
@@ -37,10 +35,6 @@ export const EvaluatorsList = () => {
   const [sortedExternalEvaluations, setSortedExternalEvaluations] = useState<Evaluation[]>([])
   const [internalHeader, setInternalHeader] = useState<string>("")
   const [externalHeader, setExternalHeader] = useState<string>("")
-  const [showSelectProjectButton, setShowSelectProjectButton] = useState<boolean>(false)
-
-  const [showDialog, setShowDialog] = useState<boolean>(false)
-  const [selectedEvaluationId, setSelectedEvaluationId] = useState<number>()
 
   useEffect(() => {
     if (evaluation_template_id !== "all") {
@@ -84,19 +78,13 @@ export const EvaluatorsList = () => {
       const template = evaluation_templates.find(
         (template) => parseInt(evaluation_template_id) === template.id
       )
-      if (template !== undefined && template !== null) {
+      if (template !== null) {
         const role =
           template?.project_role?.name !== undefined
             ? ` for ${template?.project_role?.name} Role`
             : ""
         setInternalHeader(`${template?.display_name}${role}`)
         setExternalHeader(`External Evaluators${role}`)
-        const excludedTemplateIds = [12]
-        if (excludedTemplateIds.includes(template.id)) {
-          setShowSelectProjectButton(false)
-        } else {
-          setShowSelectProjectButton(true)
-        }
       }
     }
   }, [evaluations])
@@ -179,37 +167,6 @@ export const EvaluatorsList = () => {
     )
   }
 
-  const toggleDialog = (id: number | null) => {
-    if (id !== null) {
-      setSelectedEvaluationId(id)
-    }
-    setShowDialog((prev) => !prev)
-  }
-
-  const handleDelete = async () => {
-    if (selectedEvaluationId !== undefined) {
-      try {
-        const result = await appDispatch(deleteEvaluation(selectedEvaluationId))
-        if (result.type === "evaluations/deleteEvaluation/rejected") {
-          appDispatch(
-            setAlert({
-              description: result.payload,
-              variant: "destructive",
-            })
-          )
-        }
-        if (result.type === "evaluations/deleteEvaluation/fulfilled") {
-          appDispatch(
-            setAlert({
-              description: "Evaluator deleted successfully",
-              variant: "success",
-            })
-          )
-        }
-      } catch (error) {}
-    }
-  }
-
   return (
     <div className='flex-1 h-[calc(100vh_-_185px)] flex flex-col pt-4'>
       <PageSubTitle>{internalHeader}</PageSubTitle>
@@ -279,7 +236,6 @@ export const EvaluatorsList = () => {
               <th className='pb-3'>Project</th>
               <th className='pb-3'>%</th>
               <th className='pb-3'>Duration</th>
-              <th className='pb-3'>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -302,7 +258,7 @@ export const EvaluatorsList = () => {
                     </Tooltip>
                   </td>
                   <td>
-                    {showSelectProjectButton && (
+                    {getAvailableProjects(evaluation.evaluator?.id).length > 0 && (
                       <Dropdown>
                         <Dropdown.Trigger>
                           <Button variant='primaryOutline' size='small'>
@@ -342,10 +298,7 @@ export const EvaluatorsList = () => {
                       </Dropdown>
                     )}
                   </td>
-                  <td className='pb-2'>
-                    {evaluation.percent_involvement !== null &&
-                      `${evaluation.percent_involvement}%`}
-                  </td>
+                  <td className='pb-2'>{evaluation.percent_involvement}%</td>
                   <td className='pb-2'>
                     {evaluation.eval_start_date !== null && evaluation.eval_end_date !== null && (
                       <>
@@ -353,15 +306,6 @@ export const EvaluatorsList = () => {
                         {formatDate(evaluation.eval_end_date)}
                       </>
                     )}
-                  </td>
-                  <td className='pb-2'>
-                    <Button
-                      testId='DeleteButton'
-                      variant='unstyled'
-                      onClick={() => toggleDialog(evaluation.id)}
-                    >
-                      <Icon icon='Trash' />
-                    </Button>
                   </td>
                 </tr>
               ))}
@@ -405,27 +349,6 @@ export const EvaluatorsList = () => {
           </Button>
         </div>
       </div>
-      <Dialog open={showDialog}>
-        <Dialog.Title>Delete Evaluator</Dialog.Title>
-        <Dialog.Description>
-          Are you sure you want to delete this evaluator? <br />
-          This will delete all evaluations associated with this evaluator and cannot be reverted.
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={() => toggleDialog(null)}>
-            No
-          </Button>
-          <Button
-            variant='primary'
-            onClick={async () => {
-              await handleDelete()
-              toggleDialog(null)
-            }}
-          >
-            Yes
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
     </div>
   )
 }
