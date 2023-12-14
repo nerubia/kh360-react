@@ -23,6 +23,7 @@ import { EvaluationStatus } from "../../../../../types/evaluation-type"
 import Tooltip from "../../../../../components/ui/tooltip/tooltip"
 import Dialog from "../../../../../components/ui/dialog/dialog"
 import { EvaluationAdministrationStatus } from "../../../../../types/evaluation-administration-type"
+import { formatDate } from "../../../../../utils/format-date"
 
 export const EvaluationProgressList = () => {
   const appDispatch = useAppDispatch()
@@ -307,7 +308,17 @@ export const EvaluationProgressList = () => {
                               {evaluation.evaluee?.last_name}, {evaluation.evaluee?.first_name}
                             </td>
                             <td className='py-1'>{evaluation.template?.display_name}</td>
-                            <td className='py-1'>{evaluation.project?.name}</td>
+                            <td className='py-1'>
+                              <Tooltip placement='topEnd'>
+                                <Tooltip.Trigger>{evaluation.project?.name}</Tooltip.Trigger>
+                                <Tooltip.Content>
+                                  <pre className='font-sans whitespace-pre-wrap break-words'>
+                                    {formatDate(evaluation.eval_start_date)} to{" "}
+                                    {formatDate(evaluation.eval_end_date)}
+                                  </pre>
+                                </Tooltip.Content>
+                              </Tooltip>
+                            </td>
                             <td className='py-1'>{evaluation.project_role?.name}</td>
                             <td className='py-1 w-[120px]'>
                               {evaluation.status === EvaluationStatus.ForRemoval ? (
