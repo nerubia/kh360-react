@@ -1,4 +1,4 @@
-import { PreviewEmployeesHeader } from "../../../../../features/admin/evaluation-administrations/[id]/preview/PreviewEmployeesHeader"
+import { PreviewEmployeesHeader } from "../../../../../features/admin/evaluation-administrations/[id]/preview/preview-employees-header"
 import { PreviewEmployeesTable } from "../../../../../features/admin/evaluation-administrations/[id]/preview/preview-employees-table"
 import { PreviewEmployeesFooter } from "../../../../../features/admin/evaluation-administrations/[id]/preview/preview-employees-footer"
 
