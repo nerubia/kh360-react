@@ -257,13 +257,14 @@ export const EvaluatorsList = () => {
                       <Tooltip.Content>{evaluation.evaluator?.email}</Tooltip.Content>
                     </Tooltip>
                   </td>
-                  {evaluation.project === null &&
-                  getAvailableProjects(evaluation.evaluator?.id).length > 0 ? (
-                    <td>
+                  <td>
+                    {getAvailableProjects(evaluation.evaluator?.id).length > 0 && (
                       <Dropdown>
                         <Dropdown.Trigger>
                           <Button variant='primaryOutline' size='small'>
-                            Select project
+                            {evaluation.project !== null
+                              ? evaluation.project?.name
+                              : "Select project"}
                           </Button>
                         </Dropdown.Trigger>
                         <Dropdown.Content>
@@ -295,10 +296,8 @@ export const EvaluatorsList = () => {
                           )}
                         </Dropdown.Content>
                       </Dropdown>
-                    </td>
-                  ) : (
-                    <td>{evaluation.project?.name}</td>
-                  )}
+                    )}
+                  </td>
                   <td className='pb-2'>{evaluation.percent_involvement}%</td>
                   <td className='pb-2'>
                     {evaluation.eval_start_date !== null && evaluation.eval_end_date !== null && (
