@@ -44,6 +44,25 @@ test.describe("Admin - Select Evaluators", () => {
 
       await page.goto("/admin/evaluation-administrations/1/evaluees/1/evaluators/4/add-evaluator")
 
+      await mockRequest(page, "/admin/evaluation-results/1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: {
+            id: 1,
+            status: "pending",
+            users: {
+              id: 1,
+              slug: "sample-user",
+              first_name: "Sample",
+              last_name: "User",
+              picture: null,
+            },
+          },
+          nextId: 2,
+        }),
+      })
+
       await mockRequest(page, "/admin/evaluation-templates/active", {
         status: 200,
         contentType: "application/json",
@@ -118,6 +137,25 @@ test.describe("Admin - Select Evaluators", () => {
       await loginUser("admin", page)
 
       await page.goto("/admin/evaluation-administrations/1/evaluees/1/evaluators/4/add-evaluator")
+
+      await mockRequest(page, "/admin/evaluation-results/1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: {
+            id: 1,
+            status: "pending",
+            users: {
+              id: 1,
+              slug: "sample-user",
+              first_name: "Sample",
+              last_name: "User",
+              picture: null,
+            },
+          },
+          nextId: 2,
+        }),
+      })
 
       await mockRequest(page, "/admin/evaluation-templates/active", {
         status: 200,
@@ -195,6 +233,25 @@ test.describe("Admin - Select Evaluators", () => {
 
       await page.goto("/admin/evaluation-administrations/1/evaluees/1/evaluators/4/add-evaluator")
 
+      await mockRequest(page, "/admin/evaluation-results/1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: {
+            id: 1,
+            status: "pending",
+            users: {
+              id: 1,
+              slug: "sample-user",
+              first_name: "Sample",
+              last_name: "User",
+              picture: null,
+            },
+          },
+          nextId: 2,
+        }),
+      })
+
       await mockRequest(page, "/admin/evaluation-templates/active", {
         status: 200,
         contentType: "application/json",
@@ -264,6 +321,7 @@ test.describe("Admin - Select Evaluators", () => {
             id: 1,
             status: "pending",
             users: {
+              id: 1,
               slug: "sample-user",
               first_name: "Sample",
               last_name: "User",

@@ -16,6 +16,7 @@ import { type EvaluatorFormData } from "../../../../../../../../types/form-data-
 import { addEvaluator } from "../../../../../../../../redux/slices/evaluation-administration-slice"
 import { setAlert } from "../../../../../../../../redux/slices/appSlice"
 import { Loading } from "../../../../../../../../types/loadingType"
+import { getEvaluationResult } from "../../../../../../../../redux/slices/evaluation-result-slice"
 
 export const AddEvaluatorForm = () => {
   const navigate = useNavigate()
@@ -23,6 +24,7 @@ export const AddEvaluatorForm = () => {
 
   const appDispatch = useAppDispatch()
   const { loading_evaluators } = useAppSelector((state) => state.evaluationAdministration)
+  const { evaluation_result } = useAppSelector((state) => state.evaluationResult)
   const { evaluation_templates } = useAppSelector((state) => state.evaluationTemplates)
   const { project_members } = useAppSelector((state) => state.projectMembers)
   const { external_users } = useAppSelector((state) => state.externalUsers)
@@ -34,7 +36,7 @@ export const AddEvaluatorForm = () => {
 
   const [formData, setFormData] = useState<EvaluatorFormData>({
     id,
-    evaluation_template_id: "",
+    evaluation_template_id,
     evaluation_result_id,
     evaluee_id: "",
     project_member_id: undefined,
@@ -45,15 +47,27 @@ export const AddEvaluatorForm = () => {
   const [showDialog, setShowDialog] = useState<boolean>(false)
 
   useEffect(() => {
-    void appDispatch(getActiveTemplates())
-    void appDispatch(
-      getProjectMembers({
-        evaluation_administration_id: id,
-        evaluation_result_id,
-        evaluation_template_id,
-      })
-    )
+    if (evaluation_result_id !== undefined) {
+      void appDispatch(getEvaluationResult(parseInt(evaluation_result_id)))
+      void appDispatch(getActiveTemplates())
+      void appDispatch(
+        getProjectMembers({
+          evaluation_administration_id: id,
+          evaluation_result_id,
+          evaluation_template_id,
+        })
+      )
+    }
   }, [])
+
+  useEffect(() => {
+    if (evaluation_result?.users !== undefined) {
+      setFormData({
+        ...formData,
+        evaluee_id: evaluation_result.users.id.toString(),
+      })
+    }
+  }, [evaluation_result])
 
   useEffect(() => {
     const templates = [...evaluation_templates]
@@ -94,12 +108,6 @@ export const AddEvaluatorForm = () => {
       value: projectMember.id.toString(),
     }))
     setActiveProjectMembers(options)
-    if (projectMembers.length > 0) {
-      setFormData({
-        ...formData,
-        evaluee_id: String(projectMembers[0].user_id),
-      })
-    }
   }, [project_members])
 
   const toggleDialog = async () => {
@@ -180,20 +188,24 @@ export const AddEvaluatorForm = () => {
           options={activeUsers}
           fullWidth
         />
-        <CustomSelect
-          data-test-id='ProjectMember'
-          label='Project'
-          name='project'
-          value={activeProjectMembers.find((option) => option.value === formData.project_member_id)}
-          onChange={(option) =>
-            setFormData({
-              ...formData,
-              project_member_id: option !== null ? option.value : "",
-            })
-          }
-          options={activeProjectMembers}
-          fullWidth
-        />
+        {formData.evaluation_template_id !== "11" && formData.evaluation_template_id !== "12" && (
+          <CustomSelect
+            data-test-id='ProjectMember'
+            label='Project'
+            name='project'
+            value={activeProjectMembers.find(
+              (option) => option.value === formData.project_member_id
+            )}
+            onChange={(option) =>
+              setFormData({
+                ...formData,
+                project_member_id: option !== null ? option.value : "",
+              })
+            }
+            options={activeProjectMembers}
+            fullWidth
+          />
+        )}
       </div>
       <div className='flex justify-between md:w-1/2'>
         <Button variant='primaryOutline' onClick={toggleDialog}>

@@ -58,6 +58,53 @@ test.describe("Admin - Update External Evaluator", () => {
         }),
       })
 
+      await mockRequest(page, "/admin/evaluation-templates/active", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            id: 4,
+            name: "DEV Evaluation by PM",
+            display_name: "PM Evaluation",
+            project_role: {
+              id: 5,
+              name: "Developer",
+              short_name: "DEV",
+            },
+          },
+          {
+            id: 5,
+            name: "DEV Evaluation by Dev Peers",
+            display_name: "Peer Evaluation",
+            project_role: {
+              id: 5,
+              name: "Developer",
+              short_name: "DEV",
+            },
+          },
+          {
+            id: 6,
+            name: "DEV Evaluation by Code Reviewer",
+            display_name: "Code Reviewer Evaluation",
+            project_role: {
+              id: 5,
+              name: "Developer",
+              short_name: "DEV",
+            },
+          },
+          {
+            id: 7,
+            name: "DEV Evaluation by QA",
+            display_name: "QA Evaluation",
+            project_role: {
+              id: 5,
+              name: "Developer",
+              short_name: "DEV",
+            },
+          },
+        ]),
+      })
+
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
       }
@@ -82,6 +129,53 @@ test.describe("Admin - Update External Evaluator", () => {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({}),
+      })
+
+      await mockRequest(page, "/admin/evaluation-templates/active", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            id: 4,
+            name: "DEV Evaluation by PM",
+            display_name: "PM Evaluation",
+            project_role: {
+              id: 5,
+              name: "Developer",
+              short_name: "DEV",
+            },
+          },
+          {
+            id: 5,
+            name: "DEV Evaluation by Dev Peers",
+            display_name: "Peer Evaluation",
+            project_role: {
+              id: 5,
+              name: "Developer",
+              short_name: "DEV",
+            },
+          },
+          {
+            id: 6,
+            name: "DEV Evaluation by Code Reviewer",
+            display_name: "Code Reviewer Evaluation",
+            project_role: {
+              id: 5,
+              name: "Developer",
+              short_name: "DEV",
+            },
+          },
+          {
+            id: 7,
+            name: "DEV Evaluation by QA",
+            display_name: "QA Evaluation",
+            project_role: {
+              id: 5,
+              name: "Developer",
+              short_name: "DEV",
+            },
+          },
+        ]),
       })
 
       if (isMobile) {
@@ -116,6 +210,53 @@ test.describe("Admin - Update External Evaluator", () => {
           created_at: "2023-11-23T02:50:59.000Z",
           updated_at: "2023-11-23T08:05:54.000Z",
         }),
+      })
+
+      await mockRequest(page, "/admin/evaluation-templates/active", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            id: 4,
+            name: "DEV Evaluation by PM",
+            display_name: "PM Evaluation",
+            project_role: {
+              id: 5,
+              name: "Developer",
+              short_name: "DEV",
+            },
+          },
+          {
+            id: 5,
+            name: "DEV Evaluation by Dev Peers",
+            display_name: "Peer Evaluation",
+            project_role: {
+              id: 5,
+              name: "Developer",
+              short_name: "DEV",
+            },
+          },
+          {
+            id: 6,
+            name: "DEV Evaluation by Code Reviewer",
+            display_name: "Code Reviewer Evaluation",
+            project_role: {
+              id: 5,
+              name: "Developer",
+              short_name: "DEV",
+            },
+          },
+          {
+            id: 7,
+            name: "DEV Evaluation by QA",
+            display_name: "QA Evaluation",
+            project_role: {
+              id: 5,
+              name: "Developer",
+              short_name: "DEV",
+            },
+          },
+        ]),
       })
 
       if (isMobile) {
@@ -165,6 +306,53 @@ test.describe("Admin - Update External Evaluator", () => {
         }),
       })
 
+      await mockRequest(page, "/admin/evaluation-templates/active", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            id: 4,
+            name: "DEV Evaluation by PM",
+            display_name: "PM Evaluation",
+            project_role: {
+              id: 5,
+              name: "Developer",
+              short_name: "DEV",
+            },
+          },
+          {
+            id: 5,
+            name: "DEV Evaluation by Dev Peers",
+            display_name: "Peer Evaluation",
+            project_role: {
+              id: 5,
+              name: "Developer",
+              short_name: "DEV",
+            },
+          },
+          {
+            id: 6,
+            name: "DEV Evaluation by Code Reviewer",
+            display_name: "Code Reviewer Evaluation",
+            project_role: {
+              id: 5,
+              name: "Developer",
+              short_name: "DEV",
+            },
+          },
+          {
+            id: 7,
+            name: "DEV Evaluation by QA",
+            display_name: "QA Evaluation",
+            project_role: {
+              id: 5,
+              name: "Developer",
+              short_name: "DEV",
+            },
+          },
+        ]),
+      })
+
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
       }
@@ -198,6 +386,53 @@ test.describe("Admin - Update External Evaluator", () => {
           created_at: "2023-11-23T02:50:59.000Z",
           updated_at: "2023-11-23T08:05:54.000Z",
         }),
+      })
+
+      await mockRequest(page, "/admin/evaluation-templates/active", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            id: 4,
+            name: "DEV Evaluation by PM",
+            display_name: "PM Evaluation",
+            project_role: {
+              id: 5,
+              name: "Developer",
+              short_name: "DEV",
+            },
+          },
+          {
+            id: 5,
+            name: "DEV Evaluation by Dev Peers",
+            display_name: "Peer Evaluation",
+            project_role: {
+              id: 5,
+              name: "Developer",
+              short_name: "DEV",
+            },
+          },
+          {
+            id: 6,
+            name: "DEV Evaluation by Code Reviewer",
+            display_name: "Code Reviewer Evaluation",
+            project_role: {
+              id: 5,
+              name: "Developer",
+              short_name: "DEV",
+            },
+          },
+          {
+            id: 7,
+            name: "DEV Evaluation by QA",
+            display_name: "QA Evaluation",
+            project_role: {
+              id: 5,
+              name: "Developer",
+              short_name: "DEV",
+            },
+          },
+        ]),
       })
 
       if (isMobile) {
