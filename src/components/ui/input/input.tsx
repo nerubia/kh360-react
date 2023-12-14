@@ -10,6 +10,7 @@ interface InputProps {
   min?: string
   max?: string
   autoFocus?: boolean
+  maxLength?: number
 }
 
 export const Input = ({
@@ -23,6 +24,7 @@ export const Input = ({
   error,
   min,
   max,
+  maxLength,
   autoFocus,
 }: InputProps) => {
   return (
@@ -44,6 +46,7 @@ export const Input = ({
         min={min}
         max={max}
         autoFocus={autoFocus}
+        maxLength={maxLength}
       />
       {error != null && <p className='text-red-500 text-sm'>{error}</p>}
     </div>

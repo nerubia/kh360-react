@@ -163,6 +163,7 @@ export const StarRating = ({
                           onBlur={async () => await handleSaveComment(templateContent.id)}
                           autoFocus={true}
                           error={errorMessage}
+                          maxLength={60}
                         />
                       </div>
                     </div>
