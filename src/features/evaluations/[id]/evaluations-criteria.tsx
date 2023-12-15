@@ -400,7 +400,7 @@ export const EvaluationsCriteria = () => {
             </p>
             {evaluation_template_contents.map((templateContent) => (
               <div key={templateContent.id} className='hover:bg-primary-50 rounded-md'>
-                <div className='flex p-4'>
+                <div className='flex p-4 h-fit'>
                   <div className='w-9/12 mr-5'>
                     <h1 className='text-base font-medium text-primary-500'>
                       {templateContent.name}
