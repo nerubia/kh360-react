@@ -27,9 +27,6 @@ import { getRatingTemplates } from "../../../redux/slices/email-template-slice"
 import { type EmailTemplate, TemplateType } from "../../../types/email-template-type"
 import ReactConfetti from "react-confetti"
 import { type EvaluationTemplateContent } from "../../../types/evaluation-template-content-type"
-import { Badge } from "../../../components/ui/badge/badge"
-import { getEvaluationStatusVariant } from "../../../utils/variant"
-import useSmoothScrollToTop from "../../../hooks/use-smooth-scroll-to-top"
 
 export const EvaluationsCriteria = () => {
   const { id, evaluation_id } = useParams()
@@ -65,12 +62,9 @@ export const EvaluationsCriteria = () => {
   const [completed, setCompleted] = useState<boolean>(false)
 
   const [evaluationRatingIds, setEvaluationRatingIds] = useState<number[]>([])
-  const [didCopy, setDidCopy] = useState<boolean>(false)
-  const scrollToTop = useSmoothScrollToTop()
 
   useEffect(() => {
     void appDispatch(setIsEditing(false))
-    setDidCopy(false)
   }, [evaluation_id])
 
   useEffect(() => {
@@ -151,7 +145,7 @@ export const EvaluationsCriteria = () => {
       return null
     })
     setSimilarEvaluations(similarUserEvaluations)
-    if (evaluation?.status === EvaluationStatus.Open && similarUserEvaluations.length > 0) {
+    if (similarUserEvaluations.length > 0) {
       setShowSimilarEvaluationsDialog(true)
     }
   }, [evaluation])
@@ -201,7 +195,6 @@ export const EvaluationsCriteria = () => {
 
   const toggleSaveDialog = () => {
     setShowSaveDialog((prev) => !prev)
-    scrollToTop()
   }
 
   const toggleSubmitDialog = () => {
@@ -217,12 +210,10 @@ export const EvaluationsCriteria = () => {
       setErrorMessage("Comment is required")
     } else {
       setShowRequestToRemoveDialog((prev) => !prev)
-      scrollToTop()
     }
   }
 
   const toggleSimilarEvaluationsDialog = () => {
-    setDidCopy(true)
     setShowSimilarEvaluationsDialog((prev) => !prev)
   }
 
@@ -312,7 +303,6 @@ export const EvaluationsCriteria = () => {
       return
     }
     setShowSubmitDialog(true)
-    scrollToTop()
   }
 
   const handleSubmit = async (is_submitting: boolean) => {
@@ -424,7 +414,9 @@ export const EvaluationsCriteria = () => {
       setRecommendation("")
     }
     void appDispatch(setIsEditing(true))
+    toggleSimilarEvaluationsDialog()
   }
+
   return (
     <>
       {loading === Loading.Pending && <div>Loading...</div>}
@@ -434,16 +426,16 @@ export const EvaluationsCriteria = () => {
       {loading === Loading.Fulfilled &&
         evaluation_template_contents.length > 0 &&
         user_evaluations.length > 0 && (
-          <div className='flex flex-col w-full pb-5 pr-5 mx-4 mb-3 overflow-y-scroll md:w-3/4'>
-            <div className='items-center justify-between p-1 border rounded sm:flex sm:flex-col md:flex-row md:border-none md:p-0'>
+          <div className='flex flex-col overflow-y-scroll pr-5 pb-5 mx-4 md:w-3/4'>
+            <div className='flex justify-between items-center'>
               <div className='flex-flex-col'>
-                <div className='mb-1 text-xl font-bold text-primary-500'>
+                <div className='text-xl font-bold text-primary-500 mb-1'>
                   <p>
                     {evaluation?.evaluee?.last_name}
                     {", "} {evaluation?.evaluee?.first_name}
                   </p>
                 </div>
-                <p className='mb-1 text-base font-bold'>
+                <p className='text-base font-bold mb-1'>
                   {evaluation?.project !== null ? (
                     <>
                       {evaluation?.project?.name} [{evaluation?.project_role?.short_name}] -{" "}
@@ -458,45 +450,33 @@ export const EvaluationsCriteria = () => {
                   {formatDateRange(evaluation?.eval_start_date, evaluation?.eval_end_date)}
                 </p>
               </div>
-              <span className='flex justify-between justify-items-center'>
-                <div className='block mt-2 uppercase md:hidden'>
-                  <Badge variant={getEvaluationStatusVariant(evaluation?.status)} size='small'>
-                    {evaluation?.status}
-                  </Badge>
-                </div>
-                {similarEvaluations.length > 0 && (
-                  <Button variant='primaryOutline' onClick={toggleSimilarEvaluationsDialog}>
-                    <span className='text-sm sm:text-base'> Copy Evaluation</span>
-                  </Button>
-                )}
-              </span>
+              {similarEvaluations.length > 0 && (
+                <Button variant='primaryOutline' onClick={toggleSimilarEvaluationsDialog}>
+                  Copy Evaluation
+                </Button>
+              )}
             </div>
             {evaluation_template_contents.map((templateContent) => (
-              <div
-                key={templateContent.id}
-                className='rounded-md hover:bg-primary-50 sm:mt-1 md:mt-0'
-              >
-                <div className='flex flex-col p-4 h-fit md:flex-row'>
-                  <div className='w-full mr-5 md:w-9/12'>
-                    <h1 className='mb-3 md:mb-0 text-base font-medium text-primary-500'>
+              <div key={templateContent.id} className='hover:bg-primary-50 rounded-md'>
+                <div className='flex p-4 h-fit'>
+                  <div className='w-9/12 mr-5'>
+                    <h1 className='text-base font-medium text-primary-500'>
                       {templateContent.name}
                     </h1>
-                    <p className='mb-2 text-sm'>{templateContent.description}</p>
+                    <p className='text-sm'>{templateContent.description}</p>
                   </div>
-                  <span className='inline-block w-full md:w-auto'>
-                    <StarRating
-                      templateContent={templateContent}
-                      loadingAnswer={loading_answer}
-                      evaluation={evaluation}
-                      handleOnClick={handleOnClickStar}
-                      error={ratingCommentErrorMessage}
-                    />
-                  </span>
+                  <StarRating
+                    templateContent={templateContent}
+                    loadingAnswer={loading_answer}
+                    evaluation={evaluation}
+                    handleOnClick={handleOnClickStar}
+                    error={ratingCommentErrorMessage}
+                  />
                 </div>
                 <Dialog open={showDialog[templateContent.id]} size='medium' maxWidthMin={true}>
                   <Dialog.Title>{dialogMessage?.subject}</Dialog.Title>
                   <Dialog.Description>
-                    <pre className='font-sans break-words whitespace-pre-wrap'>
+                    <pre className='font-sans whitespace-pre-wrap break-words'>
                       {dialogMessage?.content}
                     </pre>
                   </Dialog.Description>
@@ -511,7 +491,7 @@ export const EvaluationsCriteria = () => {
                 </Dialog>
               </div>
             ))}
-            <h2 className='mt-10 mb-2 text-lg font-bold text-primary-500'>Comments</h2>
+            <h2 className='text-lg font-bold text-primary-500 mt-10 mb-2'>Comments</h2>
             {evaluation?.status === EvaluationStatus.Submitted ||
               (evaluation?.status === EvaluationStatus.ForRemoval &&
                 (evaluation?.comments === null || evaluation?.comments === "") && (
@@ -530,10 +510,10 @@ export const EvaluationsCriteria = () => {
                 />
               </>
             ) : (
-              <pre className='font-sans break-words whitespace-pre-wrap'>{comment}</pre>
+              <pre className='font-sans whitespace-pre-wrap break-words'>{comment}</pre>
             )}
             {evaluation?.template?.with_recommendation === true && (
-              <h2 className='mt-10 mb-2 text-lg font-bold text-primary-500'>Recommendations</h2>
+              <h2 className='text-lg font-bold text-primary-500 mt-10 mb-2'>Recommendations</h2>
             )}
             {evaluation?.template?.with_recommendation === true && (
               <>
@@ -556,55 +536,20 @@ export const EvaluationsCriteria = () => {
                 {(evaluation?.status === EvaluationStatus.Open ||
                   evaluation?.status === EvaluationStatus.Ongoing) && (
                   <>
-                    <div className='hidden w-full md:block'>
-                      <div className='flex justify-between'>
-                        <div className='flex gap-4'>
-                          <Button
-                            variant='destructiveOutline'
-                            onClick={toggleRequestToRemoveDialog}
-                          >
-                            <span className='text-sm sm:text-base'>Request to Remove</span>
-                          </Button>
-                        </div>
-                        <div className='flex gap-4 ml-2'>
-                          <Button
-                            disabled={!is_editing}
-                            variant='primaryOutline'
-                            onClick={toggleSaveDialog}
-                          >
-                            Save
-                          </Button>
-                          <Button onClick={handleClickSaveAndSubmit}>
-                            <span className='text-sm sm:text-base'>Save & Submit</span>
-                          </Button>
-                        </div>
-                      </div>
+                    <div className='flex gap-4'>
+                      <Button variant='destructiveOutline' onClick={toggleRequestToRemoveDialog}>
+                        Request to Remove
+                      </Button>
                     </div>
-                    <div className='block w-full ml-0 md:hidden'>
-                      <div className='flex w-full gap-4 m-2 ml-0'>
-                        <Button onClick={handleClickSaveAndSubmit} fullWidth>
-                          <span className='text-sm sm:text-base'>Save & Submit</span>
-                        </Button>
-                      </div>
-                      <div className='flex w-full gap-4 m-2 ml-0'>
-                        <Button
-                          disabled={!is_editing}
-                          fullWidth
-                          variant='primaryOutline'
-                          onClick={toggleSaveDialog}
-                        >
-                          Save
-                        </Button>
-                      </div>
-                      <div className='flex w-full gap-4 m-2 ml-0'>
-                        <Button
-                          variant='destructiveOutline'
-                          fullWidth
-                          onClick={toggleRequestToRemoveDialog}
-                        >
-                          <span className='text-sm sm:text-base'>Request to Remove</span>
-                        </Button>
-                      </div>
+                    <div className='flex gap-4'>
+                      <Button
+                        disabled={!is_editing}
+                        variant='primaryOutline'
+                        onClick={toggleSaveDialog}
+                      >
+                        Save
+                      </Button>
+                      <Button onClick={handleClickSaveAndSubmit}>Save & Submit</Button>
                     </div>
                   </>
                 )}
@@ -651,7 +596,7 @@ export const EvaluationsCriteria = () => {
       <Dialog open={showCompletedDialog} size='medium' maxWidthMin={true}>
         <Dialog.Title>{emailTemplate?.subject}</Dialog.Title>
         <Dialog.Description>
-          <pre className='font-sans break-words whitespace-pre-wrap'>{emailTemplate?.content}</pre>
+          <pre className='font-sans whitespace-pre-wrap break-words'>{emailTemplate?.content}</pre>
         </Dialog.Description>
         <Dialog.Actions>
           <Button variant='primary' onClick={toggleCompletedDialog}>
@@ -684,29 +629,21 @@ export const EvaluationsCriteria = () => {
         <Dialog.Title>Copy Evaluation</Dialog.Title>
         <Dialog.Description>
           <div className='flex flex-col gap-4'>
-            {didCopy ? (
-              <p>
-                Kindly select which evaluation to copy from the previously submitted evaluations for{" "}
-                {evaluation?.evaluee?.last_name}, {evaluation?.evaluee?.first_name} for{" "}
-                {evaluation?.project?.name} Project.
-              </p>
-            ) : (
-              <p>
-                You have already submitted an evaluation for {evaluation?.evaluee?.last_name},{" "}
-                {evaluation?.evaluee?.first_name} for {evaluation?.project?.name} Project.
-                <br />
-                <br />
-                If you want to copy the ratings from previous evaluations, select which evaluation
-                below to use.
-              </p>
-            )}
+            <p>
+              You have already submitted an evaluation for {evaluation?.evaluee?.last_name},{" "}
+              {evaluation?.evaluee?.first_name} for {evaluation?.project?.name} Project.
+              <br />
+              <br />
+              If you want to copy the ratings from previous evaluations, select which evaluation
+              below to use.
+            </p>
             <div className='flex flex-col gap-2'>
               {similarEvaluations.map((similarEvaluation) => (
                 <button
                   key={similarEvaluation.id}
                   onClick={() => handleGetTemplateContents(similarEvaluation)}
                 >
-                  <div className='flex flex-col p-2 rounded-md bg-primary-50 hover:bg-primary-100'>
+                  <div className='flex flex-col rounded-md p-2 bg-primary-50 hover:bg-primary-100'>
                     <div className='text-sm'>
                       Copy the evaluation ratings from{" "}
                       {formatDateRange(
