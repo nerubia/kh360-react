@@ -7,6 +7,8 @@ interface TextAreaInterface {
   onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
   onBlur?: (event: React.FocusEvent<HTMLTextAreaElement>) => void
   disabled?: boolean
+  autoFocus?: boolean
+  maxLength?: number
 }
 
 export const TextArea = ({
@@ -18,6 +20,8 @@ export const TextArea = ({
   onBlur,
   error,
   disabled,
+  autoFocus,
+  maxLength,
 }: TextAreaInterface) => {
   return (
     <div className='flex flex-col'>
@@ -38,6 +42,8 @@ export const TextArea = ({
         onBlur={onBlur}
         rows={5}
         disabled={disabled}
+        autoFocus={autoFocus}
+        maxLength={maxLength}
       ></textarea>
       {error != null && <p className='text-red-500 text-sm'>{error}</p>}
     </div>
