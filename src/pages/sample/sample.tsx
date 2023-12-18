@@ -293,6 +293,7 @@ export default function Sample() {
           <Icon icon='Star' size='small' />
           <Icon icon='Trash' size='small' />
           <Icon icon='UserFill' size='small' />
+          <Icon icon='UserRoundCog' size='small' />
         </div>
         <div className='flex flex-wrap gap-2'>
           <Icon icon='Ban' />
@@ -315,6 +316,7 @@ export default function Sample() {
           <Icon icon='Star' />
           <Icon icon='Trash' />
           <Icon icon='UserFill' />
+          <Icon icon='UserRoundCog' />
         </div>
         <div className='flex flex-wrap gap-2'>
           <Icon icon='Ban' size='large' />
@@ -337,6 +339,7 @@ export default function Sample() {
           <Icon icon='Star' size='large' />
           <Icon icon='Trash' size='large' />
           <Icon icon='UserFill' size='large' />
+          <Icon icon='UserRoundCog' size='large' />
         </div>
       </div>
       <div className='flex flex-col gap-4'>
