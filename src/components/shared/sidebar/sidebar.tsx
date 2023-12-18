@@ -8,9 +8,7 @@ import { Button } from "../../ui/button/button"
 import { Menu } from "../Menu"
 import { type icons } from "../../ui/icon/icons"
 import { useInternalUser } from "../../../hooks/use-internal-user"
-import { useCmUser } from "../../../hooks/use-cm-user"
 import { useLocation } from "react-router-dom"
-import useMobileView from "../../../hooks/use-mobile-view"
 
 interface MenuLink {
   title: string
@@ -45,12 +43,6 @@ const menuLinks: MenuLink[] = [
     access: "Public",
   },
   {
-    title: "Evaluation Results",
-    link: "/evaluation-results",
-    icon: "ListChecks",
-    access: "Bod",
-  },
-  {
     title: "KH360 Admin",
     link: "/admin/evaluation-administrations",
     icon: "UserRoundCog",
@@ -74,12 +66,6 @@ const menuLinks: MenuLink[] = [
         icon: "GanttChart",
         access: "Admin",
       },
-      {
-        title: "Message Templates",
-        link: "/admin/message-templates",
-        icon: "Message",
-        access: "Admin",
-      },
     ],
   },
 ]
@@ -92,9 +78,6 @@ export const Sidebar = () => {
   const appDispatch = useAppDispatch()
   const isInternal = useInternalUser()
   const isAdmin = useAdmin()
-  const isCm = useCmUser()
-
-  const isMobileView = useMobileView()
 
   const toggleSidebar = () => {
     appDispatch(setActiveSidebar(!activeSidebar))
@@ -107,7 +90,7 @@ export const Sidebar = () => {
   const isParentActive = (menuLink: MenuLink) => {
     if (menuLink.children !== undefined) {
       for (const child of menuLink.children) {
-        if (location.pathname.includes(child.link)) {
+        if (child.link === location.pathname) {
           return true
         }
       }
@@ -121,8 +104,8 @@ export const Sidebar = () => {
         activeSidebar ? "w-full md:w-64" : "w-64 -ml-64"
       } bg-primary-500 fixed z-10 h-screen transition-all duration-300`}
     >
-      <div className='relative flex flex-col h-full gap-4 p-5'>
-        <div className='absolute block top-5 md:hidden'>
+      <div className='relative h-full flex flex-col gap-4 p-5'>
+        <div className='block absolute top-5 md:hidden'>
           <Button testId='SidebarCloseButton' variant='ghost' size='small' onClick={toggleSidebar}>
             <Icon icon='Close' />
           </Button>
@@ -130,24 +113,20 @@ export const Sidebar = () => {
         <div className='flex justify-center'>
           <img className='h-20 rounded-full ' src='/logo.png' />
         </div>
-        <h1 className='text-lg font-bold text-center text-white'>
+        <h1 className='text-white text-lg text-center font-bold'>
           {user?.first_name} {user?.last_name}
         </h1>
-        <div
-          className='flex flex-col flex-1 gap-2'
-          onClick={isMobileView ? toggleSidebar : undefined}
-        >
+        <div className='flex-1 flex flex-col gap-2'>
           {menuLinks.map(
             (menu, index) =>
               ((isInternal && menu.access === "Internal") ||
                 (isAdmin && menu.access === "Admin") ||
-                (isCm && menu.access === "Bod") ||
                 menu.access === "Public") && (
                 <div key={index} className='flex flex-col gap-2'>
                   <Menu
                     to={menu.link}
                     isEvaluation={false}
-                    className={`w-full rounded-md flex justify-between items-center bg-primary-500 text-white hover:bg-primary-600 active:bg-primary-700 disabled:bg-primary-200 [&.active]:bg-primary-700 [&.active]:cursor-default h-9 px-4 ${
+                    className={`w-full rounded-md flex justify-between items-center bg-primary-500 text-white hover:bg-primary-600 active:bg-primary-700 disabled:bg-primary-200 [&.active]:bg-primary-700 [&.active]:cursor-default h-9 text-base px-4 ${
                       isParentActive(menu) ? "!bg-primary-700" : ""
                     }`}
                   >
@@ -157,20 +136,19 @@ export const Sidebar = () => {
                     </div>
                     {menu.children !== undefined ? <Icon icon='ChevronDown' /> : null}
                   </Menu>
-                  <div className={isParentActive(menu) ? "" : "hidden"}>
-                    {menu.children?.map((child, i) => (
+                  {isParentActive(menu) &&
+                    menu.children?.map((child, i) => (
                       <div key={i} className='ml-2'>
                         <Menu
                           to={child.link}
                           isEvaluation={false}
-                          className='w-full rounded-md flex items-center gap-2 bg-primary-500 text-sm text-white hover:bg-primary-600 active:bg-primary-700 disabled:bg-primary-200 [&.active]:bg-primary-700 [&.active]:cursor-default px-4 py-2'
+                          className='w-full rounded-md flex items-center gap-2 bg-primary-500 text-white hover:bg-primary-600 active:bg-primary-700 disabled:bg-primary-200 [&.active]:bg-primary-700 [&.active]:cursor-default px-4 py-2'
                         >
                           {child.icon != null && <Icon icon={child.icon as keyof typeof icons} />}
                           {child.title}
                         </Menu>
                       </div>
                     ))}
-                  </div>
                 </div>
               )
           )}
