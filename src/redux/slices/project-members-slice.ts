@@ -3,7 +3,28 @@ import { type AxiosError } from "axios"
 import { type ApiError } from "../../types/apiErrorType"
 import { Loading } from "../../types/loadingType"
 import { axiosInstance } from "../../utils/axios-instance"
-import { type ProjectMemberFilters, type ProjectMember } from "../../types/project-member-type"
+import {
+  type ProjectMemberFilters,
+  type ProjectMember,
+  type SearchProjectMemberFilters,
+} from "../../types/project-member-type"
+import { type ProjectMemberFormData } from "../../types/form-data-type"
+
+export const searchProjectMembers = createAsyncThunk(
+  "projectMember/searchProjectMembers",
+  async (params: SearchProjectMemberFilters | undefined, thunkApi) => {
+    try {
+      const response = await axiosInstance.get("/admin/project-members/search", {
+        params,
+      })
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
 
 export const getProjectMembers = createAsyncThunk(
   "projectMember/getProjectMembers",
@@ -12,6 +33,20 @@ export const getProjectMembers = createAsyncThunk(
       const response = await axiosInstance.get("/admin/project-members", {
         params,
       })
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const createProjectMember = createAsyncThunk(
+  "projectMember/createProjectMember",
+  async (data: ProjectMemberFormData, thunkApi) => {
+    try {
+      const response = await axiosInstance.post("/admin/project-members", data)
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -39,6 +74,22 @@ const projectMembersSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     /**
+     * Search
+     */
+    builder.addCase(searchProjectMembers.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(searchProjectMembers.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.project_members = action.payload
+    })
+    builder.addCase(searchProjectMembers.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
      * Get
      */
     builder.addCase(getProjectMembers.pending, (state) => {
@@ -51,6 +102,21 @@ const projectMembersSlice = createSlice({
       state.project_members = action.payload
     })
     builder.addCase(getProjectMembers.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Create
+     */
+    builder.addCase(createProjectMember.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(createProjectMember.fulfilled, (state) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+    })
+    builder.addCase(createProjectMember.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
