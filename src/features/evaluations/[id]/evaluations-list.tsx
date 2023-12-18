@@ -13,6 +13,7 @@ import Dialog from "../../../components/ui/dialog/dialog"
 import { Badge } from "../../../components/ui/badge/Badge"
 import { getEvaluationStatusVariant } from "../../../utils/variant"
 import { getByTemplateType } from "../../../redux/slices/email-template-slice"
+import { StatusBadge } from "../../../components/ui/badge/StatusBadge"
 
 export const EvaluationsList = () => {
   const navigate = useNavigate()
@@ -149,8 +150,14 @@ export const EvaluationsList = () => {
                         ? () => handleOnClickEvaluation(evaluation.id)
                         : () => handleNavigate(evaluation.id)
                     }
-                    className='rounded-md flex items-center gap-2 p-2 border md:border-none m-0.5 md:m-0 flex-col md:flex-row'
+                    className='rounded-md flex items-center gap-2 p-2 border md:border-none m-0.5 md:m-0 flex-col md:flex-row relative'
                   >
+                    <span className='md:hidden block absolute top-2 right-1 rounded'>
+                      <StatusBadge
+                        variant={getEvaluationStatusVariant(evaluation?.status)}
+                        size='small'
+                      />
+                    </span>
                     <div className='flex items-center justify-center w-10 h-10 rounded-full py-2 bg-gray-100 md:bg-transparent'>
                       {evaluation.evaluee?.picture === undefined ||
                       evaluation.evaluee?.picture === null ? (
@@ -183,6 +190,7 @@ export const EvaluationsList = () => {
                           </Badge>
                         </div>
                       </div>
+
                       {evaluation.project !== null && (
                         <p className='text-xs hidden md:block'>
                           {evaluation.project?.name} [{evaluation.project_role?.short_name}]
