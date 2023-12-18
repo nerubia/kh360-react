@@ -8,6 +8,7 @@ import { Button } from "../../ui/button/button"
 import { Menu } from "../Menu"
 import { type icons } from "../../ui/icon/icons"
 import { useInternalUser } from "../../../hooks/use-internal-user"
+import { useBodUser } from "../../../hooks/use-bod-user"
 import { useLocation } from "react-router-dom"
 
 interface MenuLink {
@@ -41,6 +42,12 @@ const menuLinks: MenuLink[] = [
     link: "/evaluation-administrations",
     icon: "FileText",
     access: "Public",
+  },
+  {
+    title: "Evaluation Results",
+    link: "/evaluation-results",
+    icon: "ListChecks",
+    access: "Bod",
   },
   {
     title: "KH360 Admin",
@@ -78,6 +85,7 @@ export const Sidebar = () => {
   const appDispatch = useAppDispatch()
   const isInternal = useInternalUser()
   const isAdmin = useAdmin()
+  const isBod = useBodUser()
 
   const toggleSidebar = () => {
     appDispatch(setActiveSidebar(!activeSidebar))
@@ -121,6 +129,7 @@ export const Sidebar = () => {
             (menu, index) =>
               ((isInternal && menu.access === "Internal") ||
                 (isAdmin && menu.access === "Admin") ||
+                (isBod && menu.access === "Bod") ||
                 menu.access === "Public") && (
                 <div key={index} className='flex flex-col gap-2'>
                   <Menu
