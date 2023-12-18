@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom"
 import { useAppSelector } from "../../../hooks/useAppSelector"
 import { Button, LinkButton } from "../../../components/ui/button/button"
 import { Icon } from "../../../components/ui/icon/icon"
+import Image from "../../../components/ui/image/image"
 import { EvaluationStatus } from "../../../types/evaluation-type"
 import { getUserEvaluations } from "../../../redux/slices/user-slice"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
@@ -154,10 +155,11 @@ export const EvaluationsList = () => {
                       evaluation.evaluee?.picture === null ? (
                         <Icon icon='UserFill' />
                       ) : (
-                        <img
-                          className='w-10 h-10 rounded-full'
-                          src={evaluation.evaluee?.picture}
-                          alt={`Avatar of ${evaluation.evaluee.last_name}, ${evaluation.evaluee.first_name}`}
+                        <Image
+                          altText={`Avatar of ${evaluation.evaluee.last_name}, ${evaluation.evaluee.first_name}`}
+                          first_name={evaluation.evaluee.first_name}
+                          imageUrl={evaluation.evaluee?.picture}
+                          variant={"brokenImage"}
                         />
                       )}
                     </div>
