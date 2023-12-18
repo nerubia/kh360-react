@@ -27,6 +27,8 @@ import { getRatingTemplates } from "../../../redux/slices/email-template-slice"
 import { type EmailTemplate, TemplateType } from "../../../types/email-template-type"
 import ReactConfetti from "react-confetti"
 import { type EvaluationTemplateContent } from "../../../types/evaluation-template-content-type"
+import { Badge } from "../../../components/ui/badge/Badge"
+import { getEvaluationStatusVariant } from "../../../utils/variant"
 
 export const EvaluationsCriteria = () => {
   const { id, evaluation_id } = useParams()
@@ -428,7 +430,6 @@ export const EvaluationsCriteria = () => {
     void appDispatch(setIsEditing(true))
     toggleSimilarEvaluationsDialog()
   }
-
   return (
     <>
       {loading === Loading.Pending && <div>Loading...</div>}
@@ -439,7 +440,7 @@ export const EvaluationsCriteria = () => {
         evaluation_template_contents.length > 0 &&
         user_evaluations.length > 0 && (
           <div className='flex flex-col overflow-y-scroll pr-5 pb-5 mx-4 md:w-3/4 w-full'>
-            <div className='sm:flex justify-between items-center sm:flex-col md:flex-row'>
+            <div className='sm:flex justify-between items-center sm:flex-col md:flex-row border md:border-none p-1 md:p-0 rounded'>
               <div className='flex-flex-col'>
                 <div className='text-xl font-bold text-primary-500 mb-1'>
                   <p>
@@ -461,12 +462,19 @@ export const EvaluationsCriteria = () => {
                   Evaluation Period:{" "}
                   {formatDateRange(evaluation?.eval_start_date, evaluation?.eval_end_date)}
                 </p>
+                <span className='flex justify-items-center justify-between'>
+                  <div className='uppercase block md:hidden mt-2'>
+                    <Badge variant={getEvaluationStatusVariant(evaluation?.status)} size='small'>
+                      {evaluation?.status}
+                    </Badge>
+                  </div>
+                  {similarEvaluations.length > 0 && (
+                    <Button variant='primaryOutline' onClick={toggleSimilarEvaluationsDialog}>
+                      <span className='text-sm sm:text-base'> Copy Evaluation</span>
+                    </Button>
+                  )}
+                </span>
               </div>
-              {similarEvaluations.length > 0 && (
-                <Button variant='primaryOutline' onClick={toggleSimilarEvaluationsDialog}>
-                  <span className='text-sm sm:text-base'> Copy Evaluation</span>
-                </Button>
-              )}
             </div>
             {evaluation_template_contents.map((templateContent) => (
               <div

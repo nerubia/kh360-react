@@ -149,15 +149,15 @@ export const EvaluationsList = () => {
                         ? () => handleOnClickEvaluation(evaluation.id)
                         : () => handleNavigate(evaluation.id)
                     }
-                    className='w-full rounded-md flex items-center gap-2 p-2 border md:border-none m-0.5 md:m-0'
+                    className='rounded-md flex items-center gap-2 p-2 border md:border-none m-0.5 md:m-0 flex-col md:flex-row'
                   >
-                    <div className='flex items-center justify-center w-10 h-10 rounded-full py-2'>
+                    <div className='flex items-center justify-center w-10 h-10 rounded-full py-2 bg-gray-100 md:bg-transparent'>
                       {evaluation.evaluee?.picture === undefined ||
                       evaluation.evaluee?.picture === null ? (
                         <Icon icon='UserFill' />
                       ) : (
                         <img
-                          className='w-10 h-10 rounded-full'
+                          className='w-10 h-10 rounded-full overflow-hidden'
                           src={evaluation.evaluee?.picture}
                           alt={`Avatar of ${evaluation.evaluee.last_name}, ${evaluation.evaluee.first_name}`}
                         />
@@ -168,13 +168,13 @@ export const EvaluationsList = () => {
                         evaluation.status === EvaluationStatus.Open ? "font-bold" : ""
                       }`}
                     >
-                      <div className='flex justify-between gap-4'>
+                      <div className='flex justify-between gap-4 flex-col md:flex-row'>
                         <p className='text-sm'>
                           {evaluation.evaluee?.last_name}
                           {", "}
                           {evaluation.evaluee?.first_name}
                         </p>
-                        <div className='uppercase'>
+                        <div className='uppercase hidden md:block'>
                           <Badge
                             variant={getEvaluationStatusVariant(evaluation?.status)}
                             size='small'
@@ -184,11 +184,11 @@ export const EvaluationsList = () => {
                         </div>
                       </div>
                       {evaluation.project !== null && (
-                        <p className='text-xs'>
+                        <p className='text-xs hidden md:block'>
                           {evaluation.project?.name} [{evaluation.project_role?.short_name}]
                         </p>
                       )}
-                      <p className='text-xs'>{evaluation.template?.display_name}</p>
+                      <p className='text-xs hidden md:block'>{evaluation.template?.display_name}</p>
                     </div>
                   </Menu>
                 ))}
