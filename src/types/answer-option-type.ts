@@ -3,6 +3,7 @@ export interface AnswerOption {
   sequence_no: number
   answer_type: string
   description: string
+  display_name: string
 }
 
 export enum AnswerOptions {
