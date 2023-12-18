@@ -11,6 +11,7 @@ const iconVariants = cva([], {
       red: "text-red-500",
     },
     size: {
+      extraSmall: 15,
       small: 20,
       medium: 24,
       large: 32,

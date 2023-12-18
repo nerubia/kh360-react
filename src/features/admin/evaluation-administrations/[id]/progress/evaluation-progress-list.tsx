@@ -310,7 +310,14 @@ export const EvaluationProgressList = () => {
                             <td className='py-1'>{evaluation.template?.display_name}</td>
                             <td className='py-1'>
                               <Tooltip placement='topEnd'>
-                                <Tooltip.Trigger>{evaluation.project?.name}</Tooltip.Trigger>
+                                <Tooltip.Trigger>
+                                  <div className='flex gap-2 items-center'>
+                                    {evaluation.project?.name}{" "}
+                                    {evaluation.project !== null && (
+                                      <Icon icon='Calendar' size={"extraSmall"} color={"primary"} />
+                                    )}
+                                  </div>
+                                </Tooltip.Trigger>
                                 <Tooltip.Content>
                                   <pre className='font-sans whitespace-pre-wrap break-words'>
                                     {formatDate(evaluation.eval_start_date)} to{" "}
