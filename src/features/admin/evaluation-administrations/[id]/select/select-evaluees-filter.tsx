@@ -73,7 +73,7 @@ export const SelectEvalueesFilter = () => {
         </div>
         <CustomSelect
           label='Employee Type'
-          name='employee-type'
+          name='employee_type'
           value={filterOptions.find((option) => option.value === employee_type)}
           onChange={(option) => setEmployeeType(option !== null ? option.value : "all")}
           options={filterOptions}

@@ -256,7 +256,7 @@ export const ExternalEvaluatorForm = () => {
           <CustomSelect
             data-test-id='SelectEvaluationTemplate'
             label='Evaluation Template'
-            name='evaluationTemplate'
+            name='evaluation_template'
             value={activeTemplates.find((option) =>
               option.value === selectedTemplateId ? option.label : ""
             )}
