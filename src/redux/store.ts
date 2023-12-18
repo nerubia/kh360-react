@@ -15,7 +15,6 @@ import externalUsersReducer from "./slices/external-users-slice"
 import projectMembersReducer from "./slices/project-members-slice"
 import projectRolesReducer from "./slices/project-roles-slice"
 import projectsReducer from "./slices/projects-slice"
-import scoreRatingsReducer from "./slices/score-ratings-slice"
 import usersReducer from "./slices/users-slice"
 import userReducer from "./slices/user-slice"
 
@@ -36,7 +35,6 @@ export const store = configureStore({
     projectMembers: projectMembersReducer,
     projectRoles: projectRolesReducer,
     projects: projectsReducer,
-    scoreRatings: scoreRatingsReducer,
     users: usersReducer,
     user: userReducer,
   },
