@@ -156,7 +156,7 @@ export const AddEvaluatorForm = () => {
         <CustomSelect
           data-test-id='TemplateType'
           label='Template Type'
-          name='template-type'
+          name='template_type'
           value={activeTemplates.find((option) => option.value === formData.evaluation_template_id)}
           onChange={(option) =>
             setFormData({
