@@ -129,8 +129,10 @@ export const EvaluationsList = () => {
       {loading === Loading.Fulfilled && user_evaluations.length === 0 && (
         <div>No evaluations available yet.</div>
       )}
-      <div className='md:w-96 h-96 md:h-[95%] flex flex-col my-4'>
-        <div className='flex-1 overflow-y-auto mb-4 px-2 mx-2'>
+      {/* <div className='md:w-96 h-96 md:h-[95%] flex flex-col my-4'> */}
+      <div className='md:w-96 h-45 md:96 md:h-[95%] flex flex-col my-4'>
+        {/* <div className='flex-1 overflow-y-auto mb-4 px-2 mx-2'> */}
+        <div className='flex overflow-x-auto overflow-y-hidden md:flex-1 md:overflow-y-auto md:overflow-x-hidden mb-4 px-2 mx-2 md:flex-col'>
           {loading === Loading.Fulfilled &&
             user_evaluations.length > 0 &&
             evaluation_id !== undefined && (
@@ -147,7 +149,7 @@ export const EvaluationsList = () => {
                         ? () => handleOnClickEvaluation(evaluation.id)
                         : () => handleNavigate(evaluation.id)
                     }
-                    className='w-full rounded-md flex items-center gap-2 p-2'
+                    className='w-full rounded-md flex items-center gap-2 p-2 border md:border-none m-0.5 md:m-0'
                   >
                     <div className='flex items-center justify-center w-10 h-10 rounded-full py-2'>
                       {evaluation.evaluee?.picture === undefined ||
@@ -190,6 +192,11 @@ export const EvaluationsList = () => {
                     </div>
                   </Menu>
                 ))}
+                <div className='p-2 hidden md:block'>
+                  <LinkButton to='/evaluation-administrations' variant='primaryOutline'>
+                    <Icon icon='ChevronLeft' />
+                  </LinkButton>
+                </div>
                 <Dialog open={showDialog && is_editing}>
                   <Dialog.Title>Confirm Discard Changes</Dialog.Title>
                   <Dialog.Description>
@@ -207,11 +214,6 @@ export const EvaluationsList = () => {
                 </Dialog>
               </>
             )}
-        </div>
-        <div className='ml-4'>
-          <LinkButton to='/evaluation-administrations' variant='primaryOutline'>
-            <Icon icon='ChevronLeft' />
-          </LinkButton>
         </div>
       </div>
     </>

@@ -195,6 +195,10 @@ export const EvaluationsCriteria = () => {
 
   const toggleSaveDialog = () => {
     setShowSaveDialog((prev) => !prev)
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // You can use "auto" instead of "smooth" for an instant scroll
+    })
   }
 
   const toggleSubmitDialog = () => {
@@ -210,6 +214,10 @@ export const EvaluationsCriteria = () => {
       setErrorMessage("Comment is required")
     } else {
       setShowRequestToRemoveDialog((prev) => !prev)
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth", // You can use "auto" instead of "smooth" for an instant scroll
+      })
     }
   }
 
@@ -303,6 +311,10 @@ export const EvaluationsCriteria = () => {
       return
     }
     setShowSubmitDialog(true)
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    })
   }
 
   const handleSubmit = async (is_submitting: boolean) => {
@@ -426,8 +438,8 @@ export const EvaluationsCriteria = () => {
       {loading === Loading.Fulfilled &&
         evaluation_template_contents.length > 0 &&
         user_evaluations.length > 0 && (
-          <div className='flex flex-col overflow-y-scroll pr-5 pb-5 mx-4 md:w-3/4'>
-            <div className='flex justify-between items-center'>
+          <div className='flex flex-col overflow-y-scroll pr-5 pb-5 mx-4 md:w-3/4 w-full'>
+            <div className='sm:flex justify-between items-center sm:flex-col md:flex-row'>
               <div className='flex-flex-col'>
                 <div className='text-xl font-bold text-primary-500 mb-1'>
                   <p>
@@ -452,26 +464,31 @@ export const EvaluationsCriteria = () => {
               </div>
               {similarEvaluations.length > 0 && (
                 <Button variant='primaryOutline' onClick={toggleSimilarEvaluationsDialog}>
-                  Copy Evaluation
+                  <span className='text-sm sm:text-base'> Copy Evaluation</span>
                 </Button>
               )}
             </div>
             {evaluation_template_contents.map((templateContent) => (
-              <div key={templateContent.id} className='hover:bg-primary-50 rounded-md'>
-                <div className='flex p-4 h-fit'>
-                  <div className='w-9/12 mr-5'>
-                    <h1 className='text-base font-medium text-primary-500'>
+              <div
+                key={templateContent.id}
+                className='hover:bg-primary-50 rounded-md sm:mt-1 md:mt-0'
+              >
+                <div className='flex p-4 h-fit flex-col'>
+                  <div className='md:w-9/12 mr-5 w-full'>
+                    <h1 className='text-base font-medium text-primary-500 mb-3'>
                       {templateContent.name}
                     </h1>
-                    <p className='text-sm'>{templateContent.description}</p>
+                    <p className='text-sm mb-3'>{templateContent.description}</p>
                   </div>
-                  <StarRating
-                    templateContent={templateContent}
-                    loadingAnswer={loading_answer}
-                    evaluation={evaluation}
-                    handleOnClick={handleOnClickStar}
-                    error={ratingCommentErrorMessage}
-                  />
+                  <span className='overflow-x-auto'>
+                    <StarRating
+                      templateContent={templateContent}
+                      loadingAnswer={loading_answer}
+                      evaluation={evaluation}
+                      handleOnClick={handleOnClickStar}
+                      error={ratingCommentErrorMessage}
+                    />
+                  </span>
                 </div>
                 <Dialog open={showDialog[templateContent.id]} size='medium' maxWidthMin={true}>
                   <Dialog.Title>{dialogMessage?.subject}</Dialog.Title>
@@ -538,10 +555,10 @@ export const EvaluationsCriteria = () => {
                   <>
                     <div className='flex gap-4'>
                       <Button variant='destructiveOutline' onClick={toggleRequestToRemoveDialog}>
-                        Request to Remove
+                        <span className='text-sm sm:text-base'>Request to Remove</span>
                       </Button>
                     </div>
-                    <div className='flex gap-4'>
+                    <div className='flex gap-4 ml-2'>
                       <Button
                         disabled={!is_editing}
                         variant='primaryOutline'
@@ -549,7 +566,9 @@ export const EvaluationsCriteria = () => {
                       >
                         Save
                       </Button>
-                      <Button onClick={handleClickSaveAndSubmit}>Save & Submit</Button>
+                      <Button onClick={handleClickSaveAndSubmit}>
+                        <span className='text-sm sm:text-base'>Save & Submit</span>
+                      </Button>
                     </div>
                   </>
                 )}
