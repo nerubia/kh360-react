@@ -139,7 +139,12 @@ export const StarRating = ({
                                   )}
                                 </Button>
                               </Tooltip.Trigger>
-                              <Tooltip.Content>{answerOption.description}</Tooltip.Content>
+                              <Tooltip.Content>
+                                <p>
+                                  <b>{answerOption.display_name}</b>
+                                </p>
+                                {answerOption.description}
+                              </Tooltip.Content>
                             </Tooltip>
                           )}
                         </>
