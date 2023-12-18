@@ -49,3 +49,13 @@ export interface EvaluatorFormData {
   user_id?: string
   is_external?: string
 }
+
+export interface ProjectMemberFormData {
+  project_id?: string
+  user_id?: string
+  project_role_id?: string
+  start_date?: string
+  end_date?: string
+  allocation_rate?: string
+  remarks?: string
+}

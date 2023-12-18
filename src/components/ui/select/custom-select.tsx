@@ -9,6 +9,7 @@ interface SelectProps {
   onInputChange?: (newValue: string, actionMeta: InputActionMeta) => void
   options: Option[]
   fullWidth?: boolean
+  error?: string | null
 }
 
 export const CustomSelect = ({
@@ -16,9 +17,10 @@ export const CustomSelect = ({
   name,
   value,
   onChange,
+  onInputChange,
   options,
   fullWidth,
-  onInputChange,
+  error,
 }: SelectProps) => {
   return (
     <div className='flex flex-col'>
@@ -29,7 +31,10 @@ export const CustomSelect = ({
       )}
       <Select
         classNames={{
-          container: () => `w-full ${fullWidth === true ? "" : "md:w-40"}`,
+          container: () =>
+            `w-full ${error != null ? "border border-red-500 rounded-md" : ""} ${
+              fullWidth === true ? "" : "md:w-40"
+            }`,
           control: () => "h-[38px]",
         }}
         inputId={name}
@@ -38,6 +43,7 @@ export const CustomSelect = ({
         onInputChange={onInputChange}
         options={options}
       />
+      {error != null && <p className='text-red-500 text-sm'>{error}</p>}
     </div>
   )
 }
