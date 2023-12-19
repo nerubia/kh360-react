@@ -95,6 +95,10 @@ const SelectExternalEvaluators = lazy(
     )
 )
 
+const ProjectAssignments = lazy(
+  async () => await import("./pages/admin/project-assignments/project-assignments")
+)
+
 const CreateProjectAssignment = lazy(
   async () => await import("./pages/admin/project-assignments/create/create-project-assignment")
 )
@@ -242,6 +246,10 @@ const router = createBrowserRouter([
               /**
                * Project Assignments
                */
+              {
+                path: "/admin/project-assignments",
+                element: <ProjectAssignments />,
+              },
               {
                 path: "/admin/project-assignments/create",
                 element: <CreateProjectAssignment />,
