@@ -8,14 +8,12 @@ import { searchProjectMembers } from "../../../redux/slices/project-members-slic
 import { Gantt, type Task, ViewMode } from "custom-gantt-task-react"
 import "custom-gantt-task-react/dist/index.css"
 import { getRoleVariant } from "../../../utils/variant"
-import { type ProjectMember } from "../../../types/project-member-type"
 
 export const ProjectAssignmentsList = () => {
   const appDispatch = useAppDispatch()
   const { project_members } = useAppSelector((state) => state.projectMembers)
 
   const [activeProjectMembers, setActiveProjectMembers] = useState<Task[]>([])
-  const [legendData, setLegendData] = useState<ProjectMember[]>([])
 
   useEffect(() => {
     void appDispatch(searchProjectMembers({}))
@@ -84,22 +82,6 @@ export const ProjectAssignmentsList = () => {
         })
       })
       setActiveProjectMembers(projectMembersData)
-
-      const uniqueRolesSet = new Set()
-      const legend = project_members.reduce((result: ProjectMember[], member: ProjectMember) => {
-        const roleName = member.role
-        if (!uniqueRolesSet.has(roleName)) {
-          uniqueRolesSet.add(roleName)
-          result.push({
-            id: member.id,
-            role: roleName,
-            color: getRoleVariant(roleName),
-          })
-        }
-        return result
-      }, [])
-
-      setLegendData(legend)
     } else {
       setActiveProjectMembers([])
     }
@@ -118,26 +100,16 @@ export const ProjectAssignmentsList = () => {
       <div className='flex-1 flex flex-col md:w-[1435px]'>
         <div className='flex flex-col'>
           {activeProjectMembers.length > 0 && (
-            <div className='flex flex-col gap-2 items-center'>
-              <Gantt
-                tasks={activeProjectMembers}
-                viewMode={ViewMode.Month}
-                columnWidth={80}
-                ganttHeight={440}
-                onExpanderClick={handleExpanderClick}
-                TooltipContent={ProjectTooltipContent}
-                TaskListHeader={ProjectHeader}
-                TaskListTable={ProjectColumn}
-              />
-              <div className='flex gap-4'>
-                {legendData.map((item) => (
-                  <div key={item.id} className='flex items-center mb-2'>
-                    <div className='w-4 h-4 mr-2' style={{ backgroundColor: item.color }}></div>
-                    <span>{item.role}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <Gantt
+              tasks={activeProjectMembers}
+              viewMode={ViewMode.Month}
+              columnWidth={80}
+              ganttHeight={440}
+              onExpanderClick={handleExpanderClick}
+              TooltipContent={ProjectTooltipContent}
+              TaskListHeader={ProjectHeader}
+              TaskListTable={ProjectColumn}
+            />
           )}
         </div>
       </div>

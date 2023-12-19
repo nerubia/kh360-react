@@ -36,7 +36,7 @@
     "@types/react-dom": "^18.2.8",
     "axios": "^1.5.1",
     "class-variance-authority": "^0.7.0",
-    "custom-gantt-task-react": "^0.4.4",
+    "custom-gantt-task-react": "^0.4.0",
     "date-fns": "^2.30.0",
     "date-fns-tz": "^2.0.0",
     "lodash": "^4.17.21",
