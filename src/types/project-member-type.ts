@@ -1,4 +1,5 @@
 import { type Project } from "./projectType"
+import { type User } from "./user-type"
 
 export interface ProjectMember {
   id: number
@@ -8,6 +9,8 @@ export interface ProjectMember {
   end_date?: string
   allocation_rate?: number
   project?: Project
+  user?: User
+  role?: string
 }
 
 export interface ProjectMemberFilters {

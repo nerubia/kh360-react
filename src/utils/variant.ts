@@ -91,3 +91,27 @@ export const getProgressVariant = (value: number) => {
     return "blue"
   }
 }
+
+export const getRoleVariant = (role: string | undefined) => {
+  if (role === "Board of Directors") {
+    return "#bac3ff"
+  }
+  if (role === "Human Resource") {
+    return "#fff7cf"
+  }
+  if (role === "Project Manager") {
+    return "#cfd0ff"
+  }
+  if (role === "System Analyst") {
+    return "#fff8c5"
+  }
+  if (role === "Developer") {
+    return "#c7e0ff"
+  }
+  if (role === "Quality Assurance") {
+    return "#e4f0c8"
+  }
+  if (role === "Code Reviewer") {
+    return "#fed3c9"
+  }
+}
