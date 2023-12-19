@@ -16,8 +16,6 @@ export interface EvaluationAdministration {
   totalPending?: number
   banding?: string
   evaluees_count?: number
-  score?: number
-  score_rating?: ScoreRating
 }
 
 export interface EvaluationAdministrationFilters {
