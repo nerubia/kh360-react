@@ -66,6 +66,11 @@ const Evaluators = lazy(
       "./pages/admin/evaluation-administrations/[id]/evaluees/[evaluation_result_id]/evaluators/evaluators"
     )
 )
+
+const EvaluationResults = lazy(
+  async () => await import("./pages/admin/evaluation-results/evaluation-results")
+)
+
 const ExternalEvaluators = lazy(
   async () => await import("./pages/admin/external-evaluators/external-evaluators")
 )
@@ -203,6 +208,13 @@ const router = createBrowserRouter([
               {
                 path: "/admin/evaluation-administrations/:id/evaluees/:evaluation_result_id/evaluators/:evaluation_template_id",
                 element: <Evaluators />,
+              },
+              /**
+               * Evaluation Results
+               */
+              {
+                path: "/admin/evaluation-results",
+                element: <EvaluationResults />,
               },
               /**
                * External Evaluators
