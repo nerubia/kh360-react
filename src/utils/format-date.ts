@@ -16,7 +16,7 @@ export const convertToFullDateAndTime = (date?: string) => {
   return format(utcDate, "MMMM d, yyyy 'at' HH:mm:ss a", { timeZone: "UTC" })
 }
 
-export const formatDateRange = (start_date?: string, end_date?: string) => {
+export const formatDateRange = (start_date?: string | Date, end_date?: string | Date) => {
   const options: Intl.DateTimeFormatOptions = {
     month: "short",
     day: "numeric",
@@ -39,7 +39,6 @@ export const formatDateRange = (start_date?: string, end_date?: string) => {
   ) {
     return ""
   }
-
   const startDate = new Date(start_date)
   const endDate = new Date(end_date)
 
