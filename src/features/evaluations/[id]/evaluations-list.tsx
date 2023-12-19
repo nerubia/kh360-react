@@ -131,10 +131,8 @@ export const EvaluationsList = () => {
       {loading === Loading.Fulfilled && user_evaluations.length === 0 && (
         <div>No evaluations available yet.</div>
       )}
-      {/* <div className='md:w-96 h-96 md:h-[95%] flex flex-col my-4'> */}
       <div className='md:w-96 h-45 md:96 md:h-[95%] flex flex-col my-4'>
-        {/* <div className='flex-1 overflow-y-auto mb-4 px-2 mx-2'> */}
-        <div className='flex overflow-x-auto overflow-y-hidden md:flex-1 md:overflow-y-auto md:overflow-x-hidden mb-4 px-2 mx-2 md:flex-col'>
+        <div className='flex px-2 mx-2 mb-4 overflow-x-auto overflow-y-hidden md:flex-1 md:overflow-y-auto md:overflow-x-hidden md:flex-col'>
           {loading === Loading.Fulfilled &&
             user_evaluations.length > 0 &&
             evaluation_id !== undefined && (
@@ -153,13 +151,13 @@ export const EvaluationsList = () => {
                     }
                     className='rounded-md flex items-center gap-2 p-2 border md:border-none m-0.5 md:m-0 flex-col md:flex-row relative'
                   >
-                    <span className='md:hidden block absolute top-2 right-1 rounded'>
+                    <span className='absolute block rounded md:hidden top-2 right-1'>
                       <StatusBadge
                         variant={getEvaluationStatusVariant(evaluation?.status)}
                         size='small'
                       />
                     </span>
-                    <div className='flex items-center justify-center w-10 h-10 rounded-full py-2 bg-gray-100 md:bg-transparent'>
+                    <div className='flex items-center justify-center w-10 h-10 py-2 bg-gray-100 rounded-full md:bg-transparent'>
                       {evaluation.evaluee?.picture === undefined ||
                       evaluation.evaluee?.picture === null ? (
                         <Icon icon='UserFill' />
@@ -177,13 +175,13 @@ export const EvaluationsList = () => {
                         evaluation.status === EvaluationStatus.Open ? "font-bold" : ""
                       }`}
                     >
-                      <div className='flex justify-between gap-4 flex-col md:flex-row'>
+                      <div className='flex flex-col justify-between gap-4 md:flex-row'>
                         <p className='text-sm'>
                           {evaluation.evaluee?.last_name}
                           {", "}
                           {evaluation.evaluee?.first_name}
                         </p>
-                        <div className='uppercase hidden md:block'>
+                        <div className='hidden uppercase md:block'>
                           <Badge
                             variant={getEvaluationStatusVariant(evaluation?.status)}
                             size='small'
@@ -194,15 +192,15 @@ export const EvaluationsList = () => {
                       </div>
 
                       {evaluation.project !== null && (
-                        <p className='text-xs hidden md:block'>
+                        <p className='hidden text-xs md:block'>
                           {evaluation.project?.name} [{evaluation.project_role?.short_name}]
                         </p>
                       )}
-                      <p className='text-xs hidden md:block'>{evaluation.template?.display_name}</p>
+                      <p className='hidden text-xs md:block'>{evaluation.template?.display_name}</p>
                     </div>
                   </Menu>
                 ))}
-                <div className='p-2 hidden md:block'>
+                <div className='hidden p-2 md:block'>
                   <LinkButton to='/evaluation-administrations' variant='primaryOutline'>
                     <Icon icon='ChevronLeft' />
                   </LinkButton>
