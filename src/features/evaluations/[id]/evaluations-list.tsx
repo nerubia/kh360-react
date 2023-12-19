@@ -154,8 +154,10 @@ export const EvaluationsList = () => {
                     <span className='absolute block rounded md:hidden top-2 right-1'>
                       <StatusBadge
                         variant={getEvaluationStatusVariant(evaluation?.status)}
-                        size='small'
-                      />
+                        size='medium'
+                      >
+                        {evaluation.status}
+                      </StatusBadge>
                     </span>
                     <div className='flex items-center justify-center w-10 h-10 py-2 bg-gray-100 rounded-full md:bg-transparent'>
                       {evaluation.evaluee?.picture === undefined ||
