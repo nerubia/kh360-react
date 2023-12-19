@@ -258,47 +258,47 @@ export const EvaluatorsList = () => {
                     </Tooltip>
                   </td>
                   <td>
-                    {getAvailableProjects(evaluation.evaluator?.id).length > 0 && (
-                      <Dropdown>
-                        <Dropdown.Trigger>
-                          <Button variant='primaryOutline' size='small'>
-                            {evaluation.project !== null
-                              ? evaluation.project?.name
-                              : "Select project"}
-                          </Button>
-                        </Dropdown.Trigger>
-                        <Dropdown.Content>
-                          {getAvailableProjects(evaluation.evaluator?.id).map(
-                            (projectMember, index) => (
-                              <React.Fragment key={index}>
-                                <Dropdown.Item
-                                  onClick={() =>
-                                    setProject(
-                                      evaluation.id,
-                                      projectMember.project?.id,
-                                      projectMember.id
-                                    )
-                                  }
-                                >
-                                  <div className='flex-flex-col'>
-                                    <p className='text-sm font-bold text-start'>
-                                      {projectMember.project?.name} -{" "}
-                                      {projectMember.allocation_rate}%
-                                    </p>
-                                    <p className='text-sm'>
-                                      {formatDate(projectMember.start_date)} to{" "}
-                                      {formatDate(projectMember.end_date)}
-                                    </p>
-                                  </div>
-                                </Dropdown.Item>
-                              </React.Fragment>
-                            )
-                          )}
-                        </Dropdown.Content>
-                      </Dropdown>
-                    )}
+                    <Dropdown>
+                      <Dropdown.Trigger>
+                        <Button variant='primaryOutline' size='small'>
+                          {evaluation.project !== null
+                            ? evaluation.project?.name
+                            : "Select project"}
+                        </Button>
+                      </Dropdown.Trigger>
+                      <Dropdown.Content>
+                        {getAvailableProjects(evaluation.evaluator?.id).map(
+                          (projectMember, index) => (
+                            <React.Fragment key={index}>
+                              <Dropdown.Item
+                                onClick={() =>
+                                  setProject(
+                                    evaluation.id,
+                                    projectMember.project?.id,
+                                    projectMember.id
+                                  )
+                                }
+                              >
+                                <div className='flex-flex-col'>
+                                  <p className='text-sm font-bold text-start'>
+                                    {projectMember.project?.name} - {projectMember.allocation_rate}%
+                                  </p>
+                                  <p className='text-sm'>
+                                    {formatDate(projectMember.start_date)} to{" "}
+                                    {formatDate(projectMember.end_date)}
+                                  </p>
+                                </div>
+                              </Dropdown.Item>
+                            </React.Fragment>
+                          )
+                        )}
+                      </Dropdown.Content>
+                    </Dropdown>
                   </td>
-                  <td className='pb-2'>{evaluation.percent_involvement}%</td>
+                  <td className='pb-2'>
+                    {evaluation.percent_involvement !== null &&
+                      `${evaluation.percent_involvement}%`}
+                  </td>
                   <td className='pb-2'>
                     {evaluation.eval_start_date !== null && evaluation.eval_end_date !== null && (
                       <>
