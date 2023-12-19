@@ -98,7 +98,7 @@ export const Sidebar = () => {
   const isParentActive = (menuLink: MenuLink) => {
     if (menuLink.children !== undefined) {
       for (const child of menuLink.children) {
-        if (child.link === location.pathname) {
+        if (location.pathname.includes(child.link)) {
           return true
         }
       }
