@@ -29,6 +29,7 @@ import ReactConfetti from "react-confetti"
 import { type EvaluationTemplateContent } from "../../../types/evaluation-template-content-type"
 import { Badge } from "../../../components/ui/badge/Badge"
 import { getEvaluationStatusVariant } from "../../../utils/variant"
+import { Icon } from "../../../components/ui/icon/icon"
 
 export const EvaluationsCriteria = () => {
   const { id, evaluation_id } = useParams()
@@ -65,6 +66,11 @@ export const EvaluationsCriteria = () => {
 
   const [evaluationRatingIds, setEvaluationRatingIds] = useState<number[]>([])
   const [didCopy, setDidCopy] = useState<boolean>(false)
+  const [isOpen, setIsOpen] = useState(false)
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen)
+  }
 
   useEffect(() => {
     void appDispatch(setIsEditing(false))
@@ -199,6 +205,7 @@ export const EvaluationsCriteria = () => {
 
   const toggleSaveDialog = () => {
     setShowSaveDialog((prev) => !prev)
+    setIsOpen(false)
     window.scrollTo({
       top: 0,
       behavior: "smooth", // You can use "auto" instead of "smooth" for an instant scroll
@@ -218,6 +225,7 @@ export const EvaluationsCriteria = () => {
       setErrorMessage("Comment is required")
     } else {
       setShowRequestToRemoveDialog((prev) => !prev)
+      setIsOpen(false)
       window.scrollTo({
         top: 0,
         behavior: "smooth", // You can use "auto" instead of "smooth" for an instant scroll
@@ -314,6 +322,7 @@ export const EvaluationsCriteria = () => {
       setRatingCommentErrorMessage("Comment on N/A is required.")
       return
     }
+    setIsOpen(false)
     setShowSubmitDialog(true)
     window.scrollTo({
       top: 0,
@@ -441,7 +450,7 @@ export const EvaluationsCriteria = () => {
       {loading === Loading.Fulfilled &&
         evaluation_template_contents.length > 0 &&
         user_evaluations.length > 0 && (
-          <div className='flex flex-col w-full pb-5 pr-5 mx-4 overflow-y-scroll md:w-3/4'>
+          <div className='flex flex-col w-full pb-5 pr-5 mx-4 mb-3 overflow-y-scroll md:w-3/4'>
             <div className='items-center justify-between p-1 border rounded sm:flex sm:flex-col md:flex-row md:border-none md:p-0'>
               <div className='flex-flex-col'>
                 <div className='mb-1 text-xl font-bold text-primary-500'>
@@ -563,23 +572,74 @@ export const EvaluationsCriteria = () => {
                 {(evaluation?.status === EvaluationStatus.Open ||
                   evaluation?.status === EvaluationStatus.Ongoing) && (
                   <>
-                    <div className='flex gap-4'>
-                      <Button variant='destructiveOutline' onClick={toggleRequestToRemoveDialog}>
-                        <span className='text-sm sm:text-base'>Request to Remove</span>
-                      </Button>
+                    <div className='hidden w-full md:block'>
+                      <div className='flex justify-between'>
+                        <div className='flex gap-4'>
+                          <Button
+                            variant='destructiveOutline'
+                            onClick={toggleRequestToRemoveDialog}
+                          >
+                            <span className='text-sm sm:text-base'>Request to Remove</span>
+                          </Button>
+                        </div>
+                        <div className='flex gap-4 ml-2'>
+                          <Button
+                            disabled={!is_editing}
+                            variant='primaryOutline'
+                            onClick={toggleSaveDialog}
+                          >
+                            Save
+                          </Button>
+                          <Button onClick={handleClickSaveAndSubmit}>
+                            <span className='text-sm sm:text-base'>Save & Submit</span>
+                          </Button>
+                        </div>
+                      </div>
                     </div>
-                    <div className='flex gap-4 ml-2'>
-                      <Button
-                        disabled={!is_editing}
-                        variant='primaryOutline'
-                        onClick={toggleSaveDialog}
-                      >
-                        Save
-                      </Button>
-                      <Button onClick={handleClickSaveAndSubmit}>
-                        <span className='text-sm sm:text-base'>Save & Submit</span>
-                      </Button>
-                    </div>
+                    <>
+                      <div className='relative flex justify-between w-full md:hidden'>
+                        <button
+                          className='px-4 py-2 text-white rounded bg-primary-600 focus:outline-none'
+                          onClick={toggleDropdown}
+                        >
+                          {!isOpen ? "Save or Draft" : <Icon icon='Close' size={"extraSmall"} />}
+                        </button>
+
+                        {isOpen && (
+                          <>
+                            <div className='absolute bottom-0 w-8 h-8 -mb-10 rotate-45 bg-gray-100 left-2'></div>
+                            <div className='absolute right-0 w-full bg-gray-100 rounded top-10'>
+                              <ul className='flex justify-around w-full p-3 border-gray-300'>
+                                <li>
+                                  <Button
+                                    disabled={!is_editing}
+                                    variant='primaryOutline'
+                                    onClick={toggleSaveDialog}
+                                  >
+                                    Save
+                                  </Button>
+                                </li>
+                                <li>
+                                  <Button onClick={handleClickSaveAndSubmit}>
+                                    <span className='text-sm sm:text-base'>Save & Submit</span>
+                                  </Button>
+                                </li>
+                              </ul>
+                            </div>
+                          </>
+                        )}
+                        {!isOpen && (
+                          <div className='flex gap-4'>
+                            <Button
+                              variant='destructiveOutline'
+                              onClick={toggleRequestToRemoveDialog}
+                            >
+                              <Icon icon='Trash' size={"extraSmall"} />
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    </>
                   </>
                 )}
               </div>
