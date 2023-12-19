@@ -115,39 +115,3 @@ export const getRoleVariant = (role: string | undefined) => {
     return "#fed3c9"
   }
 }
-
-export const getScoreRatingVariant = (score_rating: string) => {
-  if (score_rating === "Needs Improvement") {
-    return "red"
-  }
-  if (score_rating === "Fair") {
-    return "orange"
-  }
-  if (score_rating === "Satisfactory") {
-    return "yellow"
-  }
-  if (score_rating === "Good") {
-    return "lightGreen"
-  }
-  if (score_rating === "Excellent") {
-    return "green"
-  }
-}
-
-export const getScoreVariant = (score: number) => {
-  if (score >= 0 && score <= 19) {
-    return "red"
-  }
-  if (score >= 20 && score <= 39) {
-    return "orange"
-  }
-  if (score >= 40 && score <= 59) {
-    return "yellow"
-  }
-  if (score >= 60 && score <= 79) {
-    return "lightGreen"
-  }
-  if (score >= 80 && score <= 100) {
-    return "green"
-  }
-}
