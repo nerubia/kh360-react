@@ -1,6 +1,5 @@
 import { type EmailLog } from "./email-log-type"
 import { type Evaluation } from "./evaluation-type"
-import { type Project } from "./projectType"
 
 export interface User {
   id: number
@@ -11,7 +10,6 @@ export interface User {
   middle_name?: string
   is_active?: boolean
   user_details?: UserDetails
-  user_settings?: UserSettings[]
   roles?: string[]
   picture?: string
   role?: string
@@ -21,8 +19,6 @@ export interface User {
   totalEvaluations?: number
   evaluations?: Evaluation[]
   email_logs?: EmailLog[]
-  project?: Project
-  projectRole?: string
 }
 
 export interface UserFilters {
@@ -37,13 +33,6 @@ export interface UserDetails {
   user_position?: string
   start_date?: string
 }
-
-export interface UserSettings {
-  id: number
-  name?: string
-  setting?: string
-}
-
 export interface UserEvaluationsFilter {
   evaluation_administration_id?: number
   for_evaluation: number
