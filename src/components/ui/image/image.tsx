@@ -4,7 +4,7 @@ import { useState } from "react"
 const image = cva(["w-10", "h-10", "rounded-full"], {
   variants: {
     variant: {
-      brokenImage: ["bg-gray-400", "flex", "font-bold", "items-center", "justify-center"],
+      brokenImage: ["bg-gray-200", "flex", "font-bold", "items-center", "justify-center"],
     },
   },
 })
