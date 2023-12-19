@@ -13,7 +13,7 @@ const badge = cva(["w-fit", "h-fit", "flex", "items-center", "rounded-full"], {
       red: ["bg-[#ffebe8]"],
     },
     size: {
-      small: ["w-2", "h-2"],
+      small: ["w-1.5", "h-1.5"],
       medium: ["w-6", "h-6"],
     },
   },

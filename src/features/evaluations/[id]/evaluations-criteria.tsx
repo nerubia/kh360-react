@@ -441,16 +441,16 @@ export const EvaluationsCriteria = () => {
       {loading === Loading.Fulfilled &&
         evaluation_template_contents.length > 0 &&
         user_evaluations.length > 0 && (
-          <div className='flex flex-col overflow-y-scroll pr-5 pb-5 mx-4 md:w-3/4 w-full'>
-            <div className='sm:flex justify-between items-center sm:flex-col md:flex-row border md:border-none p-1 md:p-0 rounded'>
+          <div className='flex flex-col w-full pb-5 pr-5 mx-4 overflow-y-scroll md:w-3/4'>
+            <div className='items-center justify-between p-1 border rounded sm:flex sm:flex-col md:flex-row md:border-none md:p-0'>
               <div className='flex-flex-col'>
-                <div className='text-xl font-bold text-primary-500 mb-1'>
+                <div className='mb-1 text-xl font-bold text-primary-500'>
                   <p>
                     {evaluation?.evaluee?.last_name}
                     {", "} {evaluation?.evaluee?.first_name}
                   </p>
                 </div>
-                <p className='text-base font-bold mb-1'>
+                <p className='mb-1 text-base font-bold'>
                   {evaluation?.project !== null ? (
                     <>
                       {evaluation?.project?.name} [{evaluation?.project_role?.short_name}] -{" "}
@@ -464,8 +464,8 @@ export const EvaluationsCriteria = () => {
                   Evaluation Period:{" "}
                   {formatDateRange(evaluation?.eval_start_date, evaluation?.eval_end_date)}
                 </p>
-                <span className='flex justify-items-center justify-between'>
-                  <div className='uppercase block md:hidden mt-2'>
+                <span className='flex justify-between justify-items-center'>
+                  <div className='block mt-2 uppercase md:hidden'>
                     <Badge variant={getEvaluationStatusVariant(evaluation?.status)} size='small'>
                       {evaluation?.status}
                     </Badge>
@@ -481,14 +481,14 @@ export const EvaluationsCriteria = () => {
             {evaluation_template_contents.map((templateContent) => (
               <div
                 key={templateContent.id}
-                className='hover:bg-primary-50 rounded-md sm:mt-1 md:mt-0'
+                className='rounded-md hover:bg-primary-50 sm:mt-1 md:mt-0'
               >
-                <div className='flex p-4 h-fit flex-col'>
-                  <div className='md:w-9/12 mr-5 w-full'>
-                    <h1 className='text-base font-medium text-primary-500 mb-3'>
+                <div className='flex flex-col p-4 h-fit'>
+                  <div className='w-full mr-5 md:w-9/12'>
+                    <h1 className='mb-3 text-base font-medium text-primary-500'>
                       {templateContent.name}
                     </h1>
-                    <p className='text-sm mb-3'>{templateContent.description}</p>
+                    <p className='mb-3 text-sm'>{templateContent.description}</p>
                   </div>
                   <span className='overflow-x-auto'>
                     <StarRating
@@ -503,7 +503,7 @@ export const EvaluationsCriteria = () => {
                 <Dialog open={showDialog[templateContent.id]} size='medium' maxWidthMin={true}>
                   <Dialog.Title>{dialogMessage?.subject}</Dialog.Title>
                   <Dialog.Description>
-                    <pre className='font-sans whitespace-pre-wrap break-words'>
+                    <pre className='font-sans break-words whitespace-pre-wrap'>
                       {dialogMessage?.content}
                     </pre>
                   </Dialog.Description>
@@ -518,7 +518,7 @@ export const EvaluationsCriteria = () => {
                 </Dialog>
               </div>
             ))}
-            <h2 className='text-lg font-bold text-primary-500 mt-10 mb-2'>Comments</h2>
+            <h2 className='mt-10 mb-2 text-lg font-bold text-primary-500'>Comments</h2>
             {evaluation?.status === EvaluationStatus.Submitted ||
               (evaluation?.status === EvaluationStatus.ForRemoval &&
                 (evaluation?.comments === null || evaluation?.comments === "") && (
@@ -537,10 +537,10 @@ export const EvaluationsCriteria = () => {
                 />
               </>
             ) : (
-              <pre className='font-sans whitespace-pre-wrap break-words'>{comment}</pre>
+              <pre className='font-sans break-words whitespace-pre-wrap'>{comment}</pre>
             )}
             {evaluation?.template?.with_recommendation === true && (
-              <h2 className='text-lg font-bold text-primary-500 mt-10 mb-2'>Recommendations</h2>
+              <h2 className='mt-10 mb-2 text-lg font-bold text-primary-500'>Recommendations</h2>
             )}
             {evaluation?.template?.with_recommendation === true && (
               <>
@@ -625,7 +625,7 @@ export const EvaluationsCriteria = () => {
       <Dialog open={showCompletedDialog} size='medium' maxWidthMin={true}>
         <Dialog.Title>{emailTemplate?.subject}</Dialog.Title>
         <Dialog.Description>
-          <pre className='font-sans whitespace-pre-wrap break-words'>{emailTemplate?.content}</pre>
+          <pre className='font-sans break-words whitespace-pre-wrap'>{emailTemplate?.content}</pre>
         </Dialog.Description>
         <Dialog.Actions>
           <Button variant='primary' onClick={toggleCompletedDialog}>
@@ -680,7 +680,7 @@ export const EvaluationsCriteria = () => {
                   key={similarEvaluation.id}
                   onClick={() => handleGetTemplateContents(similarEvaluation)}
                 >
-                  <div className='flex flex-col rounded-md p-2 bg-primary-50 hover:bg-primary-100'>
+                  <div className='flex flex-col p-2 rounded-md bg-primary-50 hover:bg-primary-100'>
                     <div className='text-sm'>
                       Copy the evaluation ratings from{" "}
                       {formatDateRange(
