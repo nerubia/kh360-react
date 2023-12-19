@@ -64,9 +64,11 @@ export const EvaluationsCriteria = () => {
   const [completed, setCompleted] = useState<boolean>(false)
 
   const [evaluationRatingIds, setEvaluationRatingIds] = useState<number[]>([])
+  const [didCopy, setDidCopy] = useState<boolean>(false)
 
   useEffect(() => {
     void appDispatch(setIsEditing(false))
+    setDidCopy(false)
   }, [evaluation_id])
 
   useEffect(() => {
@@ -428,7 +430,7 @@ export const EvaluationsCriteria = () => {
       setRecommendation("")
     }
     void appDispatch(setIsEditing(true))
-    toggleSimilarEvaluationsDialog()
+    setDidCopy(true)
   }
   return (
     <>
@@ -656,14 +658,22 @@ export const EvaluationsCriteria = () => {
         <Dialog.Title>Copy Evaluation</Dialog.Title>
         <Dialog.Description>
           <div className='flex flex-col gap-4'>
-            <p>
-              You have already submitted an evaluation for {evaluation?.evaluee?.last_name},{" "}
-              {evaluation?.evaluee?.first_name} for {evaluation?.project?.name} Project.
-              <br />
-              <br />
-              If you want to copy the ratings from previous evaluations, select which evaluation
-              below to use.
-            </p>
+            {didCopy ? (
+              <p>
+                Kindly select which evaluation to copy from the previously submitted evaluations for{" "}
+                {evaluation?.evaluee?.last_name}, {evaluation?.evaluee?.first_name} for{" "}
+                {evaluation?.project?.name} Project.
+              </p>
+            ) : (
+              <p>
+                You have already submitted an evaluation for {evaluation?.evaluee?.last_name},{" "}
+                {evaluation?.evaluee?.first_name} for {evaluation?.project?.name} Project.
+                <br />
+                <br />
+                If you want to copy the ratings from previous evaluations, select which evaluation
+                below to use.
+              </p>
+            )}
             <div className='flex flex-col gap-2'>
               {similarEvaluations.map((similarEvaluation) => (
                 <button

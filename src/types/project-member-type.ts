@@ -15,3 +15,13 @@ export interface ProjectMemberFilters {
   evaluation_result_id?: string
   evaluation_template_id?: string
 }
+
+export interface SearchProjectMemberFilters {
+  start_date?: string
+  end_date?: string
+  name?: string
+  project_name?: string
+  role?: string
+  user_id?: number
+  overlap?: number
+}

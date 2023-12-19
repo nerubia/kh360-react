@@ -1,14 +1,14 @@
 interface InputProps {
   label?: string
   name: string
-  type?: "text" | "email" | "password" | "date"
+  type?: "text" | "number" | "email" | "password" | "date"
   placeholder: string
   value?: string
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   onBlur?: (event: React.ChangeEvent<HTMLInputElement>) => void
   error?: string | null
   min?: string
-  max?: string
+  max?: string | number
   autoFocus?: boolean
   maxLength?: number
 }

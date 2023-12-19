@@ -2,6 +2,7 @@ import { lazy } from "react"
 
 export const icons = {
   Ban: lazy(async () => await import("./icons/ban-icon")),
+  Calendar: lazy(async () => await import("./icons/calendar-icon")),
   Check: lazy(async () => await import("./icons/check-icon")),
   ChevronUp: lazy(async () => await import("./icons/chevron-up-icon")),
   ChevronDown: lazy(async () => await import("./icons/chevron-down-icon")),
@@ -23,4 +24,5 @@ export const icons = {
   Trash: lazy(async () => await import("./icons/trash-icon")),
   UploadCloud: lazy(async () => await import("./icons/upload-cloud-icon")),
   UserFill: lazy(async () => await import("./icons/user-fill-icon")),
+  UserRoundCog: lazy(async () => await import("./icons/user-round-cog-icon")),
 }
