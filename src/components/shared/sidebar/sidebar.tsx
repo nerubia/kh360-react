@@ -107,7 +107,6 @@ export const Sidebar = () => {
     }
     return false
   }
-
   return (
     <div
       className={`${
