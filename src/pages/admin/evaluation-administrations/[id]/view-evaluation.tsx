@@ -7,8 +7,11 @@ import { Loading } from "../../../../types/loadingType"
 import { ViewEvaluationHeader } from "../../../../features/admin/evaluation-administrations/[id]/view-evaluation-header"
 import { ViewEvaluationList } from "../../../../features/admin/evaluation-administrations/[id]/view-evaluation-list"
 import { ViewEvaluationFooter } from "../../../../features/admin/evaluation-administrations/[id]/view-evaluation-footer"
+import { useTitle } from "../../../../hooks/useTitle"
 
 export default function ViewEvaluation() {
+  useTitle("View Evaluation")
+
   const { id } = useParams()
   const appDispatch = useAppDispatch()
   const { loading, evaluation_administration } = useAppSelector(
