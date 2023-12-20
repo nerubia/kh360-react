@@ -226,6 +226,7 @@ export const EvaluationsCriteria = () => {
   }
 
   const toggleSimilarEvaluationsDialog = () => {
+    setDidCopy(true)
     setShowSimilarEvaluationsDialog((prev) => !prev)
   }
 
@@ -430,7 +431,6 @@ export const EvaluationsCriteria = () => {
       setRecommendation("")
     }
     void appDispatch(setIsEditing(true))
-    setDidCopy(true)
   }
   return (
     <>
