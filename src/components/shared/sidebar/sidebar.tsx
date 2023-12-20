@@ -126,14 +126,10 @@ export const Sidebar = () => {
         <h1 className='text-lg font-bold text-center text-white'>
           {user?.first_name} {user?.last_name}
         </h1>
-<<<<<<< HEAD
         <div
           className='flex flex-col flex-1 gap-2'
           onClick={isMobileView ? toggleSidebar : undefined}
         >
-=======
-        <div className='flex flex-col flex-1 gap-2'>
->>>>>>> 45c37b9 (make the button of the mobile view stack/vertical)
           {menuLinks.map(
             (menu, index) =>
               ((isInternal && menu.access === "Internal") ||
