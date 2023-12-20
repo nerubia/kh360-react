@@ -5,7 +5,6 @@ import { AnswerOptions, AnswerType } from "../../../types/answer-option-type"
 import { EvaluationStatus, type Evaluation } from "../../../types/evaluation-type"
 import { Loading } from "../../../types/loadingType"
 import { type EvaluationTemplateContent } from "../../../types/evaluation-template-content-type"
-import { Input } from "../input/input"
 import {
   updateEvaluationRatingById,
   updateEvaluationRatingCommentById,
@@ -15,6 +14,7 @@ import {
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { Button } from "../button/button"
 import Tooltip from "../tooltip/tooltip"
+import { TextArea } from "../../../components/ui/textarea/text-area"
 
 interface StarRatingProps {
   templateContent: EvaluationTemplateContent
@@ -49,7 +49,7 @@ export const StarRating = ({
     )
   }
 
-  const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = e.target
     void appDispatch(setIsEditing(true))
     setComment(value)
@@ -86,7 +86,7 @@ export const StarRating = ({
   }, [error])
 
   return (
-    <div className='flex flex-row items-center justify-start w-60'>
+    <div className='flex flex-row items-start justify-start w-60'>
       {templateContent.answerOptions !== undefined &&
         templateContent.answerId === AnswerOptions.FivePointStarRating && (
           <div>
@@ -139,7 +139,12 @@ export const StarRating = ({
                                   )}
                                 </Button>
                               </Tooltip.Trigger>
-                              <Tooltip.Content>{answerOption.description}</Tooltip.Content>
+                              <Tooltip.Content>
+                                <p>
+                                  <b>{answerOption.display_name}</b>
+                                </p>
+                                {answerOption.description}
+                              </Tooltip.Content>
                             </Tooltip>
                           )}
                         </>
@@ -153,23 +158,24 @@ export const StarRating = ({
                   (templateContent.evaluationRating.showInputComment === true ||
                     comment.length > 0) && (
                     <div className='flex gap-2'>
-                      <div className='w-48 h-1 text-xs'>
-                        <Input
+                      <div className='w-48 text-xs'>
+                        <TextArea
                           name='comment'
                           placeholder='Comments'
-                          type='text'
                           value={comment}
                           onChange={handleInputChange}
                           onBlur={async () => await handleSaveComment(templateContent.id)}
                           autoFocus={true}
                           error={errorMessage}
-                          maxLength={60}
+                          maxLength={500}
                         />
                       </div>
                     </div>
                   )}
                 {(evaluation?.status === EvaluationStatus.Submitted ||
-                  evaluation?.status === EvaluationStatus.ForRemoval) && <p> {comment} </p>}
+                  evaluation?.status === EvaluationStatus.ForRemoval) && (
+                  <p className='text-xs'> {comment} </p>
+                )}
               </>
             </div>
           </div>
