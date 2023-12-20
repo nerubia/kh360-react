@@ -45,7 +45,7 @@ const menuLinks: MenuLink[] = [
   },
   {
     title: "Evaluation Results",
-    link: "/admin/evaluation-results",
+    link: "/evaluation-results",
     icon: "ListChecks",
     access: "Bod",
   },
