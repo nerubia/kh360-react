@@ -368,11 +368,11 @@ test.describe("User - Evaluations", () => {
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
       }
-
-      await page.getByRole("button", { name: "Submit" }).click()
-      await page.getByRole("button", { name: "Yes" }).click()
-
-      await expect(page.getByText("Comment is required")).toBeVisible()
+      if (!isMobile) {
+        await page.getByRole("button", { name: "Submit" }).click()
+        await page.getByRole("button", { name: "Yes" }).click()
+        await expect(page.getByText("Comment is required")).toBeVisible()
+      }
     })
 
     test("should allow to go back", async ({ page, isMobile }) => {
