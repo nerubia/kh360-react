@@ -68,13 +68,13 @@ export const UserEvaluationAdministrationsTable = () => {
                   <Progress
                     value={
                       ((evaluationAdministration.totalSubmitted ?? 0) /
-                        (evaluationAdministration.totalEvaluations ?? 0)) *
+                        (evaluationAdministration.totalPending ?? 0)) *
                       100
                     }
                   />
                   <p className='text-primary-500 text-sm font-semibold pt-2'>
                     {evaluationAdministration.totalSubmitted} out of{" "}
-                    {evaluationAdministration.totalEvaluations} Evaluations Submitted
+                    {evaluationAdministration.totalPending} Evaluations Submitted
                   </p>
                   <p>
                     Evaluate By:{" "}
