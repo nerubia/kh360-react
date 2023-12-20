@@ -1,7 +1,7 @@
 import { type Page } from "@playwright/test"
 import { mockRequest } from "./mock-request"
 
-export const loginUser = async (user: "employee" | "admin" | "cm", page: Page) => {
+export const loginUser = async (user: "employee" | "admin" | "bod", page: Page) => {
   if (user === "employee") {
     await mockRequest(page, "/auth/refresh", {
       status: 200,
@@ -34,7 +34,7 @@ export const loginUser = async (user: "employee" | "admin" | "cm", page: Page) =
       }),
     })
   }
-  if (user === "cm") {
+  if (user === "bod") {
     await mockRequest(page, "/auth/refresh", {
       status: 200,
       contentType: "application/json",
@@ -42,10 +42,13 @@ export const loginUser = async (user: "employee" | "admin" | "cm", page: Page) =
         access_token: "some access token",
         user: {
           id: 1,
-          email: "cmadmin@nerubia.com",
+          email: "admin@nerubia.com",
           first_name: "Admin",
           last_name: "User",
-          roles: ["khv2_cm_admin"],
+          roles: [],
+          user_details: {
+            user_type: "bod",
+          },
         },
       }),
     })

@@ -25,11 +25,11 @@ export const getEvaluationAdministrations = createAsyncThunk(
   }
 )
 
-export const getScrollableEvaluationAdministrations = createAsyncThunk(
-  "evaluationAdministration/getScrollableEvaluationAdministrations",
+export const getBodEvaluationAdministrations = createAsyncThunk(
+  "evaluationAdministration/getBodEvaluationAdministrations",
   async (params: EvaluationAdministrationFilters | undefined, thunkApi) => {
     try {
-      const response = await axiosInstance.get("/admin/evaluation-administrations", {
+      const response = await axiosInstance.get("/bod/evaluation-administrations", {
         params,
       })
       return response.data
@@ -123,13 +123,13 @@ const evaluationAdministrationsSlice = createSlice({
       state.error = action.payload as string
     })
     /**
-     * List (scroll to load more)
+     * List for BOD (scroll to load more)
      */
-    builder.addCase(getScrollableEvaluationAdministrations.pending, (state) => {
+    builder.addCase(getBodEvaluationAdministrations.pending, (state) => {
       state.loading = Loading.Pending
       state.error = null
     })
-    builder.addCase(getScrollableEvaluationAdministrations.fulfilled, (state, action) => {
+    builder.addCase(getBodEvaluationAdministrations.fulfilled, (state, action) => {
       state.loading = Loading.Fulfilled
       state.error = null
       const newData: EvaluationAdministration[] = []
@@ -150,7 +150,7 @@ const evaluationAdministrationsSlice = createSlice({
       state.totalPages = action.payload.pageInfo.totalPages
       state.totalItems = action.payload.pageInfo.totalItems
     })
-    builder.addCase(getScrollableEvaluationAdministrations.rejected, (state, action) => {
+    builder.addCase(getBodEvaluationAdministrations.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
