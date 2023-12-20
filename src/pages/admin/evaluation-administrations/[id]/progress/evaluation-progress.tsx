@@ -7,8 +7,11 @@ import { Loading } from "../../../../../types/loadingType"
 import { EvaluationProgressHeader } from "../../../../../features/admin/evaluation-administrations/[id]/progress/evaluation-progress-header"
 import { EvaluationProgressList } from "../../../../../features/admin/evaluation-administrations/[id]/progress/evaluation-progress-list"
 import { EvaluationProgressFooter } from "../../../../../features/admin/evaluation-administrations/[id]/progress/evaluation-progress-footer"
+import { useTitle } from "../../../../../hooks/useTitle"
 
 export default function EvaluationProgress() {
+  useTitle("Evaluation Progress")
+
   const { id } = useParams()
   const appDispatch = useAppDispatch()
   const { loading, loading_evaluators, evaluators, evaluation_administration } = useAppSelector(
