@@ -10,6 +10,7 @@ import { type icons } from "../../ui/icon/icons"
 import { useInternalUser } from "../../../hooks/use-internal-user"
 import { useBodUser } from "../../../hooks/use-bod-user"
 import { useLocation } from "react-router-dom"
+import { useEffect, useState } from "react"
 
 interface MenuLink {
   title: string
@@ -87,6 +88,8 @@ export const Sidebar = () => {
   const isAdmin = useAdmin()
   const isBod = useBodUser()
 
+  const [isMobileView, setIsMobileView] = useState<boolean>(window.innerWidth < 768)
+
   const toggleSidebar = () => {
     appDispatch(setActiveSidebar(!activeSidebar))
   }
@@ -105,6 +108,16 @@ export const Sidebar = () => {
     }
     return false
   }
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileView(window.innerWidth < 768)
+    }
+
+    window.addEventListener("resize", handleResize)
+    return () => {
+      window.removeEventListener("resize", handleResize)
+    }
+  }, [])
 
   return (
     <div
@@ -124,7 +137,10 @@ export const Sidebar = () => {
         <h1 className='text-lg font-bold text-center text-white'>
           {user?.first_name} {user?.last_name}
         </h1>
-        <div className='flex flex-col flex-1 gap-2' onClick={toggleSidebar}>
+        <div
+          className='flex flex-col flex-1 gap-2'
+          onClick={isMobileView ? toggleSidebar : undefined}
+        >
           {menuLinks.map(
             (menu, index) =>
               ((isInternal && menu.access === "Internal") ||
