@@ -29,7 +29,6 @@ import ReactConfetti from "react-confetti"
 import { type EvaluationTemplateContent } from "../../../types/evaluation-template-content-type"
 import { Badge } from "../../../components/ui/badge/Badge"
 import { getEvaluationStatusVariant } from "../../../utils/variant"
-import { Icon } from "../../../components/ui/icon/icon"
 
 export const EvaluationsCriteria = () => {
   const { id, evaluation_id } = useParams()
@@ -66,11 +65,6 @@ export const EvaluationsCriteria = () => {
 
   const [evaluationRatingIds, setEvaluationRatingIds] = useState<number[]>([])
   const [didCopy, setDidCopy] = useState<boolean>(false)
-  const [isOpen, setIsOpen] = useState<boolean>(false)
-
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen)
-  }
 
   useEffect(() => {
     void appDispatch(setIsEditing(false))
@@ -205,7 +199,6 @@ export const EvaluationsCriteria = () => {
 
   const toggleSaveDialog = () => {
     setShowSaveDialog((prev) => !prev)
-    setIsOpen(false)
     window.scrollTo({
       top: 0,
       behavior: "smooth", // You can use "auto" instead of "smooth" for an instant scroll
@@ -225,7 +218,6 @@ export const EvaluationsCriteria = () => {
       setErrorMessage("Comment is required")
     } else {
       setShowRequestToRemoveDialog((prev) => !prev)
-      setIsOpen(false)
       window.scrollTo({
         top: 0,
         behavior: "smooth", // You can use "auto" instead of "smooth" for an instant scroll
@@ -322,7 +314,6 @@ export const EvaluationsCriteria = () => {
       setRatingCommentErrorMessage("Comment on N/A is required.")
       return
     }
-    setIsOpen(false)
     setShowSubmitDialog(true)
     window.scrollTo({
       top: 0,
@@ -596,54 +587,32 @@ export const EvaluationsCriteria = () => {
                         </div>
                       </div>
                     </div>
-                    <>
-                      <div className='relative flex justify-between w-full md:hidden'>
-                        <button
-                          className='z-10 ml-2 text-white rounded bg-primary-600 focus:outline-none'
-                          onClick={toggleDropdown}
-                        >
-                          {!isOpen ? (
-                            <div className='ml-2 mr-2 text-center'>Save or Draft</div>
-                          ) : (
-                            <Icon icon='Close' size={"extraSmall"} />
-                          )}
-                        </button>
-
-                        {isOpen && (
-                          <>
-                            <div className='absolute bottom-0 w-8 h-8 mr-1 rotate-45 bg-gray-100 -mb-9'></div>
-                            <div className='absolute right-0 w-full bg-gray-100 rounded top-5'>
-                              <ul className='flex justify-around w-full p-2 border-gray-300'>
-                                <li>
-                                  <Button
-                                    disabled={!is_editing}
-                                    variant='primaryOutline'
-                                    onClick={toggleSaveDialog}
-                                  >
-                                    Save
-                                  </Button>
-                                </li>
-                                <li>
-                                  <Button onClick={handleClickSaveAndSubmit}>
-                                    <span className='text-sm sm:text-base'>Save & Submit</span>
-                                  </Button>
-                                </li>
-                              </ul>
-                            </div>
-                          </>
-                        )}
-                        {!isOpen && (
-                          <div className='flex gap-4'>
-                            <Button
-                              variant='destructiveOutline'
-                              onClick={toggleRequestToRemoveDialog}
-                            >
-                              <Icon icon='Trash' size={"extraSmall"} />
-                            </Button>
-                          </div>
-                        )}
+                    <div className='block w-full ml-0 md:hidden'>
+                      <div className='flex w-full gap-4 m-2 ml-0'>
+                        <Button onClick={handleClickSaveAndSubmit} fullWidth>
+                          <span className='text-sm sm:text-base'>Save & Submit</span>
+                        </Button>
                       </div>
-                    </>
+                      <div className='flex w-full gap-4 m-2 ml-0'>
+                        <Button
+                          disabled={!is_editing}
+                          fullWidth
+                          variant='primaryOutline'
+                          onClick={toggleSaveDialog}
+                        >
+                          Save
+                        </Button>
+                      </div>
+                      <div className='flex w-full gap-4 m-2 ml-0'>
+                        <Button
+                          variant='destructiveOutline'
+                          fullWidth
+                          onClick={toggleRequestToRemoveDialog}
+                        >
+                          <span className='text-sm sm:text-base'>Request to Remove</span>
+                        </Button>
+                      </div>
+                    </div>
                   </>
                 )}
               </div>
