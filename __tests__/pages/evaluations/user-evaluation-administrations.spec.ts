@@ -61,7 +61,7 @@ test.describe("User - Evaluations", () => {
               status: "ongoing",
               totalEvaluations: 3,
               totalSubmitted: 1,
-              totalPending: 2,
+              totalPending: 3,
             },
             {
               id: 3,
@@ -74,7 +74,7 @@ test.describe("User - Evaluations", () => {
               status: "ongoing",
               totalEvaluations: 4,
               totalSubmitted: 2,
-              totalPending: 2,
+              totalPending: 4,
             },
           ],
           pageInfo: {
