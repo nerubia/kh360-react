@@ -124,7 +124,7 @@ export const Sidebar = () => {
         <h1 className='text-lg font-bold text-center text-white'>
           {user?.first_name} {user?.last_name}
         </h1>
-        <div className='flex flex-col flex-1 gap-2'>
+        <div className='flex flex-col flex-1 gap-2' onClick={toggleSidebar}>
           {menuLinks.map(
             (menu, index) =>
               ((isInternal && menu.access === "Internal") ||
