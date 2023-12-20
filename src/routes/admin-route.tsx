@@ -35,10 +35,6 @@ const Evaluators = lazy(
     )
 )
 
-const EvaluationResults = lazy(
-  async () => await import("../pages/admin/evaluation-results/evaluation-results")
-)
-
 const ExternalEvaluators = lazy(
   async () => await import("../pages/admin/external-evaluators/external-evaluators")
 )
@@ -116,13 +112,6 @@ export const adminRoutes = {
     {
       path: "/admin/evaluation-administrations/:id/evaluees/:evaluation_result_id/evaluators/:evaluation_template_id",
       element: <Evaluators />,
-    },
-    /**
-     * Evaluation Results
-     */
-    {
-      path: "/admin/evaluation-results",
-      element: <EvaluationResults />,
     },
     /**
      * External Evaluators
