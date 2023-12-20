@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../hooks/useAppSelector"
-import { getScrollableEvaluationAdministrations } from "../../../redux/slices/evaluation-administrations-slice"
+import { getBodEvaluationAdministrations } from "../../../redux/slices/evaluation-administrations-slice"
 import { Loading } from "../../../types/loadingType"
 import { Link } from "react-router-dom"
 import { Spinner } from "../../../components/ui/spinner/spinner"
@@ -17,7 +17,7 @@ export const EvaluationResultsTable = () => {
 
   useEffect(() => {
     void appDispatch(
-      getScrollableEvaluationAdministrations({
+      getBodEvaluationAdministrations({
         status: [
           EvaluationAdministrationStatus.Closed,
           EvaluationAdministrationStatus.Published,
@@ -42,7 +42,7 @@ export const EvaluationResultsTable = () => {
     }
     const newPage = currentPage + 1
     void appDispatch(
-      getScrollableEvaluationAdministrations({
+      getBodEvaluationAdministrations({
         status: [
           EvaluationAdministrationStatus.Closed,
           EvaluationAdministrationStatus.Published,
