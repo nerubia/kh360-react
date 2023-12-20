@@ -5,6 +5,7 @@ interface InputProps {
   placeholder: string
   value?: string
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void
   onBlur?: (event: React.ChangeEvent<HTMLInputElement>) => void
   error?: string | null
   min?: string
@@ -20,6 +21,7 @@ export const Input = ({
   placeholder,
   value,
   onChange,
+  onKeyDown,
   onBlur,
   error,
   min,
@@ -42,6 +44,7 @@ export const Input = ({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        onKeyDown={onKeyDown}
         onBlur={onBlur}
         min={min}
         max={max}
