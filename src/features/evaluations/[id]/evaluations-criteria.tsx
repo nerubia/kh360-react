@@ -66,7 +66,7 @@ export const EvaluationsCriteria = () => {
 
   const [evaluationRatingIds, setEvaluationRatingIds] = useState<number[]>([])
   const [didCopy, setDidCopy] = useState<boolean>(false)
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen)
@@ -599,17 +599,21 @@ export const EvaluationsCriteria = () => {
                     <>
                       <div className='relative flex justify-between w-full md:hidden'>
                         <button
-                          className='px-4 py-2 text-white rounded bg-primary-600 focus:outline-none'
+                          className='z-10 ml-2 text-white rounded bg-primary-600 focus:outline-none'
                           onClick={toggleDropdown}
                         >
-                          {!isOpen ? "Save or Draft" : <Icon icon='Close' size={"extraSmall"} />}
+                          {!isOpen ? (
+                            <div className='ml-2 mr-2 text-center'>Save or Draft</div>
+                          ) : (
+                            <Icon icon='Close' size={"extraSmall"} />
+                          )}
                         </button>
 
                         {isOpen && (
                           <>
-                            <div className='absolute bottom-0 w-8 h-8 -mb-10 rotate-45 bg-gray-100 left-2'></div>
-                            <div className='absolute right-0 w-full bg-gray-100 rounded top-10'>
-                              <ul className='flex justify-around w-full p-3 border-gray-300'>
+                            <div className='absolute bottom-0 w-8 h-8 mr-1 rotate-45 bg-gray-100 -mb-9'></div>
+                            <div className='absolute right-0 w-full bg-gray-100 rounded top-5'>
+                              <ul className='flex justify-around w-full p-2 border-gray-300'>
                                 <li>
                                   <Button
                                     disabled={!is_editing}
