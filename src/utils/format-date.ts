@@ -1,4 +1,5 @@
 import { format, utcToZonedTime } from "date-fns-tz"
+import { type User } from "../types/user-type"
 
 export const formatDate = (date?: string) => {
   return date?.split("T")[0]
@@ -10,10 +11,18 @@ export const convertToFullDate = (date?: string) => {
   return format(utcDate, "MMMM d, yyyy", { timeZone: "UTC" })
 }
 
-export const convertToFullDateAndTime = (date?: string) => {
+export const convertToFullDateAndTime = (date?: string, user?: User | null) => {
+  let targetTimeZone = "UTC"
+  if (user?.user_settings != null) {
+    for (const userSettings of user?.user_settings) {
+      if (userSettings.name === "timezone") {
+        targetTimeZone = userSettings.setting ?? "+08:00"
+      }
+    }
+  }
   const inputDate = new Date(date ?? "")
-  const utcDate = utcToZonedTime(inputDate, "UTC")
-  return format(utcDate, "MMMM d, yyyy 'at' HH:mm:ss a", { timeZone: "UTC" })
+  const convertedDate = utcToZonedTime(inputDate, targetTimeZone)
+  return format(convertedDate, "MMMM d, yyyy 'at' hh:mm:ss a", { timeZone: targetTimeZone })
 }
 
 export const formatDateRange = (start_date?: string | Date, end_date?: string | Date) => {
