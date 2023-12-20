@@ -35,6 +35,10 @@ const Evaluators = lazy(
     )
 )
 
+const EvaluationResults = lazy(
+  async () => await import("../pages/admin/evaluation-results/evaluation-results")
+)
+
 const ExternalEvaluators = lazy(
   async () => await import("../pages/admin/external-evaluators/external-evaluators")
 )
@@ -65,10 +69,6 @@ const ProjectAssignments = lazy(
 
 const CreateProjectAssignment = lazy(
   async () => await import("../pages/admin/project-assignments/create/create-project-assignment")
-)
-
-const EmailTemplates = lazy(
-  async () => await import("../pages/admin/email-templates/email-templates")
 )
 
 export const adminRoutes = {
@@ -118,6 +118,13 @@ export const adminRoutes = {
       element: <Evaluators />,
     },
     /**
+     * Evaluation Results
+     */
+    {
+      path: "/admin/evaluation-results",
+      element: <EvaluationResults />,
+    },
+    /**
      * External Evaluators
      */
     {
@@ -150,13 +157,6 @@ export const adminRoutes = {
     {
       path: "/admin/project-assignments/create",
       element: <CreateProjectAssignment />,
-    },
-    /**
-     * Email Templates
-     */
-    {
-      path: "/admin/message-templates",
-      element: <EmailTemplates />,
     },
   ],
 }

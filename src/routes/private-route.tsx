@@ -2,10 +2,9 @@ import { lazy } from "react"
 import { Navigate, Outlet, useLocation } from "react-router-dom"
 import { useAppSelector } from "../hooks/useAppSelector"
 import { internalUserRoutes } from "./internal-user-route"
-import { cmUserRoutes } from "./cm-user-route"
 import { adminRoutes } from "./admin-route"
 
-const DashboardLayout = lazy(async () => await import("../components/layouts/dashboard-layout"))
+const DashboardLayout = lazy(async () => await import("../components/layouts/DashboardLayout"))
 
 const UserEvaluationAdministrations = lazy(
   async () => await import("../pages/evaluations/user-evaluation-administrations")
@@ -27,7 +26,6 @@ export const privateRoutes = {
           element: <Evaluations />,
         },
         internalUserRoutes,
-        cmUserRoutes,
         adminRoutes,
       ],
     },
