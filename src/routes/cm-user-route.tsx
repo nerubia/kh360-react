@@ -1,13 +1,13 @@
 import { lazy } from "react"
 import { Navigate, Outlet } from "react-router-dom"
-import { useBodUser } from "../hooks/use-bod-user"
+import { useCmUser } from "../hooks/use-cm-user"
 
 const EvaluationResults = lazy(
   async () => await import("../pages/evaluation-results/evaluation-results")
 )
 
-export const bodUserRoutes = {
-  element: <BodUserRoute />,
+export const cmUserRoutes = {
+  element: <CmUserRoute />,
   children: [
     /**
      * Evaluation Results
@@ -19,7 +19,7 @@ export const bodUserRoutes = {
   ],
 }
 
-export default function BodUserRoute() {
-  const isBodUser = useBodUser()
-  return isBodUser ? <Outlet /> : <Navigate to='/evaluation-administrations' />
+export default function CmUserRoute() {
+  const isCmUser = useCmUser()
+  return isCmUser ? <Outlet /> : <Navigate to='/evaluation-administrations' />
 }
