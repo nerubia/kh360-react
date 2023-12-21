@@ -9,6 +9,22 @@ import { axiosInstance } from "../../utils/axios-instance"
 import { Loading } from "../../types/loadingType"
 import { type EvaluationResultsFormData } from "../../types/form-data-type"
 
+export const getCmEvaluationResults = createAsyncThunk(
+  "evaluationResults/getCmEvaluationResults",
+  async (params: EvaluationResultFilters | undefined, thunkApi) => {
+    try {
+      const response = await axiosInstance.get(`/user/evaluation-results`, {
+        params,
+      })
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const getEvaluationResults = createAsyncThunk(
   "evaluationResults/getEvaluationResults",
   async (params: EvaluationResultFilters | undefined, thunkApi) => {
@@ -96,6 +112,25 @@ const evaluationResultsSlice = createSlice({
     },
   },
   extraReducers(builder) {
+    /**
+     * List (cm)
+     */
+    builder.addCase(getCmEvaluationResults.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getCmEvaluationResults.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.evaluation_results = action.payload.data
+      state.hasPreviousPage = action.payload.pageInfo.hasPreviousPage
+      state.hasNextPage = action.payload.pageInfo.hasNextPage
+      state.totalPages = action.payload.pageInfo.totalPages
+    })
+    builder.addCase(getCmEvaluationResults.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
     /**
      * List
      */
