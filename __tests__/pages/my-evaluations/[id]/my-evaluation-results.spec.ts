@@ -49,14 +49,19 @@ test.describe("User - My Evaluation Results", () => {
           evaluation_result_details: [
             {
               id: 280,
-              score: "1",
-              zscore: "0",
-              banding: "Average",
               template_name: "PM Evaluation",
+              total_score: "100",
+              score_rating: {
+                display_name: "Needs a GPS",
+                evaluee_description:
+                  "You are on the right track but occasionally take detours.\nYour performance meets some basic expectations but falls short in key areas.\nLike a GPS signal with occasional hiccups, improvement is required to meet all performance expectations.\nGoals and objectives are partially achieved occasionally taking the scenic route.",
+                id: 2,
+                name: "Fair",
+              },
             },
           ],
           id: 67,
-          score: "1.88",
+          total_score: "100",
           status: "Closed",
           submitted_date: null,
           updated_at: "2023-12-01T07:42:34.000Z",
@@ -70,32 +75,54 @@ test.describe("User - My Evaluation Results", () => {
             picture: null,
             slug: "sample-user",
           },
-          zscore: "0",
+          score_rating: {
+            display_name: "Needs a GPS",
+            evaluee_description:
+              "You are on the right track but occasionally take detours.\nYour performance meets some basic expectations but falls short in key areas.\nLike a GPS signal with occasional hiccups, improvement is required to meet all performance expectations.\nGoals and objectives are partially achieved occasionally taking the scenic route.",
+            id: 2,
+            name: "Fair",
+          },
         }),
+      })
+
+      await mockRequest(page, "/user/score-ratings", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            created_at: null,
+            display_name: "Navigational Challenge",
+            evaluee_description:
+              "You face occasional difficulty in navigating job responsibilities.\nYour performance consistently falls below expectations and significant improvement is needed in various aspects of job responsibilities.\nYour goals and objectives are not met consistently.",
+            id: 1,
+            max_score: "1.99",
+            min_score: "0",
+            name: "Needs Improvement",
+            result_description:
+              "Employee faces occasional difficulty in navigating job responsibilities.\nPerformance consistently falls below expectations and significant improvement is needed in various aspects of job responsibilities.\nGoals and objectives are not met consistently.",
+            status: null,
+            updated_at: null,
+          },
+        ]),
       })
 
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
       }
 
-      await expect(page.getByRole("heading", { name: "Evaluation Results" })).toBeVisible()
-      await expect(page.getByText("Name: User, Sample")).toBeVisible()
-      await expect(page.getByText("Evaluation Period: Jan 1 - Nov 30, 2023")).toBeVisible()
-      await expect(page.getByText("Status: Closed")).toBeVisible()
-      await expect(page.getByText("Evaluation Scores")).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Evaluation", exact: true })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Standard Score", exact: true })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Banding", exact: true })).toBeVisible()
+      await expect(page.getByText("User, Sample")).toBeVisible()
+      await expect(page.getByText("Jan 1 - Nov 30, 2023")).toBeVisible()
+      await expect(page.getByText("Total Score: ")).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Evaluations" })).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Score" })).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Rating" })).toBeVisible()
+      await expect(page.getByText("Detailed Evaluation")).toBeVisible()
 
       await expect(page.getByRole("cell", { name: "PM Evaluation" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "1.00" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "0.00" }).first()).toBeVisible()
+      await expect(page.getByRole("cell", { name: "100%" })).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Needs a GPS" })).toBeVisible()
 
-      await expect(page.getByRole("cell", { name: "Total Weighted Score:" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "1.88" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "0" }).nth(1)).toBeVisible()
-
-      await expect(page.getByText("Comments from Evaluators")).toBeVisible()
+      await expect(page.getByText("Comments")).toBeVisible()
       await expect(page.getByText("Wowzie!")).toBeVisible()
       await expect(page.getByText("Awe!")).toBeVisible()
 
@@ -124,14 +151,19 @@ test.describe("User - My Evaluation Results", () => {
           evaluation_result_details: [
             {
               id: 280,
-              score: "1",
-              zscore: "0",
-              banding: "Average",
               template_name: "PM Evaluation",
+              total_score: "100",
+              score_rating: {
+                display_name: "Needs a GPS",
+                evaluee_description:
+                  "You are on the right track but occasionally take detours.\nYour performance meets some basic expectations but falls short in key areas.\nLike a GPS signal with occasional hiccups, improvement is required to meet all performance expectations.\nGoals and objectives are partially achieved occasionally taking the scenic route.",
+                id: 2,
+                name: "Fair",
+              },
             },
           ],
           id: 67,
-          score: "1.88",
+          total_score: "100",
           status: "Closed",
           submitted_date: null,
           updated_at: "2023-12-01T07:42:34.000Z",
@@ -145,8 +177,35 @@ test.describe("User - My Evaluation Results", () => {
             picture: null,
             slug: "sample-user",
           },
-          zscore: "0",
+          score_rating: {
+            display_name: "Needs a GPS",
+            evaluee_description:
+              "You are on the right track but occasionally take detours.\nYour performance meets some basic expectations but falls short in key areas.\nLike a GPS signal with occasional hiccups, improvement is required to meet all performance expectations.\nGoals and objectives are partially achieved occasionally taking the scenic route.",
+            id: 2,
+            name: "Fair",
+          },
         }),
+      })
+
+      await mockRequest(page, "/user/score-ratings", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            created_at: null,
+            display_name: "Navigational Challenge",
+            evaluee_description:
+              "You face occasional difficulty in navigating job responsibilities.\nYour performance consistently falls below expectations and significant improvement is needed in various aspects of job responsibilities.\nYour goals and objectives are not met consistently.",
+            id: 1,
+            max_score: "1.99",
+            min_score: "0",
+            name: "Needs Improvement",
+            result_description:
+              "Employee faces occasional difficulty in navigating job responsibilities.\nPerformance consistently falls below expectations and significant improvement is needed in various aspects of job responsibilities.\nGoals and objectives are not met consistently.",
+            status: null,
+            updated_at: null,
+          },
+        ]),
       })
 
       if (isMobile) {

@@ -6,7 +6,7 @@ import { MyEvaluationResultsFooter } from "../../../features/my-evaluations/[id]
 export default function MyEvaluationResults() {
   return (
     <div className='flex flex-col gap-2'>
-      <div className='h-[calc(100vh_-_104px)] flex flex-col gap-8'>
+      <div className='h-[calc(100vh_-_104px)] flex flex-col gap-5'>
         <MyEvaluationResultsHeader />
         <MyEvaluationResultsTable />
         <MyEvaluationResultsComments />
