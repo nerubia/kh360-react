@@ -95,9 +95,9 @@ test.describe("CM - Evaluation results", () => {
     })
   })
 
-  test.describe("as Bod", () => {
+  test.describe("as CM", () => {
     test("should render correctly", async ({ page }) => {
-      await loginUser("bod", page)
+      await loginUser("cm", page)
 
       await page.goto("/evaluation-results")
 
