@@ -14,7 +14,6 @@ import Dialog from "../../../components/ui/dialog/dialog"
 import { Badge } from "../../../components/ui/badge/Badge"
 import { getEvaluationStatusVariant } from "../../../utils/variant"
 import { getByTemplateType } from "../../../redux/slices/email-template-slice"
-import { StatusBadge } from "../../../components/ui/badge/StatusBadge"
 
 export const EvaluationsList = () => {
   const navigate = useNavigate()
@@ -151,13 +150,13 @@ export const EvaluationsList = () => {
                     }
                     className='rounded-md flex items-center gap-2 p-2 border md:border-none m-0.5 md:m-0 flex-col md:flex-row relative'
                   >
-                    <span className='absolute block rounded md:hidden top-2 right-1'>
-                      <StatusBadge
+                    <span className='absolute right-0 block rounded md:hidden top-2'>
+                      <Badge
                         variant={getEvaluationStatusVariant(evaluation?.status)}
-                        size='medium'
+                        size='extraSmall'
                       >
-                        {evaluation.status}
-                      </StatusBadge>
+                        {evaluation.status?.charAt(0)}
+                      </Badge>
                     </span>
                     <div className='flex items-center justify-center w-10 h-10 py-2 bg-gray-100 rounded-full md:bg-transparent'>
                       {evaluation.evaluee?.picture === undefined ||

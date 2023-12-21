@@ -10,8 +10,7 @@ import { type icons } from "../../ui/icon/icons"
 import { useInternalUser } from "../../../hooks/use-internal-user"
 import { useBodUser } from "../../../hooks/use-bod-user"
 import { useLocation } from "react-router-dom"
-import { useEffect, useState } from "react"
-
+import useMobileView from "../../../hooks/useMobileView"
 interface MenuLink {
   title: string
   link: string
@@ -88,7 +87,7 @@ export const Sidebar = () => {
   const isAdmin = useAdmin()
   const isBod = useBodUser()
 
-  const [isMobileView, setIsMobileView] = useState<boolean>(window.innerWidth < 768)
+  const isMobileView = useMobileView()
 
   const toggleSidebar = () => {
     appDispatch(setActiveSidebar(!activeSidebar))
@@ -108,16 +107,6 @@ export const Sidebar = () => {
     }
     return false
   }
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobileView(window.innerWidth < 768)
-    }
-
-    window.addEventListener("resize", handleResize)
-    return () => {
-      window.removeEventListener("resize", handleResize)
-    }
-  }, [])
 
   return (
     <div

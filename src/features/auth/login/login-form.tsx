@@ -9,21 +9,16 @@ import { Button } from "../../../components/ui/button/button"
 import { loginSchema } from "../../../utils/validation/auth-schema"
 import { Loading } from "../../../types/loadingType"
 import { type LoginFormData } from "../../../types/form-data-type"
+import useEnterKeyListener from "../../../hooks/useEnterKeyListener"
 
 export const LoginForm = () => {
+  const [validationErrors, setValidationErrors] = useState<Partial<LoginFormData>>({})
   const appDispatch = useAppDispatch()
   const { loading, error } = useAppSelector((state) => state.auth)
-
   const [formData, setFormData] = useState<LoginFormData>({
     email: "",
     password: "",
   })
-  const [validationErrors, setValidationErrors] = useState<Partial<LoginFormData>>({})
-
-  const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData({ ...formData, [name]: value })
-  }
 
   const handleSubmit = async () => {
     try {
@@ -39,7 +34,15 @@ export const LoginForm = () => {
         })
         setValidationErrors(errors)
       }
+    } finally {
+      setKeyPressed(false)
     }
+  }
+  const setKeyPressed = useEnterKeyListener(handleSubmit)
+
+  const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]: value })
   }
 
   return (
