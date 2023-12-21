@@ -11,13 +11,19 @@ import { Loading } from "../../../types/loadingType"
 import { type LoginFormData } from "../../../types/form-data-type"
 
 export const LoginForm = () => {
-  const [validationErrors, setValidationErrors] = useState<Partial<LoginFormData>>({})
   const appDispatch = useAppDispatch()
   const { loading, error } = useAppSelector((state) => state.auth)
+
   const [formData, setFormData] = useState<LoginFormData>({
     email: "",
     password: "",
   })
+  const [validationErrors, setValidationErrors] = useState<Partial<LoginFormData>>({})
+
+  const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]: value })
+  }
 
   const handleKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -40,11 +46,6 @@ export const LoginForm = () => {
         setValidationErrors(errors)
       }
     }
-  }
-
-  const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData({ ...formData, [name]: value })
   }
 
   return (
