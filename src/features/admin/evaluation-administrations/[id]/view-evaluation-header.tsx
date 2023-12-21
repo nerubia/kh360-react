@@ -14,7 +14,7 @@ import {
 } from "../../../../redux/slices/evaluation-administration-slice"
 import { useAppDispatch } from "../../../../hooks/useAppDispatch"
 import { PageTitle } from "../../../../components/shared/page-title"
-import { Badge } from "../../../../components/ui/badge/Badge"
+import { Badge } from "../../../../components/ui/badge/badge"
 import { getEvaluationAdministrationStatusVariant } from "../../../../utils/variant"
 import Dropdown from "../../../../components/ui/dropdown/dropdown"
 import { setAlert } from "../../../../redux/slices/appSlice"
@@ -121,9 +121,9 @@ export const ViewEvaluationHeader = () => {
   return (
     <>
       <div className='flex flex-col'>
-        <div className='flex flex-col justify-between items-start md:items-end mt-2 md:flex-row gap-4'>
+        <div className='flex flex-col items-start justify-between gap-4 mt-2 md:items-end md:flex-row'>
           <div>
-            <div className='flex gap-4 primary-outline items-end mb-4'>
+            <div className='flex items-end gap-4 mb-4 primary-outline'>
               <PageTitle>{evaluation_administration?.name}</PageTitle>
               <Badge
                 variant={getEvaluationAdministrationStatusVariant(
@@ -207,11 +207,11 @@ export const ViewEvaluationHeader = () => {
         </div>
       </div>
       <div className='mt-4'>
-        <pre className='font-sans whitespace-pre-wrap break-words'>
+        <pre className='font-sans break-words whitespace-pre-wrap'>
           {evaluation_administration?.remarks}
         </pre>
       </div>
-      <h2 className='text-2xl font-bold mt-5 mb-5'>Employees</h2>
+      <h2 className='mt-5 mb-5 text-2xl font-bold'>Employees</h2>
       <Dialog open={showCancelDialog}>
         <Dialog.Title>Cancel Evaluation</Dialog.Title>
         <Dialog.Description>

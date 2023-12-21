@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Badge } from "../../components/ui/badge/Badge"
+import { Badge } from "../../components/ui/badge/badge"
 import { Button } from "../../components/ui/button/button"
 import { Icon } from "../../components/ui/icon/icon"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
