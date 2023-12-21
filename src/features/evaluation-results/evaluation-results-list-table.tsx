@@ -6,7 +6,7 @@ import { getCmEvaluationResults } from "../../redux/slices/evaluation-results-sl
 import { Pagination } from "../../components/shared/pagination/pagination"
 import { formatDate } from "../../utils/format-date"
 
-export const EvaluationResultsTable = () => {
+export const EvaluationResultsListTable = () => {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
 

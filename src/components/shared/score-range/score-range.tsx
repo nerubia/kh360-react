@@ -29,9 +29,16 @@ interface ScoreRangeProps extends VariantProps<typeof band> {
   user_picture: string
   score_rating: ScoreRating
   score: number
+  is_evaluee: boolean
 }
 
-export const ScoreRange = ({ score_rating, score, user_picture, size }: ScoreRangeProps) => {
+export const ScoreRange = ({
+  score_rating,
+  score,
+  is_evaluee,
+  user_picture,
+  size,
+}: ScoreRangeProps) => {
   const appDispatch = useAppDispatch()
   const { score_ratings } = useAppSelector((state) => state.user)
   const displayScore = (score - 0.25) * 10
@@ -88,7 +95,7 @@ export const ScoreRange = ({ score_rating, score, user_picture, size }: ScoreRan
         <div className='flex justify-center ml-5 relative md:w-[860px] w-full'>
           <div className='absolute inset-0'>
             <Progress
-              variant={getScoreRatingVariant(score_rating.name)}
+              variant={getScoreRatingVariant(score_rating.name ?? "")}
               value={score * 10}
               width='full'
             />
@@ -118,7 +125,7 @@ export const ScoreRange = ({ score_rating, score, user_picture, size }: ScoreRan
         {score_rating.display_name}
       </div>
       <div className='flex text-sm italic leading-loose ml-5 md:w-[860px]'>
-        {score_rating.evaluee_description}
+        {is_evaluee ? score_rating.evaluee_description : score_rating.result_description}
       </div>
     </div>
   )
