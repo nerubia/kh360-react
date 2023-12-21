@@ -1,4 +1,3 @@
-// Create a file, e.g., useEnterKeyListener.ts
 import { useEffect, useState } from "react"
 
 const useEnterKeyListener = (callback: () => void) => {
