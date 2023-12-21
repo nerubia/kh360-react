@@ -5,7 +5,7 @@ import { internalUserRoutes } from "./internal-user-route"
 import { bodUserRoutes } from "./bod-user-route"
 import { adminRoutes } from "./admin-route"
 
-const DashboardLayout = lazy(async () => await import("../components/layouts/DashboardLayout"))
+const DashboardLayout = lazy(async () => await import("../components/layouts/dashboard-layout"))
 
 const UserEvaluationAdministrations = lazy(
   async () => await import("../pages/evaluations/user-evaluation-administrations")
