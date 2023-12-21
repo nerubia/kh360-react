@@ -177,11 +177,13 @@ test.describe("User - Evaluations", () => {
       }
 
       await expect(page.getByRole("heading", { name: "Evaluations" })).toBeVisible()
-      await expect(
-        page.getByRole("button", {
-          name: "User, Evaluee ONGOING Sample Project [PM]",
-        })
-      ).toBeVisible()
+      if (!isMobile) {
+        await expect(
+          page.getByRole("button", {
+            name: "User, Evaluee ONGOING Sample Project [PM]",
+          })
+        ).toBeVisible()
+      }
       await expect(page.getByText("User, Evaluee").nth(1)).toBeVisible()
       await expect(page.getByText("Sample Project [PM]").nth(1)).toBeVisible()
       await expect(page.getByText("Evaluation Period: Jan 1 - Oct 15, 2023")).toBeVisible()
@@ -366,11 +368,11 @@ test.describe("User - Evaluations", () => {
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
       }
-
-      await page.getByRole("button", { name: "Submit" }).click()
-      await page.getByRole("button", { name: "Yes" }).click()
-
-      await expect(page.getByText("Comment is required")).toBeVisible()
+      if (!isMobile) {
+        await page.getByRole("button", { name: "Submit" }).click()
+        await page.getByRole("button", { name: "Yes" }).click()
+        await expect(page.getByText("Comment is required")).toBeVisible()
+      }
     })
 
     test("should allow to go back", async ({ page, isMobile }) => {

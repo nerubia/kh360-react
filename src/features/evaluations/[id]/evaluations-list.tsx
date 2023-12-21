@@ -11,7 +11,7 @@ import { Loading } from "../../../types/loadingType"
 import { type Evaluation } from "../../../types/evaluation-type"
 import { Menu } from "../../../components/shared/Menu"
 import Dialog from "../../../components/ui/dialog/dialog"
-import { Badge } from "../../../components/ui/badge/Badge"
+import { Badge } from "../../../components/ui/badge/badge"
 import { getEvaluationStatusVariant } from "../../../utils/variant"
 import { getByTemplateType } from "../../../redux/slices/email-template-slice"
 
@@ -130,8 +130,8 @@ export const EvaluationsList = () => {
       {loading === Loading.Fulfilled && user_evaluations.length === 0 && (
         <div>No evaluations available yet.</div>
       )}
-      <div className='md:w-96 h-96 md:h-[95%] flex flex-col my-4'>
-        <div className='flex-1 overflow-y-auto mb-4 px-2 mx-2'>
+      <div className='md:w-96 h-45 md:96 md:h-[95%] flex flex-col my-4'>
+        <div className='flex px-2 mx-2 mb-4 overflow-x-auto overflow-y-hidden md:flex-1 md:overflow-y-auto md:overflow-x-hidden md:flex-col'>
           {loading === Loading.Fulfilled &&
             user_evaluations.length > 0 &&
             evaluation_id !== undefined && (
@@ -148,9 +148,17 @@ export const EvaluationsList = () => {
                         ? () => handleOnClickEvaluation(evaluation.id)
                         : () => handleNavigate(evaluation.id)
                     }
-                    className='w-full rounded-md flex items-center gap-2 p-2'
+                    className='rounded-md flex items-center gap-2 p-2 border md:border-none m-0.5 md:m-0 flex-col md:flex-row relative'
                   >
-                    <div className='flex items-center justify-center w-10 h-10 rounded-full py-2'>
+                    <span className='absolute right-0 block rounded md:hidden top-2'>
+                      <Badge
+                        variant={getEvaluationStatusVariant(evaluation?.status)}
+                        size='extraSmall'
+                      >
+                        {evaluation.status?.charAt(0)}
+                      </Badge>
+                    </span>
+                    <div className='flex items-center justify-center w-10 h-10 py-2 bg-gray-100 rounded-full md:bg-transparent'>
                       {evaluation.evaluee?.picture === undefined ||
                       evaluation.evaluee?.picture === null ? (
                         <Icon icon='UserFill' />
@@ -168,13 +176,13 @@ export const EvaluationsList = () => {
                         evaluation.status === EvaluationStatus.Open ? "font-bold" : ""
                       }`}
                     >
-                      <div className='flex justify-between gap-4'>
+                      <div className='flex flex-col justify-between gap-4 md:flex-row'>
                         <p className='text-sm'>
                           {evaluation.evaluee?.last_name}
                           {", "}
                           {evaluation.evaluee?.first_name}
                         </p>
-                        <div className='uppercase'>
+                        <div className='hidden uppercase md:block'>
                           <Badge
                             variant={getEvaluationStatusVariant(evaluation?.status)}
                             size='small'
@@ -183,15 +191,21 @@ export const EvaluationsList = () => {
                           </Badge>
                         </div>
                       </div>
+
                       {evaluation.project !== null && (
-                        <p className='text-xs'>
+                        <p className='hidden text-xs md:block'>
                           {evaluation.project?.name} [{evaluation.project_role?.short_name}]
                         </p>
                       )}
-                      <p className='text-xs'>{evaluation.template?.display_name}</p>
+                      <p className='hidden text-xs md:block'>{evaluation.template?.display_name}</p>
                     </div>
                   </Menu>
                 ))}
+                <div className='hidden p-2 md:block'>
+                  <LinkButton to='/evaluation-administrations' variant='primaryOutline'>
+                    <Icon icon='ChevronLeft' />
+                  </LinkButton>
+                </div>
                 <Dialog open={showDialog && is_editing}>
                   <Dialog.Title>Confirm Discard Changes</Dialog.Title>
                   <Dialog.Description>
@@ -209,11 +223,6 @@ export const EvaluationsList = () => {
                 </Dialog>
               </>
             )}
-        </div>
-        <div className='ml-4'>
-          <LinkButton to='/evaluation-administrations' variant='primaryOutline'>
-            <Icon icon='ChevronLeft' />
-          </LinkButton>
         </div>
       </div>
     </>

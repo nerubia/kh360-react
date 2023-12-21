@@ -10,7 +10,7 @@ import { type icons } from "../../ui/icon/icons"
 import { useInternalUser } from "../../../hooks/use-internal-user"
 import { useBodUser } from "../../../hooks/use-bod-user"
 import { useLocation } from "react-router-dom"
-
+import useMobileView from "../../../hooks/use-mobile-view"
 interface MenuLink {
   title: string
   link: string
@@ -87,6 +87,8 @@ export const Sidebar = () => {
   const isAdmin = useAdmin()
   const isBod = useBodUser()
 
+  const isMobileView = useMobileView()
+
   const toggleSidebar = () => {
     appDispatch(setActiveSidebar(!activeSidebar))
   }
@@ -105,15 +107,14 @@ export const Sidebar = () => {
     }
     return false
   }
-
   return (
     <div
       className={`${
         activeSidebar ? "w-full md:w-64" : "w-64 -ml-64"
       } bg-primary-500 fixed z-10 h-screen transition-all duration-300`}
     >
-      <div className='relative h-full flex flex-col gap-4 p-5'>
-        <div className='block absolute top-5 md:hidden'>
+      <div className='relative flex flex-col h-full gap-4 p-5'>
+        <div className='absolute block top-5 md:hidden'>
           <Button testId='SidebarCloseButton' variant='ghost' size='small' onClick={toggleSidebar}>
             <Icon icon='Close' />
           </Button>
@@ -121,10 +122,13 @@ export const Sidebar = () => {
         <div className='flex justify-center'>
           <img className='h-20 rounded-full ' src='/logo.png' />
         </div>
-        <h1 className='text-white text-lg text-center font-bold'>
+        <h1 className='text-lg font-bold text-center text-white'>
           {user?.first_name} {user?.last_name}
         </h1>
-        <div className='flex-1 flex flex-col gap-2'>
+        <div
+          className='flex flex-col flex-1 gap-2'
+          onClick={isMobileView ? toggleSidebar : undefined}
+        >
           {menuLinks.map(
             (menu, index) =>
               ((isInternal && menu.access === "Internal") ||
