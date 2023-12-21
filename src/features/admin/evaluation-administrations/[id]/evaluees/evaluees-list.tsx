@@ -14,7 +14,7 @@ import {
   getEvaluationResults,
 } from "../../../../../redux/slices/evaluation-results-slice"
 import { getEvaluationResultStatusVariant } from "../../../../../utils/variant"
-import { Badge } from "../../../../../components/ui/badge/Badge"
+import { Badge } from "../../../../../components/ui/badge/badge"
 
 export const EvalueesList = () => {
   const { id } = useParams()

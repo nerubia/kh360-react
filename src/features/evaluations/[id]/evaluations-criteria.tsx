@@ -27,7 +27,7 @@ import { getRatingTemplates } from "../../../redux/slices/email-template-slice"
 import { type EmailTemplate, TemplateType } from "../../../types/email-template-type"
 import ReactConfetti from "react-confetti"
 import { type EvaluationTemplateContent } from "../../../types/evaluation-template-content-type"
-import { Badge } from "../../../components/ui/badge/Badge"
+import { Badge } from "../../../components/ui/badge/badge"
 import { getEvaluationStatusVariant } from "../../../utils/variant"
 import useSmoothScrollToTop from "../../../hooks/use-smooth-scroll-to-top"
 
