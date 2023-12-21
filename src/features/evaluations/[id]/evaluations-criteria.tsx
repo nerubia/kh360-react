@@ -29,7 +29,7 @@ import ReactConfetti from "react-confetti"
 import { type EvaluationTemplateContent } from "../../../types/evaluation-template-content-type"
 import { Badge } from "../../../components/ui/badge/Badge"
 import { getEvaluationStatusVariant } from "../../../utils/variant"
-import useSmoothScrollToTop from "../../../hooks/useSmoothScrollToTop"
+import useSmoothScrollToTop from "../../../hooks/use-smooth-scroll-to-top"
 
 export const EvaluationsCriteria = () => {
   const { id, evaluation_id } = useParams()

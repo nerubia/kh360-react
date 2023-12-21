@@ -10,7 +10,7 @@ import { type icons } from "../../ui/icon/icons"
 import { useInternalUser } from "../../../hooks/use-internal-user"
 import { useBodUser } from "../../../hooks/use-bod-user"
 import { useLocation } from "react-router-dom"
-import useMobileView from "../../../hooks/useMobileView"
+import useMobileView from "../../../hooks/use-mobile-view"
 interface MenuLink {
   title: string
   link: string
