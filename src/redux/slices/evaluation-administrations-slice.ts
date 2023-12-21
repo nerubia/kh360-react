@@ -25,22 +25,6 @@ export const getEvaluationAdministrations = createAsyncThunk(
   }
 )
 
-export const getBodEvaluationAdministrations = createAsyncThunk(
-  "evaluationAdministration/getBodEvaluationAdministrations",
-  async (params: EvaluationAdministrationFilters | undefined, thunkApi) => {
-    try {
-      const response = await axiosInstance.get("/bod/evaluation-administrations", {
-        params,
-      })
-      return response.data
-    } catch (error) {
-      const axiosError = error as AxiosError
-      const response = axiosError.response?.data as ApiError
-      return thunkApi.rejectWithValue(response.message)
-    }
-  }
-)
-
 export const createEvaluationAdministration = createAsyncThunk(
   "evaluationAdministration/createEvaluationAdministration",
   async (data: EvaluationAdministrationFormData, thunkApi) => {
@@ -119,38 +103,6 @@ const evaluationAdministrationsSlice = createSlice({
       state.totalItems = action.payload.pageInfo.totalItems
     })
     builder.addCase(getEvaluationAdministrations.rejected, (state, action) => {
-      state.loading = Loading.Rejected
-      state.error = action.payload as string
-    })
-    /**
-     * List for BOD (scroll to load more)
-     */
-    builder.addCase(getBodEvaluationAdministrations.pending, (state) => {
-      state.loading = Loading.Pending
-      state.error = null
-    })
-    builder.addCase(getBodEvaluationAdministrations.fulfilled, (state, action) => {
-      state.loading = Loading.Fulfilled
-      state.error = null
-      const newData: EvaluationAdministration[] = []
-      const payloadData = action.payload.data as EvaluationAdministration[]
-      for (const data of payloadData) {
-        if (
-          !state.evaluation_administrations.some(
-            (evaluationAdministration) => evaluationAdministration.id === data.id
-          )
-        ) {
-          newData.push(data)
-        }
-      }
-      state.evaluation_administrations = [...state.evaluation_administrations, ...newData]
-      state.hasPreviousPage = action.payload.pageInfo.hasPreviousPage
-      state.hasNextPage = action.payload.pageInfo.hasNextPage
-      state.currentPage = action.payload.pageInfo.currentPage
-      state.totalPages = action.payload.pageInfo.totalPages
-      state.totalItems = action.payload.pageInfo.totalItems
-    })
-    builder.addCase(getBodEvaluationAdministrations.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
