@@ -10,10 +10,10 @@ export const MyEvaluationResultsFooter = () => {
   }
 
   return (
-    <>
+    <div className='pb-5'>
       <Button testId='BackButton' variant='primaryOutline' size='medium' onClick={handleGoBack}>
         <Icon icon='ChevronLeft' />
       </Button>
-    </>
+    </div>
   )
 }
