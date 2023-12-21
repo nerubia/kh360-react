@@ -71,6 +71,7 @@ export const UserEvaluationAdministrationsTable = () => {
                         (evaluationAdministration.totalPending ?? 0)) *
                       100
                     }
+                    width='w-96'
                   />
                   <p className='text-primary-500 text-sm font-semibold pt-2'>
                     {evaluationAdministration.totalSubmitted} out of{" "}

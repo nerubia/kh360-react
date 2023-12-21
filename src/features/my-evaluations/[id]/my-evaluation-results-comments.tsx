@@ -11,17 +11,17 @@ export const MyEvaluationResultsComments = () => {
       {loading === Loading.Pending && <div>Loading...</div>}
       {(loading === Loading.Fulfilled && user_evaluation_result?.comments.length === 0) ||
         (user_evaluation_result?.comments.length === null && <div>No comments.</div>)}
-      <div className='flex-1 flex-col my-5'>
+      <div className='flex-1 flex-col'>
         {loading === Loading.Fulfilled &&
           user_evaluation_result?.comments !== undefined &&
           user_evaluation_result?.comments.length > 0 &&
           id !== undefined && (
             <div>
-              <div className='text-xl font-bold mb-2'>Comments from Evaluators </div>
-              <ul className='list-outside list-disc ml-5'>
+              <div className='text-xl font-bold mb-2 text-primary-500'>Comments </div>
+              <ul className='list-outside list-none ml-5'>
                 {user_evaluation_result?.comments?.map((comment, commentIndex) => (
-                  <div key={commentIndex}>
-                    {comment?.length > 0 && <li className='m-1'>{comment}</li>}
+                  <div key={commentIndex} className='flex italic text-sm'>
+                    - {comment?.length > 0 && <li className='m-1'>{comment}</li>}
                   </div>
                 ))}
               </ul>
