@@ -66,6 +66,7 @@ export const EvaluationsCriteria = () => {
 
   const [evaluationRatingIds, setEvaluationRatingIds] = useState<number[]>([])
   const [didCopy, setDidCopy] = useState<boolean>(false)
+  const scrollToTop = useSmoothScrollToTop()
 
   useEffect(() => {
     void appDispatch(setIsEditing(false))
@@ -200,7 +201,7 @@ export const EvaluationsCriteria = () => {
 
   const toggleSaveDialog = () => {
     setShowSaveDialog((prev) => !prev)
-    useSmoothScrollToTop()
+    scrollToTop()
   }
 
   const toggleSubmitDialog = () => {
@@ -216,7 +217,7 @@ export const EvaluationsCriteria = () => {
       setErrorMessage("Comment is required")
     } else {
       setShowRequestToRemoveDialog((prev) => !prev)
-      useSmoothScrollToTop()
+      scrollToTop()
     }
   }
 
@@ -311,7 +312,7 @@ export const EvaluationsCriteria = () => {
       return
     }
     setShowSubmitDialog(true)
-    useSmoothScrollToTop()
+    scrollToTop()
   }
 
   const handleSubmit = async (is_submitting: boolean) => {
