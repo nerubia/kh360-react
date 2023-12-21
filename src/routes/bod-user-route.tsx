@@ -3,7 +3,7 @@ import { Navigate, Outlet } from "react-router-dom"
 import { useBodUser } from "../hooks/use-bod-user"
 
 const EvaluationResults = lazy(
-  async () => await import("../pages/admin/evaluation-results/evaluation-results")
+  async () => await import("../pages/evaluation-results/evaluation-results")
 )
 
 export const bodUserRoutes = {
