@@ -9,7 +9,6 @@ import { Button } from "../../../components/ui/button/button"
 import { loginSchema } from "../../../utils/validation/auth-schema"
 import { Loading } from "../../../types/loadingType"
 import { type LoginFormData } from "../../../types/form-data-type"
-import useEnterKeyListener from "../../../hooks/useEnterKeyListener"
 
 export const LoginForm = () => {
   const [validationErrors, setValidationErrors] = useState<Partial<LoginFormData>>({})
@@ -34,11 +33,8 @@ export const LoginForm = () => {
         })
         setValidationErrors(errors)
       }
-    } finally {
-      setKeyPressed(false)
     }
   }
-  const setKeyPressed = useEnterKeyListener(handleSubmit)
 
   const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
