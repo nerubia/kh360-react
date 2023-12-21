@@ -19,6 +19,12 @@ export const LoginForm = () => {
     password: "",
   })
 
+  const handleKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      void handleSubmit()
+    }
+  }
+
   const handleSubmit = async () => {
     try {
       await loginSchema.validate(formData, {
@@ -59,6 +65,7 @@ export const LoginForm = () => {
           type='password'
           placeholder='Password'
           onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
           error={validationErrors.password}
         />
         <Link to='/auth/forgot' className='text-sm text-right'>

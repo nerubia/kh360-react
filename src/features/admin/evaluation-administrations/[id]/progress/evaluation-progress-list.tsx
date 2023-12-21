@@ -29,6 +29,7 @@ export const EvaluationProgressList = () => {
   const appDispatch = useAppDispatch()
   const { id } = useParams()
 
+  const { user } = useAppSelector((state) => state.auth)
   const { evaluation_administration } = useAppSelector((state) => state.evaluationAdministration)
   const { evaluators } = useAppSelector((state) => state.evaluationAdministration)
   const { evaluations } = useAppSelector((state) => state.evaluations)
@@ -302,7 +303,9 @@ export const EvaluationProgressList = () => {
                           evaluator.email_logs.length > 0 &&
                           evaluator.email_logs.length <= 3 && (
                             <p>
-                              {evaluator.email_logs.length} reminders sent. Reminders sent last:
+                              {evaluator.email_logs.length}{" "}
+                              {evaluator.email_logs.length === 1 ? "reminder" : "reminders"} sent.
+                              Reminders sent last:
                             </p>
                           )}
                         {evaluator.email_logs !== undefined && evaluator.email_logs.length > 3 && (
@@ -314,18 +317,18 @@ export const EvaluationProgressList = () => {
                         {evaluator.email_logs
                           ?.slice(0, 3)
                           .map((emailLog) => (
-                            <p key={emailLog.id}>- {convertToFullDateAndTime(emailLog.sent_at)}</p>
+                            <p key={emailLog.id}>
+                              - {convertToFullDateAndTime(emailLog.sent_at, user)}
+                            </p>
                           ))}
                         {evaluator.email_logs !== undefined && evaluator.email_logs.length > 3 && (
-                          <div className='pt-1'>
-                            <Button
-                              variant='primaryOutline'
-                              size='small'
-                              onClick={() => toggleEmailLogDialog(evaluator.id)}
-                            >
-                              View More
-                            </Button>
-                          </div>
+                          <Button
+                            variant='unstyled'
+                            size='small'
+                            onClick={() => toggleEmailLogDialog(evaluator.id)}
+                          >
+                            <span className='text-primary-500 underline'>View More</span>
+                          </Button>
                         )}
                       </Tooltip.Content>
                     </Tooltip>
@@ -473,7 +476,7 @@ export const EvaluationProgressList = () => {
               {selectedEvaluator?.email_logs?.length} reminders sent. Latest reminders sent last:
             </p>
             {selectedEvaluator?.email_logs?.map((emailLog) => (
-              <p key={emailLog.id}>- {convertToFullDateAndTime(emailLog.sent_at)}</p>
+              <p key={emailLog.id}>- {convertToFullDateAndTime(emailLog.sent_at, user)}</p>
             ))}
           </Dialog.Description>
           <Dialog.Actions>
