@@ -266,6 +266,7 @@ export const EvaluationProgressList = () => {
                           evaluator.totalSubmitted ?? 0,
                           evaluator.totalEvaluations ?? 0
                         )}
+                        width='w-96'
                       />
                     </div>
                   </div>

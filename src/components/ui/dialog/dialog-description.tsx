@@ -3,5 +3,5 @@ interface DialogDescriptionProps {
 }
 
 export const DialogDescription = ({ children }: DialogDescriptionProps) => {
-  return <div>{children}</div>
+  return <div className='overflow-auto'>{children}</div>
 }
