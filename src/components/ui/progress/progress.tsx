@@ -4,12 +4,12 @@ const progress = cva(["h-full", "rounded-full"], {
   variants: {
     variant: {
       primary: ["bg-primary-500"],
-      green: ["bg-customGreen-500"],
-      blue: ["bg-customBlue-500"],
-      red: ["bg-customRed-500"],
-      orange: ["bg-customOrange-500"],
-      yellow: ["bg-customYellow-500"],
-      lightGreen: ["bg-customLightGreen-500"],
+      green: ["bg-[#8fc862]"],
+      blue: ["bg-[#b7e0ff]"],
+      red: ["bg-[#edc9d4]"],
+      orange: ["bg-[#ffd3c9]"],
+      yellow: ["bg-[#f4ba42]"],
+      lightGreen: ["bg-[#bbeec7]"],
     },
   },
   defaultVariants: {
