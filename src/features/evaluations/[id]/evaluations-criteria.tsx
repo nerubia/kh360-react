@@ -29,6 +29,7 @@ import ReactConfetti from "react-confetti"
 import { type EvaluationTemplateContent } from "../../../types/evaluation-template-content-type"
 import { Badge } from "../../../components/ui/badge/Badge"
 import { getEvaluationStatusVariant } from "../../../utils/variant"
+import useSmoothScrollToTop from "../../../hooks/useSmoothScrollToTop"
 
 export const EvaluationsCriteria = () => {
   const { id, evaluation_id } = useParams()
@@ -199,10 +200,7 @@ export const EvaluationsCriteria = () => {
 
   const toggleSaveDialog = () => {
     setShowSaveDialog((prev) => !prev)
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth", // You can use "auto" instead of "smooth" for an instant scroll
-    })
+    useSmoothScrollToTop()
   }
 
   const toggleSubmitDialog = () => {
@@ -218,10 +216,7 @@ export const EvaluationsCriteria = () => {
       setErrorMessage("Comment is required")
     } else {
       setShowRequestToRemoveDialog((prev) => !prev)
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth", // You can use "auto" instead of "smooth" for an instant scroll
-      })
+      useSmoothScrollToTop()
     }
   }
 
@@ -316,10 +311,7 @@ export const EvaluationsCriteria = () => {
       return
     }
     setShowSubmitDialog(true)
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    })
+    useSmoothScrollToTop()
   }
 
   const handleSubmit = async (is_submitting: boolean) => {
