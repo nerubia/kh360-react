@@ -8,6 +8,7 @@ export interface EvaluationTemplateContent {
   answerId?: number
   answerOptions?: AnswerOption[]
   evaluationRating: EvaluationRating
+  average_rate?: number
 }
 
 export interface EvaluationTemplateContentFilters {
