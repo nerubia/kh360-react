@@ -1,49 +1,58 @@
+import { useEffect } from "react"
 import { useAppSelector } from "../../../hooks/useAppSelector"
-import { type VariantProps, cva } from "class-variance-authority"
-import { DialogActions } from "./dialog-actions"
-import { DialogDescription } from "./dialog-description"
-import { DialogTitle } from "./dialog-title"
+import { useParams } from "react-router-dom"
+import { formatDateRange } from "../../../utils/format-date"
+import { useAppDispatch } from "../../../hooks/useAppDispatch"
+import { PageTitle } from "../../../components/shared/page-title"
+import { getUserEvaluationResult } from "../../../redux/slices/user-slice"
+import { ScoreRange } from "../../../components/shared/score-range/score-range"
 
-const dialog = cva(["w-full", "flex", "flex-col", "gap-4", "p-5", "rounded-md", "max-h-[800px]"], {
-  variants: {
-    variant: {
-      white: ["bg-white"],
-    },
-    size: {
-      small: ["md:w-[500px]"],
-      medium: ["md:min-w-[600px] p-7"],
-    },
-    maxWidthMin: {
-      true: "max-w-min",
-    },
-  },
-  defaultVariants: {
-    variant: "white",
-    size: "small",
-  },
-})
+export const MyEvaluationResultsHeader = () => {
+  const { id } = useParams()
+  const appDispatch = useAppDispatch()
+  const { user_evaluation_result } = useAppSelector((state) => state.user)
 
-interface DialogProps extends VariantProps<typeof dialog> {
-  open: boolean
-  children: React.ReactNode
-  width?: string
-}
+  useEffect(() => {
+    if (id !== undefined) {
+      void appDispatch(getUserEvaluationResult(parseInt(id)))
+    }
+  }, [])
 
-function Dialog({ open, children, variant, size, maxWidthMin }: DialogProps) {
-  const { activeSidebar } = useAppSelector((state) => state.app)
-  return open ? (
-    <div className='fixed top-0 left-0 z-50 w-full h-full transition-all duration-300'>
-      <div className={`${activeSidebar ? "md:ml-64" : ""} h-full`}>
-        <div className='bg-black/50 w-full h-full flex justify-center items-center p-5'>
-          <div className={dialog({ variant, size, maxWidthMin })}>{children}</div>
+  return (
+    <>
+      <div className='flex flex-col'>
+        <div className='flex flex-col justify-between items-start md:items-end mt-2 md:flex-row gap-5'>
+          <div>
+            <div className='flex gap-4 primary-outline items-end mb-4'>
+              <PageTitle>Evaluation Results</PageTitle>
+            </div>
+            <div className='flex gap-3 font-bold'>
+              {user_evaluation_result?.users?.last_name},{" "}
+              {user_evaluation_result?.users?.first_name}
+            </div>
+            <div className='flex gap-3'>{user_evaluation_result?.eval_admin_name}</div>
+            <div className='flex gap-3'>
+              {formatDateRange(
+                user_evaluation_result?.eval_period_start_date,
+                user_evaluation_result?.eval_period_end_date
+              )}
+            </div>
+          </div>
         </div>
+        <div className='text-xl text-primary-500 font-bold my-5'>
+          Total Score: {user_evaluation_result?.total_score}%
+        </div>
+        {user_evaluation_result?.score_rating !== undefined &&
+          user_evaluation_result?.users?.picture !== undefined && (
+            <ScoreRange
+              user_picture={user_evaluation_result?.users?.picture}
+              score_rating={user_evaluation_result?.score_rating}
+              score={user_evaluation_result?.score}
+              size='medium'
+              is_evaluee={true}
+            />
+          )}
       </div>
-    </div>
-  ) : null
+    </>
+  )
 }
-
-Dialog.Title = DialogTitle
-Dialog.Description = DialogDescription
-Dialog.Actions = DialogActions
-
-export default Dialog
