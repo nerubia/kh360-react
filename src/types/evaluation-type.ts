@@ -19,6 +19,7 @@ export interface Evaluation {
   project_role?: ProjectRole
   template?: EvaluationTemplate
   external_evaluator_id: number
+  zscore?: number
 }
 
 export interface EvaluationFilters {
