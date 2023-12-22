@@ -1,5 +1,6 @@
 import { type EmailLog } from "./email-log-type"
 import { type Evaluation } from "./evaluation-type"
+import { type Project } from "./projectType"
 
 export interface User {
   id: number
@@ -20,6 +21,8 @@ export interface User {
   totalEvaluations?: number
   evaluations?: Evaluation[]
   email_logs?: EmailLog[]
+  project?: Project
+  projectRole?: string
 }
 
 export interface UserFilters {
