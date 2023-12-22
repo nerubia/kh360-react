@@ -210,10 +210,7 @@ test.describe("User - Evaluations", () => {
 
       const saveButton = page.getByRole("button", { name: "Save", exact: true })
       await saveButton.waitFor({ state: "visible" })
-      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-      if (!saveButton.isDisabled()) {
-        await saveButton.click()
-      }
+      await page.getByRole("button").isDisabled()
 
       const saveSubmit = page.getByRole("button", { name: "Save & Submit", exact: true })
       await saveSubmit.click()
