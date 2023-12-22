@@ -22,6 +22,7 @@ export interface EvaluationResult {
   evaluation_administration?: EvaluationAdministration
   score_rating?: ScoreRating
   total_score?: number
+  attendance_and_punctuality?: AttendanceAndPunctuality[]
 }
 
 export interface EvaluationResultFilters {
@@ -41,4 +42,18 @@ export enum EvaluationResultStatus {
   Ongoing = "Ongoing",
   Completed = "Completed",
   Cancelled = "Cancelled",
+}
+
+export interface AttendanceAndPunctuality {
+  month?: string
+  total_working_days?: number
+  days_present?: number
+  lates_grace_period?: number
+  lates?: number
+  vacation_and_birthday_leave_duration?: number
+  sick_leave_duration?: number
+  emergency_leave_duration?: number
+  other_leave_duration?: number
+  unpaid_leave_duration?: number
+  unfiled_leave_duration?: number
 }
