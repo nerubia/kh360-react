@@ -1,122 +1,116 @@
-import React from "react"
-import { Scatter } from "react-chartjs-2"
-import { type TooltipItem, type ChartType, type ScriptableContext } from "chart.js/auto"
-import { type User } from "../../../types/user-type"
-import { formatDateRange } from "../../../utils/format-date"
+import { useState } from "react"
+import { useParams } from "react-router-dom"
+import { useAppSelector } from "../../../hooks/useAppSelector"
+import { Loading } from "../../../types/loadingType"
+import Dialog from "../../../components/ui/dialog/dialog"
+import { Button } from "../../../components/ui/button/button"
+import { type EvaluationResultDetail } from "../../../types/evaluation-result-detail-type"
+import { Progress } from "../../../components/ui/progress/progress"
+import { getScoreVariant } from "../../../utils/variant"
 
-interface DistributionChartProps {
-  evaluator: User
-  currentEvaluee: User
-}
+export const ViewEvaluationResultsTable = () => {
+  const { id } = useParams()
+  const { loading, evaluation_result } = useAppSelector((state) => state.evaluationResult)
+  const [showDetails, setShowDetails] = useState<boolean>(false)
+  const [selectedEvaluationResultDetail, setSelectedEvaluationResultDetail] =
+    useState<EvaluationResultDetail>()
 
-export const DistributionChart: React.FC<DistributionChartProps> = ({
-  evaluator,
-  currentEvaluee,
-}) => {
-  if (evaluator.evaluations !== undefined) {
-    const uniqueValues: Record<number, number> = {}
-    const evaluatorData = evaluator.evaluations?.map((evaluation) => {
-      const value = evaluation.zscore ?? 0
-
-      if (uniqueValues[value] !== undefined) {
-        uniqueValues[value] += 0.25
-      } else {
-        uniqueValues[value] = 0
-      }
-      return {
-        value: evaluation.zscore,
-        yValue: uniqueValues[value],
-        name: `${evaluation.evaluee?.last_name}, ${evaluation.evaluee?.first_name}`,
-        project: evaluation.project,
-        projectRole: evaluation.project_role,
-        period: formatDateRange(evaluation.eval_start_date, evaluation.eval_end_date),
-      }
-    })
-    const getBarColor = (): ((context: ScriptableContext<"line">) => string) => {
-      return (context: ScriptableContext<"line">) => {
-        const evalueeName = (context.raw as { label: string }).label
-        const currentEvalueeName = `${currentEvaluee.last_name}, ${currentEvaluee.first_name}`
-        const color = evalueeName === currentEvalueeName ? "#a78ec8" : "#e7e2f2"
-        return color
-      }
-    }
-    const chartData = {
-      datasets: [
-        {
-          label: "Evaluee Data",
-          data: evaluatorData?.map((data) => ({ x: data.value, y: data.yValue, label: data.name })),
-          borderColor: "transparent",
-          pointRadius: 7,
-          pointHoverRadius: 10,
-          pointBackgroundColor: getBarColor(),
-        },
-      ],
-    }
-
-    const chartOptions = {
-      responsive: true,
-      maintainAspectRatio: false,
-      devicePixelRatio: 4,
-      scales: {
-        x: {
-          min: -2,
-          max: 2,
-          beginAtZero: false,
-          ticks: {
-            display: true,
-          },
-          grid: {
-            color: (context: { tick: { value: number } }) => {
-              return context.tick.value === 0 ? "#f2f2f2" : "transparent"
-            },
-          },
-        },
-        y: {
-          clip: false,
-          display: false,
-          beginAtZero: true,
-        },
-      },
-      plugins: {
-        tooltip: {
-          callbacks: {
-            title: (context: Array<TooltipItem<ChartType>>) => {
-              if (context.length > 0) {
-                const firstItem = context[0]
-                const index = firstItem.dataIndex
-                const title = chartData.datasets[0].data[index].label
-                return title ?? ""
-              }
-              return ""
-            },
-            label: (context: TooltipItem<ChartType>) => {
-              const labels = []
-              const index = context.dataIndex
-              const project = evaluatorData[index].project
-              const projectRole = evaluatorData[index].projectRole
-              const period = evaluatorData[index].period
-
-              if (project !== null) {
-                labels.push(`${project?.name} [${projectRole?.short_name}]`)
-              }
-
-              labels.push(`${period}`, `Zscore: ${context.parsed.x}`)
-
-              return labels
-            },
-          },
-          displayColors: false,
-        },
-        legend: {
-          display: false,
-        },
-      },
-    }
-
-    return (
-      <div className='md:w-[600px]'>
-        <Scatter data={chartData} options={chartOptions} />
-      </div>
-    )
+  const toggleDetails = () => {
+    setShowDetails((prev) => !prev)
   }
+
+  const handleOpenDetails = (detail: EvaluationResultDetail) => {
+    setSelectedEvaluationResultDetail(detail)
+  }
+
+  return (
+    <>
+      {loading === Loading.Pending && <div>Loading...</div>}
+      {loading === Loading.Fulfilled && evaluation_result === null && <div>Not found</div>}
+      <div>
+        {loading === Loading.Fulfilled &&
+          evaluation_result?.evaluation_result_details !== undefined &&
+          evaluation_result?.evaluation_result_details.length > 0 &&
+          id !== undefined && (
+            <>
+              <div className='text-xl text-primary-500 font-bold mb-5'>Detailed Evaluation </div>
+              <table className='md:w-[860px] table-fixed'>
+                <thead className='text-left'>
+                  <tr>
+                    <th className='py-1 border-b-4 text-primary-500'>Evaluations</th>
+                    <th className='py-1 border-b-4 text-start text-primary-500'>Score</th>
+                    <th className='py-1 border-b-4 text-start text-primary-500'>Rating</th>
+                    <th className='py-1 border-b-4 text-center text-primary-500'>Standard Score</th>
+                    <th className='py-1 border-b-4 text-start text-primary-500'>Banding</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {evaluation_result?.evaluation_result_details.map((detail) => (
+                    <tr
+                      key={detail.id}
+                      className='cursor-pointer hover:bg-slate-100'
+                      onClick={() => {
+                        handleOpenDetails(detail)
+                        toggleDetails()
+                      }}
+                    >
+                      <td className='py-1 border-b'>{detail.template_name}</td>
+                      <td className='py-1 border-b text-start'>{detail.total_score}%</td>
+                      {detail.score_rating?.display_name !== null && (
+                        <td className='py-1 border-b text-start items-center'>
+                          {detail.score_rating?.display_name}
+                        </td>
+                      )}
+                      <td className='py-1 border-b text-center items-center'>
+                        {Number(detail.zscore).toFixed(2)}
+                      </td>
+                      <td className='py-1 border-b text-start items-center'>{detail.banding}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </>
+          )}
+      </div>
+      <Dialog open={showDetails} size={"medium"} maxWidthMin={true}>
+        <Dialog.Title>
+          <div className='py-1 text-primary-500'>
+            {selectedEvaluationResultDetail?.template_name} Score:{" "}
+            {selectedEvaluationResultDetail?.total_score}%
+          </div>
+        </Dialog.Title>
+        <Dialog.Description>
+          <div className='overflow-auto'>
+            {selectedEvaluationResultDetail?.evaluation_template_contents?.map((content, index) => (
+              <div key={index} className='hover:bg-slate-100 p-2'>
+                <div className='flex justify-between mb-2'>
+                  <div className='text-primary-500 font-bold w-1/2'>{content.name}</div>
+                  <div className='w-[300px] relative'>
+                    <div className='relative z-0'>
+                      <Progress
+                        variant={getScoreVariant(content.average_rate ?? 0)}
+                        value={content.average_rate ?? 0}
+                        width='w-[20px]'
+                      />
+                    </div>
+                    <div
+                      className={`absolute top-[10px] right-3/4 transform -translate-x-1/2 -translate-y-1/2 z-10  text-white`}
+                    >
+                      {content.average_rate}%
+                    </div>
+                  </div>
+                </div>
+                <div className='mb-2 text-sm italic'> {content.description}</div>
+              </div>
+            ))}
+          </div>
+        </Dialog.Description>
+        <Dialog.Actions>
+          <Button variant='primary' onClick={toggleDetails}>
+            Close
+          </Button>
+        </Dialog.Actions>
+      </Dialog>
+    </>
+  )
 }

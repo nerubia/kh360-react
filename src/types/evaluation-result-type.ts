@@ -26,7 +26,10 @@ export interface EvaluationResult {
 }
 
 export interface EvaluationResultFilters {
+  id?: string
   evaluation_administration_id?: string
+  eval_period_start_date?: string
+  eval_period_end_date?: string
   name?: string
   status?: string
   score_ratings_id?: string
