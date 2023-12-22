@@ -216,7 +216,6 @@ test.describe("User - Evaluations", () => {
       await saveSubmit.click()
       await saveSubmit.waitFor({ state: "visible" })
 
-      await expect(page.getByRole("button", { name: "Save & Submit", exact: true })).toBeVisible()
       await expect(page.getByRole("button", { name: "Request to Remove" })).toBeVisible()
     })
 
