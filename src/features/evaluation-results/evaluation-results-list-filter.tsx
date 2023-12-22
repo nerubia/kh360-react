@@ -48,7 +48,7 @@ const sortByFilters: Option[] = [
   },
 ]
 
-export const EvaluationResultsFilter = () => {
+export const EvaluationResultsListFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const appDispatch = useAppDispatch()

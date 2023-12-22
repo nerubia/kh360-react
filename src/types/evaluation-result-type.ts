@@ -18,6 +18,7 @@ export interface EvaluationResult {
   zscore: number
   banding: string
   comments: string[]
+  recommendations: string[]
   evaluation_administration?: EvaluationAdministration
   score_rating?: ScoreRating
   total_score?: number
