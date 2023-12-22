@@ -216,7 +216,9 @@ test.describe("User - Evaluations", () => {
       await saveSubmit.click()
       await saveSubmit.waitFor({ state: "visible" })
 
-      await expect(page.getByRole("button", { name: "Request to Remove" })).toBeVisible()
+      const requestToRemove = page.getByRole("button", { name: "Request to Remove", exact: true })
+      await requestToRemove.click()
+      await requestToRemove.waitFor({ state: "visible" })
     })
 
     test("should show validation errors", async ({ page, isMobile }) => {
