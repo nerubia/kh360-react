@@ -150,7 +150,10 @@ export const EvaluationsList = () => {
                     }
                     className='rounded-md flex items-center gap-2 p-2 border md:border-none m-0.5 md:m-0 flex-col md:flex-row relative'
                   >
-                    <span className='absolute right-0 block rounded md:hidden top-2'>
+                    <span
+                      className='absolute right-0 block rounded md:hidden top-2'
+                      data-testid='BadgeStatus'
+                    >
                       <Badge
                         variant={getEvaluationStatusVariant(evaluation?.status)}
                         size='extraSmall'
@@ -158,7 +161,10 @@ export const EvaluationsList = () => {
                         {evaluation.status?.charAt(0)}
                       </Badge>
                     </span>
-                    <div className='flex items-center justify-center w-10 h-10 py-2 bg-gray-100 rounded-full md:bg-transparent'>
+                    <div
+                      className='flex items-center justify-center w-10 h-10 py-2 bg-gray-100 rounded-full md:bg-transparent'
+                      data-testid='Avatar'
+                    >
                       {evaluation.evaluee?.picture === undefined ||
                       evaluation.evaluee?.picture === null ? (
                         <Icon icon='UserFill' />

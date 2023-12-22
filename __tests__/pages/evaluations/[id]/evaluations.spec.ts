@@ -184,6 +184,11 @@ test.describe("User - Evaluations", () => {
           })
         ).toBeVisible()
       }
+      await expect(page.getByTestId("Avatar")).toBeVisible()
+      if (isMobile) {
+        await expect(page.getByTestId("BadgeStatus")).toBeVisible()
+      }
+      await expect(page.getByText("User, Evaluee").nth(0)).toBeVisible()
       await expect(page.getByText("User, Evaluee").nth(1)).toBeVisible()
       await expect(page.getByText("Sample Project [PM]").nth(1)).toBeVisible()
       await expect(page.getByText("Evaluation Period: Jan 1 - Oct 15, 2023")).toBeVisible()
@@ -202,6 +207,20 @@ test.describe("User - Evaluations", () => {
       await expect(page.getByTestId("OptionButton4")).toBeVisible()
       await expect(page.getByTestId("OptionButton5")).toBeVisible()
       await expect(page.getByTestId("OptionButton6")).toBeVisible()
+
+      const saveButton = page.getByRole("button", { name: "Save", exact: true })
+      await saveButton.waitFor({ state: "visible" })
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+      if (!saveButton.isDisabled()) {
+        await saveButton.click()
+      }
+
+      const saveSubmit = page.getByRole("button", { name: "Save & Submit", exact: true })
+      await saveSubmit.waitFor({ state: "visible" })
+      await saveSubmit.click()
+
+      const requestToRemove = page.getByRole("button", { name: "Request to Remove", exact: true })
+      await requestToRemove.waitFor({ state: "visible" })
     })
 
     test("should show validation errors", async ({ page, isMobile }) => {
