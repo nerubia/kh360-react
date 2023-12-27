@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom"
 import { formatDateRange } from "../../../utils/format-date"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { PageTitle } from "../../../components/shared/page-title"
-import { getEvaluationResult } from "../../../redux/slices/evaluation-result-slice"
+import { getCmEvaluationResult } from "../../../redux/slices/evaluation-result-slice"
 import { ScoreRange } from "../../../components/shared/score-range/score-range"
 
 export const ViewEvaluationResultsHeader = () => {
@@ -14,7 +14,7 @@ export const ViewEvaluationResultsHeader = () => {
 
   useEffect(() => {
     if (id !== undefined) {
-      void appDispatch(getEvaluationResult(parseInt(id)))
+      void appDispatch(getCmEvaluationResult(parseInt(id)))
     }
   }, [])
 

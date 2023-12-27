@@ -6,6 +6,20 @@ import { axiosInstance } from "../../utils/axios-instance"
 import { Loading } from "../../types/loadingType"
 import { type User } from "../../types/user-type"
 
+export const getCmEvaluationResult = createAsyncThunk(
+  "evaluationResult/getCmEvaluationResult",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.get(`/user/evaluation-results/${id}`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const getEvaluationResult = createAsyncThunk(
   "evaluationResult/getEvaluationResult",
   async (id: number, thunkApi) => {
@@ -89,7 +103,25 @@ const evaluationResultSlice = createSlice({
   },
   extraReducers(builder) {
     /**
-     * Get evaluation results
+     * List evaluation results (cm)
+     */
+    builder.addCase(getCmEvaluationResult.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getCmEvaluationResult.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.evaluation_result = action.payload.data
+      state.previousId = action.payload.previousId
+      state.nextId = action.payload.nextId
+    })
+    builder.addCase(getCmEvaluationResult.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * List evaluation results
      */
     builder.addCase(getEvaluationResult.pending, (state) => {
       state.loading = Loading.Pending
