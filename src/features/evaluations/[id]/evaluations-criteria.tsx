@@ -477,13 +477,13 @@ export const EvaluationsCriteria = () => {
                 className='rounded-md hover:bg-primary-50 sm:mt-1 md:mt-0'
               >
                 <div className='flex flex-col p-4 h-fit md:flex-row'>
-                  <div className='w-full mr-5 md:w-8/12'>
-                    <h1 className='mb-3 text-base font-medium text-primary-500'>
+                  <div className='w-full mr-5 md:w-9/12'>
+                    <h1 className='mb-3 md:mb-0 text-base font-medium text-primary-500'>
                       {templateContent.name}
                     </h1>
-                    <p className='mb-3 text-sm'>{templateContent.description}</p>
+                    <p className='mb-2 text-sm'>{templateContent.description}</p>
                   </div>
-                  <span className='inline-block w-200'>
+                  <span className='inline-block w-full md:w-auto'>
                     <StarRating
                       templateContent={templateContent}
                       loadingAnswer={loading_answer}
