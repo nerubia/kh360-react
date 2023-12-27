@@ -54,9 +54,11 @@ export const MyEvaluationResultsTable = () => {
                     >
                       <td className='py-1 border-b'>{detail.template_name}</td>
                       <td className='py-1 border-b text-start'>{detail.total_score}%</td>
-                      <td className='py-1 border-b text-start items-center'>
-                        {detail.score_rating.display_name}
-                      </td>
+                      {detail.score_rating?.display_name !== null && (
+                        <td className='py-1 border-b text-start items-center'>
+                          {detail.score_rating?.display_name}
+                        </td>
+                      )}
                     </tr>
                   ))}
                 </tbody>

@@ -77,56 +77,60 @@ export const ScoreRange = ({
   }
   return (
     <div className='flex flex-col gap-2'>
-      <div className='flex gap-4 items-start flex-col'>
-        <div className='flex gap-8 justify-center'>
-          {score_ratings?.map((score) => (
-            <div
-              key={score.id}
-              className='px-5 pb-2 flex flex-col items-center'
-              style={{
-                filter: getColor(score_rating.name, score.name),
-              }}
-            >
-              <img className={band({ size })} src={scoreImages[score?.display_name]} alt='' />
-              {score?.display_name}
+      {score_rating !== null && (
+        <>
+          <div className='flex gap-4 items-start flex-col'>
+            <div className='flex gap-8 justify-center'>
+              {score_ratings?.map((score) => (
+                <div
+                  key={score.id}
+                  className='px-5 pb-2 flex flex-col items-center'
+                  style={{
+                    filter: getColor(score_rating.name, score.name),
+                  }}
+                >
+                  <img className={band({ size })} src={scoreImages[score?.display_name]} alt='' />
+                  {score?.display_name}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-        <div className='flex justify-center ml-5 relative md:w-[860px] w-full'>
-          <div className='absolute inset-0'>
-            <Progress
-              variant={getScoreRatingVariant(score_rating.name ?? "")}
-              value={score * 10}
-              width='full'
-            />
+            <div className='flex justify-center ml-5 relative md:w-[860px] w-full'>
+              <div className='absolute inset-0'>
+                <Progress
+                  variant={getScoreRatingVariant(score_rating?.name ?? "")}
+                  value={score * 10}
+                  width='full'
+                />
+              </div>
+              {user_picture === undefined || user_picture === null ? (
+                <div
+                  className={`rounded-full absolute -top-3 bg-primary-500 p-2`}
+                  style={{ left: `${displayScore}%` }}
+                >
+                  <Icon icon='UserFill' color='white' size='medium' />
+                </div>
+              ) : (
+                <img
+                  className={`w-10 h-10 rounded-full absolute -top-3`}
+                  style={{ left: `${displayScore}%` }}
+                  src={user_picture}
+                />
+              )}
+            </div>
           </div>
-          {user_picture === undefined || user_picture === null ? (
-            <div
-              className={`rounded-full absolute -top-3 bg-primary-500 p-2`}
-              style={{ left: `${displayScore}%` }}
-            >
-              <Icon icon='UserFill' color='white' size='medium' />
-            </div>
-          ) : (
-            <img
-              className={`w-10 h-10 rounded-full absolute -top-3`}
-              style={{ left: `${displayScore}%` }}
-              src={user_picture}
-            />
-          )}
-        </div>
-      </div>
-      <div
-        className='flex font-bold mt-10 ml-5'
-        style={{
-          filter: getColor(score_rating.name, score_rating.name),
-        }}
-      >
-        {score_rating.display_name}
-      </div>
-      <div className='flex text-sm italic leading-loose ml-5 md:w-[860px]'>
-        {is_evaluee ? score_rating.evaluee_description : score_rating.result_description}
-      </div>
+          <div
+            className='flex font-bold mt-10 ml-5'
+            style={{
+              filter: getColor(score_rating.name, score_rating.name),
+            }}
+          >
+            {score_rating.display_name}
+          </div>
+          <div className='flex text-sm italic leading-loose ml-5 md:w-[860px]'>
+            {is_evaluee ? score_rating.evaluee_description : score_rating.result_description}
+          </div>
+        </>
+      )}
     </div>
   )
 }
