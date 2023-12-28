@@ -11,6 +11,7 @@ import { useInternalUser } from "../../../hooks/use-internal-user"
 import { useCmUser } from "../../../hooks/use-cm-user"
 import { useLocation } from "react-router-dom"
 import useMobileView from "../../../hooks/use-mobile-view"
+
 interface MenuLink {
   title: string
   link: string
@@ -113,6 +114,7 @@ export const Sidebar = () => {
     }
     return false
   }
+
   return (
     <div
       className={`${
@@ -155,8 +157,8 @@ export const Sidebar = () => {
                     </div>
                     {menu.children !== undefined ? <Icon icon='ChevronDown' /> : null}
                   </Menu>
-                  {isParentActive(menu) &&
-                    menu.children?.map((child, i) => (
+                  <div className={isParentActive(menu) ? "" : "hidden"}>
+                    {menu.children?.map((child, i) => (
                       <div key={i} className='ml-2'>
                         <Menu
                           to={child.link}
@@ -168,6 +170,7 @@ export const Sidebar = () => {
                         </Menu>
                       </div>
                     ))}
+                  </div>
                 </div>
               )
           )}
