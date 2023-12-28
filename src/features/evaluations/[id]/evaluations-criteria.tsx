@@ -457,19 +457,19 @@ export const EvaluationsCriteria = () => {
                   Evaluation Period:{" "}
                   {formatDateRange(evaluation?.eval_start_date, evaluation?.eval_end_date)}
                 </p>
-                <span className='flex justify-between justify-items-center'>
-                  <div className='block mt-2 uppercase md:hidden'>
-                    <Badge variant={getEvaluationStatusVariant(evaluation?.status)} size='small'>
-                      {evaluation?.status}
-                    </Badge>
-                  </div>
-                  {similarEvaluations.length > 0 && (
-                    <Button variant='primaryOutline' onClick={toggleSimilarEvaluationsDialog}>
-                      <span className='text-sm sm:text-base'> Copy Evaluation</span>
-                    </Button>
-                  )}
-                </span>
               </div>
+              <span className='flex justify-between justify-items-center'>
+                <div className='block mt-2 uppercase md:hidden'>
+                  <Badge variant={getEvaluationStatusVariant(evaluation?.status)} size='small'>
+                    {evaluation?.status}
+                  </Badge>
+                </div>
+                {similarEvaluations.length > 0 && (
+                  <Button variant='primaryOutline' onClick={toggleSimilarEvaluationsDialog}>
+                    <span className='text-sm sm:text-base'> Copy Evaluation</span>
+                  </Button>
+                )}
+              </span>
             </div>
             {evaluation_template_contents.map((templateContent) => (
               <div
