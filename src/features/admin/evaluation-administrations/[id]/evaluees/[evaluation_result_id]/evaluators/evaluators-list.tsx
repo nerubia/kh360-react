@@ -35,6 +35,7 @@ export const EvaluatorsList = () => {
   const [sortedExternalEvaluations, setSortedExternalEvaluations] = useState<Evaluation[]>([])
   const [internalHeader, setInternalHeader] = useState<string>("")
   const [externalHeader, setExternalHeader] = useState<string>("")
+  const [showSelectProjectButton, setShowSelectProjectButton] = useState<boolean>(false)
 
   useEffect(() => {
     if (evaluation_template_id !== "all") {
@@ -78,13 +79,19 @@ export const EvaluatorsList = () => {
       const template = evaluation_templates.find(
         (template) => parseInt(evaluation_template_id) === template.id
       )
-      if (template !== null) {
+      if (template !== undefined && template !== null) {
         const role =
           template?.project_role?.name !== undefined
             ? ` for ${template?.project_role?.name} Role`
             : ""
         setInternalHeader(`${template?.display_name}${role}`)
         setExternalHeader(`External Evaluators${role}`)
+        const excludedTemplateIds = [12]
+        if (excludedTemplateIds.includes(template.id)) {
+          setShowSelectProjectButton(false)
+        } else {
+          setShowSelectProjectButton(true)
+        }
       }
     }
   }, [evaluations])
@@ -258,42 +265,45 @@ export const EvaluatorsList = () => {
                     </Tooltip>
                   </td>
                   <td>
-                    <Dropdown>
-                      <Dropdown.Trigger>
-                        <Button variant='primaryOutline' size='small'>
-                          {evaluation.project !== null
-                            ? evaluation.project?.name
-                            : "Select project"}
-                        </Button>
-                      </Dropdown.Trigger>
-                      <Dropdown.Content>
-                        {getAvailableProjects(evaluation.evaluator?.id).map(
-                          (projectMember, index) => (
-                            <React.Fragment key={index}>
-                              <Dropdown.Item
-                                onClick={() =>
-                                  setProject(
-                                    evaluation.id,
-                                    projectMember.project?.id,
-                                    projectMember.id
-                                  )
-                                }
-                              >
-                                <div className='flex-flex-col'>
-                                  <p className='text-sm font-bold text-start'>
-                                    {projectMember.project?.name} - {projectMember.allocation_rate}%
-                                  </p>
-                                  <p className='text-sm'>
-                                    {formatDate(projectMember.start_date)} to{" "}
-                                    {formatDate(projectMember.end_date)}
-                                  </p>
-                                </div>
-                              </Dropdown.Item>
-                            </React.Fragment>
-                          )
-                        )}
-                      </Dropdown.Content>
-                    </Dropdown>
+                    {showSelectProjectButton && (
+                      <Dropdown>
+                        <Dropdown.Trigger>
+                          <Button variant='primaryOutline' size='small'>
+                            {evaluation.project !== null
+                              ? evaluation.project?.name
+                              : "Select project"}
+                          </Button>
+                        </Dropdown.Trigger>
+                        <Dropdown.Content>
+                          {getAvailableProjects(evaluation.evaluator?.id).map(
+                            (projectMember, index) => (
+                              <React.Fragment key={index}>
+                                <Dropdown.Item
+                                  onClick={() =>
+                                    setProject(
+                                      evaluation.id,
+                                      projectMember.project?.id,
+                                      projectMember.id
+                                    )
+                                  }
+                                >
+                                  <div className='flex-flex-col'>
+                                    <p className='text-sm font-bold text-start'>
+                                      {projectMember.project?.name} -{" "}
+                                      {projectMember.allocation_rate}%
+                                    </p>
+                                    <p className='text-sm'>
+                                      {formatDate(projectMember.start_date)} to{" "}
+                                      {formatDate(projectMember.end_date)}
+                                    </p>
+                                  </div>
+                                </Dropdown.Item>
+                              </React.Fragment>
+                            )
+                          )}
+                        </Dropdown.Content>
+                      </Dropdown>
+                    )}
                   </td>
                   <td className='pb-2'>
                     {evaluation.percent_involvement !== null &&
