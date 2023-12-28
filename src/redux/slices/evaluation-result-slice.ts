@@ -38,7 +38,7 @@ export const getEvaluators = createAsyncThunk(
   "evaluationResult/getEvaluators",
   async (id: number, thunkApi) => {
     try {
-      const response = await axiosInstance.get(`/admin/evaluation-results/${id}/evaluators`)
+      const response = await axiosInstance.get(`/user/evaluation-results/${id}/evaluators`)
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
