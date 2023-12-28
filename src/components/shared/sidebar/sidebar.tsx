@@ -73,6 +73,12 @@ const menuLinks: MenuLink[] = [
         icon: "GanttChart",
         access: "Admin",
       },
+      {
+        title: "Message Templates",
+        link: "/admin/message-templates",
+        icon: "Message",
+        access: "Admin",
+      },
     ],
   },
 ]

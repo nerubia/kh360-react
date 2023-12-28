@@ -19,6 +19,7 @@ export const icons = {
   ListChecks: lazy(async () => await import("./icons/list-checks-icon")),
   Logout: lazy(async () => await import("./icons/logout-icon")),
   Menu: lazy(async () => await import("./icons/menu-icon")),
+  Message: lazy(async () => await import("./icons/message-icon")),
   PenSquare: lazy(async () => await import("./icons/pen-square-icon")),
   Plus: lazy(async () => await import("./icons/plus-icon")),
   Star: lazy(async () => await import("./icons/star-icon")),
