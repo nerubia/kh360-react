@@ -151,7 +151,7 @@ export const EvaluationsCriteria = () => {
       return null
     })
     setSimilarEvaluations(similarUserEvaluations)
-    if (similarUserEvaluations.length > 0) {
+    if (evaluation?.status === EvaluationStatus.Open && similarUserEvaluations.length > 0) {
       setShowSimilarEvaluationsDialog(true)
     }
   }, [evaluation])
