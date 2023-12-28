@@ -27,7 +27,7 @@ export const EmailTemplatesFilter = () => {
 
   const [name, setName] = useState<string>(searchParams.get("name") ?? "")
   const [template_type, setTemplateType] = useState<string>(searchParams.get("template_type") ?? "")
-  const [is_default, setDefault] = useState<string>(searchParams.get("defult") ?? "all")
+  const [is_default, setDefault] = useState<string>(searchParams.get("default") ?? "all")
 
   const handleSearch = async () => {
     if (name.length !== 0) {
