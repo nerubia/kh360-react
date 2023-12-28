@@ -19,7 +19,7 @@ export const DistributionChart: React.FC<DistributionChartProps> = ({
       const value = evaluation.zscore ?? 0
 
       if (uniqueValues[value] !== undefined) {
-        uniqueValues[value] += 0.15
+        uniqueValues[value] += 0.25
       } else {
         uniqueValues[value] = 0
       }
@@ -46,7 +46,7 @@ export const DistributionChart: React.FC<DistributionChartProps> = ({
           label: "Evaluee Data",
           data: evaluatorData?.map((data) => ({ x: data.value, y: data.yValue, label: data.name })),
           borderColor: "transparent",
-          pointRadius: 8,
+          pointRadius: 7,
           pointHoverRadius: 10,
           pointBackgroundColor: getBarColor(),
         },
@@ -54,6 +54,7 @@ export const DistributionChart: React.FC<DistributionChartProps> = ({
     }
 
     const chartOptions = {
+      responsive: true,
       maintainAspectRatio: false,
       devicePixelRatio: 4,
       scales: {
@@ -71,7 +72,7 @@ export const DistributionChart: React.FC<DistributionChartProps> = ({
           },
         },
         y: {
-          max: 1,
+          clip: false,
           display: false,
           beginAtZero: true,
         },
@@ -113,7 +114,7 @@ export const DistributionChart: React.FC<DistributionChartProps> = ({
     }
 
     return (
-      <div className='md:w-[700px]'>
+      <div className='md:w-[600px]'>
         <Scatter data={chartData} options={chartOptions} />
       </div>
     )
