@@ -328,7 +328,7 @@ export const EvaluationProgressList = () => {
                             size='small'
                             onClick={() => toggleEmailLogDialog(evaluator.id)}
                           >
-                            <span className='text-primary-500 underline'>View More</span>
+                            <span className='text-primary-500 text-xs underline'>View More</span>
                           </Button>
                         )}
                       </Tooltip.Content>
