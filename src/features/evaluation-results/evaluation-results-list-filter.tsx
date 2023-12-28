@@ -23,11 +23,7 @@ bandingFilters.unshift({
 
 const sortByFilters: Option[] = [
   {
-    label: "All",
-    value: "all",
-  },
-  {
-    label: "Evaluee",
+    label: "Employee",
     value: "evaluee",
   },
   {
@@ -53,6 +49,7 @@ export const EvaluationResultsListFilter = () => {
 
   const appDispatch = useAppDispatch()
   const { evaluation_administrations } = useAppSelector((state) => state.evaluationAdministrations)
+  const { totalItems } = useAppSelector((state) => state.evaluationResults)
   const { score_ratings } = useAppSelector((state) => state.scoreRatings)
 
   const [evaluationAdministrationFilters, setEvaluationAdministrationFilters] = useState<Option[]>(
@@ -68,7 +65,7 @@ export const EvaluationResultsListFilter = () => {
     searchParams.get("score_ratings_id") ?? "all"
   )
   const [banding, setBanding] = useState<string>(searchParams.get("banding") ?? "all")
-  const [sortBy, setSortBy] = useState<string>(searchParams.get("sort_by") ?? "all")
+  const [sortBy, setSortBy] = useState<string>(searchParams.get("sort_by") ?? "evaluee")
 
   useEffect(() => {
     void appDispatch(
@@ -106,7 +103,7 @@ export const EvaluationResultsListFilter = () => {
     setScoreRatingFilters(filterOptions)
   }, [score_ratings])
 
-  const handleSearch = async () => {
+  const handleSearch = async (sort?: string) => {
     if (name.length !== 0) {
       searchParams.set("name", name)
     } else {
@@ -115,7 +112,7 @@ export const EvaluationResultsListFilter = () => {
     searchParams.set("evaluation_administration_id", evaluationAdministrationId)
     searchParams.set("score_ratings_id", scoreRatingId)
     searchParams.set("banding", banding)
-    searchParams.set("sort_by", sortBy)
+    searchParams.set("sort_by", sort ?? sortBy)
     searchParams.set("page", "1")
     setSearchParams(searchParams)
   }
@@ -130,8 +127,8 @@ export const EvaluationResultsListFilter = () => {
   }
 
   return (
-    <div className='flex flex-col md:flex-row justify-between gap-4'>
-      <div className='flex-1 flex flex-col md:flex-row gap-4'>
+    <div className='flex flex-col gap-4'>
+      <div className='flex flex-col md:flex-row gap-4'>
         <div className='flex-1'>
           <Input
             label='Name'
@@ -141,50 +138,68 @@ export const EvaluationResultsListFilter = () => {
             onChange={(e) => setName(e.target.value)}
           />
         </div>
-        <CustomSelect
-          data-test-id='EvaluationAdministration'
-          label='Evaluation Administration'
-          name='evaluation_administration'
-          value={evaluationAdministrationFilters.find(
-            (option) => option.value === evaluationAdministrationId
-          )}
-          onChange={(option) =>
-            setEvaluationAdministrationId(option !== null ? option.value : "all")
-          }
-          options={evaluationAdministrationFilters}
-          fullWidth
-        />
-        <CustomSelect
-          data-test-id='ScoreRating'
-          label='Rating'
-          name='score_rating'
-          value={scoreRatingFilters.find((option) => option.value === scoreRatingId)}
-          onChange={(option) => setScoreRatingId(option !== null ? option.value : "all")}
-          options={scoreRatingFilters}
-        />
-        <CustomSelect
-          data-test-id='Banding'
-          label='Banding'
-          name='banding'
-          value={bandingFilters.find((option) => option.value === banding)}
-          onChange={(option) => setBanding(option !== null ? option.value : "all")}
-          options={bandingFilters}
-        />
-        <CustomSelect
-          data-test-id='SortBy'
-          label='Sort by'
-          name='sort_by'
-          value={sortByFilters.find((option) => option.value === sortBy)}
-          onChange={(option) => setSortBy(option !== null ? option.value : "all")}
-          options={sortByFilters}
-        />
+        <div className='flex-1'>
+          <CustomSelect
+            data-test-id='EvaluationAdministration'
+            label='Evaluation Administration'
+            name='evaluation_administration'
+            value={evaluationAdministrationFilters.find(
+              (option) => option.value === evaluationAdministrationId
+            )}
+            onChange={(option) =>
+              setEvaluationAdministrationId(option !== null ? option.value : "all")
+            }
+            options={evaluationAdministrationFilters}
+            fullWidth
+          />
+        </div>
       </div>
-      <div className='flex items-end gap-4'>
-        <Button onClick={handleSearch}>Search</Button>
-        <Button variant='primaryOutline' onClick={handleClear}>
-          Clear
-        </Button>
+      <div className='flex flex-col md:flex-row justify-between gap-4'>
+        <div className='flex-1 flex flex-col md:flex-row gap-4'>
+          <CustomSelect
+            data-test-id='ScoreRating'
+            label='Rating'
+            name='score_rating'
+            value={scoreRatingFilters.find((option) => option.value === scoreRatingId)}
+            onChange={(option) => setScoreRatingId(option !== null ? option.value : "all")}
+            options={scoreRatingFilters}
+          />
+          <CustomSelect
+            data-test-id='Banding'
+            label='Banding'
+            name='banding'
+            value={bandingFilters.find((option) => option.value === banding)}
+            onChange={(option) => setBanding(option !== null ? option.value : "all")}
+            options={bandingFilters}
+          />
+          <CustomSelect
+            data-test-id='SortBy'
+            label='Sort by'
+            name='sort_by'
+            value={sortByFilters.find((option) => option.value === sortBy)}
+            onChange={(option) => {
+              setSortBy(option !== null ? option.value : "evaluee")
+              void handleSearch(option?.value)
+            }}
+            options={sortByFilters}
+          />
+        </div>
+        <div className='flex items-end gap-4'>
+          <Button
+            onClick={() => {
+              void handleSearch()
+            }}
+          >
+            Search
+          </Button>
+          <Button variant='primaryOutline' onClick={handleClear}>
+            Clear
+          </Button>
+        </div>
       </div>
+      <h2 className='text-gray-400'>
+        {totalItems} {totalItems === 1 ? "Result" : "Results"} Found
+      </h2>
     </div>
   )
 }
