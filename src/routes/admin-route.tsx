@@ -67,6 +67,10 @@ const CreateProjectAssignment = lazy(
   async () => await import("../pages/admin/project-assignments/create/create-project-assignment")
 )
 
+const EmailTemplates = lazy(
+  async () => await import("../pages/admin/email-templates/email-templates")
+)
+
 export const adminRoutes = {
   element: <AdminRoute />,
   children: [
@@ -146,6 +150,13 @@ export const adminRoutes = {
     {
       path: "/admin/project-assignments/create",
       element: <CreateProjectAssignment />,
+    },
+    /**
+     * Email Templates
+     */
+    {
+      path: "/admin/message-templates",
+      element: <EmailTemplates />,
     },
   ],
 }
