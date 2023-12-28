@@ -308,8 +308,17 @@ const evaluationAdministrationSlice = createSlice({
       state.loading_send = Loading.Pending
       state.error = null
     })
-    builder.addCase(sendReminder.fulfilled, (state) => {
+    builder.addCase(sendReminder.fulfilled, (state, action) => {
       state.loading_send = Loading.Fulfilled
+      const index = state.evaluators.findIndex(
+        (evaluator) => evaluator.id === parseInt(action.payload.evaluatorId)
+      )
+      if (index !== -1) {
+        const newEmailLog = action.payload.emailLog
+        if (newEmailLog !== undefined) {
+          state.evaluators[index].email_logs?.push(newEmailLog)
+        }
+      }
       state.error = null
     })
     builder.addCase(sendReminder.rejected, (state, action) => {
