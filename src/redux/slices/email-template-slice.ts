@@ -1,9 +1,25 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
 import { type ApiError } from "../../types/apiErrorType"
-import { type EmailTemplate } from "../../types/email-template-type"
+import { type EmailTemplateFilters, type EmailTemplate } from "../../types/email-template-type"
 import { Loading } from "../../types/loadingType"
 import { axiosInstance } from "../../utils/axios-instance"
+
+export const getEmailTemplates = createAsyncThunk(
+  "emailTemplate/getEmailTemplates",
+  async (params: EmailTemplateFilters | undefined, thunkApi) => {
+    try {
+      const response = await axiosInstance.get(`/admin/email-templates`, {
+        params,
+      })
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
 
 export const getDefaultEmailTemplate = createAsyncThunk(
   "emailTemplate/getDefaultEmailTemplate",
@@ -51,18 +67,42 @@ export const getRatingTemplates = createAsyncThunk(
   }
 )
 
+export const deleteEmailTemplate = createAsyncThunk(
+  "emailTemplate/deleteEmailTemplate",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.delete(`/admin/email-templates/${id}`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
+  emailTemplates: EmailTemplate[]
   emailTemplate: EmailTemplate | null
   ratingTemplates: EmailTemplate[]
+  hasPreviousPage: boolean
+  hasNextPage: boolean
+  totalPages: number
+  totalItems: number
 }
 
 const initialState: InitialState = {
   loading: Loading.Idle,
   error: null,
   emailTemplate: null,
+  emailTemplates: [],
   ratingTemplates: [],
+  hasPreviousPage: false,
+  hasNextPage: false,
+  totalPages: 0,
+  totalItems: 0,
 }
 
 const emailTemplateSlice = createSlice({
@@ -83,6 +123,26 @@ const emailTemplateSlice = createSlice({
       state.emailTemplate = action.payload
     })
     builder.addCase(getDefaultEmailTemplate.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * List email templates
+     */
+    builder.addCase(getEmailTemplates.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getEmailTemplates.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.emailTemplates = action.payload.data
+      state.hasPreviousPage = action.payload.pageInfo.hasPreviousPage
+      state.hasNextPage = action.payload.pageInfo.hasNextPage
+      state.totalPages = action.payload.pageInfo.totalPages
+      state.totalItems = action.payload.pageInfo.totalItems
+    })
+    builder.addCase(getEmailTemplates.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
@@ -115,6 +175,25 @@ const emailTemplateSlice = createSlice({
       state.ratingTemplates = action.payload
     })
     builder.addCase(getRatingTemplates.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Delete
+     */
+    builder.addCase(deleteEmailTemplate.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(deleteEmailTemplate.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.emailTemplates = state.emailTemplates?.filter(
+        (template) => template.id !== parseInt(action.payload.id)
+      )
+      state.totalItems = state.totalItems - 1
+    })
+    builder.addCase(deleteEmailTemplate.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
