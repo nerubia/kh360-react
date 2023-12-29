@@ -22,6 +22,20 @@ export const getEvaluations = createAsyncThunk(
   }
 )
 
+export const deleteEvaluation = createAsyncThunk(
+  "evaluations/deleteEvaluation",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.delete(`/admin/evaluations/${id}`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const setForEvaluations = createAsyncThunk(
   "evaluations/setForEvaluations",
   async (
@@ -126,6 +140,24 @@ const evaluationsSlice = createSlice({
       state.evaluations = action.payload
     })
     builder.addCase(getEvaluations.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Delete
+     */
+    builder.addCase(deleteEvaluation.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(deleteEvaluation.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.evaluations = state.evaluations.filter(
+        (evaluation) => evaluation.id !== parseInt(action.payload.id)
+      )
+    })
+    builder.addCase(deleteEvaluation.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
