@@ -11,6 +11,7 @@ export interface ProjectMember {
   project?: Project
   user?: User
   role?: string
+  color?: string
 }
 
 export interface ProjectMemberFilters {
