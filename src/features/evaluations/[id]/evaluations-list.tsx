@@ -207,28 +207,28 @@ export const EvaluationsList = () => {
                     </div>
                   </Menu>
                 ))}
-                <div className='hidden p-2 md:block'>
-                  <LinkButton to='/evaluation-administrations' variant='primaryOutline'>
-                    <Icon icon='ChevronLeft' />
-                  </LinkButton>
-                </div>
-                <Dialog open={showDialog && is_editing}>
-                  <Dialog.Title>Confirm Discard Changes</Dialog.Title>
-                  <Dialog.Description>
-                    You have unsaved changes on this page. <br /> Are you sure you want to discard
-                    these changes?
-                  </Dialog.Description>
-                  <Dialog.Actions>
-                    <Button variant='primaryOutline' onClick={toggleDialog}>
-                      No
-                    </Button>
-                    <Button variant='primary' onClick={() => handleProceed()}>
-                      Yes
-                    </Button>
-                  </Dialog.Actions>
-                </Dialog>
               </>
             )}
+          <Dialog open={showDialog && is_editing}>
+            <Dialog.Title>Confirm Discard Changes</Dialog.Title>
+            <Dialog.Description>
+              You have unsaved changes on this page. <br /> Are you sure you want to discard these
+              changes?
+            </Dialog.Description>
+            <Dialog.Actions>
+              <Button variant='primaryOutline' onClick={toggleDialog}>
+                No
+              </Button>
+              <Button variant='primary' onClick={() => handleProceed()}>
+                Yes
+              </Button>
+            </Dialog.Actions>
+          </Dialog>
+          <div className='hidden p-2 md:block'>
+            <LinkButton to='/evaluation-administrations' variant='primaryOutline'>
+              <Icon icon='ChevronLeft' />
+            </LinkButton>
+          </div>
         </div>
       </div>
     </>
