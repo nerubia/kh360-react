@@ -6,7 +6,7 @@ import { useAppSelector } from "../../../../../hooks/useAppSelector"
 import { Button, LinkButton } from "../../../../../components/ui/button/button"
 import { Input } from "../../../../../components/ui/input/input"
 import { TextArea } from "../../../../../components/ui/textarea/text-area"
-import { createEvaluationSchema } from "../../../../../utils/validation/evaluations/createEvaluationSchema"
+import { createEvaluationAdministrationSchema } from "../../../../../utils/validation/evaluation-administration-schema"
 import { Loading } from "../../../../../types/loadingType"
 import Dialog from "../../../../../components/ui/dialog/dialog"
 import { type EvaluationAdministrationFormData } from "../../../../../types/form-data-type"
@@ -74,7 +74,7 @@ export const EditEvaluationForm = () => {
   const handleSubmit = async () => {
     if (id !== undefined) {
       try {
-        await createEvaluationSchema.validate(formData, {
+        await createEvaluationAdministrationSchema.validate(formData, {
           abortEarly: false,
         })
         const result = await appDispatch(
