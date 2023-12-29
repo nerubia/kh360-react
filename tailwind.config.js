@@ -17,6 +17,24 @@ module.exports = {
           900: "#5a4270",
           950: "#3a2a4b",
         },
+        customRed: {
+          500: "#edc9d4",
+        },
+        customOrange: {
+          500: "#ffd3c9",
+        },
+        customYellow: {
+          500: "#f4ba42",
+        },
+        customLightGreen: {
+          500: "#bbeec7",
+        },
+        customGreen: {
+          500: "#8fc862",
+        },
+        customBlue: {
+          500: "#b7e0ff",
+        },
       },
     },
   },

@@ -10,8 +10,8 @@ import { getScoreRatings } from "../../../redux/slices/user-slice"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../hooks/useAppSelector"
 import { Progress } from "../../../components/ui/progress/progress"
-import { Icon } from "../../../components/ui/icon/icon"
 import { getScoreRatingVariant } from "../../../utils/variant"
+import { getScoreRatingBackgroundColor } from "../../../utils/colors"
 
 const band = cva([], {
   variants: {
@@ -26,10 +26,11 @@ const band = cva([], {
 })
 
 interface ScoreRangeProps extends VariantProps<typeof band> {
-  user_picture: string
-  score_rating: ScoreRating
-  score: number
+  user_picture?: string
+  score_rating?: ScoreRating
+  score?: number
   is_evaluee: boolean
+  showDetails?: boolean
 }
 
 export const ScoreRange = ({
@@ -38,10 +39,11 @@ export const ScoreRange = ({
   is_evaluee,
   user_picture,
   size,
+  showDetails = true,
 }: ScoreRangeProps) => {
   const appDispatch = useAppDispatch()
   const { score_ratings } = useAppSelector((state) => state.user)
-  const displayScore = (score - 0.25) * 10
+  const displayScore = ((score ?? 0) - 0.25) * 10
 
   const scoreImages: Record<string, string> = {
     "Navigational Challenge": navigationalChallenge,
@@ -77,7 +79,7 @@ export const ScoreRange = ({
   }
   return (
     <div className='flex flex-col gap-2'>
-      {score_rating !== null && (
+      {score_rating !== undefined && score_rating !== null && (
         <>
           <div className='flex gap-4 items-start flex-col'>
             <div className='flex gap-8 justify-center'>
@@ -94,20 +96,22 @@ export const ScoreRange = ({
                 </div>
               ))}
             </div>
-            <div className='flex justify-center ml-5 relative md:w-[860px] w-full'>
+            <div className='flex justify-center ml-5 pb-5 relative md:w-[860px] w-full'>
               <div className='absolute inset-0'>
                 <Progress
                   variant={getScoreRatingVariant(score_rating?.name ?? "")}
-                  value={score * 10}
+                  value={(score ?? 0) * 10}
                   width='full'
                 />
               </div>
               {user_picture === undefined || user_picture === null ? (
                 <div
-                  className={`rounded-full absolute -top-3 bg-primary-500 p-2`}
+                  className={`w-10 h-10 flex justify-center items-center rounded-full absolute -top-3 ${getScoreRatingBackgroundColor(
+                    score_rating?.name ?? ""
+                  )}`}
                   style={{ left: `${displayScore}%` }}
                 >
-                  <Icon icon='UserFill' color='white' size='medium' />
+                  <span className='text-white text-sm'>{displayScore.toFixed(0)}%</span>
                 </div>
               ) : (
                 <img
@@ -118,17 +122,21 @@ export const ScoreRange = ({
               )}
             </div>
           </div>
-          <div
-            className='flex font-bold mt-10 ml-5'
-            style={{
-              filter: getColor(score_rating.name, score_rating.name),
-            }}
-          >
-            {score_rating.display_name}
-          </div>
-          <div className='flex text-sm italic leading-loose ml-5 md:w-[860px]'>
-            {is_evaluee ? score_rating.evaluee_description : score_rating.result_description}
-          </div>
+          {showDetails && (
+            <>
+              <div
+                className='flex font-bold mt-5 ml-5'
+                style={{
+                  filter: getColor(score_rating.name, score_rating.name),
+                }}
+              >
+                {score_rating.display_name}
+              </div>
+              <div className='flex text-sm italic leading-loose ml-5 md:w-[860px]'>
+                {is_evaluee ? score_rating.evaluee_description : score_rating.result_description}
+              </div>
+            </>
+          )}
         </>
       )}
     </div>
