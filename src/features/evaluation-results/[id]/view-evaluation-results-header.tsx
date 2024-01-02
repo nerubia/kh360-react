@@ -41,16 +41,18 @@ export const ViewEvaluationResultsHeader = () => {
         <div className='text-xl text-primary-500 font-bold my-5'>
           Total Score: {evaluation_result?.total_score}%
         </div>
-        {evaluation_result?.score_rating !== undefined &&
-          evaluation_result?.users?.picture !== undefined && (
-            <ScoreRange
-              user_picture={evaluation_result?.users?.picture}
-              score_rating={evaluation_result?.score_rating}
-              score={evaluation_result?.score}
-              size='medium'
-              is_evaluee={false}
-            />
-          )}
+        <div className='md:w-[800px]'>
+          {evaluation_result?.score_rating !== undefined &&
+            evaluation_result?.users?.picture !== undefined && (
+              <ScoreRange
+                user_picture={evaluation_result?.users?.picture}
+                score_rating={evaluation_result?.score_rating}
+                score={evaluation_result?.score}
+                size='medium'
+                is_evaluee={false}
+              />
+            )}
+        </div>
       </div>
     </>
   )

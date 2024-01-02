@@ -81,12 +81,12 @@ export const ScoreRange = ({
     <div className='flex flex-col gap-2'>
       {score_rating !== undefined && score_rating !== null && (
         <>
-          <div className='flex gap-4 items-start flex-col'>
-            <div className='flex gap-8 justify-center'>
+          <div className='flex-1 flex flex-col gap-4'>
+            <div className='flex justify-between gap-8'>
               {score_ratings?.map((score) => (
                 <div
                   key={score.id}
-                  className='px-5 pb-2 flex flex-col items-center'
+                  className='text-center pb-2 flex flex-col items-center'
                   style={{
                     filter: getColor(score_rating.name, score.name),
                   }}
@@ -96,12 +96,13 @@ export const ScoreRange = ({
                 </div>
               ))}
             </div>
-            <div className='flex justify-center ml-5 pb-5 relative md:w-[860px] w-full'>
+            <div className='flex justify-center pb-5 relative w-full'>
               <div className='absolute inset-0'>
                 <Progress
                   variant={getScoreRatingVariant(score_rating?.name ?? "")}
                   value={(score ?? 0) * 10}
                   width='full'
+                  size={size}
                 />
               </div>
               {user_picture === undefined || user_picture === null ? (

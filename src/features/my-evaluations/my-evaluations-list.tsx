@@ -54,9 +54,19 @@ export const MyEvaluationsList = () => {
           key={evaluationAdministration.id}
           to={`/my-evaluations/${evaluationAdministration.id}`}
         >
-          <div className='flex flex-col items-start gap-4 md:flex-row md:justify-between shadow-md rounded-md p-4 hover:bg-slate-100'>
-            <div className='flex flex-col gap-2'>
-              <div>
+          <div className='flex flex-col gap-4 shadow-md rounded-md p-4 hover:bg-slate-100'>
+            <div className='flex flex-col items-center gap-2'>
+              <div className='w-96'>
+                <ScoreRange
+                  user_picture={user?.picture}
+                  score_rating={evaluationAdministration.score_rating}
+                  score={evaluationAdministration?.score}
+                  size='small'
+                  is_evaluee={true}
+                  showDetails={false}
+                />
+              </div>
+              <div className='text-center'>
                 <h2 className='text-primary-500 text-lg font-semibold'>
                   {evaluationAdministration.name}
                 </h2>
@@ -68,14 +78,6 @@ export const MyEvaluationsList = () => {
                   )}
                 </p>
               </div>
-              <ScoreRange
-                user_picture={user?.picture}
-                score_rating={evaluationAdministration.score_rating}
-                score={evaluationAdministration?.score}
-                size='medium'
-                is_evaluee={true}
-                showDetails={false}
-              />
             </div>
           </div>
         </Link>
