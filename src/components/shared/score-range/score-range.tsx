@@ -12,6 +12,7 @@ import { useAppSelector } from "../../../hooks/useAppSelector"
 import { Progress } from "../../../components/ui/progress/progress"
 import { getScoreRatingVariant } from "../../../utils/variant"
 import { getScoreRatingBackgroundColor } from "../../../utils/colors"
+import { Icon } from "../../../components/ui/icon/icon"
 
 const band = cva([], {
   variants: {
@@ -59,7 +60,7 @@ export const ScoreRange = ({
 
   const getColor = (score_rating: string, icon: string) => {
     if (score_rating !== icon) {
-      return "invert(100%) sepia(26%) saturate(19%) hue-rotate(248deg) brightness(112%) contrast(90%)"
+      return "invert(94%) sepia(1%) saturate(5088%) hue-rotate(186deg) brightness(100%) contrast(91%)"
     }
     if (score_rating === "Needs Improvement") {
       return "invert(25%) sepia(96%) saturate(1637%) hue-rotate(343deg) brightness(98%) contrast(93%)"
@@ -112,7 +113,7 @@ export const ScoreRange = ({
                   )}`}
                   style={{ left: `${displayScore}%` }}
                 >
-                  <span className='text-white text-sm'>{displayScore.toFixed(0)}%</span>
+                  <Icon icon='UserFill' color='white' />
                 </div>
               ) : (
                 <img
@@ -133,9 +134,9 @@ export const ScoreRange = ({
               >
                 {score_rating.display_name}
               </div>
-              <div className='flex text-sm italic leading-loose ml-5 md:w-[860px]'>
+              <pre className='flex font-sans break-words whitespace-pre-wrap text-sm italic leading-loose ml-5 md:w-[860px]'>
                 {is_evaluee ? score_rating.evaluee_description : score_rating.result_description}
-              </div>
+              </pre>
             </>
           )}
         </>

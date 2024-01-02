@@ -34,14 +34,16 @@ export const ViewEvaluationResultsTable = () => {
           id !== undefined && (
             <>
               <div className='text-xl text-primary-500 font-bold mb-5'>Detailed Evaluation </div>
-              <table className='md:w-[860px] table-fixed'>
+              <table className='md:w-[860px]'>
                 <thead className='text-left'>
                   <tr>
-                    <th className='py-1 border-b-4 text-primary-500'>Evaluations</th>
-                    <th className='py-1 border-b-4 text-start text-primary-500'>Score</th>
-                    <th className='py-1 border-b-4 text-start text-primary-500'>Rating</th>
-                    <th className='py-1 border-b-4 text-center text-primary-500'>Standard Score</th>
-                    <th className='py-1 border-b-4 text-start text-primary-500'>Banding</th>
+                    <th className='py-1 border-b-4 text-primary-500 w-1/4'>Evaluations</th>
+                    <th className='py-1 border-b-4 text-center text-primary-500 w-1/5'>Score</th>
+                    <th className='py-1 border-b-4 text-start text-primary-500 w-1/5'>Rating</th>
+                    <th className='py-1 border-b-4 text-start text-primary-500 w-1/5'>
+                      Standard Score
+                    </th>
+                    <th className='py-1 border-b-4 text-start text-primary-500 w-1/5'>Banding</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -54,17 +56,19 @@ export const ViewEvaluationResultsTable = () => {
                         toggleDetails()
                       }}
                     >
-                      <td className='py-1 border-b'>{detail.template_name}</td>
-                      <td className='py-1 border-b text-start'>{detail.total_score}%</td>
+                      <td className='py-1 border-b w-1/4'>{detail.template_name}</td>
+                      <td className='py-1 border-b text-center w-1/5'>{detail.total_score}%</td>
                       {detail.score_rating?.display_name !== null && (
-                        <td className='py-1 border-b text-start items-center'>
+                        <td className='py-1 border-b text-start items-center w-1/5'>
                           {detail.score_rating?.display_name}
                         </td>
                       )}
-                      <td className='py-1 border-b text-center items-center'>
+                      <td className='py-1 border-b text-start items-center w-1/5'>
                         {Number(detail.zscore).toFixed(2)}
                       </td>
-                      <td className='py-1 border-b text-start items-center'>{detail.banding}</td>
+                      <td className='py-1 border-b text-start items-center w-1/5'>
+                        {Number(detail.weight) !== 0 ? detail.banding : ""}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -84,8 +88,8 @@ export const ViewEvaluationResultsTable = () => {
             {selectedEvaluationResultDetail?.evaluation_template_contents?.map((content, index) => (
               <div key={index} className='hover:bg-slate-100 p-2'>
                 <div className='flex justify-between mb-2'>
-                  <div className='text-primary-500 font-bold w-1/2'>{content.name}</div>
-                  <div className='w-[300px] relative'>
+                  <div className='text-primary-500 font-bold w-2/3'>{content.name}</div>
+                  <div className='w-[600px] relative'>
                     <div className='relative z-0'>
                       <Progress
                         variant={getScoreVariant(content.average_rate ?? 0)}
@@ -94,13 +98,13 @@ export const ViewEvaluationResultsTable = () => {
                       />
                     </div>
                     <div
-                      className={`absolute top-[10px] right-3/4 transform -translate-x-1/2 -translate-y-1/2 z-10  text-white`}
+                      className={`absolute top-[10px] left-[40px] transform -translate-x-2/3 -translate-y-1/2 z-10  text-white`}
                     >
                       {content.average_rate}%
                     </div>
                   </div>
                 </div>
-                <div className='mb-2 text-sm italic'> {content.description}</div>
+                <div className='mb-2 text-xs italic'> {content.description}</div>
               </div>
             ))}
           </div>
