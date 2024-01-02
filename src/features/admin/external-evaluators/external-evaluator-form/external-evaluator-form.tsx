@@ -7,7 +7,7 @@ import { ValidationError } from "yup"
 import { createExternalUserSchema } from "../../../../utils/validation/external-evaluator-schema"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import { useAppDispatch } from "../../../../hooks/useAppDispatch"
-import { setAlert } from "../../../../redux/slices/appSlice"
+import { setAlert } from "../../../../redux/slices/app-slice"
 import { useAppSelector } from "../../../../hooks/useAppSelector"
 import { Loading } from "../../../../types/loadingType"
 import {

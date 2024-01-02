@@ -62,7 +62,6 @@ interface InitialState {
   currentPage: number
   totalPages: number
   totalItems: number
-  previousUrl: string | null
 }
 
 const initialState: InitialState = {
@@ -74,17 +73,12 @@ const initialState: InitialState = {
   currentPage: 0,
   totalPages: 0,
   totalItems: 0,
-  previousUrl: null,
 }
 
 const evaluationAdministrationsSlice = createSlice({
   name: "app",
   initialState,
-  reducers: {
-    setPreviousUrl: (state, action) => {
-      state.previousUrl = action.payload
-    },
-  },
+  reducers: {},
   extraReducers(builder) {
     /**
      * List
@@ -139,5 +133,4 @@ const evaluationAdministrationsSlice = createSlice({
   },
 })
 
-export const { setPreviousUrl } = evaluationAdministrationsSlice.actions
 export default evaluationAdministrationsSlice.reducer

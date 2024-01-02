@@ -5,10 +5,13 @@ import { useAppSelector } from "../../hooks/useAppSelector"
 import { getCmEvaluationResults } from "../../redux/slices/evaluation-results-slice"
 import { Pagination } from "../../components/shared/pagination/pagination"
 import { formatDate } from "../../utils/format-date"
+import { useFullPath } from "../../hooks/use-full-path"
+import { setPreviousUrl } from "../../redux/slices/app-slice"
 
 export const EvaluationResultsListTable = () => {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
+  const fullPath = useFullPath()
 
   const appDispatch = useAppDispatch()
 
@@ -30,6 +33,7 @@ export const EvaluationResultsListTable = () => {
   }, [searchParams])
 
   const handleViewEvaluationResult = (id: number) => {
+    appDispatch(setPreviousUrl(fullPath))
     navigate(`/evaluation-results/${id}`)
   }
 

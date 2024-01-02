@@ -17,7 +17,7 @@ import {
   updateTotalSubmitted,
 } from "../../../redux/slices/user-slice"
 import { Loading } from "../../../types/loadingType"
-import { setAlert } from "../../../redux/slices/appSlice"
+import { setAlert } from "../../../redux/slices/app-slice"
 import { EvaluationStatus, type Evaluation } from "../../../types/evaluation-type"
 import { formatDateRange } from "../../../utils/format-date"
 import { TextArea } from "../../../components/ui/textarea/text-area"
