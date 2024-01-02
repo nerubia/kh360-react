@@ -52,8 +52,11 @@ export const DistributionChart: React.FC<DistributionChartProps> = ({
         },
       ],
     }
-
     const chartOptions = {
+      interaction: {
+        intersect: true,
+        mode: "nearest" as const,
+      },
       responsive: true,
       maintainAspectRatio: false,
       devicePixelRatio: 4,
@@ -79,6 +82,7 @@ export const DistributionChart: React.FC<DistributionChartProps> = ({
       },
       plugins: {
         tooltip: {
+          padding: 12,
           callbacks: {
             title: (context: Array<TooltipItem<ChartType>>) => {
               if (context.length > 0) {
@@ -114,7 +118,7 @@ export const DistributionChart: React.FC<DistributionChartProps> = ({
     }
 
     return (
-      <div className='md:w-[600px]'>
+      <div className='md:w-[650px]'>
         <Scatter data={chartData} options={chartOptions} />
       </div>
     )
