@@ -45,6 +45,7 @@ export enum EvaluationResultStatus {
   Ongoing = "Ongoing",
   Completed = "Completed",
   Cancelled = "Cancelled",
+  NoResult = "No Result",
 }
 
 export interface AttendanceAndPunctuality {
