@@ -54,12 +54,12 @@ export const ViewEvaluationResultsChart = () => {
 
   return (
     <div>
-      <div className='text-xl text-primary-500 font-bold'>
-        <Button variant='unstyled' onClick={toggleChart}>
+      <Button variant='unstyled' onClick={toggleChart}>
+        <div className='flex gap-2 text-xl font-bold mb-2 text-primary-500'>
           Distribution Chart:
           {showChart ? <Icon icon='ChevronDown' /> : <Icon icon='ChevronUp' />}{" "}
-        </Button>
-      </div>
+        </div>
+      </Button>
       {loading_evaluators === Loading.Pending && <div>Loading...</div>}
       {loading_evaluators === Loading.Fulfilled && evaluators === null && <div>Not found</div>}
       {loading_evaluators === Loading.Fulfilled &&
@@ -71,7 +71,7 @@ export const ViewEvaluationResultsChart = () => {
               <div>
                 {sortedEvaluators?.map((evaluator) => (
                   <div key={evaluator.id} className='flex items-end justify-start'>
-                    <div className='pb-4 md:w-[150px]'>
+                    <div className='pb-4 md:w-1/6'>
                       {evaluator.last_name}, {evaluator.first_name}
                     </div>
                     {evaluation_result?.users !== undefined && (
