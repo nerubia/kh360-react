@@ -18,16 +18,16 @@ module.exports = {
           950: "#3a2a4b",
         },
         customRed: {
-          500: "#edc9d4",
+          500: "#de3a2d",
         },
         customOrange: {
-          500: "#ffd3c9",
+          500: "#da602f",
         },
         customYellow: {
           500: "#f4ba42",
         },
         customLightGreen: {
-          500: "#bbeec7",
+          500: "#8dc663",
         },
         customGreen: {
           500: "#8fc862",
