@@ -42,8 +42,8 @@ export const EvaluationResultsListTable = () => {
       <table className='w-full table-fixed'>
         <thead className='text-left'>
           <tr>
-            <th className='pb-3'>Evaluee Name</th>
-            <th className='pb-3'>Eval Admin Name</th>
+            <th className='pb-3 w-1/4'>Evaluee Name</th>
+            <th className='pb-3 w-1/4'>Eval Admin Name</th>
             <th className='pb-3'>Eval Period</th>
             <th className='pb-3'>Score</th>
             <th className='pb-3'>Score Rating</th>
