@@ -17,7 +17,7 @@ import { PageTitle } from "../../../../components/shared/page-title"
 import { Badge } from "../../../../components/ui/badge/badge"
 import { getEvaluationAdministrationStatusVariant } from "../../../../utils/variant"
 import Dropdown from "../../../../components/ui/dropdown/dropdown"
-import { setAlert } from "../../../../redux/slices/appSlice"
+import { setAlert } from "../../../../redux/slices/app-slice"
 import { Loading } from "../../../../types/loadingType"
 
 export const ViewEvaluationHeader = () => {
@@ -27,7 +27,7 @@ export const ViewEvaluationHeader = () => {
   const { loading, evaluation_administration } = useAppSelector(
     (state) => state.evaluationAdministration
   )
-  const { previousUrl } = useAppSelector((state) => state.evaluationAdministrations)
+  const { previousUrl } = useAppSelector((state) => state.app)
 
   const [showCancelDialog, setShowCancelDialog] = useState<boolean>(false)
   const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false)

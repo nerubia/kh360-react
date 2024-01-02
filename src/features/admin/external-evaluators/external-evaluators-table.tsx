@@ -7,7 +7,7 @@ import { getExternalUsers, deleteExternalUser } from "../../../redux/slices/exte
 import { Icon } from "../../../components/ui/icon/icon"
 import { Button, LinkButton } from "../../../components/ui/button/button"
 import Dialog from "../../../components/ui/dialog/dialog"
-import { setAlert } from "../../../redux/slices/appSlice"
+import { setAlert } from "../../../redux/slices/app-slice"
 
 export const ExternalEvaluatorsTable = () => {
   const [searchParams] = useSearchParams()

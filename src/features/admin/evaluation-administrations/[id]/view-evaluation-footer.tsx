@@ -6,7 +6,7 @@ import { useAppSelector } from "../../../../hooks/useAppSelector"
 export const ViewEvaluationFooter = () => {
   const navigate = useNavigate()
 
-  const { previousUrl } = useAppSelector((state) => state.evaluationAdministrations)
+  const { previousUrl } = useAppSelector((state) => state.app)
 
   const handleGoBack = () => {
     if (previousUrl !== null) {
