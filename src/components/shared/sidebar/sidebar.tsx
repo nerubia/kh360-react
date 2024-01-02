@@ -1,7 +1,7 @@
 import { useAppSelector } from "../../../hooks/useAppSelector"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAdmin } from "../../../hooks/useAdmin"
-import { setActiveSidebar } from "../../../redux/slices/appSlice"
+import { setActiveSidebar } from "../../../redux/slices/app-slice"
 import { logout } from "../../../redux/slices/auth-slice"
 import { Icon } from "../../ui/icon/icon"
 import { Button } from "../../ui/button/button"
