@@ -4,14 +4,12 @@ import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../hooks/useAppSelector"
 import { formatDate } from "../../../utils/format-date"
 import { Pagination } from "../../../components/shared/pagination/pagination"
-import {
-  getEvaluationAdministrations,
-  setPreviousUrl,
-} from "../../../redux/slices/evaluation-administrations-slice"
+import { getEvaluationAdministrations } from "../../../redux/slices/evaluation-administrations-slice"
 import { setEvaluationResults } from "../../../redux/slices/evaluation-results-slice"
 import { Badge } from "../../../components/ui/badge/badge"
 import { getEvaluationAdministrationStatusVariant } from "../../../utils/variant"
 import { useFullPath } from "../../../hooks/use-full-path"
+import { setPreviousUrl } from "../../../redux/slices/app-slice"
 
 export const EvaluationAdministrationsTable = () => {
   const fullPath = useFullPath()
