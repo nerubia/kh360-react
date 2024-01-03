@@ -159,50 +159,54 @@ export const ViewEvaluationHeader = () => {
                 Progress
               </LinkButton>
             ) : null}
-            <Dropdown>
-              <Dropdown.Trigger>
-                <Button>
-                  More actions
-                  <Icon icon='ChevronDown' />
-                </Button>
-              </Dropdown.Trigger>
-              <Dropdown.Content>
-                {(evaluation_administration?.status === EvaluationAdministrationStatus.Draft ||
-                  evaluation_administration?.status === EvaluationAdministrationStatus.Pending) && (
-                  <Dropdown.Item
-                    onClick={() => navigate(`/admin/evaluation-administrations/${id}/edit`)}
-                  >
-                    <Icon icon='PenSquare' />
-                    Edit
-                  </Dropdown.Item>
-                )}
-                {(evaluation_administration?.status === EvaluationAdministrationStatus.Pending ||
-                  evaluation_administration?.status === EvaluationAdministrationStatus.Ongoing) && (
-                  <Dropdown.Item onClick={toggleCancelDialog}>
-                    <Icon icon='Ban' />
-                    Cancel
-                  </Dropdown.Item>
-                )}
-                {evaluation_administration?.status === EvaluationAdministrationStatus.Draft && (
-                  <Dropdown.Item onClick={toggleDeleteDialog}>
-                    <Icon icon='Trash' />
-                    Delete
-                  </Dropdown.Item>
-                )}
-                {evaluation_administration?.status === EvaluationAdministrationStatus.Ongoing && (
-                  <Dropdown.Item onClick={toggleCloseDialog}>
-                    <Icon icon='Close' />
-                    Close
-                  </Dropdown.Item>
-                )}
-                {evaluation_administration?.status === EvaluationAdministrationStatus.Closed && (
-                  <Dropdown.Item onClick={togglePublishDialog}>
-                    <Icon icon='UploadCloud' />
-                    Publish
-                  </Dropdown.Item>
-                )}
-              </Dropdown.Content>
-            </Dropdown>
+            {evaluation_administration?.status !== EvaluationAdministrationStatus.Published && (
+              <Dropdown>
+                <Dropdown.Trigger>
+                  <Button>
+                    More actions
+                    <Icon icon='ChevronDown' />
+                  </Button>
+                </Dropdown.Trigger>
+                <Dropdown.Content>
+                  {(evaluation_administration?.status === EvaluationAdministrationStatus.Draft ||
+                    evaluation_administration?.status ===
+                      EvaluationAdministrationStatus.Pending) && (
+                    <Dropdown.Item
+                      onClick={() => navigate(`/admin/evaluation-administrations/${id}/edit`)}
+                    >
+                      <Icon icon='PenSquare' />
+                      Edit
+                    </Dropdown.Item>
+                  )}
+                  {(evaluation_administration?.status === EvaluationAdministrationStatus.Pending ||
+                    evaluation_administration?.status ===
+                      EvaluationAdministrationStatus.Ongoing) && (
+                    <Dropdown.Item onClick={toggleCancelDialog}>
+                      <Icon icon='Ban' />
+                      Cancel
+                    </Dropdown.Item>
+                  )}
+                  {evaluation_administration?.status === EvaluationAdministrationStatus.Draft && (
+                    <Dropdown.Item onClick={toggleDeleteDialog}>
+                      <Icon icon='Trash' />
+                      Delete
+                    </Dropdown.Item>
+                  )}
+                  {evaluation_administration?.status === EvaluationAdministrationStatus.Ongoing && (
+                    <Dropdown.Item onClick={toggleCloseDialog}>
+                      <Icon icon='Close' />
+                      Close
+                    </Dropdown.Item>
+                  )}
+                  {evaluation_administration?.status === EvaluationAdministrationStatus.Closed && (
+                    <Dropdown.Item onClick={togglePublishDialog}>
+                      <Icon icon='UploadCloud' />
+                      Publish
+                    </Dropdown.Item>
+                  )}
+                </Dropdown.Content>
+              </Dropdown>
+            )}
           </div>
         </div>
       </div>
