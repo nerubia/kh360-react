@@ -5,6 +5,38 @@ export const formatDate = (date?: string) => {
   return date?.split("T")[0]
 }
 
+export const shortenFormatDate = (dateString?: string): string => {
+  if (dateString == null) {
+    return "Invalid date"
+  }
+
+  const date = new Date(dateString)
+
+  if (isNaN(date.getTime())) {
+    return "Invalid date"
+  }
+
+  const months: string[] = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ]
+  const day = date.getDate()
+  const month = months[date.getMonth()]
+  const year = date.getFullYear()
+
+  return `${month} ${day}, ${year}`
+}
+
 export const convertToFullDate = (date?: string) => {
   const inputDate = new Date(date ?? "")
   const utcDate = utcToZonedTime(inputDate, "UTC")

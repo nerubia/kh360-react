@@ -15,7 +15,7 @@ import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { Button } from "../button/button"
 import Tooltip from "../tooltip/tooltip"
 import { TextArea } from "../../../components/ui/textarea/text-area"
-
+import useMobileView from "../../../hooks/use-mobile-view"
 interface StarRatingProps {
   templateContent: EvaluationTemplateContent
   loadingAnswer: Loading
@@ -39,7 +39,7 @@ export const StarRating = ({
   const appDispatch = useAppDispatch()
   const [comment, setComment] = useState<string>("")
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
-
+  const isMobile = useMobileView()
   const handleSaveComment = async (templateContentId: number) => {
     void appDispatch(
       updateEvaluationRatingCommentById({
@@ -103,7 +103,7 @@ export const StarRating = ({
                             templateContent.evaluationRating.ratingAnswerType === AnswerType.NA) ||
                             templateContent.evaluationRating.ratingAnswerType !==
                               AnswerType.NA) && (
-                            <Tooltip placement='topEnd'>
+                            <Tooltip placement={`${isMobile ? "topStart" : "topEnd"}`}>
                               <Tooltip.Trigger>
                                 <Button
                                   testId={`OptionButton${answerOption.id}`}

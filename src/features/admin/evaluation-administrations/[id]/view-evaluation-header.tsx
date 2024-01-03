@@ -3,7 +3,6 @@ import { Button, LinkButton } from "../../../../components/ui/button/button"
 import { useAppSelector } from "../../../../hooks/useAppSelector"
 import { useNavigate, useParams } from "react-router-dom"
 import { EvaluationAdministrationStatus } from "../../../../types/evaluation-administration-type"
-import { formatDate } from "../../../../utils/format-date"
 import { Icon } from "../../../../components/ui/icon/icon"
 import Dialog from "../../../../components/ui/dialog/dialog"
 import {
@@ -20,9 +19,12 @@ import { getEvaluationAdministrationStatusVariant } from "../../../../utils/vari
 import Dropdown from "../../../../components/ui/dropdown/dropdown"
 import { setAlert } from "../../../../redux/slices/app-slice"
 import { Loading } from "../../../../types/loadingType"
+import { DateRangeDisplay } from "../../../../components/shared/display-range-date"
+import useMobileView from "../../../../hooks/use-mobile-view"
 
 export const ViewEvaluationHeader = () => {
   const navigate = useNavigate()
+  const isMobile = useMobileView()
   const { id } = useParams()
   const appDispatch = useAppDispatch()
   const { loading, evaluation_administration } = useAppSelector(
@@ -164,16 +166,18 @@ export const ViewEvaluationHeader = () => {
                 <div className='uppercase'>{evaluation_administration?.status}</div>
               </Badge>
             </div>
-            <div className='flex gap-3'>
-              <div className='font-bold'>Evaluation Period: </div>
-              {formatDate(evaluation_administration?.eval_period_start_date)} to{" "}
-              {formatDate(evaluation_administration?.eval_period_end_date)}
-            </div>
-            <div className='flex gap-3'>
-              <div className='font-bold'>Evaluation Schedule: </div>
-              {formatDate(evaluation_administration?.eval_schedule_start_date)} to{" "}
-              {formatDate(evaluation_administration?.eval_schedule_end_date)}
-            </div>
+            <DateRangeDisplay
+              label='Evaluation Period'
+              startDate={evaluation_administration?.eval_period_start_date}
+              endDate={evaluation_administration?.eval_period_end_date}
+              isMobile={isMobile}
+            />
+            <DateRangeDisplay
+              label='Evaluation Schedule'
+              startDate={evaluation_administration?.eval_schedule_start_date}
+              endDate={evaluation_administration?.eval_schedule_end_date}
+              isMobile={isMobile}
+            />
           </div>
           <div className='flex justify-between gap-4'>
             {evaluation_administration?.status === EvaluationAdministrationStatus.Pending ||

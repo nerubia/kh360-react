@@ -14,6 +14,7 @@ import Dialog from "../../../components/ui/dialog/dialog"
 import { Badge } from "../../../components/ui/badge/badge"
 import { getEvaluationStatusVariant } from "../../../utils/variant"
 import { getByTemplateType } from "../../../redux/slices/email-template-slice"
+import { formatString } from "../../../utils/format-string"
 
 export const EvaluationsList = () => {
   const navigate = useNavigate()
@@ -25,7 +26,8 @@ export const EvaluationsList = () => {
   const [sortedEvaluations, setSortedEvaluations] = useState<Evaluation[]>([])
   const [showDialog, setShowDialog] = useState<boolean>(false)
   const [selectedEvaluationId, setSelectedEvaluationId] = useState<number>()
-
+  const LAST_NAME_LENGTH = 20
+  const FIRST_NAME_LENGTH = 17
   useEffect(() => {
     const getEvaluations = async () => {
       if (id !== undefined) {
@@ -180,13 +182,13 @@ export const EvaluationsList = () => {
                     <div
                       className={`flex-1 flex flex-col text-start ${
                         evaluation.status === EvaluationStatus.Open ? "font-bold" : ""
-                      }`}
+                      } w-20 h-15`}
                     >
                       <div className='flex flex-col justify-between gap-4 md:flex-row'>
                         <p className='text-sm'>
-                          {evaluation.evaluee?.last_name}
+                          {formatString(evaluation.evaluee?.last_name, LAST_NAME_LENGTH)}
                           {", "}
-                          {evaluation.evaluee?.first_name}
+                          {formatString(evaluation.evaluee?.first_name, FIRST_NAME_LENGTH)}
                         </p>
                         <div className='hidden uppercase md:block'>
                           <Badge
