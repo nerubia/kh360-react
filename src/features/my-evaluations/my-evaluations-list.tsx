@@ -55,8 +55,8 @@ export const MyEvaluationsList = () => {
           to={`/my-evaluations/${evaluationAdministration.id}`}
         >
           <div className='flex flex-col gap-4 shadow-md rounded-md p-4 hover:bg-slate-100'>
-            <div className='flex flex-col items-center gap-2'>
-              <div className='w-96'>
+            <div className='flex flex-col items-center gap-5'>
+              <div className='w-[400px]'>
                 <ScoreRange
                   user_picture={user?.picture}
                   score_rating={evaluationAdministration.score_rating}

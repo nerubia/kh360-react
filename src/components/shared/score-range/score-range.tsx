@@ -14,7 +14,7 @@ import { getScoreRatingVariant } from "../../../utils/variant"
 import { getScoreRatingBackgroundColor } from "../../../utils/colors"
 import { Icon } from "../../../components/ui/icon/icon"
 
-const band = cva([], {
+const scoreRange = cva([], {
   variants: {
     size: {
       small: ["w-6", "h-6"],
@@ -26,7 +26,7 @@ const band = cva([], {
   },
 })
 
-interface ScoreRangeProps extends VariantProps<typeof band> {
+interface ScoreRangeProps extends VariantProps<typeof scoreRange> {
   user_picture?: string
   score_rating?: ScoreRating
   score?: number
@@ -87,12 +87,18 @@ export const ScoreRange = ({
               {score_ratings?.map((score) => (
                 <div
                   key={score.id}
-                  className='text-center pb-2 flex flex-col items-center'
+                  className={`text-center pb-2 flex flex-col items-center ${
+                    size === "small" ? "text-sm" : ""
+                  }`}
                   style={{
                     filter: getColor(score_rating.name, score.name),
                   }}
                 >
-                  <img className={band({ size })} src={scoreImages[score?.display_name]} alt='' />
+                  <img
+                    className={scoreRange({ size })}
+                    src={scoreImages[score?.display_name]}
+                    alt=''
+                  />
                   {score?.display_name}
                 </div>
               ))}
@@ -108,9 +114,9 @@ export const ScoreRange = ({
               </div>
               {user_picture === undefined || user_picture === null ? (
                 <div
-                  className={`w-10 h-10 flex justify-center items-center rounded-full absolute -top-3 ${getScoreRatingBackgroundColor(
-                    score_rating?.name ?? ""
-                  )}`}
+                  className={`w-10 h-10 flex justify-center items-center rounded-full absolute ${
+                    size === "small" ? "-top-4" : "-top-3"
+                  } ${getScoreRatingBackgroundColor(score_rating?.name ?? "")}`}
                   style={{ left: `${displayScore}%` }}
                 >
                   <Icon icon='UserFill' color='white' />
