@@ -39,7 +39,7 @@ export const MyEvaluationResultsHeader = () => {
             </div>
           </div>
         </div>
-        <div className='text-xl text-primary-500 font-bold my-5'>
+        <div className='text-xl text-primary-500 font-bold mt-10 mb-5'>
           Total Score: {user_evaluation_result?.total_score}%
         </div>
         <div className='md:w-[800px]'>
