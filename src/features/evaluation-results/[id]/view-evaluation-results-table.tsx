@@ -1,4 +1,4 @@
-import { useState } from "react"
+import React, { useState } from "react"
 import { useParams } from "react-router-dom"
 import { useAppSelector } from "../../../hooks/useAppSelector"
 import { Loading } from "../../../types/loadingType"
@@ -48,28 +48,31 @@ export const ViewEvaluationResultsTable = () => {
                 </thead>
                 <tbody>
                   {evaluation_result?.evaluation_result_details.map((detail) => (
-                    <tr
-                      key={detail.id}
-                      className='cursor-pointer hover:bg-slate-100'
-                      onClick={() => {
-                        handleOpenDetails(detail)
-                        toggleDetails()
-                      }}
-                    >
-                      <td className='py-1 border-b w-1/4'>{detail.template_name}</td>
-                      <td className='py-1 border-b text-center w-1/5'>{detail.total_score}%</td>
-                      {detail.score_rating?.display_name !== null && (
-                        <td className='py-1 border-b text-start items-center w-1/5'>
-                          {detail.score_rating?.display_name}
-                        </td>
+                    <React.Fragment key={detail.id}>
+                      {Number(detail.weight) !== 0 && (
+                        <tr
+                          className='cursor-pointer hover:bg-slate-100'
+                          onClick={() => {
+                            handleOpenDetails(detail)
+                            toggleDetails()
+                          }}
+                        >
+                          <td className='py-1 border-b w-1/4'>{detail.template_name}</td>
+                          <td className='py-1 border-b text-center w-1/5'>{detail.total_score}%</td>
+                          {detail.score_rating?.display_name !== null && (
+                            <td className='py-1 border-b text-start items-center w-1/5'>
+                              {detail.score_rating?.display_name}
+                            </td>
+                          )}
+                          <td className='py-1 border-b text-start items-center w-1/5'>
+                            {Number(detail.zscore).toFixed(2)}
+                          </td>
+                          <td className='py-1 border-b text-start items-center w-1/5'>
+                            {detail.banding}
+                          </td>
+                        </tr>
                       )}
-                      <td className='py-1 border-b text-start items-center w-1/5'>
-                        {Number(detail.zscore).toFixed(2)}
-                      </td>
-                      <td className='py-1 border-b text-start items-center w-1/5'>
-                        {Number(detail.weight) !== 0 ? detail.banding : ""}
-                      </td>
-                    </tr>
+                    </React.Fragment>
                   ))}
                 </tbody>
               </table>
