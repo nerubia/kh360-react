@@ -11,6 +11,7 @@ import {
   closeEvaluationAdministration,
   deleteEvaluationAdministration,
   publishEvaluationAdministration,
+  reopenEvaluationAdministration,
 } from "../../../../redux/slices/evaluation-administration-slice"
 import { useAppDispatch } from "../../../../hooks/useAppDispatch"
 import { PageTitle } from "../../../../components/shared/page-title"
@@ -33,6 +34,7 @@ export const ViewEvaluationHeader = () => {
   const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false)
   const [showCloseDialog, setShowCloseDialog] = useState<boolean>(false)
   const [showPublishDialog, setShowPublishDialog] = useState<boolean>(false)
+  const [showReopenDialog, setShowReopenDialog] = useState<boolean>(false)
 
   const toggleCancelDialog = () => {
     setShowCancelDialog((prev) => !prev)
@@ -48,6 +50,10 @@ export const ViewEvaluationHeader = () => {
 
   const togglePublishDialog = () => {
     setShowPublishDialog((prev) => !prev)
+  }
+
+  const toggleReopenDialog = () => {
+    setShowReopenDialog((prev) => !prev)
   }
 
   const handleCancel = async () => {
@@ -115,6 +121,31 @@ export const ViewEvaluationHeader = () => {
         return
       }
       navigate("/admin/evaluation-administrations")
+    }
+  }
+
+  const handleReopen = async () => {
+    if (id !== undefined) {
+      try {
+        const result = await appDispatch(reopenEvaluationAdministration(parseInt(id)))
+        if (result.type === "evaluationAdministration/reopen/fulfilled") {
+          appDispatch(
+            setAlert({
+              description: "Evaluation has been reopened successfully.",
+              variant: "success",
+            })
+          )
+        }
+        if (result.type === "evaluationAdministration/reopen/rejected") {
+          appDispatch(
+            setAlert({
+              description: result.payload,
+              variant: "destructive",
+            })
+          )
+        }
+        setShowReopenDialog(false)
+      } catch (error) {}
     }
   }
 
@@ -204,6 +235,12 @@ export const ViewEvaluationHeader = () => {
                       Publish
                     </Dropdown.Item>
                   )}
+                  {evaluation_administration?.status === EvaluationAdministrationStatus.Closed && (
+                    <Dropdown.Item onClick={toggleReopenDialog}>
+                      <Icon icon='RefreshCw' />
+                      Reopen
+                    </Dropdown.Item>
+                  )}
                 </Dropdown.Content>
               </Dropdown>
             )}
@@ -266,6 +303,18 @@ export const ViewEvaluationHeader = () => {
             No
           </Button>
           <Button variant='primary' onClick={handlePublish} loading={loading === Loading.Pending}>
+            Yes
+          </Button>
+        </Dialog.Actions>
+      </Dialog>
+      <Dialog open={showReopenDialog}>
+        <Dialog.Title>Reopen Evaluation</Dialog.Title>
+        <Dialog.Description>Are you sure you want to reopen this record?</Dialog.Description>
+        <Dialog.Actions>
+          <Button variant='primaryOutline' onClick={toggleReopenDialog}>
+            No
+          </Button>
+          <Button variant='primary' onClick={handleReopen} loading={loading === Loading.Pending}>
             Yes
           </Button>
         </Dialog.Actions>
