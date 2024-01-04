@@ -70,7 +70,7 @@ export const ViewEvaluationResultsChart = () => {
             {showChart && evaluators?.length > 0 && (
               <div>
                 {sortedEvaluators?.map((evaluator) => (
-                  <div key={evaluator.id} className='flex items-end justify-start'>
+                  <div key={evaluator.id} className='mb-10 flex items-end justify-start'>
                     <div className='pb-4 md:w-1/6'>
                       {evaluator.last_name}, {evaluator.first_name}
                     </div>
