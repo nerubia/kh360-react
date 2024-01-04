@@ -15,11 +15,12 @@ export const UserEvaluationAdministrationsTable = () => {
     (state) => state.user
   )
   const { emailTemplate } = useAppSelector((state) => state.emailTemplate)
+  const { message } = useAppSelector((state) => state.websocket)
 
   useEffect(() => {
     void appDispatch(getUserEvaluationAdministrations({}))
     void appDispatch(getByTemplateType("No Pending Evaluation Forms"))
-  }, [])
+  }, [message])
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll)

@@ -30,6 +30,7 @@ import { type EvaluationTemplateContent } from "../../../types/evaluation-templa
 import { Badge } from "../../../components/ui/badge/badge"
 import { getEvaluationStatusVariant } from "../../../utils/variant"
 import useSmoothScrollToTop from "../../../hooks/use-smooth-scroll-to-top"
+import { sendMessage } from "../../../redux/slices/websocket-slice"
 
 export const EvaluationsCriteria = () => {
   const { id, evaluation_id } = useParams()
@@ -383,6 +384,7 @@ export const EvaluationsCriteria = () => {
           )
           setRatingCommentErrorMessage(result.payload)
         }
+        void appDispatch(sendMessage("submitEvaluation"))
       } catch (error) {}
     }
   }
