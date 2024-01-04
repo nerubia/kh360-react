@@ -5,6 +5,19 @@ export const formatDate = (date?: string) => {
   return date?.split("T")[0]
 }
 
+export const shortenFormatDate = (dateString?: string): string => {
+  if (dateString == null) {
+    return "Invalid date"
+  }
+  const date = new Date(dateString)
+  if (isNaN(date.getTime())) {
+    return "Invalid date"
+  }
+  const targetTimeZone = "UTC"
+  const convertedDate = utcToZonedTime(date, targetTimeZone)
+  return format(convertedDate, "MMM d, yyyy", { timeZone: targetTimeZone })
+}
+
 export const convertToFullDate = (date?: string) => {
   const inputDate = new Date(date ?? "")
   const utcDate = utcToZonedTime(inputDate, "UTC")
