@@ -118,18 +118,18 @@ export const ProjectAssignmentsList = () => {
       <div className='flex-1 flex flex-col md:w-[1435px]'>
         <div className='flex flex-col'>
           {activeProjectMembers.length > 0 && (
-            <div className='flex flex-col gap-2 items-center'>
+            <div className='flex flex-col gap-2'>
               <Gantt
                 tasks={activeProjectMembers}
                 viewMode={ViewMode.Month}
                 columnWidth={80}
-                ganttHeight={440}
+                ganttHeight={400}
                 onExpanderClick={handleExpanderClick}
                 TooltipContent={ProjectTooltipContent}
                 TaskListHeader={ProjectHeader}
                 TaskListTable={ProjectColumn}
               />
-              <div className='flex gap-4'>
+              <div className='flex gap-4 justify-center'>
                 {legendData.map((item) => (
                   <div key={item.id} className='flex items-center mb-2'>
                     <div className='w-4 h-4 mr-2' style={{ backgroundColor: item.color }}></div>
