@@ -37,7 +37,7 @@ test.describe("Admin - Evaluation administrations", () => {
   })
 
   test.describe("as Admin", () => {
-    test("should render correctly", async ({ page }) => {
+    test("should render correctly", async ({ page, isMobile }) => {
       await loginUser("admin", page)
 
       await page.goto("/admin/evaluation-administrations")
@@ -114,14 +114,29 @@ test.describe("Admin - Evaluation administrations", () => {
       await expect(page.getByRole("heading", { name: "Evaluations" })).toBeVisible()
       await expect(page.getByRole("link", { name: "Create Evaluations" })).toBeVisible()
 
-      await expect(page.getByRole("cell", { name: "Name" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Period" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Schedule" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Status" })).toBeVisible()
+      if (!isMobile) {
+        await expect(page.getByRole("cell", { name: "Name" })).toBeVisible()
+        await expect(page.getByRole("cell", { name: "Period" })).toBeVisible()
+        await expect(page.getByRole("cell", { name: "Schedule" })).toBeVisible()
+        await expect(page.getByRole("cell", { name: "Status" })).toBeVisible()
+        await expect(page.getByRole("cell", { name: "Evaluation 1" })).toBeVisible()
+        await expect(page.getByRole("cell", { name: "Evaluation 2" })).toBeVisible()
+        await expect(page.getByRole("cell", { name: "Evaluation 3" })).toBeVisible()
+      } else {
+        await expect(page.getByTestId("eval-list")).toBeVisible()
+        const nameElement = page.locator('[data-testid="name"]').nth(0)
+        await expect(nameElement).toBeVisible()
 
-      await expect(page.getByRole("cell", { name: "Evaluation 1" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Evaluation 2" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Evaluation 3" })).toBeVisible()
+        const periodElement = page.locator('[data-testid="period"]').nth(1)
+        await expect(periodElement).toBeVisible()
+
+        const scheduleElement = page.locator('[data-testid="schedule"]').nth(2)
+        await expect(scheduleElement).toBeVisible()
+        if (isMobile) {
+          const nameElement = page.locator('[data-testid="status"]').nth(0)
+          await expect(nameElement).toBeVisible()
+        }
+      }
     })
   })
 })
