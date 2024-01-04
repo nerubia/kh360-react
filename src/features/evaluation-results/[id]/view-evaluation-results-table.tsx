@@ -39,7 +39,7 @@ export const ViewEvaluationResultsTable = () => {
                   <tr>
                     <th className='py-1 border-b-4 text-primary-500 w-1/4'>Evaluations</th>
                     <th className='py-1 border-b-4 text-center text-primary-500 w-1/5'>Score</th>
-                    <th className='py-1 border-b-4 text-start text-primary-500 w-1/5'>Rating</th>
+                    <th className='py-1 border-b-4 text-start text-primary-500 w-1/4'>Rating</th>
                     <th className='py-1 border-b-4 text-start text-primary-500 w-1/5'>
                       Standard Score
                     </th>
@@ -101,7 +101,7 @@ export const ViewEvaluationResultsTable = () => {
                       />
                     </div>
                     <div
-                      className={`absolute top-[10px] left-[40px] transform -translate-x-2/3 -translate-y-1/2 z-10  text-white`}
+                      className={`absolute top-[10px] left-[30px] transform -translate-x-2/3 -translate-y-1/2 z-10 text-white text-xs`}
                     >
                       {content.average_rate}%
                     </div>
