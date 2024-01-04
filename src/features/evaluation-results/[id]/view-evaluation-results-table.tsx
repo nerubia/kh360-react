@@ -34,16 +34,16 @@ export const ViewEvaluationResultsTable = () => {
           id !== undefined && (
             <>
               <div className='text-xl text-primary-500 font-bold mb-5'>Detailed Evaluation </div>
-              <table className='md:w-[950px]'>
+              <table className='md:w-[860px]'>
                 <thead className='text-left'>
                   <tr>
                     <th className='py-1 border-b-4 text-primary-500 w-1/4'>Evaluations</th>
-                    <th className='py-1 border-b-4 text-center text-primary-500 w-1/6'>Score</th>
+                    <th className='py-1 border-b-4 text-center text-primary-500 w-1/5'>Score</th>
                     <th className='py-1 border-b-4 text-start text-primary-500 w-1/4'>Rating</th>
-                    <th className='py-1 border-b-4 text-start text-primary-500 w-1/6'>
+                    <th className='py-1 border-b-4 text-start text-primary-500 w-1/5'>
                       Standard Score
                     </th>
-                    <th className='py-1 border-b-4 text-start text-primary-500 w-1/4'>Banding</th>
+                    <th className='py-1 border-b-4 text-start text-primary-500 w-1/5'>Banding</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -58,16 +58,16 @@ export const ViewEvaluationResultsTable = () => {
                           }}
                         >
                           <td className='py-1 border-b w-1/4'>{detail.template_name}</td>
-                          <td className='py-1 border-b text-center w-1/6'>{detail.total_score}%</td>
+                          <td className='py-1 border-b text-center w-1/5'>{detail.total_score}%</td>
                           {detail.score_rating?.display_name !== null && (
                             <td className='py-1 border-b text-start items-center w-1/5'>
                               {detail.score_rating?.display_name}
                             </td>
                           )}
-                          <td className='py-1 border-b text-start items-center w-1/6'>
+                          <td className='py-1 border-b text-start items-center w-1/5'>
                             {Number(detail.zscore).toFixed(2)}
                           </td>
-                          <td className='py-1 border-b text-start items-center w-1/4'>
+                          <td className='py-1 border-b text-start items-center w-1/5'>
                             {detail.banding}
                           </td>
                         </tr>
