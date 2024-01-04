@@ -17,12 +17,13 @@ export default function EvaluationProgress() {
   const { loading, loading_evaluators, evaluators, evaluation_administration } = useAppSelector(
     (state) => state.evaluationAdministration
   )
+  const { message } = useAppSelector((state) => state.websocket)
 
   useEffect(() => {
     if (id !== undefined) {
       void appDispatch(getEvaluationAdministration(parseInt(id)))
     }
-  }, [id])
+  }, [id, message])
 
   return (
     <div className='flex flex-col gap-2'>

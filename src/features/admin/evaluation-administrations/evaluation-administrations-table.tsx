@@ -20,6 +20,7 @@ export const EvaluationAdministrationsTable = () => {
   const { evaluation_administrations, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
     (state) => state.evaluationAdministrations
   )
+  const { message } = useAppSelector((state) => state.websocket)
 
   useEffect(() => {
     void appDispatch(
@@ -29,7 +30,7 @@ export const EvaluationAdministrationsTable = () => {
         page: searchParams.get("page") ?? undefined,
       })
     )
-  }, [searchParams])
+  }, [message, searchParams])
 
   const handleViewEvaluation = (id: number) => {
     appDispatch(setEvaluationResults([]))

@@ -20,12 +20,13 @@ export default function ViewEvaluation() {
   const { loading: loading_evaluation_results, evaluation_results } = useAppSelector(
     (state) => state.evaluationResults
   )
+  const { message } = useAppSelector((state) => state.websocket)
 
   useEffect(() => {
     if (id !== undefined) {
       void appDispatch(getEvaluationAdministration(parseInt(id)))
     }
-  }, [id])
+  }, [id, message])
 
   return (
     <div className='flex flex-col gap-2'>
