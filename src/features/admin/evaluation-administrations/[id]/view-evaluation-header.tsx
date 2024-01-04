@@ -225,7 +225,7 @@ export const ViewEvaluationHeader = () => {
                   )}
                   {evaluation_administration?.status === EvaluationAdministrationStatus.Ongoing && (
                     <Dropdown.Item onClick={toggleCloseDialog}>
-                      <Icon icon='Close' />
+                      <Icon icon='Lock' />
                       Close
                     </Dropdown.Item>
                   )}
