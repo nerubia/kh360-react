@@ -8,6 +8,7 @@ import { EvaluationProgressHeader } from "../../../../../features/admin/evaluati
 import { EvaluationProgressList } from "../../../../../features/admin/evaluation-administrations/[id]/progress/evaluation-progress-list"
 import { EvaluationProgressFooter } from "../../../../../features/admin/evaluation-administrations/[id]/progress/evaluation-progress-footer"
 import { useTitle } from "../../../../../hooks/useTitle"
+import useWebSocket from "react-use-websocket"
 
 export default function EvaluationProgress() {
   useTitle("Evaluation Progress")
@@ -17,13 +18,16 @@ export default function EvaluationProgress() {
   const { loading, loading_evaluators, evaluators, evaluation_administration } = useAppSelector(
     (state) => state.evaluationAdministration
   )
-  const { message } = useAppSelector((state) => state.websocket)
+  const { lastJsonMessage } = useWebSocket(process.env.REACT_APP_WEBSOCKET_URL ?? "", {
+    share: false,
+    shouldReconnect: () => true,
+  })
 
   useEffect(() => {
     if (id !== undefined) {
       void appDispatch(getEvaluationAdministration(parseInt(id)))
     }
-  }, [id, message])
+  }, [id, lastJsonMessage])
 
   return (
     <div className='flex flex-col gap-2'>
