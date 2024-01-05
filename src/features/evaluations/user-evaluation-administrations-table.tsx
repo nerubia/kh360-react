@@ -8,6 +8,7 @@ import { convertToFullDate, formatDateRange } from "../../utils/format-date"
 import { Loading } from "../../types/loadingType"
 import { Spinner } from "../../components/ui/spinner/spinner"
 import { getByTemplateType } from "../../redux/slices/email-template-slice"
+import useWebSocket from "react-use-websocket"
 
 export const UserEvaluationAdministrationsTable = () => {
   const appDispatch = useAppDispatch()
@@ -15,12 +16,15 @@ export const UserEvaluationAdministrationsTable = () => {
     (state) => state.user
   )
   const { emailTemplate } = useAppSelector((state) => state.emailTemplate)
-  const { message } = useAppSelector((state) => state.websocket)
+  const { lastJsonMessage } = useWebSocket(process.env.REACT_APP_WEBSOCKET_URL ?? "", {
+    share: false,
+    shouldReconnect: () => true,
+  })
 
   useEffect(() => {
     void appDispatch(getUserEvaluationAdministrations({}))
     void appDispatch(getByTemplateType("No Pending Evaluation Forms"))
-  }, [message])
+  }, [lastJsonMessage])
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll)
