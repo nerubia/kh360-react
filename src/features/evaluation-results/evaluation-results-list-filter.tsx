@@ -93,7 +93,7 @@ export const EvaluationResultsListFilter = () => {
 
   useEffect(() => {
     const filterOptions: Option[] = score_ratings.map((scoreRating) => ({
-      label: scoreRating.name ?? "",
+      label: scoreRating.display_name ?? "",
       value: scoreRating.id.toString(),
     }))
     filterOptions.unshift({
@@ -159,7 +159,7 @@ export const EvaluationResultsListFilter = () => {
           <div className='flex-1'>
             <CustomSelect
               data-test-id='ScoreRating'
-              label='Rating'
+              label='Score Rating'
               name='score_rating'
               value={scoreRatingFilters.find((option) => option.value === scoreRatingId)}
               onChange={(option) => setScoreRatingId(option !== null ? option.value : "all")}
