@@ -3,14 +3,14 @@ import { Icon } from "../../../../components/ui/icon/icon"
 import { useParams, useNavigate } from "react-router-dom"
 import { useAppSelector } from "../../../../hooks/useAppSelector"
 import { useAppDispatch } from "../../../../hooks/useAppDispatch"
-import { formatDate } from "../../../../utils/format-date"
+import { formatDate, shortenFormatDate } from "../../../../utils/format-date"
 import { Button } from "../../../../components/ui/button/button"
 import { EvaluationAdministrationStatus } from "../../../../types/evaluation-administration-type"
 import { getEvaluationTemplates } from "../../../../redux/slices/evaluation-templates-slice"
 import { getEvaluations } from "../../../../redux/slices/evaluations-slice"
 import { type EvaluationResult } from "../../../../types/evaluation-result-type"
 import { getEvaluationResults } from "../../../../redux/slices/evaluation-results-slice"
-
+import useMobileView from "../../../../hooks/use-mobile-view"
 export const ViewEvaluationList = () => {
   const appDispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -32,6 +32,7 @@ export const ViewEvaluationList = () => {
   const [prevPage, setPrevPage] = useState(0)
   const [lastList, setLastList] = useState(false)
   const [isInsertingData, setIsInsertingData] = useState<boolean>(false)
+  const isMobile = useMobileView()
 
   useEffect(() => {
     if (id !== undefined) {
@@ -212,7 +213,7 @@ export const ViewEvaluationList = () => {
   return (
     <>
       <div
-        className='flex-1 flex flex-col gap-8 overflow-y-auto overflow-x-hidden h-screen'
+        className='flex-1 flex flex-col gap-8 overflow-y-auto md:overflow-x-hidden h-screen'
         onScroll={onScroll}
         ref={listInnerRef}
       >
@@ -282,7 +283,7 @@ export const ViewEvaluationList = () => {
                           {evaluationDetailsToggledState[evaluationIndex][templateIndex] &&
                             template.evaluation_details !== undefined &&
                             template.evaluation_details !== null && (
-                              <table className='w-10/12 ml-11 table-fixed'>
+                              <table className='md:w-10/12 ml-11 md:table-fixed'>
                                 <thead className='sticky top-0 bg-white text-left'>
                                   <tr>
                                     <th>Evaluator</th>
@@ -295,17 +296,31 @@ export const ViewEvaluationList = () => {
                                 <tbody>
                                   {template.evaluation_details?.map(
                                     (evaluationDetails, evaluationDetailsIndex) => (
-                                      <tr key={evaluationDetailsIndex}>
-                                        <td>
+                                      <tr
+                                        key={evaluationDetailsIndex}
+                                        className='sm:overflow-x-auto'
+                                      >
+                                        <td className='min-w-[196px]'>
                                           {evaluationDetails.evaluator?.last_name},{" "}
                                           {evaluationDetails.evaluator?.first_name}
                                         </td>
-                                        <td>{evaluationDetails.project?.name}</td>
-                                        <td>{evaluationDetails.project_role?.name}</td>
-                                        <td>{evaluationDetails.percent_involvement}%</td>
-                                        <td>
-                                          {formatDate(evaluationDetails.eval_start_date)} to{" "}
-                                          {formatDate(evaluationDetails.eval_end_date)}
+                                        <td className='min-w-[100px]'>
+                                          {evaluationDetails.project?.name}
+                                        </td>
+                                        <td className='min-w-[150px]'>
+                                          {evaluationDetails.project_role?.name}
+                                        </td>
+                                        <td className='min-w-[68px]'>
+                                          {evaluationDetails.percent_involvement}%
+                                        </td>
+                                        <td className='min-w-[254px]'>
+                                          {isMobile
+                                            ? shortenFormatDate(evaluationDetails.eval_start_date)
+                                            : formatDate(evaluationDetails.eval_start_date)}{" "}
+                                          to{" "}
+                                          {isMobile
+                                            ? shortenFormatDate(evaluationDetails.eval_end_date)
+                                            : formatDate(evaluationDetails.eval_end_date)}
                                         </td>
                                       </tr>
                                     )
