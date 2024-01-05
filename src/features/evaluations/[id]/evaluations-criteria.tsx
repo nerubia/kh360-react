@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { Button } from "../../../components/ui/button/button"
 import { StarRating } from "../../../components/ui/rating/star-rating"
@@ -30,7 +30,8 @@ import { type EvaluationTemplateContent } from "../../../types/evaluation-templa
 import { Badge } from "../../../components/ui/badge/badge"
 import { getEvaluationStatusVariant } from "../../../utils/variant"
 import useSmoothScrollToTop from "../../../hooks/use-smooth-scroll-to-top"
-import useWebSocket, { ReadyState } from "react-use-websocket"
+import { ReadyState } from "react-use-websocket"
+import { WebSocketContext, type WebSocketType } from "../../../components/providers/websocket"
 
 export const EvaluationsCriteria = () => {
   const { id, evaluation_id } = useParams()
@@ -69,10 +70,7 @@ export const EvaluationsCriteria = () => {
   const [didCopy, setDidCopy] = useState<boolean>(false)
   const scrollToTop = useSmoothScrollToTop()
 
-  const { sendJsonMessage, readyState } = useWebSocket(process.env.REACT_APP_WEBSOCKET_URL ?? "", {
-    share: false,
-    shouldReconnect: () => true,
-  })
+  const { sendJsonMessage, readyState } = useContext(WebSocketContext) as WebSocketType
 
   useEffect(() => {
     void appDispatch(setIsEditing(false))
