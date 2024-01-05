@@ -42,12 +42,12 @@ export const EvaluationResultsListTable = () => {
       <table className='w-full table-fixed'>
         <thead className='text-left'>
           <tr>
-            <th className='pb-3 w-1/4'>Evaluee Name</th>
+            <th className='pb-3 w-1/5'>Evaluee Name</th>
             <th className='pb-3 w-1/4'>Eval Admin Name</th>
-            <th className='pb-3'>Eval Period</th>
+            <th className='pb-3 w-1/4'>Eval Period</th>
             <th className='pb-3'>Score</th>
-            <th className='pb-3'>Score Rating</th>
-            <th className='pb-3'>Standard Score</th>
+            <th className='pb-3 w-[12%]'>Score Rating</th>
+            <th className='pb-3'>Z-Score</th>
             <th className='pb-3'>Banding</th>
           </tr>
         </thead>

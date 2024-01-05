@@ -178,8 +178,17 @@ test.describe("Admin - Evaluations", () => {
 
       await expect(page.getByRole("heading", { name: "Evaluation 1" })).toBeVisible()
       await expect(page.getByText("Pending")).toBeVisible()
-      await expect(page.getByText("Evaluation Period: 2023-01-01 to 2023-12-31")).toBeVisible()
-      await expect(page.getByText("Evaluation Schedule: 2024-01-01 to 2024-01-03")).toBeVisible()
+      if (!isMobile) {
+        await expect(page.getByText("Evaluation Period: ")).toBeVisible()
+        await expect(page.getByText("January 1, 2023 to December 31, 2023")).toBeVisible()
+        await expect(page.getByText("Evaluation Schedule: ")).toBeVisible()
+        await expect(page.getByText("January 1, 2024 to January 3, 2024")).toBeVisible()
+      } else {
+        await expect(page.getByText("Period: ")).toBeVisible()
+        await expect(page.getByText("Jan 1, 2023 to Dec 31, 2023")).toBeVisible()
+        await expect(page.getByText("Schedule: ")).toBeVisible()
+        await expect(page.getByText("Jan 1, 2024 to Jan 3, 2024")).toBeVisible()
+      }
       await expect(page.getByRole("link", { name: "Progress" })).toBeVisible()
       await expect(page.getByRole("button", { name: "More actions" })).toBeVisible()
       await expect(page.getByRole("heading", { name: "Employees" })).toBeVisible()
@@ -206,7 +215,11 @@ test.describe("Admin - Evaluations", () => {
       await expect(page.getByRole("cell", { name: "iAssess" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Developer" }).first()).toBeVisible()
       await expect(page.getByRole("cell", { name: "75%" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "2023-10-16 to 2023-12-31" })).toBeVisible()
+      if (!isMobile) {
+        await expect(page.getByRole("cell", { name: "2023-10-16 to 2023-12-31" })).toBeVisible()
+      } else {
+        await expect(page.getByRole("cell", { name: "Oct 16, 2023 to Dec 31, 2023" })).toBeVisible()
+      }
       await expect(page.getByTestId("BackButton")).toBeVisible()
     })
 
