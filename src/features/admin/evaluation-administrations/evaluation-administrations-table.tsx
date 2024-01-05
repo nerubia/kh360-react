@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useContext, useEffect } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../hooks/useAppSelector"
@@ -10,7 +10,7 @@ import { Badge } from "../../../components/ui/badge/badge"
 import { getEvaluationAdministrationStatusVariant } from "../../../utils/variant"
 import { useFullPath } from "../../../hooks/use-full-path"
 import { setPreviousUrl } from "../../../redux/slices/app-slice"
-import useWebSocket from "react-use-websocket"
+import { WebSocketContext, type WebSocketType } from "../../../components/providers/websocket"
 
 export const EvaluationAdministrationsTable = () => {
   const fullPath = useFullPath()
@@ -21,10 +21,7 @@ export const EvaluationAdministrationsTable = () => {
   const { evaluation_administrations, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
     (state) => state.evaluationAdministrations
   )
-  const { lastJsonMessage } = useWebSocket(process.env.REACT_APP_WEBSOCKET_URL ?? "", {
-    share: false,
-    shouldReconnect: () => true,
-  })
+  const { lastJsonMessage } = useContext(WebSocketContext) as WebSocketType
 
   useEffect(() => {
     void appDispatch(
