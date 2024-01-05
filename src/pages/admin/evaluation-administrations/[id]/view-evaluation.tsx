@@ -8,6 +8,7 @@ import { ViewEvaluationHeader } from "../../../../features/admin/evaluation-admi
 import { ViewEvaluationList } from "../../../../features/admin/evaluation-administrations/[id]/view-evaluation-list"
 import { ViewEvaluationFooter } from "../../../../features/admin/evaluation-administrations/[id]/view-evaluation-footer"
 import { useTitle } from "../../../../hooks/useTitle"
+import useWebSocket from "react-use-websocket"
 
 export default function ViewEvaluation() {
   useTitle("View Evaluation")
@@ -20,13 +21,16 @@ export default function ViewEvaluation() {
   const { loading: loading_evaluation_results, evaluation_results } = useAppSelector(
     (state) => state.evaluationResults
   )
-  const { message } = useAppSelector((state) => state.websocket)
+  const { lastJsonMessage } = useWebSocket(process.env.REACT_APP_WEBSOCKET_URL ?? "", {
+    share: false,
+    shouldReconnect: () => true,
+  })
 
   useEffect(() => {
     if (id !== undefined) {
       void appDispatch(getEvaluationAdministration(parseInt(id)))
     }
-  }, [id, message])
+  }, [id, lastJsonMessage])
 
   return (
     <div className='flex flex-col gap-2'>

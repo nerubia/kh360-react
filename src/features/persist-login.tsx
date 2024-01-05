@@ -8,10 +8,7 @@ import { guestRoutes } from "../routes/guest-route"
 import { authRoutes } from "../routes/auth-route"
 import { privateRoutes } from "../routes/private-route"
 import { otherRoutes } from "../routes/other-route"
-import { setupWebsocket } from "../utils/websocket"
-import { store } from "../redux/store"
 
-setupWebsocket(store)
 const router = createBrowserRouter([guestRoutes, authRoutes, privateRoutes, otherRoutes])
 
 export const PersistLogin = () => {

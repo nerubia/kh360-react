@@ -18,7 +18,6 @@ import projectsReducer from "./slices/projects-slice"
 import scoreRatingsReducer from "./slices/score-ratings-slice"
 import usersReducer from "./slices/users-slice"
 import userReducer from "./slices/user-slice"
-import websocketReducer from "./slices/websocket-slice"
 
 export const store = configureStore({
   reducer: {
@@ -40,7 +39,6 @@ export const store = configureStore({
     scoreRatings: scoreRatingsReducer,
     users: usersReducer,
     user: userReducer,
-    websocket: websocketReducer,
   },
 })
 

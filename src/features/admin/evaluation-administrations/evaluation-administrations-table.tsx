@@ -10,6 +10,7 @@ import { Badge } from "../../../components/ui/badge/badge"
 import { getEvaluationAdministrationStatusVariant } from "../../../utils/variant"
 import { useFullPath } from "../../../hooks/use-full-path"
 import { setPreviousUrl } from "../../../redux/slices/app-slice"
+import useWebSocket from "react-use-websocket"
 
 export const EvaluationAdministrationsTable = () => {
   const fullPath = useFullPath()
@@ -20,7 +21,10 @@ export const EvaluationAdministrationsTable = () => {
   const { evaluation_administrations, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
     (state) => state.evaluationAdministrations
   )
-  const { message } = useAppSelector((state) => state.websocket)
+  const { lastJsonMessage } = useWebSocket(process.env.REACT_APP_WEBSOCKET_URL ?? "", {
+    share: false,
+    shouldReconnect: () => true,
+  })
 
   useEffect(() => {
     void appDispatch(
@@ -30,7 +34,7 @@ export const EvaluationAdministrationsTable = () => {
         page: searchParams.get("page") ?? undefined,
       })
     )
-  }, [message, searchParams])
+  }, [lastJsonMessage, searchParams])
 
   const handleViewEvaluation = (id: number) => {
     appDispatch(setEvaluationResults([]))

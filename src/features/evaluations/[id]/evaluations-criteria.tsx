@@ -30,7 +30,7 @@ import { type EvaluationTemplateContent } from "../../../types/evaluation-templa
 import { Badge } from "../../../components/ui/badge/badge"
 import { getEvaluationStatusVariant } from "../../../utils/variant"
 import useSmoothScrollToTop from "../../../hooks/use-smooth-scroll-to-top"
-import { sendMessage } from "../../../redux/slices/websocket-slice"
+import useWebSocket, { ReadyState } from "react-use-websocket"
 
 export const EvaluationsCriteria = () => {
   const { id, evaluation_id } = useParams()
@@ -68,6 +68,11 @@ export const EvaluationsCriteria = () => {
   const [evaluationRatingIds, setEvaluationRatingIds] = useState<number[]>([])
   const [didCopy, setDidCopy] = useState<boolean>(false)
   const scrollToTop = useSmoothScrollToTop()
+
+  const { sendJsonMessage, readyState } = useWebSocket(process.env.REACT_APP_WEBSOCKET_URL ?? "", {
+    share: false,
+    shouldReconnect: () => true,
+  })
 
   useEffect(() => {
     void appDispatch(setIsEditing(false))
@@ -384,7 +389,12 @@ export const EvaluationsCriteria = () => {
           )
           setRatingCommentErrorMessage(result.payload)
         }
-        void appDispatch(sendMessage("submitEvaluation"))
+        if (readyState === ReadyState.OPEN) {
+          sendJsonMessage({
+            event: "submitEvaluation",
+            data: "submitEvaluation",
+          })
+        }
       } catch (error) {}
     }
   }
