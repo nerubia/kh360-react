@@ -444,7 +444,7 @@ export const EvaluationsCriteria = () => {
       {loading === Loading.Fulfilled &&
         evaluation_template_contents.length > 0 &&
         user_evaluations.length > 0 && (
-          <div className='flex flex-col w-full pb-5 pr-5 mx-4 mb-3 overflow-y-scroll md:w-3/4'>
+          <div className='flex flex-col w-full pb-5 pr-5 mx-4 mb-3 overflow-y-scroll md:w-3/4 overflow-x-hidden'>
             <div className='items-center justify-between p-1 border rounded sm:flex sm:flex-col md:flex-row md:border-none md:p-0'>
               <div className='flex-flex-col'>
                 <div className='mb-1 text-xl font-bold text-primary-500'>
