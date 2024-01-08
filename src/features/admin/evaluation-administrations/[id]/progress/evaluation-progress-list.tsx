@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import { Icon } from "../../../../../components/ui/icon/icon"
 import { useParams } from "react-router-dom"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
@@ -7,6 +7,7 @@ import { Button } from "../../../../../components/ui/button/button"
 import { type User } from "../../../../../types/user-type"
 import {
   getEvaluators,
+  getEvaluatorsSocket,
   sendReminder,
 } from "../../../../../redux/slices/evaluation-administration-slice"
 import { updateTotalEvaluations } from "../../../../../redux/slices/user-slice"
@@ -14,6 +15,7 @@ import {
   getEvaluations,
   approveRequest,
   declineRequest,
+  getEvaluationsSocket,
 } from "../../../../../redux/slices/evaluations-slice"
 import { Progress } from "../../../../../components/ui/progress/progress"
 import { setAlert } from "../../../../../redux/slices/app-slice"
@@ -25,6 +27,7 @@ import Dialog from "../../../../../components/ui/dialog/dialog"
 import { EvaluationAdministrationStatus } from "../../../../../types/evaluation-administration-type"
 import { convertToFullDateAndTime, shortenFormatDate } from "../../../../../utils/format-date"
 import useMobileView from "../../../../../hooks/use-mobile-view"
+import { WebSocketContext, type WebSocketType } from "../../../../../components/providers/websocket"
 
 export const EvaluationProgressList = () => {
   const appDispatch = useAppDispatch()
@@ -45,12 +48,37 @@ export const EvaluationProgressList = () => {
   const [showEmailLogDialog, setShowEmailLogDialog] = useState<boolean>(false)
   const [selectedEvaluationId, setSelectedEvaluationId] = useState<number | null>(null)
 
+  const { lastJsonMessage } = useContext(WebSocketContext) as WebSocketType
+
   const isMobile = useMobileView()
   useEffect(() => {
     if (id !== undefined) {
       void appDispatch(getEvaluators(parseInt(id)))
     }
   }, [id])
+
+  useEffect(() => {
+    if (id !== undefined) {
+      void appDispatch(getEvaluatorsSocket(parseInt(id))).then(() => {
+        const toggledEvaluator = sortedEvaluators[evaluatorToggledState.indexOf(true)]
+        if (toggledEvaluator !== undefined) {
+          void appDispatch(
+            getEvaluationsSocket({
+              evaluation_administration_id: id,
+              for_evaluation: true,
+              ...(toggledEvaluator.is_external === true
+                ? {
+                    external_evaluator_id: toggledEvaluator.id.toString(),
+                  }
+                : {
+                    evaluator_id: toggledEvaluator.id.toString(),
+                  }),
+            })
+          )
+        }
+      })
+    }
+  }, [lastJsonMessage])
 
   useEffect(() => {
     const newEvaluators = [...evaluators]

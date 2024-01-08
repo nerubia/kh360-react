@@ -2,12 +2,15 @@ import { useContext, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
 import { useAppSelector } from "../../hooks/useAppSelector"
-import { getUserEvaluationAdministrations } from "../../redux/slices/user-slice"
+import {
+  getUserEvaluationAdministrations,
+  getUserEvaluationAdministrationsSocket,
+} from "../../redux/slices/user-slice"
 import { Progress } from "../../components/ui/progress/progress"
 import { convertToFullDate, formatDateRange } from "../../utils/format-date"
 import { Loading } from "../../types/loadingType"
 import { Spinner } from "../../components/ui/spinner/spinner"
-import { getByTemplateType } from "../../redux/slices/email-template-slice"
+import { getByTemplateType, getByTemplateTypeSocket } from "../../redux/slices/email-template-slice"
 import { WebSocketContext, type WebSocketType } from "../../components/providers/websocket"
 
 export const UserEvaluationAdministrationsTable = () => {
@@ -21,6 +24,11 @@ export const UserEvaluationAdministrationsTable = () => {
   useEffect(() => {
     void appDispatch(getUserEvaluationAdministrations({}))
     void appDispatch(getByTemplateType("No Pending Evaluation Forms"))
+  }, [])
+
+  useEffect(() => {
+    void appDispatch(getUserEvaluationAdministrationsSocket({}))
+    void appDispatch(getByTemplateTypeSocket("No Pending Evaluation Forms"))
   }, [lastJsonMessage])
 
   useEffect(() => {
