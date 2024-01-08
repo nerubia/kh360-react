@@ -23,7 +23,8 @@ import { EvaluationStatus } from "../../../../../types/evaluation-type"
 import Tooltip from "../../../../../components/ui/tooltip/tooltip"
 import Dialog from "../../../../../components/ui/dialog/dialog"
 import { EvaluationAdministrationStatus } from "../../../../../types/evaluation-administration-type"
-import { convertToFullDateAndTime, formatDate } from "../../../../../utils/format-date"
+import { convertToFullDateAndTime, shortenFormatDate } from "../../../../../utils/format-date"
+import useMobileView from "../../../../../hooks/use-mobile-view"
 
 export const EvaluationProgressList = () => {
   const appDispatch = useAppDispatch()
@@ -44,6 +45,7 @@ export const EvaluationProgressList = () => {
   const [showEmailLogDialog, setShowEmailLogDialog] = useState<boolean>(false)
   const [selectedEvaluationId, setSelectedEvaluationId] = useState<number | null>(null)
 
+  const isMobile = useMobileView()
   useEffect(() => {
     if (id !== undefined) {
       void appDispatch(getEvaluators(parseInt(id)))
@@ -256,7 +258,14 @@ export const EvaluationProgressList = () => {
                     </span>
                     <div className='flex flex-row items-center gap-2'>
                       <span className='mx-4 w-48 text-start'>
-                        {evaluator.last_name}, {evaluator.first_name}
+                        {evaluator.last_name},{" "}
+                        {!isMobile &&
+                        evaluator.first_name != null &&
+                        evaluator.first_name.length > 10 ? (
+                          evaluator.first_name
+                        ) : (
+                          <span className='truncate ...'>{evaluator.first_name}</span>
+                        )}
                       </span>
                       <Progress
                         variant={getProgressVariant(
@@ -336,14 +345,14 @@ export const EvaluationProgressList = () => {
                   )}
               </div>
               {evaluatorToggledState[evaluatorIndex] && (
-                <table className='w-3/4 ml-14 mb-5 table-fixed'>
-                  <thead className=' bg-white text-left'>
+                <table className='md:w-3/4 ml-14 mb-5 table-fixed'>
+                  <thead className='bg-white text-left'>
                     <tr>
                       <th className='pb-3'>Evaluee</th>
                       <th className='pb-3'>Template</th>
                       <th className='pb-3'>Project</th>
                       <th className='pb-3'>Role</th>
-                      <th className='pb-3 w-[120px]'>Status</th>
+                      <th className='pb-3'>Status</th>
                       <th className='pb-3'></th>
                     </tr>
                   </thead>
@@ -352,12 +361,19 @@ export const EvaluationProgressList = () => {
                     evaluator.evaluations !== null &&
                     evaluator.evaluations.length > 0
                       ? evaluator.evaluations.map((evaluation, evaluationIndex) => (
-                          <tr key={evaluationIndex}>
-                            <td className='py-1'>
+                          <tr
+                            key={evaluationIndex}
+                            className={`${
+                              evaluationIndex % 2 === 0 ? "bg-white" : "bg-gray-100"
+                            } sm:${
+                              evaluationIndex % 2 === 0 ? "bg-white" : "bg-gray-100"
+                            } whitespace-nowrap`}
+                          >
+                            <td className='py-1 pr-3'>
                               {evaluation.evaluee?.last_name}, {evaluation.evaluee?.first_name}
                             </td>
-                            <td className='py-1'>{evaluation.template?.display_name}</td>
-                            <td className='py-1'>
+                            <td className='py-1 pr-3'>{evaluation.template?.display_name}</td>
+                            <td className='py-1 pr-3 sm:px-2'>
                               <Tooltip placement='topEnd'>
                                 <Tooltip.Trigger>
                                   <div className='flex gap-2 items-center'>
@@ -369,14 +385,14 @@ export const EvaluationProgressList = () => {
                                 </Tooltip.Trigger>
                                 <Tooltip.Content>
                                   <pre className='font-sans whitespace-pre-wrap break-words'>
-                                    {formatDate(evaluation.eval_start_date)} to{" "}
-                                    {formatDate(evaluation.eval_end_date)}
+                                    {shortenFormatDate(evaluation.eval_start_date)} to{" "}
+                                    {shortenFormatDate(evaluation.eval_end_date)}
                                   </pre>
                                 </Tooltip.Content>
                               </Tooltip>
                             </td>
-                            <td className='py-1'>{evaluation.project_role?.name}</td>
-                            <td className='py-1 w-[120px]'>
+                            <td className='py-1 pr-3'>{evaluation.project_role?.name}</td>
+                            <td className='py-1 pr-3'>
                               {evaluation.status === EvaluationStatus.ForRemoval ? (
                                 <Tooltip placement='topEnd'>
                                   <Tooltip.Trigger>
