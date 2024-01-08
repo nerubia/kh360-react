@@ -79,6 +79,10 @@ const EvaluationTemplates = lazy(
   async () => await import("../pages/admin/evaluation-templates/evaluation-templates")
 )
 
+const ViewEvaluationTemplate = lazy(
+  async () => await import("../pages/admin/evaluation-templates/[id]/view-evaluation-template")
+)
+
 export const adminRoutes = {
   element: <AdminRoute />,
   children: [
@@ -176,6 +180,10 @@ export const adminRoutes = {
     {
       path: "/admin/evaluation-templates",
       element: <EvaluationTemplates />,
+    },
+    {
+      path: "/admin/evaluation-templates/:id",
+      element: <ViewEvaluationTemplate />,
     },
   ],
 }

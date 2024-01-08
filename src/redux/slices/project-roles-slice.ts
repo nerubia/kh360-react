@@ -3,7 +3,7 @@ import { type AxiosError } from "axios"
 import { type ApiError } from "../../types/apiErrorType"
 import { Loading } from "../../types/loadingType"
 import { axiosInstance } from "../../utils/axios-instance"
-import { type ProjectRole } from "../../types/projectRoleType"
+import { type ProjectRole } from "../../types/project-role-type"
 
 export const getProjectRoles = createAsyncThunk(
   "projectRole/getProjectRoles",

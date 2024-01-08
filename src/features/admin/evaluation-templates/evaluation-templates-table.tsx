@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useSearchParams } from "react-router-dom"
+import { useSearchParams, useNavigate } from "react-router-dom"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import {
   deleteEvaluationTemplate,
@@ -10,12 +10,15 @@ import { Button, LinkButton } from "../../../components/ui/button/button"
 import { Icon } from "../../../components/ui/icon/icon"
 import { Pagination } from "../../../components/shared/pagination/pagination"
 import Dialog from "../../../components/ui/dialog/dialog"
-import { setAlert } from "../../../redux/slices/app-slice"
+import { setAlert, setPreviousUrl } from "../../../redux/slices/app-slice"
+import { useFullPath } from "../../../hooks/use-full-path"
 
 export const EvaluationTemplatesTable = () => {
   const [searchParams] = useSearchParams()
 
   const appDispatch = useAppDispatch()
+  const fullPath = useFullPath()
+  const navigate = useNavigate()
   const { evaluation_templates, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
     (state) => state.evaluationTemplates
   )
@@ -41,6 +44,11 @@ export const EvaluationTemplatesTable = () => {
       setSelectedEvaluationTemplateId(id)
     }
     setShowDialog((prev) => !prev)
+  }
+
+  const handleViewEvaluationTemplate = (id: number) => {
+    appDispatch(setPreviousUrl(fullPath))
+    navigate(`${id}`)
   }
 
   const handleDelete = async () => {
@@ -84,7 +92,11 @@ export const EvaluationTemplatesTable = () => {
         </thead>
         <tbody>
           {evaluation_templates.map((evaluationTemplate) => (
-            <tr key={evaluationTemplate.id}>
+            <tr
+              key={evaluationTemplate.id}
+              className=' hover:bg-slate-100 cursor-pointer'
+              onClick={() => handleViewEvaluationTemplate(evaluationTemplate.id)}
+            >
               <td className='py-1'>{evaluationTemplate.name}</td>
               <td className='py-1'>{evaluationTemplate.display_name}</td>
               <td className='py-1'>{evaluationTemplate.template_type}</td>

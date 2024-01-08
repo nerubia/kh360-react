@@ -67,3 +67,11 @@ export interface ProjectMemberFormData {
   allocation_rate?: string
   remarks?: string
 }
+
+export interface EvaluationTemplateContentFormData {
+  name?: string
+  description?: string
+  category?: string
+  rate?: string
+  is_active?: boolean
+}
