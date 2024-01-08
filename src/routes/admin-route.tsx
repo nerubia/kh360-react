@@ -71,6 +71,10 @@ const EmailTemplates = lazy(
   async () => await import("../pages/admin/email-templates/email-templates")
 )
 
+const CreateEmailTemplate = lazy(
+  async () => await import("../pages/admin/email-templates/create/create-email-template")
+)
+
 export const adminRoutes = {
   element: <AdminRoute />,
   children: [
@@ -157,6 +161,10 @@ export const adminRoutes = {
     {
       path: "/admin/message-templates",
       element: <EmailTemplates />,
+    },
+    {
+      path: "/admin/message-templates/create",
+      element: <CreateEmailTemplate />,
     },
   ],
 }
