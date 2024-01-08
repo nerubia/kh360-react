@@ -5,10 +5,13 @@ import { useAppSelector } from "../../hooks/useAppSelector"
 import { getCmEvaluationResults } from "../../redux/slices/evaluation-results-slice"
 import { Pagination } from "../../components/shared/pagination/pagination"
 import { formatDate } from "../../utils/format-date"
+import { useFullPath } from "../../hooks/use-full-path"
+import { setPreviousUrl } from "../../redux/slices/app-slice"
 
 export const EvaluationResultsListTable = () => {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
+  const fullPath = useFullPath()
 
   const appDispatch = useAppDispatch()
 
@@ -30,6 +33,7 @@ export const EvaluationResultsListTable = () => {
   }, [searchParams])
 
   const handleViewEvaluationResult = (id: number) => {
+    appDispatch(setPreviousUrl(fullPath))
     navigate(`/evaluation-results/${id}`)
   }
 
@@ -38,12 +42,12 @@ export const EvaluationResultsListTable = () => {
       <table className='w-full table-fixed'>
         <thead className='text-left'>
           <tr>
-            <th className='pb-3'>Evaluee Name</th>
-            <th className='pb-3'>Eval Admin Name</th>
-            <th className='pb-3'>Eval Period</th>
+            <th className='pb-3 w-1/5'>Evaluee Name</th>
+            <th className='pb-3 w-1/4'>Eval Admin Name</th>
+            <th className='pb-3 w-1/4'>Eval Period</th>
             <th className='pb-3'>Score</th>
-            <th className='pb-3'>Score Rating</th>
-            <th className='pb-3'>Standard Score</th>
+            <th className='pb-3 w-[12%]'>Score Rating</th>
+            <th className='pb-3'>Z-Score</th>
             <th className='pb-3'>Banding</th>
           </tr>
         </thead>

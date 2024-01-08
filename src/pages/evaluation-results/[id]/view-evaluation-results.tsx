@@ -8,11 +8,11 @@ import { ViewEvaluationResultsAttendanceAndPunctuality } from "../../../features
 export default function ViewEvaluationResults() {
   return (
     <div className='flex flex-col gap-2'>
-      <div className='h-[calc(100vh_-_104px)] flex flex-col gap-8'>
+      <div className='h-[calc(100vh_-_104px)] flex flex-col gap-12'>
         <ViewEvaluationResultsHeader />
         <ViewEvaluationResultsTable />
-        <ViewEvaluationResultsAttendanceAndPunctuality />
         <ViewEvaluationResultsChart />
+        <ViewEvaluationResultsAttendanceAndPunctuality />
         <ViewEvaluationResultsComments />
         <ViewEvaluationResultsFooter />
       </div>

@@ -6,7 +6,7 @@ import { useAppSelector } from "../../../../hooks/useAppSelector"
 import { Button, LinkButton } from "../../../../components/ui/button/button"
 import { Input } from "../../../../components/ui/input/input"
 import { TextArea } from "../../../../components/ui/textarea/text-area"
-import { createEvaluationSchema } from "../../../../utils/validation/evaluations/createEvaluationSchema"
+import { createEvaluationAdministrationSchema } from "../../../../utils/validation/evaluation-administration-schema"
 import { Loading } from "../../../../types/loadingType"
 import { getDefaultEmailTemplate } from "../../../../redux/slices/email-template-slice"
 import Dialog from "../../../../components/ui/dialog/dialog"
@@ -52,7 +52,7 @@ export const CreateEvaluationForm = () => {
 
   const handleSubmit = async () => {
     try {
-      await createEvaluationSchema.validate(formData, {
+      await createEvaluationAdministrationSchema.validate(formData, {
         abortEarly: false,
       })
       const result = await appDispatch(createEvaluationAdministration(formData))
