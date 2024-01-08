@@ -22,6 +22,22 @@ export const getEvaluations = createAsyncThunk(
   }
 )
 
+export const getEvaluationsSocket = createAsyncThunk(
+  "evaluations/getEvaluationsSocket",
+  async (params: EvaluationFilters | undefined, thunkApi) => {
+    try {
+      const response = await axiosInstance.get("/admin/evaluations", {
+        params,
+      })
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const deleteEvaluation = createAsyncThunk(
   "evaluations/deleteEvaluation",
   async (id: number, thunkApi) => {
@@ -142,6 +158,14 @@ const evaluationsSlice = createSlice({
     builder.addCase(getEvaluations.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
+    })
+    /**
+     * List triggered by socket
+     */
+    builder.addCase(getEvaluationsSocket.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.evaluations = action.payload
     })
     /**
      * Delete

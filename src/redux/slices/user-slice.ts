@@ -45,6 +45,22 @@ export const getUserEvaluationAdministrations = createAsyncThunk(
   }
 )
 
+export const getUserEvaluationAdministrationsSocket = createAsyncThunk(
+  "user/getUserEvaluationAdministrationsSocket",
+  async (params: EvaluationAdministrationFilters, thunkApi) => {
+    try {
+      const response = await axiosInstance.get("/user/evaluation-administrations", {
+        params,
+      })
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const getEvaluationAdministrationsAsEvaluee = createAsyncThunk(
   "user/getEvaluationAdministrationsAsEvaluee",
   async (params: EvaluationAdministrationFilters, thunkApi) => {
@@ -253,6 +269,35 @@ const userSlice = createSlice({
     builder.addCase(getUserEvaluationAdministrations.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
+    })
+    /**
+     * List user evaluation administrations triggered by socket
+     */
+    builder.addCase(getUserEvaluationAdministrationsSocket.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      if (action.payload.pageInfo.currentPage > 1) {
+        const newData: EvaluationAdministration[] = []
+        const payloadData = action.payload.data as EvaluationAdministration[]
+        for (const data of payloadData) {
+          if (
+            !state.user_evaluation_administrations.some(
+              (evaluationAdministration) => evaluationAdministration.id === data.id
+            )
+          ) {
+            newData.push(data)
+          }
+        }
+        state.user_evaluation_administrations =
+          payloadData.length > 0 ? [...state.user_evaluation_administrations, ...newData] : []
+      } else {
+        state.user_evaluation_administrations = action.payload.data
+      }
+      state.hasPreviousPage = action.payload.pageInfo.hasPreviousPage
+      state.hasNextPage = action.payload.pageInfo.hasNextPage
+      state.currentPage = action.payload.pageInfo.currentPage
+      state.totalPages = action.payload.pageInfo.totalPages
+      state.totalItems = action.payload.pageInfo.totalItems
     })
     /**
      * List user evaluation administrations (as evaluee)

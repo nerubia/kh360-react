@@ -4,7 +4,10 @@ import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../hooks/useAppSelector"
 import { formatDate, shortenFormatDate } from "../../../utils/format-date"
 import { Pagination } from "../../../components/shared/pagination/pagination"
-import { getEvaluationAdministrations } from "../../../redux/slices/evaluation-administrations-slice"
+import {
+  getEvaluationAdministrations,
+  getEvaluationAdministrationsSocket,
+} from "../../../redux/slices/evaluation-administrations-slice"
 import { setEvaluationResults } from "../../../redux/slices/evaluation-results-slice"
 import { Badge } from "../../../components/ui/badge/badge"
 import { getEvaluationAdministrationStatusVariant } from "../../../utils/variant"
@@ -25,13 +28,23 @@ export const EvaluationAdministrationsTable = () => {
 
   useEffect(() => {
     void appDispatch(
+      getEvaluationAdministrationsSocket({
+        name: searchParams.get("name") ?? undefined,
+        status: searchParams.get("status") ?? undefined,
+        page: searchParams.get("page") ?? undefined,
+      })
+    )
+  }, [lastJsonMessage])
+
+  useEffect(() => {
+    void appDispatch(
       getEvaluationAdministrations({
         name: searchParams.get("name") ?? undefined,
         status: searchParams.get("status") ?? undefined,
         page: searchParams.get("page") ?? undefined,
       })
     )
-  }, [lastJsonMessage, searchParams])
+  }, [searchParams])
 
   const handleViewEvaluation = (id: number) => {
     appDispatch(setEvaluationResults([]))
