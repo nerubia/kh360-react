@@ -12,6 +12,7 @@ interface InputProps {
   max?: string | number
   autoFocus?: boolean
   maxLength?: number
+  step?: number
 }
 
 export const Input = ({
@@ -28,6 +29,7 @@ export const Input = ({
   max,
   maxLength,
   autoFocus,
+  step,
 }: InputProps) => {
   return (
     <div className='flex flex-col'>
@@ -50,6 +52,7 @@ export const Input = ({
         max={max}
         autoFocus={autoFocus}
         maxLength={maxLength}
+        step={step}
       />
       {error != null && <p className='text-red-500 text-sm'>{error}</p>}
     </div>
