@@ -29,6 +29,20 @@ export const getEvaluationAdministration = createAsyncThunk(
   }
 )
 
+export const getEvaluationAdministrationSocket = createAsyncThunk(
+  "evaluationAdministration/getEvaluationAdministrationSocket",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.get(`/admin/evaluation-administrations/${id}`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const updateEvaluationAdministration = createAsyncThunk(
   "evaluationAdministration/updateEvaluationAdministration",
   async (
@@ -169,6 +183,20 @@ export const getEvaluators = createAsyncThunk(
   }
 )
 
+export const getEvaluatorsSocket = createAsyncThunk(
+  "evaluationAdministration/getEvaluatorsSocket",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.get(`/admin/evaluation-administrations/${id}/evaluators`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const addEvaluator = createAsyncThunk(
   "evaluationAdministration/addEvaluator",
   async (data: EvaluatorFormData, thunkApi) => {
@@ -255,6 +283,14 @@ const evaluationAdministrationSlice = createSlice({
       state.error = action.payload as string
     })
     /**
+     * Get triggered by socket
+     */
+    builder.addCase(getEvaluationAdministrationSocket.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.evaluation_administration = action.payload
+    })
+    /**
      * Generate status
      */
     builder.addCase(generateStatusEvaluationAdministration.pending, (state) => {
@@ -321,6 +357,14 @@ const evaluationAdministrationSlice = createSlice({
     builder.addCase(getEvaluators.rejected, (state, action) => {
       state.loading_evaluators = Loading.Rejected
       state.error = action.payload as string
+    })
+    /**
+     * Get evaluators triggered by socket
+     */
+    builder.addCase(getEvaluatorsSocket.fulfilled, (state, action) => {
+      state.loading_evaluators = Loading.Fulfilled
+      state.error = null
+      state.evaluators = action.payload
     })
     /**
      * Add evaluator

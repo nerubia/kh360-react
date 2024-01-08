@@ -25,6 +25,22 @@ export const getEvaluationAdministrations = createAsyncThunk(
   }
 )
 
+export const getEvaluationAdministrationsSocket = createAsyncThunk(
+  "evaluationAdministration/getEvaluationAdministrationsSocket",
+  async (params: EvaluationAdministrationFilters | undefined, thunkApi) => {
+    try {
+      const response = await axiosInstance.get("/admin/evaluation-administrations", {
+        params,
+      })
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const createEvaluationAdministration = createAsyncThunk(
   "evaluationAdministration/createEvaluationAdministration",
   async (data: EvaluationAdministrationFormData, thunkApi) => {
@@ -99,6 +115,18 @@ const evaluationAdministrationsSlice = createSlice({
     builder.addCase(getEvaluationAdministrations.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
+    })
+    /**
+     * List triggered by socket
+     */
+    builder.addCase(getEvaluationAdministrationsSocket.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.evaluation_administrations = action.payload.data
+      state.hasPreviousPage = action.payload.pageInfo.hasPreviousPage
+      state.hasNextPage = action.payload.pageInfo.hasNextPage
+      state.totalPages = action.payload.pageInfo.totalPages
+      state.totalItems = action.payload.pageInfo.totalItems
     })
     /**
      * Create
