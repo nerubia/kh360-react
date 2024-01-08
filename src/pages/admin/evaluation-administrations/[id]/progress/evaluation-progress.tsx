@@ -2,7 +2,10 @@ import { useContext, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
-import { getEvaluationAdministration } from "../../../../../redux/slices/evaluation-administration-slice"
+import {
+  getEvaluationAdministration,
+  getEvaluationAdministrationSocket,
+} from "../../../../../redux/slices/evaluation-administration-slice"
 import { Loading } from "../../../../../types/loadingType"
 import { EvaluationProgressHeader } from "../../../../../features/admin/evaluation-administrations/[id]/progress/evaluation-progress-header"
 import { EvaluationProgressList } from "../../../../../features/admin/evaluation-administrations/[id]/progress/evaluation-progress-list"
@@ -24,7 +27,13 @@ export default function EvaluationProgress() {
     if (id !== undefined) {
       void appDispatch(getEvaluationAdministration(parseInt(id)))
     }
-  }, [id, lastJsonMessage])
+  }, [id])
+
+  useEffect(() => {
+    if (id !== undefined) {
+      void appDispatch(getEvaluationAdministrationSocket(parseInt(id)))
+    }
+  }, [lastJsonMessage])
 
   return (
     <div className='flex flex-col gap-2'>

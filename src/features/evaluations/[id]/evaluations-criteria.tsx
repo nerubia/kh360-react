@@ -413,6 +413,12 @@ export const EvaluationsCriteria = () => {
           )
           void appDispatch(setIsEditing(false))
         }
+        if (readyState === ReadyState.OPEN) {
+          sendJsonMessage({
+            event: "sendRequestToRemove",
+            data: "sendRequestToRemove",
+          })
+        }
       } catch (error) {}
     }
   }

@@ -54,6 +54,24 @@ export const getByTemplateType = createAsyncThunk(
   }
 )
 
+export const getByTemplateTypeSocket = createAsyncThunk(
+  "emailTemplate/getByTemplateTypeSocket",
+  async (template_type: string, thunkApi) => {
+    try {
+      const response = await axiosInstance.get(`/user/email-templates`, {
+        params: {
+          template_type,
+        },
+      })
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const getRatingTemplates = createAsyncThunk(
   "emailTemplate/getRatingTemplates",
   async (_, thunkApi) => {
@@ -180,6 +198,14 @@ const emailTemplateSlice = createSlice({
     builder.addCase(getByTemplateType.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
+    })
+    /**
+     * By template type triggered by socket
+     */
+    builder.addCase(getByTemplateTypeSocket.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.emailTemplate = action.payload
     })
     /**
      * Rating message templates
