@@ -1,15 +1,17 @@
 import { useState } from "react"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
-import { formatDate } from "../../../../../utils/format-date"
 import { PageTitle } from "../../../../../components/shared/page-title"
 import { Badge } from "../../../../../components/ui/badge/badge"
 import { getEvaluationAdministrationStatusVariant } from "../../../../../utils/variant"
 import { Button } from "../../../../../components/ui/button/button"
 import { Icon } from "../../../../../components/ui/icon/icon"
+import useMobileView from "../../../../../hooks/use-mobile-view"
+import { DateRangeDisplay } from "../../../../../components/shared/display-range-date"
 
 export const EvaluationProgressHeader = () => {
   const { evaluation_administration } = useAppSelector((state) => state.evaluationAdministration)
   const [showDescription, setShowDescription] = useState<boolean>(false)
+  const isMobile = useMobileView()
 
   const toggleDescription = () => {
     setShowDescription((prev) => !prev)
@@ -24,6 +26,7 @@ export const EvaluationProgressHeader = () => {
             <div className='flex gap-4 primary-outline items-end my-4'>
               <p className='text-xl font-bold'>{evaluation_administration?.name}</p>
               <Badge
+                size={isMobile ? "small" : "medium"}
                 variant={getEvaluationAdministrationStatusVariant(
                   evaluation_administration?.status
                 )}
@@ -31,16 +34,18 @@ export const EvaluationProgressHeader = () => {
                 <div className='uppercase'>{evaluation_administration?.status}</div>
               </Badge>
             </div>
-            <div className='flex gap-3'>
-              <div className='font-bold'>Evaluation Period: </div>
-              {formatDate(evaluation_administration?.eval_period_start_date)} to{" "}
-              {formatDate(evaluation_administration?.eval_period_end_date)}
-            </div>
-            <div className='flex gap-3'>
-              <div className='font-bold'>Evaluation Schedule: </div>
-              {formatDate(evaluation_administration?.eval_schedule_start_date)} to{" "}
-              {formatDate(evaluation_administration?.eval_schedule_end_date)}
-            </div>
+            <DateRangeDisplay
+              label='Evaluation Period'
+              startDate={evaluation_administration?.eval_period_start_date}
+              endDate={evaluation_administration?.eval_period_end_date}
+              isMobile={isMobile}
+            />
+            <DateRangeDisplay
+              label='Evaluation Schedule'
+              startDate={evaluation_administration?.eval_schedule_start_date}
+              endDate={evaluation_administration?.eval_schedule_end_date}
+              isMobile={isMobile}
+            />
           </div>
         </div>
         <div className='font-bold'>
