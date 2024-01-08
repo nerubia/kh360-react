@@ -9,8 +9,16 @@ export interface EvaluationTemplateContent {
   answerOptions?: AnswerOption[]
   evaluationRating: EvaluationRating
   average_rate?: number
+  category?: string
+  rate?: string
+  is_active?: boolean
 }
 
 export interface EvaluationTemplateContentFilters {
   evaluation_id?: string
+}
+
+export enum EvaluationTemplateContentCategory {
+  PrimarySkillSet = "Primary Skillset",
+  SecondarySkillSet = "Secondary Skillset",
 }
