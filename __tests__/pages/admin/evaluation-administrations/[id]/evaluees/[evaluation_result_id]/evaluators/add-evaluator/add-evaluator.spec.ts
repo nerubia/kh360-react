@@ -126,7 +126,7 @@ test.describe("Admin - Select Evaluators", () => {
 
       await expect(page.getByRole("heading", { name: "Add Evaluator" })).toBeVisible()
       await expect(page.getByText("Template Type")).toBeVisible()
-      await expect(page.getByText("User", { exact: true })).toBeVisible()
+      await expect(page.getByText("Evaluator", { exact: true })).toBeVisible()
       await expect(page.getByText("Project", { exact: true })).toBeVisible()
 
       await expect(page.getByRole("button", { name: "Cancel" })).toBeVisible()
