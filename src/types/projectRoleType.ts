@@ -1,5 +1,6 @@
 export interface ProjectRole {
   id: number
-  short_name?: string
   name?: string
+  short_name?: string
+  is_evaluee?: boolean
 }
