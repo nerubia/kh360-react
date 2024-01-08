@@ -168,9 +168,9 @@ export const AddEvaluatorForm = () => {
           fullWidth
         />
         <CustomSelect
-          data-test-id='User'
-          label='User'
-          name='user'
+          data-test-id='Evaluator'
+          label='Evaluator'
+          name='evaluator'
           value={activeUsers.find(
             (option) => option.value === `${formData.user_id}|${formData.is_external}`
           )}
