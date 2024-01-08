@@ -3,7 +3,7 @@ import { type AxiosError } from "axios"
 import { type ApiError } from "../../types/apiErrorType"
 import { type UserEvaluationsFilter } from "../../types/user-type"
 import { type Evaluation } from "../../types/evaluation-type"
-import { type Answers } from "../../types/answer-type"
+import { type Answers } from "../../types/answers-type"
 import {
   type EvaluationAdministration,
   type EvaluationAdministrationFilters,
