@@ -314,7 +314,7 @@ test.describe("CM - Evaluation results", () => {
 
       await expect(page.getByText("Name", { exact: true })).toBeVisible()
       await expect(page.getByText("Evaluation Administration")).toBeVisible()
-      await expect(page.getByText("Rating", { exact: true })).toBeVisible()
+      await expect(page.locator("label").filter({ hasText: "Score Rating" })).toBeVisible()
       await expect(page.locator("label").filter({ hasText: "Banding" })).toBeVisible()
       await expect(page.getByText("Sort by")).toBeVisible()
 
@@ -325,7 +325,8 @@ test.describe("CM - Evaluation results", () => {
       await expect(page.getByRole("cell", { name: "Eval Admin Name" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Eval Period" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Score", exact: true })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Standard Score" })).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Score Rating" })).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Z-Score" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Banding" })).toBeVisible()
 
       await expect(page.getByRole("cell", { name: "User, First" })).toBeVisible()

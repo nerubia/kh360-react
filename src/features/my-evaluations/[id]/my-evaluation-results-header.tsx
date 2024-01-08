@@ -39,19 +39,20 @@ export const MyEvaluationResultsHeader = () => {
             </div>
           </div>
         </div>
-        <div className='text-xl text-primary-500 font-bold my-5'>
+        <div className='text-xl text-primary-500 font-bold mt-10 mb-5'>
           Total Score: {user_evaluation_result?.total_score}%
         </div>
-        {user_evaluation_result?.score_rating !== undefined &&
-          user_evaluation_result?.users?.picture !== undefined && (
-            <ScoreRange
-              user_picture={user_evaluation_result?.users?.picture}
-              score_rating={user_evaluation_result?.score_rating}
-              score={user_evaluation_result?.score}
-              size='medium'
-              is_evaluee={true}
-            />
-          )}
+        <div className='md:w-[800px]'>
+          {user_evaluation_result?.score_rating !== undefined &&
+            user_evaluation_result?.users?.picture !== undefined && (
+              <ScoreRange
+                user_picture={user_evaluation_result?.users?.picture}
+                score_rating={user_evaluation_result?.score_rating}
+                score={user_evaluation_result?.score}
+                is_evaluee={true}
+              />
+            )}
+        </div>
       </div>
     </>
   )

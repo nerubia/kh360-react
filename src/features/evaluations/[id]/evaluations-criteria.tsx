@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { Button } from "../../../components/ui/button/button"
 import { StarRating } from "../../../components/ui/rating/star-rating"
@@ -17,7 +17,7 @@ import {
   updateTotalSubmitted,
 } from "../../../redux/slices/user-slice"
 import { Loading } from "../../../types/loadingType"
-import { setAlert } from "../../../redux/slices/appSlice"
+import { setAlert } from "../../../redux/slices/app-slice"
 import { EvaluationStatus, type Evaluation } from "../../../types/evaluation-type"
 import { formatDateRange } from "../../../utils/format-date"
 import { TextArea } from "../../../components/ui/textarea/text-area"
@@ -30,6 +30,8 @@ import { type EvaluationTemplateContent } from "../../../types/evaluation-templa
 import { Badge } from "../../../components/ui/badge/badge"
 import { getEvaluationStatusVariant } from "../../../utils/variant"
 import useSmoothScrollToTop from "../../../hooks/use-smooth-scroll-to-top"
+import { ReadyState } from "react-use-websocket"
+import { WebSocketContext, type WebSocketType } from "../../../components/providers/websocket"
 
 export const EvaluationsCriteria = () => {
   const { id, evaluation_id } = useParams()
@@ -67,6 +69,8 @@ export const EvaluationsCriteria = () => {
   const [evaluationRatingIds, setEvaluationRatingIds] = useState<number[]>([])
   const [didCopy, setDidCopy] = useState<boolean>(false)
   const scrollToTop = useSmoothScrollToTop()
+
+  const { sendJsonMessage, readyState } = useContext(WebSocketContext) as WebSocketType
 
   useEffect(() => {
     void appDispatch(setIsEditing(false))
@@ -383,6 +387,12 @@ export const EvaluationsCriteria = () => {
           )
           setRatingCommentErrorMessage(result.payload)
         }
+        if (readyState === ReadyState.OPEN) {
+          sendJsonMessage({
+            event: "submitEvaluation",
+            data: "submitEvaluation",
+          })
+        }
       } catch (error) {}
     }
   }
@@ -434,7 +444,7 @@ export const EvaluationsCriteria = () => {
       {loading === Loading.Fulfilled &&
         evaluation_template_contents.length > 0 &&
         user_evaluations.length > 0 && (
-          <div className='flex flex-col w-full pb-5 pr-5 mx-4 mb-3 overflow-y-scroll md:w-3/4'>
+          <div className='flex flex-col w-full pb-5 pr-5 mx-4 mb-3 overflow-y-scroll md:w-3/4 overflow-x-hidden'>
             <div className='items-center justify-between p-1 border rounded sm:flex sm:flex-col md:flex-row md:border-none md:p-0'>
               <div className='flex-flex-col'>
                 <div className='mb-1 text-xl font-bold text-primary-500'>

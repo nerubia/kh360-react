@@ -10,13 +10,11 @@ export const ProjectTooltipContent: React.FC<{
   return (
     <>
       {task.role !== undefined && (
-        <div className='absolute z-50 w-max max-w-md bg-[#fff8c5] text-[#9b6700] text-xs border border-[#f1dd9f] rounded-md p-1.5 group-hover:visible bottom-full left-1/2 -translate-x-3/4 mb-1'>
+        <div className='absolute z-50 w-max max-w-md bg-[#fff8c5] text-[#9b6700] text-xs border border-[#f1dd9f] rounded-md p-1.5 group-hover:visible bottom-full right-1/2 transform -translate-x-1/2 mb-1'>
           <p>
             <b>{task.name}</b>
           </p>
-          <p>Role: {task.role}</p>
-          <p>Project Duration: {formatDateRange(task.start, task.end)}</p>
-          <p>Percentage assignment: {task.progress}%</p>
+          <p>{formatDateRange(task.start, task.end)}</p>
         </div>
       )}
     </>

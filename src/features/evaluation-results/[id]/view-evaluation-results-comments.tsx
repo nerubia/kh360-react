@@ -32,7 +32,7 @@ export const ViewEvaluationResultsComments = () => {
         {evaluation_result?.comments.length === 0 && (
           <div className='flex italic text-s'>No comments.</div>
         )}
-        <div className='text-xl font-bold my-4 text-primary-500'>Recommendations: </div>
+        <div className='text-xl font-bold mt-10 mb-2 text-primary-500'>Recommendations: </div>
         {loading === Loading.Fulfilled &&
           evaluation_result?.recommendations !== undefined &&
           evaluation_result?.recommendations.length > 0 &&

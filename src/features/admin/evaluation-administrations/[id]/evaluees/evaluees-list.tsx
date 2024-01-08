@@ -7,7 +7,7 @@ import { Icon } from "../../../../../components/ui/icon/icon"
 import { type EvaluationResult } from "../../../../../types/evaluation-result-type"
 import Dialog from "../../../../../components/ui/dialog/dialog"
 import { Loading } from "../../../../../types/loadingType"
-import { setAlert } from "../../../../../redux/slices/appSlice"
+import { setAlert } from "../../../../../redux/slices/app-slice"
 import { Pagination } from "../../../../../components/shared/pagination/pagination"
 import {
   deleteEvaluationResult,

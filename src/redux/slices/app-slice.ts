@@ -4,12 +4,14 @@ interface InitialState {
   activeSidebar: boolean
   alertDescription?: string
   alertVariant: "primary" | "success"
+  previousUrl: string | null
 }
 
 const initialState: InitialState = {
   activeSidebar: true,
   alertDescription: undefined,
   alertVariant: "primary",
+  previousUrl: null,
 }
 
 const appSlice = createSlice({
@@ -23,8 +25,11 @@ const appSlice = createSlice({
       state.alertDescription = action.payload.description
       state.alertVariant = action.payload.variant
     },
+    setPreviousUrl: (state, action) => {
+      state.previousUrl = action.payload
+    },
   },
 })
 
-export const { setActiveSidebar, setAlert } = appSlice.actions
+export const { setActiveSidebar, setAlert, setPreviousUrl } = appSlice.actions
 export default appSlice.reducer

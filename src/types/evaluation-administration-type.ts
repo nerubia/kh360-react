@@ -1,3 +1,5 @@
+import { type ScoreRating } from "./score-rating-type"
+
 export interface EvaluationAdministration {
   id: number
   name?: string
@@ -14,6 +16,8 @@ export interface EvaluationAdministration {
   totalPending?: number
   banding?: string
   evaluees_count?: number
+  score?: number
+  score_rating?: ScoreRating
 }
 
 export interface EvaluationAdministrationFilters {

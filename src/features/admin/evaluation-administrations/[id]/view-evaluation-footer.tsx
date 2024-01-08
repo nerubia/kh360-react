@@ -2,11 +2,11 @@ import { useNavigate } from "react-router-dom"
 import { Button } from "../../../../components/ui/button/button"
 import { Icon } from "../../../../components/ui/icon/icon"
 import { useAppSelector } from "../../../../hooks/useAppSelector"
-
+import useMobileView from "../../../../hooks/use-mobile-view"
 export const ViewEvaluationFooter = () => {
   const navigate = useNavigate()
-
-  const { previousUrl } = useAppSelector((state) => state.evaluationAdministrations)
+  const isMobile = useMobileView()
+  const { previousUrl } = useAppSelector((state) => state.app)
 
   const handleGoBack = () => {
     if (previousUrl !== null) {
@@ -18,7 +18,12 @@ export const ViewEvaluationFooter = () => {
 
   return (
     <>
-      <Button testId='BackButton' variant='primaryOutline' size='medium' onClick={handleGoBack}>
+      <Button
+        testId='BackButton'
+        variant='primaryOutline'
+        size={isMobile ? "small" : "medium"}
+        onClick={handleGoBack}
+      >
         <Icon icon='ChevronLeft' />
       </Button>
     </>

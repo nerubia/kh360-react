@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useContext, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
@@ -8,6 +8,7 @@ import { EvaluationProgressHeader } from "../../../../../features/admin/evaluati
 import { EvaluationProgressList } from "../../../../../features/admin/evaluation-administrations/[id]/progress/evaluation-progress-list"
 import { EvaluationProgressFooter } from "../../../../../features/admin/evaluation-administrations/[id]/progress/evaluation-progress-footer"
 import { useTitle } from "../../../../../hooks/useTitle"
+import { WebSocketContext, type WebSocketType } from "../../../../../components/providers/websocket"
 
 export default function EvaluationProgress() {
   useTitle("Evaluation Progress")
@@ -17,12 +18,13 @@ export default function EvaluationProgress() {
   const { loading, loading_evaluators, evaluators, evaluation_administration } = useAppSelector(
     (state) => state.evaluationAdministration
   )
+  const { lastJsonMessage } = useContext(WebSocketContext) as WebSocketType
 
   useEffect(() => {
     if (id !== undefined) {
       void appDispatch(getEvaluationAdministration(parseInt(id)))
     }
-  }, [id])
+  }, [id, lastJsonMessage])
 
   return (
     <div className='flex flex-col gap-2'>

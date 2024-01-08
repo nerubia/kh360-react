@@ -15,7 +15,7 @@ export const DistributionChart: React.FC<DistributionChartProps> = ({
 }) => {
   if (evaluator.evaluations !== undefined) {
     const uniqueValues: Record<number, number> = {}
-    const evaluatorData = evaluator.evaluations?.map((evaluation) => {
+    const evalueeData = evaluator.evaluations?.map((evaluation) => {
       const value = evaluation.zscore ?? 0
 
       if (uniqueValues[value] !== undefined) {
@@ -34,17 +34,25 @@ export const DistributionChart: React.FC<DistributionChartProps> = ({
     })
     const getBarColor = (): ((context: ScriptableContext<"line">) => string) => {
       return (context: ScriptableContext<"line">) => {
-        const evalueeName = (context.raw as { label: string }).label
-        const currentEvalueeName = `${currentEvaluee.last_name}, ${currentEvaluee.first_name}`
-        const color = evalueeName === currentEvalueeName ? "#a78ec8" : "#e7e2f2"
+        let color = ""
+        if (context.raw !== undefined) {
+          const evalueeName = (context.raw as { label: string }).label ?? ""
+          const currentEvalueeName = `${currentEvaluee.last_name}, ${currentEvaluee.first_name}`
+          color = evalueeName === currentEvalueeName ? "#a78ec8" : "#e7e2f2"
+        }
         return color
       }
     }
+
     const chartData = {
       datasets: [
         {
           label: "Evaluee Data",
-          data: evaluatorData?.map((data) => ({ x: data.value, y: data.yValue, label: data.name })),
+          data: evalueeData?.map((evaluee) => ({
+            x: evaluee.value,
+            y: evaluee.yValue,
+            label: evaluee.name,
+          })),
           borderColor: "transparent",
           pointRadius: 7,
           pointHoverRadius: 10,
@@ -52,8 +60,11 @@ export const DistributionChart: React.FC<DistributionChartProps> = ({
         },
       ],
     }
-
     const chartOptions = {
+      interaction: {
+        intersect: true,
+        mode: "nearest" as const,
+      },
       responsive: true,
       maintainAspectRatio: false,
       devicePixelRatio: 4,
@@ -79,6 +90,7 @@ export const DistributionChart: React.FC<DistributionChartProps> = ({
       },
       plugins: {
         tooltip: {
+          padding: 12,
           callbacks: {
             title: (context: Array<TooltipItem<ChartType>>) => {
               if (context.length > 0) {
@@ -92,9 +104,9 @@ export const DistributionChart: React.FC<DistributionChartProps> = ({
             label: (context: TooltipItem<ChartType>) => {
               const labels = []
               const index = context.dataIndex
-              const project = evaluatorData[index].project
-              const projectRole = evaluatorData[index].projectRole
-              const period = evaluatorData[index].period
+              const project = evalueeData[index].project
+              const projectRole = evalueeData[index].projectRole
+              const period = evalueeData[index].period
 
               if (project !== null) {
                 labels.push(`${project?.name} [${projectRole?.short_name}]`)
@@ -114,7 +126,7 @@ export const DistributionChart: React.FC<DistributionChartProps> = ({
     }
 
     return (
-      <div className='md:w-[600px]'>
+      <div className='md:w-[750px]'>
         <Scatter data={chartData} options={chartOptions} />
       </div>
     )

@@ -3,7 +3,6 @@ import { Button, LinkButton } from "../../../../components/ui/button/button"
 import { useAppSelector } from "../../../../hooks/useAppSelector"
 import { useNavigate, useParams } from "react-router-dom"
 import { EvaluationAdministrationStatus } from "../../../../types/evaluation-administration-type"
-import { formatDate } from "../../../../utils/format-date"
 import { Icon } from "../../../../components/ui/icon/icon"
 import Dialog from "../../../../components/ui/dialog/dialog"
 import {
@@ -11,28 +10,33 @@ import {
   closeEvaluationAdministration,
   deleteEvaluationAdministration,
   publishEvaluationAdministration,
+  reopenEvaluationAdministration,
 } from "../../../../redux/slices/evaluation-administration-slice"
 import { useAppDispatch } from "../../../../hooks/useAppDispatch"
 import { PageTitle } from "../../../../components/shared/page-title"
 import { Badge } from "../../../../components/ui/badge/badge"
 import { getEvaluationAdministrationStatusVariant } from "../../../../utils/variant"
 import Dropdown from "../../../../components/ui/dropdown/dropdown"
-import { setAlert } from "../../../../redux/slices/appSlice"
+import { setAlert } from "../../../../redux/slices/app-slice"
 import { Loading } from "../../../../types/loadingType"
+import { DateRangeDisplay } from "../../../../components/shared/display-range-date"
+import useMobileView from "../../../../hooks/use-mobile-view"
 
 export const ViewEvaluationHeader = () => {
   const navigate = useNavigate()
+  const isMobile = useMobileView()
   const { id } = useParams()
   const appDispatch = useAppDispatch()
   const { loading, evaluation_administration } = useAppSelector(
     (state) => state.evaluationAdministration
   )
-  const { previousUrl } = useAppSelector((state) => state.evaluationAdministrations)
+  const { previousUrl } = useAppSelector((state) => state.app)
 
   const [showCancelDialog, setShowCancelDialog] = useState<boolean>(false)
   const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false)
   const [showCloseDialog, setShowCloseDialog] = useState<boolean>(false)
   const [showPublishDialog, setShowPublishDialog] = useState<boolean>(false)
+  const [showReopenDialog, setShowReopenDialog] = useState<boolean>(false)
 
   const toggleCancelDialog = () => {
     setShowCancelDialog((prev) => !prev)
@@ -48,6 +52,10 @@ export const ViewEvaluationHeader = () => {
 
   const togglePublishDialog = () => {
     setShowPublishDialog((prev) => !prev)
+  }
+
+  const toggleReopenDialog = () => {
+    setShowReopenDialog((prev) => !prev)
   }
 
   const handleCancel = async () => {
@@ -118,6 +126,31 @@ export const ViewEvaluationHeader = () => {
     }
   }
 
+  const handleReopen = async () => {
+    if (id !== undefined) {
+      try {
+        const result = await appDispatch(reopenEvaluationAdministration(parseInt(id)))
+        if (result.type === "evaluationAdministration/reopen/fulfilled") {
+          appDispatch(
+            setAlert({
+              description: "Evaluation has been reopened successfully.",
+              variant: "success",
+            })
+          )
+        }
+        if (result.type === "evaluationAdministration/reopen/rejected") {
+          appDispatch(
+            setAlert({
+              description: result.payload,
+              variant: "destructive",
+            })
+          )
+        }
+        setShowReopenDialog(false)
+      } catch (error) {}
+    }
+  }
+
   return (
     <>
       <div className='flex flex-col'>
@@ -126,6 +159,7 @@ export const ViewEvaluationHeader = () => {
             <div className='flex items-end gap-4 mb-4 primary-outline'>
               <PageTitle>{evaluation_administration?.name}</PageTitle>
               <Badge
+                size={isMobile ? "small" : "medium"}
                 variant={getEvaluationAdministrationStatusVariant(
                   evaluation_administration?.status
                 )}
@@ -133,16 +167,18 @@ export const ViewEvaluationHeader = () => {
                 <div className='uppercase'>{evaluation_administration?.status}</div>
               </Badge>
             </div>
-            <div className='flex gap-3'>
-              <div className='font-bold'>Evaluation Period: </div>
-              {formatDate(evaluation_administration?.eval_period_start_date)} to{" "}
-              {formatDate(evaluation_administration?.eval_period_end_date)}
-            </div>
-            <div className='flex gap-3'>
-              <div className='font-bold'>Evaluation Schedule: </div>
-              {formatDate(evaluation_administration?.eval_schedule_start_date)} to{" "}
-              {formatDate(evaluation_administration?.eval_schedule_end_date)}
-            </div>
+            <DateRangeDisplay
+              label='Evaluation Period'
+              startDate={evaluation_administration?.eval_period_start_date}
+              endDate={evaluation_administration?.eval_period_end_date}
+              isMobile={isMobile}
+            />
+            <DateRangeDisplay
+              label='Evaluation Schedule'
+              startDate={evaluation_administration?.eval_schedule_start_date}
+              endDate={evaluation_administration?.eval_schedule_end_date}
+              isMobile={isMobile}
+            />
           </div>
           <div className='flex justify-between gap-4'>
             {evaluation_administration?.status === EvaluationAdministrationStatus.Pending ||
@@ -153,56 +189,66 @@ export const ViewEvaluationHeader = () => {
             evaluation_administration?.status === EvaluationAdministrationStatus.Published ? (
               <LinkButton
                 variant='primary'
-                size='medium'
+                size={isMobile ? "small" : "medium"}
                 to={`/admin/evaluation-administrations/${id}/progress`}
               >
                 Progress
               </LinkButton>
             ) : null}
-            <Dropdown>
-              <Dropdown.Trigger>
-                <Button>
-                  More actions
-                  <Icon icon='ChevronDown' />
-                </Button>
-              </Dropdown.Trigger>
-              <Dropdown.Content>
-                {(evaluation_administration?.status === EvaluationAdministrationStatus.Draft ||
-                  evaluation_administration?.status === EvaluationAdministrationStatus.Pending) && (
-                  <Dropdown.Item
-                    onClick={() => navigate(`/admin/evaluation-administrations/${id}/edit`)}
-                  >
-                    <Icon icon='PenSquare' />
-                    Edit
-                  </Dropdown.Item>
-                )}
-                {(evaluation_administration?.status === EvaluationAdministrationStatus.Pending ||
-                  evaluation_administration?.status === EvaluationAdministrationStatus.Ongoing) && (
-                  <Dropdown.Item onClick={toggleCancelDialog}>
-                    <Icon icon='Ban' />
-                    Cancel
-                  </Dropdown.Item>
-                )}
-                {evaluation_administration?.status === EvaluationAdministrationStatus.Draft && (
-                  <Dropdown.Item onClick={toggleDeleteDialog}>
-                    <Icon icon='Trash' />
-                    Delete
-                  </Dropdown.Item>
-                )}
-                {evaluation_administration?.status === EvaluationAdministrationStatus.Ongoing && (
-                  <Dropdown.Item onClick={toggleCloseDialog}>
-                    <Icon icon='Close' />
-                    Close
-                  </Dropdown.Item>
-                )}
-                {evaluation_administration?.status === EvaluationAdministrationStatus.Closed && (
-                  <Dropdown.Item onClick={togglePublishDialog}>
-                    <Icon icon='UploadCloud' />
-                    Publish
-                  </Dropdown.Item>
-                )}
-              </Dropdown.Content>
-            </Dropdown>
+            {evaluation_administration?.status !== EvaluationAdministrationStatus.Published && (
+              <Dropdown>
+                <Dropdown.Trigger>
+                  <Button size={isMobile ? "small" : "medium"}>
+                    More actions
+                    <Icon icon='ChevronDown' size={isMobile ? "small" : "medium"} />
+                  </Button>
+                </Dropdown.Trigger>
+                <Dropdown.Content size={isMobile ? "small" : "medium"}>
+                  {(evaluation_administration?.status === EvaluationAdministrationStatus.Draft ||
+                    evaluation_administration?.status ===
+                      EvaluationAdministrationStatus.Pending) && (
+                    <Dropdown.Item
+                      onClick={() => navigate(`/admin/evaluation-administrations/${id}/edit`)}
+                    >
+                      <Icon icon='PenSquare' />
+                      Edit
+                    </Dropdown.Item>
+                  )}
+                  {(evaluation_administration?.status === EvaluationAdministrationStatus.Pending ||
+                    evaluation_administration?.status ===
+                      EvaluationAdministrationStatus.Ongoing) && (
+                    <Dropdown.Item onClick={toggleCancelDialog}>
+                      <Icon icon='Ban' />
+                      Cancel
+                    </Dropdown.Item>
+                  )}
+                  {evaluation_administration?.status === EvaluationAdministrationStatus.Draft && (
+                    <Dropdown.Item onClick={toggleDeleteDialog}>
+                      <Icon icon='Trash' />
+                      Delete
+                    </Dropdown.Item>
+                  )}
+                  {evaluation_administration?.status === EvaluationAdministrationStatus.Ongoing && (
+                    <Dropdown.Item onClick={toggleCloseDialog}>
+                      <Icon icon='Lock' />
+                      Close
+                    </Dropdown.Item>
+                  )}
+                  {evaluation_administration?.status === EvaluationAdministrationStatus.Closed && (
+                    <Dropdown.Item onClick={togglePublishDialog}>
+                      <Icon icon='UploadCloud' />
+                      Publish
+                    </Dropdown.Item>
+                  )}
+                  {evaluation_administration?.status === EvaluationAdministrationStatus.Closed && (
+                    <Dropdown.Item onClick={toggleReopenDialog}>
+                      <Icon icon='RefreshCw' />
+                      Reopen
+                    </Dropdown.Item>
+                  )}
+                </Dropdown.Content>
+              </Dropdown>
+            )}
           </div>
         </div>
       </div>
@@ -262,6 +308,18 @@ export const ViewEvaluationHeader = () => {
             No
           </Button>
           <Button variant='primary' onClick={handlePublish} loading={loading === Loading.Pending}>
+            Yes
+          </Button>
+        </Dialog.Actions>
+      </Dialog>
+      <Dialog open={showReopenDialog}>
+        <Dialog.Title>Reopen Evaluation</Dialog.Title>
+        <Dialog.Description>Are you sure you want to reopen this record?</Dialog.Description>
+        <Dialog.Actions>
+          <Button variant='primaryOutline' onClick={toggleReopenDialog}>
+            No
+          </Button>
+          <Button variant='primary' onClick={handleReopen} loading={loading === Loading.Pending}>
             Yes
           </Button>
         </Dialog.Actions>

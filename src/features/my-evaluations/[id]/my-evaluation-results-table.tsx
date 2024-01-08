@@ -1,4 +1,4 @@
-import { useState } from "react"
+import React, { useState } from "react"
 import { useParams } from "react-router-dom"
 import { useAppSelector } from "../../../hooks/useAppSelector"
 import { Loading } from "../../../types/loadingType"
@@ -44,22 +44,26 @@ export const MyEvaluationResultsTable = () => {
                 </thead>
                 <tbody>
                   {user_evaluation_result?.evaluation_result_details.map((detail) => (
-                    <tr
-                      key={detail.id}
-                      className='cursor-pointer hover:bg-slate-100'
-                      onClick={() => {
-                        handleOpenDetails(detail)
-                        toggleDetails()
-                      }}
-                    >
-                      <td className='py-1 border-b'>{detail.template_name}</td>
-                      <td className='py-1 border-b text-start'>{detail.total_score}%</td>
-                      {detail.score_rating?.display_name !== null && (
-                        <td className='py-1 border-b text-start items-center'>
-                          {detail.score_rating?.display_name}
-                        </td>
+                    <React.Fragment key={detail.id}>
+                      {Number(detail.weight) !== 0 && (
+                        <tr
+                          key={detail.id}
+                          className='cursor-pointer hover:bg-slate-100'
+                          onClick={() => {
+                            handleOpenDetails(detail)
+                            toggleDetails()
+                          }}
+                        >
+                          <td className='py-1 border-b'>{detail.template_name}</td>
+                          <td className='py-1 border-b text-start'>{detail.total_score}%</td>
+                          {detail.score_rating?.display_name !== null && (
+                            <td className='py-1 border-b text-start items-center'>
+                              {detail.score_rating?.display_name}
+                            </td>
+                          )}
+                        </tr>
                       )}
-                    </tr>
+                    </React.Fragment>
                   ))}
                 </tbody>
               </table>
@@ -78,8 +82,8 @@ export const MyEvaluationResultsTable = () => {
             {selectedEvaluationResultDetail?.evaluation_template_contents?.map((content, index) => (
               <div key={index} className='hover:bg-slate-100 p-2'>
                 <div className='flex justify-between mb-2'>
-                  <div className='text-primary-500 font-bold w-1/2'>{content.name}</div>
-                  <div className='w-[300px] relative'>
+                  <div className='text-primary-500 font-bold w-2/3'>{content.name}</div>
+                  <div className='w-[600px] relative'>
                     <div className='relative z-0'>
                       <Progress
                         variant={getScoreVariant(content.average_rate ?? 0)}
@@ -88,13 +92,13 @@ export const MyEvaluationResultsTable = () => {
                       />
                     </div>
                     <div
-                      className={`absolute top-[10px] right-3/4 transform -translate-x-1/2 -translate-y-1/2 z-10  text-white`}
+                      className={`absolute top-[10px] left-[40px] transform -translate-x-2/3 -translate-y-1/2 z-10  text-white`}
                     >
                       {content.average_rate}%
                     </div>
                   </div>
                 </div>
-                <div className='mb-2 text-sm italic'> {content.description}</div>
+                <div className='mb-2 text-xs italic'> {content.description}</div>
               </div>
             ))}
           </div>

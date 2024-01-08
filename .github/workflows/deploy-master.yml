@@ -69,6 +69,7 @@ jobs:
         env:
           REACT_APP_NAME: ${{ secrets.LIVE_REACT_APP_NAME }}
           REACT_APP_BASE_URL: ${{ secrets.LIVE_REACT_APP_BASE_URL }}
+          REACT_APP_WEBSOCKET_URL: ${{ secrets.LIVE_REACT_APP_WEBSOCKET_URL }}
           REACT_APP_GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.LIVE_REACT_APP_GOOGLE_OAUTH_CLIENT_ID }}
       - uses: jakejarvis/s3-sync-action@master
         with:

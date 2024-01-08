@@ -1,19 +1,24 @@
 import { type VariantProps, cva } from "class-variance-authority"
 
-const progress = cva(["h-full", "rounded-full"], {
+const progress = cva(["rounded-full"], {
   variants: {
     variant: {
       primary: ["bg-primary-500"],
-      green: ["bg-[#8fc862]"],
-      blue: ["bg-[#b7e0ff]"],
-      red: ["bg-[#edc9d4]"],
-      orange: ["bg-[#ffd3c9]"],
-      yellow: ["bg-[#f4ba42]"],
-      lightGreen: ["bg-[#bbeec7]"],
+      green: ["bg-customGreen-500"],
+      blue: ["bg-customBlue-500"],
+      red: ["bg-customRed-500"],
+      orange: ["bg-customOrange-500"],
+      yellow: ["bg-customYellow-500"],
+      lightGreen: ["bg-customLightGreen-500"],
+    },
+    size: {
+      small: ["h-3"],
+      medium: ["h-5"],
     },
   },
   defaultVariants: {
     variant: "primary",
+    size: "medium",
   },
 })
 
@@ -22,10 +27,10 @@ interface ProgressProps extends VariantProps<typeof progress> {
   width: string
 }
 
-export const Progress = ({ value, width, variant }: ProgressProps) => {
+export const Progress = ({ value, width, variant, size }: ProgressProps) => {
   return (
-    <div className={`bg-slate-200 w-full h-5 md:${width} rounded-full`}>
-      <div className={progress({ variant })} style={{ width: `${value}%` }}></div>
+    <div className={`bg-slate-200 w-full md:${width} rounded-full ${progress({ size })}`}>
+      <div className={progress({ variant, size })} style={{ width: `${value}%` }}></div>
     </div>
   )
 }

@@ -16,7 +16,7 @@ import {
   declineRequest,
 } from "../../../../../redux/slices/evaluations-slice"
 import { Progress } from "../../../../../components/ui/progress/progress"
-import { setAlert } from "../../../../../redux/slices/appSlice"
+import { setAlert } from "../../../../../redux/slices/app-slice"
 import { Badge } from "../../../../../components/ui/badge/badge"
 import { getEvaluationStatusVariant, getProgressVariant } from "../../../../../utils/variant"
 import { EvaluationStatus } from "../../../../../types/evaluation-type"

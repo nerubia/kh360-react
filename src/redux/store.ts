@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit"
-import appReducer from "./slices/appSlice"
+import appReducer from "./slices/app-slice"
 import authReducer from "./slices/auth-slice"
 
 import emailTemplateReducer from "./slices/email-template-slice"

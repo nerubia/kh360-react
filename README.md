@@ -43,6 +43,8 @@ REACT_APP_NAME=App Name
 
 REACT_APP_BASE_URL=api url
 
+REACT_APP_WEBSOCKET_URL=websocket url
+
 REACT_APP_GOOGLE_OAUTH_CLIENT_ID=google client id
 ```
 

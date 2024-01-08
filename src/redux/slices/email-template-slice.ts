@@ -4,6 +4,7 @@ import { type ApiError } from "../../types/apiErrorType"
 import { type EmailTemplateFilters, type EmailTemplate } from "../../types/email-template-type"
 import { Loading } from "../../types/loadingType"
 import { axiosInstance } from "../../utils/axios-instance"
+import { type EmailTemplateFormData } from "../../types/form-data-type"
 
 export const getEmailTemplates = createAsyncThunk(
   "emailTemplate/getEmailTemplates",
@@ -67,6 +68,20 @@ export const getRatingTemplates = createAsyncThunk(
   }
 )
 
+export const createEmailTemplate = createAsyncThunk(
+  "emailTemplate/createEmailTemplate",
+  async (data: EmailTemplateFormData, thunkApi) => {
+    try {
+      const response = await axiosInstance.post("/admin/email-templates", data)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const deleteEmailTemplate = createAsyncThunk(
   "emailTemplate/deleteEmailTemplate",
   async (id: number, thunkApi) => {
@@ -108,7 +123,11 @@ const initialState: InitialState = {
 const emailTemplateSlice = createSlice({
   name: "app",
   initialState,
-  reducers: {},
+  reducers: {
+    setEmailTemplate: (state, action) => {
+      state.emailTemplate = action.payload
+    },
+  },
   extraReducers(builder) {
     /**
      * Default email template
@@ -179,6 +198,21 @@ const emailTemplateSlice = createSlice({
       state.error = action.payload as string
     })
     /**
+     * Create
+     */
+    builder.addCase(createEmailTemplate.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(createEmailTemplate.fulfilled, (state) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+    })
+    builder.addCase(createEmailTemplate.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
      * Delete
      */
     builder.addCase(deleteEmailTemplate.pending, (state) => {
@@ -200,4 +234,5 @@ const emailTemplateSlice = createSlice({
   },
 })
 
+export const { setEmailTemplate } = emailTemplateSlice.actions
 export default emailTemplateSlice.reducer

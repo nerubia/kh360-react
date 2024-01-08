@@ -50,6 +50,14 @@ export interface EvaluatorFormData {
   is_external?: string
 }
 
+export interface EmailTemplateFormData {
+  name?: string
+  template_type?: string
+  is_default?: boolean | string
+  subject?: string
+  content?: string
+}
+
 export interface ProjectMemberFormData {
   project_id?: string
   user_id?: string
