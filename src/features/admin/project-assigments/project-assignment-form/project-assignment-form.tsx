@@ -8,7 +8,7 @@ import { type Option } from "../../../../types/optionType"
 import { useAppSelector } from "../../../../hooks/useAppSelector"
 import { useAppDispatch } from "../../../../hooks/useAppDispatch"
 import { getUsers } from "../../../../redux/slices/users-slice"
-import { getProjects } from "../../../../redux/slices/projects-slice"
+import { getAllProjects } from "../../../../redux/slices/projects-slice"
 import { getProjectRoles } from "../../../../redux/slices/project-roles-slice"
 import { type ProjectMemberFormData } from "../../../../types/form-data-type"
 import {
@@ -114,7 +114,7 @@ export const ProjectAssignmentForm = () => {
   const handleSearchProject = (value: string) => {
     if (value.length !== 0) {
       void appDispatch(
-        getProjects({
+        getAllProjects({
           name: value,
         })
       )
