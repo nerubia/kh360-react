@@ -33,8 +33,10 @@ export const MyEvaluationResultsTable = () => {
           user_evaluation_result?.evaluation_result_details.length > 0 &&
           id !== undefined && (
             <>
-              <div className='text-xl text-primary-500 font-bold mb-5'>Detailed Evaluation </div>
-              <table className='md:w-[860px]'>
+              <div className='text-sm md:text-xl text-primary-500 font-bold mb-5'>
+                Detailed Evaluation{" "}
+              </div>
+              <table className='text-sm md:text-lg w-full md:w-[860px]'>
                 <thead className='text-left'>
                   <tr>
                     <th className='py-1 border-b-4 text-primary-500'>Evaluations</th>
