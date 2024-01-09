@@ -10,6 +10,7 @@ import { useAppSelector } from "../../hooks/useAppSelector"
 import { EvaluationAdministrationStatus } from "../../types/evaluation-administration-type"
 import { getScoreRatings } from "../../redux/slices/score-ratings-slice"
 import { Banding } from "../../types/banding-type"
+import { useMobileView } from "../../hooks/use-mobile-view"
 
 const bandingFilters: Option[] = Object.values(Banding).map((value) => ({
   label: value,
@@ -66,6 +67,7 @@ export const EvaluationResultsListFilter = () => {
   )
   const [banding, setBanding] = useState<string>(searchParams.get("banding") ?? "all")
   const [sortBy, setSortBy] = useState<string>(searchParams.get("sort_by") ?? "evaluee")
+  const isMobile = useMobileView()
 
   useEffect(() => {
     void appDispatch(
@@ -127,8 +129,8 @@ export const EvaluationResultsListFilter = () => {
   }
 
   return (
-    <div className='flex flex-col gap-4'>
-      <div className='flex flex-col md:flex-row gap-4'>
+    <div className='flex flex-col gap-2 md:gap-4'>
+      <div className='flex flex-col md:flex-row gap-2 md:gap-4'>
         <div className='flex-1 flex flex-col md:flex-row gap-4'>
           <div className='flex-1'>
             <Input
@@ -196,18 +198,23 @@ export const EvaluationResultsListFilter = () => {
       </div>
 
       <div className='flex flex-col md:flex-row justify-between items-center gap-4'>
-        <h2 className='text-gray-400'>
+        <h2 className='text-gray-400 text-sm md:text-lg'>
           {totalItems} {totalItems === 1 ? "Result" : "Results"} Found
         </h2>
         <div className='flex items-end gap-4'>
           <Button
+            size={isMobile ? "small" : "medium"}
             onClick={() => {
               void handleSearch()
             }}
           >
             Search
           </Button>
-          <Button variant='primaryOutline' onClick={handleClear}>
+          <Button
+            size={isMobile ? "small" : "medium"}
+            variant='primaryOutline'
+            onClick={handleClear}
+          >
             Clear
           </Button>
         </div>
