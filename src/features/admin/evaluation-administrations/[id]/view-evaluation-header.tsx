@@ -20,7 +20,7 @@ import Dropdown from "../../../../components/ui/dropdown/dropdown"
 import { setAlert } from "../../../../redux/slices/app-slice"
 import { Loading } from "../../../../types/loadingType"
 import { DateRangeDisplay } from "../../../../components/shared/display-range-date"
-import useMobileView from "../../../../hooks/use-mobile-view"
+import { useMobileView } from "../../../../hooks/use-mobile-view"
 
 export const ViewEvaluationHeader = () => {
   const navigate = useNavigate()

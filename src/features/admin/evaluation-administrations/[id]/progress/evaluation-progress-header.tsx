@@ -5,7 +5,7 @@ import { Badge } from "../../../../../components/ui/badge/badge"
 import { getEvaluationAdministrationStatusVariant } from "../../../../../utils/variant"
 import { Button } from "../../../../../components/ui/button/button"
 import { Icon } from "../../../../../components/ui/icon/icon"
-import useMobileView from "../../../../../hooks/use-mobile-view"
+import { useMobileView } from "../../../../../hooks/use-mobile-view"
 import { DateRangeDisplay } from "../../../../../components/shared/display-range-date"
 
 export const EvaluationProgressHeader = () => {
