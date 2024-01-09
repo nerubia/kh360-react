@@ -17,6 +17,7 @@ import { Icon } from "../../../components/ui/icon/icon"
 const scoreRange = cva([], {
   variants: {
     size: {
+      extraSmall: ["w-4", "h-4"],
       small: ["w-6", "h-6"],
       medium: ["w-10", "h-10"],
     },
@@ -83,12 +84,12 @@ export const ScoreRange = ({
       {score_rating !== undefined && score_rating !== null && (
         <>
           <div className='flex-1 flex flex-col gap-4'>
-            <div className='flex justify-between gap-8'>
+            <div className='flex justify-between md:gap-8 sm:min-w-0'>
               {score_ratings?.map((score) => (
                 <div
                   key={score.id}
                   className={`text-center pb-2 flex flex-col items-center ${
-                    size === "small" ? "text-sm" : ""
+                    size === "small" ? "text-sm" : "text-xs"
                   }`}
                   style={{
                     filter: getColor(score_rating.name, score.name),
