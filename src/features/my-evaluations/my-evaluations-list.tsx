@@ -8,7 +8,7 @@ import { formatDateRange } from "../../utils/format-date"
 import { Spinner } from "../../components/ui/spinner/spinner"
 import { getByTemplateType } from "../../redux/slices/email-template-slice"
 import { ScoreRange } from "../../components/shared/score-range/score-range"
-import useMobileView from "../../hooks/use-mobile-view"
+import { useMobileView } from "../../hooks/use-mobile-view"
 
 export const MyEvaluationsList = () => {
   const appDispatch = useAppDispatch()
