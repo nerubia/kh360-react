@@ -5,11 +5,11 @@ import { Loading } from "../../types/loadingType"
 import { axiosInstance } from "../../utils/axios-instance"
 import { type ProjectFilters, type Project } from "../../types/projectType"
 
-export const getProjects = createAsyncThunk(
+export const getAllProjects = createAsyncThunk(
   "project/getProjects",
   async (params: ProjectFilters | undefined, thunkApi) => {
     try {
-      const response = await axiosInstance.get("/admin/projects", {
+      const response = await axiosInstance.get("/admin/projects/all", {
         params,
       })
       return response.data
@@ -41,16 +41,16 @@ const projectsSlice = createSlice({
     /**
      * List
      */
-    builder.addCase(getProjects.pending, (state) => {
+    builder.addCase(getAllProjects.pending, (state) => {
       state.loading = Loading.Pending
       state.error = null
     })
-    builder.addCase(getProjects.fulfilled, (state, action) => {
+    builder.addCase(getAllProjects.fulfilled, (state, action) => {
       state.loading = Loading.Fulfilled
       state.error = null
       state.projects = action.payload
     })
-    builder.addCase(getProjects.rejected, (state, action) => {
+    builder.addCase(getAllProjects.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
