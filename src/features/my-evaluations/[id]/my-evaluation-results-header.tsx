@@ -6,8 +6,10 @@ import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { PageTitle } from "../../../components/shared/page-title"
 import { getUserEvaluationResult } from "../../../redux/slices/user-slice"
 import { ScoreRange } from "../../../components/shared/score-range/score-range"
+import useMobileView from "../../../hooks/use-mobile-view"
 
 export const MyEvaluationResultsHeader = () => {
+  const isMobile = useMobileView()
   const { id } = useParams()
   const appDispatch = useAppDispatch()
   const { user_evaluation_result } = useAppSelector((state) => state.user)
@@ -26,12 +28,14 @@ export const MyEvaluationResultsHeader = () => {
             <div className='flex gap-4 primary-outline items-end mb-4'>
               <PageTitle>Evaluation Results</PageTitle>
             </div>
-            <div className='flex gap-3 font-bold'>
+            <div className='flex gap-3 font-bold text-sm md:text-lg'>
               {user_evaluation_result?.users?.last_name},{" "}
               {user_evaluation_result?.users?.first_name}
             </div>
-            <div className='flex gap-3'>{user_evaluation_result?.eval_admin_name}</div>
-            <div className='flex gap-3'>
+            <div className='flex gap-3 text-sm md:text-lg'>
+              {user_evaluation_result?.eval_admin_name}
+            </div>
+            <div className='flex gap-3 text-sm md:text-lg'>
               {formatDateRange(
                 user_evaluation_result?.eval_period_start_date,
                 user_evaluation_result?.eval_period_end_date
@@ -39,7 +43,7 @@ export const MyEvaluationResultsHeader = () => {
             </div>
           </div>
         </div>
-        <div className='text-xl text-primary-500 font-bold mt-10 mb-5'>
+        <div className='text-sm md:text-xl text-primary-500 font-bold mt-10 mb-5'>
           Total Score: {user_evaluation_result?.total_score}%
         </div>
         <div className='md:w-[800px]'>
@@ -50,6 +54,7 @@ export const MyEvaluationResultsHeader = () => {
                 score_rating={user_evaluation_result?.score_rating}
                 score={user_evaluation_result?.score}
                 is_evaluee={true}
+                size={isMobile ? "small" : "medium"}
               />
             )}
         </div>
