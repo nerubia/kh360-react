@@ -69,6 +69,12 @@ const menuLinks: MenuLink[] = [
         access: "Admin",
       },
       {
+        title: "Projects",
+        link: "/admin/projects",
+        icon: "Target",
+        access: "Admin",
+      },
+      {
         title: "Project Assignments",
         link: "/admin/project-assignments",
         icon: "GanttChart",

@@ -291,6 +291,7 @@ export default function Sample() {
           <Icon icon='PenSquare' size='small' />
           <Icon icon='Plus' size='small' />
           <Icon icon='Star' size='small' />
+          <Icon icon='Target' size='small' />
           <Icon icon='Trash' size='small' />
           <Icon icon='UserFill' size='small' />
           <Icon icon='UserRoundCog' size='small' />
@@ -314,6 +315,7 @@ export default function Sample() {
           <Icon icon='PenSquare' />
           <Icon icon='Plus' />
           <Icon icon='Star' />
+          <Icon icon='Target' />
           <Icon icon='Trash' />
           <Icon icon='UserFill' />
           <Icon icon='UserRoundCog' />
@@ -337,6 +339,7 @@ export default function Sample() {
           <Icon icon='PenSquare' size='large' />
           <Icon icon='Plus' size='large' />
           <Icon icon='Star' size='large' />
+          <Icon icon='Target' size='large' />
           <Icon icon='Trash' size='large' />
           <Icon icon='UserFill' size='large' />
           <Icon icon='UserRoundCog' size='large' />
