@@ -6,13 +6,14 @@ import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { PageTitle } from "../../../components/shared/page-title"
 import { getUserEvaluationResult } from "../../../redux/slices/user-slice"
 import { ScoreRange } from "../../../components/shared/score-range/score-range"
-import useMobileView from "../../../hooks/use-mobile-view"
+import { useMobileView } from "../../../hooks/use-mobile-view"
 
 export const MyEvaluationResultsHeader = () => {
   const isMobile = useMobileView()
   const { id } = useParams()
   const appDispatch = useAppDispatch()
   const { user_evaluation_result } = useAppSelector((state) => state.user)
+  const size = isMobile ? "small" : "medium"
 
   useEffect(() => {
     if (id !== undefined) {
@@ -54,7 +55,7 @@ export const MyEvaluationResultsHeader = () => {
                 score_rating={user_evaluation_result?.score_rating}
                 score={user_evaluation_result?.score}
                 is_evaluee={true}
-                size={isMobile ? "small" : "medium"}
+                size={size}
               />
             )}
         </div>
