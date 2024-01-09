@@ -26,7 +26,7 @@ import Tooltip from "../../../../../components/ui/tooltip/tooltip"
 import Dialog from "../../../../../components/ui/dialog/dialog"
 import { EvaluationAdministrationStatus } from "../../../../../types/evaluation-administration-type"
 import { convertToFullDateAndTime, shortenFormatDate } from "../../../../../utils/format-date"
-import useMobileView from "../../../../../hooks/use-mobile-view"
+import { useMobileView } from "../../../../../hooks/use-mobile-view"
 import { WebSocketContext, type WebSocketType } from "../../../../../components/providers/websocket"
 
 export const EvaluationProgressList = () => {
@@ -289,6 +289,7 @@ export const EvaluationProgressList = () => {
                         {evaluator.last_name},{" "}
                         {!isMobile &&
                         evaluator.first_name != null &&
+                        typeof evaluator.first_name === "string" &&
                         evaluator.first_name.length > 10 ? (
                           evaluator.first_name
                         ) : (

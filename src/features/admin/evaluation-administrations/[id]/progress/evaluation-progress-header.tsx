@@ -5,13 +5,15 @@ import { Badge } from "../../../../../components/ui/badge/badge"
 import { getEvaluationAdministrationStatusVariant } from "../../../../../utils/variant"
 import { Button } from "../../../../../components/ui/button/button"
 import { Icon } from "../../../../../components/ui/icon/icon"
-import useMobileView from "../../../../../hooks/use-mobile-view"
+import { useMobileView } from "../../../../../hooks/use-mobile-view"
 import { DateRangeDisplay } from "../../../../../components/shared/display-range-date"
 
 export const EvaluationProgressHeader = () => {
   const { evaluation_administration } = useAppSelector((state) => state.evaluationAdministration)
   const [showDescription, setShowDescription] = useState<boolean>(false)
   const isMobile = useMobileView()
+
+  const size = isMobile ? "small" : "medium"
 
   const toggleDescription = () => {
     setShowDescription((prev) => !prev)
@@ -26,7 +28,7 @@ export const EvaluationProgressHeader = () => {
             <div className='flex gap-4 primary-outline items-end my-4'>
               <p className='text-xl font-bold'>{evaluation_administration?.name}</p>
               <Badge
-                size={isMobile ? "small" : "medium"}
+                size={size}
                 variant={getEvaluationAdministrationStatusVariant(
                   evaluation_administration?.status
                 )}

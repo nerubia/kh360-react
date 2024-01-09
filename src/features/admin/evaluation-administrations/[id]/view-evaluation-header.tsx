@@ -20,7 +20,7 @@ import Dropdown from "../../../../components/ui/dropdown/dropdown"
 import { setAlert } from "../../../../redux/slices/app-slice"
 import { Loading } from "../../../../types/loadingType"
 import { DateRangeDisplay } from "../../../../components/shared/display-range-date"
-import useMobileView from "../../../../hooks/use-mobile-view"
+import { useMobileView } from "../../../../hooks/use-mobile-view"
 
 export const ViewEvaluationHeader = () => {
   const navigate = useNavigate()
@@ -31,7 +31,7 @@ export const ViewEvaluationHeader = () => {
     (state) => state.evaluationAdministration
   )
   const { previousUrl } = useAppSelector((state) => state.app)
-
+  const size = isMobile ? "small" : "medium"
   const [showCancelDialog, setShowCancelDialog] = useState<boolean>(false)
   const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false)
   const [showCloseDialog, setShowCloseDialog] = useState<boolean>(false)
@@ -159,7 +159,7 @@ export const ViewEvaluationHeader = () => {
             <div className='flex items-end gap-4 mb-4 primary-outline'>
               <PageTitle>{evaluation_administration?.name}</PageTitle>
               <Badge
-                size={isMobile ? "small" : "medium"}
+                size={size}
                 variant={getEvaluationAdministrationStatusVariant(
                   evaluation_administration?.status
                 )}
@@ -189,7 +189,7 @@ export const ViewEvaluationHeader = () => {
             evaluation_administration?.status === EvaluationAdministrationStatus.Published ? (
               <LinkButton
                 variant='primary'
-                size={isMobile ? "small" : "medium"}
+                size={size}
                 to={`/admin/evaluation-administrations/${id}/progress`}
               >
                 Progress
@@ -198,12 +198,12 @@ export const ViewEvaluationHeader = () => {
             {evaluation_administration?.status !== EvaluationAdministrationStatus.Published && (
               <Dropdown>
                 <Dropdown.Trigger>
-                  <Button size={isMobile ? "small" : "medium"}>
+                  <Button size={size}>
                     More actions
-                    <Icon icon='ChevronDown' size={isMobile ? "small" : "medium"} />
+                    <Icon icon='ChevronDown' size={size} />
                   </Button>
                 </Dropdown.Trigger>
-                <Dropdown.Content size={isMobile ? "small" : "medium"}>
+                <Dropdown.Content size={size}>
                   {(evaluation_administration?.status === EvaluationAdministrationStatus.Draft ||
                     evaluation_administration?.status ===
                       EvaluationAdministrationStatus.Pending) && (

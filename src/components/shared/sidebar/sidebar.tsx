@@ -10,7 +10,7 @@ import { type icons } from "../../ui/icon/icons"
 import { useInternalUser } from "../../../hooks/use-internal-user"
 import { useCmUser } from "../../../hooks/use-cm-user"
 import { useLocation } from "react-router-dom"
-import useMobileView from "../../../hooks/use-mobile-view"
+import { useMobileView } from "../../../hooks/use-mobile-view"
 
 interface MenuLink {
   title: string
@@ -135,7 +135,7 @@ export const Sidebar = () => {
         </h1>
         <div
           className='flex flex-col flex-1 gap-2'
-          onClick={isMobileView ? toggleSidebar : undefined}
+          onClick={isMobileView ? toggleSidebar : () => {}}
         >
           {menuLinks.map(
             (menu, index) =>

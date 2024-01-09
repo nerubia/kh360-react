@@ -10,7 +10,7 @@ import { getEvaluationTemplates } from "../../../../redux/slices/evaluation-temp
 import { getEvaluations } from "../../../../redux/slices/evaluations-slice"
 import { type EvaluationResult } from "../../../../types/evaluation-result-type"
 import { getEvaluationResults } from "../../../../redux/slices/evaluation-results-slice"
-import useMobileView from "../../../../hooks/use-mobile-view"
+import { useMobileView } from "../../../../hooks/use-mobile-view"
 export const ViewEvaluationList = () => {
   const appDispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -315,11 +315,15 @@ export const ViewEvaluationList = () => {
                                         </td>
                                         <td className='min-w-[254px]'>
                                           {isMobile
-                                            ? shortenFormatDate(evaluationDetails.eval_start_date)
+                                            ? typeof evaluationDetails.eval_start_date === "string"
+                                              ? shortenFormatDate(evaluationDetails.eval_start_date)
+                                              : "Invalid Date"
                                             : formatDate(evaluationDetails.eval_start_date)}{" "}
                                           to{" "}
                                           {isMobile
-                                            ? shortenFormatDate(evaluationDetails.eval_end_date)
+                                            ? typeof evaluationDetails.eval_end_date === "string"
+                                              ? shortenFormatDate(evaluationDetails.eval_end_date)
+                                              : "Invalid Date"
                                             : formatDate(evaluationDetails.eval_end_date)}
                                         </td>
                                       </tr>

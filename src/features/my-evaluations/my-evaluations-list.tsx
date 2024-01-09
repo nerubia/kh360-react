@@ -8,7 +8,7 @@ import { formatDateRange } from "../../utils/format-date"
 import { Spinner } from "../../components/ui/spinner/spinner"
 import { getByTemplateType } from "../../redux/slices/email-template-slice"
 import { ScoreRange } from "../../components/shared/score-range/score-range"
-import useMobileView from "../../hooks/use-mobile-view"
+import { useMobileView } from "../../hooks/use-mobile-view"
 
 export const MyEvaluationsList = () => {
   const appDispatch = useAppDispatch()
@@ -18,6 +18,7 @@ export const MyEvaluationsList = () => {
     (state) => state.user
   )
   const { emailTemplate } = useAppSelector((state) => state.emailTemplate)
+  const size = isMobile ? "extraSmall" : "small"
 
   useEffect(() => {
     void appDispatch(getEvaluationAdministrationsAsEvaluee({}))
@@ -63,7 +64,7 @@ export const MyEvaluationsList = () => {
                   user_picture={user?.picture}
                   score_rating={evaluationAdministration.score_rating}
                   score={evaluationAdministration?.score}
-                  size={isMobile ? "extraSmall" : "small"}
+                  size={size}
                   is_evaluee={true}
                   showDetails={false}
                 />
