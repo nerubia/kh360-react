@@ -107,6 +107,9 @@ export const EvaluationTemplatesFilter = () => {
   const handleClear = async () => {
     setName("")
     setDisplayName("")
+    setTemplateType("all")
+    setEvaluatorRoleId("all")
+    setEvalueeRoleId("all")
     setSearchParams({})
   }
 
