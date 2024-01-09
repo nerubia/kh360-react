@@ -185,7 +185,7 @@ test.describe("Admin - Select Evaluators", () => {
       await expect(page.getByText("User, Sample")).toBeVisible()
       await expect(page.getByText("pending")).toBeVisible()
 
-      await expect(page.getByRole("link", { name: "Add Evaluator" })).toBeVisible()
+      await expect(page.getByRole("button", { name: "Add Evaluator" })).toBeVisible()
 
       await expect(page.getByRole("link", { name: "PM Evaluation" })).toBeVisible()
       await expect(page.getByRole("link", { name: "Peer Evaluation" })).toBeVisible()

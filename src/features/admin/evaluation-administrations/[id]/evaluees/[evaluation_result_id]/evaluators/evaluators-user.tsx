@@ -1,16 +1,29 @@
-import { useParams } from "react-router-dom"
-import { LinkButton } from "../../../../../../../components/ui/button/button"
+import { useNavigate, useParams } from "react-router-dom"
+import { Button, LinkButton } from "../../../../../../../components/ui/button/button"
 import { Icon } from "../../../../../../../components/ui/icon/icon"
 import { useAppSelector } from "../../../../../../../hooks/useAppSelector"
 import { getEvaluationResultStatusVariant } from "../../../../../../../utils/variant"
 import { Badge } from "../../../../../../../components/ui/badge/badge"
+import { useAppDispatch } from "../../../../../../../hooks/useAppDispatch"
+import { setUsers } from "../../../../../../../redux/slices/users-slice"
+import { setExternalUsers } from "../../../../../../../redux/slices/external-users-slice"
 
 export const EvaluatorsUser = () => {
+  const navigate = useNavigate()
   const { id, evaluation_result_id, evaluation_template_id } = useParams()
 
+  const appDispatch = useAppDispatch()
   const { evaluation_result, previousId, nextId } = useAppSelector(
     (state) => state.evaluationResult
   )
+
+  const handleAddEvaluator = () => {
+    appDispatch(setUsers([]))
+    appDispatch(setExternalUsers([]))
+    navigate(
+      `/admin/evaluation-administrations/${id}/evaluees/${evaluation_result_id}/evaluators/${evaluation_template_id}/add-evaluator`
+    )
+  }
 
   return (
     <div className='flex justify-between items-center'>
@@ -61,14 +74,10 @@ export const EvaluatorsUser = () => {
           )}
         </div>
       </div>
-      <LinkButton
-        size='small'
-        to={`/admin/evaluation-administrations/${id}/evaluees/${evaluation_result_id}/evaluators/${evaluation_template_id}/add-evaluator`}
-        variant='ghost'
-      >
+      <Button size='small' variant='ghost' onClick={handleAddEvaluator}>
         <Icon icon='Plus' color='primary' size='small' />
         <p className='text-primary-500 uppercase'>Add Evaluator</p>
-      </LinkButton>
+      </Button>
     </div>
   )
 }

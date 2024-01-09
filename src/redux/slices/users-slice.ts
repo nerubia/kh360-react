@@ -60,7 +60,11 @@ const initialState: InitialState = {
 const usersSlice = createSlice({
   name: "app",
   initialState,
-  reducers: {},
+  reducers: {
+    setUsers: (state, action) => {
+      state.users = action.payload
+    },
+  },
   extraReducers(builder) {
     /**
      * List
@@ -100,4 +104,5 @@ const usersSlice = createSlice({
   },
 })
 
+export const { setUsers } = usersSlice.actions
 export default usersSlice.reducer
