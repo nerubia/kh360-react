@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-const useMobileView = () => {
+export const useMobileView = () => {
   const [isMobileView, setIsMobileView] = useState<boolean>(window.innerWidth < 768)
 
   useEffect(() => {
@@ -17,5 +17,3 @@ const useMobileView = () => {
 
   return isMobileView
 }
-
-export default useMobileView
