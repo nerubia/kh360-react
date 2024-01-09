@@ -12,6 +12,7 @@ const progress = cva(["rounded-full"], {
       lightGreen: ["bg-customLightGreen-500"],
     },
     size: {
+      extraSmall: ["h-2"],
       small: ["h-3"],
       medium: ["h-5"],
     },
