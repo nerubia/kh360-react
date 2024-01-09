@@ -1,6 +1,6 @@
 import Select, { type InputActionMeta, type SingleValue } from "react-select"
 import { type Option } from "../../../types/optionType"
-
+import { useMobileView } from "../../../hooks/use-mobile-view"
 interface SelectProps {
   label?: string
   name: string
@@ -22,10 +22,12 @@ export const CustomSelect = ({
   fullWidth,
   error,
 }: SelectProps) => {
+  const isMobile = useMobileView()
+
   return (
     <div className='flex flex-col'>
       {label != null && (
-        <label className='font-medium' htmlFor={name}>
+        <label className={isMobile ? "text-sm" : "font-medium"} htmlFor={name}>
           {label}
         </label>
       )}

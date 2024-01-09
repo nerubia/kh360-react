@@ -38,17 +38,17 @@ export const EvaluationResultsListTable = () => {
   }
 
   return (
-    <div className='flex flex-col gap-8'>
-      <table className='w-full table-fixed'>
+    <div className='flex flex-col gap-8 overflow-x-auto'>
+      <table className='min-w-[600px] w-full md:table-fixed whitespace-nowrap'>
         <thead className='text-left'>
           <tr>
-            <th className='pb-3 w-1/5'>Evaluee Name</th>
-            <th className='pb-3 w-1/4'>Eval Admin Name</th>
-            <th className='pb-3 w-1/4'>Eval Period</th>
-            <th className='pb-3'>Score</th>
-            <th className='pb-3 w-[12%]'>Score Rating</th>
-            <th className='pb-3'>Z-Score</th>
-            <th className='pb-3'>Banding</th>
+            <th className='pb-3 px-3 w-1/5'>Evaluee Name</th>
+            <th className='pb-3 px-3 w-1/4'>Eval Admin Name</th>
+            <th className='pb-3 px-3 w-1/4'>Eval Period</th>
+            <th className='pb-3 px-3 w-20'>Score</th>
+            <th className='pb-3 px-3 w-[12%]'>Score Rating</th>
+            <th className='pb-3 px-3'>Z-Score</th>
+            <th className='pb-3 px-3'>Banding</th>
           </tr>
         </thead>
         <tbody>
@@ -58,18 +58,22 @@ export const EvaluationResultsListTable = () => {
               key={evaluationResult.id}
               onClick={() => handleViewEvaluationResult(evaluationResult.id)}
             >
-              <td className='py-1'>
+              <td className='py-1 px-3 min-w-[100px]'>
                 {evaluationResult.users?.last_name}, {evaluationResult.users?.first_name}
               </td>
-              <td className='py-1'>{evaluationResult.evaluation_administration?.name}</td>
-              <td className='py-1'>
+              <td className='py-1 px-3 min-w-[100px]'>
+                {evaluationResult.evaluation_administration?.name}
+              </td>
+              <td className='py-1 px-3 min-w-28 min-w-[100px]'>
                 {formatDate(evaluationResult.evaluation_administration?.eval_period_start_date)} to{" "}
                 {formatDate(evaluationResult.evaluation_administration?.eval_period_end_date)}
               </td>
-              <td className='py-1'>{evaluationResult.score}</td>
-              <td className='py-1'>{evaluationResult.score_ratings?.display_name}</td>
-              <td className='py-1'>{evaluationResult.zscore}</td>
-              <td className='py-1'>{evaluationResult.banding}</td>
+              <td className='py-1 px-3 min-w-28 min-w-[100px]'>{evaluationResult.score}</td>
+              <td className='py-1 px-3 min-w-[100px]'>
+                {evaluationResult.score_ratings?.display_name}
+              </td>
+              <td className='py-1 px-3 min-w-[100px]'>{evaluationResult.zscore}</td>
+              <td className='py-1 px-3 min-w-[100px]'>{evaluationResult.banding}</td>
             </tr>
           ))}
         </tbody>
