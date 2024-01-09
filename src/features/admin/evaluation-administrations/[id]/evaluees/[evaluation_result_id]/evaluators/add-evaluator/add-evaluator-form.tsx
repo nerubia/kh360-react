@@ -14,7 +14,7 @@ import { getUsers } from "../../../../../../../../redux/slices/users-slice"
 import { getExternalUsers } from "../../../../../../../../redux/slices/external-users-slice"
 import { type EvaluatorFormData } from "../../../../../../../../types/form-data-type"
 import { addEvaluator } from "../../../../../../../../redux/slices/evaluation-administration-slice"
-import { setAlert } from "../../../../../../../../redux/slices/appSlice"
+import { setAlert } from "../../../../../../../../redux/slices/app-slice"
 import { Loading } from "../../../../../../../../types/loadingType"
 import { getEvaluationResult } from "../../../../../../../../redux/slices/evaluation-result-slice"
 
@@ -168,9 +168,9 @@ export const AddEvaluatorForm = () => {
           fullWidth
         />
         <CustomSelect
-          data-test-id='User'
-          label='User'
-          name='user'
+          data-test-id='Evaluator'
+          label='Evaluator'
+          name='evaluator'
           value={activeUsers.find(
             (option) => option.value === `${formData.user_id}|${formData.is_external}`
           )}

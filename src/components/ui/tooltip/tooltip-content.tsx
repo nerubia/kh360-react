@@ -3,5 +3,5 @@ interface TooltipContentProps {
 }
 
 export const TooltipContent = ({ children }: TooltipContentProps) => {
-  return children
+  return <div className='flex flex-col flex-wrap w-16 md:w-full'>{children}</div>
 }

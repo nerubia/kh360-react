@@ -150,7 +150,10 @@ export const EvaluationsList = () => {
                     }
                     className='rounded-md flex items-center gap-2 p-2 border md:border-none m-0.5 md:m-0 flex-col md:flex-row relative'
                   >
-                    <span className='absolute right-0 block rounded md:hidden top-2'>
+                    <span
+                      className='absolute right-0 block rounded md:hidden top-2'
+                      data-testid='BadgeStatus'
+                    >
                       <Badge
                         variant={getEvaluationStatusVariant(evaluation?.status)}
                         size='extraSmall'
@@ -158,7 +161,10 @@ export const EvaluationsList = () => {
                         {evaluation.status?.charAt(0)}
                       </Badge>
                     </span>
-                    <div className='flex items-center justify-center w-10 h-10 py-2 bg-gray-100 rounded-full md:bg-transparent'>
+                    <div
+                      className='flex items-center justify-center w-10 h-10 py-2 bg-gray-100 rounded-full md:bg-transparent'
+                      data-testid='Avatar'
+                    >
                       {evaluation.evaluee?.picture === undefined ||
                       evaluation.evaluee?.picture === null ? (
                         <Icon icon='UserFill' />
@@ -174,13 +180,15 @@ export const EvaluationsList = () => {
                     <div
                       className={`flex-1 flex flex-col text-start ${
                         evaluation.status === EvaluationStatus.Open ? "font-bold" : ""
-                      }`}
+                      } w-20 h-15`}
                     >
                       <div className='flex flex-col justify-between gap-4 md:flex-row'>
                         <p className='text-sm'>
-                          {evaluation.evaluee?.last_name}
-                          {", "}
-                          {evaluation.evaluee?.first_name}
+                          {evaluation.evaluee?.last_name},{" "}
+                          {evaluation.evaluee?.first_name != null &&
+                            (evaluation.evaluee.first_name.length > 13
+                              ? `${evaluation.evaluee.first_name.slice(0, 13)}...`
+                              : evaluation.evaluee.first_name)}
                         </p>
                         <div className='hidden uppercase md:block'>
                           <Badge
@@ -201,28 +209,28 @@ export const EvaluationsList = () => {
                     </div>
                   </Menu>
                 ))}
-                <div className='hidden p-2 md:block'>
-                  <LinkButton to='/evaluation-administrations' variant='primaryOutline'>
-                    <Icon icon='ChevronLeft' />
-                  </LinkButton>
-                </div>
-                <Dialog open={showDialog && is_editing}>
-                  <Dialog.Title>Confirm Discard Changes</Dialog.Title>
-                  <Dialog.Description>
-                    You have unsaved changes on this page. <br /> Are you sure you want to discard
-                    these changes?
-                  </Dialog.Description>
-                  <Dialog.Actions>
-                    <Button variant='primaryOutline' onClick={toggleDialog}>
-                      No
-                    </Button>
-                    <Button variant='primary' onClick={() => handleProceed()}>
-                      Yes
-                    </Button>
-                  </Dialog.Actions>
-                </Dialog>
               </>
             )}
+          <Dialog open={showDialog && is_editing}>
+            <Dialog.Title>Confirm Discard Changes</Dialog.Title>
+            <Dialog.Description>
+              You have unsaved changes on this page. <br /> Are you sure you want to discard these
+              changes?
+            </Dialog.Description>
+            <Dialog.Actions>
+              <Button variant='primaryOutline' onClick={toggleDialog}>
+                No
+              </Button>
+              <Button variant='primary' onClick={() => handleProceed()}>
+                Yes
+              </Button>
+            </Dialog.Actions>
+          </Dialog>
+          <div className='hidden p-2 md:block'>
+            <LinkButton to='/evaluation-administrations' variant='primaryOutline'>
+              <Icon icon='ChevronLeft' />
+            </LinkButton>
+          </div>
         </div>
       </div>
     </>
