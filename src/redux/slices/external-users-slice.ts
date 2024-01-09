@@ -96,7 +96,11 @@ const initialState: InitialState = {
 const externalEvaluatorsSlice = createSlice({
   name: "app",
   initialState,
-  reducers: {},
+  reducers: {
+    setExternalUsers: (state, action) => {
+      state.external_users = action.payload
+    },
+  },
   extraReducers(builder) {
     /**
      * List external evaluators
@@ -170,4 +174,5 @@ const externalEvaluatorsSlice = createSlice({
   },
 })
 
+export const { setExternalUsers } = externalEvaluatorsSlice.actions
 export default externalEvaluatorsSlice.reducer
