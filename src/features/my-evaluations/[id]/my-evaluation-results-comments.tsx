@@ -17,10 +17,10 @@ export const MyEvaluationResultsComments = () => {
           user_evaluation_result?.comments.length > 0 &&
           id !== undefined && (
             <div>
-              <div className='text-xl font-bold mb-2 text-primary-500'>Comments </div>
+              <div className='text-sm md:text-xl font-bold mb-2 text-primary-500'>Comments </div>
               <ul className='list-outside list-none ml-5'>
                 {user_evaluation_result?.comments?.map((comment, commentIndex) => (
-                  <div key={commentIndex} className='flex italic text-sm'>
+                  <div key={commentIndex} className='flex italic text-xs md:text-sm'>
                     - {comment?.length > 0 && <li className='m-1'>{comment}</li>}
                   </div>
                 ))}
