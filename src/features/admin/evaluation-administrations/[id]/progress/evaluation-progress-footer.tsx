@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { Button } from "../../../../../components/ui/button/button"
 import { Icon } from "../../../../../components/ui/icon/icon"
-import useMobileView from "../../../../../hooks/use-mobile-view"
+import { useMobileView } from "../../../../../hooks/use-mobile-view"
 export const EvaluationProgressFooter = () => {
   const navigate = useNavigate()
   const { id } = useParams()
