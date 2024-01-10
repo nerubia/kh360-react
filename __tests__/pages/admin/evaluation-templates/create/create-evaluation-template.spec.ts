@@ -55,12 +55,10 @@ test.describe("Admin - Create Evaluation Template", () => {
             with_recommendation: true,
             evaluator_role_id: 1,
             evaluee_role_id: 3,
-            rate: 35,
+            rate: "35.00",
             answer_id: 1,
             description: null,
-            is_active: true,
-            created_at: null,
-            updated_at: null,
+            is_active: false,
             deleted_at: null,
           },
           {
@@ -72,12 +70,25 @@ test.describe("Admin - Create Evaluation Template", () => {
             with_recommendation: false,
             evaluator_role_id: null,
             evaluee_role_id: 2,
-            rate: 80,
+            rate: "80",
             answer_id: 1,
             description: null,
             is_active: true,
-            created_at: null,
-            updated_at: null,
+            deleted_at: null,
+          },
+          {
+            id: 12,
+            name: "Employee Evaluation by HR",
+            display_name: "HR Evaluation",
+            template_type: "HR Evaluation",
+            template_class: "Internal",
+            with_recommendation: false,
+            evaluator_role_id: 2,
+            evaluee_role_id: null,
+            rate: "20.00",
+            answer_id: 1,
+            description: null,
+            is_active: true,
             deleted_at: null,
           },
         ]),
@@ -141,8 +152,6 @@ test.describe("Admin - Create Evaluation Template", () => {
             name: "5 Point Scale",
             description: "Used from 2018 to present",
             is_active: true,
-            created_at: "2022-04-06T02:16:54.000Z",
-            updated_at: "2022-04-06T02:16:54.000Z",
           },
         ]),
       })
@@ -154,6 +163,7 @@ test.describe("Admin - Create Evaluation Template", () => {
       await page.waitForSelector('[placeholder="Name"]')
       await expect(page.locator('[placeholder="Name"]')).toBeVisible()
       await expect(page.getByPlaceholder("Display Name")).toBeVisible()
+      await expect(page.getByLabel("Template Type")).toBeVisible()
 
       await expect(page.getByRole("button", { name: "Cancel" })).toBeVisible()
       await expect(page.getByRole("button", { name: "Save" })).toBeVisible()
@@ -177,12 +187,10 @@ test.describe("Admin - Create Evaluation Template", () => {
             with_recommendation: true,
             evaluator_role_id: 1,
             evaluee_role_id: 3,
-            rate: 35,
+            rate: "35.00",
             answer_id: 1,
             description: null,
-            is_active: true,
-            created_at: null,
-            updated_at: null,
+            is_active: false,
             deleted_at: null,
           },
           {
@@ -194,12 +202,25 @@ test.describe("Admin - Create Evaluation Template", () => {
             with_recommendation: false,
             evaluator_role_id: null,
             evaluee_role_id: 2,
-            rate: 80,
+            rate: "80.00",
             answer_id: 1,
             description: null,
             is_active: true,
-            created_at: null,
-            updated_at: null,
+            deleted_at: null,
+          },
+          {
+            id: 12,
+            name: "Employee Evaluation by HR",
+            display_name: "HR Evaluation",
+            template_type: "HR Evaluation",
+            template_class: "Internal",
+            with_recommendation: false,
+            evaluator_role_id: 2,
+            evaluee_role_id: null,
+            rate: "20.00",
+            answer_id: 1,
+            description: null,
+            is_active: true,
             deleted_at: null,
           },
         ]),
@@ -263,8 +284,6 @@ test.describe("Admin - Create Evaluation Template", () => {
             name: "5 Point Scale",
             description: "Used from 2018 to present",
             is_active: true,
-            created_at: "2022-04-06T02:16:54.000Z",
-            updated_at: "2022-04-06T02:16:54.000Z",
           },
         ]),
       })
@@ -273,12 +292,26 @@ test.describe("Admin - Create Evaluation Template", () => {
         await page.getByTestId("SidebarCloseButton").click()
       }
 
+      await page.getByPlaceholder("Name", { exact: true }).fill("")
+      await page.getByPlaceholder("Display Name").fill("")
+      await page.getByLabel("Template Type").fill("")
+      await page.getByLabel("Template Class").fill("")
+      await page.getByLabel("Evaluator Role").fill("")
+      await page.getByLabel("Evaluee Role").fill("")
+      await page.getByLabel("Rate").fill("")
+      await page.getByLabel("Answer").fill("")
+
       await page.getByRole("button", { name: "Save" }).click()
+      await page.getByRole("button", { name: "Yes" }).click()
 
       await page.waitForSelector('text="Name is required"')
       await expect(page.locator('text="Name is required"')).toBeVisible()
       await expect(page.getByText("Display name is required")).toBeVisible()
       await expect(page.getByText("Template type is required")).toBeVisible()
+      await expect(page.getByText("Evaluator role is required")).toBeVisible()
+      await expect(page.getByText("Evaluee role is required")).toBeVisible()
+      await expect(page.getByText("Rate must be a number")).toBeVisible()
+      await expect(page.getByText("Answer is required")).toBeVisible()
     })
 
     test("should create email template succesfully", async ({ page, isMobile }) => {
@@ -299,12 +332,10 @@ test.describe("Admin - Create Evaluation Template", () => {
             with_recommendation: true,
             evaluator_role_id: 1,
             evaluee_role_id: 3,
-            rate: 35,
+            rate: "35.00",
             answer_id: 1,
             description: null,
-            is_active: true,
-            created_at: null,
-            updated_at: null,
+            is_active: false,
             deleted_at: null,
           },
           {
@@ -316,12 +347,25 @@ test.describe("Admin - Create Evaluation Template", () => {
             with_recommendation: false,
             evaluator_role_id: null,
             evaluee_role_id: 2,
-            rate: 80,
+            rate: "80",
             answer_id: 1,
             description: null,
             is_active: true,
-            created_at: null,
-            updated_at: null,
+            deleted_at: null,
+          },
+          {
+            id: 12,
+            name: "Employee Evaluation by HR",
+            display_name: "HR Evaluation",
+            template_type: "HR Evaluation",
+            template_class: "Internal",
+            with_recommendation: false,
+            evaluator_role_id: 2,
+            evaluee_role_id: null,
+            rate: "20.00",
+            answer_id: 1,
+            description: null,
+            is_active: true,
             deleted_at: null,
           },
         ]),
@@ -385,8 +429,6 @@ test.describe("Admin - Create Evaluation Template", () => {
             name: "5 Point Scale",
             description: "Used from 2018 to present",
             is_active: true,
-            created_at: "2022-04-06T02:16:54.000Z",
-            updated_at: "2022-04-06T02:16:54.000Z",
           },
         ]),
       })
@@ -406,12 +448,137 @@ test.describe("Admin - Create Evaluation Template", () => {
       await page.waitForSelector('[placeholder="Name"]')
       await page.locator('[placeholder="Name"]').fill("PM Evaluation by BOD")
       await page.getByPlaceholder("Display Name").fill("BOD Evaluation")
+      await page.getByLabel("Template Type").click()
+      await page.getByText("Project Evaluation", { exact: true }).click()
+      await page.getByRole("checkbox").setChecked(true)
+      await page.getByLabel("Evaluator Role").click()
+      await page.getByText("BOD", { exact: true }).click()
+      await page.getByLabel("Evaluee Role").click()
+      await page.getByText("DEV", { exact: true }).click()
+      await page.getByPlaceholder("Rate").fill("50.00")
+      await page.getByLabel("Answer").click()
+      await page.getByText("5 Point Scale", { exact: true }).click()
 
       await page.getByRole("button", { name: "Save" }).click()
+      await page.getByRole("button", { name: "Yes" }).click()
+
+      await mockRequest(page, "/admin/evaluation-templates/template-types", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            id: 1,
+            name: "PM Evaluation by BOD",
+            display_name: "BOD Evaluation",
+            template_type: "Project Evaluation",
+            template_class: "Internal",
+            with_recommendation: true,
+            evaluator_role_id: 1,
+            evaluee_role_id: 3,
+            rate: "35",
+            answer_id: 1,
+            description: null,
+            is_active: false,
+            deleted_at: null,
+          },
+          {
+            id: 11,
+            name: "HR Evaluation by Employees",
+            display_name: "Employee Evaluation",
+            template_type: "Unit Evaluation",
+            template_class: "Internal",
+            with_recommendation: false,
+            evaluator_role_id: null,
+            evaluee_role_id: 2,
+            rate: "80",
+            answer_id: 1,
+            description: null,
+            is_active: true,
+            deleted_at: null,
+          },
+          {
+            id: 12,
+            name: "Employee Evaluation by HR",
+            display_name: "HR Evaluation",
+            template_type: "HR Evaluation",
+            template_class: "Internal",
+            with_recommendation: false,
+            evaluator_role_id: 2,
+            evaluee_role_id: null,
+            rate: "20",
+            answer_id: 1,
+            description: null,
+            is_active: true,
+            deleted_at: null,
+          },
+        ]),
+      })
+
+      await mockRequest(page, "/admin/project-roles/all", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            id: 1,
+            name: "Board of Directors",
+            short_name: "BOD",
+            is_evaluee: false,
+          },
+          {
+            id: 2,
+            name: "Human Resource",
+            short_name: "HR",
+            is_evaluee: true,
+          },
+          {
+            id: 3,
+            name: "Project Manager",
+            short_name: "PM",
+            is_evaluee: true,
+          },
+          {
+            id: 4,
+            name: "System Analyst",
+            short_name: "SA",
+            is_evaluee: false,
+          },
+          {
+            id: 5,
+            name: "Developer",
+            short_name: "DEV",
+            is_evaluee: true,
+          },
+          {
+            id: 6,
+            name: "Quality Assurance",
+            short_name: "QA",
+            is_evaluee: true,
+          },
+          {
+            id: 7,
+            name: "Code Reviewer",
+            short_name: "CR",
+            is_evaluee: false,
+          },
+        ]),
+      })
+
+      await mockRequest(page, "/admin/answers/active", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            id: 1,
+            name: "5 Point Scale",
+            description: "Used from 2018 to present",
+            is_active: true,
+          },
+        ]),
+      })
 
       await page.waitForLoadState("networkidle")
 
-      await expect(page).toHaveURL("/admin/evaluation-templates/create")
+      await expect(page).toHaveURL("/admin/evaluation-templates")
     })
 
     test("should render cancel & exit modal correctly", async ({ page, isMobile }) => {
@@ -432,12 +599,10 @@ test.describe("Admin - Create Evaluation Template", () => {
             with_recommendation: true,
             evaluator_role_id: 1,
             evaluee_role_id: 3,
-            rate: 35,
+            rate: "35",
             answer_id: 1,
             description: null,
-            is_active: true,
-            created_at: null,
-            updated_at: null,
+            is_active: false,
             deleted_at: null,
           },
           {
@@ -449,12 +614,25 @@ test.describe("Admin - Create Evaluation Template", () => {
             with_recommendation: false,
             evaluator_role_id: null,
             evaluee_role_id: 2,
-            rate: 80,
+            rate: "80",
             answer_id: 1,
             description: null,
             is_active: true,
-            created_at: null,
-            updated_at: null,
+            deleted_at: null,
+          },
+          {
+            id: 12,
+            name: "Employee Evaluation by HR",
+            display_name: "HR Evaluation",
+            template_type: "HR Evaluation",
+            template_class: "Internal",
+            with_recommendation: false,
+            evaluator_role_id: 2,
+            evaluee_role_id: null,
+            rate: "20",
+            answer_id: 1,
+            description: null,
+            is_active: true,
             deleted_at: null,
           },
         ]),
@@ -518,8 +696,6 @@ test.describe("Admin - Create Evaluation Template", () => {
             name: "5 Point Scale",
             description: "Used from 2018 to present",
             is_active: true,
-            created_at: "2022-04-06T02:16:54.000Z",
-            updated_at: "2022-04-06T02:16:54.000Z",
           },
         ]),
       })
@@ -556,12 +732,10 @@ test.describe("Admin - Create Evaluation Template", () => {
             with_recommendation: true,
             evaluator_role_id: 1,
             evaluee_role_id: 3,
-            rate: 35,
+            rate: "35",
             answer_id: 1,
             description: null,
-            is_active: true,
-            created_at: null,
-            updated_at: null,
+            is_active: false,
             deleted_at: null,
           },
           {
@@ -573,12 +747,25 @@ test.describe("Admin - Create Evaluation Template", () => {
             with_recommendation: false,
             evaluator_role_id: null,
             evaluee_role_id: 2,
-            rate: 80,
+            rate: "80",
             answer_id: 1,
             description: null,
             is_active: true,
-            created_at: null,
-            updated_at: null,
+            deleted_at: null,
+          },
+          {
+            id: 12,
+            name: "Employee Evaluation by HR",
+            display_name: "HR Evaluation",
+            template_type: "HR Evaluation",
+            template_class: "Internal",
+            with_recommendation: false,
+            evaluator_role_id: 2,
+            evaluee_role_id: null,
+            rate: "20",
+            answer_id: 1,
+            description: null,
+            is_active: true,
             deleted_at: null,
           },
         ]),
@@ -642,8 +829,6 @@ test.describe("Admin - Create Evaluation Template", () => {
             name: "5 Point Scale",
             description: "Used from 2018 to present",
             is_active: true,
-            created_at: "2022-04-06T02:16:54.000Z",
-            updated_at: "2022-04-06T02:16:54.000Z",
           },
         ]),
       })
