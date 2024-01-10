@@ -59,6 +59,8 @@ const SelectExternalEvaluators = lazy(
     )
 )
 
+const Projects = lazy(async () => await import("../pages/admin/projects/projects"))
+
 const ProjectAssignments = lazy(
   async () => await import("../pages/admin/project-assignments/project-assignments")
 )
@@ -151,6 +153,13 @@ export const adminRoutes = {
     {
       path: "/admin/evaluation-administrations/:id/evaluees/:evaluation_result_id/evaluators/:evaluation_template_id/select-external",
       element: <SelectExternalEvaluators />,
+    },
+    /**
+     * Projects
+     */
+    {
+      path: "/admin/projects",
+      element: <Projects />,
     },
     /**
      * Project Assignments
