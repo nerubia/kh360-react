@@ -11,6 +11,7 @@ export enum TemplateType {
   CreateEvaluation = "Create Evaluation",
   ResetVerification = "Reset Verification Code",
   EvaluationReminder = "Performance Evaluation Reminder",
+  EvaluationComplete = "Evaluation Complete Thank You Message External",
   NARating = "Performance Evaluation NA Rating",
   HighRating = "Performance Evaluation High Rating",
   LowRating = "Performance Evaluation Low Rating",

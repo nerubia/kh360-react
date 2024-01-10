@@ -22,6 +22,20 @@ export const getEmailTemplates = createAsyncThunk(
   }
 )
 
+export const getEmailTemplate = createAsyncThunk(
+  "emailTemplate/getEmailTemplate",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.get(`/admin/email-templates/${id}`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const getDefaultEmailTemplate = createAsyncThunk(
   "emailTemplate/getDefaultEmailTemplate",
   async (_, thunkApi) => {
@@ -91,6 +105,29 @@ export const createEmailTemplate = createAsyncThunk(
   async (data: EmailTemplateFormData, thunkApi) => {
     try {
       const response = await axiosInstance.post("/admin/email-templates", data)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const updateEmailTemplate = createAsyncThunk(
+  "emailTemplate/updateEmailTemplate",
+  async (
+    data: {
+      id: number
+      emailTemplate: EmailTemplateFormData
+    },
+    thunkApi
+  ) => {
+    try {
+      const response = await axiosInstance.put(
+        `/admin/email-templates/${data.id}`,
+        data.emailTemplate
+      )
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -180,6 +217,22 @@ const emailTemplateSlice = createSlice({
       state.totalItems = action.payload.pageInfo.totalItems
     })
     builder.addCase(getEmailTemplates.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * By id
+     */
+    builder.addCase(getEmailTemplate.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getEmailTemplate.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.emailTemplate = action.payload
+    })
+    builder.addCase(getEmailTemplate.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
