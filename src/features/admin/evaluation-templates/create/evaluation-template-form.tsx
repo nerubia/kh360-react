@@ -164,7 +164,7 @@ export const CreateEvaluationTemplateForm = () => {
     setFormData({ ...formData, template_type })
   }
 
-  const onChangeWithRecommendation = async (checked: boolean) => {
+  const onChangeWithRecommendation = async (checked: number) => {
     setFormData({ ...formData, with_recommendation: checked })
   }
 
@@ -327,7 +327,10 @@ export const CreateEvaluationTemplateForm = () => {
             <div className='m-2.5'>
               <Checkbox
                 checked={formData.with_recommendation as boolean}
-                onChange={async (checked) => await onChangeWithRecommendation(checked)}
+                onChange={async (checked) => {
+                  const valueToSet = checked ? 1 : 0
+                  await onChangeWithRecommendation(valueToSet)
+                }}
               />
             </div>
           </div>
