@@ -1,4 +1,4 @@
-import { useNavigate, useSearchParams } from "react-router-dom"
+import { useNavigate, useSearchParams, useParams } from "react-router-dom"
 import { Input } from "../../../../components/ui/input/input"
 import { CustomSelect } from "../../../../components/ui/select/custom-select"
 import { Button, LinkButton } from "../../../../components/ui/button/button"
@@ -23,6 +23,7 @@ import { TemplateClass } from "../../../../types/evaluation-template-type"
 import { getAllProjectRoles } from "../../../../redux/slices/project-roles-slice"
 import { getActiveAnswers } from "../../../../redux/slices/answer-slice"
 import { EvaluationTemplateContentsTable } from "../../evaluation-template-contents/evaluation-template-contents-table"
+import { updateEvaluationTemplate } from "../../../../redux/slices/evaluation-template-slice"
 
 export const CreateEvaluationTemplateForm = () => {
   const navigate = useNavigate()
@@ -35,11 +36,10 @@ export const CreateEvaluationTemplateForm = () => {
   const { answers } = useAppSelector((state) => state.answer)
   const { loading, template_types } = useAppSelector((state) => state.evaluationTemplates)
   const { project_roles } = useAppSelector((state) => state.projectRoles)
+  const { evaluation_template } = useAppSelector((state) => state.evaluationTemplate)
+  const { id } = useParams()
 
-  const [answer, setAnswer] = useState<string>("")
   const [answerOptions, setAnswerOptions] = useState<Option[]>([])
-  const [evalueeRole, setEvalueeRole] = useState<string>("")
-  const [evaluatorRole, setEvaluatorRole] = useState<string>("")
   const [evaluaeeRoleOptions, setEvalueeRoleOptions] = useState<Option[]>([])
   const [evaluatorRoleOptions, setEvaluatorRoleOptions] = useState<Option[]>([])
   const [formData, setFormData] = useState<EvaluationTemplateFormData>({
@@ -52,12 +52,10 @@ export const CreateEvaluationTemplateForm = () => {
     rate: "",
     is_active: 1,
   })
-  const [showDialog, setShowDialog] = useState<boolean>(false)
-  const [templateClass, setTemplateClass] = useState<string>(TemplateClass.Internal)
-  const [templateType, setTemplateType] = useState<string>(searchParams.get("template_type") ?? "")
   const [templateTypeOptions, setTemplateTypeOptions] = useState<Option[]>([])
   const [validationErrors, setValidationErrors] = useState<Partial<EvaluationTemplateFormData>>({})
-  const [with_recommendation, setWithRecommendation] = useState<boolean>(false)
+  const [showSaveDialog, setShowSaveDialog] = useState<boolean>(false)
+  const [showCancelDialog, setShowCancelDialog] = useState<boolean>(false)
 
   const templateClassOptions: Option[] = Object.values(TemplateClass).map((value) => ({
     label: value,
@@ -69,6 +67,24 @@ export const CreateEvaluationTemplateForm = () => {
     void appDispatch(getAllProjectRoles())
     void appDispatch(getActiveAnswers())
   }, [])
+
+  useEffect(() => {
+    if (evaluation_template !== null) {
+      setFormData({
+        name: evaluation_template?.name,
+        display_name: evaluation_template?.display_name,
+        template_type: evaluation_template?.template_type,
+        template_class: evaluation_template?.template_class,
+        with_recommendation: evaluation_template?.with_recommendation,
+        evaluator_role_id: evaluation_template?.evaluatorRole?.id.toString(),
+        evaluee_role_id: evaluation_template?.evalueeRole?.id.toString(),
+        rate: evaluation_template?.rate,
+        answer_id: evaluation_template?.answer?.id.toString(),
+        is_active: evaluation_template?.is_active,
+        description: evaluation_template?.description ?? "",
+      })
+    }
+  }, [evaluation_template])
 
   useEffect(() => {
     const options: Option[] = answers.map((answer) => ({
@@ -120,19 +136,16 @@ export const CreateEvaluationTemplateForm = () => {
 
   const onChangeAnswer = async (option: SingleValue<Option>) => {
     const answer_id: string = option !== null ? option.value : ""
-    setAnswer(answer_id)
     setFormData({ ...formData, answer_id })
   }
 
   const onChangeEvaluaeeRole = async (option: SingleValue<Option>) => {
     const evaluee_role_id: string = option !== null ? option.value : ""
-    setEvalueeRole(evaluee_role_id)
     setFormData({ ...formData, evaluee_role_id })
   }
 
   const onChangeEvaluatorRole = async (option: SingleValue<Option>) => {
     const evaluator_role_id: string = option !== null ? option.value : ""
-    setEvaluatorRole(evaluator_role_id)
     setFormData({ ...formData, evaluator_role_id })
   }
 
@@ -143,19 +156,31 @@ export const CreateEvaluationTemplateForm = () => {
 
   const onChangeTemplateClass = async (option: SingleValue<Option>) => {
     const template_class: string = option !== null ? option.value : ""
-    setTemplateClass(template_class)
     setFormData({ ...formData, template_class })
   }
 
   const onChangeTemplateType = async (option: SingleValue<Option>) => {
     const template_type: string = option !== null ? option.value : ""
-    setTemplateType(template_type)
     setFormData({ ...formData, template_type })
   }
 
   const onChangeWithRecommendation = async (checked: boolean) => {
-    setWithRecommendation(checked)
     setFormData({ ...formData, with_recommendation: checked })
+  }
+
+  const checkNumberValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value
+    setFormData({ ...formData, rate: handleDecimalsOnValue(inputValue) })
+  }
+
+  const handleDecimalsOnValue = (value: string) => {
+    const regex = /([0-9]*[.|,]{0,1}[0-9]{0,2})/s
+    const matchResult = value.match(regex)
+
+    if (matchResult !== null) {
+      return matchResult[0]
+    }
+    return ""
   }
 
   const handleSubmit = async () => {
@@ -193,8 +218,55 @@ export const CreateEvaluationTemplateForm = () => {
     }
   }
 
-  const toggleDialog = async () => {
-    setShowDialog((prev) => !prev)
+  const handleSave = async () => {
+    if (id !== undefined) {
+      try {
+        await createEvaluationTemplateSchema.validate(formData, {
+          abortEarly: false,
+        })
+        const result = await appDispatch(
+          updateEvaluationTemplate({
+            id: parseInt(id),
+            evaluation_template_data: formData,
+          })
+        )
+        if (result.type === "evaluationTemplate/updateEvaluationTemplate/rejected") {
+          appDispatch(
+            setAlert({
+              description: result.payload,
+              variant: "destructive",
+            })
+          )
+        }
+        if (result.type === "evaluationTemplate/updateEvaluationTemplate/fulfilled") {
+          navigate(`/admin/evaluation-templates/${result.payload.id}`)
+          appDispatch(
+            setAlert({
+              description: "Updated evaluation template",
+              variant: "success",
+            })
+          )
+        }
+      } catch (error) {
+        if (error instanceof ValidationError) {
+          const errors: Partial<EvaluationTemplateFormData> = {}
+          error.inner.forEach((err) => {
+            if (err.path !== undefined) {
+              errors[err.path as keyof EvaluationTemplateFormData] = err.message
+            }
+          })
+          setValidationErrors(errors)
+        }
+      }
+    }
+  }
+
+  const toggleCancelDialog = () => {
+    setShowCancelDialog((prev) => !prev)
+  }
+
+  const toggleSaveDialog = () => {
+    setShowSaveDialog((prev) => !prev)
   }
 
   return (
@@ -228,7 +300,7 @@ export const CreateEvaluationTemplateForm = () => {
               data-test-id='SelectTemplateType'
               label='Template Type'
               name='template_type'
-              value={templateTypeOptions.find((option) => option.value === templateType)}
+              value={templateTypeOptions.find((option) => option.value === formData.template_type)}
               onChange={async (option) => await onChangeTemplateType(option)}
               options={templateTypeOptions}
               fullWidth
@@ -241,7 +313,9 @@ export const CreateEvaluationTemplateForm = () => {
               data-test-id='SelectTemplateClass'
               label='Template Class'
               name='template_class'
-              value={templateClassOptions.find((option) => option.value === templateClass)}
+              value={templateClassOptions.find(
+                (option) => option.value === formData.template_class
+              )}
               onChange={async (option) => await onChangeTemplateClass(option)}
               options={templateClassOptions}
               fullWidth
@@ -252,7 +326,7 @@ export const CreateEvaluationTemplateForm = () => {
             <h2 className='font-medium'>With Recommendation</h2>
             <div className='m-2.5'>
               <Checkbox
-                checked={with_recommendation}
+                checked={formData.with_recommendation as boolean}
                 onChange={async (checked) => await onChangeWithRecommendation(checked)}
               />
             </div>
@@ -264,7 +338,9 @@ export const CreateEvaluationTemplateForm = () => {
               data-test-id='SelectEvaluatorRole'
               label='Evaluator Role'
               name='evaluator_role_id'
-              value={evaluatorRoleOptions.find((option) => option.value === evaluatorRole)}
+              value={evaluatorRoleOptions.find(
+                (option) => option.value === formData.evaluator_role_id
+              )}
               onChange={async (option) => await onChangeEvaluatorRole(option)}
               options={evaluatorRoleOptions}
               fullWidth
@@ -276,7 +352,9 @@ export const CreateEvaluationTemplateForm = () => {
               data-test-id='SelectEvalueeRole'
               label='Evaluee Role'
               name='evaluee_role_id'
-              value={evaluaeeRoleOptions.find((option) => option.value === evalueeRole)}
+              value={evaluaeeRoleOptions.find(
+                (option) => option.value === formData.evaluee_role_id
+              )}
               onChange={async (option) => await onChangeEvaluaeeRole(option)}
               options={evaluaeeRoleOptions}
               fullWidth
@@ -288,14 +366,15 @@ export const CreateEvaluationTemplateForm = () => {
           <div className='flex-1'>
             <Input
               label='Rate'
+              step={0.01}
               name='rate'
-              placeholder='Rate'
-              value={formData.rate}
-              onChange={onChangeInput}
-              error={validationErrors.rate}
               type='number'
+              placeholder='Rate'
+              value={Number(formData.rate).toFixed(2)}
+              onChange={(event) => checkNumberValue(event)}
               min={0}
               max={100}
+              error={validationErrors.rate}
             />
           </div>
           <div className='flex-1'>
@@ -303,7 +382,7 @@ export const CreateEvaluationTemplateForm = () => {
               data-test-id='SelectAnswer'
               label='Answer'
               name='answer_id'
-              value={answerOptions.find((option) => option.value === answer)}
+              value={answerOptions.find((option) => option.value === formData.answer_id)}
               onChange={async (option) => await onChangeAnswer(option)}
               options={answerOptions}
               fullWidth
@@ -312,23 +391,43 @@ export const CreateEvaluationTemplateForm = () => {
           </div>
         </div>
       </div>
-      <EvaluationTemplateContentsTable />
+      {evaluation_template === null && <EvaluationTemplateContentsTable />}
       <div className='flex justify-between'>
-        <Button variant='primaryOutline' onClick={toggleDialog}>
+        <Button variant='primaryOutline' onClick={toggleCancelDialog}>
           Cancel
         </Button>
-        <Button onClick={handleSubmit} loading={loading === Loading.Pending}>
+        <Button onClick={toggleSaveDialog} loading={loading === Loading.Pending}>
           Save
         </Button>
       </div>
-      <Dialog open={showDialog}>
+      <Dialog open={showSaveDialog}>
+        <Dialog.Title>Save Evaluation Template</Dialog.Title>
+        <Dialog.Description>
+          Are you sure you want to save this evaluation template?
+        </Dialog.Description>
+        <Dialog.Actions>
+          <Button variant='primaryOutline' onClick={toggleSaveDialog}>
+            No
+          </Button>
+          <Button
+            variant='primary'
+            onClick={async () => {
+              toggleSaveDialog()
+              evaluation_template === null ? await handleSubmit() : await handleSave()
+            }}
+          >
+            Yes
+          </Button>
+        </Dialog.Actions>
+      </Dialog>
+      <Dialog open={showCancelDialog}>
         <Dialog.Title>Cancel</Dialog.Title>
         <Dialog.Description>
           Are you sure you want to cancel? <br />
           If you cancel, your data won&apos;t be saved.
         </Dialog.Description>
         <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={toggleDialog}>
+          <Button variant='primaryOutline' onClick={toggleCancelDialog}>
             No
           </Button>
           <LinkButton variant='primary' to={callback ?? "/admin/evaluation-templates"}>
