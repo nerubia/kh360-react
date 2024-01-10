@@ -22,6 +22,7 @@ import { setAlert } from "../../../../redux/slices/app-slice"
 import { TemplateClass } from "../../../../types/evaluation-template-type"
 import { getAllProjectRoles } from "../../../../redux/slices/project-roles-slice"
 import { getActiveAnswers } from "../../../../redux/slices/answer-slice"
+import { EvaluationTemplateContentsTable } from "../../evaluation-template-contents/evaluation-template-contents-table"
 
 export const CreateEvaluationTemplateForm = () => {
   const navigate = useNavigate()
@@ -141,13 +142,13 @@ export const CreateEvaluationTemplateForm = () => {
   }
 
   const onChangeTemplateClass = async (option: SingleValue<Option>) => {
-    const template_class: string = option !== null ? option.value.toString() : ""
+    const template_class: string = option !== null ? option.value : ""
     setTemplateClass(template_class)
     setFormData({ ...formData, template_class })
   }
 
   const onChangeTemplateType = async (option: SingleValue<Option>) => {
-    const template_type: string = option !== null ? option.value.toString() : ""
+    const template_type: string = option !== null ? option.value : ""
     setTemplateType(template_type)
     setFormData({ ...formData, template_type })
   }
@@ -185,9 +186,7 @@ export const CreateEvaluationTemplateForm = () => {
       if (error instanceof ValidationError) {
         const errors: Partial<EvaluationTemplateFormData> = {}
         error.inner.forEach((err) => {
-          if (err.path !== undefined) {
-            errors[err.path as keyof EvaluationTemplateFormData] = err.message
-          }
+          errors[err.path as keyof EvaluationTemplateFormData] = err.message
         })
         setValidationErrors(errors)
       }
@@ -313,6 +312,7 @@ export const CreateEvaluationTemplateForm = () => {
           </div>
         </div>
       </div>
+      <EvaluationTemplateContentsTable />
       <div className='flex justify-between'>
         <Button variant='primaryOutline' onClick={toggleDialog}>
           Cancel
