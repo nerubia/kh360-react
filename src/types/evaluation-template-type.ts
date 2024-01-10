@@ -31,3 +31,8 @@ export interface EvaluationTemplateFilters {
   evaluee_role_id?: string
   page?: string
 }
+
+export enum TemplateClass {
+  Internal = "Internal",
+  External = "External",
+}

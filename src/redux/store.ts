@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit"
 import appReducer from "./slices/app-slice"
 import authReducer from "./slices/auth-slice"
 
+import answerReducer from "./slices/answer-slice"
 import emailTemplateReducer from "./slices/email-template-slice"
 import evaluationAdministrationReducer from "./slices/evaluation-administration-slice"
 import evaluationAdministrationsReducer from "./slices/evaluation-administrations-slice"
@@ -24,6 +25,7 @@ import userReducer from "./slices/user-slice"
 export const store = configureStore({
   reducer: {
     app: appReducer,
+    answer: answerReducer,
     auth: authReducer,
     emailTemplate: emailTemplateReducer,
     evaluationAdministration: evaluationAdministrationReducer,

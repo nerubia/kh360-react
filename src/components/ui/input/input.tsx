@@ -8,7 +8,7 @@ interface InputProps {
   onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void
   onBlur?: (event: React.ChangeEvent<HTMLInputElement>) => void
   error?: string | null
-  min?: string
+  min?: string | number
   max?: string | number
   autoFocus?: boolean
   maxLength?: number
