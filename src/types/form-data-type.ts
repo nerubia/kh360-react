@@ -31,6 +31,20 @@ export interface EvaluationResultsFormData {
   employee_ids: number[]
 }
 
+export interface EvaluationTemplateFormData {
+  name?: string
+  description: string
+  display_name?: string
+  template_type?: string
+  template_class?: string
+  with_recommendation?: boolean | string
+  evaluator_role_id?: string
+  evaluee_role_id?: string
+  rate?: string
+  answer_id?: string
+  is_active: number | string
+}
+
 export interface ExternalUserFormData {
   first_name?: string
   middle_name?: string
