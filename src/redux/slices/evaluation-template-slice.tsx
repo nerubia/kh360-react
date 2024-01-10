@@ -4,12 +4,36 @@ import { type ApiError } from "../../types/apiErrorType"
 import { Loading } from "../../types/loadingType"
 import { axiosInstance } from "../../utils/axios-instance"
 import { type EvaluationTemplate } from "../../types/evaluation-template-type"
+import { type EvaluationTemplateFormData } from "../../types/form-data-type"
 
 export const getEvaluationTemplate = createAsyncThunk(
   "evaluationTemplate/getEvaluationTemplate",
   async (id: number, thunkApi) => {
     try {
       const response = await axiosInstance.get(`/admin/evaluation-templates/${id}`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const updateEvaluationTemplate = createAsyncThunk(
+  "evaluationTemplate/updateEvaluationTemplate",
+  async (
+    data: {
+      id: number
+      evaluation_template_data: EvaluationTemplateFormData
+    },
+    thunkApi
+  ) => {
+    try {
+      const response = await axiosInstance.put(
+        `/admin/evaluation-templates/${data.id}`,
+        data.evaluation_template_data
+      )
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -43,6 +67,9 @@ const evaluationTemplateSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
+    setEvaluationTemplate: (state, action) => {
+      state.evaluation_template = action.payload
+    },
     setEvaluationTemplateContent: (state, action) => {
       const { evaluationTemplateContentId, evaluationTemplateContent } = action.payload
 
@@ -87,10 +114,29 @@ const evaluationTemplateSlice = createSlice({
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
+    /**
+     * Update
+     */
+    builder.addCase(updateEvaluationTemplate.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(updateEvaluationTemplate.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.evaluation_template = action.payload
+    })
+    builder.addCase(updateEvaluationTemplate.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
   },
 })
 
-export const { setEvaluationTemplateContent, removeEvaluationTemplateContent } =
-  evaluationTemplateSlice.actions
+export const {
+  setEvaluationTemplate,
+  setEvaluationTemplateContent,
+  removeEvaluationTemplateContent,
+} = evaluationTemplateSlice.actions
 
 export default evaluationTemplateSlice.reducer

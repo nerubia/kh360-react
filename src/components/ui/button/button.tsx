@@ -98,7 +98,7 @@ const button = cva(["w-fit", "rounded-md", "flex", "items-center", "gap-2"], {
 interface ButtonProps extends VariantProps<typeof button> {
   testId?: string
   children: React.ReactNode
-  onClick?: () => void
+  onClick?: (event: React.MouseEvent) => void
   loading?: boolean
   disabled?: boolean
 }
@@ -130,6 +130,7 @@ interface LinkButtonProps extends VariantProps<typeof button> {
   testId?: string
   children: React.ReactNode
   to: string
+  onClick?: (event: React.MouseEvent) => void
 }
 
 export const LinkButton = ({
@@ -140,9 +141,15 @@ export const LinkButton = ({
   size,
   fullWidth,
   center,
+  onClick,
 }: LinkButtonProps) => {
   return (
-    <NavLink data-testid={testId} to={to} className={button({ variant, size, fullWidth, center })}>
+    <NavLink
+      data-testid={testId}
+      to={to}
+      className={button({ variant, size, fullWidth, center })}
+      onClick={onClick}
+    >
       {children}
     </NavLink>
   )
