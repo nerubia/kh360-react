@@ -6,11 +6,13 @@ import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { PageTitle } from "../../../components/shared/page-title"
 import { getCmEvaluationResult } from "../../../redux/slices/evaluation-result-slice"
 import { ScoreRange } from "../../../components/shared/score-range/score-range"
+import { useMobileView } from "../../../hooks/use-mobile-view"
 
 export const ViewEvaluationResultsHeader = () => {
   const { id } = useParams()
   const appDispatch = useAppDispatch()
   const { evaluation_result } = useAppSelector((state) => state.evaluationResult)
+  const isMobile = useMobileView()
 
   useEffect(() => {
     if (id !== undefined) {
@@ -38,17 +40,17 @@ export const ViewEvaluationResultsHeader = () => {
             </div>
           </div>
         </div>
-        <div className='text-xl text-primary-500 font-bold mt-10 mb-5'>
+        <div className='text-base md:text-xl text-primary-500 font-bold mt-10 mb-5'>
           Total Score: {evaluation_result?.total_score}%
         </div>
-        <div className='md:w-[800px]'>
+        <div className='w-[90%] md:w-[800px]'>
           {evaluation_result?.score_rating !== undefined &&
             evaluation_result?.users?.picture !== undefined && (
               <ScoreRange
                 user_picture={evaluation_result?.users?.picture}
                 score_rating={evaluation_result?.score_rating}
                 score={evaluation_result?.score}
-                size='medium'
+                size={isMobile ? "extraSmall" : "medium"}
                 is_evaluee={false}
               />
             )}

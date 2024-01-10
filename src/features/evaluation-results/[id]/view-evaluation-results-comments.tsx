@@ -14,7 +14,7 @@ export const ViewEvaluationResultsComments = () => {
           <div className='flex italic text-s'>No comments.</div>
         ))}
       <div className='flex-1 flex-col'>
-        <div className='text-xl font-bold mb-2 text-primary-500'>Comments: </div>
+        <div className='text-base md:text-xl font-bold mb-2 text-primary-500'>Comments: </div>
         {loading === Loading.Fulfilled &&
           evaluation_result?.comments !== undefined &&
           evaluation_result?.comments.length > 0 &&
@@ -32,7 +32,9 @@ export const ViewEvaluationResultsComments = () => {
         {evaluation_result?.comments.length === 0 && (
           <div className='flex italic text-s'>No comments.</div>
         )}
-        <div className='text-xl font-bold mt-10 mb-2 text-primary-500'>Recommendations: </div>
+        <div className='text-base md:text-xl font-bold mt-10 mb-2 text-primary-500'>
+          Recommendations:{" "}
+        </div>
         {loading === Loading.Fulfilled &&
           evaluation_result?.recommendations !== undefined &&
           evaluation_result?.recommendations.length > 0 &&
@@ -48,7 +50,7 @@ export const ViewEvaluationResultsComments = () => {
             </div>
           )}
         {evaluation_result?.recommendations.length === 0 && (
-          <div className='flex italic text-s'>No recommendations.</div>
+          <div className='flex italic text-sm md:text-base'>No recommendations.</div>
         )}
       </div>
     </>
