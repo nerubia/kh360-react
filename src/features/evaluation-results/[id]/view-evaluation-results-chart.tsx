@@ -55,7 +55,7 @@ export const ViewEvaluationResultsChart = () => {
   return (
     <div>
       <Button variant='unstyled' onClick={toggleChart}>
-        <div className='flex gap-2 text-xl font-bold mb-2 text-primary-500'>
+        <div className='flex gap-2 text-base md:text-xl font-bold mb-2 text-primary-500'>
           Distribution Chart:
           {showChart ? <Icon icon='ChevronDown' /> : <Icon icon='ChevronUp' />}{" "}
         </div>
@@ -70,7 +70,10 @@ export const ViewEvaluationResultsChart = () => {
             {showChart && evaluators?.length > 0 && (
               <div>
                 {sortedEvaluators?.map((evaluator) => (
-                  <div key={evaluator.id} className='mb-10 flex items-end justify-start'>
+                  <div
+                    key={evaluator.id}
+                    className='mb-10 flex justify-center md:items-end md:justify-start bg-gray-100 md:bg-transparent flex-col md:flex-row'
+                  >
                     <div className='pb-4 md:w-[210px]'>
                       {evaluator.last_name}, {evaluator.first_name}
                     </div>
