@@ -6,7 +6,7 @@ import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import { PageTitle } from "../../../components/shared/page-title"
 import { getUserEvaluationResult } from "../../../redux/slices/user-slice"
 import { ScoreRange } from "../../../components/shared/score-range/score-range"
-import useMobileView from "../../../hooks/use-mobile-view"
+import { useMobileView } from "../../../hooks/use-mobile-view"
 
 export const MyEvaluationResultsHeader = () => {
   const isMobile = useMobileView()
