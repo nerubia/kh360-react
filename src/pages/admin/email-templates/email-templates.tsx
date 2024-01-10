@@ -4,7 +4,7 @@ import { EmailTemplatesTable } from "../../../features/admin/email-templates/ema
 import { EmailTemplatesFilter } from "../../../features/admin/email-templates/email-templates-filter"
 import { EmailTemplatesAction } from "../../../features/admin/email-templates/email-templates-action"
 
-export default function ExternalEvaluators() {
+export default function EmailTemplates() {
   useTitle("Message Templates")
 
   return (
