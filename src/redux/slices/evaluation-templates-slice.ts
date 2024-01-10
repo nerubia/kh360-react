@@ -7,6 +7,21 @@ import {
 } from "../../types/evaluation-template-type"
 import { axiosInstance } from "../../utils/axios-instance"
 import { Loading } from "../../types/loadingType"
+import { type EvaluationTemplateFormData } from "../../types/form-data-type"
+
+export const createEvaluationTemplate = createAsyncThunk(
+  "evaluationTemplate/createEvaluationTemplate",
+  async (data: EvaluationTemplateFormData, thunkApi) => {
+    try {
+      const response = await axiosInstance.post("/admin/evaluation-templates", data)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
 
 export const getEvaluationTemplates = createAsyncThunk(
   "evaluationTemplate/getEvaluationTemplates",
@@ -93,6 +108,21 @@ const evaluationTemplatesSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers(builder) {
+    /**
+     * Create
+     */
+    builder.addCase(createEvaluationTemplate.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(createEvaluationTemplate.fulfilled, (state) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+    })
+    builder.addCase(createEvaluationTemplate.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
     /**
      * List
      */
