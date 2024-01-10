@@ -87,5 +87,5 @@ export interface EvaluationTemplateContentFormData {
   description?: string
   category?: string
   rate?: string
-  is_active?: boolean
+  is_active?: boolean | string
 }

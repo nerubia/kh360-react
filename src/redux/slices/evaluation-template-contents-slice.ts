@@ -29,6 +29,7 @@ interface InitialState {
   error: string | null
   evaluation_template_contents: EvaluationTemplateContent[]
   is_editing: boolean
+  create_modal_visible: boolean
 }
 
 const initialState: InitialState = {
@@ -36,6 +37,7 @@ const initialState: InitialState = {
   error: null,
   evaluation_template_contents: [],
   is_editing: false,
+  create_modal_visible: false,
 }
 
 const evaluationTemplateContentsSlice = createSlice({
@@ -44,6 +46,9 @@ const evaluationTemplateContentsSlice = createSlice({
   reducers: {
     setIsEditing: (state, action) => {
       state.is_editing = action.payload
+    },
+    showCreateModal: (state, action) => {
+      state.create_modal_visible = action.payload
     },
     updateEvaluationRatingById: (state, action) => {
       const {
@@ -111,6 +116,7 @@ const evaluationTemplateContentsSlice = createSlice({
 
 export const {
   setIsEditing,
+  showCreateModal,
   updateEvaluationRatingById,
   updateEvaluationRatingCommentById,
   setShowRatingCommentInput,

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { boolean, number, object, string } from "yup"
 
 export const createEvaluationTemplateSchema = object().shape({
