@@ -42,28 +42,16 @@ test.describe("Admin - Create Email Template", () => {
 
       await page.goto("/admin/message-templates/create")
 
-      await mockRequest(page, "/admin/email-templates", {
+      await mockRequest(page, "/admin/email-templates/11", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify([
           {
-            id: 32,
-            name: "Msg Template - Test Only",
-            template_type: "Evaluation Complete Thank You Message External",
-            is_default: true,
-            subject: "[BETA] Evaluation Completed External?",
-            content: null,
-            created_by_id: null,
-            updated_by_id: null,
-            created_at: null,
-            updated_at: null,
-          },
-          {
             id: 11,
             name: "Create Evaluation Administration Template",
             template_type: "Create Evaluation",
-            is_default: true,
-            subject: "[TEST] Request for Evaluation",
+            is_default: 1,
+            subject: "[BETA] Request for Evaluation",
             content: "Test",
             created_by_id: null,
             updated_by_id: null,
