@@ -1,4 +1,4 @@
-import { type Project } from "./projectType"
+import { type Project } from "./project-type"
 import { type User } from "./user-type"
 
 export interface ProjectMember {

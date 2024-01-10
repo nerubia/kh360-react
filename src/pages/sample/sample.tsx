@@ -283,6 +283,7 @@ export default function Sample() {
           <Icon icon='ChevronsRight' size='small' />
           <Icon icon='ClipboardCheck' size='small' />
           <Icon icon='Close' size='small' />
+          <Icon icon='Eye' size='small' />
           <Icon icon='Dashboard' size='small' />
           <Icon icon='FileText' size='small' />
           <Icon icon='Google' size='small' />
@@ -307,6 +308,7 @@ export default function Sample() {
           <Icon icon='ChevronsRight' />
           <Icon icon='ClipboardCheck' />
           <Icon icon='Close' />
+          <Icon icon='Eye' />
           <Icon icon='Dashboard' />
           <Icon icon='FileText' />
           <Icon icon='Google' />
@@ -331,6 +333,7 @@ export default function Sample() {
           <Icon icon='ChevronsRight' size='large' />
           <Icon icon='ClipboardCheck' size='large' />
           <Icon icon='Close' size='large' />
+          <Icon icon='Eye' size='large' />
           <Icon icon='Dashboard' size='large' />
           <Icon icon='FileText' size='large' />
           <Icon icon='Google' size='large' />

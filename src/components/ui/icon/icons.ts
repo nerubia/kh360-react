@@ -12,6 +12,7 @@ export const icons = {
   ChevronsRight: lazy(async () => await import("./icons/chevrons-right-icon")),
   ClipboardCheck: lazy(async () => await import("./icons/clipboard-check-icon")),
   Close: lazy(async () => await import("./icons/close-icon")),
+  Eye: lazy(async () => await import("./icons/eye-icon")),
   Dashboard: lazy(async () => await import("./icons/dashboard-icon")),
   FileText: lazy(async () => await import("./icons/file-text-icon")),
   GanttChart: lazy(async () => await import("./icons/gantt-chart-icon")),

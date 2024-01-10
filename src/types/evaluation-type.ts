@@ -1,5 +1,5 @@
 import { type ProjectRole } from "./project-role-type"
-import { type Project } from "./projectType"
+import { type Project } from "./project-type"
 import { type User } from "./user-type"
 import { type EvaluationTemplate } from "./evaluation-template-type"
 
