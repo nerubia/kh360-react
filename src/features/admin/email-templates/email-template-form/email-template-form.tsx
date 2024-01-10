@@ -12,7 +12,6 @@ import { CreateSelect } from "../../../../components/ui/select/create-select"
 import { useAppDispatch } from "../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../hooks/useAppSelector"
 import { type EmailTemplateFormData } from "../../../../types/form-data-type"
-import { Loading } from "../../../../types/loadingType"
 import { type EmailTemplate, TemplateType } from "../../../../types/email-template-type"
 import { type Option } from "../../../../types/optionType"
 import { createEmailTemplateSchema } from "../../../../utils/validation/email-template-schema"
@@ -36,7 +35,6 @@ export const EmailTemplateForm = () => {
 
   const appDispatch = useAppDispatch()
   const { emailTemplate } = useAppSelector((state) => state.emailTemplate)
-  const { loading } = useAppSelector((state) => state.emailTemplate)
 
   const [formData, setFormData] = useState<EmailTemplateFormData>({
     name: emailTemplate?.name ?? "",
@@ -236,88 +234,83 @@ export const EmailTemplateForm = () => {
   }
 
   return (
-    <>
-      {loading === Loading.Pending && id !== null && <div>Loading...</div>}
-      {loading === Loading.Fulfilled && (
-        <div className='flex flex-col gap-10'>
-          <div className='flex flex-col gap-4'>
-            <div>
-              <h2 className='font-medium'>Name</h2>
-              <Input
-                name='name'
-                placeholder='Name'
-                value={formData.name}
-                onChange={handleInputChange}
-                error={validationErrors.name}
-              />
-            </div>
-            <div className='flex flex-wrap gap-4'>
-              <div className='flex-1'>
-                <CreateSelect
-                  data-test-id='SelectEmailTemplateType'
-                  label='Template Type'
-                  name='template_type'
-                  value={typeOptions.find((option) => option.value === formData.template_type)}
-                  onChange={async (option) => await setTemplate(option)}
-                  options={typeOptions}
-                  fullWidth
-                  isClearable
-                  error={validationErrors.template_type}
-                />
-              </div>
-              <div className='flex-1'>
-                <h2 className='font-medium'>Default</h2>
-                <div className='m-2.5'>
-                  <Checkbox
-                    checked={isDefault}
-                    onChange={async (checked) => await handleClickCheckbox(checked)}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className='flex flex-col gap-4'>
-              <Input
-                label='Subject'
-                name='subject'
-                placeholder='Subject'
-                value={formData.subject}
-                onChange={handleInputChange}
-                error={validationErrors.subject}
-              />
-              <TextArea
-                label='Content'
-                name='content'
-                placeholder='Content'
-                value={formData.content}
-                onChange={handleTextAreaChange}
-                error={validationErrors.content}
-              />
-            </div>
-          </div>
-          <div className='flex justify-between'>
-            <Button variant='primaryOutline' onClick={toggleDialog}>
-              Cancel
-            </Button>
-            <Button onClick={emailTemplate === null ? handleSubmit : handleUpdate}>Save</Button>
-          </div>
-          <Dialog open={showDialog}>
-            <Dialog.Title>Cancel</Dialog.Title>
-            <Dialog.Description>
-              Are you sure you want to cancel? <br />
-              If you cancel, your data won&apos;t be saved.
-            </Dialog.Description>
-            <Dialog.Actions>
-              <Button variant='primaryOutline' onClick={toggleDialog}>
-                No
-              </Button>
-              <LinkButton variant='primary' to={callback ?? "/admin/message-templates"}>
-                Yes
-              </LinkButton>
-            </Dialog.Actions>
-          </Dialog>
-          <DefaultModal open={showDefaultDialog} />
+    <div className='flex flex-col gap-10'>
+      <div className='flex flex-col gap-4'>
+        <div>
+          <h2 className='font-medium'>Name</h2>
+          <Input
+            name='name'
+            placeholder='Name'
+            value={formData.name}
+            onChange={handleInputChange}
+            error={validationErrors.name}
+          />
         </div>
-      )}
-    </>
+        <div className='flex flex-wrap gap-4'>
+          <div className='flex-1'>
+            <CreateSelect
+              data-test-id='SelectEmailTemplateType'
+              label='Template Type'
+              name='template_type'
+              value={typeOptions.find((option) => option.value === formData.template_type)}
+              onChange={async (option) => await setTemplate(option)}
+              options={typeOptions}
+              fullWidth
+              isClearable
+              error={validationErrors.template_type}
+            />
+          </div>
+          <div className='flex-1'>
+            <h2 className='font-medium'>Default</h2>
+            <div className='m-2.5'>
+              <Checkbox
+                checked={isDefault}
+                onChange={async (checked) => await handleClickCheckbox(checked)}
+              />
+            </div>
+          </div>
+        </div>
+        <div className='flex flex-col gap-4'>
+          <Input
+            label='Subject'
+            name='subject'
+            placeholder='Subject'
+            value={formData.subject}
+            onChange={handleInputChange}
+            error={validationErrors.subject}
+          />
+          <TextArea
+            label='Content'
+            name='content'
+            placeholder='Content'
+            value={formData.content}
+            onChange={handleTextAreaChange}
+            error={validationErrors.content}
+          />
+        </div>
+      </div>
+      <div className='flex justify-between'>
+        <Button variant='primaryOutline' onClick={toggleDialog}>
+          Cancel
+        </Button>
+        <Button onClick={emailTemplate === null ? handleSubmit : handleUpdate}>Save</Button>
+      </div>
+      <Dialog open={showDialog}>
+        <Dialog.Title>Cancel</Dialog.Title>
+        <Dialog.Description>
+          Are you sure you want to cancel? <br />
+          If you cancel, your data won&apos;t be saved.
+        </Dialog.Description>
+        <Dialog.Actions>
+          <Button variant='primaryOutline' onClick={toggleDialog}>
+            No
+          </Button>
+          <LinkButton variant='primary' to={callback ?? "/admin/message-templates"}>
+            Yes
+          </LinkButton>
+        </Dialog.Actions>
+      </Dialog>
+      <DefaultModal open={showDefaultDialog} />
+    </div>
   )
 }
