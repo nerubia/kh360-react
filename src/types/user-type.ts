@@ -1,6 +1,6 @@
 import { type EmailLog } from "./email-log-type"
 import { type Evaluation } from "./evaluation-type"
-import { type Project } from "./projectType"
+import { type Project } from "./project-type"
 
 export interface User {
   id: number
