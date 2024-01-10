@@ -1,3 +1,6 @@
+import React from "react"
+import { useMobileView } from "../../../hooks/use-mobile-view"
+
 interface InputProps {
   label?: string
   name: string
@@ -31,6 +34,8 @@ export const Input = ({
   autoFocus,
   step,
 }: InputProps) => {
+  const isMobile = useMobileView()
+
   return (
     <div className='flex flex-col'>
       {label != null && (
@@ -39,7 +44,9 @@ export const Input = ({
         </label>
       )}
       <input
-        className={`${error != null ? "border-red-500" : ""} border px-4 py-1.5 rounded-md`}
+        className={`${error != null ? "border-red-500" : ""} border px-4 py-1.5 rounded-md ${
+          isMobile ? "text-sm" : "text-base"
+        }`}
         id={name}
         name={name}
         type={type}
