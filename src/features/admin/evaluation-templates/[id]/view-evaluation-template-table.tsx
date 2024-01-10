@@ -333,9 +333,9 @@ export const ViewEvaluationTemplateTable = () => {
               <div className='flex gap-3 items-center'>
                 <div className='text-lg font-bold'>Active</div>
                 <Checkbox
-                  checked={formData.is_active}
+                  checked={Boolean(formData.is_active)}
                   onChange={() => {
-                    const newValue: boolean = formData.is_active ?? false
+                    const newValue: boolean = Boolean(formData.is_active) ?? false
                     setFormData({ ...formData, is_active: !newValue })
                     return null
                   }}
