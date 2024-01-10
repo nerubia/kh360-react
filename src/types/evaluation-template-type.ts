@@ -7,6 +7,7 @@ export interface EvaluationTemplate {
   id: number
   name?: string
   display_name?: string
+  description?: string
   template_type?: string
   template_class?: string
   with_recommendation?: boolean
@@ -19,6 +20,7 @@ export interface EvaluationTemplate {
   evaluatorRole?: ProjectRole
   evalueeRole?: ProjectRole
   answer?: Answer
+  is_active: boolean
 }
 
 export interface EvaluationTemplateFilters {
