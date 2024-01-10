@@ -39,7 +39,8 @@ export const EvaluationTemplatesTable = () => {
     )
   }, [searchParams])
 
-  const toggleDialog = (id: number | null) => {
+  const toggleDialog = (id: number | null, e: React.MouseEvent) => {
+    e.stopPropagation()
     if (id !== null) {
       setSelectedEvaluationTemplateId(id)
     }
@@ -111,13 +112,14 @@ export const EvaluationTemplatesTable = () => {
                   testId='EditButton'
                   variant='unstyled'
                   to={`/admin/evaluation-templates/${evaluationTemplate.id}/edit`}
+                  onClick={(e) => e.stopPropagation()}
                 >
                   <Icon icon='PenSquare' />
                 </LinkButton>
                 <Button
                   testId='DeleteButton'
                   variant='unstyled'
-                  onClick={() => toggleDialog(evaluationTemplate.id)}
+                  onClick={(e) => toggleDialog(evaluationTemplate.id, e)}
                 >
                   <Icon icon='Trash' />
                 </Button>
@@ -133,14 +135,14 @@ export const EvaluationTemplatesTable = () => {
           This will delete all evaluations associated with this template and cannot be reverted.
         </Dialog.Description>
         <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={() => toggleDialog(null)}>
+          <Button variant='primaryOutline' onClick={(e) => toggleDialog(null, e)}>
             No
           </Button>
           <Button
             variant='primary'
-            onClick={async () => {
+            onClick={async (e) => {
               await handleDelete()
-              toggleDialog(null)
+              toggleDialog(null, e)
             }}
           >
             Yes
