@@ -90,7 +90,7 @@ export const EmailTemplatesTable = () => {
                 <LinkButton
                   testId='EditButton'
                   variant='unstyled'
-                  to={`/admin/external-evaluators/${template.id}/edit`}
+                  to={`/admin/message-templates/${template.id}/edit`}
                 >
                   <Icon icon='PenSquare' />
                 </LinkButton>
