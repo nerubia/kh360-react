@@ -17,6 +17,7 @@ export const icons = {
   FileText: lazy(async () => await import("./icons/file-text-icon")),
   GanttChart: lazy(async () => await import("./icons/gantt-chart-icon")),
   Google: lazy(async () => await import("./icons/google-icon")),
+  List: lazy(async () => await import("./icons/list-icon")),
   ListChecks: lazy(async () => await import("./icons/list-checks-icon")),
   Lock: lazy(async () => await import("./icons/lock-icon")),
   Logout: lazy(async () => await import("./icons/logout-icon")),
