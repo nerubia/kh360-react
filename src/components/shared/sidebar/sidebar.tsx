@@ -86,6 +86,12 @@ const menuLinks: MenuLink[] = [
         icon: "Message",
         access: "Admin",
       },
+      {
+        title: "Evaluation Templates",
+        link: "/admin/evaluation-templates",
+        icon: "List",
+        access: "Admin",
+      },
     ],
   },
 ]
