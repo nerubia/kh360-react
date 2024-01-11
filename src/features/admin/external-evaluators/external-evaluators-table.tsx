@@ -66,24 +66,26 @@ export const ExternalEvaluatorsTable = () => {
       <table className='w-11/12'>
         <thead className='text-left'>
           <tr>
-            <th className='pb-3'>Name</th>
-            <th className='pb-3'>Email Address</th>
-            <th className='pb-3'>Company</th>
-            <th className='pb-3'>Role</th>
-            <th className='pb-3'>Actions</th>
+            <th className='pb-3 pr-4'>Name</th>
+            <th className='pb-3 px-4'>Email Address</th>
+            <th className='pb-3 px-4'>Company</th>
+            <th className='pb-3 px-4'>Role</th>
+            <th className='pb-3 px-4'>Actions</th>
           </tr>
         </thead>
         <tbody>
           {external_users.map((externalEvaluator) => (
             <tr key={externalEvaluator.id}>
-              <td className='py-1'>
+              <td className='py-1 pr-4'>
                 {externalEvaluator.last_name}, {externalEvaluator.first_name}{" "}
                 {externalEvaluator.middle_name}
               </td>
-              <td className='py-1'>{externalEvaluator.email}</td>
-              <td className='py-1'>{externalEvaluator.company}</td>
-              <td className='py-1'>{externalEvaluator.role}</td>
-              <td className='py-1 flex flex-row gap-2'>
+              <td className='py-1 px-4 whitespace-pre-line break-all'>{externalEvaluator.email}</td>
+              <td className='py-1 px-4 whitespace-pre-line break-all'>
+                {externalEvaluator.company}
+              </td>
+              <td className='py-1 px-4 whitespace-pre-line break-all'>{externalEvaluator.role}</td>
+              <td className='py-1 px-4 flex flex-row gap-2'>
                 <LinkButton
                   testId='EditButton'
                   variant='unstyled'
