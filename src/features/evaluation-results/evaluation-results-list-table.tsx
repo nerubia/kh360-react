@@ -39,7 +39,7 @@ export const EvaluationResultsListTable = () => {
 
   return (
     <div className='flex flex-col gap-8 overflow-x-auto'>
-      <table className='min-w-[600px] w-full md:table-fixed whitespace-nowrap md:whitespace-normal '>
+      <table className='min-w-[600px] w-full md:table-fixed whitespace-nowrap md:whitespace-normal'>
         <thead className='text-left'>
           <tr>
             <th className='pb-3 px-1 w-1/5'>Evaluee Name</th>
