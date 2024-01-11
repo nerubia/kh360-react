@@ -39,22 +39,22 @@ export const EvaluationResultsListTable = () => {
 
   return (
     <div className='flex flex-col gap-8 overflow-x-auto'>
-      <table className='min-w-[600px] w-full md:table-fixed whitespace-nowrap md:whitespace-normal'>
+      <table className='min-w-[600px] w-full md:table-fixed whitespace-nowrap md:whitespace-normal '>
         <thead className='text-left'>
           <tr>
             <th className='pb-3 px-1 w-1/5'>Evaluee Name</th>
             <th className='pb-3 px-1 w-1/4'>Eval Admin Name</th>
             <th className='pb-3 px-1 w-1/4'>Eval Period</th>
             <th className='pb-3 px-1 w-20'>Score</th>
-            <th className='pb-3 px-1 w-[12%]'>Score Rating</th>
-            <th className='pb-3 px-1 mid-w-[100px] md:whitespace-nowrap md:w-[90px]'>Z-Score</th>
-            <th className='pb-3 px-1'>Banding</th>
+            <th className='pb-3 px-1 w-[100px]'>Score Rating</th>
+            <th className='pb-3 px-1 mid-w-[100px] md:w-[90px]'>Z-Score</th>
+            <th className='pb-3 px-1 md:w-[90px]'>Banding</th>
           </tr>
         </thead>
         <tbody>
           {evaluation_results.map((evaluationResult) => (
             <tr
-              className='cursor-pointer hover:bg-slate-100'
+              className='cursor-pointer hover:bg-slate-100 w-[90%]'
               key={evaluationResult.id}
               onClick={() => handleViewEvaluationResult(evaluationResult.id)}
             >
