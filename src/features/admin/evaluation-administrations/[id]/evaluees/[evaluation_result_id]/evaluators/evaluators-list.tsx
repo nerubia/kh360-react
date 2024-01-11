@@ -228,6 +228,7 @@ export const EvaluatorsList = () => {
               </th>
               <th className='pb-3'>Evaluator</th>
               <th className='pb-3'>Project</th>
+              <th className='pb-3'>Role</th>
               <th className='pb-3'>%</th>
               <th className='pb-3'>Duration</th>
             </tr>
@@ -249,6 +250,7 @@ export const EvaluatorsList = () => {
                     {evaluation.evaluator?.last_name}, {evaluation.evaluator?.first_name}
                   </td>
                   <td className='pb-2'>{evaluation.project?.name}</td>
+                  <td className='pb-2'>{evaluation.project_role?.short_name}</td>
                   <td className='pb-2'>{evaluation.percent_involvement}%</td>
                   <td className='pb-2'>
                     {formatDate(evaluation.eval_start_date)} to{" "}
@@ -326,7 +328,7 @@ export const EvaluatorsList = () => {
                                 >
                                   <div className='flex-flex-col'>
                                     <p className='text-sm font-bold text-start'>
-                                      {projectMember.project?.name} -{" "}
+                                      {projectMember.project?.name} [{projectMember.role}] -{" "}
                                       {projectMember.allocation_rate}%
                                     </p>
                                     <p className='text-sm'>
