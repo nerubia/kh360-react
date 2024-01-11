@@ -102,9 +102,9 @@ export const AddEvaluatorForm = () => {
   useEffect(() => {
     const projectMembers = [...project_members]
     const options: Option[] = projectMembers.map((projectMember) => ({
-      label: `${projectMember.project?.name} - ${projectMember.allocation_rate}% (${formatDate(
-        projectMember.start_date
-      )} to ${formatDate(projectMember.end_date)})`,
+      label: `${projectMember.project?.name} [${projectMember.role}] - ${
+        projectMember.allocation_rate
+      }% (${formatDate(projectMember.start_date)} to ${formatDate(projectMember.end_date)})`,
       value: projectMember.id.toString(),
     }))
     setActiveProjectMembers(options)
