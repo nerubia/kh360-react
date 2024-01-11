@@ -63,7 +63,7 @@ export const ExternalEvaluatorsTable = () => {
 
   return (
     <div className='flex flex-col gap-8'>
-      <table className='w-full table-fixed'>
+      <table className='w-11/12'>
         <thead className='text-left'>
           <tr>
             <th className='pb-3'>Name</th>
