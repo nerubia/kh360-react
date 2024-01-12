@@ -19,6 +19,7 @@ import { Badge } from "../../../../../components/ui/badge/badge"
 export const EvalueesList = () => {
   const { id } = useParams()
   const [searchParams] = useSearchParams()
+  const [onError, setOnError] = useState<boolean>(false)
 
   const appDispatch = useAppDispatch()
   const { loading, evaluation_results, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
@@ -66,6 +67,7 @@ export const EvalueesList = () => {
             >
               <div className='flex items-center gap-4'>
                 {evaluationResult.users?.picture === undefined ||
+                onError ||
                 evaluationResult.users?.picture === null ? (
                   <Icon icon='UserFill' color='primary' size='large' />
                 ) : (
@@ -73,6 +75,7 @@ export const EvalueesList = () => {
                     className='w-10 h-10 rounded-full'
                     src={evaluationResult.users.picture}
                     alt={`Avatar of ${evaluationResult.users?.first_name} ${evaluationResult.users?.first_name}`}
+                    onError={() => setOnError(true)}
                   />
                 )}
                 <div className='flex'>
