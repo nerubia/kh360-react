@@ -12,6 +12,7 @@ export interface EvaluationTemplateContent {
   category?: string
   rate?: string
   is_active?: boolean
+  sequence_no?: number
 }
 
 export interface EvaluationTemplateContentFilters {
