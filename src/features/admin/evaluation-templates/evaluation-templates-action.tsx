@@ -2,15 +2,19 @@ import { useNavigate } from "react-router-dom"
 import { Button } from "../../../components/ui/button/button"
 import { useAppSelector } from "../../../hooks/useAppSelector"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
-import { setEvaluationTemplate } from "../../../redux/slices/evaluation-template-slice"
+import {
+  setEvaluationTemplate,
+  setEvaluationTemplateContent,
+} from "../../../redux/slices/evaluation-template-slice"
 
 export const EvaluationTemplatesAction = () => {
-  const appDispatch = useAppDispatch()
   const navigate = useNavigate()
+  const appDispatch = useAppDispatch()
   const { totalItems } = useAppSelector((state) => state.evaluationTemplates)
 
   const handleAdd = () => {
     void appDispatch(setEvaluationTemplate(null))
+    void appDispatch(setEvaluationTemplateContent([]))
     navigate("/admin/evaluation-templates/create")
   }
 

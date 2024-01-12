@@ -1,4 +1,5 @@
 import { ValidationError } from "yup"
+import { useState, useEffect } from "react"
 import { Button } from "../../../../components/ui/button/button"
 import { Checkbox } from "../../../../components/ui/checkbox/checkbox"
 import Dialog from "../../../../components/ui/dialog/dialog"
@@ -6,21 +7,22 @@ import { Input } from "../../../../components/ui/input/input"
 import { CustomSelect } from "../../../../components/ui/select/custom-select"
 import { useAppDispatch } from "../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../hooks/useAppSelector"
-import { showCreateModal } from "../../../../redux/slices/evaluation-template-contents-slice"
+import {
+  showCreateModal,
+  setEvaluationTemplateContents,
+} from "../../../../redux/slices/evaluation-template-contents-slice"
 import { EvaluationTemplateContentCategory } from "../../../../types/evaluation-template-content-type"
 import { type Option } from "../../../../types/optionType"
 import { type EvaluationTemplateContentFormData } from "../../../../types/form-data-type"
-import { useState } from "react"
 import { createEvaluationTemplateContentSchema } from "../../../../utils/validation/evaluation-template-content-schema"
 import { type SingleValue } from "react-select"
-import { createEvaluationTemplateContent } from "../../../../redux/slices/evaluation-template-content-slice"
-import { setAlert } from "../../../../redux/slices/app-slice"
+import { type EvaluationTemplateContent } from "../../../../types/evaluation-template-content-type"
 
 export const CreateEvaluationTemplateContentForm = () => {
   const appDispatch = useAppDispatch()
 
-  const { create_modal_visible } = useAppSelector((state) => state.evaluationTemplateContents)
-
+  const { create_modal_visible, evaluation_template_contents, selected_content_index } =
+    useAppSelector((state) => state.evaluationTemplateContents)
   const defaultFormData = {
     name: "",
     description: "",
@@ -33,6 +35,22 @@ export const CreateEvaluationTemplateContentForm = () => {
   const [validationErrors, setValidationErrors] = useState<
     Partial<EvaluationTemplateContentFormData>
   >({})
+  const [selectedTemplateContent, setSelectedEvaluationTemplateContent] =
+    useState<EvaluationTemplateContent | null>(null)
+
+  useEffect(() => {
+    setValidationErrors({})
+    const evaluationTemplateContent = evaluation_template_contents.find(
+      (_, index) => index === selected_content_index
+    )
+    if (evaluationTemplateContent !== undefined) {
+      setSelectedEvaluationTemplateContent(evaluationTemplateContent)
+      setFormData(evaluationTemplateContent)
+    } else {
+      setFormData(defaultFormData)
+      setSelectedEvaluationTemplateContent(null)
+    }
+  }, [create_modal_visible])
 
   const categoryOptions: Option[] = Object.values(EvaluationTemplateContentCategory).map(
     (value) => ({
@@ -41,31 +59,40 @@ export const CreateEvaluationTemplateContentForm = () => {
     })
   )
 
-  const handeSave = async () => {
+  const handleSave = async () => {
     try {
       await createEvaluationTemplateContentSchema.validate(formData, {
         abortEarly: false,
       })
+      void appDispatch(setEvaluationTemplateContents([...evaluation_template_contents, formData]))
+      setFormData({})
+      void appDispatch(showCreateModal(!create_modal_visible))
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        const errors: Partial<EvaluationTemplateContentFormData> = {}
+        error.inner.forEach((err) => {
+          errors[err.path as keyof EvaluationTemplateContentFormData] = err.message
+        })
+        setValidationErrors(errors)
+      }
+    }
+  }
 
-      const result = await appDispatch(createEvaluationTemplateContent(formData))
-      if (result.type === "evaluationTemplate/createEvaluationTemplateContent/rejected") {
-        appDispatch(
-          setAlert({
-            description: result.payload,
-            variant: "destructive",
-          })
-        )
-      }
-      if (result.type === "evaluationTemplate/createEvaluationTemplateContent/fulfilled") {
-        toggleModalForm()
-        setFormData(defaultFormData)
-        appDispatch(
-          setAlert({
-            description: "Added new evaluation template content",
-            variant: "success",
-          })
-        )
-      }
+  const handleEdit = async () => {
+    try {
+      await createEvaluationTemplateContentSchema.validate(formData, {
+        abortEarly: false,
+      })
+      const updatedData = evaluation_template_contents.map((content, index) => {
+        if (index === selected_content_index) {
+          return formData
+        } else {
+          return content
+        }
+      })
+      void appDispatch(setEvaluationTemplateContents(updatedData))
+      setFormData({})
+      void appDispatch(showCreateModal(!create_modal_visible))
     } catch (error) {
       if (error instanceof ValidationError) {
         const errors: Partial<EvaluationTemplateContentFormData> = {}
@@ -93,6 +120,7 @@ export const CreateEvaluationTemplateContentForm = () => {
 
   const toggleModalForm = () => {
     void appDispatch(showCreateModal(!create_modal_visible))
+    setFormData({})
   }
 
   return (
@@ -107,7 +135,7 @@ export const CreateEvaluationTemplateContentForm = () => {
                   label='Name'
                   name='name'
                   placeholder='Name'
-                  value={formData.name}
+                  value={formData.name ?? ""}
                   onChange={onChangeInput}
                   error={validationErrors.name}
                 />
@@ -117,7 +145,7 @@ export const CreateEvaluationTemplateContentForm = () => {
                   label='Description'
                   name='description'
                   placeholder='Description'
-                  value={formData.description}
+                  value={formData.description ?? ""}
                   onChange={onChangeInput}
                   error={validationErrors.description}
                 />
@@ -127,7 +155,7 @@ export const CreateEvaluationTemplateContentForm = () => {
                   data-test-id='SelectCategory'
                   label='Category'
                   name='category'
-                  value={categoryOptions.find((option) => option.value === formData.category)}
+                  value={categoryOptions.find((option) => option.value === formData.category ?? "")}
                   onChange={async (option) => await onChangeCategory(option)}
                   options={categoryOptions}
                   fullWidth
@@ -139,7 +167,7 @@ export const CreateEvaluationTemplateContentForm = () => {
                   label='Rate'
                   name='rate'
                   placeholder='Rate'
-                  value={formData.rate}
+                  value={formData.rate ?? ""}
                   onChange={onChangeInput}
                   error={validationErrors.rate}
                   type='number'
@@ -147,7 +175,7 @@ export const CreateEvaluationTemplateContentForm = () => {
                   max={100}
                 />
               </div>
-              <div className='flex-1'>
+              <div className='flex gap-3 items-center'>
                 <h2 className='font-medium'>Active</h2>
                 <div className='m-2.5'>
                   <Checkbox
@@ -163,7 +191,10 @@ export const CreateEvaluationTemplateContentForm = () => {
           <Button variant='primaryOutline' onClick={toggleModalForm}>
             Cancel
           </Button>
-          <Button variant='primary' onClick={async () => await handeSave()}>
+          <Button
+            variant='primary'
+            onClick={selectedTemplateContent === null ? handleSave : handleEdit}
+          >
             Save
           </Button>
         </Dialog.Actions>
