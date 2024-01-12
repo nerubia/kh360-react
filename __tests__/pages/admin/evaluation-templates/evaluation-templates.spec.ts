@@ -146,6 +146,16 @@ test.describe("Admin - Evaluation Templates", () => {
               with_recommendation: true,
               evaluator_role_id: 1,
               evaluee_role_id: 3,
+              evaluatorRole: {
+                id: 1,
+                name: "Board of Directors",
+                short_name: "BOD",
+              },
+              evalueeRole: {
+                id: 3,
+                name: "Project Manager",
+                short_name: "PM",
+              },
               rate: "35",
               answer_id: 1,
               description: null,
@@ -187,11 +197,10 @@ test.describe("Admin - Evaluation Templates", () => {
 
       await expect(page.getByRole("cell", { name: "PM Evaluation by BOD" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "BOD Evaluation" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Project Evaluation" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "True" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "1" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "3", exact: true })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "35" })).toBeVisible()
+      await expect(page.getByRole("checkbox")).toBeChecked()
+      await expect(page.getByRole("cell", { name: "BOD", exact: true })).toBeVisible()
+      await expect(page.getByRole("cell", { name: "PM", exact: true })).toBeVisible()
+      await expect(page.getByRole("cell", { name: "35.00" })).toBeVisible()
 
       await expect(page.getByTestId("EditButton")).toBeVisible()
       await expect(page.getByTestId("DeleteButton")).toBeVisible()
