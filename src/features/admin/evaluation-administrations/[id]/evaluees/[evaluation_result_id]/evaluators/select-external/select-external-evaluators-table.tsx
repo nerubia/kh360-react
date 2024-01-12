@@ -115,10 +115,10 @@ export const SelectExternalEvaluatorsTable = () => {
                     onChange={(checked) => handleSelectAll(checked)}
                   />
                 </th>
-                <th className='pb-3'>Name</th>
-                <th className='pb-3'>Email Address</th>
-                <th className='pb-3'>Company</th>
-                <th className='pb-3'>Role</th>
+                <th className='pb-3 pr-4 w-1/4'>Name</th>
+                <th className='pb-3 px-4 w-1/3'>Email Address</th>
+                <th className='pb-3 px-4'>Company</th>
+                <th className='pb-3 px-4'>Role</th>
               </tr>
             </thead>
             <tbody>
@@ -132,12 +132,12 @@ export const SelectExternalEvaluatorsTable = () => {
                       />
                     </div>
                   </td>
-                  <td className='py-1'>
+                  <td className='py-1 pr-4 whitespace-pre-line break-all w-1/4'>
                     {user.last_name}, {user.first_name} {user.middle_name}
                   </td>
-                  <td className='py-1'>{user.email}</td>
-                  <td className='py-1'>{user.company}</td>
-                  <td className='py-1'>{user.role}</td>
+                  <td className='py-1 prx-4 whitespace-pre-line break-all 2-1/3'>{user.email}</td>
+                  <td className='py-1 px-4 whitespace-pre-line break-all'>{user.company}</td>
+                  <td className='py-1 px-4 whitespace-pre-line break-all'>{user.role}</td>
                 </tr>
               ))}
             </tbody>
