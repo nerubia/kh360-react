@@ -27,6 +27,7 @@ export const getEvaluationTemplateContents = createAsyncThunk(
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
+  selected_content_index: number | null
   evaluation_template_contents: EvaluationTemplateContent[]
   is_editing: boolean
   create_modal_visible: boolean
@@ -35,6 +36,7 @@ interface InitialState {
 const initialState: InitialState = {
   loading: Loading.Idle,
   error: null,
+  selected_content_index: null,
   evaluation_template_contents: [],
   is_editing: false,
   create_modal_visible: false,
@@ -94,6 +96,12 @@ const evaluationTemplateContentsSlice = createSlice({
         state.evaluation_template_contents[index].evaluationRating.showInputComment = showInput
       }
     },
+    setEvaluationTemplateContents: (state, action) => {
+      state.evaluation_template_contents = action.payload
+    },
+    setSelectedContentIndex: (state, action) => {
+      state.selected_content_index = action.payload
+    },
   },
   extraReducers(builder) {
     // list
@@ -120,5 +128,7 @@ export const {
   updateEvaluationRatingById,
   updateEvaluationRatingCommentById,
   setShowRatingCommentInput,
+  setEvaluationTemplateContents,
+  setSelectedContentIndex,
 } = evaluationTemplateContentsSlice.actions
 export default evaluationTemplateContentsSlice.reducer
