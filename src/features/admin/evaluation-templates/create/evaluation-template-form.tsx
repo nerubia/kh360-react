@@ -35,6 +35,9 @@ export const CreateEvaluationTemplateForm = () => {
 
   const { answers } = useAppSelector((state) => state.answer)
   const { loading, template_types } = useAppSelector((state) => state.evaluationTemplates)
+  const { evaluation_template_contents } = useAppSelector(
+    (state) => state.evaluationTemplateContents
+  )
   const { project_roles } = useAppSelector((state) => state.projectRoles)
   const { evaluation_template } = useAppSelector((state) => state.evaluationTemplate)
   const { id } = useParams()
@@ -51,6 +54,7 @@ export const CreateEvaluationTemplateForm = () => {
     with_recommendation: false,
     rate: "",
     is_active: 1,
+    evaluation_template_contents: [],
   })
   const [templateTypeOptions, setTemplateTypeOptions] = useState<Option[]>([])
   const [validationErrors, setValidationErrors] = useState<Partial<EvaluationTemplateFormData>>({})
@@ -82,6 +86,7 @@ export const CreateEvaluationTemplateForm = () => {
         answer_id: evaluation_template?.answer?.id.toString(),
         is_active: evaluation_template?.is_active,
         description: evaluation_template?.description ?? "",
+        evaluation_template_contents: evaluation_template?.evaluationTemplateContents ?? [],
       })
     }
   }, [evaluation_template])
@@ -185,6 +190,14 @@ export const CreateEvaluationTemplateForm = () => {
 
   const handleSubmit = async () => {
     try {
+      const assignedTemplateContents = evaluation_template_contents.map((content, index) => ({
+        ...content,
+        sequence_no: index + 1,
+      }))
+
+      Object.assign(formData, {
+        evaluation_template_contents: assignedTemplateContents,
+      })
       await createEvaluationTemplateSchema.validate(formData, {
         abortEarly: false,
       })
@@ -433,7 +446,14 @@ export const CreateEvaluationTemplateForm = () => {
           <Button variant='primaryOutline' onClick={toggleCancelDialog}>
             No
           </Button>
-          <LinkButton variant='primary' to={callback ?? "/admin/evaluation-templates"}>
+          <LinkButton
+            variant='primary'
+            to={
+              evaluation_template === null
+                ? `/admin/evaluation-templates`
+                : `/admin/evaluation-templates/${id}`
+            }
+          >
             Yes
           </LinkButton>
         </Dialog.Actions>

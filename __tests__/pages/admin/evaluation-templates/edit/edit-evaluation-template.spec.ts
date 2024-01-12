@@ -967,7 +967,7 @@ test.describe("Admin - Edit Evaluation Template", () => {
 
       await page.waitForLoadState("networkidle")
 
-      await expect(page).toHaveURL("/admin/evaluation-templates")
+      await expect(page).toHaveURL("/admin/evaluation-templates/1")
     })
   })
 })
