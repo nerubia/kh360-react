@@ -12,6 +12,7 @@ import { Pagination } from "../../../components/shared/pagination/pagination"
 import Dialog from "../../../components/ui/dialog/dialog"
 import { setAlert, setPreviousUrl } from "../../../redux/slices/app-slice"
 import { useFullPath } from "../../../hooks/use-full-path"
+import { Checkbox } from "../../../components/ui/checkbox/checkbox"
 
 export const EvaluationTemplatesTable = () => {
   const [searchParams] = useSearchParams()
@@ -25,6 +26,7 @@ export const EvaluationTemplatesTable = () => {
 
   const [showDialog, setShowDialog] = useState<boolean>(false)
   const [selectedEvaluationTemplateId, setSelectedEvaluationTemplateId] = useState<number>()
+  const [checkedItems, setCheckedItems] = useState<Record<number, boolean>>({})
 
   useEffect(() => {
     void appDispatch(
@@ -38,6 +40,17 @@ export const EvaluationTemplatesTable = () => {
       })
     )
   }, [searchParams])
+
+  useEffect(() => {
+    if (evaluation_templates !== undefined) {
+      evaluation_templates.map((content) => {
+        return setCheckedItems((prevItems) => ({
+          ...prevItems,
+          [content.id]: content.with_recommendation ?? false,
+        }))
+      })
+    }
+  }, [evaluation_templates])
 
   const toggleDialog = (id: number | null, e: React.MouseEvent) => {
     e.stopPropagation()
@@ -81,14 +94,14 @@ export const EvaluationTemplatesTable = () => {
       <table className='w-full table-fixed'>
         <thead className='text-left'>
           <tr>
-            <th className='pb-3'>Name</th>
-            <th className='pb-3'>Display Name</th>
-            <th className='pb-3'>Template Type</th>
-            <th className='pb-3'>With Recommendation</th>
-            <th className='pb-3'>Evaluator Role</th>
-            <th className='pb-3'>Evaluee Role</th>
-            <th className='pb-3'>Rate</th>
-            <th className='pb-3'>Actions</th>
+            <th className='pb-3 pr-2'>Name</th>
+            <th className='pb-3 px-2'>Display Name</th>
+            <th className='pb-3 px-2'>Template Type</th>
+            <th className='pb-3 px-2 text-center'>With Recommendation</th>
+            <th className='pb-3 px-2 text-center'>Evaluator Role</th>
+            <th className='pb-3 px-2 text-center'>Evaluee Role</th>
+            <th className='pb-3 px-2'>Rate</th>
+            <th className='pb-3 px-2'>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -98,16 +111,24 @@ export const EvaluationTemplatesTable = () => {
               className=' hover:bg-slate-100 cursor-pointer'
               onClick={() => handleViewEvaluationTemplate(evaluationTemplate.id)}
             >
-              <td className='py-1'>{evaluationTemplate.name}</td>
-              <td className='py-1'>{evaluationTemplate.display_name}</td>
-              <td className='py-1'>{evaluationTemplate.template_type}</td>
-              <td className='py-1'>
-                {evaluationTemplate.with_recommendation === true ? "True" : "False"}
+              <td className='py-1 pr-2'>{evaluationTemplate.name}</td>
+              <td className='py-1 px-2'>{evaluationTemplate.display_name}</td>
+              <td className='py-1 px-2'>{evaluationTemplate.template_type}</td>
+              <td className='py-1 px-2 text-center'>
+                <Checkbox
+                  checked={checkedItems[evaluationTemplate.id]}
+                  onChange={() => null}
+                  disabled={true}
+                />
               </td>
-              <td className='py-1'>{evaluationTemplate.evaluator_role_id}</td>
-              <td className='py-1'>{evaluationTemplate.evaluee_role_id}</td>
-              <td className='py-1'>{evaluationTemplate.rate}</td>
-              <td className='py-1 flex gap-2'>
+              <td className='py-1 px-2 text-center'>
+                {evaluationTemplate.evaluatorRole?.short_name}
+              </td>
+              <td className='py-1 px-2 text-center'>
+                {evaluationTemplate.evalueeRole?.short_name}
+              </td>
+              <td className='py-1 px-2'>{Number(evaluationTemplate.rate).toFixed(2)}%</td>
+              <td className='py-1 px-2 flex gap-2'>
                 <LinkButton
                   testId='EditButton'
                   variant='unstyled'
