@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import navigationalChallenge from "../../../assets/navigational-challenge.png"
 import needsGps from "../../../assets/needs-gps.png"
 import smoothSailing from "../../../assets/smooth-sailing.png"
@@ -46,7 +46,7 @@ export const ScoreRange = ({
   const appDispatch = useAppDispatch()
   const { score_ratings } = useAppSelector((state) => state.user)
   const displayScore = ((score ?? 0) - 0.25) * 10
-
+  const [onError, setOnError] = useState<boolean>(false)
   const scoreImages: Record<string, string> = {
     "Navigational Challenge": navigationalChallenge,
     "Needs a GPS": needsGps,
@@ -113,7 +113,7 @@ export const ScoreRange = ({
                   size={size}
                 />
               </div>
-              {user_picture === undefined || user_picture === null ? (
+              {user_picture === undefined || user_picture === null || onError ? (
                 <div
                   className={`w-10 h-10 flex justify-center items-center rounded-full absolute ${
                     size === "small" ? "-top-4" : "-top-3"
@@ -127,6 +127,7 @@ export const ScoreRange = ({
                   className={`w-10 h-10 rounded-full absolute -top-3`}
                   style={{ left: `${displayScore}%` }}
                   src={user_picture}
+                  onError={() => setOnError(true)}
                 />
               )}
             </div>
