@@ -27,6 +27,7 @@ export const icons = {
   Plus: lazy(async () => await import("./icons/plus-icon")),
   RefreshCw: lazy(async () => await import("./icons/refresh-cw-icon")),
   Star: lazy(async () => await import("./icons/star-icon")),
+  Info: lazy(async () => await import("./icons/info-icon")),
   Target: lazy(async () => await import("./icons/target-icon")),
   Trash: lazy(async () => await import("./icons/trash-icon")),
   UploadCloud: lazy(async () => await import("./icons/upload-cloud-icon")),

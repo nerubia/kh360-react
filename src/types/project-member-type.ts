@@ -1,5 +1,6 @@
 import { type Project } from "./project-type"
 import { type User } from "./user-type"
+import { type ProjectMemberSkill } from "./project-member-skill-type"
 
 export interface ProjectMember {
   id: number
@@ -12,6 +13,7 @@ export interface ProjectMember {
   user?: User
   role?: string
   color?: string
+  project_member_skills?: ProjectMemberSkill[]
 }
 
 export interface ProjectMemberFilters {
