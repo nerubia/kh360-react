@@ -24,9 +24,6 @@ export const ProjectAssignmentsList = () => {
   useEffect(() => {
     const projectMembersData: Task[] = []
     const uniqueTeamMembers = new Set()
-    const currentYear = new Date().getFullYear()
-    const startOfYear = new Date(currentYear, 0, 1)
-    const endOfYear = new Date(currentYear, 11, 31)
 
     if (project_members.length > 0) {
       const sortedProjectMembers = [...project_members]
@@ -43,14 +40,35 @@ export const ProjectAssignmentsList = () => {
         }
       })
 
+      const { earliestStartDate, latestEndDate } = sortedProjectMembers.reduce(
+        (acc, projectMember) => {
+          const startDate = new Date(projectMember.start_date ?? "")
+          const endDate = new Date(projectMember.end_date ?? "")
+
+          if (acc.earliestStartDate === null || startDate < (acc.earliestStartDate ?? new Date())) {
+            acc.earliestStartDate = startDate ?? new Date()
+          }
+
+          if (acc.latestEndDate === null || endDate > (acc.latestEndDate ?? new Date())) {
+            acc.latestEndDate = endDate
+          }
+
+          return acc
+        },
+        {
+          earliestStartDate: null as Date | null,
+          latestEndDate: null as Date | null,
+        }
+      )
+
       sortedProjectMembers.forEach((project) => {
         const teamMemberId = project.user?.id.toString()
 
         if (!uniqueTeamMembers.has(teamMemberId)) {
           uniqueTeamMembers.add(teamMemberId)
           projectMembersData.push({
-            start: startOfYear,
-            end: endOfYear,
+            start: earliestStartDate ?? new Date(),
+            end: latestEndDate ?? new Date(),
             name: project.user?.last_name + ", " + project.user?.first_name,
             id: "User " + teamMemberId ?? "",
             progress: 0,

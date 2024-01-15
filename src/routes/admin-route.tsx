@@ -61,6 +61,8 @@ const SelectExternalEvaluators = lazy(
 
 const Projects = lazy(async () => await import("../pages/admin/projects/projects"))
 
+const ViewProject = lazy(async () => await import("../pages/admin/projects/[id]/view-project"))
+
 const ProjectAssignments = lazy(
   async () => await import("../pages/admin/project-assignments/project-assignments")
 )
@@ -172,6 +174,10 @@ export const adminRoutes = {
     {
       path: "/admin/projects",
       element: <Projects />,
+    },
+    {
+      path: "/admin/projects/:id",
+      element: <ViewProject />,
     },
     /**
      * Project Assignments
