@@ -73,6 +73,16 @@ export interface EmailTemplateFormData {
   content?: string
 }
 
+export interface ProjectFormData {
+  name?: string
+  client_id?: string
+  start_date?: string
+  end_date?: string
+  description?: string
+  status?: string
+  skill_ids?: string[] | string
+}
+
 export interface ProjectMemberFormData {
   project_id?: string
   user_id?: string
