@@ -63,6 +63,14 @@ const Projects = lazy(async () => await import("../pages/admin/projects/projects
 
 const ViewProject = lazy(async () => await import("../pages/admin/projects/[id]/view-project"))
 
+const CreateProject = lazy(
+  async () => await import("../pages/admin/projects/create/create-project")
+)
+
+const SelectSkills = lazy(
+  async () => await import("../pages/admin/projects/create/select-skills/select-skills")
+)
+
 const ProjectAssignments = lazy(
   async () => await import("../pages/admin/project-assignments/project-assignments")
 )
@@ -178,6 +186,14 @@ export const adminRoutes = {
     {
       path: "/admin/projects/:id",
       element: <ViewProject />,
+    },
+    {
+      path: "/admin/projects/create",
+      element: <CreateProject />,
+    },
+    {
+      path: "/admin/projects/create/select-skills",
+      element: <SelectSkills />,
     },
     /**
      * Project Assignments

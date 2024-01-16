@@ -3,6 +3,7 @@ import appReducer from "./slices/app-slice"
 import authReducer from "./slices/auth-slice"
 
 import answerReducer from "./slices/answer-slice"
+import clientsReducer from "./slices/clients-slice"
 import emailTemplateReducer from "./slices/email-template-slice"
 import evaluationAdministrationReducer from "./slices/evaluation-administration-slice"
 import evaluationAdministrationsReducer from "./slices/evaluation-administrations-slice"
@@ -20,6 +21,8 @@ import projectRolesReducer from "./slices/project-roles-slice"
 import projectReducer from "./slices/project-slice"
 import projectsReducer from "./slices/projects-slice"
 import scoreRatingsReducer from "./slices/score-ratings-slice"
+import skillsReducer from "./slices/skills-slice"
+import skillCategoriesReducer from "./slices/skill-category-slice"
 import usersReducer from "./slices/users-slice"
 import userReducer from "./slices/user-slice"
 
@@ -28,6 +31,7 @@ export const store = configureStore({
     app: appReducer,
     answer: answerReducer,
     auth: authReducer,
+    clients: clientsReducer,
     emailTemplate: emailTemplateReducer,
     evaluationAdministration: evaluationAdministrationReducer,
     evaluationAdministrations: evaluationAdministrationsReducer,
@@ -45,6 +49,8 @@ export const store = configureStore({
     project: projectReducer,
     projects: projectsReducer,
     scoreRatings: scoreRatingsReducer,
+    skills: skillsReducer,
+    skillCategories: skillCategoriesReducer,
     users: usersReducer,
     user: userReducer,
   },

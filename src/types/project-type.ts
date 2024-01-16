@@ -21,3 +21,11 @@ export interface ProjectFilters {
   status?: string
   page?: string
 }
+
+export enum ProjectStatus {
+  Draft = "Draft",
+  Ongoing = "Ongoing",
+  Closed = "Closed",
+  Hold = "Hold",
+  Cancelled = "Cancelled",
+}
