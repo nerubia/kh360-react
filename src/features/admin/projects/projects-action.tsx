@@ -1,13 +1,17 @@
 import { useNavigate } from "react-router-dom"
 import { useAppSelector } from "../../../hooks/useAppSelector"
 import { Button } from "../../../components/ui/button/button"
+import { setProject } from "../../../redux/slices/project-slice"
+import { useAppDispatch } from "../../../hooks/useAppDispatch"
 
 export const ProjectsAction = () => {
   const navigate = useNavigate()
+  const appDispatch = useAppDispatch()
   const { totalItems } = useAppSelector((state) => state.projects)
 
   const handleAdd = () => {
     navigate("/admin/projects/create")
+    appDispatch(setProject(null))
   }
 
   return (

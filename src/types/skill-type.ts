@@ -6,3 +6,9 @@ export interface Skill {
   skill_categories: SkillCategory
   sequence_no: number
 }
+
+export interface SkillFilters {
+  name?: string
+  skill_category_id?: string
+  page?: string
+}
