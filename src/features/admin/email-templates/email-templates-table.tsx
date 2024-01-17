@@ -67,10 +67,10 @@ export const EmailTemplatesTable = () => {
       <table className='w-full table-fixed'>
         <thead className='text-left'>
           <tr>
-            <th className='pb-3'>Name</th>
-            <th className='pb-3'>Template Type</th>
-            <th className='pb-3'>Default</th>
-            <th className='pb-3'>Subject</th>
+            <th className='pb-3 w-1/3'>Name</th>
+            <th className='pb-3 w-1/5'>Template Type</th>
+            <th className='pb-3 w-1/8'>Default</th>
+            <th className='pb-3 w-1/3'>Subject</th>
             <th className='pb-3'>Actions</th>
           </tr>
         </thead>
