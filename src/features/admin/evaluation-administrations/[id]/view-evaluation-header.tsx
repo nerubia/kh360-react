@@ -199,7 +199,7 @@ export const ViewEvaluationHeader = () => {
               <Dropdown>
                 <Dropdown.Trigger>
                   <Button size={isMobile ? "small" : "medium"}>
-                    More actions
+                    <div className='whitespace-nowrap'>More actions</div>
                     <Icon icon='ChevronDown' size={isMobile ? "small" : "medium"} />
                   </Button>
                 </Dropdown.Trigger>
