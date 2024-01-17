@@ -63,16 +63,18 @@ export const SelectEvalueesTable = () => {
     <>
       <div className='flex-1 flex flex-col gap-8 overflow-y-scroll'>
         <div className='flex flex-col gap-8'>
-          <table className='w-full'>
+          <table className='w-full md:table-fixed'>
             <thead className='text-left'>
               <tr>
-                <th>
-                  <Checkbox
-                    checked={users.every((user) => selectedEmployeeIds.includes(user.id))}
-                    onChange={(checked) => handleSelectAll(checked)}
-                  />
+                <th className='flex'>
+                  <div className='p-1 flex items-center justify-center gap-1'>
+                    <Checkbox
+                      checked={users.every((user) => selectedEmployeeIds.includes(user.id))}
+                      onChange={(checked) => handleSelectAll(checked)}
+                    />
+                    Name
+                  </div>
                 </th>
-                <th>Name</th>
                 <th>Date Started</th>
                 <th>Position</th>
                 <th>Employee Type</th>
@@ -82,15 +84,13 @@ export const SelectEvalueesTable = () => {
               {users.map((user) => (
                 <tr key={user.id}>
                   <td>
-                    <div className='w-fit'>
+                    <div className='p-1 flex items-center justify-start gap-1'>
                       <Checkbox
                         checked={selectedEmployeeIds.includes(user.id)}
                         onChange={(checked) => handleClickCheckbox(checked, user.id)}
                       />
+                      {user.last_name}, {user.first_name}
                     </div>
-                  </td>
-                  <td>
-                    {user.last_name}, {user.first_name}
                   </td>
                   <td>
                     {user.user_details?.start_date !== null
