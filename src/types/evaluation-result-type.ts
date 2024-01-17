@@ -3,6 +3,7 @@ import { type EvaluationTemplate } from "./evaluation-template-type"
 import { type EvaluationResultDetail } from "./evaluation-result-detail-type"
 import { type EvaluationAdministration } from "./evaluation-administration-type"
 import { type ScoreRating } from "./score-rating-type"
+import { type OtherComment } from "./comment-type"
 
 export interface EvaluationResult {
   id: number
@@ -18,6 +19,7 @@ export interface EvaluationResult {
   zscore: number
   banding: string
   comments: string[]
+  other_comments: OtherComment[]
   recommendations: string[]
   evaluation_administration?: EvaluationAdministration
   score_rating?: ScoreRating

@@ -376,7 +376,7 @@ export const EvaluationProgressList = () => {
                 <table className='md:w-3/4 ml-14 mb-5 table-fixed '>
                   <thead className='bg-white text-left'>
                     <tr>
-                      <th className='pb-3 pr-5 md:w-[150px]'>Evaluee</th>
+                      <th className='pb-3 md:w-[150px]'>Evaluee</th>
                       <th className='pb-3 md:w-[150px]'>Template</th>
                       <th className='pb-3 md:w-[150px]'>Project</th>
                       <th className='pb-3 md:w-[150px]'>Role</th>
