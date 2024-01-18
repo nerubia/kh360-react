@@ -80,7 +80,7 @@ export interface ProjectFormData {
   end_date?: string
   description?: string
   status?: string
-  skill_ids?: string[] | string
+  skill_ids?: number[] | string
 }
 
 export interface ProjectMemberFormData {

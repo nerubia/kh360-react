@@ -1,5 +1,5 @@
-import { useRef, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useRef } from "react"
+import { useNavigate, useLocation } from "react-router-dom"
 import { useAppSelector } from "../../../../hooks/useAppSelector"
 import { Button } from "../../../../components/ui/button/button"
 import { Icon } from "../../../../components/ui/icon/icon"
@@ -9,19 +9,19 @@ import { useAppDispatch } from "../../../../hooks/useAppDispatch"
 export const CreateProjectTable = () => {
   const navigate = useNavigate()
   const appDispatch = useAppDispatch()
+  const location = useLocation()
   const { selectedSkills } = useAppSelector((state) => state.skills)
-  const [selectedSkillIndex, setSelectedSkillIndex] = useState<number>(0)
   const dragContent = useRef<number>(0)
   const draggedOverContent = useRef<number>(0)
 
-  const handleDelete = () => {
-    const updatedSkills = selectedSkills.filter((_, index) => index !== selectedSkillIndex)
+  const handleDelete = (id: number) => {
+    const updatedSkills = selectedSkills.filter((skill) => skill.id !== id)
     void appDispatch(setSelectedSkills(updatedSkills))
     void appDispatch(setCheckedSkills(updatedSkills))
   }
 
   const handleAddSkill = () => {
-    navigate("/admin/projects/create/select-skills")
+    navigate(`/admin/projects/create/select-skills?callback=${location.pathname}`)
   }
 
   const handleSort = () => {
@@ -75,8 +75,7 @@ export const CreateProjectTable = () => {
                       testId={`DeleteButton${skill.id}`}
                       variant='unstyled'
                       onClick={() => {
-                        setSelectedSkillIndex(index)
-                        handleDelete()
+                        handleDelete(skill.id)
                       }}
                     >
                       <Icon icon='Trash' />
