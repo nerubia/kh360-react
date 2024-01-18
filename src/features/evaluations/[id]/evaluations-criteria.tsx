@@ -117,7 +117,7 @@ export const EvaluationsCriteria = () => {
             )
           }
           if (result.type === "evaluationTemplate/getEvaluationTemplateContents/rejected") {
-            navigate(`evaluation-administrations/`)
+            navigate(`/evaluation-administrations`)
           }
         } catch (error) {}
       }
