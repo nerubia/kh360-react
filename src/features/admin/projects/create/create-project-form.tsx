@@ -16,7 +16,12 @@ import { setAlert } from "../../../../redux/slices/app-slice"
 import { createProjectSchema } from "../../../../utils/validation/project-schema"
 import { ProjectStatus } from "../../../../types/project-type"
 import { CreateProjectTable } from "../../../../features/admin/projects/create/create-project-table"
-import { setProjectFormData, createProject } from "../../../../redux/slices/project-slice"
+import {
+  setProjectFormData,
+  createProject,
+  getProject,
+  updateProject,
+} from "../../../../redux/slices/project-slice"
 import { setSelectedSkills, setCheckedSkills } from "../../../../redux/slices/skills-slice"
 
 export const CreateProjectForm = () => {
@@ -40,24 +45,11 @@ export const CreateProjectForm = () => {
   }))
 
   useEffect(() => {
+    if (id !== undefined) {
+      void appDispatch(getProject(parseInt(id)))
+    }
     void appDispatch(getActiveClients())
   }, [])
-
-  useEffect(() => {
-    if (id !== undefined && project !== null) {
-      void appDispatch(
-        setProjectFormData({
-          name: project.name,
-          client_id: project.client?.id.toString(),
-          start_date: project.start_date,
-          end_date: project.end_date,
-          description: project.description,
-          status: project.status,
-          skill_ids: [],
-        })
-      )
-    }
-  }, [project])
 
   useEffect(() => {
     const options: Option[] = clients.map((client) => ({
@@ -67,22 +59,50 @@ export const CreateProjectForm = () => {
     setClientOptions(options)
   }, [clients])
 
+  useEffect(() => {
+    if (id !== undefined && project !== null) {
+      void appDispatch(
+        setProjectFormData({
+          name: project.name,
+          client_id: project.client?.id.toString(),
+          start_date: project.start_date?.split("T")[0],
+          end_date: project.end_date?.split("T")[0],
+          description: project.description,
+          status: project.status,
+          skill_ids: [],
+        })
+      )
+      if (selectedSkills.length === 0) {
+        const skillsCopy = [...(project.project_skills ?? [])]
+        const sortedSkills = skillsCopy?.sort((a, b) => {
+          return (a.sequence_no ?? 0) - (b.sequence_no ?? 0)
+        })
+        void appDispatch(setSelectedSkills(sortedSkills))
+        void appDispatch(setCheckedSkills(sortedSkills))
+      }
+    }
+  }, [project])
+
   const onChangeClient = async (option: SingleValue<Option>) => {
+    setValidationErrors({})
     const client: string = option !== null ? option.value : ""
     void appDispatch(setProjectFormData({ ...projectFormData, client_id: client }))
   }
 
   const onChangeStatus = async (option: SingleValue<Option>) => {
+    setValidationErrors({})
     const status: string = option !== null ? option.value : ""
     void appDispatch(setProjectFormData({ ...projectFormData, status }))
   }
 
   const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValidationErrors({})
     const { name, value } = e.target
     void appDispatch(setProjectFormData({ ...projectFormData, [name]: value }))
   }
 
   const handleTextAreaChange = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setValidationErrors({})
     const { name, value } = e.target
     void appDispatch(setProjectFormData({ ...projectFormData, [name]: value }))
   }
@@ -145,10 +165,74 @@ export const CreateProjectForm = () => {
     }
   }
 
-  const handleUpdate = async () => {}
+  const handleUpdate = async () => {
+    if (id !== undefined) {
+      try {
+        const skill_ids = selectedSkills.map((skill) => skill.id)
+        const updatedFormData = appDispatch(setProjectFormData({ ...projectFormData, skill_ids }))
+        await createProjectSchema.validate(updatedFormData.payload, {
+          abortEarly: false,
+        })
+        const result = await appDispatch(
+          updateProject({
+            id: parseInt(id),
+            project: updatedFormData.payload,
+          })
+        )
+        if (result.type === "project/updateProject/rejected") {
+          appDispatch(
+            setAlert({
+              description: result.payload,
+              variant: "destructive",
+            })
+          )
+        }
+        if (result.type === "project/updateProject/fulfilled") {
+          navigate(callback ?? `/admin/projects/${result.payload.id}`)
+          appDispatch(
+            setAlert({
+              description: "Successfully updated project",
+              variant: "success",
+            })
+          )
+          void appDispatch(
+            setProjectFormData({
+              name: "",
+              client_id: "",
+              start_date: "",
+              end_date: "",
+              description: "",
+              status: "",
+              skill_ids: [],
+            })
+          )
+          void appDispatch(setSelectedSkills([]))
+          void appDispatch(setCheckedSkills([]))
+        }
+      } catch (error) {
+        if (error instanceof ValidationError) {
+          const errors: Partial<ProjectFormData> = {}
+          error.inner.forEach((err) => {
+            errors[err.path as keyof ProjectFormData] = err.message
+          })
+          setValidationErrors(errors)
+        }
+      }
+    }
+  }
 
   const handleCancel = () => {
-    void appDispatch(setProjectFormData({}))
+    void appDispatch(
+      setProjectFormData({
+        name: "",
+        client_id: "",
+        start_date: "",
+        end_date: "",
+        description: "",
+        status: "",
+        skill_ids: [],
+      })
+    )
     void appDispatch(setSelectedSkills([]))
     void appDispatch(setCheckedSkills([]))
   }
