@@ -229,5 +229,5 @@ export const adminRoutes = {
 
 export default function AdminRoute() {
   const isAdmin = useAdmin()
-  return isAdmin ? <Outlet /> : <Navigate to='/dashboard' />
+  return isAdmin ? <Outlet /> : <Navigate to='/my-evaluations' />
 }

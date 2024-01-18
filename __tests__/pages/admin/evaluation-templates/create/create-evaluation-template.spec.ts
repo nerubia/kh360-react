@@ -32,7 +32,44 @@ test.describe("Admin - Create Evaluation Template", () => {
 
       await page.goto("/admin/evaluation-templates/create")
 
-      await expect(page).toHaveURL("/dashboard")
+      await mockRequest(page, "/user/my-evaluations", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 0,
+          },
+        }),
+      })
+
+      await mockRequest(
+        page,
+        "/user/email-templates?template_type=No+Available+Evaluation+Results",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            id: 11,
+            name: "No Available Evaluation Results",
+            template_type: "No Available Evaluation Results",
+            is_default: true,
+            subject: "",
+            content:
+              "Uh-oh! 🤷‍♂️\n\nLooks like our magical elves are still working their charm behind the scenes, and your results haven't arrived just yet. Don't worry, though – good things come to those who wait!\n\nIn the meantime, why not grab a cup of coffee or practice your superhero pose? 🦸‍♀️ We'll have those results ready for you in no time.\n\nStay tuned and keep the positive vibes flowing! ✨",
+            created_by_id: null,
+            updated_by_id: null,
+            created_at: null,
+            updated_at: null,
+          }),
+        }
+      )
+
+      await page.waitForLoadState("networkidle")
+
+      await expect(page).toHaveURL("/my-evaluations")
     })
   })
 
