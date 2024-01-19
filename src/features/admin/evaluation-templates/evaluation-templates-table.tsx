@@ -12,7 +12,7 @@ import { Pagination } from "../../../components/shared/pagination/pagination"
 import Dialog from "../../../components/ui/dialog/dialog"
 import { setAlert, setPreviousUrl } from "../../../redux/slices/app-slice"
 import { useFullPath } from "../../../hooks/use-full-path"
-import { Checkbox } from "../../../components/ui/checkbox/checkbox"
+import { Badge } from "../../../components/ui/badge/badge"
 
 export const EvaluationTemplatesTable = () => {
   const [searchParams] = useSearchParams()
@@ -115,11 +115,14 @@ export const EvaluationTemplatesTable = () => {
               <td className='py-1 px-2'>{evaluationTemplate.display_name}</td>
               <td className='py-1 px-2'>{evaluationTemplate.template_type}</td>
               <td className='py-1 px-2 text-center'>
-                <Checkbox
-                  checked={checkedItems[evaluationTemplate.id]}
-                  onChange={() => null}
-                  disabled={true}
-                />
+                <div className='flex items-center justify-center gap-4'>
+                  <Badge
+                    variant={`${checkedItems[evaluationTemplate.id] ? "green" : "red"}`}
+                    size='small'
+                  >
+                    {checkedItems[evaluationTemplate.id] ? "YES" : "NO"}
+                  </Badge>
+                </div>
               </td>
               <td className='py-1 px-2 text-center'>
                 {evaluationTemplate.evaluatorRole?.short_name}
