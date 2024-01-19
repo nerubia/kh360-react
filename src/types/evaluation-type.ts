@@ -20,6 +20,7 @@ export interface Evaluation {
   template?: EvaluationTemplate
   external_evaluator_id: number
   zscore?: number
+  checked?: boolean
 }
 
 export interface EvaluationFilters {

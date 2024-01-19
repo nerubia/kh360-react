@@ -41,6 +41,10 @@ export const EvaluatorsList = () => {
 
   const [showDialog, setShowDialog] = useState<boolean>(false)
   const [selectedEvaluationId, setSelectedEvaluationId] = useState<number>()
+  const [checkedItems, setCheckedItems] = useState<number[]>([])
+  const [checkedItemsFromLocalStorage, setCheckedItemsFromLocalStorage] = useState<number[]>([])
+  const [checkedItemsExternal, setCheckedItemsExternal] = useState<number[]>([])
+  const [checker, setChecker] = useState<number[]>([])
 
   useEffect(() => {
     if (evaluation_template_id !== "all") {
@@ -62,6 +66,35 @@ export const EvaluatorsList = () => {
   }, [evaluation_template_id])
 
   useEffect(() => {
+    if (evaluation_template_id !== "all") {
+      void appDispatch(
+        getEvaluations({
+          evaluation_result_id,
+          evaluation_template_id,
+        })
+      )
+      void appDispatch(setSelectedExternalUserIds([]))
+      void appDispatch(
+        getProjectMembers({
+          evaluation_administration_id: id,
+          evaluation_result_id,
+          evaluation_template_id,
+        })
+      )
+    }
+  }, [evaluation_template_id])
+
+  useEffect(() => {
+    const storedExternalCheckedItems = localStorage.getItem("externalItems")
+    if (storedExternalCheckedItems !== null) {
+      try {
+        const parsedExternalCheckedItems = JSON.parse(storedExternalCheckedItems)
+        setChecker(parsedExternalCheckedItems)
+      } catch (error) {}
+    }
+  }, [evaluation_template_id])
+
+  useEffect(() => {
     const newEvaluations = [...evaluations]
     const sorted = newEvaluations.sort((a: Evaluation, b: Evaluation) => {
       const projectComparison = (a.project?.name ?? "").localeCompare(b.project?.name ?? "")
@@ -76,10 +109,12 @@ export const EvaluatorsList = () => {
       }
       return (a.evaluator?.first_name ?? "").localeCompare(b.evaluator?.first_name ?? "")
     })
+
     setSortedEvaluations(
       sorted.filter((evaluation) => evaluation.is_external === undefined || !evaluation.is_external)
     )
     setSortedExternalEvaluations(sorted.filter((evaluation) => evaluation.is_external === true))
+
     if (evaluation_template_id !== undefined) {
       const template = evaluation_templates.find(
         (template) => parseInt(evaluation_template_id) === template.id
@@ -99,9 +134,45 @@ export const EvaluatorsList = () => {
         }
       }
     }
+  }, [evaluations, evaluation_template_id])
+
+  useEffect(() => {
+    setCheckedItemsExternal(checker)
+  }, [checker])
+
+  useEffect(() => {
+    const externalId = sortedExternalEvaluations.map((evaluation) => evaluation.id)
+    localStorage.setItem("checkedItems", JSON.stringify(checkedItems))
+    localStorage.setItem("externalItems", JSON.stringify(externalId))
+  }, [checkedItems, checkedItemsExternal])
+
+  useEffect(() => {
+    const storedCheckedItems = localStorage.getItem("checkedItems")
+    const storedExternalCheckedItems = localStorage.getItem("externalItems")
+
+    if (storedCheckedItems !== null) {
+      const parsedCheckedItems = JSON.parse(storedCheckedItems)
+      const validCheckedItems = parsedCheckedItems.filter((id: number) =>
+        evaluations.some((evaluation) => evaluation.id === id)
+      )
+      setCheckedItemsFromLocalStorage(validCheckedItems)
+    }
+
+    if (storedExternalCheckedItems !== null) {
+      const parsedExternalCheckedItems = JSON.parse(storedExternalCheckedItems)
+      const validExternalCheckedItems = parsedExternalCheckedItems.filter((id: number) =>
+        evaluations.some((evaluation) => evaluation.id === id && evaluation.is_external === true)
+      )
+      setCheckedItemsExternal(validExternalCheckedItems)
+    }
   }, [evaluations])
 
   const handleSelectAll = (checked: boolean, external: boolean) => {
+    if (checked) {
+      setCheckedItems((prev) => [...prev, ...sortedEvaluations.map((evaluation) => evaluation.id)])
+    } else {
+      setCheckedItems([])
+    }
     void appDispatch(
       setForEvaluations({
         evaluation_ids: external
@@ -114,6 +185,11 @@ export const EvaluatorsList = () => {
 
   const handleClickCheckbox = (evaluationId: number, checked: boolean) => {
     if (evaluationId !== undefined) {
+      if (checked) {
+        setCheckedItems((prev) => [...prev, evaluationId])
+      } else {
+        setCheckedItems((prev) => prev.filter((id) => id !== evaluationId))
+      }
       void appDispatch(
         setForEvaluations({
           evaluation_ids: [evaluationId],
@@ -205,6 +281,10 @@ export const EvaluatorsList = () => {
               variant: "success",
             })
           )
+          const updatedCheckedItemsExternal = checkedItemsExternal.filter(
+            (id) => id !== selectedEvaluationId
+          )
+          setCheckedItemsExternal(updatedCheckedItemsExternal)
         }
       } catch (error) {}
     }
@@ -318,13 +398,13 @@ export const EvaluatorsList = () => {
                             (projectMember, index) => (
                               <React.Fragment key={index}>
                                 <Dropdown.Item
-                                  onClick={() =>
+                                  onClick={() => {
                                     setProject(
                                       evaluation.id,
                                       projectMember.project?.id,
                                       projectMember.id
                                     )
-                                  }
+                                  }}
                                 >
                                   <div className='flex-flex-col'>
                                     <p className='text-sm font-bold text-start'>
@@ -402,6 +482,9 @@ export const EvaluatorsList = () => {
           <Button
             onClick={async () => await handleUpdateStatus(EvaluationResultStatus.Ready)}
             loading={loading === Loading.Pending}
+            disabled={
+              checkedItemsFromLocalStorage.length === 0 && checkedItemsExternal.length === 0
+            }
           >
             Mark as Ready
           </Button>

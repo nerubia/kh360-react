@@ -622,7 +622,8 @@ test.describe("Admin - Select Evaluators", () => {
         body: JSON.stringify({ id: "1", status: "Ready" }),
       })
 
-      await page.getByRole("button", { name: "Mark as Ready" }).click()
+      await page.getByRole("button", { name: "Mark as Ready" }).isVisible()
+      await page.getByRole("button", { name: "Mark as Ready" }).isDisabled()
 
       await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
         status: 200,
@@ -645,7 +646,7 @@ test.describe("Admin - Select Evaluators", () => {
         }),
       })
 
-      await expect(page).toHaveURL("/admin/evaluation-administrations/1/evaluees")
+      await expect(page).toHaveURL("/admin/evaluation-administrations/1/evaluees/1/evaluators/4")
     })
   })
 })
