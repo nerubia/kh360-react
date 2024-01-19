@@ -79,12 +79,12 @@ export const CreateEvaluationTemplateForm = () => {
         display_name: evaluation_template?.display_name,
         template_type: evaluation_template?.template_type,
         template_class: evaluation_template?.template_class,
-        with_recommendation: evaluation_template?.with_recommendation,
+        with_recommendation: +(evaluation_template?.with_recommendation ?? 0),
         evaluator_role_id: evaluation_template?.evaluatorRole?.id.toString(),
         evaluee_role_id: evaluation_template?.evalueeRole?.id.toString(),
         rate: evaluation_template?.rate,
         answer_id: evaluation_template?.answer?.id.toString(),
-        is_active: evaluation_template?.is_active,
+        is_active: +evaluation_template?.is_active,
         description: evaluation_template?.description ?? "",
         evaluation_template_contents: evaluation_template?.evaluationTemplateContents ?? [],
       })
@@ -336,20 +336,6 @@ export const CreateEvaluationTemplateForm = () => {
             />
           </div>
           <div className='flex-1'>
-            <h2 className='font-medium'>With Recommendation</h2>
-            <div className='m-2.5'>
-              <Checkbox
-                checked={formData.with_recommendation as boolean}
-                onChange={async (checked) => {
-                  const valueToSet = checked ? 1 : 0
-                  await onChangeWithRecommendation(valueToSet)
-                }}
-              />
-            </div>
-          </div>
-        </div>
-        <div className='flex flex-wrap gap-4'>
-          <div className='flex-1'>
             <CustomSelect
               data-test-id='SelectEvaluatorRole'
               label='Evaluator Role'
@@ -405,6 +391,33 @@ export const CreateEvaluationTemplateForm = () => {
               error={validationErrors.answer_id}
             />
           </div>
+          <div className='flex flex-1 items-end gap-5'>
+            <div className='flex items-center'>
+              <div className='my-2.5 mr-2.5'>
+                <Checkbox
+                  checked={formData.with_recommendation as boolean}
+                  onChange={async (checked) => {
+                    const valueToSet = checked ? 1 : 0
+                    await onChangeWithRecommendation(valueToSet)
+                  }}
+                />
+              </div>
+              <h2 className='font-medium'>With Recommendation</h2>
+            </div>
+            <div className='flex flex-1 items-center'>
+              <div className='my-2.5 mr-2.5'>
+                <Checkbox
+                  checked={formData.with_recommendation as boolean}
+                  onChange={async (checked) => {
+                    const valueToSet = checked ? 1 : 0
+                    await onChangeWithRecommendation(valueToSet)
+                  }}
+                />
+              </div>
+              <h2 className='font-medium'>Is Active</h2>
+            </div>
+          </div>
+          <div className='flex flex-1'></div>
         </div>
       </div>
       {evaluation_template === null && <EvaluationTemplateContentsTable />}
@@ -451,7 +464,7 @@ export const CreateEvaluationTemplateForm = () => {
             to={
               evaluation_template === null
                 ? `/admin/evaluation-templates`
-                : `/admin/evaluation-templates/${id}`
+                : callback ?? `/admin/evaluation-templates/${id}`
             }
           >
             Yes

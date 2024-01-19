@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useSearchParams, useNavigate } from "react-router-dom"
+import { useSearchParams, useNavigate, useLocation } from "react-router-dom"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import {
   deleteEvaluationTemplate,
@@ -16,6 +16,7 @@ import { Badge } from "../../../components/ui/badge/badge"
 
 export const EvaluationTemplatesTable = () => {
   const [searchParams] = useSearchParams()
+  const location = useLocation()
 
   const appDispatch = useAppDispatch()
   const fullPath = useFullPath()
@@ -135,7 +136,7 @@ export const EvaluationTemplatesTable = () => {
                 <LinkButton
                   testId='EditButton'
                   variant='unstyled'
-                  to={`/admin/evaluation-templates/${evaluationTemplate.id}/edit`}
+                  to={`/admin/evaluation-templates/${evaluationTemplate.id}/edit?callback=${location.pathname}`}
                   onClick={(e) => e.stopPropagation()}
                 >
                   <Icon icon='PenSquare' />
