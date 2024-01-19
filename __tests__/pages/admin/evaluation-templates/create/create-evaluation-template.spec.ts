@@ -19,7 +19,7 @@ test.describe("Admin - Create Evaluation Template", () => {
   })
 
   test.describe("as Guest", () => {
-    test("should not allow to view the admin create email template", async ({ page }) => {
+    test("should not allow to view the admin create evaluation template", async ({ page }) => {
       await page.goto("/admin/evaluation-templates/create")
 
       await expect(page).toHaveURL("/auth/login?callback=/admin/evaluation-templates/create")
@@ -27,7 +27,7 @@ test.describe("Admin - Create Evaluation Template", () => {
   })
 
   test.describe("as Employee", () => {
-    test("should not allow to view the admin create email template", async ({ page }) => {
+    test("should not allow to view the admin create evaluation template", async ({ page }) => {
       await loginUser("employee", page)
 
       await page.goto("/admin/evaluation-templates/create")
@@ -314,7 +314,7 @@ test.describe("Admin - Create Evaluation Template", () => {
       await expect(page.getByText("Answer is required")).toBeVisible()
     })
 
-    test("should create email template succesfully", async ({ page, isMobile }) => {
+    test("should create evaluation template succesfully", async ({ page, isMobile }) => {
       await loginUser("admin", page)
 
       await page.goto("/admin/evaluation-templates/create")
@@ -450,7 +450,16 @@ test.describe("Admin - Create Evaluation Template", () => {
       await page.getByPlaceholder("Display Name").fill("BOD Evaluation")
       await page.getByLabel("Template Type").click()
       await page.getByText("Project Evaluation", { exact: true }).click()
-      await page.getByRole("checkbox").setChecked(true)
+      await page
+        .locator("div")
+        .filter({ hasText: /^With Recommendation$/ })
+        .getByRole("checkbox")
+        .setChecked(true)
+      await page
+        .locator("div")
+        .filter({ hasText: /^Is Active$/ })
+        .getByRole("checkbox")
+        .setChecked(true)
       await page.getByLabel("Evaluator Role").click()
       await page.getByText("BOD", { exact: true }).click()
       await page.getByLabel("Evaluee Role").click()

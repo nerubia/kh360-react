@@ -225,7 +225,18 @@ test.describe("Admin - Edit Evaluation Template", () => {
           .filter({ hasText: /^5 Point Scale$/ })
           .nth(2)
       ).toBeVisible()
-      await expect(page.getByRole("checkbox")).toBeChecked()
+      await expect(
+        page
+          .locator("div")
+          .filter({ hasText: /^With Recommendation$/ })
+          .getByRole("checkbox")
+      ).toBeChecked()
+      await expect(
+        page
+          .locator("div")
+          .filter({ hasText: /^Is Active$/ })
+          .getByRole("checkbox")
+      ).toBeChecked()
 
       await expect(page.getByRole("button", { name: "Cancel" })).toBeVisible()
       await expect(page.getByRole("button", { name: "Save" })).toBeVisible()
