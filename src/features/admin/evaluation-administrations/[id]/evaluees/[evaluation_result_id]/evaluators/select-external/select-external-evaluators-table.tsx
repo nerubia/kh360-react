@@ -107,16 +107,16 @@ export const SelectExternalEvaluatorsTable = () => {
           <table className='w-full'>
             <thead className='text-left'>
               <tr>
-                <th>
+                <th className='pb-3 pr-4 w-1/4 gap-2'>
                   <Checkbox
                     checked={filteredExternalUsers.every((user) =>
                       selectedExternalUserIds.includes(user.id)
                     )}
                     onChange={(checked) => handleSelectAll(checked)}
                   />
+                  <span className='ml-1'> Name</span>
                 </th>
-                <th className='pb-3 pr-4 w-1/4'>Name</th>
-                <th className='pb-3 px-4 w-1/3'>Email Address</th>
+                <th className='pb-3 w-1/3'>Email Address</th>
                 <th className='pb-3 px-4'>Company</th>
                 <th className='pb-3 px-4'>Role</th>
               </tr>
@@ -124,20 +124,39 @@ export const SelectExternalEvaluatorsTable = () => {
             <tbody>
               {filteredExternalUsers.map((user) => (
                 <tr key={user.id}>
-                  <td>
-                    <div className='w-fit'>
-                      <Checkbox
-                        checked={selectedExternalUserIds.includes(user.id)}
-                        onChange={(checked) => handleClickCheckbox(checked, user.id)}
-                      />
-                    </div>
+                  <td className='py-1 pr-4 whitespace-pre-line break-all flex items-center w-full'>
+                    <Checkbox
+                      checked={selectedExternalUserIds.includes(user.id)}
+                      onChange={(checked) => handleClickCheckbox(checked, user.id)}
+                    />
+                    <span
+                      className={`ml-2 gap-2 ${
+                        (user.last_name ?? "").length +
+                          (user.first_name ?? "").length +
+                          (user.middle_name ?? "").length >
+                        25
+                          ? "line-clamp-1"
+                          : ""
+                      }`}
+                    >
+                      {user.last_name}, {user.first_name} {user.middle_name}
+                    </span>
                   </td>
-                  <td className='py-1 pr-4 whitespace-pre-line break-all w-1/4'>
-                    {user.last_name}, {user.first_name} {user.middle_name}
+                  <td className={`py-1 whitespace-pre-line break-all 2-1/3`}>
+                    <span className={` ${(user.email ?? "").length > 20 ? "line-clamp-1" : ""}`}>
+                      {user.email}
+                    </span>
                   </td>
-                  <td className='py-1 prx-4 whitespace-pre-line break-all 2-1/3'>{user.email}</td>
-                  <td className='py-1 px-4 whitespace-pre-line break-all'>{user.company}</td>
-                  <td className='py-1 px-4 whitespace-pre-line break-all'>{user.role}</td>
+                  <td className='py-1 px-4 whitespace-pre-line break-all'>
+                    <span className={`${(user.company ?? "").length > 20 ? "line-clamp-1" : ""}`}>
+                      {user.company}
+                    </span>
+                  </td>
+                  <td className='py-1 px-4 whitespace-pre-line break-all'>
+                    <span className={`${(user.role ?? "").length > 20 ? "line-clamp-1" : ""}`}>
+                      {user.role}
+                    </span>
+                  </td>
                 </tr>
               ))}
             </tbody>

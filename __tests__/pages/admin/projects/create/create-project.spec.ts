@@ -32,7 +32,7 @@ test.describe("Admin - Create Project", () => {
 
       await page.goto("/admin/message-templates/create")
 
-      await expect(page).toHaveURL("/dashboard")
+      await expect(page).toHaveURL("/my-evaluations")
     })
   })
 
