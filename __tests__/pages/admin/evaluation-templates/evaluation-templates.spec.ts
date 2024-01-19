@@ -197,7 +197,7 @@ test.describe("Admin - Evaluation Templates", () => {
 
       await expect(page.getByRole("cell", { name: "PM Evaluation by BOD" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "BOD Evaluation" })).toBeVisible()
-      await expect(page.getByRole("checkbox")).toBeChecked()
+      await expect(page.getByText("YES")).toBeVisible()
       await expect(page.getByRole("cell", { name: "BOD", exact: true })).toBeVisible()
       await expect(page.getByRole("cell", { name: "PM", exact: true })).toBeVisible()
       await expect(page.getByRole("cell", { name: "35.00" })).toBeVisible()

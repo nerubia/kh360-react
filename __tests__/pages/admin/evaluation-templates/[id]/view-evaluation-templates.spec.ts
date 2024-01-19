@@ -106,7 +106,7 @@ test.describe("Admin - View Evaluation Template", () => {
       await expect(page.getByText("Template type: Project Evaluation")).toBeVisible()
       await expect(page.getByText("Template class: Internal")).toBeVisible()
       await expect(page.getByText("With Recommendation:")).toBeVisible()
-      await expect(page.locator("input").first()).toBeVisible()
+      await expect(page.getByText("YES")).toBeVisible()
       await expect(page.getByText("Evaluator Role: BOD")).toBeVisible()
       await expect(page.getByText("Evaluee Role: PM")).toBeVisible()
       await expect(page.getByText("Answer: 5 Point Scale")).toBeVisible()
@@ -117,7 +117,7 @@ test.describe("Admin - View Evaluation Template", () => {
       await expect(page.getByRole("cell", { name: "Description" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Description" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Rate" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Active" })).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Status", exact: true })).toBeVisible()
       await expect(page.getByRole("cell", { name: "PM Skillset" })).toBeVisible()
       await expect(
         page.getByRole("cell", {
@@ -141,7 +141,7 @@ test.describe("Admin - View Evaluation Template", () => {
       await expect(page.getByRole("cell", { name: "Primary Skillset" }).first()).toBeVisible()
 
       await expect(page.getByRole("cell", { name: "15.00%" }).first()).toBeVisible()
-      await expect(page.locator("tr:nth-child(2) > td:nth-child(5)")).toBeVisible()
+      await expect(page.getByRole("cell", { name: "ACTIVE" }).nth(1)).toBeVisible()
 
       await expect(page.getByTestId("EditButton2")).toBeVisible()
       await expect(page.getByTestId("DeleteButton2")).toBeVisible()
