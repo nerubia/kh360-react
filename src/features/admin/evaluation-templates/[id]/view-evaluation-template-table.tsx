@@ -22,6 +22,7 @@ import { TextArea } from "../../../../components/ui/textarea/text-area"
 import { CustomSelect } from "../../../../components/ui/select/custom-select"
 import { type Option } from "../../../../types/optionType"
 import { EvaluationTemplateContentCategory } from "../../../../types/evaluation-template-content-type"
+import { Badge } from "../../../../components/ui/badge/badge"
 
 const categoryOptions: Option[] = Object.values(EvaluationTemplateContentCategory).map((value) => ({
   label: value,
@@ -55,13 +56,6 @@ export const ViewEvaluationTemplateTable = () => {
       })
     }
   }, [evaluation_template])
-
-  const handleChange = (id: number) => {
-    setCheckedItems((prevItems) => ({
-      ...prevItems,
-      [id]: !prevItems[id],
-    }))
-  }
 
   const toggleEditDialog = (contentId: number | null) => {
     if (evaluation_template?.evaluationTemplateContents !== undefined) {
@@ -217,7 +211,7 @@ export const ViewEvaluationTemplateTable = () => {
                         Rate
                       </th>
                       <th className='py-1 border-b-4 mr-2 text-center text-primary-500 md:w-1/6'>
-                        Active
+                        Status
                       </th>
                       <th className='py-1 border-b-4 m-5 text-start text-primary-500 md:w-1/2'></th>
                     </tr>
@@ -233,12 +227,15 @@ export const ViewEvaluationTemplateTable = () => {
                         <td className='py-1 border-b text-start items-center '>
                           {Number(content.rate).toFixed(2)}%
                         </td>
-                        <td className='py-1 border-b text-center items-center '>
-                          <Checkbox
-                            checked={checkedItems[content.id]}
-                            onChange={() => handleChange(content.id)}
-                            disabled={true}
-                          />
+                        <td className='py-1 border-b'>
+                          <div className='flex items-center justify-center'>
+                            <Badge
+                              variant={`${checkedItems[content.id] ? "green" : "red"}`}
+                              size='small'
+                            >
+                              {checkedItems[content.id] ? "ACTIVE" : "INACTIVE"}
+                            </Badge>
+                          </div>
                         </td>
                         <td className='py-1 border-b text-center items-center md:w-1/2'>
                           <div className='flex gap-2 '>
