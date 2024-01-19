@@ -74,13 +74,12 @@ export const ProjectsTable = () => {
 
   return (
     <div className='flex flex-col gap-8'>
-      <table className='w-full table-fixed'>
+      <table className='w-full'>
         <thead className='text-left'>
           <tr>
-            <th className='pb-3'>Name</th>
-            <th className='pb-3'>Client</th>
-            <th className='pb-3'>Description</th>
-            <th className='pb-3'>Status</th>
+            <th className='pb-3 w-1/3'>Name</th>
+            <th className='pb-3 w-1/3'>Client</th>
+            <th className='pb-3 w-1/6'>Status</th>
             <th className='pb-3'>Actions</th>
           </tr>
         </thead>
@@ -89,8 +88,7 @@ export const ProjectsTable = () => {
             <tr key={project.id} className='hover:bg-slate-100'>
               <td className='py-1'>{project.name}</td>
               <td className='py-1'>{project.client?.name}</td>
-              <td className='py-1'>{project.description}</td>
-              <td className='py-1'>{project.status}</td>
+              <td className='py-1 w-1/6'>{project.status}</td>
               <td className='py-1 flex gap-2'>
                 <LinkButton
                   testId='ViewButton'
