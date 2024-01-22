@@ -42,7 +42,7 @@ export const EvaluatorsList = () => {
 
   const [showDialog, setShowDialog] = useState<boolean>(false)
   const [selectedEvaluationId, setSelectedEvaluationId] = useState<number>()
-  const isMobile = useMediumSize()
+  const isMediumSize = useMediumSize()
   useEffect(() => {
     if (evaluation_template_id !== "all") {
       void appDispatch(
@@ -387,7 +387,7 @@ export const EvaluatorsList = () => {
       </div>
       <div className='flex flex-col md:flex-row justify-between gap-2 pt-5'>
         <LinkButton
-          size={`${isMobile ? "small" : "medium"}`}
+          size={`${isMediumSize ? "small" : "medium"}`}
           variant='primaryOutline'
           to={`/admin/evaluation-administrations/${id}/evaluees`}
         >
@@ -396,7 +396,7 @@ export const EvaluatorsList = () => {
         <div className='flex flex-col md:flex-row items-center gap-2'>
           <Button
             variant='primaryOutline'
-            size={`${isMobile ? "small" : "medium"}`}
+            size={`${isMediumSize ? "small" : "medium"}`}
             onClick={async () => await handleUpdateStatus(EvaluationResultStatus.Draft)}
             loading={loading === Loading.Pending}
           >
@@ -404,7 +404,7 @@ export const EvaluatorsList = () => {
           </Button>
 
           <Button
-            size={`${isMobile ? "small" : "medium"}`}
+            size={`${isMediumSize ? "small" : "medium"}`}
             onClick={async () => await handleUpdateStatus(EvaluationResultStatus.Ready)}
             loading={loading === Loading.Pending}
           >
