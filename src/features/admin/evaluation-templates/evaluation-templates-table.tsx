@@ -91,18 +91,18 @@ export const EvaluationTemplatesTable = () => {
   }
 
   return (
-    <div className='flex flex-col gap-8'>
+    <div className='flex flex-col gap-8 overflow-x-auto'>
       <table className='w-full table-fixed'>
         <thead className='text-left'>
           <tr>
-            <th className='pb-3 pr-2'>Name</th>
-            <th className='pb-3 px-2'>Display Name</th>
-            <th className='pb-3 px-2'>Template Type</th>
-            <th className='pb-3 px-2 text-center'>With Recommendation</th>
-            <th className='pb-3 px-2 text-center'>Evaluator Role</th>
-            <th className='pb-3 px-2 text-center'>Evaluee Role</th>
-            <th className='pb-3 px-2'>Rate</th>
-            <th className='pb-3 px-2'>Actions</th>
+            <th className='pb-3 pr-2 w-[150px]'>Name</th>
+            <th className='pb-3 px-2 w-[150px]'>Display Name</th>
+            <th className='pb-3 px-2 w-[150px]'>Template Type</th>
+            <th className='pb-3 px-2 w-[150px] text-center'>With Recommendation</th>
+            <th className='pb-3 px-2 w-[150px] text-center'>Evaluator Role</th>
+            <th className='pb-3 px-2 w-[150px] text-center'>Evaluee Role</th>
+            <th className='pb-3 px-2 w-[150px]'>Rate</th>
+            <th className='pb-3 px-2 w-[150px]'>Actions</th>
           </tr>
         </thead>
         <tbody>
