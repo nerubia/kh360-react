@@ -11,6 +11,8 @@ import { EvaluationAdministrationStatus } from "../../types/evaluation-administr
 import { getScoreRatings } from "../../redux/slices/score-ratings-slice"
 import { Banding } from "../../types/banding-type"
 import { useMobileView } from "../../hooks/use-mobile-view"
+import { AsyncPaginate } from "react-select-async-paginate"
+import { CustomSelectInfinite } from "../../components/ui/select/custom-select-infinite"
 
 const bandingFilters: Option[] = Object.values(Banding).map((value) => ({
   label: value,
@@ -68,29 +70,59 @@ export const EvaluationResultsListFilter = () => {
   const [banding, setBanding] = useState<string>(searchParams.get("banding") ?? "all")
   const [sortBy, setSortBy] = useState<string>(searchParams.get("sort_by") ?? "evaluee")
   const isMobile = useMobileView()
+  const [page, setPage] = useState<string>("1")
+  const [hasNextPage, setHasNextPage] = useState<boolean>(false)
+  const [isInitialLoad, setIsInitialLoad] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(false)
+  const [totalEvalItems, setTotalEvalItems] = useState<number>(0)
 
   useEffect(() => {
-    void appDispatch(
-      getEvaluationAdministrations({
-        status: [
-          EvaluationAdministrationStatus.Closed,
-          EvaluationAdministrationStatus.Published,
-        ].join(","),
-      })
-    )
+    const fetchData = async () => {
+      try {
+        setLoading(true)
+        const response = await appDispatch(
+          getEvaluationAdministrations({
+            status: [
+              EvaluationAdministrationStatus.Closed,
+              EvaluationAdministrationStatus.Published,
+            ].join(","),
+            page,
+          })
+        )
+        const pageInfo = response.payload.pageInfo
+        if (pageInfo.hasNextPage === true) {
+          const nextPage = String(Number(page) + 1)
+          setPage(nextPage)
+          setHasNextPage(true)
+          setTotalEvalItems(pageInfo.totalItems)
+        } else {
+          setHasNextPage(false)
+        }
+      } catch (error) {
+      } finally {
+        setLoading(false)
+      }
+    }
+    void fetchData()
     void appDispatch(getScoreRatings())
-  }, [])
+  }, [appDispatch, page])
 
   useEffect(() => {
     const filterOptions: Option[] = evaluation_administrations.map((evalAdmin) => ({
       label: evalAdmin.name ?? "",
       value: evalAdmin.id.toString(),
     }))
-    filterOptions.unshift({
-      label: "All",
-      value: "all",
-    })
-    setEvaluationAdministrationFilters(filterOptions)
+
+    if (hasNextPage) {
+      if (isInitialLoad) {
+        filterOptions.unshift({
+          label: "All",
+          value: "all",
+        })
+        setIsInitialLoad(false)
+      }
+      setEvaluationAdministrationFilters((prevData) => [...prevData, ...filterOptions])
+    }
   }, [evaluation_administrations])
 
   useEffect(() => {
@@ -127,7 +159,6 @@ export const EvaluationResultsListFilter = () => {
     setSortBy("all")
     setSearchParams({})
   }
-
   return (
     <div className='flex flex-col gap-2 md:gap-4'>
       <div className='flex flex-col md:flex-row gap-2 md:gap-4'>
@@ -142,18 +173,32 @@ export const EvaluationResultsListFilter = () => {
             />
           </div>
           <div className='flex-1'>
-            <CustomSelect
+            <label
+              htmlFor='evaluation_administration'
+              className={`whitespace-nowrap ${isMobile ? "text-sm" : "font-medium"}`}
+            >
+              Evaluation Administration
+            </label>
+            <AsyncPaginate
               data-test-id='EvaluationAdministration'
-              label='Evaluation Administration'
               name='evaluation_administration'
+              placeholder='All'
               value={evaluationAdministrationFilters.find(
                 (option) => option.value === evaluationAdministrationId
               )}
+              loadOptions={async (search, prevOptions) =>
+                await CustomSelectInfinite(
+                  search,
+                  prevOptions,
+                  evaluationAdministrationFilters,
+                  loading,
+                  totalEvalItems,
+                  hasNextPage
+                )
+              }
               onChange={(option) =>
                 setEvaluationAdministrationId(option !== null ? option.value : "all")
               }
-              options={evaluationAdministrationFilters}
-              fullWidth
             />
           </div>
         </div>
