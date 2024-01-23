@@ -63,6 +63,16 @@ const Projects = lazy(async () => await import("../pages/admin/projects/projects
 
 const ViewProject = lazy(async () => await import("../pages/admin/projects/[id]/view-project"))
 
+const CreateProject = lazy(
+  async () => await import("../pages/admin/projects/create/create-project")
+)
+
+const SelectSkills = lazy(
+  async () => await import("../pages/admin/projects/create/select-skills/select-skills")
+)
+
+const EditProject = lazy(async () => await import("../pages/admin/projects/[id]/edit/edit-project"))
+
 const ProjectAssignments = lazy(
   async () => await import("../pages/admin/project-assignments/project-assignments")
 )
@@ -179,6 +189,18 @@ export const adminRoutes = {
       path: "/admin/projects/:id",
       element: <ViewProject />,
     },
+    {
+      path: "/admin/projects/create",
+      element: <CreateProject />,
+    },
+    {
+      path: "/admin/projects/create/select-skills",
+      element: <SelectSkills />,
+    },
+    {
+      path: "/admin/projects/:id/edit",
+      element: <EditProject />,
+    },
     /**
      * Project Assignments
      */
@@ -229,5 +251,5 @@ export const adminRoutes = {
 
 export default function AdminRoute() {
   const isAdmin = useAdmin()
-  return isAdmin ? <Outlet /> : <Navigate to='/dashboard' />
+  return isAdmin ? <Outlet /> : <Navigate to='/my-evaluations' />
 }

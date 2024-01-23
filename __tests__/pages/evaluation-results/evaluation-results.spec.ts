@@ -101,7 +101,7 @@ test.describe("CM - Evaluation results", () => {
 
       await page.goto("/evaluation-results")
 
-      await mockRequest(page, "/admin/evaluation-administrations?status=Closed,Published", {
+      await mockRequest(page, "/admin/evaluation-administrations?status=Closed,Published&page=1", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({

@@ -12,13 +12,14 @@ import { CreateSelect } from "../../../../components/ui/select/create-select"
 import { useAppDispatch } from "../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../hooks/useAppSelector"
 import { type EmailTemplateFormData } from "../../../../types/form-data-type"
-import { type EmailTemplate, TemplateType } from "../../../../types/email-template-type"
+import { type EmailTemplate } from "../../../../types/email-template-type"
 import { type Option } from "../../../../types/optionType"
 import { createEmailTemplateSchema } from "../../../../utils/validation/email-template-schema"
 import {
   createEmailTemplate,
   getEmailTemplate,
   getEmailTemplates,
+  getTemplateTypes,
   updateEmailTemplate,
 } from "../../../../redux/slices/email-template-slice"
 import { setAlert } from "../../../../redux/slices/app-slice"
@@ -34,7 +35,7 @@ export const EmailTemplateForm = () => {
   const callback = searchParams.get("callback")
 
   const appDispatch = useAppDispatch()
-  const { emailTemplate } = useAppSelector((state) => state.emailTemplate)
+  const { emailTemplate, templateTypes } = useAppSelector((state) => state.emailTemplate)
 
   const [formData, setFormData] = useState<EmailTemplateFormData>({
     name: emailTemplate?.name ?? "",
@@ -50,12 +51,9 @@ export const EmailTemplateForm = () => {
   const [isDefault, setIsDefault] = useState<boolean>(false)
   const [templates, setTemplates] = useState<EmailTemplate[]>([])
 
-  const typeOptions: Option[] = Object.values(TemplateType).map((value) => ({
-    label: value,
-    value,
-  }))
-
   useEffect(() => {
+    void appDispatch(getTemplateTypes())
+
     if (id !== undefined) {
       void appDispatch(getEmailTemplate(parseInt(id)))
     }
@@ -236,7 +234,7 @@ export const EmailTemplateForm = () => {
   return (
     <div className='flex flex-col gap-10'>
       <div className='flex flex-col gap-4'>
-        <div>
+        <div className='w-[650px]'>
           <h2 className='font-medium'>Name</h2>
           <Input
             name='name'
@@ -252,9 +250,9 @@ export const EmailTemplateForm = () => {
               data-test-id='SelectEmailTemplateType'
               label='Template Type'
               name='template_type'
-              value={typeOptions.find((option) => option.value === formData.template_type)}
+              value={templateTypes.find((option) => option.value === formData.template_type)}
               onChange={async (option) => await setTemplate(option)}
-              options={typeOptions}
+              options={templateTypes}
               fullWidth
               isClearable
               error={validationErrors.template_type}
@@ -271,29 +269,36 @@ export const EmailTemplateForm = () => {
           </div>
         </div>
         <div className='flex flex-col gap-4'>
-          <Input
-            label='Subject'
-            name='subject'
-            placeholder='Subject'
-            value={formData.subject}
-            onChange={handleInputChange}
-            error={validationErrors.subject}
-          />
-          <TextArea
-            label='Content'
-            name='content'
-            placeholder='Content'
-            value={formData.content}
-            onChange={handleTextAreaChange}
-            error={validationErrors.content}
-          />
+          <div className='w-[650px]'>
+            <Input
+              label='Subject'
+              name='subject'
+              placeholder='Subject'
+              value={formData.subject}
+              onChange={handleInputChange}
+              error={validationErrors.subject}
+            />
+          </div>
+          <div className='w-[950px]'>
+            <TextArea
+              label='Content'
+              name='content'
+              placeholder='Content'
+              value={formData.content}
+              onChange={handleTextAreaChange}
+              error={validationErrors.content}
+              rows={8}
+            />
+          </div>
         </div>
       </div>
       <div className='flex justify-between'>
         <Button variant='primaryOutline' onClick={toggleDialog}>
           Cancel
         </Button>
-        <Button onClick={emailTemplate === null ? handleSubmit : handleUpdate}>Save</Button>
+        <div className='mr-[190px]'>
+          <Button onClick={emailTemplate === null ? handleSubmit : handleUpdate}>Save</Button>
+        </div>
       </div>
       <Dialog open={showDialog}>
         <Dialog.Title>Cancel</Dialog.Title>

@@ -32,7 +32,44 @@ test.describe("Admin - Edit Evaluation Template", () => {
 
       await page.goto("/admin/evaluation-administrations/1/edit")
 
-      await expect(page).toHaveURL("/dashboard")
+      await mockRequest(page, "/user/my-evaluations", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 0,
+          },
+        }),
+      })
+
+      await mockRequest(
+        page,
+        "/user/email-templates?template_type=No+Available+Evaluation+Results",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            id: 11,
+            name: "No Available Evaluation Results",
+            template_type: "No Available Evaluation Results",
+            is_default: true,
+            subject: "",
+            content:
+              "Uh-oh! 🤷‍♂️\n\nLooks like our magical elves are still working their charm behind the scenes, and your results haven't arrived just yet. Don't worry, though – good things come to those who wait!\n\nIn the meantime, why not grab a cup of coffee or practice your superhero pose? 🦸‍♀️ We'll have those results ready for you in no time.\n\nStay tuned and keep the positive vibes flowing! ✨",
+            created_by_id: null,
+            updated_by_id: null,
+            created_at: null,
+            updated_at: null,
+          }),
+        }
+      )
+
+      await page.waitForLoadState("networkidle")
+
+      await expect(page).toHaveURL("/my-evaluations")
     })
   })
 
@@ -225,7 +262,18 @@ test.describe("Admin - Edit Evaluation Template", () => {
           .filter({ hasText: /^5 Point Scale$/ })
           .nth(2)
       ).toBeVisible()
-      await expect(page.getByRole("checkbox")).toBeChecked()
+      await expect(
+        page
+          .locator("div")
+          .filter({ hasText: /^With Recommendation$/ })
+          .getByRole("checkbox")
+      ).toBeChecked()
+      await expect(
+        page
+          .locator("div")
+          .filter({ hasText: /^Is Active$/ })
+          .getByRole("checkbox")
+      ).toBeChecked()
 
       await expect(page.getByRole("button", { name: "Cancel" })).toBeVisible()
       await expect(page.getByRole("button", { name: "Save" })).toBeVisible()

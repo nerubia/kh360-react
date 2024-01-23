@@ -19,7 +19,7 @@ test.describe("Admin - Create Evaluation Template", () => {
   })
 
   test.describe("as Guest", () => {
-    test("should not allow to view the admin create email template", async ({ page }) => {
+    test("should not allow to view the admin create evaluation template", async ({ page }) => {
       await page.goto("/admin/evaluation-templates/create")
 
       await expect(page).toHaveURL("/auth/login?callback=/admin/evaluation-templates/create")
@@ -27,12 +27,49 @@ test.describe("Admin - Create Evaluation Template", () => {
   })
 
   test.describe("as Employee", () => {
-    test("should not allow to view the admin create email template", async ({ page }) => {
+    test("should not allow to view the admin create evaluation template", async ({ page }) => {
       await loginUser("employee", page)
 
       await page.goto("/admin/evaluation-templates/create")
 
-      await expect(page).toHaveURL("/dashboard")
+      await mockRequest(page, "/user/my-evaluations", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 0,
+          },
+        }),
+      })
+
+      await mockRequest(
+        page,
+        "/user/email-templates?template_type=No+Available+Evaluation+Results",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            id: 11,
+            name: "No Available Evaluation Results",
+            template_type: "No Available Evaluation Results",
+            is_default: true,
+            subject: "",
+            content:
+              "Uh-oh! 🤷‍♂️\n\nLooks like our magical elves are still working their charm behind the scenes, and your results haven't arrived just yet. Don't worry, though – good things come to those who wait!\n\nIn the meantime, why not grab a cup of coffee or practice your superhero pose? 🦸‍♀️ We'll have those results ready for you in no time.\n\nStay tuned and keep the positive vibes flowing! ✨",
+            created_by_id: null,
+            updated_by_id: null,
+            created_at: null,
+            updated_at: null,
+          }),
+        }
+      )
+
+      await page.waitForLoadState("networkidle")
+
+      await expect(page).toHaveURL("/my-evaluations")
     })
   })
 
@@ -314,7 +351,7 @@ test.describe("Admin - Create Evaluation Template", () => {
       await expect(page.getByText("Answer is required")).toBeVisible()
     })
 
-    test("should create email template succesfully", async ({ page, isMobile }) => {
+    test("should create evaluation template succesfully", async ({ page, isMobile }) => {
       await loginUser("admin", page)
 
       await page.goto("/admin/evaluation-templates/create")
@@ -450,7 +487,16 @@ test.describe("Admin - Create Evaluation Template", () => {
       await page.getByPlaceholder("Display Name").fill("BOD Evaluation")
       await page.getByLabel("Template Type").click()
       await page.getByText("Project Evaluation", { exact: true }).click()
-      await page.getByRole("checkbox").setChecked(true)
+      await page
+        .locator("div")
+        .filter({ hasText: /^With Recommendation$/ })
+        .getByRole("checkbox")
+        .setChecked(true)
+      await page
+        .locator("div")
+        .filter({ hasText: /^Is Active$/ })
+        .getByRole("checkbox")
+        .setChecked(true)
       await page.getByLabel("Evaluator Role").click()
       await page.getByText("BOD", { exact: true }).click()
       await page.getByLabel("Evaluee Role").click()
