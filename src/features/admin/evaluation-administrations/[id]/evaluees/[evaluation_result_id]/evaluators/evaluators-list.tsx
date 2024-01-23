@@ -23,6 +23,7 @@ import { getProjectMembers } from "../../../../../../../redux/slices/project-mem
 import Dropdown from "../../../../../../../components/ui/dropdown/dropdown"
 import Tooltip from "../../../../../../../components/ui/tooltip/tooltip"
 import Dialog from "../../../../../../../components/ui/dialog/dialog"
+import { useMediumSize } from "../../../../../../../hooks/use-medium-size"
 
 export const EvaluatorsList = () => {
   const navigate = useNavigate()
@@ -41,7 +42,7 @@ export const EvaluatorsList = () => {
 
   const [showDialog, setShowDialog] = useState<boolean>(false)
   const [selectedEvaluationId, setSelectedEvaluationId] = useState<number>()
-
+  const isMediumSize = useMediumSize()
   useEffect(() => {
     if (evaluation_template_id !== "all") {
       void appDispatch(
@@ -211,7 +212,7 @@ export const EvaluatorsList = () => {
   }
 
   return (
-    <div className='flex-1 h-[calc(100vh_-_185px)] flex flex-col pt-4'>
+    <div className='flex-1 h-[calc(100vh_-_185px)] flex flex-col pt-4 overflow-x-auto overflow-y-hidden'>
       <PageSubTitle>{internalHeader}</PageSubTitle>
       <div className='flex-1 overflow-y-scroll mt-2'>
         <table className='relative w-full table-fixed'>
@@ -226,11 +227,11 @@ export const EvaluatorsList = () => {
                   onChange={(checked) => handleSelectAll(checked, false)}
                 />
               </th>
-              <th className='pb-3'>Evaluator</th>
-              <th className='pb-3'>Project</th>
-              <th className='pb-3'>Role</th>
-              <th className='pb-3'>%</th>
-              <th className='pb-3'>Duration</th>
+              <th className='pb-3 w-[150px]'>Evaluator</th>
+              <th className='pb-3 w-[150px]'>Project</th>
+              <th className='pb-3 w-[150px]'>Role</th>
+              <th className='pb-3 w-[150px]'>%</th>
+              <th className='pb-3 w-[150px]'>Duration</th>
             </tr>
           </thead>
           <tbody>
@@ -264,7 +265,7 @@ export const EvaluatorsList = () => {
       <div className='pt-5'>
         <PageSubTitle>{externalHeader}</PageSubTitle>
       </div>
-      <div className='flex-1 overflow-y-scroll my-2'>
+      <div className='flex-1 overflow-y-scroll my-2 overflow-x-auto'>
         <table className='relative w-full table-fixed'>
           <thead className='sticky top-0 bg-white text-left'>
             <tr>
@@ -277,11 +278,11 @@ export const EvaluatorsList = () => {
                   onChange={(checked) => handleSelectAll(checked, true)}
                 />
               </th>
-              <th className='pb-3'>Evaluator</th>
-              <th className='pb-3'>Project</th>
-              <th className='pb-3'>%</th>
-              <th className='pb-3'>Duration</th>
-              <th className='pb-3'>Actions</th>
+              <th className='pb-3 w-[150px]'>Evaluator</th>
+              <th className='pb-3 w-[150px]'>Project</th>
+              <th className='pb-3 w-[150px]'>%</th>
+              <th className='pb-3 w-[150px]'>Duration</th>
+              <th className='pb-3 w-[150px]'>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -386,6 +387,7 @@ export const EvaluatorsList = () => {
       </div>
       <div className='flex flex-col md:flex-row justify-between gap-2 pt-5'>
         <LinkButton
+          size={`${isMediumSize ? "small" : "medium"}`}
           variant='primaryOutline'
           to={`/admin/evaluation-administrations/${id}/evaluees`}
         >
@@ -394,12 +396,15 @@ export const EvaluatorsList = () => {
         <div className='flex flex-col md:flex-row items-center gap-2'>
           <Button
             variant='primaryOutline'
+            size={`${isMediumSize ? "small" : "medium"}`}
             onClick={async () => await handleUpdateStatus(EvaluationResultStatus.Draft)}
             loading={loading === Loading.Pending}
           >
             Save as Draft
           </Button>
+
           <Button
+            size={`${isMediumSize ? "small" : "medium"}`}
             onClick={async () => await handleUpdateStatus(EvaluationResultStatus.Ready)}
             loading={loading === Loading.Pending}
           >
