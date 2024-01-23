@@ -34,3 +34,7 @@ export enum EmailTemplateDefault {
   Yes = "Yes",
   No = "No",
 }
+
+export interface TemplateTypeOption {
+  label: string
+}
