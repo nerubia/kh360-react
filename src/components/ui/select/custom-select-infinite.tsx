@@ -1,21 +1,10 @@
 import type { GroupBase, OptionsOrGroups } from "react-select"
 import { type Option } from "../../../types/optionType"
 
-const sleep = async (ms: number, loading: boolean) =>
-  await new Promise((resolve) => {
-    setTimeout(
-      () => {
-        resolve(undefined)
-      },
-      loading ? ms * 2 : ms
-    )
-  })
-
 export const CustomSelectInfinite = async (
   search: string,
   prevOptions: OptionsOrGroups<Option, GroupBase<Option>>,
   evaluationAdministrationFilters: Option[],
-  loading: boolean,
   totalEvalItems: number,
   hasNextPage: boolean
 ) => {
@@ -23,8 +12,6 @@ export const CustomSelectInfinite = async (
     value,
     label,
   }))
-
-  await sleep(1, loading)
 
   let filteredOptions: Option[]
   if (search.length === 0) {

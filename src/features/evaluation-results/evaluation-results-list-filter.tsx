@@ -73,13 +73,11 @@ export const EvaluationResultsListFilter = () => {
   const [page, setPage] = useState<string>("1")
   const [hasNextPage, setHasNextPage] = useState<boolean>(false)
   const [isInitialLoad, setIsInitialLoad] = useState<boolean>(true)
-  const [loading, setLoading] = useState<boolean>(false)
   const [totalEvalItems, setTotalEvalItems] = useState<number>(0)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true)
         const response = await appDispatch(
           getEvaluationAdministrations({
             status: [
@@ -98,10 +96,7 @@ export const EvaluationResultsListFilter = () => {
         } else {
           setHasNextPage(false)
         }
-      } catch (error) {
-      } finally {
-        setLoading(false)
-      }
+      } catch (error) {}
     }
     void fetchData()
     void appDispatch(getScoreRatings())
@@ -191,7 +186,6 @@ export const EvaluationResultsListFilter = () => {
                   search,
                   prevOptions,
                   evaluationAdministrationFilters,
-                  loading,
                   totalEvalItems,
                   hasNextPage
                 )
