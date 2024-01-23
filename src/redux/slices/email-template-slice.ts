@@ -1,10 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
 import { type ApiError } from "../../types/apiErrorType"
-import { type EmailTemplateFilters, type EmailTemplate } from "../../types/email-template-type"
+import {
+  type EmailTemplateFilters,
+  type EmailTemplate,
+  type TemplateTypeOption,
+} from "../../types/email-template-type"
 import { Loading } from "../../types/loadingType"
 import { axiosInstance } from "../../utils/axios-instance"
 import { type EmailTemplateFormData } from "../../types/form-data-type"
+import { type Option } from "../../types/optionType"
 
 export const getEmailTemplates = createAsyncThunk(
   "emailTemplate/getEmailTemplates",
@@ -100,6 +105,23 @@ export const getRatingTemplates = createAsyncThunk(
   }
 )
 
+export const getTemplateTypes = createAsyncThunk(
+  "emailTemplate/getTemplateTypes",
+  async (_, thunkApi) => {
+    try {
+      const response = await axiosInstance.get(`/admin/email-templates/types`)
+      response.data.sort((a: TemplateTypeOption, b: TemplateTypeOption) =>
+        a.label.normalize().localeCompare(b.label.normalize())
+      )
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const createEmailTemplate = createAsyncThunk(
   "emailTemplate/createEmailTemplate",
   async (data: EmailTemplateFormData, thunkApi) => {
@@ -157,6 +179,7 @@ interface InitialState {
   emailTemplates: EmailTemplate[]
   emailTemplate: EmailTemplate | null
   ratingTemplates: EmailTemplate[]
+  templateTypes: Option[]
   hasPreviousPage: boolean
   hasNextPage: boolean
   totalPages: number
@@ -169,6 +192,7 @@ const initialState: InitialState = {
   emailTemplate: null,
   emailTemplates: [],
   ratingTemplates: [],
+  templateTypes: [],
   hasPreviousPage: false,
   hasNextPage: false,
   totalPages: 0,
@@ -251,6 +275,14 @@ const emailTemplateSlice = createSlice({
     builder.addCase(getByTemplateType.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
+    })
+    /**
+     * List all unique email template types
+     */
+    builder.addCase(getTemplateTypes.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.templateTypes = action.payload
     })
     /**
      * By template type triggered by socket
