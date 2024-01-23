@@ -1,11 +1,14 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useSearchParams } from "react-router-dom"
 import { type Option } from "../../../types/optionType"
 
 import { Input } from "../../../components/ui/input/input"
 import { Button } from "../../../components/ui/button/button"
 import { CustomSelect } from "../../../components/ui/select/custom-select"
-import { EmailTemplateDefault, TemplateType } from "../../../types/email-template-type"
+import { EmailTemplateDefault } from "../../../types/email-template-type"
+import { useAppDispatch } from "../../../hooks/useAppDispatch"
+import { useAppSelector } from "../../../hooks/useAppSelector"
+import { getTemplateTypes } from "../../../redux/slices/email-template-slice"
 
 const defaultOptions: Option[] = Object.values(EmailTemplateDefault).map((value) => ({
   label: value,
@@ -17,17 +20,19 @@ defaultOptions.unshift({
   value: "all",
 })
 
-const typeOptions: Option[] = Object.values(TemplateType).map((value) => ({
-  label: value,
-  value,
-}))
-
 export const EmailTemplatesFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const [name, setName] = useState<string>(searchParams.get("name") ?? "")
   const [template_type, setTemplateType] = useState<string>(searchParams.get("template_type") ?? "")
   const [is_default, setDefault] = useState<string>(searchParams.get("default") ?? "all")
+
+  const appDispatch = useAppDispatch()
+  const { templateTypes } = useAppSelector((state) => state.emailTemplate)
+
+  useEffect(() => {
+    void appDispatch(getTemplateTypes())
+  }, [])
 
   const handleSearch = async () => {
     if (name.length !== 0) {
@@ -72,9 +77,9 @@ export const EmailTemplatesFilter = () => {
             data-test-id='TemplateTypeFilter'
             label='Template Type'
             name='template_type'
-            value={typeOptions.find((option) => option.value === template_type)}
+            value={templateTypes.find((option) => option.value === template_type)}
             onChange={(option) => setTemplateType(option !== null ? option.value : "")}
-            options={typeOptions}
+            options={templateTypes}
             fullWidth
           />
         </div>
