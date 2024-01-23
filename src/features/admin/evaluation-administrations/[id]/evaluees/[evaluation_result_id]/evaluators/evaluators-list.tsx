@@ -114,6 +114,20 @@ export const EvaluatorsList = () => {
 
   const handleClickCheckbox = (evaluationId: number, checked: boolean) => {
     if (evaluationId !== undefined) {
+      const evaluationsArray = sortedEvaluations.some((evaluee) => evaluee.id === evaluationId)
+        ? sortedEvaluations
+        : sortedExternalEvaluations
+
+      const updatedEvaluations = evaluationsArray.map((evaluation) =>
+        evaluation.id === evaluationId ? { ...evaluation, for_evaluation: checked } : evaluation
+      )
+
+      if (sortedEvaluations.some((evaluation) => evaluation.id === evaluationId)) {
+        setSortedEvaluations(updatedEvaluations)
+      } else {
+        setSortedExternalEvaluations(updatedEvaluations)
+      }
+
       void appDispatch(
         setForEvaluations({
           evaluation_ids: [evaluationId],
@@ -242,6 +256,7 @@ export const EvaluatorsList = () => {
                 <tr key={evaluation.id}>
                   <td className='w-fit pb-2'>
                     <Checkbox
+                      key={`internalCheckbox-${evaluation.id}`}
                       checked={evaluation.for_evaluation}
                       onChange={(checked) => handleClickCheckbox(evaluation.id, checked)}
                     />
@@ -400,7 +415,9 @@ export const EvaluatorsList = () => {
             Save as Draft
           </Button>
           <Button
-            onClick={async () => await handleUpdateStatus(EvaluationResultStatus.Ready)}
+            onClick={async () => {
+              await handleUpdateStatus(EvaluationResultStatus.Ready)
+            }}
             loading={loading === Loading.Pending}
           >
             Mark as Ready
