@@ -29,7 +29,7 @@ export default function DashboardLayout() {
       <div
         className={`${
           activeSidebar ? "md:ml-64" : ""
-        } w-full transition-all duration-300 overflow-x-hidden`}
+        } flex flex-col h-screen w-full transition-all duration-300 overflow-x-hidden`}
       >
         <div className='h-16 flex items-center px-5 justify-between'>
           <Button variant='ghost' size='small' onClick={toggleSidebar}>
