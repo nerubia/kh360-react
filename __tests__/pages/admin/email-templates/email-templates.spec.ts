@@ -68,6 +68,31 @@ test.describe("Admin - Email Templates", () => {
         }),
       })
 
+      await mockRequest(page, "/admin/email-templates/types", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              label: "Create Evaluation",
+              value: "Create Evaluation",
+            },
+            {
+              label: "Reset Verification Code",
+              value: "Reset Verification Code",
+            },
+            {
+              label: "Performance Evaluation NA Rating",
+              value: "Performance Evaluation NA Rating",
+            },
+            {
+              label: "Performance Evaluation High Rating",
+              value: "Performance Evaluation High Rating",
+            },
+          ],
+        }),
+      })
+
       await page.waitForLoadState("networkidle")
 
       await expect(page.getByRole("heading", { name: "Message Templates" })).toBeVisible()

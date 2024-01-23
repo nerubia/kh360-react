@@ -61,6 +61,31 @@ test.describe("Admin - Create Email Template", () => {
         ]),
       })
 
+      await mockRequest(page, "/admin/email-templates/types", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              label: "Create Evaluation",
+              value: "Create Evaluation",
+            },
+            {
+              label: "Reset Verification Code",
+              value: "Reset Verification Code",
+            },
+            {
+              label: "Performance Evaluation NA Rating",
+              value: "Performance Evaluation NA Rating",
+            },
+            {
+              label: "Performance Evaluation High Rating",
+              value: "Performance Evaluation High Rating",
+            },
+          ],
+        }),
+      })
+
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
       }
@@ -73,7 +98,7 @@ test.describe("Admin - Create Email Template", () => {
       await expect(page.getByRole("button", { name: "Save" })).toBeVisible()
     })
 
-    test("should show validation errors", async ({ page, isMobile }) => {
+    test("should render cancel & exit modal correctly", async ({ page, isMobile }) => {
       await loginUser("admin", page)
 
       await page.goto("/admin/message-templates/create")
@@ -107,6 +132,75 @@ test.describe("Admin - Create Email Template", () => {
             updated_at: null,
           },
         ]),
+      })
+
+      await mockRequest(page, "/admin/email-templates/types", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              label: "Create Evaluation",
+              value: "Create Evaluation",
+            },
+            {
+              label: "Reset Verification Code",
+              value: "Reset Verification Code",
+            },
+            {
+              label: "Performance Evaluation NA Rating",
+              value: "Performance Evaluation NA Rating",
+            },
+            {
+              label: "Performance Evaluation High Rating",
+              value: "Performance Evaluation High Rating",
+            },
+          ],
+        }),
+      })
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await page.getByRole("button", { name: "Cancel" }).click()
+
+      await expect(page.getByRole("heading", { name: "Cancel" })).toBeVisible()
+      await expect(
+        page.getByText("Are you sure you want to cancel? If you cancel, your data won't be save")
+      ).toBeVisible()
+      await expect(page.getByRole("button", { name: "No" })).toBeVisible()
+      await expect(page.getByRole("link", { name: "Yes" })).toBeVisible()
+    })
+
+    test("should show validation errors", async ({ page, isMobile }) => {
+      await loginUser("admin", page)
+
+      await page.goto("/admin/message-templates/create")
+
+      await mockRequest(page, "/admin/email-templates/types", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              label: "Create Evaluation",
+              value: "Create Evaluation",
+            },
+            {
+              label: "Reset Verification Code",
+              value: "Reset Verification Code",
+            },
+            {
+              label: "Performance Evaluation NA Rating",
+              value: "Performance Evaluation NA Rating",
+            },
+            {
+              label: "Performance Evaluation High Rating",
+              value: "Performance Evaluation High Rating",
+            },
+          ],
+        }),
       })
 
       if (isMobile) {
@@ -157,6 +251,31 @@ test.describe("Admin - Create Email Template", () => {
         ]),
       })
 
+      await mockRequest(page, "/admin/email-templates/types", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              label: "Create Evaluation",
+              value: "Create Evaluation",
+            },
+            {
+              label: "Reset Verification Code",
+              value: "Reset Verification Code",
+            },
+            {
+              label: "Performance Evaluation NA Rating",
+              value: "Performance Evaluation NA Rating",
+            },
+            {
+              label: "Performance Evaluation High Rating",
+              value: "Performance Evaluation High Rating",
+            },
+          ],
+        }),
+      })
+
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
       }
@@ -180,90 +299,34 @@ test.describe("Admin - Create Email Template", () => {
       await expect(page).toHaveURL("/admin/message-templates/create")
     })
 
-    test("should render cancel & exit modal correctly", async ({ page, isMobile }) => {
-      await loginUser("admin", page)
-
-      await page.goto("/admin/message-templates/create")
-
-      await mockRequest(page, "/admin/email-templates", {
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify([
-          {
-            id: 32,
-            name: "Msg Template - Test Only",
-            template_type: "Evaluation Complete Thank You Message External",
-            is_default: true,
-            subject: "[BETA] Evaluation Completed External?",
-            content: null,
-            created_by_id: null,
-            updated_by_id: null,
-            created_at: null,
-            updated_at: null,
-          },
-          {
-            id: 11,
-            name: "Create Evaluation Administration Template",
-            template_type: "Create Evaluation",
-            is_default: true,
-            subject: "[TEST] Request for Evaluation",
-            content: "Test",
-            created_by_id: null,
-            updated_by_id: null,
-            created_at: null,
-            updated_at: null,
-          },
-        ]),
-      })
-
-      if (isMobile) {
-        await page.getByTestId("SidebarCloseButton").click()
-      }
-
-      await page.getByRole("button", { name: "Cancel" }).click()
-
-      await expect(page.getByRole("heading", { name: "Cancel" })).toBeVisible()
-      await expect(
-        page.getByText("Are you sure you want to cancel? If you cancel, your data won't be save")
-      ).toBeVisible()
-      await expect(page.getByRole("button", { name: "No" })).toBeVisible()
-      await expect(page.getByRole("link", { name: "Yes" })).toBeVisible()
-    })
-
     test("should allow to cancel & exit", async ({ page, isMobile }) => {
       await loginUser("admin", page)
 
       await page.goto("/admin/message-templates/create")
 
-      await mockRequest(page, "/admin/email-templates", {
+      await mockRequest(page, "/admin/email-templates/types", {
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify([
-          {
-            id: 32,
-            name: "Msg Template - Test Only",
-            template_type: "Evaluation Complete Thank You Message External",
-            is_default: true,
-            subject: "[BETA] Evaluation Completed External?",
-            content: null,
-            created_by_id: null,
-            updated_by_id: null,
-            created_at: null,
-            updated_at: null,
-          },
-          {
-            id: 11,
-            name: "Create Evaluation Administration Template",
-            template_type: "Create Evaluation",
-            is_default: true,
-            subject: "[TEST] Request for Evaluation",
-            content: "Test",
-            created_by_id: null,
-            updated_by_id: null,
-            created_at: null,
-            updated_at: null,
-          },
-        ]),
+        body: JSON.stringify({
+          data: [
+            {
+              label: "Create Evaluation",
+              value: "Create Evaluation",
+            },
+            {
+              label: "Reset Verification Code",
+              value: "Reset Verification Code",
+            },
+            {
+              label: "Performance Evaluation NA Rating",
+              value: "Performance Evaluation NA Rating",
+            },
+            {
+              label: "Performance Evaluation High Rating",
+              value: "Performance Evaluation High Rating",
+            },
+          ],
+        }),
       })
 
       if (isMobile) {
@@ -297,11 +360,10 @@ test.describe("Admin - Create Email Template", () => {
       })
 
       await page.getByRole("button", { name: "Cancel" }).click()
-      await page.getByRole("link", { name: "Yes" }).click()
 
       await page.waitForLoadState("networkidle")
 
-      await expect(page).toHaveURL("/admin/message-templates")
+      await expect(page).toHaveURL("/admin/message-templates/create")
     })
   })
 })

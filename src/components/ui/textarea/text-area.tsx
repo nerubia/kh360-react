@@ -9,6 +9,7 @@ interface TextAreaInterface {
   disabled?: boolean
   autoFocus?: boolean
   maxLength?: number
+  rows?: number
 }
 
 export const TextArea = ({
@@ -22,6 +23,7 @@ export const TextArea = ({
   disabled,
   autoFocus,
   maxLength,
+  rows,
 }: TextAreaInterface) => {
   return (
     <div className='flex flex-col'>
@@ -40,7 +42,7 @@ export const TextArea = ({
         value={value}
         onChange={onChange}
         onBlur={onBlur}
-        rows={5}
+        rows={rows ?? 5}
         disabled={disabled}
         autoFocus={autoFocus}
         maxLength={maxLength}
