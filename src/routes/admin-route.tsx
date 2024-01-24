@@ -84,6 +84,17 @@ const CreateProjectAssignment = lazy(
   async () => await import("../pages/admin/project-assignments/create/create-project-assignment")
 )
 
+const EditProjectAssignment = lazy(
+  async () => await import("../pages/admin/project-assignments/[id]/edit/edit-project-assignment")
+)
+
+const SelectProjectMemberSkills = lazy(
+  async () =>
+    await import(
+      "../pages/admin/project-assignments/create/select-project-member-skills/select-project-member-skills"
+    )
+)
+
 const EmailTemplates = lazy(
   async () => await import("../pages/admin/email-templates/email-templates")
 )
@@ -214,6 +225,14 @@ export const adminRoutes = {
     {
       path: "/admin/project-assignments/create",
       element: <CreateProjectAssignment />,
+    },
+    {
+      path: "/admin/project-assignments/:id/edit",
+      element: <EditProjectAssignment />,
+    },
+    {
+      path: "/admin/project-assignments/select",
+      element: <SelectProjectMemberSkills />,
     },
     /**
      * Email Templates

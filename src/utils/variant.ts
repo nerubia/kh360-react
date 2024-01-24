@@ -116,6 +116,30 @@ export const getRoleVariant = (role: string | undefined) => {
   }
 }
 
+export const getDarkRoleVariant = (role: string | undefined) => {
+  if (role === "Board of Directors") {
+    return "#6d7da8"
+  }
+  if (role === "Human Resource") {
+    return "#a69a62"
+  }
+  if (role === "Project Manager") {
+    return "#8484ab"
+  }
+  if (role === "System Analyst") {
+    return "#b3ac7b"
+  }
+  if (role === "Developer") {
+    return "#768fad"
+  }
+  if (role === "Quality Assurance") {
+    return "#91a16d"
+  }
+  if (role === "Code Reviewer") {
+    return "#a16b5f"
+  }
+}
+
 export const getScoreRatingVariant = (score_rating: string) => {
   if (score_rating === "Needs Improvement") {
     return "red"

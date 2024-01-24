@@ -8,7 +8,7 @@ export default function SelectSkills() {
   useTitle("Select Skills")
 
   return (
-    <div className='flex flex-col gap-8'>
+    <div className='h-[calc(100vh_-_104px)] flex flex-col gap-8 w-[50%] '>
       <SelectSkillsHeader />
       <SelectSkillsFilter />
       <SelectSkillsTable />

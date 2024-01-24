@@ -7,8 +7,10 @@ import { ProjectHeader } from "../../../components/shared/gantt-chart/project-he
 import { searchProjectMembers } from "../../../redux/slices/project-members-slice"
 import { Gantt, type Task, ViewMode } from "custom-gantt-task-react"
 import "custom-gantt-task-react/dist/index.css"
-import { getRoleVariant } from "../../../utils/variant"
+import { getRoleVariant, getDarkRoleVariant } from "../../../utils/variant"
 import { type ProjectMember } from "../../../types/project-member-type"
+import { setCheckedSkills, setSelectedSkills } from "../../../redux/slices/skills-slice"
+import { setProjectMemberFormData } from "../../../redux/slices/project-member-slice"
 
 export const ProjectAssignmentsList = () => {
   const appDispatch = useAppDispatch()
@@ -19,6 +21,20 @@ export const ProjectAssignmentsList = () => {
 
   useEffect(() => {
     void appDispatch(searchProjectMembers({}))
+    void appDispatch(setSelectedSkills([]))
+    void appDispatch(setCheckedSkills([]))
+    void appDispatch(
+      setProjectMemberFormData({
+        project_id: "",
+        user_id: "",
+        project_role_id: "",
+        start_date: "",
+        end_date: "",
+        allocation_rate: "",
+        remarks: "",
+        skill_ids: [],
+      })
+    )
   }, [])
 
   useEffect(() => {
@@ -97,8 +113,10 @@ export const ProjectAssignmentsList = () => {
             progressColor: getRoleVariant(project.role),
             backgroundSelectedColor: getRoleVariant(project.role),
             progressSelectedColor: getRoleVariant(project.role),
+            textColor: getDarkRoleVariant(project.role),
           },
           role: project.role,
+          projectMemberId: project.id.toString(),
         })
       })
       setActiveProjectMembers(projectMembersData)

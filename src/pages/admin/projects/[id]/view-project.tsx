@@ -7,7 +7,7 @@ import { useTitle } from "../../../../hooks/useTitle"
 export default function ViewProject() {
   useTitle("View Evaluation Templates")
   return (
-    <div className='h-[calc(100vh_-_120px)] flex flex-col gap-10'>
+    <div className='flex flex-col gap-10'>
       <ViewProjectHeader />
       <ViewProjectTable />
       <ViewProjectMembersList />

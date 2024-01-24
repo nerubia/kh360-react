@@ -8,7 +8,7 @@ import { getSkillCategories } from "../../../../../redux/slices/skill-category-s
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { type Option } from "../../../../../types/optionType"
 
-export const SelectSkillsFilter = () => {
+export const SelectProjectMemberSkillsFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const appDispatch = useAppDispatch()
 
