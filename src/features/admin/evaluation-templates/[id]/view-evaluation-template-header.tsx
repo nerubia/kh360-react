@@ -4,13 +4,14 @@ import { useParams } from "react-router-dom"
 import { useAppDispatch } from "../../../../hooks/useAppDispatch"
 import { PageTitle } from "../../../../components/shared/page-title"
 import { getEvaluationTemplate } from "../../../../redux/slices/evaluation-template-slice"
-import { Checkbox } from "../../../../components/ui/checkbox/checkbox"
+import { Badge } from "../../../../components/ui/badge/badge"
 
 export const ViewEvaluationTemplateHeader = () => {
   const { id } = useParams()
   const appDispatch = useAppDispatch()
   const { evaluation_template } = useAppSelector((state) => state.evaluationTemplate)
   const [isChecked, setIsChecked] = useState(false)
+  const [isActive, setIsActive] = useState(false)
 
   useEffect(() => {
     if (id !== undefined) {
@@ -21,12 +22,9 @@ export const ViewEvaluationTemplateHeader = () => {
   useEffect(() => {
     if (evaluation_template?.with_recommendation !== undefined) {
       setIsChecked(evaluation_template.with_recommendation)
+      setIsActive(evaluation_template.is_active)
     }
   }, [evaluation_template])
-
-  const handleChange = () => {
-    setIsChecked(!isChecked)
-  }
 
   return (
     <>
@@ -35,7 +33,12 @@ export const ViewEvaluationTemplateHeader = () => {
           <div>
             <div className='flex gap-4 primary-outline items-end mb-4'>
               <PageTitle>
-                {evaluation_template?.name} ({evaluation_template?.display_name})
+                <div className='flex items-center gap-4'>
+                  {evaluation_template?.name} ({evaluation_template?.display_name}){" "}
+                  <Badge variant={`${isActive ? "green" : "red"}`}>
+                    {isActive ? "ACTIVE" : "INACTIVE"}
+                  </Badge>
+                </div>
               </PageTitle>
             </div>
             <div className='flex gap-3'>
@@ -49,7 +52,9 @@ export const ViewEvaluationTemplateHeader = () => {
             <div className='flex gap-3'>
               <div className='font-bold'>With Recommendation: </div>
               <div>
-                <Checkbox checked={isChecked} onChange={handleChange} disabled={true} />
+                <Badge variant={`${isChecked ? "green" : "red"}`} size='small'>
+                  {isChecked ? "YES" : "NO"}
+                </Badge>
               </div>
             </div>
             <div className='flex gap-3'>

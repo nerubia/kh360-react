@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useSearchParams, useNavigate } from "react-router-dom"
+import { useSearchParams, useNavigate, useLocation } from "react-router-dom"
 import { useAppDispatch } from "../../../hooks/useAppDispatch"
 import {
   deleteEvaluationTemplate,
@@ -12,10 +12,11 @@ import { Pagination } from "../../../components/shared/pagination/pagination"
 import Dialog from "../../../components/ui/dialog/dialog"
 import { setAlert, setPreviousUrl } from "../../../redux/slices/app-slice"
 import { useFullPath } from "../../../hooks/use-full-path"
-import { Checkbox } from "../../../components/ui/checkbox/checkbox"
+import { Badge } from "../../../components/ui/badge/badge"
 
 export const EvaluationTemplatesTable = () => {
   const [searchParams] = useSearchParams()
+  const location = useLocation()
 
   const appDispatch = useAppDispatch()
   const fullPath = useFullPath()
@@ -90,18 +91,18 @@ export const EvaluationTemplatesTable = () => {
   }
 
   return (
-    <div className='flex flex-col gap-8'>
+    <div className='flex flex-col gap-8 overflow-x-auto'>
       <table className='w-full table-fixed'>
         <thead className='text-left'>
           <tr>
-            <th className='pb-3 pr-2'>Name</th>
-            <th className='pb-3 px-2'>Display Name</th>
-            <th className='pb-3 px-2'>Template Type</th>
-            <th className='pb-3 px-2 text-center'>With Recommendation</th>
-            <th className='pb-3 px-2 text-center'>Evaluator Role</th>
-            <th className='pb-3 px-2 text-center'>Evaluee Role</th>
-            <th className='pb-3 px-2'>Rate</th>
-            <th className='pb-3 px-2'>Actions</th>
+            <th className='pb-3 pr-2 w-[150px]'>Name</th>
+            <th className='pb-3 px-2 w-[150px]'>Display Name</th>
+            <th className='pb-3 px-2 w-[150px]'>Template Type</th>
+            <th className='pb-3 px-2 w-[150px] text-center'>With Recommendation</th>
+            <th className='pb-3 px-2 w-[150px] text-center'>Evaluator Role</th>
+            <th className='pb-3 px-2 w-[150px] text-center'>Evaluee Role</th>
+            <th className='pb-3 px-2 w-[150px]'>Rate</th>
+            <th className='pb-3 px-2 w-[150px]'>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -115,11 +116,14 @@ export const EvaluationTemplatesTable = () => {
               <td className='py-1 px-2'>{evaluationTemplate.display_name}</td>
               <td className='py-1 px-2'>{evaluationTemplate.template_type}</td>
               <td className='py-1 px-2 text-center'>
-                <Checkbox
-                  checked={checkedItems[evaluationTemplate.id]}
-                  onChange={() => null}
-                  disabled={true}
-                />
+                <div className='flex items-center justify-center gap-4'>
+                  <Badge
+                    variant={`${checkedItems[evaluationTemplate.id] ? "green" : "red"}`}
+                    size='small'
+                  >
+                    {checkedItems[evaluationTemplate.id] ? "YES" : "NO"}
+                  </Badge>
+                </div>
               </td>
               <td className='py-1 px-2 text-center'>
                 {evaluationTemplate.evaluatorRole?.short_name}
@@ -132,7 +136,7 @@ export const EvaluationTemplatesTable = () => {
                 <LinkButton
                   testId='EditButton'
                   variant='unstyled'
-                  to={`/admin/evaluation-templates/${evaluationTemplate.id}/edit`}
+                  to={`/admin/evaluation-templates/${evaluationTemplate.id}/edit?callback=${location.pathname}`}
                   onClick={(e) => e.stopPropagation()}
                 >
                   <Icon icon='PenSquare' />

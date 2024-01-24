@@ -286,11 +286,11 @@ export const ViewEvaluationList = () => {
                               <table className='md:w-10/12 ml-11 md:table-fixed'>
                                 <thead className='sticky top-0 bg-white text-left'>
                                   <tr>
-                                    <th>Evaluator</th>
-                                    <th>Project</th>
-                                    <th>Evaluee Role</th>
-                                    <th>%</th>
-                                    <th>Duration</th>
+                                    <th className='md:w-[170px]'>Evaluator</th>
+                                    <th className='md:w-[150px]'>Project</th>
+                                    <th className='whitespace-nowrap md:w-[150px]'>Evaluee Role</th>
+                                    <th className='md:w-[150px]'>%</th>
+                                    <th className='md:w-[150px]'>Duration</th>
                                   </tr>
                                 </thead>
                                 <tbody>

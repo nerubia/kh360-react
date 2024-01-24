@@ -31,6 +31,26 @@ export const createProject = createAsyncThunk(
   }
 )
 
+export const updateProject = createAsyncThunk(
+  "project/updateProject",
+  async (
+    data: {
+      id: number
+      project: ProjectFormData
+    },
+    thunkApi
+  ) => {
+    try {
+      const response = await axiosInstance.put(`/admin/projects/${data.id}`, data.project)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null

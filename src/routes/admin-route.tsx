@@ -71,6 +71,8 @@ const SelectSkills = lazy(
   async () => await import("../pages/admin/projects/create/select-skills/select-skills")
 )
 
+const EditProject = lazy(async () => await import("../pages/admin/projects/[id]/edit/edit-project"))
+
 const ProjectAssignments = lazy(
   async () => await import("../pages/admin/project-assignments/project-assignments")
 )
@@ -194,6 +196,10 @@ export const adminRoutes = {
     {
       path: "/admin/projects/create/select-skills",
       element: <SelectSkills />,
+    },
+    {
+      path: "/admin/projects/:id/edit",
+      element: <EditProject />,
     },
     /**
      * Project Assignments

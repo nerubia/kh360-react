@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import { Button } from "../../../../../components/ui/button/button"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
@@ -8,11 +8,12 @@ import { setAlert } from "../../../../../redux/slices/app-slice"
 export const SelectSkillsFooter = () => {
   const navigate = useNavigate()
   const appDispatch = useAppDispatch()
+  const [searchParams] = useSearchParams()
   const { selectedSkills, checkedSkills } = useAppSelector((state) => state.skills)
-  const callback = `/admin/projects/create`
+  const callback = searchParams.get("callback")
 
   const handleCancel = () => {
-    navigate(callback)
+    navigate(callback ?? `/admin/projects/create`)
     void appDispatch(setCheckedSkills(selectedSkills))
   }
 
@@ -27,7 +28,7 @@ export const SelectSkillsFooter = () => {
     } else {
       const result = appDispatch(setSelectedSkills(checkedSkills))
       if (result.payload.length > 0) {
-        navigate(callback)
+        navigate(callback ?? `/admin/projects/create`)
       }
     }
   }
