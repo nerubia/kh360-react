@@ -1,22 +1,37 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useSearchParams } from "react-router-dom"
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 import { useAppSelector } from "../../../../../hooks/useAppSelector"
 import { Pagination } from "../../../../../components/shared/pagination/pagination"
-import { getSkills, setCheckedSkills } from "../../../../../redux/slices/skills-slice"
+import { setCheckedSkills } from "../../../../../redux/slices/skills-slice"
 import { Checkbox } from "../../../../../components/ui/checkbox/checkbox"
+import { type Skill } from "../../../../../types/skill-type"
+import { getProjectSkills } from "../../../../../redux/slices/project-skills-slice"
 
-export const SelectSkillsTable = () => {
+export const SelectProjectMemberSkillsTable = () => {
   const [searchParams] = useSearchParams()
 
   const appDispatch = useAppDispatch()
-  const { skills, hasPreviousPage, hasNextPage, totalPages, checkedSkills } = useAppSelector(
-    (state) => state.skills
+  const { checkedSkills } = useAppSelector((state) => state.skills)
+  const { project } = useAppSelector((state) => state.project)
+  const { projectMemberFormData } = useAppSelector((state) => state.projectMember)
+  const { project_skills, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
+    (state) => state.projectSkills
   )
+  const [projectSkills, setProjectSkills] = useState<Skill[]>([])
+
+  useEffect(() => {
+    if (project !== null) {
+      const projectSkillIds = project.project_skills?.map((skill) => skill.id)
+      const filteredSkills = project_skills.filter((skill) => projectSkillIds?.includes(skill.id))
+      setProjectSkills(filteredSkills)
+    }
+  }, [project, project_skills])
 
   useEffect(() => {
     void appDispatch(
-      getSkills({
+      getProjectSkills({
+        project_id: projectMemberFormData?.project_id,
         name: searchParams.get("name") ?? undefined,
         skill_category_id: searchParams.get("skill_category_id") ?? undefined,
         page: searchParams.get("page") ?? undefined,
@@ -26,16 +41,16 @@ export const SelectSkillsTable = () => {
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      appDispatch(setCheckedSkills([...checkedSkills, ...skills]))
+      appDispatch(setCheckedSkills([...checkedSkills, ...project_skills]))
     } else {
-      const skillIds = skills.map((skill) => skill.id)
+      const skillIds = project_skills.map((skill) => skill.id)
       appDispatch(setCheckedSkills(checkedSkills.filter((skill) => !skillIds.includes(skill.id))))
     }
   }
 
   const handleClickCheckbox = (checked: boolean, skillId: number) => {
     if (checked) {
-      const skill = skills.find((skill) => skill.id === skillId)
+      const skill = project_skills.find((skill) => skill.id === skillId)
       appDispatch(setCheckedSkills([...checkedSkills, skill]))
     } else {
       const filteredSkills = checkedSkills.filter((skill) => skill.id !== skillId)
@@ -52,7 +67,7 @@ export const SelectSkillsTable = () => {
               <tr>
                 <th className='py-3 pr-3 w-[5%]'>
                   <Checkbox
-                    checked={skills.every((skill) =>
+                    checked={project_skills.every((skill) =>
                       checkedSkills.map((skill) => skill.id).includes(skill.id)
                     )}
                     onChange={(checked) => handleSelectAll(checked)}
@@ -63,7 +78,7 @@ export const SelectSkillsTable = () => {
               </tr>
             </thead>
             <tbody>
-              {skills.map((skill) => (
+              {projectSkills.map((skill) => (
                 <tr key={skill.id} className='hover:bg-slate-100'>
                   <td className='py-3 pr-3'>
                     <div>

@@ -1,27 +1,28 @@
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
-import { useAppSelector } from "../../../../hooks/useAppSelector"
-import { Button } from "../../../../components/ui/button/button"
-import { Icon } from "../../../../components/ui/icon/icon"
-import { setSelectedSkills, setCheckedSkills } from "../../../../redux/slices/skills-slice"
-import { useAppDispatch } from "../../../../hooks/useAppDispatch"
+import { useAppSelector } from "../../../../../hooks/useAppSelector"
+import { Button } from "../../../../../components/ui/button/button"
+import { Icon } from "../../../../../components/ui/icon/icon"
+import { setSelectedSkills, setCheckedSkills } from "../../../../../redux/slices/skills-slice"
+import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
 
-export const CreateProjectTable = () => {
+export const EditProjectAssignmentTable = () => {
+  const location = useLocation()
   const navigate = useNavigate()
   const appDispatch = useAppDispatch()
-  const location = useLocation()
   const { selectedSkills } = useAppSelector((state) => state.skills)
+  const [selectedSkillIndex, setSelectedSkillIndex] = useState<number>(0)
   const dragContent = useRef<number>(0)
   const draggedOverContent = useRef<number>(0)
 
-  const handleDelete = (id: number) => {
-    const updatedSkills = selectedSkills.filter((skill) => skill.id !== id)
+  const handleDelete = () => {
+    const updatedSkills = selectedSkills.filter((_, index) => index !== selectedSkillIndex)
     void appDispatch(setSelectedSkills(updatedSkills))
     void appDispatch(setCheckedSkills(updatedSkills))
   }
 
   const handleAddSkill = () => {
-    navigate(`/admin/projects/create/select-skills?callback=${location.pathname}`)
+    navigate(`/admin/project-assignments/select?callback=${location.pathname}`)
   }
 
   const handleSort = () => {
@@ -37,7 +38,7 @@ export const CreateProjectTable = () => {
 
   return (
     <>
-      <div className='flex-2 flex flex-col gap-5 pr-5 overflow-y-scroll'>
+      <div className='flex-2 flex flex-col gap-5 overflow-y-scroll md:w-1/2'>
         <div className='text-xl text-primary-500 font-bold'>Skills</div>
         <table>
           <thead className='text-left'>
@@ -67,17 +68,20 @@ export const CreateProjectTable = () => {
                 <td className='py-1 border-b'>
                   <div className='flex gap-3 items-center'>
                     <Icon icon='Menu' size='extraSmall' />
-                    <div>{skill?.skill_categories.name}</div>
+                    <div>{skill?.skill_categories?.name}</div>
                   </div>
                 </td>
-                <td className='py-1 border-b text-start'>{skill?.name}</td>
-                <td className='py-1 border-b items-center md:w-1/2'>
+                <td className='py-1 border-b text-start'>
+                  <div>{skill?.name}</div>
+                </td>
+                <td className='py-1 border-b items-center'>
                   <div className='flex gap-2 justify-center'>
                     <Button
                       testId={`DeleteButton${skill.id}`}
                       variant='unstyled'
                       onClick={() => {
-                        handleDelete(skill.id)
+                        setSelectedSkillIndex(index)
+                        handleDelete()
                       }}
                     >
                       <Icon icon='Trash' size='small' />
@@ -88,9 +92,9 @@ export const CreateProjectTable = () => {
             ))}
           </tbody>
         </table>
-        <div className='flex justify-end'>
-          <Button onClick={handleAddSkill}>Add Skill</Button>
-        </div>
+      </div>
+      <div className='flex justify-end w-1/2'>
+        <Button onClick={handleAddSkill}>Add Skill</Button>
       </div>
     </>
   )

@@ -9,6 +9,7 @@ import Dialog from "../../../components/ui/dialog/dialog"
 import { Pagination } from "../../../components/shared/pagination/pagination"
 import { setAlert, setPreviousUrl } from "../../../redux/slices/app-slice"
 import { useFullPath } from "../../../hooks/use-full-path"
+import { setCheckedSkills, setSelectedSkills } from "../../../redux/slices/skills-slice"
 
 export const ProjectsTable = () => {
   const [searchParams] = useSearchParams()
@@ -34,6 +35,8 @@ export const ProjectsTable = () => {
         page: searchParams.get("page") ?? undefined,
       })
     )
+    void appDispatch(setSelectedSkills([]))
+    void appDispatch(setCheckedSkills([]))
   }, [searchParams])
 
   const toggleDialog = (id: number | null) => {

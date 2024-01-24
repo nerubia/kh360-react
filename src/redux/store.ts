@@ -16,8 +16,10 @@ import evaluationTemplateContentsReducer from "./slices/evaluation-template-cont
 import evaluationTemplateContentReducer from "./slices/evaluation-template-content-slice"
 import externalUserReducer from "./slices/external-user-slice"
 import externalUsersReducer from "./slices/external-users-slice"
+import projectMemberReducer from "./slices/project-member-slice"
 import projectMembersReducer from "./slices/project-members-slice"
 import projectRolesReducer from "./slices/project-roles-slice"
+import projectSkillsReducer from "./slices/project-skills-slice"
 import projectReducer from "./slices/project-slice"
 import projectsReducer from "./slices/projects-slice"
 import scoreRatingsReducer from "./slices/score-ratings-slice"
@@ -44,8 +46,10 @@ export const store = configureStore({
     evaluationTemplateContent: evaluationTemplateContentReducer,
     externalUser: externalUserReducer,
     externalUsers: externalUsersReducer,
+    projectMember: projectMemberReducer,
     projectMembers: projectMembersReducer,
     projectRoles: projectRolesReducer,
+    projectSkills: projectSkillsReducer,
     project: projectReducer,
     projects: projectsReducer,
     scoreRatings: scoreRatingsReducer,
