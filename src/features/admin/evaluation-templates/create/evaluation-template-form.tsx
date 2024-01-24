@@ -364,7 +364,7 @@ export const CreateEvaluationTemplateForm = () => {
             />
           </div>
         </div>
-        <div className='flex flex-wrap gap-4'>
+        <div className='xl:flex xl:flex-wrap gap-4'>
           <div className='flex-1'>
             <Input
               label='Rate'
@@ -391,34 +391,32 @@ export const CreateEvaluationTemplateForm = () => {
               error={validationErrors.answer_id}
             />
           </div>
-          <div className='flex flex-1 items-end gap-5'>
-            <div className='flex items-center'>
-              <div className='my-2.5 mr-2.5'>
-                <Checkbox
-                  checked={formData.with_recommendation as boolean}
-                  onChange={async (checked) => {
-                    const valueToSet = checked ? 1 : 0
-                    await onChangeWithRecommendation(valueToSet)
-                  }}
-                />
-              </div>
-              <h2 className='font-medium'>With Recommendation</h2>
+          <div className='flex flex-1 items-end my-2.5'>
+            <div className='mr-2.5'>
+              <Checkbox
+                checked={formData.with_recommendation as boolean}
+                onChange={async (checked) => {
+                  const valueToSet = checked ? 1 : 0
+                  await onChangeWithRecommendation(valueToSet)
+                }}
+              />
             </div>
-            <div className='flex flex-1 items-center'>
-              <div className='my-2.5 mr-2.5'>
-                <Checkbox
-                  checked={formData.with_recommendation as boolean}
-                  onChange={async (checked) => {
-                    const valueToSet = checked ? 1 : 0
-                    await onChangeWithRecommendation(valueToSet)
-                  }}
-                />
-              </div>
-              <h2 className='font-medium'>Is Active</h2>
-            </div>
+            <h2 className='font-medium'>With Recommendation</h2>
           </div>
-          <div className='flex flex-1'></div>
+          <div className='flex flex-1 items-end my-2.5'>
+            <div className='mr-2.5'>
+              <Checkbox
+                checked={formData.with_recommendation as boolean}
+                onChange={async (checked) => {
+                  const valueToSet = checked ? 1 : 0
+                  await onChangeWithRecommendation(valueToSet)
+                }}
+              />
+            </div>
+            <h2 className='font-medium'>Is Active</h2>
+          </div>
         </div>
+        <div className='flex flex-1'></div>
       </div>
       {evaluation_template === null && <EvaluationTemplateContentsTable />}
       <div className='flex justify-between'>
