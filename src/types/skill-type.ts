@@ -11,4 +11,5 @@ export interface SkillFilters {
   name?: string
   skill_category_id?: string
   page?: string
+  project_id?: string
 }

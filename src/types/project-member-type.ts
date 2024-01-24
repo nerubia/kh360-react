@@ -13,6 +13,8 @@ export interface ProjectMember {
   user?: User
   role?: string
   color?: string
+  project_role_id?: string
+  remarks?: string
   project_member_skills?: ProjectMemberSkill[]
 }
 

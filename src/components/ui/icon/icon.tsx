@@ -7,6 +7,7 @@ const iconVariants = cva([], {
     color: {
       primary: "text-primary-500",
       black: "text-black",
+      gray: "text-gray-500",
       white: "text-white",
       red: "text-red-500",
     },

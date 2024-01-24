@@ -84,6 +84,7 @@ export interface ProjectFormData {
 }
 
 export interface ProjectMemberFormData {
+  id?: string
   project_id?: string
   user_id?: string
   project_role_id?: string
@@ -91,6 +92,7 @@ export interface ProjectMemberFormData {
   end_date?: string
   allocation_rate?: string
   remarks?: string
+  skill_ids?: number[] | string
 }
 
 export interface EvaluationTemplateContentFormData {
