@@ -238,7 +238,7 @@ export const CreateProjectForm = () => {
   }
 
   return (
-    <div className='flex flex-col gap-10'>
+    <div className='flex flex-col gap-10 md:w-1/2'>
       <div className='flex flex-col gap-4'>
         <div>
           <h2 className='font-medium'>Name</h2>

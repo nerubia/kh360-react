@@ -1,6 +1,7 @@
 import { type Task } from "custom-gantt-task-react"
 import React from "react"
 import { Icon } from "../../ui/icon/icon"
+import { LinkButton } from "../../ui/button/button"
 
 export const ProjectColumn: React.FC<{
   rowHeight: number
@@ -49,7 +50,16 @@ export const ProjectColumn: React.FC<{
                     </>
                   )}
                 </div>
-                <div>{t.name}</div>
+                <div className='flex gap-5 items-center'>
+                  {t.name}
+                  {t.hideChildren === undefined && (
+                    <div>
+                      <LinkButton to={`${t.projectMemberId}/edit`} variant='unstyled' size='small'>
+                        <Icon icon='PenSquare' size='extraSmall' color='gray' />
+                      </LinkButton>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
