@@ -14,8 +14,9 @@ import {
   getEvaluationAdministration,
   updateEvaluationAdministration,
 } from "../../../../../redux/slices/evaluation-administration-slice"
+import { setAlert } from "../../../../../redux/slices/app-slice"
 
-export const EditEvaluationForm = () => {
+export const EditEvaluationAdministrationForm = () => {
   const navigate = useNavigate()
   const appDispatch = useAppDispatch()
   const { id } = useParams()
@@ -83,8 +84,22 @@ export const EditEvaluationForm = () => {
             evaluation_data: formData,
           })
         )
-        if (result.payload.id !== undefined) {
-          navigate(`/admin/evaluation-administrations/${result.payload.id}/select`)
+        if (result.type === "evaluationAdministration/updateEvaluationAdministration/fulfilled") {
+          appDispatch(
+            setAlert({
+              description: "Evaluation adminstration updated successfully",
+              variant: "success",
+            })
+          )
+          navigate(`/admin/evaluation-administrations/${result.payload.id}`)
+        }
+        if (result.type === "evaluationAdministration/updateEvaluationAdministration/rejected") {
+          appDispatch(
+            setAlert({
+              description: result.payload,
+              variant: "destructive",
+            })
+          )
         }
       } catch (error) {
         if (error instanceof ValidationError) {
@@ -223,7 +238,7 @@ export const EditEvaluationForm = () => {
               <Button variant='primaryOutline' onClick={toggleDialog}>
                 Cancel & Exit
               </Button>
-              <Button onClick={handleSubmit}>Save & Proceed</Button>
+              <Button onClick={handleSubmit}>Save</Button>
             </div>
           </div>
           <Dialog open={showDialog}>

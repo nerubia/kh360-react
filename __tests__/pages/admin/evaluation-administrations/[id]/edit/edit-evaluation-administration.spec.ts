@@ -114,7 +114,7 @@ test.describe("Admin - Edit Evaluation Administration", () => {
       )
 
       await expect(page.getByRole("button", { name: "Cancel & Exit" })).toBeVisible()
-      await expect(page.getByRole("button", { name: "Save & Proceed" })).toBeVisible()
+      await expect(page.getByRole("button", { name: "Save" })).toBeVisible()
     })
 
     test("should show validation errors", async ({ page, isMobile }) => {
@@ -164,7 +164,7 @@ test.describe("Admin - Edit Evaluation Administration", () => {
       await page.getByLabel("Schedule (to)").fill("")
       await page.getByLabel("Evaluation description/notes").fill("")
 
-      await page.getByRole("button", { name: "Save & Proceed" }).click()
+      await page.getByRole("button", { name: "Save" }).click()
 
       await expect(page.getByText("Name is required")).toBeVisible()
       await expect(page.getByText("Start period must be before end period")).toBeVisible()
@@ -175,7 +175,7 @@ test.describe("Admin - Edit Evaluation Administration", () => {
       await expect(page.getByText("Description is required")).toBeVisible()
     })
 
-    test("should edit evaluation succesfully", async ({ page, isMobile }) => {
+    test("should edit evaluation successfully", async ({ page, isMobile }) => {
       await loginUser("admin", page)
 
       await page.goto("/admin/evaluation-administrations/1/edit")
@@ -224,24 +224,37 @@ test.describe("Admin - Edit Evaluation Administration", () => {
       await page.getByLabel("Schedule (to)").fill("2023-01-05")
       await page.getByLabel("Evaluation description/notes").fill("Description Edited")
 
-      await page.getByRole("button", { name: "Save & Proceed" }).click()
+      await page.getByRole("button", { name: "Save" }).click()
 
-      await mockRequest(page, "/admin/users", {
+      await mockRequest(page, "/admin/evaluation-administrations/1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          id: 1,
+          name: "Evaluation 1",
+          eval_schedule_start_date: "2024-01-01T00:00:00.000Z",
+          eval_schedule_end_date: "2024-01-03T00:00:00.000Z",
+          eval_period_start_date: "2023-01-01T00:00:00.000Z",
+          eval_period_end_date: "2023-12-31T00:00:00.000Z",
+          remarks: "Remarks 1",
+          email_subject: "Subject 1",
+          email_content: "Content 1",
+          status: "Pending",
+        }),
+      })
+
+      await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
           data: [
             {
               id: 1,
-              email: "sample1@gmail.com",
-              first_name: "Adam",
-              last_name: "Baker",
-              is_active: true,
-              user_details: {
-                start_date: "2023-04-12T00:00:00.000Z",
-                user_id: 1,
-                user_position: "Project Manager",
-                user_type: "Regular",
+              status: "For Review",
+              users: {
+                first_name: "Sample",
+                last_name: "User",
+                picture: null,
               },
             },
           ],
@@ -253,37 +266,99 @@ test.describe("Admin - Edit Evaluation Administration", () => {
         }),
       })
 
-      await mockRequest(page, "/admin/users/all", {
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify({
-          data: [
+      await mockRequest(
+        page,
+        "/admin/evaluation-templates?evaluation_result_id=1&for_evaluation=true",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([
+            {
+              id: 4,
+              name: "DEV Evaluation by PM",
+              display_name: "PM Evaluation",
+            },
+            {
+              id: 5,
+              name: "DEV Evaluation by Dev Peers",
+              display_name: "Peer Evaluation",
+            },
+            {
+              id: 6,
+              name: "DEV Evaluation by Code Reviewer",
+              display_name: "Code Reviewer Evaluation",
+            },
+            {
+              id: 7,
+              name: "DEV Evaluation by QA",
+              display_name: "QA Evaluation",
+            },
+          ]),
+        }
+      )
+
+      await mockRequest(
+        page,
+        "/admin/evaluations?evaluation_result_id=1&evaluation_template_id=4&for_evaluation=true",
+        {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([
             {
               id: 1,
-              email: "sample1@gmail.com",
-              first_name: "Adam",
-              last_name: "Baker",
-              is_active: true,
-              user_details: {
-                start_date: "2023-04-12T00:00:00.000Z",
-                user_id: 1,
-                user_position: "Project Manager",
-                user_type: "Regular",
+              eval_start_date: "2023-10-16T00:00:00.000Z",
+              eval_end_date: "2023-12-31T00:00:00.000Z",
+              percent_involvement: "75",
+              evaluator: {
+                first_name: "First",
+                last_name: "Evaluator",
+              },
+              project: {
+                name: "iAssess",
+              },
+              project_role: {
+                name: "Developer",
               },
             },
-          ],
-        }),
-      })
-
-      await mockRequest(page, "/admin/evaluation-results/all?evaluation_administration_id=1", {
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify([]),
-      })
+            {
+              id: 2,
+              eval_start_date: "2023-01-01T00:00:00.000Z",
+              eval_end_date: "2023-10-15T00:00:00.000Z",
+              percent_involvement: "100",
+              evaluator: {
+                first_name: "Second",
+                last_name: "Evaluator",
+              },
+              project: {
+                name: "ProductHQ",
+              },
+              project_role: {
+                name: "Developer",
+              },
+            },
+            {
+              id: 3,
+              eval_start_date: "2023-01-01T00:00:00.000Z",
+              eval_end_date: "2023-10-15T00:00:00.000Z",
+              percent_involvement: "100",
+              evaluator: {
+                first_name: "Third",
+                last_name: "Evaluator",
+              },
+              project: {
+                name: "ProductHQ",
+              },
+              project_role: {
+                name: "Developer",
+              },
+            },
+          ]),
+        }
+      )
 
       await page.waitForLoadState("networkidle")
 
-      await expect(page).toHaveURL("/admin/evaluation-administrations/1/select")
+      await expect(page).toHaveURL("/admin/evaluation-administrations/1")
     })
 
     test("should render cancel & exit modal correctly", async ({ page, isMobile }) => {
