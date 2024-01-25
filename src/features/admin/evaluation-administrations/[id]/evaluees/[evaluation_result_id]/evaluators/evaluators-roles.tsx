@@ -37,7 +37,7 @@ export const EvaluatorsRoles = () => {
   }
 
   return (
-    <div className='w-80 h-[calc(100vh_-_185px)] pt-4'>
+    <div className='md:w-80 md:h-[calc(100vh_-_185px)] pt-4 h-100 w-100'>
       <div className='flex-1 flex flex-col gap-2 overflow-y-scroll'>
         {evaluation_templates.map((template) => (
           <Menu

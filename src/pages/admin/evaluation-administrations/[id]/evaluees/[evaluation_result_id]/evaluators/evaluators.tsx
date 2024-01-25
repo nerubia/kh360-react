@@ -11,7 +11,7 @@ export default function Evaluators() {
     <div className='flex flex-col'>
       <EvaluatorsUser />
       <Divider />
-      <div className='flex gap-4'>
+      <div className='flex gap-4 flex-col md:flex-row'>
         <EvaluatorsRoles />
         <Divider orientation='vertical' />
         <EvaluatorsList />

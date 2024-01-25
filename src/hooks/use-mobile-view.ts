@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react"
 
-export const useMobileView = () => {
-  const [isMobileView, setIsMobileView] = useState<boolean>(window.innerWidth < 768)
+export const useMobileView = (customThreshold?: number) => {
+  const threshold = customThreshold ?? 768
+  const [isMobileView, setIsMobileView] = useState<boolean>(window.innerWidth < threshold)
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobileView(window.innerWidth < 768)
+      setIsMobileView(window.innerWidth < threshold)
     }
 
     window.addEventListener("resize", handleResize)
@@ -13,7 +14,7 @@ export const useMobileView = () => {
     return () => {
       window.removeEventListener("resize", handleResize)
     }
-  }, [])
+  }, [threshold])
 
   return isMobileView
 }
