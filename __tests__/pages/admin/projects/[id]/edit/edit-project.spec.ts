@@ -229,7 +229,6 @@ test.describe("Admin - Edit Project", () => {
       await page.getByRole("button", { name: "Yes" }).click()
 
       await expect(page.getByText("Name is required")).toBeVisible()
-      await expect(page.getByText("Client is required")).toBeVisible()
       await expect(page.getByText("Start date must not be later than end date.")).toBeVisible()
       await expect(page.getByText("End period must not be earlier than start date.")).toBeVisible()
       await expect(page.getByText("Description is required")).toBeVisible()

@@ -2,7 +2,7 @@ import { object, string, array } from "yup"
 
 export const createProjectSchema = object().shape({
   name: string().required("Name is required."),
-  client_id: string().required("Client is required."),
+  client_id: string(),
   start_date: string()
     .required("Start date is required.")
     .test("start-date", "Start date must not be later than end date.", function (start_date) {
