@@ -64,7 +64,7 @@ const initialState: InitialState = {
   project: null,
   projectFormData: {
     name: "",
-    client_id: "",
+    client_id: undefined,
     start_date: "",
     end_date: "",
     description: "",
