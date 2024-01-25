@@ -24,7 +24,7 @@ export default function DashboardLayout() {
   const isButtonVisible = urlPattern.test(location.pathname)
 
   return (
-    <div className='flex '>
+    <div className='flex overflow-x-hidden'>
       <Sidebar />
       <div
         className={`${
