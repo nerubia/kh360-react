@@ -12,7 +12,10 @@ const ViewEvaluation = lazy(
   async () => await import("../pages/admin/evaluation-administrations/[id]/view-evaluation")
 )
 const EditEvaluation = lazy(
-  async () => await import("../pages/admin/evaluation-administrations/[id]/edit/edit_evaluation")
+  async () =>
+    await import(
+      "../pages/admin/evaluation-administrations/[id]/edit/edit-evaluation-administration"
+    )
 )
 const EvaluationProgress = lazy(
   async () =>
