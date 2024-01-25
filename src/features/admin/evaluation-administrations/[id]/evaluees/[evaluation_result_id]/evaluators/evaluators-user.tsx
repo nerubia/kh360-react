@@ -74,10 +74,12 @@ export const EvaluatorsUser = () => {
           )}
         </div>
       </div>
-      <Button size='small' variant='ghost' onClick={handleAddEvaluator}>
-        <Icon icon='Plus' color='primary' size='small' />
-        <p className='text-primary-500 uppercase'>Add Evaluator</p>
-      </Button>
+      <div className='pb-4 md:pb-0'>
+        <Button size='small' variant='ghost' onClick={handleAddEvaluator}>
+          <Icon icon='Plus' color='primary' size='small' />
+          <p className='text-primary-500 uppercase whitespace-nowrap'>Add Evaluator</p>
+        </Button>
+      </div>
     </div>
   )
 }

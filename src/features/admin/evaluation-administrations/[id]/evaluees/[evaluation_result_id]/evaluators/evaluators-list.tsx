@@ -23,6 +23,7 @@ import { getProjectMembers } from "../../../../../../../redux/slices/project-mem
 import Dropdown from "../../../../../../../components/ui/dropdown/dropdown"
 import Tooltip from "../../../../../../../components/ui/tooltip/tooltip"
 import Dialog from "../../../../../../../components/ui/dialog/dialog"
+import { useMobileView } from "../../../../../../../hooks/use-mobile-view"
 
 export const EvaluatorsList = () => {
   const navigate = useNavigate()
@@ -41,6 +42,7 @@ export const EvaluatorsList = () => {
 
   const [showDialog, setShowDialog] = useState<boolean>(false)
   const [selectedEvaluationId, setSelectedEvaluationId] = useState<number>()
+  const isMediumSize = useMobileView(1024)
 
   useEffect(() => {
     if (evaluation_template_id !== "all") {
@@ -211,7 +213,7 @@ export const EvaluatorsList = () => {
   }
 
   return (
-    <div className='flex-1 h-[calc(100vh_-_185px)] flex flex-col pt-4'>
+    <div className='flex-1 h-[calc(100vh_-_185px)] flex flex-col pt-4 overflow-x-auto overflow-y-hidden'>
       <PageSubTitle>{internalHeader}</PageSubTitle>
       <div className='flex-1 overflow-y-scroll mt-2'>
         <table className='relative w-full table-fixed'>
@@ -226,11 +228,11 @@ export const EvaluatorsList = () => {
                   onChange={(checked) => handleSelectAll(checked, false)}
                 />
               </th>
-              <th className='pb-3'>Evaluator</th>
-              <th className='pb-3'>Project</th>
-              <th className='pb-3'>Role</th>
-              <th className='pb-3'>%</th>
-              <th className='pb-3'>Duration</th>
+              <th className='pb-3 w-[100px]'>Evaluator</th>
+              <th className='pb-3 w-[100px]'>Project</th>
+              <th className='pb-3 w-[100px]'>Role</th>
+              <th className='pb-3 w-[100px]'>%</th>
+              <th className='pb-3 w-[100px]'>Duration</th>
             </tr>
           </thead>
           <tbody>
@@ -277,11 +279,11 @@ export const EvaluatorsList = () => {
                   onChange={(checked) => handleSelectAll(checked, true)}
                 />
               </th>
-              <th className='pb-3'>Evaluator</th>
-              <th className='pb-3'>Project</th>
-              <th className='pb-3'>%</th>
-              <th className='pb-3'>Duration</th>
-              <th className='pb-3'>Actions</th>
+              <th className='pb-3 w-[100px]'>Evaluator</th>
+              <th className='pb-3 w-[100px]'>Project</th>
+              <th className='pb-3 w-[100px]'>%</th>
+              <th className='pb-3 w-[100px]'>Duration</th>
+              <th className='pb-3 w-[100px]'>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -384,8 +386,10 @@ export const EvaluatorsList = () => {
           <p className='text-primary-500 uppercase'>Add from list</p>
         </LinkButton>
       </div>
-      <div className='flex flex-col md:flex-row justify-between gap-2 pt-5'>
+      <div className='flex flex-col md:flex-row justify-between gap-2 pt-5 whitespace-nowrap'>
         <LinkButton
+          fullWidth={isMediumSize}
+          size={isMediumSize ? "small" : "medium"}
           variant='primaryOutline'
           to={`/admin/evaluation-administrations/${id}/evaluees`}
         >
@@ -393,6 +397,8 @@ export const EvaluatorsList = () => {
         </LinkButton>
         <div className='flex flex-col md:flex-row items-center gap-2'>
           <Button
+            fullWidth={isMediumSize}
+            size={isMediumSize ? "small" : "medium"}
             variant='primaryOutline'
             onClick={async () => await handleUpdateStatus(EvaluationResultStatus.Draft)}
             loading={loading === Loading.Pending}
@@ -400,6 +406,8 @@ export const EvaluatorsList = () => {
             Save as Draft
           </Button>
           <Button
+            fullWidth={isMediumSize}
+            size={isMediumSize ? "small" : "medium"}
             onClick={async () => await handleUpdateStatus(EvaluationResultStatus.Ready)}
             loading={loading === Loading.Pending}
           >
