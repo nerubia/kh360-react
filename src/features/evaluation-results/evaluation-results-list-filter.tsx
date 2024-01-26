@@ -99,8 +99,11 @@ export const EvaluationResultsListFilter = () => {
       } catch (error) {}
     }
     void fetchData()
+  }, [page])
+
+  useEffect(() => {
     void appDispatch(getScoreRatings())
-  }, [appDispatch, page])
+  }, [])
 
   useEffect(() => {
     const filterOptions: Option[] = evaluation_administrations.map((evalAdmin) => ({
