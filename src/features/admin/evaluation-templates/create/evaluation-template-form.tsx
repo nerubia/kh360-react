@@ -173,6 +173,10 @@ export const CreateEvaluationTemplateForm = () => {
     setFormData({ ...formData, with_recommendation: checked })
   }
 
+  const onChangeIsActive = async (checked: number) => {
+    setFormData({ ...formData, is_active: checked })
+  }
+
   const checkNumberValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value
     setFormData({ ...formData, rate: handleDecimalsOnValue(inputValue) })
@@ -406,17 +410,16 @@ export const CreateEvaluationTemplateForm = () => {
           <div className='flex flex-1 items-end my-2.5'>
             <div className='mr-2.5'>
               <Checkbox
-                checked={formData.with_recommendation as boolean}
+                checked={formData.is_active as boolean}
                 onChange={async (checked) => {
                   const valueToSet = checked ? 1 : 0
-                  await onChangeWithRecommendation(valueToSet)
+                  await onChangeIsActive(valueToSet)
                 }}
               />
             </div>
             <h2 className='font-medium'>Is Active</h2>
           </div>
         </div>
-        <div className='flex flex-1'></div>
       </div>
       {evaluation_template === null && <EvaluationTemplateContentsTable />}
       <div className='flex justify-between'>

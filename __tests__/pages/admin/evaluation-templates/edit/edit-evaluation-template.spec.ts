@@ -94,7 +94,7 @@ test.describe("Admin - Edit Evaluation Template", () => {
           rate: "35",
           answer_id: 1,
           description: null,
-          is_active: false,
+          is_active: true,
           deleted_at: null,
           evaluatorRole: {
             id: 1,
@@ -131,7 +131,7 @@ test.describe("Admin - Edit Evaluation Template", () => {
             rate: "35.00",
             answer_id: 1,
             description: null,
-            is_active: false,
+            is_active: true,
             deleted_at: null,
           },
           {
@@ -354,7 +354,7 @@ test.describe("Admin - Edit Evaluation Template", () => {
           rate: "35",
           answer_id: 1,
           description: null,
-          is_active: false,
+          is_active: true,
           deleted_at: null,
           evaluatorRole: {
             id: 1,
@@ -391,7 +391,7 @@ test.describe("Admin - Edit Evaluation Template", () => {
             rate: "35",
             answer_id: 1,
             description: null,
-            is_active: false,
+            is_active: true,
             deleted_at: null,
           },
           {
@@ -580,7 +580,7 @@ test.describe("Admin - Edit Evaluation Template", () => {
           rate: "35",
           answer_id: 1,
           description: null,
-          is_active: false,
+          is_active: true,
           deleted_at: null,
           evaluatorRole: {
             id: 1,
@@ -617,7 +617,7 @@ test.describe("Admin - Edit Evaluation Template", () => {
             rate: "35",
             answer_id: 1,
             description: null,
-            is_active: false,
+            is_active: true,
             deleted_at: null,
           },
           {
@@ -749,7 +749,7 @@ test.describe("Admin - Edit Evaluation Template", () => {
           rate: "35",
           answer_id: 1,
           description: null,
-          is_active: false,
+          is_active: true,
           deleted_at: null,
           evaluatorRole: {
             id: 1,
@@ -786,7 +786,7 @@ test.describe("Admin - Edit Evaluation Template", () => {
             rate: "35",
             answer_id: 1,
             description: null,
-            is_active: false,
+            is_active: true,
             deleted_at: null,
           },
           {
