@@ -13,16 +13,18 @@ export const CustomSelectInfinite = async (
     label,
   }))
 
-  let filteredOptions: Option[]
-  if (search.length === 0) {
-    filteredOptions = options
-  } else {
-    const searchLower = search.toLowerCase()
-    filteredOptions = options.filter(({ label }) => label.toLowerCase().includes(searchLower))
+  let filteredOptions: Option[] = options
+
+  if (search.length > 0) {
+    const searchTerms = search.toLowerCase().split(/\s+/)
+
+    filteredOptions = options.filter(({ label }) => {
+      const labelLower = label.toLowerCase()
+      return searchTerms.every((term) => labelLower.includes(term))
+    })
   }
 
   const hasMore = totalEvalItems > 10 || hasNextPage
-
   const slicedOptions = filteredOptions.slice(prevOptions.length, prevOptions.length + 10)
 
   return {
