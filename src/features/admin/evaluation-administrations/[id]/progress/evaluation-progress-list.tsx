@@ -373,15 +373,14 @@ export const EvaluationProgressList = () => {
                   )}
               </div>
               {evaluatorToggledState[evaluatorIndex] && (
-                <table className='md:w-3/4 ml-14 mb-5 table-fixed '>
+                <table className='w-[90%] ml-14 mb-5 table-fixed bg-red-100'>
                   <thead className='bg-white text-left'>
                     <tr>
-                      <th className='pb-3 pr-5 md:w-[170px]'>Evaluee</th>
-                      <th className='pb-3 md:w-[150px]'>Template</th>
-                      <th className='pb-3 md:w-[150px]'>Project</th>
-                      <th className='pb-3 md:w-[150px]'>Role</th>
-                      <th className='pb-3 md:w-[150px]'>Status</th>
-                      <th className='pb-3 md:w-[150px]'></th>
+                      <th className='pb-3 pr-5 w-[270px]'>Evaluee</th>
+                      <th className='pb-3 w-[270px]'>Template</th>
+                      <th className='pb-3 w-[270px]'>Project</th>
+                      <th className='pb-3 w-[270px]'>Role</th>
+                      <th className='pb-3 w-[70px]'>Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -398,18 +397,39 @@ export const EvaluationProgressList = () => {
                             } whitespace-nowrap`}
                           >
                             <td className='py-1 pr-3'>
-                              {evaluation.evaluee?.last_name},
-                              {evaluation.evaluee?.first_name != null &&
-                              evaluation.evaluee?.first_name.length > 6
-                                ? `${evaluation.evaluee?.first_name.split(" ")[0].slice(0, 6)}...`
-                                : evaluation.evaluee?.first_name}
+                              {evaluation.evaluee?.last_name != null &&
+                                evaluation.evaluee?.first_name != null &&
+                                (evaluation.evaluee.last_name.length +
+                                  evaluation.evaluee.first_name.length >
+                                30
+                                  ? `${
+                                      evaluation.evaluee.last_name
+                                    }, ${evaluation.evaluee.first_name.slice(
+                                      0,
+                                      30 - evaluation.evaluee.last_name.length
+                                    )}...`
+                                  : `${evaluation.evaluee.last_name}, ${evaluation.evaluee.first_name}`)}
                             </td>
-                            <td className='py-1 pr-3'>{evaluation.template?.display_name}</td>
+                            <td className='py-1 pr-3'>
+                              {evaluation.template?.display_name != null &&
+                              evaluation.template?.display_name?.length > 30
+                                ? `${evaluation.template?.display_name?.slice(
+                                    0,
+                                    30 - evaluation.template?.display_name.length
+                                  )}...`
+                                : evaluation.template?.display_name}
+                            </td>
                             <td className='py-1 pr-3 sm:px-2'>
                               <Tooltip placement='topEnd'>
                                 <Tooltip.Trigger>
                                   <div className='flex gap-2 items-center'>
-                                    {evaluation.project?.name}{" "}
+                                    {evaluation.project?.name != null &&
+                                    evaluation.project.name.length > 30
+                                      ? `${evaluation.project.name.slice(
+                                          0,
+                                          30 - evaluation.project.name.length
+                                        )}...`
+                                      : evaluation.project?.name}
                                     {evaluation.project !== null && (
                                       <Icon icon='Calendar' size={"extraSmall"} color={"primary"} />
                                     )}
@@ -423,7 +443,15 @@ export const EvaluationProgressList = () => {
                                 </Tooltip.Content>
                               </Tooltip>
                             </td>
-                            <td className='py-1 pr-3'>{evaluation.project_role?.name}</td>
+                            <td className='py-1 pr-3'>
+                              {evaluation.project_role?.name != null &&
+                              evaluation.project_role?.name.length > 30
+                                ? `${evaluation.project_role?.name?.slice(
+                                    0,
+                                    30 - evaluation.project_role?.name.length
+                                  )}...`
+                                : evaluation.project_role?.name}
+                            </td>
                             <td className='py-1 pr-3'>
                               {evaluation.status === EvaluationStatus.ForRemoval ? (
                                 <Tooltip placement='topEnd'>
