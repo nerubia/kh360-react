@@ -6,7 +6,7 @@ import { useTitle } from "../../../../hooks/useTitle"
 export default function ViewEvaluationTemplate() {
   useTitle("View Evaluation Templates")
   return (
-    <div className='h-[calc(100vh_-_104px)] flex flex-col gap-12'>
+    <div className='flex flex-col gap-12'>
       <ViewEvaluationTemplateHeader />
       <ViewEvaluationTemplateTable />
       <ViewEvaluationTemplateFooter />
