@@ -23,8 +23,11 @@ defaultOptions.unshift({
 export const EmailTemplatesFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams()
 
+  const [template_types, setTemplateTypes] = useState<Option[]>([])
   const [name, setName] = useState<string>(searchParams.get("name") ?? "")
-  const [template_type, setTemplateType] = useState<string>(searchParams.get("template_type") ?? "")
+  const [template_type, setTemplateType] = useState<string>(
+    searchParams.get("template_type") ?? "all"
+  )
   const [is_default, setDefault] = useState<string>(searchParams.get("default") ?? "all")
 
   const appDispatch = useAppDispatch()
@@ -33,6 +36,18 @@ export const EmailTemplatesFilter = () => {
   useEffect(() => {
     void appDispatch(getTemplateTypes())
   }, [])
+
+  useEffect(() => {
+    const filterOptions: Option[] = templateTypes.map((templateType) => ({
+      label: templateType.label ?? "",
+      value: templateType.value ?? "",
+    }))
+    filterOptions.unshift({
+      label: "All",
+      value: "all",
+    })
+    setTemplateTypes(filterOptions)
+  }, [templateTypes])
 
   const handleSearch = async () => {
     if (name.length !== 0) {
@@ -56,6 +71,7 @@ export const EmailTemplatesFilter = () => {
 
   const handleClear = async () => {
     setName("")
+    setTemplateType("all")
     setDefault("all")
     setSearchParams({})
   }
@@ -77,9 +93,9 @@ export const EmailTemplatesFilter = () => {
             data-test-id='TemplateTypeFilter'
             label='Template Type'
             name='template_type'
-            value={templateTypes.find((option) => option.value === template_type)}
+            value={template_types.find((option) => option.value === template_type)}
             onChange={(option) => setTemplateType(option !== null ? option.value : "")}
-            options={templateTypes}
+            options={template_types}
             fullWidth
           />
         </div>
