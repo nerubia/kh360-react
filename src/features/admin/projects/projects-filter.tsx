@@ -101,15 +101,17 @@ export const ProjectsFilter = () => {
             onChange={(e) => setSkills(e.target.value)}
           />
         </div>
-        <CustomSelect
-          data-test-id='Status'
-          label='Status'
-          name='status'
-          value={statuses.find((option) => option.value === status)}
-          onChange={(option) => setStatus(option !== null ? option.value : "all")}
-          options={statuses}
-          fullWidth
-        />
+        <div className='flex-1'>
+          <CustomSelect
+            data-test-id='Status'
+            label='Status'
+            name='status'
+            value={statuses.find((option) => option.value === status)}
+            onChange={(option) => setStatus(option !== null ? option.value : "all")}
+            options={statuses}
+            fullWidth
+          />
+        </div>
       </div>
       <div className='flex items-end gap-4'>
         <Button onClick={handleSearch}>Search</Button>

@@ -159,7 +159,7 @@ export const ViewProjectMembersList = () => {
 
   return (
     <>
-      <div className='flex-1 flex flex-col gap-5 md:w-[1600px] overflow-y-scroll'>
+      <div className='flex-1 flex flex-col gap-5 md:w-full overflow-y-scroll'>
         <div className='text-xl text-primary-500 font-bold'>Project Members</div>
         <div className='flex flex-col'>
           {activeProjectMembers.length > 0 ? (
