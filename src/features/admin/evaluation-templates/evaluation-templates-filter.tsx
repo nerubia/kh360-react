@@ -125,22 +125,26 @@ export const EvaluationTemplatesFilter = () => {
             onChange={(e) => setName(e.target.value)}
           />
         </div>
-        <Input
-          label='Display Name'
-          name='displayName'
-          placeholder='Search by display name'
-          value={displayName}
-          onChange={(e) => setDisplayName(e.target.value)}
-        />
-        <CustomSelect
-          data-test-id='TemplateType'
-          label='Template Type'
-          name='template_type'
-          value={templateTypes.find((option) => option.value === templateType)}
-          onChange={(option) => setTemplateType(option !== null ? option.value : "all")}
-          options={templateTypes}
-          fullWidth
-        />
+        <div className='flex-1'>
+          <Input
+            label='Display Name'
+            name='displayName'
+            placeholder='Search by display name'
+            value={displayName}
+            onChange={(e) => setDisplayName(e.target.value)}
+          />
+        </div>
+        <div className='flex-1'>
+          <CustomSelect
+            data-test-id='TemplateType'
+            label='Template Type'
+            name='template_type'
+            value={templateTypes.find((option) => option.value === templateType)}
+            onChange={(option) => setTemplateType(option !== null ? option.value : "all")}
+            options={templateTypes}
+            fullWidth
+          />
+        </div>
         <CustomSelect
           data-test-id='EvaluatorRole'
           label='Evaluator Role'
