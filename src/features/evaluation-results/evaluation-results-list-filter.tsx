@@ -154,7 +154,7 @@ export const EvaluationResultsListFilter = () => {
     setEvaluationAdministrationId("all")
     setScoreRatingId("all")
     setBanding("all")
-    setSortBy("all")
+    setSortBy("evaluee")
     setSearchParams({})
   }
   return (
