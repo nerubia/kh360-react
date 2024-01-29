@@ -373,14 +373,14 @@ export const EvaluationProgressList = () => {
                   )}
               </div>
               {evaluatorToggledState[evaluatorIndex] && (
-                <table className='w-[90%] ml-14 mb-5 table-fixed bg-red-100'>
+                <table className='w-[90%] ml-14 mb-5 table-fixed whitespace-normal'>
                   <thead className='bg-white text-left'>
                     <tr>
                       <th className='pb-3 pr-5 w-[270px]'>Evaluee</th>
                       <th className='pb-3 w-[270px]'>Template</th>
                       <th className='pb-3 w-[270px]'>Project</th>
                       <th className='pb-3 w-[270px]'>Role</th>
-                      <th className='pb-3 w-[70px]'>Status</th>
+                      <th className='pb-3 w-[100px]'>Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -419,7 +419,7 @@ export const EvaluationProgressList = () => {
                                   )}...`
                                 : evaluation.template?.display_name}
                             </td>
-                            <td className='py-1 pr-3 sm:px-2'>
+                            <td className='py-1 pr-3'>
                               <Tooltip placement='topEnd'>
                                 <Tooltip.Trigger>
                                   <div className='flex gap-2 items-center'>
@@ -480,7 +480,7 @@ export const EvaluationProgressList = () => {
                             </td>
                             {evaluation.status === EvaluationStatus.ForRemoval && (
                               <td className='py-1'>
-                                <div className='flex gap-2'>
+                                <div className='flex gap-2 ml-7'>
                                   <Button
                                     variant='textLink'
                                     size='small'
