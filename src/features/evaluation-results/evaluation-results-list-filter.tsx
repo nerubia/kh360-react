@@ -11,8 +11,6 @@ import { EvaluationAdministrationStatus } from "../../types/evaluation-administr
 import { getScoreRatings } from "../../redux/slices/score-ratings-slice"
 import { Banding } from "../../types/banding-type"
 import { useMobileView } from "../../hooks/use-mobile-view"
-import { AsyncPaginate } from "react-select-async-paginate"
-import { CustomSelectInfinite } from "../../components/ui/select/custom-select-infinite"
 
 const bandingFilters: Option[] = Object.values(Banding).map((value) => ({
   label: value,
@@ -73,7 +71,6 @@ export const EvaluationResultsListFilter = () => {
   const [page, setPage] = useState<string>("1")
   const [hasNextPage, setHasNextPage] = useState<boolean>(false)
   const [isInitialLoad, setIsInitialLoad] = useState<boolean>(true)
-  const [totalEvalItems, setTotalEvalItems] = useState<number>(0)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -92,7 +89,6 @@ export const EvaluationResultsListFilter = () => {
           const nextPage = String(Number(page) + 1)
           setPage(nextPage)
           setHasNextPage(true)
-          setTotalEvalItems(pageInfo.totalItems)
         } else {
           setHasNextPage(false)
         }
@@ -157,6 +153,7 @@ export const EvaluationResultsListFilter = () => {
     setSortBy("all")
     setSearchParams({})
   }
+
   return (
     <div className='flex flex-col gap-2 md:gap-4'>
       <div className='flex flex-col md:flex-row gap-2 md:gap-4'>
@@ -171,32 +168,21 @@ export const EvaluationResultsListFilter = () => {
             />
           </div>
           <div className='flex-1'>
-            <label
-              htmlFor='evaluation_administration'
-              className={`whitespace-nowrap ${isMobile ? "text-sm" : "font-medium"}`}
-            >
-              Evaluation Administration
-            </label>
-            <AsyncPaginate
-              data-test-id='EvaluationAdministration'
-              name='evaluation_administration'
-              placeholder='All'
-              value={evaluationAdministrationFilters.find(
-                (option) => option.value === evaluationAdministrationId
-              )}
-              loadOptions={async (search, prevOptions) =>
-                await CustomSelectInfinite(
-                  search,
-                  prevOptions,
-                  evaluationAdministrationFilters,
-                  totalEvalItems,
-                  hasNextPage
-                )
-              }
-              onChange={(option) =>
-                setEvaluationAdministrationId(option !== null ? option.value : "all")
-              }
-            />
+            <div className='flex-1'>
+              <CustomSelect
+                data-test-id='EvaluationAdministration'
+                label='Evaluation Administration'
+                name='evaluation_administration'
+                value={evaluationAdministrationFilters.find(
+                  (option) => option.value === evaluationAdministrationId
+                )}
+                onChange={(option) =>
+                  setEvaluationAdministrationId(option !== null ? option.value : "all")
+                }
+                options={evaluationAdministrationFilters}
+                fullWidth
+              />
+            </div>
           </div>
         </div>
         <div className='flex-1 flex flex-col md:flex-row gap-4'>
