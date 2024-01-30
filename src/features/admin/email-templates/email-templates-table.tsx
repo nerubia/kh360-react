@@ -9,12 +9,13 @@ import Dialog from "../../../components/ui/dialog/dialog"
 import { Pagination } from "../../../components/shared/pagination/pagination"
 import { setAlert } from "../../../redux/slices/app-slice"
 import Tooltip from "../../../components/ui/tooltip/tooltip"
+import { useMobileView } from "../../../hooks/use-mobile-view"
 
 export const EmailTemplatesTable = () => {
   const [searchParams] = useSearchParams()
   const [showDialog, setShowDialog] = useState<boolean>(false)
   const [selectedTemplateId, setSelectedTemplateId] = useState<number>()
-
+  const isMobile = useMobileView()
   const appDispatch = useAppDispatch()
   const { emailTemplates, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
     (state) => state.emailTemplate
@@ -63,15 +64,15 @@ export const EmailTemplatesTable = () => {
   }
 
   return (
-    <div className='flex flex-col gap-8'>
+    <div className='flex flex-col gap-8 overflow-x-auto overflow-y-hidden md:overflow-x-hidden'>
       <table className='w-full table-fixed'>
-        <thead className='text-left'>
+        <thead className='text-left whitespace-normal'>
           <tr>
-            <th className='pb-3 w-1/3'>Name</th>
-            <th className='pb-3 w-1/5'>Template Type</th>
-            <th className='pb-3 w-1/8'>Default</th>
-            <th className='pb-3 w-1/3'>Subject</th>
-            <th className='pb-3'>Actions</th>
+            <th className='pb-3 w-[200px] md:w-1/3'>Name</th>
+            <th className='pb-3 w-[200px] md:w-1/5'>Template Type</th>
+            <th className='pb-3 w-[100px] md:w-1/6'>Default</th>
+            <th className='pb-3 w-[200px] md:w-1/3'>Subject</th>
+            <th className='pb-3 w-[100px] md:w-1/6'>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -81,7 +82,7 @@ export const EmailTemplatesTable = () => {
               <td className='py-1'>{template.template_type}</td>
               <td className='py-1'>{template.is_default ? "Yes" : "No"}</td>
               <td className='py-1'>
-                <Tooltip placement='bottom'>
+                <Tooltip placement={isMobile ? "bottomStart" : "bottom"}>
                   <Tooltip.Trigger>{template.subject}</Tooltip.Trigger>
                   <Tooltip.Content>{template.content}</Tooltip.Content>
                 </Tooltip>
