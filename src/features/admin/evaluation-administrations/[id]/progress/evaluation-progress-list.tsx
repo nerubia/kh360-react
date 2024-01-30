@@ -388,14 +388,7 @@ export const EvaluationProgressList = () => {
                     evaluator.evaluations !== null &&
                     evaluator.evaluations.length > 0
                       ? evaluator.evaluations.map((evaluation, evaluationIndex) => (
-                          <tr
-                            key={evaluationIndex}
-                            className={`${
-                              evaluationIndex % 2 === 0 ? "bg-white" : "bg-gray-100"
-                            } sm:${
-                              evaluationIndex % 2 === 0 ? "bg-white" : "bg-gray-100"
-                            } whitespace-nowrap`}
-                          >
+                          <tr key={evaluationIndex}>
                             <td className='py-1 pr-3'>
                               {evaluation.evaluee?.last_name != null &&
                                 evaluation.evaluee?.first_name != null &&
@@ -452,7 +445,7 @@ export const EvaluationProgressList = () => {
                                   )}...`
                                 : evaluation.project_role?.name}
                             </td>
-                            <td className='py-1 pr-3'>
+                            <td className='py-1 pr-3 whitespace-nowrap'>
                               {evaluation.status === EvaluationStatus.ForRemoval ? (
                                 <Tooltip placement='topEnd'>
                                   <Tooltip.Trigger>
@@ -480,7 +473,7 @@ export const EvaluationProgressList = () => {
                             </td>
                             {evaluation.status === EvaluationStatus.ForRemoval && (
                               <td className='py-1'>
-                                <div className='flex gap-2 ml-7'>
+                                <div className='flex gap-2'>
                                   <Button
                                     variant='textLink'
                                     size='small'
