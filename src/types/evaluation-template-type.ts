@@ -38,3 +38,9 @@ export enum TemplateClass {
   Internal = "Internal",
   External = "External",
 }
+
+export enum TemplateType {
+  ProjectEvaluation = "Project Evaluation",
+  UnitEvaluation = "Unit Evaluation",
+  HREvaluation = "HR Evaluation",
+}
