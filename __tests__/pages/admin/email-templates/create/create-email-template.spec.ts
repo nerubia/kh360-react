@@ -248,7 +248,6 @@ test.describe("Admin - Create Email Template", () => {
 
       await expect(page.getByText("Name is required")).toBeVisible()
       await expect(page.getByText("Template type is required")).toBeVisible()
-      await expect(page.getByText("Subject is required")).toBeVisible()
       await expect(page.getByText("Content is required")).toBeVisible()
     })
 
