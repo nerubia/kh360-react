@@ -268,7 +268,7 @@ export const EvaluatorsList = () => {
       </div>
       <div className='flex-1 overflow-y-scroll my-2'>
         <table className='relative w-full table-fixed'>
-          <thead className='sticky top-0 bg-white text-left'>
+          <thead className='sticky top-0 bg-white text-left z-50'>
             <tr>
               <th className='w-10 pb-3'>
                 <Checkbox
@@ -298,9 +298,19 @@ export const EvaluatorsList = () => {
                     />
                   </td>
                   <td className='pb-2'>
-                    <Tooltip>
+                    <Tooltip placement='topStart'>
                       <Tooltip.Trigger>
-                        {evaluation.evaluator?.last_name}, {evaluation.evaluator?.first_name}
+                        {`${evaluation.evaluator?.last_name?.substring(0, 12)}${
+                          evaluation.evaluator?.last_name != null &&
+                          evaluation.evaluator?.last_name.length > 12
+                            ? "..."
+                            : ""
+                        }, ${evaluation.evaluator?.first_name?.substring(0, 20)}${
+                          evaluation.evaluator?.first_name != null &&
+                          evaluation.evaluator?.first_name.length > 20
+                            ? "..."
+                            : ""
+                        }`}
                       </Tooltip.Trigger>
                       <Tooltip.Content>{evaluation.evaluator?.email}</Tooltip.Content>
                     </Tooltip>
