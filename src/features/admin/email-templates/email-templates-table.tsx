@@ -73,7 +73,7 @@ export const EmailTemplatesTable = () => {
             <th className='pb-3 w-[200px] md:w-1/5'>Template Type</th>
             <th className='pb-3 text-center w-[100px] md:w-1/6'>Default</th>
             <th className='pb-3 w-[200px] md:w-1/3'>Subject</th>
-            <th className='pb-3 w-[100px] md:w-1/6'>Actions</th>
+            <th className='pb-3 w-[100px] md:w-1/8 px-1'>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -95,7 +95,7 @@ export const EmailTemplatesTable = () => {
                   <Tooltip.Content>{template.content}</Tooltip.Content>
                 </Tooltip>
               </td>
-              <td className='py-1 flex flex-row gap-2'>
+              <td className='py-1 px-1 flex flex-row gap-2'>
                 <LinkButton
                   testId='EditButton'
                   variant='unstyled'
