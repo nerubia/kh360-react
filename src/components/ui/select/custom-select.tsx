@@ -27,7 +27,10 @@ export const CustomSelect = ({
   return (
     <div className='flex flex-col'>
       {label != null && (
-        <label className={isMobile ? "text-sm" : "font-medium"} htmlFor={name}>
+        <label
+          className={`whitespace-nowrap ${isMobile ? "text-sm" : "font-medium"}`}
+          htmlFor={name}
+        >
           {label}
         </label>
       )}
