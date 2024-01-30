@@ -24,6 +24,7 @@ import Dropdown from "../../../../../../../components/ui/dropdown/dropdown"
 import Tooltip from "../../../../../../../components/ui/tooltip/tooltip"
 import Dialog from "../../../../../../../components/ui/dialog/dialog"
 import { useMobileView } from "../../../../../../../hooks/use-mobile-view"
+import { TemplateType } from "../../../../../../../types/evaluation-template-type"
 
 export const EvaluatorsList = () => {
   const navigate = useNavigate()
@@ -93,11 +94,10 @@ export const EvaluatorsList = () => {
             : ""
         setInternalHeader(`${template?.display_name}${role}`)
         setExternalHeader(`External Evaluators${role}`)
-        const excludedTemplateIds = [12]
-        if (excludedTemplateIds.includes(template.id)) {
-          setShowSelectProjectButton(false)
-        } else {
+        if (template.template_type === TemplateType.ProjectEvaluation) {
           setShowSelectProjectButton(true)
+        } else {
+          setShowSelectProjectButton(false)
         }
       }
     }
