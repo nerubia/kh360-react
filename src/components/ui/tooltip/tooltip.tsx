@@ -36,7 +36,7 @@ function Tooltip({ children, placement }: TooltipProps) {
           return null
         })}
         <div className={tooltip({ placement })}>
-          <div className='bg-[#fff8c5] text-[#9b6700] text-xs border border-[#f1dd9f] rounded-md p-1.5'>
+          <div className='bg-customYellow-300 text-customBrown-500 text-xs border border-customYellow-400 rounded-md p-1.5'>
             {React.Children.map(children, (child) => {
               if (React.isValidElement(child) && child.type === Tooltip.Content) {
                 return React.cloneElement(child)

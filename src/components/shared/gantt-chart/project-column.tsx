@@ -26,7 +26,7 @@ export const ProjectColumn: React.FC<{
 
         return (
           <div
-            className={`table-row text-ellipsis ${index % 2 === 0 ? "" : "bg-[#f5f5f5]"}`}
+            className={`table-row text-ellipsis ${index % 2 === 0 ? "" : "bg-neutral-100"}`}
             key={`${t.id}row`}
           >
             <div

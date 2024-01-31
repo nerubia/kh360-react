@@ -28,7 +28,9 @@ export const Banding = ({ banding, size }: BandingProps) => {
   return (
     <div className={`flex gap-3 justify-center`}>
       <div
-        className={`${banding === "Very Low" ? "bg-[#edc9d4]" : "bg-gray-100"} rounded-full p-1`}
+        className={`${
+          banding === "Very Low" ? "bg-customRed-200" : "bg-gray-100"
+        } rounded-full p-1`}
       >
         <Tooltip placement='topEnd'>
           <Tooltip.Trigger>
@@ -38,7 +40,9 @@ export const Banding = ({ banding, size }: BandingProps) => {
         </Tooltip>
       </div>
       <div
-        className={`${banding === "Low" ? "bg-[#ffd3c9]" : "bg-gray-100"} w-fit rounded-full p-1`}
+        className={`${
+          banding === "Low" ? "bg-customOrange-200" : "bg-gray-100"
+        } w-fit rounded-full p-1`}
       >
         <Tooltip placement='topEnd'>
           <Tooltip.Trigger>
@@ -49,7 +53,7 @@ export const Banding = ({ banding, size }: BandingProps) => {
       </div>
       <div
         className={`${
-          banding === "Moderate Low" ? "bg-[#fff7cf]" : "bg-gray-100"
+          banding === "Moderate Low" ? "bg-customYellow-100" : "bg-gray-100"
         } w-fit rounded-full p-1`}
       >
         <Tooltip placement='topEnd'>
@@ -61,7 +65,7 @@ export const Banding = ({ banding, size }: BandingProps) => {
       </div>
       <div
         className={`${
-          banding === "Average" ? "bg-[#e4f0c9]" : "bg-gray-100"
+          banding === "Average" ? "bg-customGreen-100" : "bg-gray-100"
         } w-fit rounded-full p-1`}
       >
         <Tooltip placement='topEnd'>
@@ -73,7 +77,7 @@ export const Banding = ({ banding, size }: BandingProps) => {
       </div>
       <div
         className={`${
-          banding === "Moderate High" ? "bg-[#c7e0ff]" : "bg-gray-100"
+          banding === "Moderate High" ? "bg-customBlue-200" : "bg-gray-100"
         } w-fit rounded-full p-1`}
       >
         <Tooltip placement='topEnd'>
@@ -84,7 +88,9 @@ export const Banding = ({ banding, size }: BandingProps) => {
         </Tooltip>
       </div>
       <div
-        className={`${banding === "High" ? "bg-[#cfcfff]" : "bg-gray-100"} w-fit rounded-full p-1`}
+        className={`${
+          banding === "High" ? "bg-customPurple-200" : "bg-gray-100"
+        } w-fit rounded-full p-1`}
       >
         <Tooltip placement='topEnd'>
           <Tooltip.Trigger>
@@ -95,7 +101,7 @@ export const Banding = ({ banding, size }: BandingProps) => {
       </div>
       <div
         className={`${
-          banding === "Very High" ? "bg-[#bac3ff]" : "bg-gray-100"
+          banding === "Very High" ? "bg-customPurple-300" : "bg-gray-100"
         } w-fit rounded-full p-1`}
       >
         <Tooltip placement='topEnd'>
