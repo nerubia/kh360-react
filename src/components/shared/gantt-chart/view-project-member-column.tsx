@@ -19,7 +19,7 @@ export const ViewProjectMemberColumn: React.FC<{
       {tasks.map((t, index) => {
         return (
           <div
-            className={`table-row text-ellipsis ${index % 2 === 0 ? "" : "bg-[#f5f5f5]"}`}
+            className={`table-row text-ellipsis ${index % 2 === 0 ? "" : "bg-neutral-100"}`}
             key={`${t.id}row`}
           >
             <div className='table-cell vertical-align h-[50px] md:w-[200px] ' title={t.name}>
