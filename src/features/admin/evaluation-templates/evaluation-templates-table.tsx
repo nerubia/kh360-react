@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react"
 import { useSearchParams, useNavigate, useLocation } from "react-router-dom"
-import { useAppDispatch } from "../../../hooks/useAppDispatch"
+import { useAppDispatch } from "@hooks/useAppDispatch"
 import {
   deleteEvaluationTemplate,
   getEvaluationTemplates,
-} from "../../../redux/slices/evaluation-templates-slice"
-import { useAppSelector } from "../../../hooks/useAppSelector"
-import { Button, LinkButton } from "../../../components/ui/button/button"
-import { Icon } from "../../../components/ui/icon/icon"
-import { Pagination } from "../../../components/shared/pagination/pagination"
-import Dialog from "../../../components/ui/dialog/dialog"
-import { setAlert, setPreviousUrl } from "../../../redux/slices/app-slice"
-import { useFullPath } from "../../../hooks/use-full-path"
-import { Badge } from "../../../components/ui/badge/badge"
+} from "@redux/slices/evaluation-templates-slice"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { Button, LinkButton } from "@components/ui/button/button"
+import { Icon } from "@components/ui/icon/icon"
+import { Pagination } from "@components/shared/pagination/pagination"
+import Dialog from "@components/ui/dialog/dialog"
+import { setAlert, setPreviousUrl } from "@redux/slices/app-slice"
+import { useFullPath } from "@hooks/use-full-path"
+import { Badge } from "@components/ui/badge/badge"
 
 export const EvaluationTemplatesTable = () => {
   const [searchParams] = useSearchParams()

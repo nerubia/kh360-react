@@ -1,14 +1,14 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import { ValidationError } from "yup"
-import { useAppDispatch } from "../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../hooks/useAppSelector"
-import { login } from "../../../redux/slices/auth-slice"
-import { Input } from "../../../components/ui/input/input"
-import { Button } from "../../../components/ui/button/button"
-import { loginSchema } from "../../../utils/validation/auth-schema"
-import { Loading } from "../../../types/loadingType"
-import { type LoginFormData } from "../../../types/form-data-type"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { login } from "@redux/slices/auth-slice"
+import { Input } from "@components/ui/input/input"
+import { Button } from "@components/ui/button/button"
+import { loginSchema } from "@utils/validation/auth-schema"
+import { Loading } from "@custom-types/loadingType"
+import { type LoginFormData } from "@custom-types/form-data-type"
 
 export const LoginForm = () => {
   const appDispatch = useAppDispatch()

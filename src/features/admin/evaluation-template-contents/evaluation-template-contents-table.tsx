@@ -1,16 +1,16 @@
 import { useRef, useState, useEffect } from "react"
-import { Button } from "../../../components/ui/button/button"
-import { useAppDispatch } from "../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../hooks/useAppSelector"
+import { Button } from "@components/ui/button/button"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
 import {
   showCreateModal,
   setEvaluationTemplateContents,
   setSelectedContentIndex,
-} from "../../../redux/slices/evaluation-template-contents-slice"
-import { CreateEvaluationTemplateContentForm } from "./evaluation-template-content-form/evaluation-template-content-form"
-import { Checkbox } from "../../../components/ui/checkbox/checkbox"
-import { Icon } from "../../../components/ui/icon/icon"
-import Dialog from "../../../components/ui/dialog/dialog"
+} from "@redux/slices/evaluation-template-contents-slice"
+import { CreateEvaluationTemplateContentForm } from "@features/admin/evaluation-template-contents/evaluation-template-content-form/evaluation-template-content-form"
+import { Checkbox } from "@components/ui/checkbox/checkbox"
+import { Icon } from "@components/ui/icon/icon"
+import Dialog from "@components/ui/dialog/dialog"
 
 export const EvaluationTemplateContentsTable = () => {
   const appDispatch = useAppDispatch()

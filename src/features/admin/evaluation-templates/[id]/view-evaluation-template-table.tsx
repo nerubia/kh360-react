@@ -1,28 +1,28 @@
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
-import { useAppSelector } from "../../../../hooks/useAppSelector"
-import { useAppDispatch } from "../../../../hooks/useAppDispatch"
-import { Loading } from "../../../../types/loadingType"
-import Dialog from "../../../../components/ui/dialog/dialog"
-import { Button } from "../../../../components/ui/button/button"
-import { Checkbox } from "../../../../components/ui/checkbox/checkbox"
-import { Icon } from "../../../../components/ui/icon/icon"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { Loading } from "@custom-types/loadingType"
+import Dialog from "@components/ui/dialog/dialog"
+import { Button } from "@components/ui/button/button"
+import { Checkbox } from "@components/ui/checkbox/checkbox"
+import { Icon } from "@components/ui/icon/icon"
 import {
   deleteEvaluationTemplateContent,
   updateEvaluationTemplateContent,
-} from "../../../../redux/slices/evaluation-template-content-slice"
+} from "@redux/slices/evaluation-template-content-slice"
 import {
   removeEvaluationTemplateContent,
   setEvaluationTemplateContent,
-} from "../../../../redux/slices/evaluation-template-slice"
-import { setAlert } from "../../../../redux/slices/app-slice"
-import { type EvaluationTemplateContentFormData } from "../../../../types/form-data-type"
-import { Input } from "../../../../components/ui/input/input"
-import { TextArea } from "../../../../components/ui/textarea/text-area"
-import { CustomSelect } from "../../../../components/ui/select/custom-select"
-import { type Option } from "../../../../types/optionType"
-import { EvaluationTemplateContentCategory } from "../../../../types/evaluation-template-content-type"
-import { Badge } from "../../../../components/ui/badge/badge"
+} from "@redux/slices/evaluation-template-slice"
+import { setAlert } from "@redux/slices/app-slice"
+import { type EvaluationTemplateContentFormData } from "@custom-types/form-data-type"
+import { Input } from "@components/ui/input/input"
+import { TextArea } from "@components/ui/textarea/text-area"
+import { CustomSelect } from "@components/ui/select/custom-select"
+import { type Option } from "@custom-types/optionType"
+import { EvaluationTemplateContentCategory } from "@custom-types/evaluation-template-content-type"
+import { Badge } from "@components/ui/badge/badge"
 
 const categoryOptions: Option[] = Object.values(EvaluationTemplateContentCategory).map((value) => ({
   label: value,

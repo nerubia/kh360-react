@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react"
 import { useSearchParams } from "react-router-dom"
-import { Input } from "../../../../../components/ui/input/input"
-import { Button } from "../../../../../components/ui/button/button"
-import { CustomSelect } from "../../../../../components/ui/select/custom-select"
-import { useAppSelector } from "../../../../../hooks/useAppSelector"
-import { getSkillCategories } from "../../../../../redux/slices/skill-category-slice"
-import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
-import { type Option } from "../../../../../types/optionType"
+import { Input } from "@components/ui/input/input"
+import { Button } from "@components/ui/button/button"
+import { CustomSelect } from "@components/ui/select/custom-select"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { getSkillCategories } from "@redux/slices/skill-category-slice"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { type Option } from "@custom-types/optionType"
 
 export const SelectProjectMemberSkillsFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams()

@@ -1,10 +1,10 @@
 import { useRef } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
-import { useAppSelector } from "../../../../hooks/useAppSelector"
-import { Button } from "../../../../components/ui/button/button"
-import { Icon } from "../../../../components/ui/icon/icon"
-import { setSelectedSkills, setCheckedSkills } from "../../../../redux/slices/skills-slice"
-import { useAppDispatch } from "../../../../hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { Button } from "@components/ui/button/button"
+import { Icon } from "@components/ui/icon/icon"
+import { setSelectedSkills, setCheckedSkills } from "@redux/slices/skills-slice"
+import { useAppDispatch } from "@hooks/useAppDispatch"
 
 export const CreateProjectTable = () => {
   const navigate = useNavigate()

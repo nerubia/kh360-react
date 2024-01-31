@@ -1,6 +1,6 @@
-import { type EmailLog } from "./email-log-type"
-import { type Evaluation } from "./evaluation-type"
-import { type Project } from "./project-type"
+import { type EmailLog } from "@custom-types/email-log-type"
+import { type Evaluation } from "@custom-types/evaluation-type"
+import { type Project } from "@custom-types/project-type"
 
 export interface User {
   id: number

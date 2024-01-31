@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
-import { type ApiError } from "../../types/apiErrorType"
-import { Loading } from "../../types/loadingType"
-import { axiosInstance } from "../../utils/axios-instance"
-import { type ProjectRole } from "../../types/project-role-type"
+import { type ApiError } from "@custom-types/apiErrorType"
+import { Loading } from "@custom-types/loadingType"
+import { axiosInstance } from "@utils/axios-instance"
+import { type ProjectRole } from "@custom-types/project-role-type"
 
 export const getProjectRoles = createAsyncThunk(
   "projectRole/getProjectRoles",

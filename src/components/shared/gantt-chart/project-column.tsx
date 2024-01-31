@@ -1,7 +1,7 @@
 import { type Task } from "custom-gantt-task-react"
 import React from "react"
-import { Icon } from "../../ui/icon/icon"
-import { LinkButton } from "../../ui/button/button"
+import { Icon } from "@components/ui/icon/icon"
+import { LinkButton } from "@components/ui/button/button"
 
 export const ProjectColumn: React.FC<{
   rowHeight: number

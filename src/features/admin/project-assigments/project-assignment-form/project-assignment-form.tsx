@@ -1,37 +1,34 @@
 import { useEffect, useState } from "react"
 import { debounce } from "lodash"
-import { Button } from "../../../../components/ui/button/button"
-import { CustomSelect } from "../../../../components/ui/select/custom-select"
-import Dialog from "../../../../components/ui/dialog/dialog"
-import { Input } from "../../../../components/ui/input/input"
-import { type Option } from "../../../../types/optionType"
-import { useAppSelector } from "../../../../hooks/useAppSelector"
-import { useAppDispatch } from "../../../../hooks/useAppDispatch"
-import { getUsers } from "../../../../redux/slices/users-slice"
-import { getAllProjects } from "../../../../redux/slices/projects-slice"
-import { getProjectRoles } from "../../../../redux/slices/project-roles-slice"
-import { type ProjectMemberFormData } from "../../../../types/form-data-type"
-import {
-  createProjectMember,
-  searchProjectMembers,
-} from "../../../../redux/slices/project-members-slice"
+import { Button } from "@components/ui/button/button"
+import { CustomSelect } from "@components/ui/select/custom-select"
+import Dialog from "@components/ui/dialog/dialog"
+import { Input } from "@components/ui/input/input"
+import { type Option } from "@custom-types/optionType"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { getUsers } from "@redux/slices/users-slice"
+import { getAllProjects } from "@redux/slices/projects-slice"
+import { getProjectRoles } from "@redux/slices/project-roles-slice"
+import { type ProjectMemberFormData } from "@custom-types/form-data-type"
+import { createProjectMember, searchProjectMembers } from "@redux/slices/project-members-slice"
 import { useNavigate, useParams } from "react-router-dom"
 import { ValidationError } from "yup"
-import { createProjectMemberSchema } from "../../../../utils/validation/project-member-schema"
-import { formatDateRange } from "../../../../utils/format-date"
+import { createProjectMemberSchema } from "@utils/validation/project-member-schema"
+import { formatDateRange } from "@utils/format-date"
 import {
   getProjectMember,
   setProjectMember,
   updateProjectMember,
   setProjectMemberFormData,
-} from "../../../../redux/slices/project-member-slice"
-import { Spinner } from "../../../../components/ui/spinner/spinner"
-import { Loading } from "../../../../types/loadingType"
-import { EditProjectAssignmentTable } from "../[id]/edit/edit-project-assignment-table"
-import { setSelectedSkills, setCheckedSkills } from "../../../../redux/slices/skills-slice"
-import { getProject } from "../../../../redux/slices/project-slice"
-import { setAlert } from "../../../../redux/slices/app-slice"
-import { setProjectSkills } from "../../../../redux/slices/project-skills-slice"
+} from "@redux/slices/project-member-slice"
+import { Spinner } from "@components/ui/spinner/spinner"
+import { Loading } from "@custom-types/loadingType"
+import { EditProjectAssignmentTable } from "@features/admin/project-assigments/[id]/edit/edit-project-assignment-table"
+import { setSelectedSkills, setCheckedSkills } from "@redux/slices/skills-slice"
+import { getProject } from "@redux/slices/project-slice"
+import { setAlert } from "@redux/slices/app-slice"
+import { setProjectSkills } from "@redux/slices/project-skills-slice"
 
 export const ProjectAssignmentForm = () => {
   const navigate = useNavigate()

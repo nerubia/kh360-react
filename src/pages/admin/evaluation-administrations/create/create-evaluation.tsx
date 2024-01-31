@@ -1,6 +1,6 @@
-import { useTitle } from "../../../../hooks/useTitle"
-import { CreateEvaluationHeader } from "../../../../features/admin/evaluation-administrations/create/create-evaluation-header"
-import { CreateEvaluationForm } from "../../../../features/admin/evaluation-administrations/create/create-evaluation-form"
+import { useTitle } from "@hooks/useTitle"
+import { CreateEvaluationHeader } from "@features/admin/evaluation-administrations/create/create-evaluation-header"
+import { CreateEvaluationForm } from "@features/admin/evaluation-administrations/create/create-evaluation-form"
 
 export default function CreateEvaluation() {
   useTitle("Create Evaluation")

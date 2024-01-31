@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react"
 import { useSearchParams } from "react-router-dom"
-import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../../../hooks/useAppSelector"
-import { Pagination } from "../../../../../components/shared/pagination/pagination"
-import { setCheckedSkills } from "../../../../../redux/slices/skills-slice"
-import { Checkbox } from "../../../../../components/ui/checkbox/checkbox"
-import { type Skill } from "../../../../../types/skill-type"
-import { getProjectSkills } from "../../../../../redux/slices/project-skills-slice"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { Pagination } from "@components/shared/pagination/pagination"
+import { setCheckedSkills } from "@redux/slices/skills-slice"
+import { Checkbox } from "@components/ui/checkbox/checkbox"
+import { type Skill } from "@custom-types/skill-type"
+import { getProjectSkills } from "@redux/slices/project-skills-slice"
 
 export const SelectProjectMemberSkillsTable = () => {
   const [searchParams] = useSearchParams()

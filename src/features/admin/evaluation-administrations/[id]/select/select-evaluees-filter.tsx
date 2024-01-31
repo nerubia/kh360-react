@@ -1,11 +1,11 @@
-import { Button } from "../../../../../components/ui/button/button"
-import { Input } from "../../../../../components/ui/input/input"
-import { CustomSelect } from "../../../../../components/ui/select/custom-select"
-import { type Option } from "../../../../../types/optionType"
+import { Button } from "@components/ui/button/button"
+import { Input } from "@components/ui/input/input"
+import { CustomSelect } from "@components/ui/select/custom-select"
+import { type Option } from "@custom-types/optionType"
 import { useSearchParams } from "react-router-dom"
 import { useEffect, useState } from "react"
-import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
-import { getUsers } from "../../../../../redux/slices/users-slice"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { getUsers } from "@redux/slices/users-slice"
 
 const filterOptions: Option[] = [
   {

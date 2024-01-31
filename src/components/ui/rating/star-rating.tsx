@@ -1,21 +1,21 @@
 import { useState, useEffect } from "react"
-import { Icon } from "../icon/icon"
-import { getAnswerOptionVariant } from "../../../utils/variant"
-import { AnswerOptions, AnswerType } from "../../../types/answer-option-type"
-import { EvaluationStatus, type Evaluation } from "../../../types/evaluation-type"
-import { Loading } from "../../../types/loadingType"
-import { type EvaluationTemplateContent } from "../../../types/evaluation-template-content-type"
+import { Icon } from "@components/ui/icon/icon"
+import { getAnswerOptionVariant } from "@utils/variant"
+import { AnswerOptions, AnswerType } from "@custom-types/answer-option-type"
+import { EvaluationStatus, type Evaluation } from "@custom-types/evaluation-type"
+import { Loading } from "@custom-types/loadingType"
+import { type EvaluationTemplateContent } from "@custom-types/evaluation-template-content-type"
 import {
   updateEvaluationRatingById,
   updateEvaluationRatingCommentById,
   setIsEditing,
   setShowRatingCommentInput,
-} from "../../../redux/slices/evaluation-template-contents-slice"
-import { useAppDispatch } from "../../../hooks/useAppDispatch"
-import { Button } from "../button/button"
-import Tooltip from "../tooltip/tooltip"
-import { TextArea } from "../../../components/ui/textarea/text-area"
-import { useMobileView } from "../../../hooks/use-mobile-view"
+} from "@redux/slices/evaluation-template-contents-slice"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { Button } from "@components/ui/button/button"
+import Tooltip from "@components/ui/tooltip/tooltip"
+import { TextArea } from "@components/ui/textarea/text-area"
+import { useMobileView } from "@hooks/use-mobile-view"
 interface StarRatingProps {
   templateContent: EvaluationTemplateContent
   loadingAnswer: Loading

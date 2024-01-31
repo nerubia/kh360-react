@@ -1,37 +1,37 @@
 import { useContext, useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-import { Button } from "../../../components/ui/button/button"
-import { StarRating } from "../../../components/ui/rating/star-rating"
+import { Button } from "@components/ui/button/button"
+import { StarRating } from "@components/ui/rating/star-rating"
 import {
   getEvaluationTemplateContents,
   updateEvaluationRatingById,
   setIsEditing,
   setShowRatingCommentInput,
-} from "../../../redux/slices/evaluation-template-contents-slice"
-import { useAppDispatch } from "../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../hooks/useAppSelector"
+} from "@redux/slices/evaluation-template-contents-slice"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
 import {
   submitEvaluation,
   updateEvaluationStatusById,
   sendRequestToRemove,
   updateTotalSubmitted,
-} from "../../../redux/slices/user-slice"
-import { Loading } from "../../../types/loadingType"
-import { setAlert } from "../../../redux/slices/app-slice"
-import { EvaluationStatus, type Evaluation } from "../../../types/evaluation-type"
-import { formatDateRange } from "../../../utils/format-date"
-import { TextArea } from "../../../components/ui/textarea/text-area"
-import Dialog from "../../../components/ui/dialog/dialog"
-import { AnswerType } from "../../../types/answer-option-type"
-import { getRatingTemplates } from "../../../redux/slices/email-template-slice"
-import { type EmailTemplate, TemplateType } from "../../../types/email-template-type"
+} from "@redux/slices/user-slice"
+import { Loading } from "@custom-types/loadingType"
+import { setAlert } from "@redux/slices/app-slice"
+import { EvaluationStatus, type Evaluation } from "@custom-types/evaluation-type"
+import { formatDateRange } from "@utils/format-date"
+import { TextArea } from "@components/ui/textarea/text-area"
+import Dialog from "@components/ui/dialog/dialog"
+import { AnswerType } from "@custom-types/answer-option-type"
+import { getRatingTemplates } from "@redux/slices/email-template-slice"
+import { type EmailTemplate, TemplateType } from "@custom-types/email-template-type"
 import ReactConfetti from "react-confetti"
-import { type EvaluationTemplateContent } from "../../../types/evaluation-template-content-type"
-import { Badge } from "../../../components/ui/badge/badge"
-import { getEvaluationStatusVariant } from "../../../utils/variant"
-import useSmoothScrollToTop from "../../../hooks/use-smooth-scroll-to-top"
+import { type EvaluationTemplateContent } from "@custom-types/evaluation-template-content-type"
+import { Badge } from "@components/ui/badge/badge"
+import { getEvaluationStatusVariant } from "@utils/variant"
+import useSmoothScrollToTop from "@hooks/use-smooth-scroll-to-top"
 import { ReadyState } from "react-use-websocket"
-import { WebSocketContext, type WebSocketType } from "../../../components/providers/websocket"
+import { WebSocketContext, type WebSocketType } from "@components/providers/websocket"
 
 export const EvaluationsCriteria = () => {
   const { id, evaluation_id } = useParams()

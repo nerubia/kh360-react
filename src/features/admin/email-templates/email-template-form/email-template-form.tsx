@@ -3,26 +3,26 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom"
 import { ValidationError } from "yup"
 import { type SingleValue } from "react-select"
 
-import { Input } from "../../../../components/ui/input/input"
-import { TextArea } from "../../../../components/ui/textarea/text-area"
-import { Button, LinkButton } from "../../../../components/ui/button/button"
-import Dialog from "../../../../components/ui/dialog/dialog"
-import { Checkbox } from "../../../../components/ui/checkbox/checkbox"
-import { CreateSelect } from "../../../../components/ui/select/create-select"
-import { useAppDispatch } from "../../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../../hooks/useAppSelector"
-import { type EmailTemplateFormData } from "../../../../types/form-data-type"
-import { type EmailTemplate } from "../../../../types/email-template-type"
-import { type Option } from "../../../../types/optionType"
-import { createEmailTemplateSchema } from "../../../../utils/validation/email-template-schema"
+import { Input } from "@components/ui/input/input"
+import { TextArea } from "@components/ui/textarea/text-area"
+import { Button, LinkButton } from "@components/ui/button/button"
+import Dialog from "@components/ui/dialog/dialog"
+import { Checkbox } from "@components/ui/checkbox/checkbox"
+import { CreateSelect } from "@components/ui/select/create-select"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { type EmailTemplateFormData } from "@custom-types/form-data-type"
+import { type EmailTemplate } from "@custom-types/email-template-type"
+import { type Option } from "@custom-types/optionType"
+import { createEmailTemplateSchema } from "@utils/validation/email-template-schema"
 import {
   createEmailTemplate,
   getEmailTemplate,
   getEmailTemplates,
   getTemplateTypes,
   updateEmailTemplate,
-} from "../../../../redux/slices/email-template-slice"
-import { setAlert } from "../../../../redux/slices/app-slice"
+} from "@redux/slices/email-template-slice"
+import { setAlert } from "@redux/slices/app-slice"
 
 interface DefaultDialogProps {
   open: boolean

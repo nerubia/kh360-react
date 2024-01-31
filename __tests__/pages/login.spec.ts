@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test"
-import { setupPlaywright } from "../utils/setup-playwright"
-import { mockRequest } from "../utils/mock-request"
+import { setupPlaywright } from "@test-utils/setup-playwright"
+import { mockRequest } from "@test-utils/mock-request"
 
 setupPlaywright()
 

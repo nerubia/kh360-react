@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react"
 import { useSearchParams } from "react-router-dom"
-import { Input } from "../../components/ui/input/input"
-import { CustomSelect } from "../../components/ui/select/custom-select"
-import { Button } from "../../components/ui/button/button"
-import { type Option } from "../../types/optionType"
-import { useAppDispatch } from "../../hooks/useAppDispatch"
-import { getEvaluationAdministrations } from "../../redux/slices/evaluation-administrations-slice"
-import { useAppSelector } from "../../hooks/useAppSelector"
+import { Input } from "@components/ui/input/input"
+import { CustomSelect } from "@components/ui/select/custom-select"
+import { Button } from "@components/ui/button/button"
+import { type Option } from "@custom-types/optionType"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { getEvaluationAdministrations } from "@redux/slices/evaluation-administrations-slice"
+import { useAppSelector } from "@hooks/useAppSelector"
 import {
   type EvaluationAdministration,
   EvaluationAdministrationStatus,
-} from "../../types/evaluation-administration-type"
-import { getScoreRatings } from "../../redux/slices/score-ratings-slice"
-import { Banding } from "../../types/banding-type"
-import { useMobileView } from "../../hooks/use-mobile-view"
+} from "@custom-types/evaluation-administration-type"
+import { getScoreRatings } from "@redux/slices/score-ratings-slice"
+import { Banding } from "@custom-types/banding-type"
+import { useMobileView } from "@hooks/use-mobile-view"
 
 const bandingFilters: Option[] = Object.values(Banding).map((value) => ({
   label: value,

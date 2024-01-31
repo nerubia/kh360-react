@@ -1,6 +1,6 @@
 import { type Task } from "custom-gantt-task-react"
 import React from "react"
-import { formatDateRange } from "../../../utils/format-date"
+import { formatDateRange } from "@utils/format-date"
 
 export const ProjectTooltipContent: React.FC<{
   task: Task

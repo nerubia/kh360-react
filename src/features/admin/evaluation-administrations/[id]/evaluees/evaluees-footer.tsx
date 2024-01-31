@@ -1,14 +1,14 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
-import { Button, LinkButton } from "../../../../../components/ui/button/button"
-import { Icon } from "../../../../../components/ui/icon/icon"
-import Dialog from "../../../../../components/ui/dialog/dialog"
-import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
-import { generateEvaluationAdministration } from "../../../../../redux/slices/evaluation-administrations-slice"
-import { setAlert } from "../../../../../redux/slices/app-slice"
-import { useAppSelector } from "../../../../../hooks/useAppSelector"
-import { Loading } from "../../../../../types/loadingType"
-import { generateStatusEvaluationAdministration } from "../../../../../redux/slices/evaluation-administration-slice"
+import { Button, LinkButton } from "@components/ui/button/button"
+import { Icon } from "@components/ui/icon/icon"
+import Dialog from "@components/ui/dialog/dialog"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { generateEvaluationAdministration } from "@redux/slices/evaluation-administrations-slice"
+import { setAlert } from "@redux/slices/app-slice"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { Loading } from "@custom-types/loadingType"
+import { generateStatusEvaluationAdministration } from "@redux/slices/evaluation-administration-slice"
 
 export const EvalueesFooter = () => {
   const navigate = useNavigate()

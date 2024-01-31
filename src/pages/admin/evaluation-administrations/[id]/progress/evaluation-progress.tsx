@@ -1,17 +1,17 @@
 import { useContext, useEffect } from "react"
 import { useParams } from "react-router-dom"
-import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../../../hooks/useAppSelector"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
 import {
   getEvaluationAdministration,
   getEvaluationAdministrationSocket,
-} from "../../../../../redux/slices/evaluation-administration-slice"
-import { Loading } from "../../../../../types/loadingType"
-import { EvaluationProgressHeader } from "../../../../../features/admin/evaluation-administrations/[id]/progress/evaluation-progress-header"
-import { EvaluationProgressList } from "../../../../../features/admin/evaluation-administrations/[id]/progress/evaluation-progress-list"
-import { EvaluationProgressFooter } from "../../../../../features/admin/evaluation-administrations/[id]/progress/evaluation-progress-footer"
-import { useTitle } from "../../../../../hooks/useTitle"
-import { WebSocketContext, type WebSocketType } from "../../../../../components/providers/websocket"
+} from "@redux/slices/evaluation-administration-slice"
+import { Loading } from "@custom-types/loadingType"
+import { EvaluationProgressHeader } from "@features/admin/evaluation-administrations/[id]/progress/evaluation-progress-header"
+import { EvaluationProgressList } from "@features/admin/evaluation-administrations/[id]/progress/evaluation-progress-list"
+import { EvaluationProgressFooter } from "@features/admin/evaluation-administrations/[id]/progress/evaluation-progress-footer"
+import { useTitle } from "@hooks/useTitle"
+import { WebSocketContext, type WebSocketType } from "@components/providers/websocket"
 
 export default function EvaluationProgress() {
   useTitle("Evaluation Progress")

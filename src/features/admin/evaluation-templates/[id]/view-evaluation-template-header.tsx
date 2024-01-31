@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
-import { useAppSelector } from "../../../../hooks/useAppSelector"
+import { useAppSelector } from "@hooks/useAppSelector"
 import { useParams } from "react-router-dom"
-import { useAppDispatch } from "../../../../hooks/useAppDispatch"
-import { PageTitle } from "../../../../components/shared/page-title"
-import { getEvaluationTemplate } from "../../../../redux/slices/evaluation-template-slice"
-import { Badge } from "../../../../components/ui/badge/badge"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { PageTitle } from "@components/shared/page-title"
+import { getEvaluationTemplate } from "@redux/slices/evaluation-template-slice"
+import { Badge } from "@components/ui/badge/badge"
 
 export const ViewEvaluationTemplateHeader = () => {
   const { id } = useParams()

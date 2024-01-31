@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
-import { type ApiError } from "../../types/apiErrorType"
-import { axiosInstance } from "../../utils/axios-instance"
-import { Loading } from "../../types/loadingType"
-import { type Skill, type SkillFilters } from "../../types/skill-type"
+import { type ApiError } from "@custom-types/apiErrorType"
+import { axiosInstance } from "@utils/axios-instance"
+import { Loading } from "@custom-types/loadingType"
+import { type Skill, type SkillFilters } from "@custom-types/skill-type"
 
 export const getSkills = createAsyncThunk(
   "skills/getSkills",
