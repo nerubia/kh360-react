@@ -10,6 +10,7 @@ interface SelectProps {
   options: Option[]
   fullWidth?: boolean
   error?: string | null
+  isLoading?: boolean
 }
 
 export const CustomSelect = ({
@@ -21,6 +22,7 @@ export const CustomSelect = ({
   options,
   fullWidth,
   error,
+  isLoading,
 }: SelectProps) => {
   const isMobile = useMobileView()
 
@@ -47,6 +49,7 @@ export const CustomSelect = ({
         onChange={onChange}
         onInputChange={onInputChange}
         options={options}
+        isLoading={isLoading}
       />
       {error != null && <p className='text-red-500 text-sm'>{error}</p>}
     </div>

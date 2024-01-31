@@ -7,7 +7,10 @@ import { type Option } from "../../types/optionType"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
 import { getEvaluationAdministrations } from "../../redux/slices/evaluation-administrations-slice"
 import { useAppSelector } from "../../hooks/useAppSelector"
-import { EvaluationAdministrationStatus } from "../../types/evaluation-administration-type"
+import {
+  type EvaluationAdministration,
+  EvaluationAdministrationStatus,
+} from "../../types/evaluation-administration-type"
 import { getScoreRatings } from "../../redux/slices/score-ratings-slice"
 import { Banding } from "../../types/banding-type"
 import { useMobileView } from "../../hooks/use-mobile-view"
@@ -49,7 +52,6 @@ export const EvaluationResultsListFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const appDispatch = useAppDispatch()
-  const { evaluation_administrations } = useAppSelector((state) => state.evaluationAdministrations)
   const { totalItems } = useAppSelector((state) => state.evaluationResults)
   const { score_ratings } = useAppSelector((state) => state.scoreRatings)
 
@@ -69,12 +71,12 @@ export const EvaluationResultsListFilter = () => {
   const [sortBy, setSortBy] = useState<string>(searchParams.get("sort_by") ?? "evaluee")
   const isMobile = useMobileView()
   const [page, setPage] = useState<string>("1")
-  const [hasNextPage, setHasNextPage] = useState<boolean>(false)
-  const [isInitialLoad, setIsInitialLoad] = useState<boolean>(true)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoading(true)
         const response = await appDispatch(
           getEvaluationAdministrations({
             status: [
@@ -84,13 +86,27 @@ export const EvaluationResultsListFilter = () => {
             page,
           })
         )
-        const pageInfo = response.payload.pageInfo
+        const filterOptions: Option[] = response.payload.data.map(
+          (evalAdmin: EvaluationAdministration) => ({
+            label: evalAdmin.name ?? "",
+            value: evalAdmin.id.toString(),
+          })
+        )
+        if (evaluationAdministrationFilters.length === 0) {
+          filterOptions.unshift({
+            label: "All",
+            value: "all",
+          })
+          setEvaluationAdministrationFilters(filterOptions)
+        } else {
+          setEvaluationAdministrationFilters((prevData) => [...prevData, ...filterOptions])
+        }
+        const { pageInfo } = response.payload
         if (pageInfo.hasNextPage === true) {
           const nextPage = String(Number(page) + 1)
           setPage(nextPage)
-          setHasNextPage(true)
         } else {
-          setHasNextPage(false)
+          setIsLoading(false)
         }
       } catch (error) {}
     }
@@ -100,24 +116,6 @@ export const EvaluationResultsListFilter = () => {
   useEffect(() => {
     void appDispatch(getScoreRatings())
   }, [])
-
-  useEffect(() => {
-    const filterOptions: Option[] = evaluation_administrations.map((evalAdmin) => ({
-      label: evalAdmin.name ?? "",
-      value: evalAdmin.id.toString(),
-    }))
-
-    if (hasNextPage) {
-      if (isInitialLoad) {
-        filterOptions.unshift({
-          label: "All",
-          value: "all",
-        })
-        setIsInitialLoad(false)
-      }
-      setEvaluationAdministrationFilters((prevData) => [...prevData, ...filterOptions])
-    }
-  }, [evaluation_administrations])
 
   useEffect(() => {
     const filterOptions: Option[] = score_ratings.map((scoreRating) => ({
@@ -180,6 +178,7 @@ export const EvaluationResultsListFilter = () => {
                   setEvaluationAdministrationId(option !== null ? option.value : "all")
                 }
                 options={evaluationAdministrationFilters}
+                isLoading={isLoading}
                 fullWidth
               />
             </div>
