@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
-import { type ApiError } from "../../types/apiErrorType"
-import { Loading } from "../../types/loadingType"
-import { axiosInstance } from "../../utils/axios-instance"
-import { type ScoreRating } from "../../types/score-rating-type"
+import { type ApiError } from "@custom-types/apiErrorType"
+import { Loading } from "@custom-types/loadingType"
+import { axiosInstance } from "@utils/axios-instance"
+import { type ScoreRating } from "@custom-types/score-rating-type"
 
 export const getScoreRatings = createAsyncThunk(
   "scoreRatings/getScoreRatings",

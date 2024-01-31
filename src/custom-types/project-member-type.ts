@@ -1,6 +1,6 @@
-import { type Project } from "./project-type"
-import { type User } from "./user-type"
-import { type ProjectMemberSkill } from "./project-member-skill-type"
+import { type Project } from "@custom-types/project-type"
+import { type User } from "@custom-types/user-type"
+import { type ProjectMemberSkill } from "@custom-types/project-member-skill-type"
 
 export interface ProjectMember {
   id: number

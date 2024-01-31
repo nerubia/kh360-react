@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
-import { useAppSelector } from "../../../../hooks/useAppSelector"
-import { Loading } from "../../../../types/loadingType"
-import { type SkillCategory } from "../../../../types/skill-category-type"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { Loading } from "@custom-types/loadingType"
+import { type SkillCategory } from "@custom-types/skill-category-type"
 
 export const ViewProjectTable = () => {
   const { id } = useParams()

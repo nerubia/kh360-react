@@ -1,26 +1,26 @@
 import { useState } from "react"
-import { Button, LinkButton } from "../../../../components/ui/button/button"
-import { useAppSelector } from "../../../../hooks/useAppSelector"
+import { Button, LinkButton } from "@components/ui/button/button"
+import { useAppSelector } from "@hooks/useAppSelector"
 import { useNavigate, useParams } from "react-router-dom"
-import { EvaluationAdministrationStatus } from "../../../../types/evaluation-administration-type"
-import { Icon } from "../../../../components/ui/icon/icon"
-import Dialog from "../../../../components/ui/dialog/dialog"
+import { EvaluationAdministrationStatus } from "@custom-types/evaluation-administration-type"
+import { Icon } from "@components/ui/icon/icon"
+import Dialog from "@components/ui/dialog/dialog"
 import {
   cancelEvaluationAdministration,
   closeEvaluationAdministration,
   deleteEvaluationAdministration,
   publishEvaluationAdministration,
   reopenEvaluationAdministration,
-} from "../../../../redux/slices/evaluation-administration-slice"
-import { useAppDispatch } from "../../../../hooks/useAppDispatch"
-import { PageTitle } from "../../../../components/shared/page-title"
-import { Badge } from "../../../../components/ui/badge/badge"
-import { getEvaluationAdministrationStatusVariant } from "../../../../utils/variant"
-import Dropdown from "../../../../components/ui/dropdown/dropdown"
-import { setAlert } from "../../../../redux/slices/app-slice"
-import { Loading } from "../../../../types/loadingType"
-import { DateRangeDisplay } from "../../../../components/shared/display-range-date"
-import { useMobileView } from "../../../../hooks/use-mobile-view"
+} from "@redux/slices/evaluation-administration-slice"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { PageTitle } from "@components/shared/page-title"
+import { Badge } from "@components/ui/badge/badge"
+import { getEvaluationAdministrationStatusVariant } from "@utils/variant"
+import Dropdown from "@components/ui/dropdown/dropdown"
+import { setAlert } from "@redux/slices/app-slice"
+import { Loading } from "@custom-types/loadingType"
+import { DateRangeDisplay } from "@components/shared/display-range-date"
+import { useMobileView } from "@hooks/use-mobile-view"
 
 export const ViewEvaluationHeader = () => {
   const navigate = useNavigate()

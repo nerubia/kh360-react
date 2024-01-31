@@ -1,5 +1,5 @@
-import { axiosPublic } from "../utils/axiosPublic"
-import { axiosInstance } from "../utils/axios-instance"
+import { axiosPublic } from "@utils/axiosPublic"
+import { axiosInstance } from "@utils/axios-instance"
 
 export const refreshUserToken = async () => await axiosPublic.get("/auth/refresh")
 

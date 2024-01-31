@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom"
-import { Button } from "../../../components/ui/button/button"
-import { useAppSelector } from "../../../hooks/useAppSelector"
-import { useAppDispatch } from "../../../hooks/useAppDispatch"
+import { Button } from "@components/ui/button/button"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { useAppDispatch } from "@hooks/useAppDispatch"
 import {
   setEvaluationTemplate,
   setEvaluationTemplateContent,
-} from "../../../redux/slices/evaluation-template-slice"
+} from "@redux/slices/evaluation-template-slice"
 
 export const EvaluationTemplatesAction = () => {
   const navigate = useNavigate()

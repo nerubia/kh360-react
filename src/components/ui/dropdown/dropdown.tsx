@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react"
-import { DropdownContent } from "./dropdown-content"
-import { DropdownItem } from "./dropdown-item"
-import { DropdownTrigger } from "./dropdown-trigger"
+import { DropdownContent } from "@components/ui/dropdown/dropdown-content"
+import { DropdownItem } from "@components/ui/dropdown/dropdown-item"
+import { DropdownTrigger } from "@components/ui/dropdown/dropdown-trigger"
 
 interface DropdownProps {
   children: React.ReactNode

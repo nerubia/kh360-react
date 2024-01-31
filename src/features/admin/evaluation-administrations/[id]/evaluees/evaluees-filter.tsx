@@ -1,10 +1,10 @@
 import { useState } from "react"
 import { useSearchParams } from "react-router-dom"
-import { Input } from "../../../../../components/ui/input/input"
-import { CustomSelect } from "../../../../../components/ui/select/custom-select"
-import { Button } from "../../../../../components/ui/button/button"
-import { type Option } from "../../../../../types/optionType"
-import { EvaluationResultStatus } from "../../../../../types/evaluation-result-type"
+import { Input } from "@components/ui/input/input"
+import { CustomSelect } from "@components/ui/select/custom-select"
+import { Button } from "@components/ui/button/button"
+import { type Option } from "@custom-types/optionType"
+import { EvaluationResultStatus } from "@custom-types/evaluation-result-type"
 
 const filterOptions: Option[] = Object.values(EvaluationResultStatus).map((value) => ({
   label: value,

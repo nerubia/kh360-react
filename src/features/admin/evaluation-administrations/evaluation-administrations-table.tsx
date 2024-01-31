@@ -1,19 +1,19 @@
 import { useContext, useEffect } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom"
-import { useAppDispatch } from "../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../hooks/useAppSelector"
-import { formatDate, shortenFormatDate } from "../../../utils/format-date"
-import { Pagination } from "../../../components/shared/pagination/pagination"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { formatDate, shortenFormatDate } from "@utils/format-date"
+import { Pagination } from "@components/shared/pagination/pagination"
 import {
   getEvaluationAdministrations,
   getEvaluationAdministrationsSocket,
-} from "../../../redux/slices/evaluation-administrations-slice"
-import { setEvaluationResults } from "../../../redux/slices/evaluation-results-slice"
-import { Badge } from "../../../components/ui/badge/badge"
-import { getEvaluationAdministrationStatusVariant } from "../../../utils/variant"
-import { useFullPath } from "../../../hooks/use-full-path"
-import { setPreviousUrl } from "../../../redux/slices/app-slice"
-import { WebSocketContext, type WebSocketType } from "../../../components/providers/websocket"
+} from "@redux/slices/evaluation-administrations-slice"
+import { setEvaluationResults } from "@redux/slices/evaluation-results-slice"
+import { Badge } from "@components/ui/badge/badge"
+import { getEvaluationAdministrationStatusVariant } from "@utils/variant"
+import { useFullPath } from "@hooks/use-full-path"
+import { setPreviousUrl } from "@redux/slices/app-slice"
+import { WebSocketContext, type WebSocketType } from "@components/providers/websocket"
 
 export const EvaluationAdministrationsTable = () => {
   const fullPath = useFullPath()

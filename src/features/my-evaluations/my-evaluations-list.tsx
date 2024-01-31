@@ -1,14 +1,14 @@
 import { useEffect } from "react"
-import { useAppDispatch } from "../../hooks/useAppDispatch"
-import { getEvaluationAdministrationsAsEvaluee } from "../../redux/slices/user-slice"
-import { useAppSelector } from "../../hooks/useAppSelector"
-import { Loading } from "../../types/loadingType"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { getEvaluationAdministrationsAsEvaluee } from "@redux/slices/user-slice"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { Loading } from "@custom-types/loadingType"
 import { Link } from "react-router-dom"
-import { formatDateRange } from "../../utils/format-date"
-import { Spinner } from "../../components/ui/spinner/spinner"
-import { getByTemplateType } from "../../redux/slices/email-template-slice"
-import { ScoreRange } from "../../components/shared/score-range/score-range"
-import { useMobileView } from "../../hooks/use-mobile-view"
+import { formatDateRange } from "@utils/format-date"
+import { Spinner } from "@components/ui/spinner/spinner"
+import { getByTemplateType } from "@redux/slices/email-template-slice"
+import { ScoreRange } from "@components/shared/score-range/score-range"
+import { useMobileView } from "@hooks/use-mobile-view"
 
 export const MyEvaluationsList = () => {
   const appDispatch = useAppDispatch()

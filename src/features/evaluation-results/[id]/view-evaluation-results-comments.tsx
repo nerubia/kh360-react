@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom"
-import { useAppSelector } from "../../../hooks/useAppSelector"
-import { Loading } from "../../../types/loadingType"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { Loading } from "@custom-types/loadingType"
 
 export const ViewEvaluationResultsComments = () => {
   const { id } = useParams()

@@ -1,4 +1,4 @@
-import { type SkillCategory } from "./skill-category-type"
+import { type SkillCategory } from "@custom-types/skill-category-type"
 
 export interface Skill {
   id: number

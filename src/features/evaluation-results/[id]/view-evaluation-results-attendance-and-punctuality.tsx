@@ -1,8 +1,8 @@
-import { useAppSelector } from "../../../hooks/useAppSelector"
+import { useAppSelector } from "@hooks/useAppSelector"
 import { useState } from "react"
-import { Loading } from "../../../types/loadingType"
-import { Button } from "../../../components/ui/button/button"
-import { Icon } from "../../../components/ui/icon/icon"
+import { Loading } from "@custom-types/loadingType"
+import { Button } from "@components/ui/button/button"
+import { Icon } from "@components/ui/icon/icon"
 
 export const ViewEvaluationResultsAttendanceAndPunctuality = () => {
   const { loading, evaluation_result } = useAppSelector((state) => state.evaluationResult)

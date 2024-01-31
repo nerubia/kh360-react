@@ -1,4 +1,4 @@
-import { convertToFullDate, shortenFormatDate } from "../../utils/format-date"
+import { convertToFullDate, shortenFormatDate } from "@utils/format-date"
 
 interface DateRangeDisplayProps {
   label: string

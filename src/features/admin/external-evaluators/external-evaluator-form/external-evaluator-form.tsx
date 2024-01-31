@@ -1,23 +1,20 @@
 import { useState, useEffect } from "react"
-import { Input } from "../../../../components/ui/input/input"
-import { type ExternalUserFormData } from "../../../../types/form-data-type"
-import { Button, LinkButton } from "../../../../components/ui/button/button"
-import Dialog from "../../../../components/ui/dialog/dialog"
+import { Input } from "@components/ui/input/input"
+import { type ExternalUserFormData } from "@custom-types/form-data-type"
+import { Button, LinkButton } from "@components/ui/button/button"
+import Dialog from "@components/ui/dialog/dialog"
 import { ValidationError } from "yup"
-import { createExternalUserSchema } from "../../../../utils/validation/external-evaluator-schema"
+import { createExternalUserSchema } from "@utils/validation/external-evaluator-schema"
 import { useNavigate, useSearchParams } from "react-router-dom"
-import { useAppDispatch } from "../../../../hooks/useAppDispatch"
-import { setAlert } from "../../../../redux/slices/app-slice"
-import { useAppSelector } from "../../../../hooks/useAppSelector"
-import { Loading } from "../../../../types/loadingType"
-import {
-  createExternalUser,
-  updateExternalUser,
-} from "../../../../redux/slices/external-users-slice"
-import { addExternalEvaluators } from "../../../../redux/slices/evaluation-administration-slice"
-import { getActiveTemplates } from "../../../../redux/slices/evaluation-templates-slice"
-import { CustomSelect } from "../../../../components/ui/select/custom-select"
-import { type Option } from "../../../../types/optionType"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { setAlert } from "@redux/slices/app-slice"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { Loading } from "@custom-types/loadingType"
+import { createExternalUser, updateExternalUser } from "@redux/slices/external-users-slice"
+import { addExternalEvaluators } from "@redux/slices/evaluation-administration-slice"
+import { getActiveTemplates } from "@redux/slices/evaluation-templates-slice"
+import { CustomSelect } from "@components/ui/select/custom-select"
+import { type Option } from "@custom-types/optionType"
 
 export const ExternalEvaluatorForm = () => {
   const navigate = useNavigate()

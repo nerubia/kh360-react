@@ -1,4 +1,4 @@
-import { type User } from "./user-type"
+import { type User } from "@custom-types/user-type"
 export interface Comment {
   evaluation_id: number
   comment: string

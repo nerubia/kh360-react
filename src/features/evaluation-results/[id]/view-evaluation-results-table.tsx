@@ -1,12 +1,12 @@
 import React, { useState } from "react"
 import { useParams } from "react-router-dom"
-import { useAppSelector } from "../../../hooks/useAppSelector"
-import { Loading } from "../../../types/loadingType"
-import Dialog from "../../../components/ui/dialog/dialog"
-import { Button } from "../../../components/ui/button/button"
-import { type EvaluationResultDetail } from "../../../types/evaluation-result-detail-type"
-import { Progress } from "../../../components/ui/progress/progress"
-import { getScoreVariant } from "../../../utils/variant"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { Loading } from "@custom-types/loadingType"
+import Dialog from "@components/ui/dialog/dialog"
+import { Button } from "@components/ui/button/button"
+import { type EvaluationResultDetail } from "@custom-types/evaluation-result-detail-type"
+import { Progress } from "@components/ui/progress/progress"
+import { getScoreVariant } from "@utils/variant"
 
 export const ViewEvaluationResultsTable = () => {
   const { id } = useParams()

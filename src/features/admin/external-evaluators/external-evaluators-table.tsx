@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react"
 import { useSearchParams } from "react-router-dom"
-import { useAppDispatch } from "../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../hooks/useAppSelector"
-import { Pagination } from "../../../components/shared/pagination/pagination"
-import { getExternalUsers, deleteExternalUser } from "../../../redux/slices/external-users-slice"
-import { Icon } from "../../../components/ui/icon/icon"
-import { Button, LinkButton } from "../../../components/ui/button/button"
-import Dialog from "../../../components/ui/dialog/dialog"
-import { setAlert } from "../../../redux/slices/app-slice"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { Pagination } from "@components/shared/pagination/pagination"
+import { getExternalUsers, deleteExternalUser } from "@redux/slices/external-users-slice"
+import { Icon } from "@components/ui/icon/icon"
+import { Button, LinkButton } from "@components/ui/button/button"
+import Dialog from "@components/ui/dialog/dialog"
+import { setAlert } from "@redux/slices/app-slice"
 
 export const ExternalEvaluatorsTable = () => {
   const [searchParams] = useSearchParams()

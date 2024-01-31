@@ -1,5 +1,5 @@
-import { LinkButton } from "../../../components/ui/button/button"
-import { useAppSelector } from "../../../hooks/useAppSelector"
+import { LinkButton } from "@components/ui/button/button"
+import { useAppSelector } from "@hooks/useAppSelector"
 
 export const EvaluationAdministrationsAction = () => {
   const { totalItems } = useAppSelector((state) => state.evaluationAdministrations)

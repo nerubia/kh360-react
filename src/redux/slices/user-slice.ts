@@ -1,17 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
-import { type ApiError } from "../../types/apiErrorType"
-import { type UserEvaluationsFilter } from "../../types/user-type"
-import { type Evaluation } from "../../types/evaluation-type"
-import { type Answers } from "../../types/answers-type"
+import { type ApiError } from "@custom-types/apiErrorType"
+import { type UserEvaluationsFilter } from "@custom-types/user-type"
+import { type Evaluation } from "@custom-types/evaluation-type"
+import { type Answers } from "@custom-types/answers-type"
 import {
   type EvaluationAdministration,
   type EvaluationAdministrationFilters,
-} from "../../types/evaluation-administration-type"
-import { axiosInstance } from "../../utils/axios-instance"
-import { Loading } from "../../types/loadingType"
-import { type EvaluationResult } from "../../types/evaluation-result-type"
-import { type ScoreRating } from "../../types/score-rating-type"
+} from "@custom-types/evaluation-administration-type"
+import { axiosInstance } from "@utils/axios-instance"
+import { Loading } from "@custom-types/loadingType"
+import { type EvaluationResult } from "@custom-types/evaluation-result-type"
+import { type ScoreRating } from "@custom-types/score-rating-type"
 
 export const getUserEvaluations = createAsyncThunk(
   "user/getUserEvaluations",

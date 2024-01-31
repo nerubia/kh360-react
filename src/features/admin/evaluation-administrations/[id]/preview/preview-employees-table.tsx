@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
-import { type User } from "../../../../../types/user-type"
-import { getAllUsers } from "../../../../../redux/slices/users-slice"
-import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../../../hooks/useAppSelector"
-import { Icon } from "../../../../../components/ui/icon/icon"
-import { formatDate } from "../../../../../utils/format-date"
-import { Divider } from "../../../../../components/ui/divider/divider"
+import { type User } from "@custom-types/user-type"
+import { getAllUsers } from "@redux/slices/users-slice"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { Icon } from "@components/ui/icon/icon"
+import { formatDate } from "@utils/format-date"
+import { Divider } from "@components/ui/divider/divider"
 
 export const PreviewEmployeesTable = () => {
   const appDispatch = useAppDispatch()

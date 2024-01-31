@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react"
 import { useSearchParams } from "react-router-dom"
-import { type Option } from "../../../types/optionType"
+import { type Option } from "@custom-types/optionType"
 
-import { Input } from "../../../components/ui/input/input"
-import { Button } from "../../../components/ui/button/button"
-import { CustomSelect } from "../../../components/ui/select/custom-select"
-import { EmailTemplateDefault } from "../../../types/email-template-type"
-import { useAppDispatch } from "../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../hooks/useAppSelector"
-import { getTemplateTypes } from "../../../redux/slices/email-template-slice"
+import { Input } from "@components/ui/input/input"
+import { Button } from "@components/ui/button/button"
+import { CustomSelect } from "@components/ui/select/custom-select"
+import { EmailTemplateDefault } from "@custom-types/email-template-type"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { getTemplateTypes } from "@redux/slices/email-template-slice"
 
 const defaultOptions: Option[] = Object.values(EmailTemplateDefault).map((value) => ({
   label: value,

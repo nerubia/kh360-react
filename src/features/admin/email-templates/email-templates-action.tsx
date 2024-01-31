@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom"
-import { Button } from "../../../components/ui/button/button"
-import { useAppSelector } from "../../../hooks/useAppSelector"
-import { useAppDispatch } from "../../../hooks/useAppDispatch"
-import { setEmailTemplate } from "../../../redux/slices/email-template-slice"
+import { Button } from "@components/ui/button/button"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { setEmailTemplate } from "@redux/slices/email-template-slice"
 
 export const EmailTemplatesAction = () => {
   const navigate = useNavigate()

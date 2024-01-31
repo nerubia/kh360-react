@@ -1,5 +1,5 @@
 import React from "react"
-import { useMobileView } from "../../../hooks/use-mobile-view"
+import { useMobileView } from "@hooks/use-mobile-view"
 
 interface InputProps {
   label?: string

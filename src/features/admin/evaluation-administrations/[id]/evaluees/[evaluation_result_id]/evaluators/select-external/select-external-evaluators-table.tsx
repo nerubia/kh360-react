@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react"
 import { useParams, useSearchParams } from "react-router-dom"
-import { useAppDispatch } from "../../../../../../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../../../../../../hooks/useAppSelector"
-import { Pagination } from "../../../../../../../../components/shared/pagination/pagination"
-import { getExternalUsers } from "../../../../../../../../redux/slices/external-users-slice"
-import { setSelectedExternalUserIds } from "../../../../../../../../redux/slices/evaluation-administration-slice"
-import { getProjectMembers } from "../../../../../../../../redux/slices/project-members-slice"
-import { getEvaluations } from "../../../../../../../../redux/slices/evaluations-slice"
-import { Checkbox } from "../../../../../../../../components/ui/checkbox/checkbox"
-import { type User } from "../../../../../../../../types/user-type"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { Pagination } from "@components/shared/pagination/pagination"
+import { getExternalUsers } from "@redux/slices/external-users-slice"
+import { setSelectedExternalUserIds } from "@redux/slices/evaluation-administration-slice"
+import { getProjectMembers } from "@redux/slices/project-members-slice"
+import { getEvaluations } from "@redux/slices/evaluations-slice"
+import { Checkbox } from "@components/ui/checkbox/checkbox"
+import { type User } from "@custom-types/user-type"
 
 export const SelectExternalEvaluatorsTable = () => {
   const [searchParams] = useSearchParams()

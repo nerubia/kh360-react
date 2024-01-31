@@ -1,7 +1,7 @@
-import { type ProjectRole } from "./project-role-type"
-import { type Project } from "./project-type"
-import { type User } from "./user-type"
-import { type EvaluationTemplate } from "./evaluation-template-type"
+import { type ProjectRole } from "@custom-types/project-role-type"
+import { type Project } from "@custom-types/project-type"
+import { type User } from "@custom-types/user-type"
+import { type EvaluationTemplate } from "@custom-types/evaluation-template-type"
 
 export interface Evaluation {
   id: number

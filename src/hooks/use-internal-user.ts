@@ -1,4 +1,4 @@
-import { useAppSelector } from "./useAppSelector"
+import { useAppSelector } from "@hooks/useAppSelector"
 
 export const useInternalUser = () => {
   const { user } = useAppSelector((state) => state.auth)
