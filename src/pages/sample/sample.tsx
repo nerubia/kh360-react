@@ -256,6 +256,9 @@ export default function Sample() {
           <Badge variant='gray' size='small'>
             Gray
           </Badge>
+          <Badge variant='orange' size='small'>
+            Orange
+          </Badge>
           <Badge variant='red' size='small'>
             Red
           </Badge>
@@ -267,6 +270,7 @@ export default function Sample() {
           <Badge variant='green'>Green</Badge>
           <Badge variant='blue'>Blue</Badge>
           <Badge variant='gray'>Gray</Badge>
+          <Badge variant='orange'>Orange</Badge>
           <Badge variant='red'>Red</Badge>
         </div>
       </div>

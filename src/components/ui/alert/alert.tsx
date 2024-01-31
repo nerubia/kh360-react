@@ -8,9 +8,9 @@ import { useEffect } from "react"
 const alert = cva(["relative", "p-5", "rounded-md"], {
   variants: {
     variant: {
-      primary: ["bg-[#fbefff]", "text-[#8250df]", "border-[#e6ceff]"],
-      success: ["bg-[#dafbe1]", "text-[#1b7f37]", "border-[#bbeec7]"],
-      destructive: ["bg-[#ffebe8]", "text-[#d1242f]", "border-[#ffcac8]"],
+      primary: ["bg-customPurple-100", "text-customPurple-700", "border-customPurple-400"],
+      success: ["bg-customLightGreen-100", "text-customGreen-700", "border-customGreen-300"],
+      destructive: ["bg-customRed-100", "text-customRed-700", "border-customRed-300"],
     },
   },
   defaultVariants: {

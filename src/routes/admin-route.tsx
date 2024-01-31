@@ -2,6 +2,8 @@ import { lazy } from "react"
 import { Navigate, Outlet } from "react-router-dom"
 import { useAdmin } from "../hooks/useAdmin"
 
+const Sample = lazy(async () => await import("../pages/sample/sample"))
+
 const EvaluationAdministrations = lazy(
   async () => await import("../pages/admin/evaluation-administrations/evaluation-administrations")
 )
@@ -126,10 +128,10 @@ const EditEvaluationTemplate = lazy(
 export const adminRoutes = {
   element: <AdminRoute />,
   children: [
-    /* {
+    {
       path: "/sample",
       element: <Sample />,
-    }, */
+    },
     /**
      * Evaluation Administrations
      */
