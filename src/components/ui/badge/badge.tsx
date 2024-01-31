@@ -5,14 +5,14 @@ const badge = cva(
   {
     variants: {
       variant: {
-        primary: ["bg-[#fbefff]", "text-[#8250df]", "border-[#e6ceff]"],
-        pink: ["bg-[#fff0f7]", "text-[#bf3989]", "border-[#ffe4f3]"],
-        yellow: ["bg-[#fff8c5]", "text-[#9b6700]", "border-[#f1dd9f]"],
-        green: ["bg-[#dafbe1]", "text-[#1b7f37]", "border-[#bbeec7]"],
-        blue: ["bg-[#ddf4ff]", "text-[#0a69da]", "border-[#b7e0ff]"],
-        gray: ["bg-[#f6f8fa]", "text-[#646d76]", "border-[#dbe1e6]"],
-        orange: ["bg-[#fff0e4]", "text-[#bb4b00]", "border-[#ffd1b1]"],
-        red: ["bg-[#ffebe8]", "text-[#d1242f]", "border-[#ffcac8]"],
+        primary: ["bg-customPurple-100", "text-customPurple-700", "border-customPurple-400"],
+        pink: ["bg-customPink-100", "text-customPink-700", "border-customPink-200"],
+        yellow: ["bg-customYellow-300", "text-customBrown-500", "border-customYellow-400"],
+        green: ["bg-customLightGreen-100", "text-customGreen-700", "border-customGreen-300"],
+        blue: ["bg-customBlue-100", "text-customBlue-700", "border-customBlue-500"],
+        gray: ["bg-slate-100", "text-gray-500", "border-slate-300"],
+        orange: ["bg-customOrange-100", "text-customOrange-700", "border-customOrange-300"],
+        red: ["bg-customRed-100", "text-customRed-700", "border-customRed-300"],
       },
       size: {
         extraSmall: ["text-[10px]", "px-2", "py-0.5"],
