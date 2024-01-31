@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { type SkillCategory } from "../../types/skill-category-type"
-import { Loading } from "../../types/loadingType"
-import { axiosInstance } from "../../utils/axios-instance"
+import { type SkillCategory } from "@custom-types/skill-category-type"
+import { Loading } from "@custom-types/loadingType"
+import { axiosInstance } from "@utils/axios-instance"
 import { type AxiosError } from "axios"
-import { type ApiError } from "../../types/apiErrorType"
+import { type ApiError } from "@custom-types/apiErrorType"
 
 export const getSkillCategories = createAsyncThunk("skillCategories/list", async (_, thunkApi) => {
   try {

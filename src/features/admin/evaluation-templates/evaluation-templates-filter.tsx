@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react"
 import { useSearchParams } from "react-router-dom"
-import { Input } from "../../../components/ui/input/input"
-import { Button } from "../../../components/ui/button/button"
-import { useAppDispatch } from "../../../hooks/useAppDispatch"
-import { getTemplateTypes } from "../../../redux/slices/evaluation-templates-slice"
-import { useAppSelector } from "../../../hooks/useAppSelector"
-import { type Option } from "../../../types/optionType"
-import { CustomSelect } from "../../../components/ui/select/custom-select"
-import { getAllProjectRoles } from "../../../redux/slices/project-roles-slice"
+import { Input } from "@components/ui/input/input"
+import { Button } from "@components/ui/button/button"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { getTemplateTypes } from "@redux/slices/evaluation-templates-slice"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { type Option } from "@custom-types/optionType"
+import { CustomSelect } from "@components/ui/select/custom-select"
+import { getAllProjectRoles } from "@redux/slices/project-roles-slice"
 
 export const EvaluationTemplatesFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams()

@@ -1,12 +1,12 @@
-import veryLow from "../../../assets/very-low.png"
-import low from "../../../assets/low.png"
-import moderateLow from "../../../assets/moderate-low.png"
-import average from "../../../assets/average.png"
-import moderateHigh from "../../../assets/moderate-high.png"
-import high from "../../../assets/high.png"
-import veryHigh from "../../../assets/very-high.png"
+import veryLow from "@assets/very-low.png"
+import low from "@assets/low.png"
+import moderateLow from "@assets/moderate-low.png"
+import average from "@assets/average.png"
+import moderateHigh from "@assets/moderate-high.png"
+import high from "@assets/high.png"
+import veryHigh from "@assets/very-high.png"
 import { type VariantProps, cva } from "class-variance-authority"
-import Tooltip from "../../../components/ui/tooltip/tooltip"
+import Tooltip from "@components/ui/tooltip/tooltip"
 
 const band = cva([], {
   variants: {

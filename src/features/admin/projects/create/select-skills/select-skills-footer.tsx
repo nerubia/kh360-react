@@ -1,9 +1,9 @@
 import { useNavigate, useSearchParams } from "react-router-dom"
-import { Button } from "../../../../../components/ui/button/button"
-import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../../../hooks/useAppSelector"
-import { setSelectedSkills, setCheckedSkills } from "../../../../../redux/slices/skills-slice"
-import { setAlert } from "../../../../../redux/slices/app-slice"
+import { Button } from "@components/ui/button/button"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { setSelectedSkills, setCheckedSkills } from "@redux/slices/skills-slice"
+import { setAlert } from "@redux/slices/app-slice"
 
 export const SelectSkillsFooter = () => {
   const navigate = useNavigate()

@@ -1,13 +1,13 @@
-import { Button } from "../../../components/ui/button/button"
-import { Input } from "../../../components/ui/input/input"
-import { CustomSelect } from "../../../components/ui/select/custom-select"
-import { type Option } from "../../../types/optionType"
+import { Button } from "@components/ui/button/button"
+import { Input } from "@components/ui/input/input"
+import { CustomSelect } from "@components/ui/select/custom-select"
+import { type Option } from "@custom-types/optionType"
 import { useSearchParams } from "react-router-dom"
 import { useEffect, useState } from "react"
-import { useAppDispatch } from "../../../hooks/useAppDispatch"
-import { searchProjectMembers } from "../../../redux/slices/project-members-slice"
-import { useAppSelector } from "../../../hooks/useAppSelector"
-import { getProjectRoles } from "../../../redux/slices/project-roles-slice"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { searchProjectMembers } from "@redux/slices/project-members-slice"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { getProjectRoles } from "@redux/slices/project-roles-slice"
 
 export const ProjectAssignmentsFilter = () => {
   const appDispatch = useAppDispatch()

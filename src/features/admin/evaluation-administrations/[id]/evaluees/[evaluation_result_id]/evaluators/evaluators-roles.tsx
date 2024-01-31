@@ -1,10 +1,10 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { useEffect } from "react"
-import { getEvaluationTemplates } from "../../../../../../../redux/slices/evaluation-templates-slice"
-import { useAppSelector } from "../../../../../../../hooks/useAppSelector"
-import { useAppDispatch } from "../../../../../../../hooks/useAppDispatch"
-import { getEvaluationResult } from "../../../../../../../redux/slices/evaluation-result-slice"
-import { Menu } from "../../../../../../../components/shared/Menu"
+import { getEvaluationTemplates } from "@redux/slices/evaluation-templates-slice"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { getEvaluationResult } from "@redux/slices/evaluation-result-slice"
+import { Menu } from "@components/shared/Menu"
 
 export const EvaluatorsRoles = () => {
   const navigate = useNavigate()

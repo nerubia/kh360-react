@@ -1,7 +1,7 @@
-import { Button } from "../../../components/ui/button/button"
-import { useAppSelector } from "../../../hooks/useAppSelector"
-import { setProjectMember } from "../../../redux/slices/project-member-slice"
-import { useAppDispatch } from "../../../hooks/useAppDispatch"
+import { Button } from "@components/ui/button/button"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { setProjectMember } from "@redux/slices/project-member-slice"
+import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useNavigate } from "react-router"
 
 export const ProjectAssignmentsAction = () => {

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom"
-import { Button } from "../../../components/ui/button/button"
-import { Icon } from "../../../components/ui/icon/icon"
-import { useMobileView } from "../../../hooks/use-mobile-view"
+import { Button } from "@components/ui/button/button"
+import { Icon } from "@components/ui/icon/icon"
+import { useMobileView } from "@hooks/use-mobile-view"
 
 export const MyEvaluationResultsFooter = () => {
   const navigate = useNavigate()

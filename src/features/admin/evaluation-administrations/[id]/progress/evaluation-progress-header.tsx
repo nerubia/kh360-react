@@ -1,12 +1,12 @@
 import { useState } from "react"
-import { useAppSelector } from "../../../../../hooks/useAppSelector"
-import { PageTitle } from "../../../../../components/shared/page-title"
-import { Badge } from "../../../../../components/ui/badge/badge"
-import { getEvaluationAdministrationStatusVariant } from "../../../../../utils/variant"
-import { Button } from "../../../../../components/ui/button/button"
-import { Icon } from "../../../../../components/ui/icon/icon"
-import { useMobileView } from "../../../../../hooks/use-mobile-view"
-import { DateRangeDisplay } from "../../../../../components/shared/display-range-date"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { PageTitle } from "@components/shared/page-title"
+import { Badge } from "@components/ui/badge/badge"
+import { getEvaluationAdministrationStatusVariant } from "@utils/variant"
+import { Button } from "@components/ui/button/button"
+import { Icon } from "@components/ui/icon/icon"
+import { useMobileView } from "@hooks/use-mobile-view"
+import { DateRangeDisplay } from "@components/shared/display-range-date"
 
 export const EvaluationProgressHeader = () => {
   const { evaluation_administration } = useAppSelector((state) => state.evaluationAdministration)

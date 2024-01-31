@@ -1,5 +1,5 @@
-import { type AnswerOption } from "./answer-option-type"
-import { type EvaluationRating } from "./evaluation-rating-type"
+import { type AnswerOption } from "@custom-types/answer-option-type"
+import { type EvaluationRating } from "@custom-types/evaluation-rating-type"
 
 export interface EvaluationTemplateContent {
   id: number

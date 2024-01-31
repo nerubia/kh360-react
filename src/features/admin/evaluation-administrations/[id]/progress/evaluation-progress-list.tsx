@@ -1,33 +1,33 @@
 import { useState, useEffect, useContext } from "react"
-import { Icon } from "../../../../../components/ui/icon/icon"
+import { Icon } from "@components/ui/icon/icon"
 import { useParams } from "react-router-dom"
-import { useAppSelector } from "../../../../../hooks/useAppSelector"
-import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
-import { Button } from "../../../../../components/ui/button/button"
-import { type User } from "../../../../../types/user-type"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { Button } from "@components/ui/button/button"
+import { type User } from "@custom-types/user-type"
 import {
   getEvaluators,
   getEvaluatorsSocket,
   sendReminder,
-} from "../../../../../redux/slices/evaluation-administration-slice"
-import { updateTotalEvaluations } from "../../../../../redux/slices/user-slice"
+} from "@redux/slices/evaluation-administration-slice"
+import { updateTotalEvaluations } from "@redux/slices/user-slice"
 import {
   getEvaluations,
   approveRequest,
   declineRequest,
   getEvaluationsSocket,
-} from "../../../../../redux/slices/evaluations-slice"
-import { Progress } from "../../../../../components/ui/progress/progress"
-import { setAlert } from "../../../../../redux/slices/app-slice"
-import { Badge } from "../../../../../components/ui/badge/badge"
-import { getEvaluationStatusVariant, getProgressVariant } from "../../../../../utils/variant"
-import { EvaluationStatus } from "../../../../../types/evaluation-type"
-import Tooltip from "../../../../../components/ui/tooltip/tooltip"
-import Dialog from "../../../../../components/ui/dialog/dialog"
-import { EvaluationAdministrationStatus } from "../../../../../types/evaluation-administration-type"
-import { convertToFullDateAndTime, shortenFormatDate } from "../../../../../utils/format-date"
-import { useMobileView } from "../../../../../hooks/use-mobile-view"
-import { WebSocketContext, type WebSocketType } from "../../../../../components/providers/websocket"
+} from "@redux/slices/evaluations-slice"
+import { Progress } from "@components/ui/progress/progress"
+import { setAlert } from "@redux/slices/app-slice"
+import { Badge } from "@components/ui/badge/badge"
+import { getEvaluationStatusVariant, getProgressVariant } from "@utils/variant"
+import { EvaluationStatus } from "@custom-types/evaluation-type"
+import Tooltip from "@components/ui/tooltip/tooltip"
+import Dialog from "@components/ui/dialog/dialog"
+import { EvaluationAdministrationStatus } from "@custom-types/evaluation-administration-type"
+import { convertToFullDateAndTime, shortenFormatDate } from "@utils/format-date"
+import { useMobileView } from "@hooks/use-mobile-view"
+import { WebSocketContext, type WebSocketType } from "@components/providers/websocket"
 
 export const EvaluationProgressList = () => {
   const appDispatch = useAppDispatch()

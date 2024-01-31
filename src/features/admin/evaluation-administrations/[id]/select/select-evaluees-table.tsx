@@ -1,12 +1,12 @@
 import { useEffect } from "react"
 import { useParams } from "react-router-dom"
-import { Checkbox } from "../../../../../components/ui/checkbox/checkbox"
-import { Pagination } from "../../../../../components/shared/pagination/pagination"
-import { setSelectedEmployeeIds } from "../../../../../redux/slices/evaluation-administration-slice"
-import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../../../hooks/useAppSelector"
-import { formatDate } from "../../../../../utils/format-date"
-import { getEvaluationResultIds } from "../../../../../redux/slices/evaluation-results-slice"
+import { Checkbox } from "@components/ui/checkbox/checkbox"
+import { Pagination } from "@components/shared/pagination/pagination"
+import { setSelectedEmployeeIds } from "@redux/slices/evaluation-administration-slice"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { formatDate } from "@utils/format-date"
+import { getEvaluationResultIds } from "@redux/slices/evaluation-results-slice"
 
 export const SelectEvalueesTable = () => {
   const { id } = useParams()

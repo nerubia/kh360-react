@@ -1,7 +1,7 @@
-import { MyEvaluationResultsHeader } from "../../../features/my-evaluations/[id]/my-evaluation-results-header"
-import { MyEvaluationResultsTable } from "../../../features/my-evaluations/[id]/my-evaluation-results-table"
-import { MyEvaluationResultsComments } from "../../../features/my-evaluations/[id]/my-evaluation-results-comments"
-import { MyEvaluationResultsFooter } from "../../../features/my-evaluations/[id]/my-evaluation-results-footer"
+import { MyEvaluationResultsHeader } from "@features/my-evaluations/[id]/my-evaluation-results-header"
+import { MyEvaluationResultsTable } from "@features/my-evaluations/[id]/my-evaluation-results-table"
+import { MyEvaluationResultsComments } from "@features/my-evaluations/[id]/my-evaluation-results-comments"
+import { MyEvaluationResultsFooter } from "@features/my-evaluations/[id]/my-evaluation-results-footer"
 
 export default function MyEvaluationResults() {
   return (

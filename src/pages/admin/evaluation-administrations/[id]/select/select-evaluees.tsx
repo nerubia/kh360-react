@@ -1,8 +1,8 @@
-import { SelectEvalueesHeader } from "../../../../../features/admin/evaluation-administrations/[id]/select/select-evaluees-header"
-import { SelectEvalueesTable } from "../../../../../features/admin/evaluation-administrations/[id]/select/select-evaluees-table"
-import { SelectEvalueesFilter } from "../../../../../features/admin/evaluation-administrations/[id]/select/select-evaluees-filter"
-import { SelectEvalueesFooter } from "../../../../../features/admin/evaluation-administrations/[id]/select/select-evaluees-footer"
-import { useTitle } from "../../../../../hooks/useTitle"
+import { SelectEvalueesHeader } from "@features/admin/evaluation-administrations/[id]/select/select-evaluees-header"
+import { SelectEvalueesTable } from "@features/admin/evaluation-administrations/[id]/select/select-evaluees-table"
+import { SelectEvalueesFilter } from "@features/admin/evaluation-administrations/[id]/select/select-evaluees-filter"
+import { SelectEvalueesFooter } from "@features/admin/evaluation-administrations/[id]/select/select-evaluees-footer"
+import { useTitle } from "@hooks/useTitle"
 
 export default function SelectEvaluees() {
   useTitle("Select Evaluees")

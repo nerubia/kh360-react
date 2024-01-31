@@ -1,8 +1,8 @@
-import { useTitle } from "../../../hooks/useTitle"
-import { EmailTemplatesHeader } from "../../../features/admin/email-templates/email-templates-header"
-import { EmailTemplatesTable } from "../../../features/admin/email-templates/email-templates-table"
-import { EmailTemplatesFilter } from "../../../features/admin/email-templates/email-templates-filter"
-import { EmailTemplatesAction } from "../../../features/admin/email-templates/email-templates-action"
+import { useTitle } from "@hooks/useTitle"
+import { EmailTemplatesHeader } from "@features/admin/email-templates/email-templates-header"
+import { EmailTemplatesTable } from "@features/admin/email-templates/email-templates-table"
+import { EmailTemplatesFilter } from "@features/admin/email-templates/email-templates-filter"
+import { EmailTemplatesAction } from "@features/admin/email-templates/email-templates-action"
 
 export default function EmailTemplates() {
   useTitle("Message Templates")

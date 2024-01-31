@@ -1,19 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
-import { type ApiError } from "../../types/apiErrorType"
+import { type ApiError } from "@custom-types/apiErrorType"
 import {
   type SendReminderData,
   type EvaluationAdministration,
   type ExternalEvaluatorData,
   EvaluationAdministrationStatus,
-} from "../../types/evaluation-administration-type"
-import { axiosInstance } from "../../utils/axios-instance"
-import { Loading } from "../../types/loadingType"
+} from "@custom-types/evaluation-administration-type"
+import { axiosInstance } from "@utils/axios-instance"
+import { Loading } from "@custom-types/loadingType"
 import {
   type EvaluatorFormData,
   type EvaluationAdministrationFormData,
-} from "../../types/form-data-type"
-import { type User } from "../../types/user-type"
+} from "@custom-types/form-data-type"
+import { type User } from "@custom-types/user-type"
 
 export const getEvaluationAdministration = createAsyncThunk(
   "evaluationAdministration/getEvaluationAdministraion",

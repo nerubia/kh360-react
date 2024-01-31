@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
-import { type ApiError } from "../../types/apiErrorType"
+import { type ApiError } from "@custom-types/apiErrorType"
 import {
   type EvaluationTemplateContent,
   type EvaluationTemplateContentFilters,
-} from "../../types/evaluation-template-content-type"
-import { axiosInstance } from "../../utils/axios-instance"
-import { Loading } from "../../types/loadingType"
+} from "@custom-types/evaluation-template-content-type"
+import { axiosInstance } from "@utils/axios-instance"
+import { Loading } from "@custom-types/loadingType"
 
 export const getEvaluationTemplateContents = createAsyncThunk(
   "evaluationTemplate/getEvaluationTemplateContents",

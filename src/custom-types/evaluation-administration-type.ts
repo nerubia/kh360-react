@@ -1,4 +1,4 @@
-import { type ScoreRating } from "./score-rating-type"
+import { type ScoreRating } from "@custom-types/score-rating-type"
 
 export interface EvaluationAdministration {
   id: number

@@ -1,11 +1,11 @@
 import { useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-import { Button } from "../../../../../components/ui/button/button"
-import { Icon } from "../../../../../components/ui/icon/icon"
-import Dialog from "../../../../../components/ui/dialog/dialog"
-import { setSelectedEmployeeIds } from "../../../../../redux/slices/evaluation-administration-slice"
-import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../../../hooks/useAppSelector"
+import { Button } from "@components/ui/button/button"
+import { Icon } from "@components/ui/icon/icon"
+import Dialog from "@components/ui/dialog/dialog"
+import { setSelectedEmployeeIds } from "@redux/slices/evaluation-administration-slice"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
 
 export const SelectEvalueesFooter = () => {
   const { id } = useParams()

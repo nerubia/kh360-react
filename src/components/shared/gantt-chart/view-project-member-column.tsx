@@ -1,7 +1,7 @@
 import { type Task } from "custom-gantt-task-react"
 import React from "react"
-import { Icon } from "../../ui/icon/icon"
-import Tooltip from "../../ui/tooltip/tooltip"
+import { Icon } from "@components/ui/icon/icon"
+import Tooltip from "@components/ui/tooltip/tooltip"
 
 export const ViewProjectMemberColumn: React.FC<{
   rowHeight: number

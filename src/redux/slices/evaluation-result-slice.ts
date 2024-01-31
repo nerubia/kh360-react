@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
-import { type ApiError } from "../../types/apiErrorType"
-import { type EvaluationResult } from "../../types/evaluation-result-type"
-import { axiosInstance } from "../../utils/axios-instance"
-import { Loading } from "../../types/loadingType"
-import { type User } from "../../types/user-type"
+import { type ApiError } from "@custom-types/apiErrorType"
+import { type EvaluationResult } from "@custom-types/evaluation-result-type"
+import { axiosInstance } from "@utils/axios-instance"
+import { Loading } from "@custom-types/loadingType"
+import { type User } from "@custom-types/user-type"
 
 export const getCmEvaluationResult = createAsyncThunk(
   "evaluationResult/getCmEvaluationResult",

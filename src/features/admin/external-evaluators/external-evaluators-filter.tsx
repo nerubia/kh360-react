@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useSearchParams } from "react-router-dom"
-import { Input } from "../../../components/ui/input/input"
-import { Button } from "../../../components/ui/button/button"
+import { Input } from "@components/ui/input/input"
+import { Button } from "@components/ui/button/button"
 
 export const ExternalEvaluatorsFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams()

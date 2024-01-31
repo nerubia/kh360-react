@@ -1,9 +1,9 @@
-import { Divider } from "../../components/ui/divider/divider"
-import { EvaluationsCriteria } from "../../features/evaluations/[id]/evaluations-criteria"
-import { EvaluationsHeader } from "../../features/evaluations/[id]/evaluations-header"
-import { EvaluationsList } from "../../features/evaluations/[id]/evaluations-list"
-import { ExternalAuthForm } from "../../features/external-evaluations/external-auth-form"
-import { useAppSelector } from "../../hooks/useAppSelector"
+import { Divider } from "@components/ui/divider/divider"
+import { EvaluationsCriteria } from "@features/evaluations/[id]/evaluations-criteria"
+import { EvaluationsHeader } from "@features/evaluations/[id]/evaluations-header"
+import { EvaluationsList } from "@features/evaluations/[id]/evaluations-list"
+import { ExternalAuthForm } from "@features/external-evaluations/external-auth-form"
+import { useAppSelector } from "@hooks/useAppSelector"
 
 export default function ExternalEvaluations() {
   const { access_token } = useAppSelector((state) => state.auth)

@@ -1,13 +1,13 @@
 import { lazy } from "react"
 import { Navigate, Outlet } from "react-router-dom"
-import { useCmUser } from "../hooks/use-cm-user"
+import { useCmUser } from "@hooks/use-cm-user"
 
 const EvaluationResultsList = lazy(
-  async () => await import("../pages/evaluation-results/evaluation-results-list")
+  async () => await import("@pages/evaluation-results/evaluation-results-list")
 )
 
 const ViewEvaluationResults = lazy(
-  async () => await import("../pages/evaluation-results/[id]/view-evaluation-results")
+  async () => await import("@pages/evaluation-results/[id]/view-evaluation-results")
 )
 
 export const cmUserRoutes = {

@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom"
-import { Button, LinkButton } from "../../../../components/ui/button/button"
-import { Icon } from "../../../../components/ui/icon/icon"
-import { useAppSelector } from "../../../../hooks/useAppSelector"
+import { Button, LinkButton } from "@components/ui/button/button"
+import { Icon } from "@components/ui/icon/icon"
+import { useAppSelector } from "@hooks/useAppSelector"
 
 export const ViewEvaluationTemplateFooter = () => {
   const navigate = useNavigate()

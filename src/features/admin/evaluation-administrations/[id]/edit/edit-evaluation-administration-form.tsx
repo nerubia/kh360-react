@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { ValidationError } from "yup"
-import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../../../hooks/useAppSelector"
-import { Button, LinkButton } from "../../../../../components/ui/button/button"
-import { Input } from "../../../../../components/ui/input/input"
-import { TextArea } from "../../../../../components/ui/textarea/text-area"
-import { createEvaluationAdministrationSchema } from "../../../../../utils/validation/evaluation-administration-schema"
-import { Loading } from "../../../../../types/loadingType"
-import Dialog from "../../../../../components/ui/dialog/dialog"
-import { type EvaluationAdministrationFormData } from "../../../../../types/form-data-type"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { Button, LinkButton } from "@components/ui/button/button"
+import { Input } from "@components/ui/input/input"
+import { TextArea } from "@components/ui/textarea/text-area"
+import { createEvaluationAdministrationSchema } from "@utils/validation/evaluation-administration-schema"
+import { Loading } from "@custom-types/loadingType"
+import Dialog from "@components/ui/dialog/dialog"
+import { type EvaluationAdministrationFormData } from "@custom-types/form-data-type"
 import {
   getEvaluationAdministration,
   updateEvaluationAdministration,
-} from "../../../../../redux/slices/evaluation-administration-slice"
-import { setAlert } from "../../../../../redux/slices/app-slice"
+} from "@redux/slices/evaluation-administration-slice"
+import { setAlert } from "@redux/slices/app-slice"
 
 export const EditEvaluationAdministrationForm = () => {
   const navigate = useNavigate()

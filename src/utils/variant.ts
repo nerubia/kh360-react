@@ -1,8 +1,8 @@
-import { EvaluationResultStatus } from "../types/evaluation-result-type"
-import { EvaluationStatus } from "../types/evaluation-type"
-import { EvaluationAdministrationStatus } from "../types/evaluation-administration-type"
-import { AnswerType } from "../types/answer-option-type"
-import { ProjectStatus } from "../types/project-type"
+import { EvaluationResultStatus } from "@custom-types/evaluation-result-type"
+import { EvaluationStatus } from "@custom-types/evaluation-type"
+import { EvaluationAdministrationStatus } from "@custom-types/evaluation-administration-type"
+import { AnswerType } from "@custom-types/answer-option-type"
+import { ProjectStatus } from "@custom-types/project-type"
 
 export const getEvaluationAdministrationStatusVariant = (status: string | undefined) => {
   if (status === EvaluationAdministrationStatus.Draft) {

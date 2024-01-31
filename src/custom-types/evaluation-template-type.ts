@@ -1,7 +1,7 @@
-import { type Evaluation } from "./evaluation-type"
-import { type EvaluationTemplateContent } from "./evaluation-template-content-type"
-import { type ProjectRole } from "./project-role-type"
-import { type Answer } from "./answer-type"
+import { type Evaluation } from "@custom-types/evaluation-type"
+import { type EvaluationTemplateContent } from "@custom-types/evaluation-template-content-type"
+import { type ProjectRole } from "@custom-types/project-role-type"
+import { type Answer } from "@custom-types/answer-type"
 
 export interface EvaluationTemplate {
   id: number

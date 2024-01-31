@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react"
 import { useParams, useSearchParams } from "react-router-dom"
-import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../../../hooks/useAppSelector"
-import { Button, LinkButton } from "../../../../../components/ui/button/button"
-import { Icon } from "../../../../../components/ui/icon/icon"
-import { type EvaluationResult } from "../../../../../types/evaluation-result-type"
-import Dialog from "../../../../../components/ui/dialog/dialog"
-import { Loading } from "../../../../../types/loadingType"
-import { setAlert } from "../../../../../redux/slices/app-slice"
-import { Pagination } from "../../../../../components/shared/pagination/pagination"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { Button, LinkButton } from "@components/ui/button/button"
+import { Icon } from "@components/ui/icon/icon"
+import { type EvaluationResult } from "@custom-types/evaluation-result-type"
+import Dialog from "@components/ui/dialog/dialog"
+import { Loading } from "@custom-types/loadingType"
+import { setAlert } from "@redux/slices/app-slice"
+import { Pagination } from "@components/shared/pagination/pagination"
 import {
   deleteEvaluationResult,
   getEvaluationResults,
-} from "../../../../../redux/slices/evaluation-results-slice"
-import { getEvaluationResultStatusVariant } from "../../../../../utils/variant"
-import { Badge } from "../../../../../components/ui/badge/badge"
+} from "@redux/slices/evaluation-results-slice"
+import { getEvaluationResultStatusVariant } from "@utils/variant"
+import { Badge } from "@components/ui/badge/badge"
 
 export const EvalueesList = () => {
   const { id } = useParams()

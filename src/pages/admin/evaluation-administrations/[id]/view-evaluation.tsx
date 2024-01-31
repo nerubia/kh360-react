@@ -1,17 +1,17 @@
 import { useContext, useEffect } from "react"
 import { useParams } from "react-router-dom"
-import { useAppDispatch } from "../../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../../hooks/useAppSelector"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
 import {
   getEvaluationAdministration,
   getEvaluationAdministrationSocket,
-} from "../../../../redux/slices/evaluation-administration-slice"
-import { Loading } from "../../../../types/loadingType"
-import { ViewEvaluationHeader } from "../../../../features/admin/evaluation-administrations/[id]/view-evaluation-header"
-import { ViewEvaluationList } from "../../../../features/admin/evaluation-administrations/[id]/view-evaluation-list"
-import { ViewEvaluationFooter } from "../../../../features/admin/evaluation-administrations/[id]/view-evaluation-footer"
-import { useTitle } from "../../../../hooks/useTitle"
-import { WebSocketContext, type WebSocketType } from "../../../../components/providers/websocket"
+} from "@redux/slices/evaluation-administration-slice"
+import { Loading } from "@custom-types/loadingType"
+import { ViewEvaluationHeader } from "@features/admin/evaluation-administrations/[id]/view-evaluation-header"
+import { ViewEvaluationList } from "@features/admin/evaluation-administrations/[id]/view-evaluation-list"
+import { ViewEvaluationFooter } from "@features/admin/evaluation-administrations/[id]/view-evaluation-footer"
+import { useTitle } from "@hooks/useTitle"
+import { WebSocketContext, type WebSocketType } from "@components/providers/websocket"
 
 export default function ViewEvaluation() {
   useTitle("View Evaluation")

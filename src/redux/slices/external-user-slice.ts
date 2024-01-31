@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
-import { type ApiError } from "../../types/apiErrorType"
-import { axiosInstance } from "../../utils/axios-instance"
-import { Loading } from "../../types/loadingType"
-import { type ExternalUser } from "../../types/external-user-type"
+import { type ApiError } from "@custom-types/apiErrorType"
+import { axiosInstance } from "@utils/axios-instance"
+import { Loading } from "@custom-types/loadingType"
+import { type ExternalUser } from "@custom-types/external-user-type"
 
 export const getExternalUser = createAsyncThunk(
   "externalUser/getExternalUser",

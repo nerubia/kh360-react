@@ -1,6 +1,6 @@
 import { type InputActionMeta, type SingleValue } from "react-select"
 import CreatableSelect from "react-select/creatable"
-import { type Option } from "../../../types/optionType"
+import { type Option } from "@custom-types/optionType"
 
 interface SelectProps {
   label?: string
