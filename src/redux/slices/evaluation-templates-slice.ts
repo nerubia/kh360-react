@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
-import { type ApiError } from "../../types/apiErrorType"
+import { type ApiError } from "@custom-types/apiErrorType"
 import {
   type EvaluationTemplateFilters,
   type EvaluationTemplate,
-} from "../../types/evaluation-template-type"
-import { axiosInstance } from "../../utils/axios-instance"
-import { Loading } from "../../types/loadingType"
-import { type EvaluationTemplateFormData } from "../../types/form-data-type"
+} from "@custom-types/evaluation-template-type"
+import { axiosInstance } from "@utils/axios-instance"
+import { Loading } from "@custom-types/loadingType"
+import { type EvaluationTemplateFormData } from "@custom-types/form-data-type"
 
 export const createEvaluationTemplate = createAsyncThunk(
   "evaluationTemplate/createEvaluationTemplate",

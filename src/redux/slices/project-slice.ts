@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
-import { type ApiError } from "../../types/apiErrorType"
-import { axiosInstance } from "../../utils/axios-instance"
-import { Loading } from "../../types/loadingType"
-import { type Project } from "../../types/project-type"
-import { type ProjectFormData } from "../../types/form-data-type"
+import { type ApiError } from "@custom-types/apiErrorType"
+import { axiosInstance } from "@utils/axios-instance"
+import { Loading } from "@custom-types/loadingType"
+import { type Project } from "@custom-types/project-type"
+import { type ProjectFormData } from "@custom-types/form-data-type"
 
 export const getProject = createAsyncThunk("project/getProject", async (id: number, thunkApi) => {
   try {

@@ -1,22 +1,22 @@
 import { ValidationError } from "yup"
 import { useState, useEffect } from "react"
-import { Button } from "../../../../components/ui/button/button"
-import { Checkbox } from "../../../../components/ui/checkbox/checkbox"
-import Dialog from "../../../../components/ui/dialog/dialog"
-import { Input } from "../../../../components/ui/input/input"
-import { CustomSelect } from "../../../../components/ui/select/custom-select"
-import { useAppDispatch } from "../../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../../hooks/useAppSelector"
+import { Button } from "@components/ui/button/button"
+import { Checkbox } from "@components/ui/checkbox/checkbox"
+import Dialog from "@components/ui/dialog/dialog"
+import { Input } from "@components/ui/input/input"
+import { CustomSelect } from "@components/ui/select/custom-select"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
 import {
   showCreateModal,
   setEvaluationTemplateContents,
-} from "../../../../redux/slices/evaluation-template-contents-slice"
-import { EvaluationTemplateContentCategory } from "../../../../types/evaluation-template-content-type"
-import { type Option } from "../../../../types/optionType"
-import { type EvaluationTemplateContentFormData } from "../../../../types/form-data-type"
-import { createEvaluationTemplateContentSchema } from "../../../../utils/validation/evaluation-template-content-schema"
+} from "@redux/slices/evaluation-template-contents-slice"
+import { EvaluationTemplateContentCategory } from "@custom-types/evaluation-template-content-type"
+import { type Option } from "@custom-types/optionType"
+import { type EvaluationTemplateContentFormData } from "@custom-types/form-data-type"
+import { createEvaluationTemplateContentSchema } from "@utils/validation/evaluation-template-content-schema"
 import { type SingleValue } from "react-select"
-import { type EvaluationTemplateContent } from "../../../../types/evaluation-template-content-type"
+import { type EvaluationTemplateContent } from "@custom-types/evaluation-template-content-type"
 
 export const CreateEvaluationTemplateContentForm = () => {
   const appDispatch = useAppDispatch()

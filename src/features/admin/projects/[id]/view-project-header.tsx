@@ -1,10 +1,10 @@
 import { useEffect } from "react"
-import { useAppSelector } from "../../../../hooks/useAppSelector"
+import { useAppSelector } from "@hooks/useAppSelector"
 import { useParams } from "react-router-dom"
-import { useAppDispatch } from "../../../../hooks/useAppDispatch"
-import { PageTitle } from "../../../../components/shared/page-title"
-import { getProject } from "../../../../redux/slices/project-slice"
-import { formatDateRange } from "../../../../utils/format-date"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { PageTitle } from "@components/shared/page-title"
+import { getProject } from "@redux/slices/project-slice"
+import { formatDateRange } from "@utils/format-date"
 
 export const ViewProjectHeader = () => {
   const { id } = useParams()

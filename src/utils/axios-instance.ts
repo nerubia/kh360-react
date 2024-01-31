@@ -1,8 +1,8 @@
 import axios, { type AxiosInstance } from "axios"
 import { type Store } from "@reduxjs/toolkit"
-import { type RootState } from "../redux/store"
-import { refreshUserToken } from "../services/api"
-import { setAccessToken } from "../redux/slices/auth-slice"
+import { type RootState } from "@redux/store"
+import { refreshUserToken } from "@services/api"
+import { setAccessToken } from "@redux/slices/auth-slice"
 
 export let axiosInstance: AxiosInstance
 

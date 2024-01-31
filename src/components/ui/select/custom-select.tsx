@@ -1,6 +1,6 @@
 import Select, { type InputActionMeta, type SingleValue } from "react-select"
-import { type Option } from "../../../types/optionType"
-import { useMobileView } from "../../../hooks/use-mobile-view"
+import { type Option } from "@custom-types/optionType"
+import { useMobileView } from "@hooks/use-mobile-view"
 interface SelectProps {
   label?: string
   name: string

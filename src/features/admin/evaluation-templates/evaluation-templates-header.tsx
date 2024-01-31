@@ -1,4 +1,4 @@
-import { PageTitle } from "../../../components/shared/page-title"
+import { PageTitle } from "@components/shared/page-title"
 
 export const EvaluationTemplatesHeader = () => {
   return (

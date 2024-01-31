@@ -1,5 +1,5 @@
-import { type ScoreRating } from "./score-rating-type"
-import { type EvaluationTemplateContent } from "./evaluation-template-content-type"
+import { type ScoreRating } from "@custom-types/score-rating-type"
+import { type EvaluationTemplateContent } from "@custom-types/evaluation-template-content-type"
 
 export interface EvaluationResultDetail {
   id: number

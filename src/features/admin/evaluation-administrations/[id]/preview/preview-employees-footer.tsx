@@ -1,12 +1,12 @@
 import { useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../../../hooks/useAppSelector"
-import { Button, LinkButton } from "../../../../../components/ui/button/button"
-import { Icon } from "../../../../../components/ui/icon/icon"
-import Dialog from "../../../../../components/ui/dialog/dialog"
-import { setAlert } from "../../../../../redux/slices/app-slice"
-import { createEvaluationResults } from "../../../../../redux/slices/evaluation-results-slice"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { Button, LinkButton } from "@components/ui/button/button"
+import { Icon } from "@components/ui/icon/icon"
+import Dialog from "@components/ui/dialog/dialog"
+import { setAlert } from "@redux/slices/app-slice"
+import { createEvaluationResults } from "@redux/slices/evaluation-results-slice"
 
 export const PreviewEmployeesFooter = () => {
   const { id } = useParams()

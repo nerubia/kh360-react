@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
 import { type CodeResponse } from "@react-oauth/google"
-import { type ApiError } from "../../types/apiErrorType"
-import { type User } from "../../types/user-type"
-import { refreshUserToken } from "../../services/api"
-import { Loading } from "../../types/loadingType"
-import { type ExternalAuthFormData, type LoginFormData } from "../../types/form-data-type"
-import { axiosInstance } from "../../utils/axios-instance"
+import { type ApiError } from "@custom-types/apiErrorType"
+import { type User } from "@custom-types/user-type"
+import { refreshUserToken } from "@services/api"
+import { Loading } from "@custom-types/loadingType"
+import { type ExternalAuthFormData, type LoginFormData } from "@custom-types/form-data-type"
+import { axiosInstance } from "@utils/axios-instance"
 
 export const login = createAsyncThunk("auth/login", async (data: LoginFormData, thunkApi) => {
   try {

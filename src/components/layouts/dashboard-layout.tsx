@@ -1,12 +1,12 @@
 import { Suspense } from "react"
 import { Outlet, useLocation } from "react-router-dom"
-import { useAppSelector } from "../../hooks/useAppSelector"
-import { useAppDispatch } from "../../hooks/useAppDispatch"
-import { setActiveSidebar } from "../../redux/slices/app-slice"
-import { Icon } from "../ui/icon/icon"
-import { Sidebar } from "../shared/sidebar/sidebar"
-import { Button, LinkButton } from "../ui/button/button"
-import { Alert } from "../ui/alert/alert"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { setActiveSidebar } from "@redux/slices/app-slice"
+import { Icon } from "@components/ui/icon/icon"
+import { Sidebar } from "@components/shared/sidebar/sidebar"
+import { Button, LinkButton } from "@components/ui/button/button"
+import { Alert } from "@components/ui/alert/alert"
 
 export default function DashboardLayout() {
   const { activeSidebar, alertDescription, alertVariant } = useAppSelector((state) => state.app)

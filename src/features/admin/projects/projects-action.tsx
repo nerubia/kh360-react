@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom"
-import { useAppSelector } from "../../../hooks/useAppSelector"
-import { Button } from "../../../components/ui/button/button"
-import { setProject } from "../../../redux/slices/project-slice"
-import { useAppDispatch } from "../../../hooks/useAppDispatch"
-import { setCheckedSkills, setSelectedSkills } from "../../../redux/slices/skills-slice"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { Button } from "@components/ui/button/button"
+import { setProject } from "@redux/slices/project-slice"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { setCheckedSkills, setSelectedSkills } from "@redux/slices/skills-slice"
 
 export const ProjectsAction = () => {
   const navigate = useNavigate()

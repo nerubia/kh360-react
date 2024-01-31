@@ -1,5 +1,5 @@
-import { useAppSelector } from "../../hooks/useAppSelector"
-import { useTitle } from "../../hooks/useTitle"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { useTitle } from "@hooks/useTitle"
 
 export default function Dashboard() {
   useTitle("Dashboard")

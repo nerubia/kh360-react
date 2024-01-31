@@ -1,6 +1,6 @@
 import { createElement } from "react"
 import { type VariantProps, cva } from "class-variance-authority"
-import { icons } from "./icons"
+import { icons } from "@components/ui/icon/icons"
 
 const iconVariants = cva([], {
   variants: {

@@ -1,6 +1,6 @@
-import { CreateProjectHeader } from "../../../../features/admin/projects/create/create-project-header"
-import { CreateProjectForm } from "../../../../features/admin/projects/create/create-project-form"
-import { useTitle } from "../../../../hooks/useTitle"
+import { CreateProjectHeader } from "@features/admin/projects/create/create-project-header"
+import { CreateProjectForm } from "@features/admin/projects/create/create-project-form"
+import { useTitle } from "@hooks/useTitle"
 
 export default function CreateProject() {
   useTitle("Create Project")

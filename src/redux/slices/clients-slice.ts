@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { type Client } from "../../types/client-type"
-import { Loading } from "../../types/loadingType"
-import { axiosInstance } from "../../utils/axios-instance"
+import { type Client } from "@custom-types/client-type"
+import { Loading } from "@custom-types/loadingType"
+import { axiosInstance } from "@utils/axios-instance"
 import { type AxiosError } from "axios"
-import { type ApiError } from "../../types/apiErrorType"
+import { type ApiError } from "@custom-types/apiErrorType"
 
 export const getActiveClients = createAsyncThunk("clients/listActive", async (_, thunkApi) => {
   try {

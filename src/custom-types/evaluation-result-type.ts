@@ -1,9 +1,9 @@
-import { type User } from "./user-type"
-import { type EvaluationTemplate } from "./evaluation-template-type"
-import { type EvaluationResultDetail } from "./evaluation-result-detail-type"
-import { type EvaluationAdministration } from "./evaluation-administration-type"
-import { type ScoreRating } from "./score-rating-type"
-import { type OtherComment } from "./comment-type"
+import { type User } from "@custom-types/user-type"
+import { type EvaluationTemplate } from "@custom-types/evaluation-template-type"
+import { type EvaluationResultDetail } from "@custom-types/evaluation-result-detail-type"
+import { type EvaluationAdministration } from "@custom-types/evaluation-administration-type"
+import { type ScoreRating } from "@custom-types/score-rating-type"
+import { type OtherComment } from "@custom-types/comment-type"
 
 export interface EvaluationResult {
   id: number

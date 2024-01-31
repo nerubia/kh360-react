@@ -1,10 +1,10 @@
 import { lazy } from "react"
 
-const Layout = lazy(async () => await import("../components/layouts/Layout"))
+const Layout = lazy(async () => await import("@components/layouts/Layout"))
 
-const Home = lazy(async () => await import("../pages/home"))
+const Home = lazy(async () => await import("@pages/home"))
 const ExternalEvaluations = lazy(
-  async () => await import("../pages/external-evaluations/external-evaluations")
+  async () => await import("@pages/external-evaluations/external-evaluations")
 )
 
 export const guestRoutes = {

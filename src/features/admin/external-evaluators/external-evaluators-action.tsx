@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom"
-import { Button } from "../../../components/ui/button/button"
-import { useAppSelector } from "../../../hooks/useAppSelector"
-import { useAppDispatch } from "../../../hooks/useAppDispatch"
-import { setExternalUser } from "../../../redux/slices/external-user-slice"
+import { Button } from "@components/ui/button/button"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { setExternalUser } from "@redux/slices/external-user-slice"
 
 export const ExternalEvaluatorsAction = () => {
   const navigate = useNavigate()

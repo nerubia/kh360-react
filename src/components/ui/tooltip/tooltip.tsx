@@ -1,7 +1,7 @@
 import React from "react"
 import { type VariantProps, cva } from "class-variance-authority"
-import { TooltipTrigger } from "./tooltip-trigger"
-import { TooltipContent } from "./tooltip-content"
+import { TooltipTrigger } from "@components/ui/tooltip/tooltip-trigger"
+import { TooltipContent } from "@components/ui/tooltip/tooltip-content"
 
 const tooltip = cva(["absolute", "z-50", "w-max", "max-w-md", "invisible", "group-hover:visible"], {
   variants: {

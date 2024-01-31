@@ -1,19 +1,15 @@
 import { useEffect, useState } from "react"
-import { type ExternalAuthFormData } from "../../types/form-data-type"
-import { Input } from "../../components/ui/input/input"
-import { Button } from "../../components/ui/button/button"
+import { type ExternalAuthFormData } from "@custom-types/form-data-type"
+import { Input } from "@components/ui/input/input"
+import { Button } from "@components/ui/button/button"
 import { ValidationError } from "yup"
-import { externalAuthSchema } from "../../utils/validation/external-evaluator-schema"
-import { useAppDispatch } from "../../hooks/useAppDispatch"
-import {
-  getExternalUserStatus,
-  loginAsExternalUser,
-  resendCode,
-} from "../../redux/slices/auth-slice"
-import { useAppSelector } from "../../hooks/useAppSelector"
-import { Loading } from "../../types/loadingType"
+import { externalAuthSchema } from "@utils/validation/external-evaluator-schema"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { getExternalUserStatus, loginAsExternalUser, resendCode } from "@redux/slices/auth-slice"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { Loading } from "@custom-types/loadingType"
 import { useSearchParams } from "react-router-dom"
-import { Spinner } from "../../components/ui/spinner/spinner"
+import { Spinner } from "@components/ui/spinner/spinner"
 import { addHours, differenceInMinutes, differenceInSeconds } from "date-fns"
 
 export const ExternalAuthForm = () => {

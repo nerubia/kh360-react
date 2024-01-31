@@ -1,9 +1,9 @@
 import { useParams, useNavigate } from "react-router-dom"
-import { Button } from "../../../../../../../../components/ui/button/button"
-import { useAppDispatch } from "../../../../../../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../../../../../../hooks/useAppSelector"
-import { addExternalEvaluators } from "../../../../../../../../redux/slices/evaluation-administration-slice"
-import { setAlert } from "../../../../../../../../redux/slices/app-slice"
+import { Button } from "@components/ui/button/button"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { addExternalEvaluators } from "@redux/slices/evaluation-administration-slice"
+import { setAlert } from "@redux/slices/app-slice"
 
 export const SelectExternalEvaluatorsFooter = () => {
   const { id, evaluation_result_id, evaluation_template_id } = useParams()

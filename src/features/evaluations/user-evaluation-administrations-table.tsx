@@ -1,17 +1,17 @@
 import { useContext, useEffect } from "react"
 import { Link } from "react-router-dom"
-import { useAppDispatch } from "../../hooks/useAppDispatch"
-import { useAppSelector } from "../../hooks/useAppSelector"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
 import {
   getUserEvaluationAdministrations,
   getUserEvaluationAdministrationsSocket,
-} from "../../redux/slices/user-slice"
-import { Progress } from "../../components/ui/progress/progress"
-import { convertToFullDate, formatDateRange } from "../../utils/format-date"
-import { Loading } from "../../types/loadingType"
-import { Spinner } from "../../components/ui/spinner/spinner"
-import { getByTemplateType, getByTemplateTypeSocket } from "../../redux/slices/email-template-slice"
-import { WebSocketContext, type WebSocketType } from "../../components/providers/websocket"
+} from "@redux/slices/user-slice"
+import { Progress } from "@components/ui/progress/progress"
+import { convertToFullDate, formatDateRange } from "@utils/format-date"
+import { Loading } from "@custom-types/loadingType"
+import { Spinner } from "@components/ui/spinner/spinner"
+import { getByTemplateType, getByTemplateTypeSocket } from "@redux/slices/email-template-slice"
+import { WebSocketContext, type WebSocketType } from "@components/providers/websocket"
 
 export const UserEvaluationAdministrationsTable = () => {
   const appDispatch = useAppDispatch()
