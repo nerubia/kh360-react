@@ -43,7 +43,8 @@ export const EvaluatorsList = () => {
 
   const [showDialog, setShowDialog] = useState<boolean>(false)
   const [selectedEvaluationId, setSelectedEvaluationId] = useState<number>()
-  const isMediumSize = useMobileView(1024)
+  const isMediumSize = useMobileView(1200)
+  const isSmallDevice = useMobileView(800)
 
   useEffect(() => {
     if (evaluation_template_id !== "all") {
@@ -213,7 +214,7 @@ export const EvaluatorsList = () => {
   }
 
   return (
-    <div className='flex-1 h-[calc(100vh_-_185px)] flex flex-col pt-4 overflow-x-auto overflow-y-hidden'>
+    <div className='flex-1 h-screen lg:h-[calc(100vh_-_185px)] flex flex-col pt-4 overflow-x-auto overflow-y-auto text-sm xl:text-lg'>
       <PageSubTitle>{internalHeader}</PageSubTitle>
       <div className='flex-1 overflow-y-scroll mt-2'>
         <table className='relative w-full table-fixed'>
@@ -266,7 +267,7 @@ export const EvaluatorsList = () => {
       <div className='pt-5'>
         <PageSubTitle>{externalHeader}</PageSubTitle>
       </div>
-      <div className='flex-1 overflow-y-scroll my-2'>
+      <div className='flex-1 overflow-y-scroll my-2 overflow-x-auto'>
         <table className='relative w-full table-fixed'>
           <thead className='sticky top-0 bg-white text-left z-50'>
             <tr>
@@ -315,7 +316,7 @@ export const EvaluatorsList = () => {
                       <Tooltip.Content>{evaluation.evaluator?.email}</Tooltip.Content>
                     </Tooltip>
                   </td>
-                  <td>
+                  <td className='whitespace-nowrap'>
                     {showSelectProjectButton && (
                       <Dropdown>
                         <Dropdown.Trigger>
@@ -385,7 +386,7 @@ export const EvaluatorsList = () => {
       <div className='flex gap-4 mt-3'>
         <Button variant='ghost' size='small' onClick={handleAddNew}>
           <Icon icon='Plus' color='primary' size='small' />
-          <p className='text-primary-500 uppercase'>Add new</p>
+          <p className='text-primary-500 uppercase whitespace-nowrap text-xs'>Add new</p>
         </Button>
         <LinkButton
           variant='ghost'
@@ -393,12 +394,12 @@ export const EvaluatorsList = () => {
           to={`/admin/evaluation-administrations/${id}/evaluees/${evaluation_result_id}/evaluators/${evaluation_template_id}/select-external`}
         >
           <Icon icon='Plus' color='primary' size='small' />
-          <p className='text-primary-500 uppercase'>Add from list</p>
+          <p className='text-primary-500 uppercase whitespace-nowrap text-xs'>Add from list</p>
         </LinkButton>
       </div>
       <div className='flex flex-col md:flex-row justify-between gap-2 pt-5 whitespace-nowrap'>
         <LinkButton
-          fullWidth={isMediumSize}
+          fullWidth={isSmallDevice}
           size={isMediumSize ? "small" : "medium"}
           variant='primaryOutline'
           to={`/admin/evaluation-administrations/${id}/evaluees`}
@@ -415,6 +416,7 @@ export const EvaluatorsList = () => {
           >
             Save as Draft
           </Button>
+
           <Button
             fullWidth={isMediumSize}
             size={isMediumSize ? "small" : "medium"}
