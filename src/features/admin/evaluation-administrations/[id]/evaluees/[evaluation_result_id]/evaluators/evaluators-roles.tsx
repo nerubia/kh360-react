@@ -37,14 +37,14 @@ export const EvaluatorsRoles = () => {
   }
 
   return (
-    <div className='md:w-80 md:h-[calc(100vh_-_185px)] pt-4 h-100 w-100'>
+    <div className='md:w-40 lg:w-80 md:h-[calc(100vh_-_185px)]pt-4 h-100 w-100  '>
       <div className='flex-1 flex flex-col gap-2 overflow-y-scroll'>
         {evaluation_templates.map((template) => (
           <Menu
             key={template.id}
             isEvaluation={false}
             to={`/admin/evaluation-administrations/${id}/evaluees/${evaluation_result_id}/evaluators/${template.id}`}
-            className='w-full rounded-md flex items-center gap-2 text-black hover:bg-gray-100 active:bg-primary-500 [&.active]:bg-primary-500 [&.active]:text-white [&.active]:cursor-default h-9 text-base px-4'
+            className='w-full rounded-md flex items-center gap-2 text-black hover:bg-gray-100 active:bg-primary-500 [&.active]:bg-primary-500 [&.active]:text-white [&.active]:cursor-default h-9 text-sm lg:text-base px-4'
           >
             {template.display_name}
           </Menu>

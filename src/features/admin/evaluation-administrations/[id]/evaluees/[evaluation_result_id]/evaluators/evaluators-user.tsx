@@ -27,39 +27,41 @@ export const EvaluatorsUser = () => {
 
   return (
     <div className='flex justify-between items-center'>
-      <div className='w-80 flex items-center pb-4'>
-        <div className='w-6'>
-          {previousId !== undefined && (
-            <LinkButton
-              testId='PreviousButton'
-              variant='unstyled'
-              to={`/admin/evaluation-administrations/${id}/evaluees/${previousId}/evaluators/all`}
-            >
-              <Icon icon='ChevronLeft' />
-            </LinkButton>
-          )}
-        </div>
-        <div className='flex-1 flex items-center gap-4'>
-          {evaluation_result?.users?.picture === undefined ||
-          evaluation_result.users?.picture === null ? (
-            <Icon icon='UserFill' color='primary' size='large' />
-          ) : (
-            <img
-              className='w-10 h-10 rounded-full'
-              src={evaluation_result?.users?.picture}
-              alt={`Avatar of ${evaluation_result?.users?.first_name} ${evaluation_result?.users?.first_name}`}
-            />
-          )}
-          <div className='flex-1'>
-            <p className='font-bold'>
-              {evaluation_result?.users?.last_name}, {evaluation_result?.users?.first_name}
-            </p>
-            <Badge
-              variant={getEvaluationResultStatusVariant(evaluation_result?.status)}
-              size='small'
-            >
-              {evaluation_result?.status}
-            </Badge>
+      <div className='w-80 flex items-center lg:pb-4'>
+        <div className='flex items-center justify-center'>
+          <div className='w-6'>
+            {previousId !== undefined && (
+              <LinkButton
+                testId='PreviousButton'
+                variant='unstyled'
+                to={`/admin/evaluation-administrations/${id}/evaluees/${previousId}/evaluators/all`}
+              >
+                <Icon icon='ChevronLeft' />
+              </LinkButton>
+            )}
+          </div>
+          <div className='flex-1 flex items-center gap-4'>
+            {evaluation_result?.users?.picture === undefined ||
+            evaluation_result.users?.picture === null ? (
+              <Icon icon='UserFill' color='primary' size='large' />
+            ) : (
+              <img
+                className='w-10 h-10 rounded-full'
+                src={evaluation_result?.users?.picture}
+                alt={`Avatar of ${evaluation_result?.users?.first_name} ${evaluation_result?.users?.first_name}`}
+              />
+            )}
+            <div className='flex-1 flex lg:block gap-3 pb-1'>
+              <p className='font-bold'>
+                {evaluation_result?.users?.last_name}, {evaluation_result?.users?.first_name}
+              </p>
+              <Badge
+                variant={getEvaluationResultStatusVariant(evaluation_result?.status)}
+                size='small'
+              >
+                {evaluation_result?.status}
+              </Badge>
+            </div>
           </div>
         </div>
         <div className='w-6'>
