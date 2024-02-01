@@ -244,7 +244,7 @@ export const EmailTemplateForm = () => {
             error={validationErrors.name}
           />
         </div>
-        <div className='flex flex-wrap gap-4'>
+        <div className='flex flex-wrap gap-4 w-[1100px]'>
           <div className='flex-1'>
             <CreateSelect
               data-test-id='SelectEmailTemplateType'
