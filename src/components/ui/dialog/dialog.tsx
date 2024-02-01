@@ -4,14 +4,14 @@ import { DialogActions } from "./dialog-actions"
 import { DialogDescription } from "./dialog-description"
 import { DialogTitle } from "./dialog-title"
 
-const dialog = cva(["w-full", "flex", "flex-col", "gap-4", "p-5", "rounded-md", "max-h-[650px]"], {
+const dialog = cva(["w-full", "flex", "flex-col", "gap-4", "p-5", "rounded-md", "max-h-650"], {
   variants: {
     variant: {
       white: ["bg-white"],
     },
     size: {
-      small: ["md:w-[500px]"],
-      medium: ["md:min-w-[600px] p-7"],
+      small: ["md:w-500"],
+      medium: ["md:min-w-600 p-7"],
     },
     maxWidthMin: {
       true: "max-w-min",

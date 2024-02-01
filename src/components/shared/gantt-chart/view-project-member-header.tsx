@@ -7,7 +7,7 @@ export const ViewProjectMemberHeader: React.FC<{
   fontSize: string
 }> = ({ rowWidth, headerHeight }) => {
   return (
-    <div className='table border-b border-t border-l h-[50px] md:w-[450px] w-full'>
+    <div className='table border-b border-t border-l h-50 md:w-450 w-full'>
       <div className='table-row list-none'>
         <div className={`ml-4 pl-4 table-cell align-middle min-w-[${rowWidth}]`}>Name</div>
         <div

@@ -15,14 +15,14 @@ export const ViewProjectMemberColumn: React.FC<{
   onExpanderClick: (task: Task) => void
 }> = ({ tasks, rowWidth }) => {
   return (
-    <div className='table border-l md:w-[450px] w-full'>
+    <div className='table border-l md:w-450 w-full'>
       {tasks.map((t, index) => {
         return (
           <div
             className={`table-row text-ellipsis ${index % 2 === 0 ? "" : "bg-neutral-100"}`}
             key={`${t.id}row`}
           >
-            <div className='table-cell vertical-align h-[50px] md:w-[200px] ' title={t.name}>
+            <div className='table-cell vertical-align h-50 md:w-200 ' title={t.name}>
               <div className='p-2'>
                 <div>{t.name}</div>
               </div>
@@ -32,7 +32,7 @@ export const ViewProjectMemberColumn: React.FC<{
                 minWidth: rowWidth,
                 maxWidth: rowWidth,
               }}
-              className='table-cell align-middle md:w-[250px] overflow-visible'
+              className='table-cell align-middle md:w-250 overflow-visible'
             >
               {(t?.dependencies?.length ?? 0) > 0 && (
                 <Tooltip placement='right'>
@@ -42,7 +42,7 @@ export const ViewProjectMemberColumn: React.FC<{
                   <Tooltip.Content>
                     {t?.dependencies?.map((projectMemberSkill, index) => (
                       <pre
-                        className='flex font-sans break-words whitespace-pre-wrap text-xs md:text-xs md:w-[150px]'
+                        className='flex font-sans break-words whitespace-pre-wrap text-xs md:text-xs md:w-150'
                         key={index}
                       >
                         {projectMemberSkill}

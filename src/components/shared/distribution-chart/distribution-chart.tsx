@@ -126,7 +126,7 @@ export const DistributionChart: React.FC<DistributionChartProps> = ({
     }
 
     return (
-      <div className='md:w-[750px]'>
+      <div className='md:w-750'>
         <Scatter data={chartData} options={chartOptions} />
       </div>
     )

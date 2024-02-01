@@ -30,7 +30,7 @@ export const ProjectColumn: React.FC<{
             key={`${t.id}row`}
           >
             <div
-              className='table-cell vertical-align whitespace-nowrap overflow-hidden h-[50px] md:w-[300px]'
+              className='table-cell vertical-align whitespace-nowrap overflow-hidden h-50 md:w-300'
               title={t.name}
             >
               <div className='flex p-2'>

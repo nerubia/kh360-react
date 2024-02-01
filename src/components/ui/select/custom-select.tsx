@@ -42,7 +42,7 @@ export const CustomSelect = ({
             `w-full ${error != null ? "border border-red-500 rounded-md" : ""} ${
               fullWidth === true ? "" : "md:w-40"
             }`,
-          control: () => "h-[38px]",
+          control: () => "h-38",
         }}
         inputId={name}
         value={value}
