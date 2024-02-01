@@ -4,6 +4,7 @@ import { useAppSelector } from "@hooks/useAppSelector"
 import { internalUserRoutes } from "@routes/internal-user-route"
 import { cmUserRoutes } from "@routes/cm-user-route"
 import { adminRoutes } from "@routes/admin-route"
+import { routes } from "@routes/routes"
 
 const DashboardLayout = lazy(async () => await import("@components/layouts/dashboard-layout"))
 
@@ -19,11 +20,11 @@ export const privateRoutes = {
       element: <DashboardLayout />,
       children: [
         {
-          path: "/evaluation-administrations",
+          path: routes.private.userEvaluationAdministrations,
           element: <UserEvaluationAdministrations />,
         },
         {
-          path: "/evaluation-administrations/:id/evaluations/:evaluation_id",
+          path: routes.private.userEvaluations,
           element: <Evaluations />,
         },
         internalUserRoutes,
