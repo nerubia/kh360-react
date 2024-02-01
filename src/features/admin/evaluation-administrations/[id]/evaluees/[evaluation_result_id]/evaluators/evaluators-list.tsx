@@ -214,7 +214,7 @@ export const EvaluatorsList = () => {
   }
 
   return (
-    <div className='flex-1 h-screen lg:h-[calc(100vh_-_185px)] flex flex-col pt-4 overflow-x-auto overflow-y-auto text-sm xl:text-lg'>
+    <div className='flex-1 h-screen flex flex-col pt-4 overflow-x-auto overflow-y-auto text-8 xl:text-base'>
       <PageSubTitle>{internalHeader}</PageSubTitle>
       <div className='flex-1 overflow-y-scroll mt-2'>
         <table className='relative w-full table-fixed'>
@@ -383,24 +383,26 @@ export const EvaluatorsList = () => {
           </tbody>
         </table>
       </div>
-      <div className='flex gap-4 mt-3'>
-        <Button variant='ghost' size='small' onClick={handleAddNew}>
-          <Icon icon='Plus' color='primary' size='small' />
-          <p className='text-primary-500 uppercase whitespace-nowrap text-xs'>Add new</p>
+      <div className='flex gap-4 mt-1 xl:mt-3'>
+        <Button variant='ghost' size={isMediumSize ? "xs" : "small"} onClick={handleAddNew}>
+          <Icon icon='Plus' color='primary' size={isMediumSize ? "extraSmall" : "small"} />
+          <p className='text-primary-500 uppercase whitespace-nowrap text-8 xl:text-sm'>Add new</p>
         </Button>
         <LinkButton
           variant='ghost'
           size='small'
           to={`/admin/evaluation-administrations/${id}/evaluees/${evaluation_result_id}/evaluators/${evaluation_template_id}/select-external`}
         >
-          <Icon icon='Plus' color='primary' size='small' />
-          <p className='text-primary-500 uppercase whitespace-nowrap text-xs'>Add from list</p>
+          <Icon icon='Plus' color='primary' size={isMediumSize ? "extraSmall" : "small"} />
+          <p className='text-primary-500 uppercase whitespace-nowrap text-8 xl:text-xs'>
+            Add from list
+          </p>
         </LinkButton>
       </div>
-      <div className='flex flex-col md:flex-row justify-between gap-2 pt-5 whitespace-nowrap'>
+      <div className='flex flex-col md:flex-row justify-between gap-2 pt-1 xl:pt-5 whitespace-nowrap'>
         <LinkButton
           fullWidth={isSmallDevice}
-          size={isMediumSize ? "small" : "medium"}
+          size={isMediumSize ? "xs" : "medium"}
           variant='primaryOutline'
           to={`/admin/evaluation-administrations/${id}/evaluees`}
         >
@@ -409,7 +411,7 @@ export const EvaluatorsList = () => {
         <div className='flex flex-col md:flex-row items-center gap-2'>
           <Button
             fullWidth={isMediumSize}
-            size={isMediumSize ? "small" : "medium"}
+            size={isMediumSize ? "xs" : "medium"}
             variant='primaryOutline'
             onClick={async () => await handleUpdateStatus(EvaluationResultStatus.Draft)}
             loading={loading === Loading.Pending}
@@ -419,7 +421,7 @@ export const EvaluatorsList = () => {
 
           <Button
             fullWidth={isMediumSize}
-            size={isMediumSize ? "small" : "medium"}
+            size={isMediumSize ? "xs" : "medium"}
             onClick={async () => await handleUpdateStatus(EvaluationResultStatus.Ready)}
             loading={loading === Loading.Pending}
           >

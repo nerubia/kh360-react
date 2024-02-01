@@ -7,11 +7,12 @@ import { Badge } from "@components/ui/badge/badge"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { setUsers } from "@redux/slices/users-slice"
 import { setExternalUsers } from "@redux/slices/external-users-slice"
+import { useMobileView } from "@hooks/use-mobile-view"
 
 export const EvaluatorsUser = () => {
   const navigate = useNavigate()
   const { id, evaluation_result_id, evaluation_template_id } = useParams()
-
+  const isMediumSize = useMobileView()
   const appDispatch = useAppDispatch()
   const { evaluation_result, previousId, nextId } = useAppSelector(
     (state) => state.evaluationResult
@@ -78,8 +79,10 @@ export const EvaluatorsUser = () => {
       </div>
       <div className='pb-4 md:pb-0'>
         <Button size='small' variant='ghost' onClick={handleAddEvaluator}>
-          <Icon icon='Plus' color='primary' size='small' />
-          <p className='text-primary-500 uppercase whitespace-nowrap'>Add Evaluator</p>
+          <Icon icon='Plus' color='primary' size={isMediumSize ? "extraSmall" : "small"} />
+          <p className='text-primary-500 uppercase whitespace-nowrap text-8 lg:text-sm'>
+            Add Evaluator
+          </p>
         </Button>
       </div>
     </div>

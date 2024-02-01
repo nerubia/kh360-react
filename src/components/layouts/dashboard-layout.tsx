@@ -7,12 +7,13 @@ import { Icon } from "@components/ui/icon/icon"
 import { Sidebar } from "@components/shared/sidebar/sidebar"
 import { Button, LinkButton } from "@components/ui/button/button"
 import { Alert } from "@components/ui/alert/alert"
+import { useMobileView } from "@hooks/use-mobile-view"
 
 export default function DashboardLayout() {
   const { activeSidebar, alertDescription, alertVariant } = useAppSelector((state) => state.app)
   const appDispatch = useAppDispatch()
   const location = useLocation()
-
+  const isMediumSize = useMobileView(1024)
   const toggleSidebar = () => {
     appDispatch(setActiveSidebar(!activeSidebar))
   }
@@ -33,7 +34,7 @@ export default function DashboardLayout() {
       >
         <div className='lg:h-16 flex items-center px-5 justify-between'>
           <Button variant='ghost' size='small' onClick={toggleSidebar}>
-            <Icon icon='Menu' />
+            <Icon size={isMediumSize ? "extraSmall" : "medium"} icon='Menu' />
           </Button>
           {isButtonVisible && (
             <div className='block md:hidden'>
