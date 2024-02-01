@@ -1,5 +1,5 @@
 import { format, utcToZonedTime } from "date-fns-tz"
-import { type User } from "../types/user-type"
+import { type User } from "@custom-types/user-type"
 
 export const formatDate = (date?: string) => {
   return date?.split("T")[0]

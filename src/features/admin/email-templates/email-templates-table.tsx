@@ -1,15 +1,16 @@
 import { useSearchParams } from "react-router-dom"
-import { useAppDispatch } from "../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../hooks/useAppSelector"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
 import { useEffect, useState } from "react"
-import { deleteEmailTemplate, getEmailTemplates } from "../../../redux/slices/email-template-slice"
-import { Button, LinkButton } from "../../../components/ui/button/button"
-import { Icon } from "../../../components/ui/icon/icon"
-import Dialog from "../../../components/ui/dialog/dialog"
-import { Pagination } from "../../../components/shared/pagination/pagination"
-import { setAlert } from "../../../redux/slices/app-slice"
-import Tooltip from "../../../components/ui/tooltip/tooltip"
-import { useMobileView } from "../../../hooks/use-mobile-view"
+import { deleteEmailTemplate, getEmailTemplates } from "@redux/slices/email-template-slice"
+import { Button, LinkButton } from "@components/ui/button/button"
+import { Icon } from "@components/ui/icon/icon"
+import Dialog from "@components/ui/dialog/dialog"
+import { Pagination } from "@components/shared/pagination/pagination"
+import { setAlert } from "@redux/slices/app-slice"
+import Tooltip from "@components/ui/tooltip/tooltip"
+import { useMobileView } from "@hooks/use-mobile-view"
+import { Badge } from "@components/ui/badge/badge"
 
 export const EmailTemplatesTable = () => {
   const [searchParams] = useSearchParams()
@@ -70,9 +71,9 @@ export const EmailTemplatesTable = () => {
           <tr>
             <th className='pb-3 w-[200px] md:w-1/3'>Name</th>
             <th className='pb-3 w-[200px] md:w-1/5'>Template Type</th>
-            <th className='pb-3 w-[100px] md:w-1/6'>Default</th>
+            <th className='pb-3 text-center w-[100px] md:w-1/6'>Default</th>
             <th className='pb-3 w-[200px] md:w-1/3'>Subject</th>
-            <th className='pb-3 w-[100px] md:w-1/6'>Actions</th>
+            <th className='pb-3 w-[100px] md:w-1/8 px-1'>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -80,14 +81,21 @@ export const EmailTemplatesTable = () => {
             <tr key={template.id}>
               <td className='py-1'>{template.name}</td>
               <td className='py-1'>{template.template_type}</td>
-              <td className='py-1'>{template.is_default ? "Yes" : "No"}</td>
+              <td className='py-1'>
+                <div className='flex items-center justify-center gap-4'>
+                  <Badge variant={`${template.is_default ? "green" : "red"}`} size='small'>
+                    {template.is_default ? "YES" : "NO"}
+                  </Badge>
+                </div>
+              </td>
+
               <td className='py-1'>
                 <Tooltip placement={isMobile ? "bottomStart" : "bottom"}>
                   <Tooltip.Trigger>{template.subject}</Tooltip.Trigger>
                   <Tooltip.Content>{template.content}</Tooltip.Content>
                 </Tooltip>
               </td>
-              <td className='py-1 flex flex-row gap-2'>
+              <td className='py-1 px-1 flex flex-row gap-2'>
                 <LinkButton
                   testId='EditButton'
                   variant='unstyled'

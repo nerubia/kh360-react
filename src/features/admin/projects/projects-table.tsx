@@ -1,15 +1,17 @@
 import { useSearchParams, useNavigate } from "react-router-dom"
-import { useAppDispatch } from "../../../hooks/useAppDispatch"
+import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useEffect, useState } from "react"
-import { deleteProject, getProjects } from "../../../redux/slices/projects-slice"
-import { useAppSelector } from "../../../hooks/useAppSelector"
-import { Button, LinkButton } from "../../../components/ui/button/button"
-import { Icon } from "../../../components/ui/icon/icon"
-import Dialog from "../../../components/ui/dialog/dialog"
-import { Pagination } from "../../../components/shared/pagination/pagination"
-import { setAlert, setPreviousUrl } from "../../../redux/slices/app-slice"
-import { useFullPath } from "../../../hooks/use-full-path"
-import { setCheckedSkills, setSelectedSkills } from "../../../redux/slices/skills-slice"
+import { deleteProject, getProjects } from "@redux/slices/projects-slice"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { Button, LinkButton } from "@components/ui/button/button"
+import { Icon } from "@components/ui/icon/icon"
+import Dialog from "@components/ui/dialog/dialog"
+import { Pagination } from "@components/shared/pagination/pagination"
+import { setAlert, setPreviousUrl } from "@redux/slices/app-slice"
+import { useFullPath } from "@hooks/use-full-path"
+import { setCheckedSkills, setSelectedSkills } from "@redux/slices/skills-slice"
+import { Badge } from "@components/ui/badge/badge"
+import { getProjectStatusVariant } from "@utils/variant"
 
 export const ProjectsTable = () => {
   const [searchParams] = useSearchParams()
@@ -91,7 +93,13 @@ export const ProjectsTable = () => {
             <tr key={project.id} className='hover:bg-slate-100'>
               <td className='py-1'>{project.name}</td>
               <td className='py-1'>{project.client?.name}</td>
-              <td className='py-1 w-1/6'>{project.status}</td>
+              <td className='py-1 w-1/6'>
+                <div className='flex gap-4'>
+                  <Badge variant={getProjectStatusVariant(project.status)} size='small'>
+                    {project.status?.toUpperCase()}
+                  </Badge>
+                </div>
+              </td>
               <td className='py-1 flex gap-2'>
                 <LinkButton
                   testId='ViewButton'

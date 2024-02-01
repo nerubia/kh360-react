@@ -1,15 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
-import { type ApiError } from "../../types/apiErrorType"
+import { type ApiError } from "@custom-types/apiErrorType"
 import {
   type EmailTemplateFilters,
   type EmailTemplate,
   type TemplateTypeOption,
-} from "../../types/email-template-type"
-import { Loading } from "../../types/loadingType"
-import { axiosInstance } from "../../utils/axios-instance"
-import { type EmailTemplateFormData } from "../../types/form-data-type"
-import { type Option } from "../../types/optionType"
+} from "@custom-types/email-template-type"
+import { Loading } from "@custom-types/loadingType"
+import { axiosInstance } from "@utils/axios-instance"
+import { type EmailTemplateFormData } from "@custom-types/form-data-type"
+import { type Option } from "@custom-types/optionType"
 
 export const getEmailTemplates = createAsyncThunk(
   "emailTemplate/getEmailTemplates",

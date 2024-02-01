@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react"
 import { useSearchParams, useNavigate, useLocation } from "react-router-dom"
-import { useAppDispatch } from "../../../hooks/useAppDispatch"
+import { useAppDispatch } from "@hooks/useAppDispatch"
 import {
   deleteEvaluationTemplate,
   getEvaluationTemplates,
-} from "../../../redux/slices/evaluation-templates-slice"
-import { useAppSelector } from "../../../hooks/useAppSelector"
-import { Button, LinkButton } from "../../../components/ui/button/button"
-import { Icon } from "../../../components/ui/icon/icon"
-import { Pagination } from "../../../components/shared/pagination/pagination"
-import Dialog from "../../../components/ui/dialog/dialog"
-import { setAlert, setPreviousUrl } from "../../../redux/slices/app-slice"
-import { useFullPath } from "../../../hooks/use-full-path"
-import { Badge } from "../../../components/ui/badge/badge"
+} from "@redux/slices/evaluation-templates-slice"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { Button, LinkButton } from "@components/ui/button/button"
+import { Icon } from "@components/ui/icon/icon"
+import { Pagination } from "@components/shared/pagination/pagination"
+import Dialog from "@components/ui/dialog/dialog"
+import { setAlert, setPreviousUrl } from "@redux/slices/app-slice"
+import { useFullPath } from "@hooks/use-full-path"
+import { Badge } from "@components/ui/badge/badge"
 
 export const EvaluationTemplatesTable = () => {
   const [searchParams] = useSearchParams()
@@ -92,17 +92,17 @@ export const EvaluationTemplatesTable = () => {
 
   return (
     <div className='flex flex-col gap-8 overflow-x-auto'>
-      <table className='w-full table-fixed'>
+      <table className='w-full'>
         <thead className='text-left'>
           <tr>
-            <th className='pb-3 pr-2 w-[150px]'>Name</th>
-            <th className='pb-3 px-2 w-[150px]'>Display Name</th>
-            <th className='pb-3 px-2 w-[150px]'>Template Type</th>
-            <th className='pb-3 px-2 w-[150px] text-center'>With Recommendation</th>
-            <th className='pb-3 px-2 w-[150px] text-center'>Evaluator Role</th>
-            <th className='pb-3 px-2 w-[150px] text-center'>Evaluee Role</th>
-            <th className='pb-3 px-2 w-[150px]'>Rate</th>
-            <th className='pb-3 px-2 w-[150px]'>Actions</th>
+            <th className='pb-3 pr-2'>Name</th>
+            <th className='pb-3 px-2'>Display Name</th>
+            <th className='pb-3 px-2'>Template Type</th>
+            <th className='pb-3 px-2 text-center'>With Recommendation</th>
+            <th className='pb-3 px-2 text-center'>Evaluator Role</th>
+            <th className='pb-3 px-2 text-center'>Evaluee Role</th>
+            <th className='pb-3 px-2'>Rate</th>
+            <th className='pb-3 px-2'>Actions</th>
           </tr>
         </thead>
         <tbody>

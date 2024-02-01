@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
-import { useAppSelector } from "../../../hooks/useAppSelector"
-import { useAppDispatch } from "../../../hooks/useAppDispatch"
-import { Loading } from "../../../types/loadingType"
-import { Button } from "../../../components/ui/button/button"
-import { Icon } from "../../../components/ui/icon/icon"
-import { DistributionChart } from "../../../components/shared/distribution-chart/distribution-chart"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { Loading } from "@custom-types/loadingType"
+import { Button } from "@components/ui/button/button"
+import { Icon } from "@components/ui/icon/icon"
+import { DistributionChart } from "@components/shared/distribution-chart/distribution-chart"
 import Chart from "chart.js/auto"
 import { CategoryScale } from "chart.js"
-import { getEvaluators } from "../../../redux/slices/evaluation-result-slice"
-import { type User } from "../../../types/user-type"
+import { getEvaluators } from "@redux/slices/evaluation-result-slice"
+import { type User } from "@custom-types/user-type"
 
 export const ViewEvaluationResultsChart = () => {
   const { id } = useParams()

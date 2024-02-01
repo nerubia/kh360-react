@@ -1,6 +1,6 @@
 import Select, { type InputActionMeta, type SingleValue } from "react-select"
-import { type Option } from "../../../types/optionType"
-import { useMobileView } from "../../../hooks/use-mobile-view"
+import { type Option } from "@custom-types/optionType"
+import { useMobileView } from "@hooks/use-mobile-view"
 interface SelectProps {
   label?: string
   name: string
@@ -10,6 +10,7 @@ interface SelectProps {
   options: Option[]
   fullWidth?: boolean
   error?: string | null
+  isLoading?: boolean
 }
 
 export const CustomSelect = ({
@@ -21,6 +22,7 @@ export const CustomSelect = ({
   options,
   fullWidth,
   error,
+  isLoading,
 }: SelectProps) => {
   const isMobile = useMobileView()
 
@@ -40,13 +42,14 @@ export const CustomSelect = ({
             `w-full ${error != null ? "border border-red-500 rounded-md" : ""} ${
               fullWidth === true ? "" : "md:w-40"
             }`,
-          control: () => "h-[38px]",
+          control: () => "h-38",
         }}
         inputId={name}
         value={value}
         onChange={onChange}
         onInputChange={onInputChange}
         options={options}
+        isLoading={isLoading}
       />
       {error != null && <p className='text-red-500 text-sm'>{error}</p>}
     </div>

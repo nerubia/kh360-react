@@ -1,7 +1,7 @@
 import { type Task } from "custom-gantt-task-react"
 import React from "react"
-import { Icon } from "../../ui/icon/icon"
-import { LinkButton } from "../../ui/button/button"
+import { Icon } from "@components/ui/icon/icon"
+import { LinkButton } from "@components/ui/button/button"
 
 export const ProjectColumn: React.FC<{
   rowHeight: number
@@ -26,11 +26,11 @@ export const ProjectColumn: React.FC<{
 
         return (
           <div
-            className={`table-row text-ellipsis ${index % 2 === 0 ? "" : "bg-[#f5f5f5]"}`}
+            className={`table-row text-ellipsis ${index % 2 === 0 ? "" : "bg-neutral-100"}`}
             key={`${t.id}row`}
           >
             <div
-              className='table-cell vertical-align whitespace-nowrap overflow-hidden h-[50px] md:w-[300px]'
+              className='table-cell vertical-align whitespace-nowrap overflow-hidden h-50 md:w-300'
               title={t.name}
             >
               <div className='flex p-2'>

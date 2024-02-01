@@ -1,7 +1,7 @@
 import { GoogleOAuthProvider } from "@react-oauth/google"
-import { LoginForm } from "../../features/auth/login/login-form"
-import { LoginOptions } from "../../features/auth/login/login-options"
-import { useTitle } from "../../hooks/useTitle"
+import { LoginForm } from "@features/auth/login/login-form"
+import { LoginOptions } from "@features/auth/login/login-options"
+import { useTitle } from "@hooks/useTitle"
 
 export default function Login() {
   useTitle("Login")

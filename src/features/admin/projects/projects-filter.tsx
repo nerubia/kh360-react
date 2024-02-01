@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react"
 import { useSearchParams } from "react-router-dom"
-import { Input } from "../../../components/ui/input/input"
-import { Button } from "../../../components/ui/button/button"
-import { type Option } from "../../../types/optionType"
-import { CustomSelect } from "../../../components/ui/select/custom-select"
-import { useAppDispatch } from "../../../hooks/useAppDispatch"
-import { getAllProjectStatus } from "../../../redux/slices/projects-slice"
-import { useAppSelector } from "../../../hooks/useAppSelector"
+import { Input } from "@components/ui/input/input"
+import { Button } from "@components/ui/button/button"
+import { type Option } from "@custom-types/optionType"
+import { CustomSelect } from "@components/ui/select/custom-select"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { getAllProjectStatus } from "@redux/slices/projects-slice"
+import { useAppSelector } from "@hooks/useAppSelector"
 
 export const ProjectsFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams()

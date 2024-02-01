@@ -1,12 +1,12 @@
 import { useNavigate, useParams } from "react-router-dom"
-import { Button, LinkButton } from "../../../../../../../components/ui/button/button"
-import { Icon } from "../../../../../../../components/ui/icon/icon"
-import { useAppSelector } from "../../../../../../../hooks/useAppSelector"
-import { getEvaluationResultStatusVariant } from "../../../../../../../utils/variant"
-import { Badge } from "../../../../../../../components/ui/badge/badge"
-import { useAppDispatch } from "../../../../../../../hooks/useAppDispatch"
-import { setUsers } from "../../../../../../../redux/slices/users-slice"
-import { setExternalUsers } from "../../../../../../../redux/slices/external-users-slice"
+import { Button, LinkButton } from "@components/ui/button/button"
+import { Icon } from "@components/ui/icon/icon"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { getEvaluationResultStatusVariant } from "@utils/variant"
+import { Badge } from "@components/ui/badge/badge"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { setUsers } from "@redux/slices/users-slice"
+import { setExternalUsers } from "@redux/slices/external-users-slice"
 
 export const EvaluatorsUser = () => {
   const navigate = useNavigate()

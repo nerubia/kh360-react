@@ -1,6 +1,6 @@
 import { type InputActionMeta, type SingleValue } from "react-select"
 import CreatableSelect from "react-select/creatable"
-import { type Option } from "../../../types/optionType"
+import { type Option } from "@custom-types/optionType"
 
 interface SelectProps {
   label?: string
@@ -38,7 +38,7 @@ export const CreateSelect = ({
             `w-full ${error != null ? "border border-red-500 rounded-md" : ""} ${
               fullWidth === true ? "" : "md:w-40"
             }`,
-          control: () => "h-[38px]",
+          control: () => "h-38",
         }}
         inputId={name}
         value={value}

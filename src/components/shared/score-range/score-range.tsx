@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react"
-import navigationalChallenge from "../../../assets/navigational-challenge.png"
-import needsGps from "../../../assets/needs-gps.png"
-import smoothSailing from "../../../assets/smooth-sailing.png"
-import rocketBooster from "../../../assets/rocket-booster.png"
-import unicornStatus from "../../../assets/unicorn-status.png"
+import navigationalChallenge from "@assets/navigational-challenge.png"
+import needsGps from "@assets/needs-gps.png"
+import smoothSailing from "@assets/smooth-sailing.png"
+import rocketBooster from "@assets/rocket-booster.png"
+import unicornStatus from "@assets/unicorn-status.png"
 import { type VariantProps, cva } from "class-variance-authority"
-import { type ScoreRating } from "../../../types/score-rating-type"
-import { getScoreRatings } from "../../../redux/slices/user-slice"
-import { useAppDispatch } from "../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../hooks/useAppSelector"
-import { Progress } from "../../../components/ui/progress/progress"
-import { getScoreRatingVariant } from "../../../utils/variant"
-import { getScoreRatingBackgroundColor } from "../../../utils/colors"
-import { Icon } from "../../../components/ui/icon/icon"
+import { type ScoreRating } from "@custom-types/score-rating-type"
+import { getScoreRatings } from "@redux/slices/user-slice"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { Progress } from "@components/ui/progress/progress"
+import { getScoreRatingVariant } from "@utils/variant"
+import { getScoreRatingBackgroundColor } from "@utils/colors"
+import { Icon } from "@components/ui/icon/icon"
 
 const scoreRange = cva([], {
   variants: {
@@ -142,7 +142,7 @@ export const ScoreRange = ({
               >
                 {score_rating.display_name}
               </div>
-              <pre className='flex font-sans break-words whitespace-pre-wrap text-xs md:text-sm italic leading-loose ml-5 md:w-[860px]'>
+              <pre className='flex font-sans break-words whitespace-pre-wrap text-xs md:text-sm italic leading-loose ml-5 md:w-860'>
                 {is_evaluee ? score_rating.evaluee_description : score_rating.result_description}
               </pre>
             </>

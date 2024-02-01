@@ -1,7 +1,7 @@
 import React from "react"
 import { type VariantProps, cva } from "class-variance-authority"
-import { TooltipTrigger } from "./tooltip-trigger"
-import { TooltipContent } from "./tooltip-content"
+import { TooltipTrigger } from "@components/ui/tooltip/tooltip-trigger"
+import { TooltipContent } from "@components/ui/tooltip/tooltip-content"
 
 const tooltip = cva(["absolute", "z-50", "w-max", "max-w-md", "invisible", "group-hover:visible"], {
   variants: {
@@ -36,7 +36,7 @@ function Tooltip({ children, placement }: TooltipProps) {
           return null
         })}
         <div className={tooltip({ placement })}>
-          <div className='bg-[#fff8c5] text-[#9b6700] text-xs border border-[#f1dd9f] rounded-md p-1.5'>
+          <div className='bg-customYellow-300 text-customBrown-500 text-xs border border-customYellow-400 rounded-md p-1.5'>
             {React.Children.map(children, (child) => {
               if (React.isValidElement(child) && child.type === Tooltip.Content) {
                 return React.cloneElement(child)

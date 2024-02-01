@@ -1,5 +1,5 @@
-import { useTitle } from "../../../../../hooks/useTitle"
-import { EmailTemplateForm } from "../../../../../features/admin/email-templates/email-template-form/email-template-form"
+import { useTitle } from "@hooks/useTitle"
+import { EmailTemplateForm } from "@features/admin/email-templates/email-template-form/email-template-form"
 
 export default function EditEmailTemplate() {
   useTitle("Edit Message Template")

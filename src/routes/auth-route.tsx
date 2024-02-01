@@ -1,24 +1,25 @@
 import { lazy } from "react"
 import { Navigate, Outlet, useSearchParams } from "react-router-dom"
-import { useAppSelector } from "../hooks/useAppSelector"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { routes } from "@routes/routes"
 
-const Login = lazy(async () => await import("../pages/auth/login"))
-const ForgotPassword = lazy(async () => await import("../pages/auth/forgot_password"))
-const ResetPassword = lazy(async () => await import("../pages/auth/reset_password"))
+const Login = lazy(async () => await import("@pages/auth/login"))
+const ForgotPassword = lazy(async () => await import("@pages/auth/forgot_password"))
+const ResetPassword = lazy(async () => await import("@pages/auth/reset_password"))
 
 export const authRoutes = {
   element: <AuthRoute />,
   children: [
     {
-      path: "/auth/login",
+      path: routes.auth.login,
       element: <Login />,
     },
     {
-      path: "/auth/forgot",
+      path: routes.auth.forgotPassword,
       element: <ForgotPassword />,
     },
     {
-      path: "/auth/reset",
+      path: routes.auth.resetPassword,
       element: <ResetPassword />,
     },
   ],

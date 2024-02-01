@@ -2,27 +2,27 @@ import { useEffect, useState } from "react"
 import { useNavigate, useSearchParams, useParams } from "react-router-dom"
 import { ValidationError } from "yup"
 import { type SingleValue } from "react-select"
-import { Input } from "../../../../components/ui/input/input"
-import { TextArea } from "../../../../components/ui/textarea/text-area"
-import { Button, LinkButton } from "../../../../components/ui/button/button"
-import Dialog from "../../../../components/ui/dialog/dialog"
-import { CustomSelect } from "../../../../components/ui/select/custom-select"
-import { useAppDispatch } from "../../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../../hooks/useAppSelector"
-import { type ProjectFormData } from "../../../../types/form-data-type"
-import { type Option } from "../../../../types/optionType"
-import { getActiveClients } from "../../../../redux/slices/clients-slice"
-import { setAlert } from "../../../../redux/slices/app-slice"
-import { createProjectSchema } from "../../../../utils/validation/project-schema"
-import { ProjectStatus } from "../../../../types/project-type"
-import { CreateProjectTable } from "../../../../features/admin/projects/create/create-project-table"
+import { Input } from "@components/ui/input/input"
+import { TextArea } from "@components/ui/textarea/text-area"
+import { Button, LinkButton } from "@components/ui/button/button"
+import Dialog from "@components/ui/dialog/dialog"
+import { CustomSelect } from "@components/ui/select/custom-select"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { type ProjectFormData } from "@custom-types/form-data-type"
+import { type Option } from "@custom-types/optionType"
+import { getActiveClients } from "@redux/slices/clients-slice"
+import { setAlert } from "@redux/slices/app-slice"
+import { createProjectSchema } from "@utils/validation/project-schema"
+import { ProjectStatus } from "@custom-types/project-type"
+import { CreateProjectTable } from "@features/admin/projects/create/create-project-table"
 import {
   setProjectFormData,
   createProject,
   getProject,
   updateProject,
-} from "../../../../redux/slices/project-slice"
-import { setSelectedSkills, setCheckedSkills } from "../../../../redux/slices/skills-slice"
+} from "@redux/slices/project-slice"
+import { setSelectedSkills, setCheckedSkills } from "@redux/slices/skills-slice"
 
 export const CreateProjectForm = () => {
   const navigate = useNavigate()

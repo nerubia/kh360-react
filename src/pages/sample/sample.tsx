@@ -1,15 +1,15 @@
 import { useState } from "react"
-import { Badge } from "../../components/ui/badge/badge"
-import { Button } from "../../components/ui/button/button"
-import { Icon } from "../../components/ui/icon/icon"
-import { useAppDispatch } from "../../hooks/useAppDispatch"
-import { useAppSelector } from "../../hooks/useAppSelector"
-import { useTitle } from "../../hooks/useTitle"
-import { logout } from "../../redux/slices/auth-slice"
-import { getProfile, sendMail } from "../../services/api"
-import { Alert } from "../../components/ui/alert/alert"
-import Dropdown from "../../components/ui/dropdown/dropdown"
-import Tooltip from "../../components/ui/tooltip/tooltip"
+import { Badge } from "@components/ui/badge/badge"
+import { Button } from "@components/ui/button/button"
+import { Icon } from "@components/ui/icon/icon"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { useTitle } from "@hooks/useTitle"
+import { logout } from "@redux/slices/auth-slice"
+import { getProfile, sendMail } from "@services/api"
+import { Alert } from "@components/ui/alert/alert"
+import Dropdown from "@components/ui/dropdown/dropdown"
+import Tooltip from "@components/ui/tooltip/tooltip"
 
 export default function Sample() {
   useTitle("Sample")
@@ -256,6 +256,9 @@ export default function Sample() {
           <Badge variant='gray' size='small'>
             Gray
           </Badge>
+          <Badge variant='orange' size='small'>
+            Orange
+          </Badge>
           <Badge variant='red' size='small'>
             Red
           </Badge>
@@ -267,6 +270,7 @@ export default function Sample() {
           <Badge variant='green'>Green</Badge>
           <Badge variant='blue'>Blue</Badge>
           <Badge variant='gray'>Gray</Badge>
+          <Badge variant='orange'>Orange</Badge>
           <Badge variant='red'>Red</Badge>
         </div>
       </div>

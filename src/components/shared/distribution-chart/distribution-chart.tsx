@@ -1,8 +1,8 @@
 import React from "react"
 import { Scatter } from "react-chartjs-2"
 import { type TooltipItem, type ChartType, type ScriptableContext } from "chart.js/auto"
-import { type User } from "../../../types/user-type"
-import { formatDateRange } from "../../../utils/format-date"
+import { type User } from "@custom-types/user-type"
+import { formatDateRange } from "@utils/format-date"
 
 interface DistributionChartProps {
   evaluator: User
@@ -126,7 +126,7 @@ export const DistributionChart: React.FC<DistributionChartProps> = ({
     }
 
     return (
-      <div className='md:w-[750px]'>
+      <div className='md:w-750'>
         <Scatter data={chartData} options={chartOptions} />
       </div>
     )

@@ -1,10 +1,10 @@
 import { useEffect } from "react"
 import { useSearchParams } from "react-router-dom"
-import { useAppDispatch } from "../../../../../hooks/useAppDispatch"
-import { useAppSelector } from "../../../../../hooks/useAppSelector"
-import { Pagination } from "../../../../../components/shared/pagination/pagination"
-import { getSkills, setCheckedSkills } from "../../../../../redux/slices/skills-slice"
-import { Checkbox } from "../../../../../components/ui/checkbox/checkbox"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
+import { Pagination } from "@components/shared/pagination/pagination"
+import { getSkills, setCheckedSkills } from "@redux/slices/skills-slice"
+import { Checkbox } from "@components/ui/checkbox/checkbox"
 
 export const SelectSkillsTable = () => {
   const [searchParams] = useSearchParams()

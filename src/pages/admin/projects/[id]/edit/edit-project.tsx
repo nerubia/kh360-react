@@ -1,6 +1,6 @@
-import { useTitle } from "../../../../../hooks/useTitle"
-import { EditProjectHeader } from "../../../../../features/admin/projects/[id]/edit/edit-project-header"
-import { CreateProjectForm } from "../../../../../features/admin/projects/create/create-project-form"
+import { useTitle } from "@hooks/useTitle"
+import { EditProjectHeader } from "@features/admin/projects/[id]/edit/edit-project-header"
+import { CreateProjectForm } from "@features/admin/projects/create/create-project-form"
 
 export default function EditProjects() {
   useTitle("Edit Project")

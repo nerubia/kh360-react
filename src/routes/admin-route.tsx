@@ -1,271 +1,267 @@
 import { lazy } from "react"
 import { Navigate, Outlet } from "react-router-dom"
-import { useAdmin } from "../hooks/useAdmin"
+import { useAdmin } from "@hooks/useAdmin"
+import { routes } from "@routes/routes"
 
 const EvaluationAdministrations = lazy(
-  async () => await import("../pages/admin/evaluation-administrations/evaluation-administrations")
+  async () => await import("@pages/admin/evaluation-administrations/evaluation-administrations")
 )
 const CreateEvaluation = lazy(
-  async () => await import("../pages/admin/evaluation-administrations/create/create-evaluation")
+  async () => await import("@pages/admin/evaluation-administrations/create/create-evaluation")
 )
 const ViewEvaluation = lazy(
-  async () => await import("../pages/admin/evaluation-administrations/[id]/view-evaluation")
+  async () => await import("@pages/admin/evaluation-administrations/[id]/view-evaluation")
 )
 const EditEvaluation = lazy(
   async () =>
-    await import(
-      "../pages/admin/evaluation-administrations/[id]/edit/edit-evaluation-administration"
-    )
+    await import("@pages/admin/evaluation-administrations/[id]/edit/edit-evaluation-administration")
 )
 const EvaluationProgress = lazy(
   async () =>
-    await import("../pages/admin/evaluation-administrations/[id]/progress/evaluation-progress")
+    await import("@pages/admin/evaluation-administrations/[id]/progress/evaluation-progress")
 )
 const SelectEvaluees = lazy(
-  async () => await import("../pages/admin/evaluation-administrations/[id]/select/select-evaluees")
+  async () => await import("@pages/admin/evaluation-administrations/[id]/select/select-evaluees")
 )
 const PreviewEmployees = lazy(
-  async () =>
-    await import("../pages/admin/evaluation-administrations/[id]/preview/preview-employees")
+  async () => await import("@pages/admin/evaluation-administrations/[id]/preview/preview-employees")
 )
 const Evaluees = lazy(
-  async () => await import("../pages/admin/evaluation-administrations/[id]/evaluees/evaluees")
+  async () => await import("@pages/admin/evaluation-administrations/[id]/evaluees/evaluees")
 )
 const Evaluators = lazy(
   async () =>
     await import(
-      "../pages/admin/evaluation-administrations/[id]/evaluees/[evaluation_result_id]/evaluators/evaluators"
+      "@pages/admin/evaluation-administrations/[id]/evaluees/[evaluation_result_id]/evaluators/evaluators"
     )
 )
 
 const ExternalEvaluators = lazy(
-  async () => await import("../pages/admin/external-evaluators/external-evaluators")
+  async () => await import("@pages/admin/external-evaluators/external-evaluators")
 )
 
 const CreateExternalEvaluator = lazy(
-  async () => await import("../pages/admin/external-evaluators/create/create-external-evaluator")
+  async () => await import("@pages/admin/external-evaluators/create/create-external-evaluator")
 )
 const EditExternalEvaluator = lazy(
-  async () => await import("../pages/admin/external-evaluators/[id]/edit/edit-external-evaluator")
+  async () => await import("@pages/admin/external-evaluators/[id]/edit/edit-external-evaluator")
 )
 
 const AddEvaluator = lazy(
   async () =>
     await import(
-      "../pages/admin/evaluation-administrations/[id]/evaluees/[evaluation_result_id]/evaluators/add-evaluator/add-evaluator"
+      "@pages/admin/evaluation-administrations/[id]/evaluees/[evaluation_result_id]/evaluators/add-evaluator/add-evaluator"
     )
 )
 const SelectExternalEvaluators = lazy(
   async () =>
     await import(
-      "../pages/admin/evaluation-administrations/[id]/evaluees/[evaluation_result_id]/evaluators/select-external/select-external-evaluators"
+      "@pages/admin/evaluation-administrations/[id]/evaluees/[evaluation_result_id]/evaluators/select-external/select-external-evaluators"
     )
 )
 
-const Projects = lazy(async () => await import("../pages/admin/projects/projects"))
+const Projects = lazy(async () => await import("@pages/admin/projects/projects"))
 
-const ViewProject = lazy(async () => await import("../pages/admin/projects/[id]/view-project"))
+const ViewProject = lazy(async () => await import("@pages/admin/projects/[id]/view-project"))
 
-const CreateProject = lazy(
-  async () => await import("../pages/admin/projects/create/create-project")
-)
+const CreateProject = lazy(async () => await import("@pages/admin/projects/create/create-project"))
 
 const SelectSkills = lazy(
-  async () => await import("../pages/admin/projects/create/select-skills/select-skills")
+  async () => await import("@pages/admin/projects/create/select-skills/select-skills")
 )
 
-const EditProject = lazy(async () => await import("../pages/admin/projects/[id]/edit/edit-project"))
+const EditProject = lazy(async () => await import("@pages/admin/projects/[id]/edit/edit-project"))
 
 const ProjectAssignments = lazy(
-  async () => await import("../pages/admin/project-assignments/project-assignments")
+  async () => await import("@pages/admin/project-assignments/project-assignments")
 )
 
 const CreateProjectAssignment = lazy(
-  async () => await import("../pages/admin/project-assignments/create/create-project-assignment")
+  async () => await import("@pages/admin/project-assignments/create/create-project-assignment")
 )
 
 const EditProjectAssignment = lazy(
-  async () => await import("../pages/admin/project-assignments/[id]/edit/edit-project-assignment")
+  async () => await import("@pages/admin/project-assignments/[id]/edit/edit-project-assignment")
 )
 
 const SelectProjectMemberSkills = lazy(
   async () =>
     await import(
-      "../pages/admin/project-assignments/create/select-project-member-skills/select-project-member-skills"
+      "@pages/admin/project-assignments/create/select-project-member-skills/select-project-member-skills"
     )
 )
 
 const EmailTemplates = lazy(
-  async () => await import("../pages/admin/email-templates/email-templates")
+  async () => await import("@pages/admin/email-templates/email-templates")
 )
 
 const CreateEmailTemplate = lazy(
-  async () => await import("../pages/admin/email-templates/create/create-email-template")
+  async () => await import("@pages/admin/email-templates/create/create-email-template")
 )
 
 const EditEmailTemplate = lazy(
-  async () => await import("../pages/admin/email-templates/[id]/edit/edit-email-template")
+  async () => await import("@pages/admin/email-templates/[id]/edit/edit-email-template")
 )
 
 const EvaluationTemplates = lazy(
-  async () => await import("../pages/admin/evaluation-templates/evaluation-templates")
+  async () => await import("@pages/admin/evaluation-templates/evaluation-templates")
 )
 
 const CreateEvaluationTemplate = lazy(
-  async () => await import("../pages/admin/evaluation-templates/create/create-evaluation-template")
+  async () => await import("@pages/admin/evaluation-templates/create/create-evaluation-template")
 )
 
 const ViewEvaluationTemplate = lazy(
-  async () => await import("../pages/admin/evaluation-templates/[id]/view-evaluation-template")
+  async () => await import("@pages/admin/evaluation-templates/[id]/view-evaluation-template")
 )
 
 const EditEvaluationTemplate = lazy(
-  async () => await import("../pages/admin/evaluation-templates/[id]/edit/edit-evaluation-template")
+  async () => await import("@pages/admin/evaluation-templates/[id]/edit/edit-evaluation-template")
 )
 
 export const adminRoutes = {
   element: <AdminRoute />,
   children: [
-    /* {
-      path: "/sample",
-      element: <Sample />,
-    }, */
+    // {
+    //   path: "/sample",
+    //   element: <Sample />,
+    // },
     /**
      * Evaluation Administrations
      */
     {
-      path: "/admin/evaluation-administrations",
+      path: routes.private.admin.evaluationAdministrations,
       element: <EvaluationAdministrations />,
     },
     {
-      path: "/admin/evaluation-administrations/create",
+      path: routes.private.admin.createEvaluation,
       element: <CreateEvaluation />,
     },
     {
-      path: "/admin/evaluation-administrations/:id",
+      path: routes.private.admin.viewEvaluation,
       element: <ViewEvaluation />,
     },
     {
-      path: "/admin/evaluation-administrations/:id/progress",
+      path: routes.private.admin.evaluationProgress,
       element: <EvaluationProgress />,
     },
     {
-      path: "/admin/evaluation-administrations/:id/edit",
+      path: routes.private.admin.editEvaluation,
       element: <EditEvaluation />,
     },
     {
-      path: "/admin/evaluation-administrations/:id/select",
+      path: routes.private.admin.selectEvaluees,
       element: <SelectEvaluees />,
     },
     {
-      path: "/admin/evaluation-administrations/:id/preview",
+      path: routes.private.admin.previewEmployees,
       element: <PreviewEmployees />,
     },
     {
-      path: "/admin/evaluation-administrations/:id/evaluees",
+      path: routes.private.admin.evaluees,
       element: <Evaluees />,
     },
     {
-      path: "/admin/evaluation-administrations/:id/evaluees/:evaluation_result_id/evaluators/:evaluation_template_id",
+      path: routes.private.admin.evaluators,
       element: <Evaluators />,
     },
     /**
      * External Evaluators
      */
     {
-      path: "/admin/external-evaluators",
+      path: routes.private.admin.externalEvaluators,
       element: <ExternalEvaluators />,
     },
     {
-      path: "/admin/external-evaluators/create",
+      path: routes.private.admin.createExternalEvaluator,
       element: <CreateExternalEvaluator />,
     },
     {
-      path: "/admin/external-evaluators/:id/edit",
+      path: routes.private.admin.editExternalEvaluator,
       element: <EditExternalEvaluator />,
     },
     {
-      path: "/admin/evaluation-administrations/:id/evaluees/:evaluation_result_id/evaluators/:evaluation_template_id/add-evaluator",
+      path: routes.private.admin.addEvaluator,
       element: <AddEvaluator />,
     },
     {
-      path: "/admin/evaluation-administrations/:id/evaluees/:evaluation_result_id/evaluators/:evaluation_template_id/select-external",
+      path: routes.private.admin.selectExternalEvaluators,
       element: <SelectExternalEvaluators />,
     },
     /**
      * Projects
      */
     {
-      path: "/admin/projects",
+      path: routes.private.admin.projects,
       element: <Projects />,
     },
     {
-      path: "/admin/projects/:id",
+      path: routes.private.admin.viewProject,
       element: <ViewProject />,
     },
     {
-      path: "/admin/projects/create",
+      path: routes.private.admin.createProject,
       element: <CreateProject />,
     },
     {
-      path: "/admin/projects/create/select-skills",
+      path: routes.private.admin.selectSkills,
       element: <SelectSkills />,
     },
     {
-      path: "/admin/projects/:id/edit",
+      path: routes.private.admin.editProject,
       element: <EditProject />,
     },
     /**
      * Project Assignments
      */
     {
-      path: "/admin/project-assignments",
+      path: routes.private.admin.projectAssignments,
       element: <ProjectAssignments />,
     },
     {
-      path: "/admin/project-assignments/create",
+      path: routes.private.admin.createProjectAssignment,
       element: <CreateProjectAssignment />,
     },
     {
-      path: "/admin/project-assignments/:id/edit",
+      path: routes.private.admin.editProjectAssignment,
       element: <EditProjectAssignment />,
     },
     {
-      path: "/admin/project-assignments/select",
+      path: routes.private.admin.selectProjectMemberSkills,
       element: <SelectProjectMemberSkills />,
     },
     /**
      * Email Templates
      */
     {
-      path: "/admin/message-templates",
+      path: routes.private.admin.emailTemplates,
       element: <EmailTemplates />,
     },
     {
-      path: "/admin/message-templates/create",
+      path: routes.private.admin.createEmailTemplate,
       element: <CreateEmailTemplate />,
     },
     {
-      path: "/admin/message-templates/:id/edit",
+      path: routes.private.admin.editEmailTemplate,
       element: <EditEmailTemplate />,
     },
     /**
      * Evaluation Templates
      */
     {
-      path: "/admin/evaluation-templates",
+      path: routes.private.admin.evaluationTemplates,
       element: <EvaluationTemplates />,
     },
     {
-      path: "/admin/evaluation-templates/create",
+      path: routes.private.admin.createEvaluationTemplate,
       element: <CreateEvaluationTemplate />,
     },
     {
-      path: "/admin/evaluation-templates/:id",
+      path: routes.private.admin.viewEvaluationTemplate,
       element: <ViewEvaluationTemplate />,
     },
     {
-      path: "/admin/evaluation-templates/:id/edit",
+      path: routes.private.admin.editEvaluationTemplate,
       element: <EditEvaluationTemplate />,
     },
   ],

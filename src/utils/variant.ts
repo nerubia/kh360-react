@@ -1,7 +1,8 @@
-import { EvaluationResultStatus } from "../types/evaluation-result-type"
-import { EvaluationStatus } from "../types/evaluation-type"
-import { EvaluationAdministrationStatus } from "../types/evaluation-administration-type"
-import { AnswerType } from "../types/answer-option-type"
+import { EvaluationResultStatus } from "@custom-types/evaluation-result-type"
+import { EvaluationStatus } from "@custom-types/evaluation-type"
+import { EvaluationAdministrationStatus } from "@custom-types/evaluation-administration-type"
+import { AnswerType } from "@custom-types/answer-option-type"
+import { ProjectStatus } from "@custom-types/project-type"
 
 export const getEvaluationAdministrationStatusVariant = (status: string | undefined) => {
   if (status === EvaluationAdministrationStatus.Draft) {
@@ -63,6 +64,18 @@ export const getEvaluationStatusVariant = (status: string | undefined) => {
   }
   if (status === EvaluationStatus.ForRemoval) {
     return "orange"
+  }
+}
+
+export const getProjectStatusVariant = (status: string | undefined) => {
+  if (status === ProjectStatus.Draft) {
+    return "primary"
+  }
+  if (status === ProjectStatus.Ongoing) {
+    return "green"
+  }
+  if (status === ProjectStatus.Closed) {
+    return "gray"
   }
 }
 
