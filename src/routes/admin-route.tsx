@@ -1,8 +1,7 @@
 import { lazy } from "react"
 import { Navigate, Outlet } from "react-router-dom"
 import { useAdmin } from "@hooks/useAdmin"
-
-const Sample = lazy(async () => await import("../pages/sample/sample"))
+import { routes } from "@routes/routes"
 
 const EvaluationAdministrations = lazy(
   async () => await import("@pages/admin/evaluation-administrations/evaluation-administrations")
@@ -123,146 +122,146 @@ const EditEvaluationTemplate = lazy(
 export const adminRoutes = {
   element: <AdminRoute />,
   children: [
-    {
-      path: "/sample",
-      element: <Sample />,
-    },
+    // {
+    //   path: "/sample",
+    //   element: <Sample />,
+    // },
     /**
      * Evaluation Administrations
      */
     {
-      path: "/admin/evaluation-administrations",
+      path: routes.private.admin.evaluationAdministrations,
       element: <EvaluationAdministrations />,
     },
     {
-      path: "/admin/evaluation-administrations/create",
+      path: routes.private.admin.createEvaluation,
       element: <CreateEvaluation />,
     },
     {
-      path: "/admin/evaluation-administrations/:id",
+      path: routes.private.admin.viewEvaluation,
       element: <ViewEvaluation />,
     },
     {
-      path: "/admin/evaluation-administrations/:id/progress",
+      path: routes.private.admin.evaluationProgress,
       element: <EvaluationProgress />,
     },
     {
-      path: "/admin/evaluation-administrations/:id/edit",
+      path: routes.private.admin.editEvaluation,
       element: <EditEvaluation />,
     },
     {
-      path: "/admin/evaluation-administrations/:id/select",
+      path: routes.private.admin.selectEvaluees,
       element: <SelectEvaluees />,
     },
     {
-      path: "/admin/evaluation-administrations/:id/preview",
+      path: routes.private.admin.previewEmployees,
       element: <PreviewEmployees />,
     },
     {
-      path: "/admin/evaluation-administrations/:id/evaluees",
+      path: routes.private.admin.evaluees,
       element: <Evaluees />,
     },
     {
-      path: "/admin/evaluation-administrations/:id/evaluees/:evaluation_result_id/evaluators/:evaluation_template_id",
+      path: routes.private.admin.evaluators,
       element: <Evaluators />,
     },
     /**
      * External Evaluators
      */
     {
-      path: "/admin/external-evaluators",
+      path: routes.private.admin.externalEvaluators,
       element: <ExternalEvaluators />,
     },
     {
-      path: "/admin/external-evaluators/create",
+      path: routes.private.admin.createExternalEvaluator,
       element: <CreateExternalEvaluator />,
     },
     {
-      path: "/admin/external-evaluators/:id/edit",
+      path: routes.private.admin.editExternalEvaluator,
       element: <EditExternalEvaluator />,
     },
     {
-      path: "/admin/evaluation-administrations/:id/evaluees/:evaluation_result_id/evaluators/:evaluation_template_id/add-evaluator",
+      path: routes.private.admin.addEvaluator,
       element: <AddEvaluator />,
     },
     {
-      path: "/admin/evaluation-administrations/:id/evaluees/:evaluation_result_id/evaluators/:evaluation_template_id/select-external",
+      path: routes.private.admin.selectExternalEvaluators,
       element: <SelectExternalEvaluators />,
     },
     /**
      * Projects
      */
     {
-      path: "/admin/projects",
+      path: routes.private.admin.projects,
       element: <Projects />,
     },
     {
-      path: "/admin/projects/:id",
+      path: routes.private.admin.viewProject,
       element: <ViewProject />,
     },
     {
-      path: "/admin/projects/create",
+      path: routes.private.admin.createProject,
       element: <CreateProject />,
     },
     {
-      path: "/admin/projects/create/select-skills",
+      path: routes.private.admin.selectSkills,
       element: <SelectSkills />,
     },
     {
-      path: "/admin/projects/:id/edit",
+      path: routes.private.admin.editProject,
       element: <EditProject />,
     },
     /**
      * Project Assignments
      */
     {
-      path: "/admin/project-assignments",
+      path: routes.private.admin.projectAssignments,
       element: <ProjectAssignments />,
     },
     {
-      path: "/admin/project-assignments/create",
+      path: routes.private.admin.createProjectAssignment,
       element: <CreateProjectAssignment />,
     },
     {
-      path: "/admin/project-assignments/:id/edit",
+      path: routes.private.admin.editProjectAssignment,
       element: <EditProjectAssignment />,
     },
     {
-      path: "/admin/project-assignments/select",
+      path: routes.private.admin.selectProjectMemberSkills,
       element: <SelectProjectMemberSkills />,
     },
     /**
      * Email Templates
      */
     {
-      path: "/admin/message-templates",
+      path: routes.private.admin.emailTemplates,
       element: <EmailTemplates />,
     },
     {
-      path: "/admin/message-templates/create",
+      path: routes.private.admin.createEmailTemplate,
       element: <CreateEmailTemplate />,
     },
     {
-      path: "/admin/message-templates/:id/edit",
+      path: routes.private.admin.editEmailTemplate,
       element: <EditEmailTemplate />,
     },
     /**
      * Evaluation Templates
      */
     {
-      path: "/admin/evaluation-templates",
+      path: routes.private.admin.evaluationTemplates,
       element: <EvaluationTemplates />,
     },
     {
-      path: "/admin/evaluation-templates/create",
+      path: routes.private.admin.createEvaluationTemplate,
       element: <CreateEvaluationTemplate />,
     },
     {
-      path: "/admin/evaluation-templates/:id",
+      path: routes.private.admin.viewEvaluationTemplate,
       element: <ViewEvaluationTemplate />,
     },
     {
-      path: "/admin/evaluation-templates/:id/edit",
+      path: routes.private.admin.editEvaluationTemplate,
       element: <EditEvaluationTemplate />,
     },
   ],
