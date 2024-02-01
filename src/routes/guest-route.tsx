@@ -1,4 +1,5 @@
 import { lazy } from "react"
+import { routes } from "./routes"
 
 const Layout = lazy(async () => await import("@components/layouts/Layout"))
 
@@ -11,11 +12,11 @@ export const guestRoutes = {
   element: <Layout />,
   children: [
     {
-      path: "/",
+      path: routes.home,
       element: <Home />,
     },
     {
-      path: "/external-evaluations/:id/evaluations/:evaluation_id",
+      path: routes.guest.externalEvaluations,
       element: <ExternalEvaluations />,
     },
   ],
