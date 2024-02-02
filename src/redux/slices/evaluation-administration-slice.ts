@@ -307,6 +307,51 @@ const evaluationAdministrationSlice = createSlice({
       state.error = action.payload as string
     })
     /**
+     * Cancel
+     */
+    builder.addCase(cancelEvaluationAdministration.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(cancelEvaluationAdministration.fulfilled, (state) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+    })
+    builder.addCase(cancelEvaluationAdministration.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Delete
+     */
+    builder.addCase(deleteEvaluationAdministration.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(deleteEvaluationAdministration.fulfilled, (state) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+    })
+    builder.addCase(deleteEvaluationAdministration.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Close
+     */
+    builder.addCase(closeEvaluationAdministration.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(closeEvaluationAdministration.fulfilled, (state) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+    })
+    builder.addCase(closeEvaluationAdministration.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
      * Publish
      */
     builder.addCase(publishEvaluationAdministration.pending, (state) => {

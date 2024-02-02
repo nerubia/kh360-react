@@ -1,8 +1,7 @@
 import { useNavigate, useSearchParams, useParams } from "react-router-dom"
 import { Input } from "@components/ui/input/input"
 import { CustomSelect } from "@components/ui/select/custom-select"
-import { Button, LinkButton } from "@components/ui/button/button"
-import Dialog from "@components/ui/dialog/dialog"
+import { Button } from "@components/ui/button/button"
 import { useEffect, useState } from "react"
 import { Checkbox } from "@components/ui/checkbox/checkbox"
 import { CreateSelect } from "@components/ui/select/create-select"
@@ -24,6 +23,7 @@ import { getAllProjectRoles } from "@redux/slices/project-roles-slice"
 import { getActiveAnswers } from "@redux/slices/answer-slice"
 import { EvaluationTemplateContentsTable } from "@features/admin/evaluation-template-contents/evaluation-template-contents-table"
 import { updateEvaluationTemplate } from "@redux/slices/evaluation-template-slice"
+import { CustomDialog } from "@components/ui/dialog/custom-dialog"
 
 export const CreateEvaluationTemplateForm = () => {
   const navigate = useNavigate()
@@ -278,6 +278,14 @@ export const CreateEvaluationTemplateForm = () => {
     }
   }
 
+  const handleCancel = () => {
+    navigate(
+      evaluation_template === null
+        ? `/admin/evaluation-templates`
+        : callback ?? `/admin/evaluation-templates/${id}`
+    )
+  }
+
   const toggleCancelDialog = () => {
     setShowCancelDialog((prev) => !prev)
   }
@@ -430,48 +438,28 @@ export const CreateEvaluationTemplateForm = () => {
           Save
         </Button>
       </div>
-      <Dialog open={showSaveDialog}>
-        <Dialog.Title>Save Evaluation Template</Dialog.Title>
-        <Dialog.Description>
-          Are you sure you want to save this evaluation template?
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={toggleSaveDialog}>
-            No
-          </Button>
-          <Button
-            variant='primary'
-            onClick={async () => {
-              toggleSaveDialog()
-              evaluation_template === null ? await handleSubmit() : await handleSave()
-            }}
-          >
-            Yes
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
-      <Dialog open={showCancelDialog}>
-        <Dialog.Title>Cancel</Dialog.Title>
-        <Dialog.Description>
-          Are you sure you want to cancel? <br />
-          If you cancel, your data won&apos;t be saved.
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={toggleCancelDialog}>
-            No
-          </Button>
-          <LinkButton
-            variant='primary'
-            to={
-              evaluation_template === null
-                ? `/admin/evaluation-templates`
-                : callback ?? `/admin/evaluation-templates/${id}`
-            }
-          >
-            Yes
-          </LinkButton>
-        </Dialog.Actions>
-      </Dialog>
+      <CustomDialog
+        open={showSaveDialog}
+        title='Save Evaluation Template'
+        description='Are you sure you want to save this evaluation template?'
+        onClose={toggleSaveDialog}
+        onSubmit={async () => {
+          toggleSaveDialog()
+          evaluation_template === null ? await handleSubmit() : await handleSave()
+        }}
+      />
+      <CustomDialog
+        open={showCancelDialog}
+        title='Cancel'
+        description={
+          <>
+            Are you sure you want to cancel? <br />
+            If you cancel, your data won&apos;t be saved.
+          </>
+        }
+        onClose={toggleCancelDialog}
+        onSubmit={handleCancel}
+      />
     </div>
   )
 }
