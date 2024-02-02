@@ -74,7 +74,7 @@ export const ViewEvaluationResultsChart = () => {
                     key={evaluator.id}
                     className='mb-10 flex justify-center md:items-end md:justify-start bg-gray-100 md:bg-transparent flex-col md:flex-row'
                   >
-                    <div className='pb-4 md:w-[210px]'>
+                    <div className='pb-4 md:w-210'>
                       {evaluator.last_name}, {evaluator.first_name}
                     </div>
                     {evaluation_result?.users !== undefined && (

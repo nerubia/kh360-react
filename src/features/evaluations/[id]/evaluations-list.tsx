@@ -130,7 +130,7 @@ export const EvaluationsList = () => {
       {loading === Loading.Fulfilled && user_evaluations.length === 0 && (
         <div>No evaluations available yet.</div>
       )}
-      <div className='md:w-96 h-45 md:96 md:h-[95%] flex flex-col my-4'>
+      <div className='md:w-96 h-45 md:96 md:h-19/20 flex flex-col my-4'>
         <div className='flex px-2 mx-2 mb-4 overflow-x-auto overflow-y-hidden md:flex-1 md:overflow-y-auto md:overflow-x-hidden md:flex-col'>
           {loading === Loading.Fulfilled &&
             user_evaluations.length > 0 &&
@@ -180,7 +180,7 @@ export const EvaluationsList = () => {
                     <div
                       className={`flex-1 flex flex-col text-start ${
                         evaluation.status === EvaluationStatus.Open ? "font-bold" : ""
-                      } w-20 h-15`}
+                      } w-5 h-15`}
                     >
                       <div className='flex flex-col justify-between gap-4 md:flex-row'>
                         <p className='text-sm'>
