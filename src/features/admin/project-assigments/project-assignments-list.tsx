@@ -4,7 +4,6 @@ import { useAppDispatch } from "@hooks/useAppDispatch"
 import { ProjectTooltipContent } from "@components/shared/gantt-chart/project-tooltip-content"
 import { ProjectColumn } from "@components/shared/gantt-chart/project-column"
 import { ProjectHeader } from "@components/shared/gantt-chart/project-header"
-import { searchProjectMembers } from "@redux/slices/project-members-slice"
 import { Gantt, type Task, ViewMode } from "custom-gantt-task-react"
 import "custom-gantt-task-react/dist/index.css"
 import { getRoleVariant, getDarkRoleVariant } from "@utils/variant"
@@ -20,7 +19,6 @@ export const ProjectAssignmentsList = () => {
   const [legendData, setLegendData] = useState<ProjectMember[]>([])
 
   useEffect(() => {
-    void appDispatch(searchProjectMembers({}))
     void appDispatch(setSelectedSkills([]))
     void appDispatch(setCheckedSkills([]))
     void appDispatch(
