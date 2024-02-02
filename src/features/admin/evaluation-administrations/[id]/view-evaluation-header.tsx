@@ -4,7 +4,6 @@ import { useAppSelector } from "@hooks/useAppSelector"
 import { useNavigate, useParams } from "react-router-dom"
 import { EvaluationAdministrationStatus } from "@custom-types/evaluation-administration-type"
 import { Icon } from "@components/ui/icon/icon"
-import Dialog from "@components/ui/dialog/dialog"
 import {
   cancelEvaluationAdministration,
   closeEvaluationAdministration,
@@ -21,6 +20,7 @@ import { setAlert } from "@redux/slices/app-slice"
 import { Loading } from "@custom-types/loadingType"
 import { DateRangeDisplay } from "@components/shared/display-range-date"
 import { useMobileView } from "@hooks/use-mobile-view"
+import { CustomDialog } from "@components/ui/dialog/custom-dialog"
 
 export const ViewEvaluationHeader = () => {
   const navigate = useNavigate()
@@ -258,72 +258,58 @@ export const ViewEvaluationHeader = () => {
         </pre>
       </div>
       <h2 className='mt-5 mb-5 text-2xl font-bold'>Employees</h2>
-      <Dialog open={showCancelDialog}>
-        <Dialog.Title>Cancel Evaluation</Dialog.Title>
-        <Dialog.Description>
-          Are you sure you want to cancel this record? <br /> This action cannot be reverted.
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={toggleCancelDialog}>
-            No
-          </Button>
-          <Button variant='primary' onClick={handleCancel}>
-            Yes
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
-      <Dialog open={showDeleteDialog}>
-        <Dialog.Title>Delete Evaluation</Dialog.Title>
-        <Dialog.Description>
-          Are you sure you want to delete this record? <br /> This action cannot be reverted.
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={toggleDeleteDialog}>
-            No
-          </Button>
-          <Button variant='primary' onClick={handleDelete}>
-            Yes
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
-      <Dialog open={showCloseDialog}>
-        <Dialog.Title>Close Evaluation</Dialog.Title>
-        <Dialog.Description>
-          Are you sure you want to close this record? <br /> This action cannot be reverted.
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={toggleCloseDialog}>
-            No
-          </Button>
-          <Button variant='primary' onClick={handleClose}>
-            Yes
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
-      <Dialog open={showPublishDialog}>
-        <Dialog.Title>Publish Evaluation</Dialog.Title>
-        <Dialog.Description>Are you sure you want to publish this record?</Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={togglePublishDialog}>
-            No
-          </Button>
-          <Button variant='primary' onClick={handlePublish} loading={loading === Loading.Pending}>
-            Yes
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
-      <Dialog open={showReopenDialog}>
-        <Dialog.Title>Reopen Evaluation</Dialog.Title>
-        <Dialog.Description>Are you sure you want to reopen this record?</Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={toggleReopenDialog}>
-            No
-          </Button>
-          <Button variant='primary' onClick={handleReopen} loading={loading === Loading.Pending}>
-            Yes
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
+      <CustomDialog
+        open={showCancelDialog}
+        title='Cancel Evaluation'
+        description={
+          <>
+            Are you sure you want to cancel this record? <br /> This action cannot be reverted.
+          </>
+        }
+        onClose={toggleCancelDialog}
+        onSubmit={handleCancel}
+        loading={loading === Loading.Pending}
+      />
+      <CustomDialog
+        open={showDeleteDialog}
+        title='Delete Evaluation'
+        description={
+          <>
+            Are you sure you want to delete this record? <br /> This action cannot be reverted.
+          </>
+        }
+        onClose={toggleDeleteDialog}
+        onSubmit={handleDelete}
+        loading={loading === Loading.Pending}
+      />
+      <CustomDialog
+        open={showCloseDialog}
+        title='Close Evaluation'
+        description={
+          <>
+            Are you sure you want to close this record? <br /> This action cannot be reverted.
+          </>
+        }
+        onClose={toggleCloseDialog}
+        onSubmit={handleClose}
+        loading={loading === Loading.Pending}
+      />
+      <CustomDialog
+        open={showPublishDialog}
+        title='Publish Evaluation'
+        description='Are you sure you want to publish this record?'
+        onClose={togglePublishDialog}
+        onSubmit={handlePublish}
+        loading={loading === Loading.Pending}
+      />
+      <CustomDialog
+        open={showReopenDialog}
+        title='Reopen Evaluation'
+        description='Are you sure you want to reopen this record?'
+        onClose={toggleReopenDialog}
+        onSubmit={handleReopen}
+        loading={loading === Loading.Pending}
+      />
     </>
   )
 }
