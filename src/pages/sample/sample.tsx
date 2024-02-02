@@ -736,7 +736,7 @@ export default function Sample() {
               </button>
             </div>
             <div className='flex-1 flex flex-col justify-center items-center gap-4 p-5'>
-              <div className='w-5 h-5 bg-black rounded-full'></div>
+              <div className='w-20 h-20 bg-black rounded-full'></div>
               <div className='flex flex-col text-center'>
                 <p className='text-lg font-semibold'>Full name</p>
                 <p className=''>ProductHQ [QA Evaluation]</p>
