@@ -4,6 +4,7 @@ import { type EvaluationResultDetail } from "@custom-types/evaluation-result-det
 import { type EvaluationAdministration } from "@custom-types/evaluation-administration-type"
 import { type ScoreRating } from "@custom-types/score-rating-type"
 import { type OtherComment } from "@custom-types/comment-type"
+import { type Option } from "./optionType"
 
 export interface EvaluationResult {
   id: number
@@ -63,3 +64,26 @@ export interface AttendanceAndPunctuality {
   unpaid_leave_duration?: number
   unfiled_leave_duration?: number
 }
+
+export const sortByFilters: Option[] = [
+  {
+    label: "Employee",
+    value: "evaluee",
+  },
+  {
+    label: "Score [Low to High]",
+    value: "score_asc",
+  },
+  {
+    label: "Score [High to Low]",
+    value: "score_desc",
+  },
+  {
+    label: "Standard Score [Low to High]",
+    value: "standard_score_asc",
+  },
+  {
+    label: "Standard Score [High to Low]",
+    value: "standard_score_desc",
+  },
+]
