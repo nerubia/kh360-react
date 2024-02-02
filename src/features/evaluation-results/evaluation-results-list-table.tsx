@@ -112,7 +112,6 @@ export const EvaluationResultsListTable = () => {
           ))}
         </tbody>
       </table> */}
-
       <Table
         columns={columns}
         data={evaluation_results}
