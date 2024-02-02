@@ -180,7 +180,7 @@ export const EvaluationsList = () => {
                     <div
                       className={`flex-1 flex flex-col text-start ${
                         evaluation.status === EvaluationStatus.Open ? "font-bold" : ""
-                      } w-20 h-15`}
+                      } w-20 h-15 `}
                     >
                       <div className='flex flex-col justify-between gap-4 md:flex-row'>
                         <p className='text-sm'>
