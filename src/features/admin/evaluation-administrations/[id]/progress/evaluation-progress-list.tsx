@@ -373,14 +373,14 @@ export const EvaluationProgressList = () => {
                   )}
               </div>
               {evaluatorToggledState[evaluatorIndex] && (
-                <table className='w-[90%] ml-14 mb-5 table-fixed whitespace-normal'>
+                <table className='w-9/10 ml-14 mb-5 table-fixed whitespace-normal'>
                   <thead className='bg-white text-left'>
                     <tr>
-                      <th className='pb-3 pr-5 w-[270px]'>Evaluee</th>
-                      <th className='pb-3 w-[270px]'>Template</th>
-                      <th className='pb-3 w-[270px]'>Project</th>
-                      <th className='pb-3 w-[270px]'>Role</th>
-                      <th className='pb-3 w-[100px]'>Status</th>
+                      <th className='pb-3 pr-5 w-270'>Evaluee</th>
+                      <th className='pb-3 w-270'>Template</th>
+                      <th className='pb-3 w-270'>Project</th>
+                      <th className='pb-3 w-270'>Role</th>
+                      <th className='pb-3 w-100'>Status</th>
                     </tr>
                   </thead>
                   <tbody>

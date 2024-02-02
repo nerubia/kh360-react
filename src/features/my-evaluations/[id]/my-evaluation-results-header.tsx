@@ -47,7 +47,7 @@ export const MyEvaluationResultsHeader = () => {
         <div className='text-sm md:text-xl text-primary-500 font-bold mt-10 mb-5'>
           Total Score: {user_evaluation_result?.total_score}%
         </div>
-        <div className='md:w-[800px]'>
+        <div className='md:w-800'>
           {user_evaluation_result?.score_rating !== undefined &&
             user_evaluation_result?.users?.picture !== undefined && (
               <ScoreRange

@@ -25,7 +25,7 @@ export const PreviewEmployeesTable = () => {
           <table className='w-full table-fixed'>
             <thead className='sticky top-0 bg-white text-left'>
               <tr>
-                <th className='w-20'></th>
+                <th className='w-5'></th>
                 <th>Name</th>
                 <th>Date Started</th>
                 <th>Position</th>
@@ -81,7 +81,7 @@ export const PreviewEmployeesTable = () => {
                 {allUsers.map((employee: User) =>
                   !selectedEmployeeIds.includes(employee.id) ? (
                     <tr key={employee.id}>
-                      <td className='w-20'></td>
+                      <td className='w-5'></td>
                       <td>
                         {employee.last_name}, {employee.first_name}
                       </td>

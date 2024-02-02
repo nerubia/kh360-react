@@ -65,7 +65,7 @@ export const SelectProjectMemberSkillsTable = () => {
           <table className='w-full'>
             <thead className='text-left'>
               <tr>
-                <th className='py-3 pr-3 w-[5%]'>
+                <th className='py-3 pr-3 w-1/20'>
                   <Checkbox
                     checked={project_skills.every((skill) =>
                       checkedSkills.map((skill) => skill.id).includes(skill.id)
@@ -73,8 +73,8 @@ export const SelectProjectMemberSkillsTable = () => {
                     onChange={(checked) => handleSelectAll(checked)}
                   />
                 </th>
-                <th className='py-3 px-3 w-[40%]'>Category</th>
-                <th className='py-3 px-3 w-[60%]'>Name</th>
+                <th className='py-3 px-3 w-2/5'>Category</th>
+                <th className='py-3 px-3 w-3/5'>Name</th>
               </tr>
             </thead>
             <tbody>

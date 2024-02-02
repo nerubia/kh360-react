@@ -55,7 +55,7 @@ export const SelectProjectMemberSkillsFilter = () => {
   return (
     <div className='flex flex-col md:flex-row justify-between gap-4'>
       <div className='flex-1 flex flex-col md:flex-row gap-4'>
-        <div className='w-[45%]'>
+        <div className='w-9/20'>
           <CustomSelect
             data-test-id='searchCategory'
             label='Category'
