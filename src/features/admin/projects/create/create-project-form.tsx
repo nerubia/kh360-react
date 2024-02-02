@@ -4,8 +4,7 @@ import { ValidationError } from "yup"
 import { type SingleValue } from "react-select"
 import { Input } from "@components/ui/input/input"
 import { TextArea } from "@components/ui/textarea/text-area"
-import { Button, LinkButton } from "@components/ui/button/button"
-import Dialog from "@components/ui/dialog/dialog"
+import { Button } from "@components/ui/button/button"
 import { CustomSelect } from "@components/ui/select/custom-select"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
@@ -23,6 +22,7 @@ import {
   updateProject,
 } from "@redux/slices/project-slice"
 import { setSelectedSkills, setCheckedSkills } from "@redux/slices/skills-slice"
+import { CustomDialog } from "@components/ui/dialog/custom-dialog"
 
 export const CreateProjectForm = () => {
   const navigate = useNavigate()
@@ -235,6 +235,7 @@ export const CreateProjectForm = () => {
     )
     void appDispatch(setSelectedSkills([]))
     void appDispatch(setCheckedSkills([]))
+    navigate(callback ?? "/admin/projects")
   }
 
   return (
@@ -320,39 +321,28 @@ export const CreateProjectForm = () => {
         </Button>
         <Button onClick={toggleSaveDialog}>Save</Button>
       </div>
-      <Dialog open={showSaveDialog}>
-        <Dialog.Title>Save Project</Dialog.Title>
-        <Dialog.Description>Are you sure you want to save this project?</Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={toggleSaveDialog}>
-            No
-          </Button>
-          <Button
-            variant='primary'
-            onClick={async () => {
-              await toggleSaveDialog()
-              project === null ? await handleSubmit() : await handleUpdate()
-            }}
-          >
-            Yes
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
-      <Dialog open={showCancelDialog}>
-        <Dialog.Title>Cancel</Dialog.Title>
-        <Dialog.Description>
-          Are you sure you want to cancel? <br />
-          If you cancel, your data won&apos;t be saved.
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={toggleCancelDialog}>
-            No
-          </Button>
-          <LinkButton variant='primary' to={callback ?? "/admin/projects"} onClick={handleCancel}>
-            Yes
-          </LinkButton>
-        </Dialog.Actions>
-      </Dialog>
+      <CustomDialog
+        open={showSaveDialog}
+        title='Save Project'
+        description='Are you sure you want to save this project?'
+        onClose={toggleSaveDialog}
+        onSubmit={async () => {
+          await toggleSaveDialog()
+          project === null ? await handleSubmit() : await handleUpdate()
+        }}
+      />
+      <CustomDialog
+        open={showCancelDialog}
+        title='Cancel'
+        description={
+          <>
+            Are you sure you want to cancel? <br />
+            If you cancel, your data won&apos;t be saved.
+          </>
+        }
+        onClose={toggleCancelDialog}
+        onSubmit={handleCancel}
+      />
     </div>
   )
 }
