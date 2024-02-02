@@ -286,11 +286,11 @@ export const ViewEvaluationList = () => {
                               <table className='md:w-10/12 ml-11 md:table-fixed'>
                                 <thead className='sticky top-0 bg-white text-left'>
                                   <tr>
-                                    <th className='md:w-[170px]'>Evaluator</th>
-                                    <th className='md:w-[150px]'>Project</th>
-                                    <th className='whitespace-nowrap md:w-[150px]'>Evaluee Role</th>
-                                    <th className='md:w-[150px]'>%</th>
-                                    <th className='md:w-[150px]'>Duration</th>
+                                    <th className='md:w-170'>Evaluator</th>
+                                    <th className='md:w-150'>Project</th>
+                                    <th className='whitespace-nowrap md:w-150'>Evaluee Role</th>
+                                    <th className='md:w-150'>%</th>
+                                    <th className='md:w-150'>Duration</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -300,20 +300,20 @@ export const ViewEvaluationList = () => {
                                         key={evaluationDetailsIndex}
                                         className='sm:overflow-x-auto'
                                       >
-                                        <td className='min-w-[196px]'>
+                                        <td className='min-w-196'>
                                           {evaluationDetails.evaluator?.last_name},{" "}
                                           {evaluationDetails.evaluator?.first_name}
                                         </td>
-                                        <td className='min-w-[100px]'>
+                                        <td className='min-w-100'>
                                           {evaluationDetails.project?.name}
                                         </td>
-                                        <td className='min-w-[150px]'>
+                                        <td className='min-w-150'>
                                           {evaluationDetails.project_role?.name}
                                         </td>
-                                        <td className='min-w-[68px]'>
+                                        <td className='min-w-68'>
                                           {evaluationDetails.percent_involvement}%
                                         </td>
-                                        <td className='min-w-[254px]'>
+                                        <td className='min-w-254'>
                                           {isMobile
                                             ? shortenFormatDate(evaluationDetails.eval_start_date)
                                             : formatDate(evaluationDetails.eval_start_date)}{" "}

@@ -58,7 +58,7 @@ export const MyEvaluationsList = () => {
         >
           <div className='flex flex-col gap-4 shadow-md rounded-md p-4 hover:bg-slate-100'>
             <div className='flex flex-col items-center gap-5'>
-              <div className='w-[280px] md:w-[700px]'>
+              <div className='w-280 md:w-700'>
                 <ScoreRange
                   user_picture={user?.picture}
                   score_rating={evaluationAdministration.score_rating}
