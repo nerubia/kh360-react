@@ -195,60 +195,66 @@ export const ViewEvaluationHeader = () => {
                 Progress
               </LinkButton>
             ) : null}
-            {evaluation_administration?.status !== EvaluationAdministrationStatus.Published && (
-              <Dropdown>
-                <Dropdown.Trigger>
-                  <Button size={isMobile ? "small" : "medium"}>
-                    <div className='whitespace-nowrap'>More actions</div>
-                    <Icon icon='ChevronDown' size={isMobile ? "small" : "medium"} />
-                  </Button>
-                </Dropdown.Trigger>
-                <Dropdown.Content size={isMobile ? "small" : "medium"}>
-                  {(evaluation_administration?.status === EvaluationAdministrationStatus.Draft ||
-                    evaluation_administration?.status ===
-                      EvaluationAdministrationStatus.Pending) && (
-                    <Dropdown.Item
-                      onClick={() => navigate(`/admin/evaluation-administrations/${id}/edit`)}
-                    >
-                      <Icon icon='PenSquare' />
-                      Edit
-                    </Dropdown.Item>
-                  )}
-                  {(evaluation_administration?.status === EvaluationAdministrationStatus.Pending ||
-                    evaluation_administration?.status ===
-                      EvaluationAdministrationStatus.Ongoing) && (
-                    <Dropdown.Item onClick={toggleCancelDialog}>
-                      <Icon icon='Ban' />
-                      Cancel
-                    </Dropdown.Item>
-                  )}
-                  {evaluation_administration?.status === EvaluationAdministrationStatus.Draft && (
-                    <Dropdown.Item onClick={toggleDeleteDialog}>
-                      <Icon icon='Trash' />
-                      Delete
-                    </Dropdown.Item>
-                  )}
-                  {evaluation_administration?.status === EvaluationAdministrationStatus.Ongoing && (
-                    <Dropdown.Item onClick={toggleCloseDialog}>
-                      <Icon icon='Lock' />
-                      Close
-                    </Dropdown.Item>
-                  )}
-                  {evaluation_administration?.status === EvaluationAdministrationStatus.Closed && (
-                    <Dropdown.Item onClick={togglePublishDialog}>
-                      <Icon icon='UploadCloud' />
-                      Publish
-                    </Dropdown.Item>
-                  )}
-                  {evaluation_administration?.status === EvaluationAdministrationStatus.Closed && (
-                    <Dropdown.Item onClick={toggleReopenDialog}>
-                      <Icon icon='RefreshCw' />
-                      Reopen
-                    </Dropdown.Item>
-                  )}
-                </Dropdown.Content>
-              </Dropdown>
-            )}
+            {evaluation_administration?.status !== EvaluationAdministrationStatus.Published &&
+              evaluation_administration?.status !== EvaluationAdministrationStatus.Processing &&
+              evaluation_administration?.status !== EvaluationAdministrationStatus.Cancelled && (
+                <Dropdown>
+                  <Dropdown.Trigger>
+                    <Button size={isMobile ? "small" : "medium"}>
+                      <div className='whitespace-nowrap'>More actions</div>
+                      <Icon icon='ChevronDown' size={isMobile ? "small" : "medium"} />
+                    </Button>
+                  </Dropdown.Trigger>
+                  <Dropdown.Content size={isMobile ? "small" : "medium"}>
+                    {(evaluation_administration?.status === EvaluationAdministrationStatus.Draft ||
+                      evaluation_administration?.status ===
+                        EvaluationAdministrationStatus.Pending) && (
+                      <Dropdown.Item
+                        onClick={() => navigate(`/admin/evaluation-administrations/${id}/edit`)}
+                      >
+                        <Icon icon='PenSquare' />
+                        Edit
+                      </Dropdown.Item>
+                    )}
+                    {(evaluation_administration?.status ===
+                      EvaluationAdministrationStatus.Pending ||
+                      evaluation_administration?.status ===
+                        EvaluationAdministrationStatus.Ongoing) && (
+                      <Dropdown.Item onClick={toggleCancelDialog}>
+                        <Icon icon='Ban' />
+                        Cancel
+                      </Dropdown.Item>
+                    )}
+                    {evaluation_administration?.status === EvaluationAdministrationStatus.Draft && (
+                      <Dropdown.Item onClick={toggleDeleteDialog}>
+                        <Icon icon='Trash' />
+                        Delete
+                      </Dropdown.Item>
+                    )}
+                    {evaluation_administration?.status ===
+                      EvaluationAdministrationStatus.Ongoing && (
+                      <Dropdown.Item onClick={toggleCloseDialog}>
+                        <Icon icon='Lock' />
+                        Close
+                      </Dropdown.Item>
+                    )}
+                    {evaluation_administration?.status ===
+                      EvaluationAdministrationStatus.Closed && (
+                      <Dropdown.Item onClick={togglePublishDialog}>
+                        <Icon icon='UploadCloud' />
+                        Publish
+                      </Dropdown.Item>
+                    )}
+                    {evaluation_administration?.status ===
+                      EvaluationAdministrationStatus.Closed && (
+                      <Dropdown.Item onClick={toggleReopenDialog}>
+                        <Icon icon='RefreshCw' />
+                        Reopen
+                      </Dropdown.Item>
+                    )}
+                  </Dropdown.Content>
+                </Dropdown>
+              )}
           </div>
         </div>
       </div>
