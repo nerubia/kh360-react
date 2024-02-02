@@ -726,7 +726,7 @@ test.describe("Admin - Edit Evaluation Template", () => {
         page.getByText("Are you sure you want to cancel? If you cancel, your data won't be saved.")
       ).toBeVisible()
       await expect(page.getByRole("button", { name: "No" })).toBeVisible()
-      await expect(page.getByRole("link", { name: "Yes" })).toBeVisible()
+      await expect(page.getByRole("button", { name: "Yes" })).toBeVisible()
     })
 
     test("should allow to cancel & exit", async ({ page, isMobile }) => {
@@ -889,7 +889,7 @@ test.describe("Admin - Edit Evaluation Template", () => {
       }
 
       await page.getByRole("button", { name: "Cancel" }).click()
-      await page.getByRole("link", { name: "Yes" }).click()
+      await page.getByRole("button", { name: "Yes" }).click()
 
       await mockRequest(page, "/admin/evaluation-templates/template-types", {
         status: 200,
