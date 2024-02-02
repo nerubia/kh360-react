@@ -28,49 +28,49 @@ export const ViewEvaluationResultsAttendanceAndPunctuality = () => {
               <table className='w-full table-fixed whitespace-nowrap'>
                 <thead className='text-left'>
                   <tr className='text-center'>
-                    <th className='border-b-4 px-4 w-[100px] text-start'>Month</th>
-                    <th className='border-b-4 px-4 w-[125px]'># Working Days</th>
-                    <th className='border-b-4 p-6 w-[100px]'>
+                    <th className='border-b-4 px-4 w-100 text-start'>Month</th>
+                    <th className='border-b-4 px-4 w-125'># Working Days</th>
+                    <th className='border-b-4 p-6 w-100'>
                       # of Days
                       <br />
                       Present
                     </th>
-                    <th className='border-b-4 px-4 w-[100px]'>
+                    <th className='border-b-4 px-4 w-100'>
                       # of Lates
                       <br />
                       (GC)
                     </th>
-                    <th className='border-b-4 px-4 w-[100px]'>
+                    <th className='border-b-4 px-4 w-100'>
                       # of Lates
                       <br />
                       (Counted)
                     </th>
-                    <th className='border-b-4 px-4 w-[100px]'>
+                    <th className='border-b-4 px-4 w-100'>
                       # of
                       <br />
                       VL/BL
                     </th>
-                    <th className='border-b-4 px-4 w-[100px]'>
+                    <th className='border-b-4 px-4 w-100'>
                       # of
                       <br />
                       SL
                     </th>
-                    <th className='border-b-4 px-4 w-[100px]'>
+                    <th className='border-b-4 px-4 w-100'>
                       # of
                       <br />
                       EL
                     </th>
-                    <th className='border-b-4 px-4 w-[100px]'>
+                    <th className='border-b-4 px-4 w-100'>
                       # of Other
                       <br />
                       Leaves
                     </th>
-                    <th className='border-b-4 px-4 w-[100px]'>
+                    <th className='border-b-4 px-4 w-100'>
                       # of Unpaid
                       <br />
                       Leaves
                     </th>
-                    <th className='border-b-4 px-4 w-[100px]'>
+                    <th className='border-b-4 px-4 w-100'>
                       # of Unfiled
                       <br />
                       Leaves

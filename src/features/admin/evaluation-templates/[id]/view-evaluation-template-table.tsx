@@ -286,7 +286,7 @@ export const ViewEvaluationTemplateTable = () => {
         <Dialog open={showEditDialog} size={"medium"} maxWidthMin={true}>
           <Dialog.Title>Edit Evaluation Template Content</Dialog.Title>
           <Dialog.Description>
-            <div className='flex flex-col gap-4 w-[500px] p-1'>
+            <div className='flex flex-col gap-4 w-500 p-1'>
               <div>
                 <div className='text-lg font-bold'>Name</div>
                 <Input

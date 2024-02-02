@@ -42,9 +42,9 @@ export const CreateProjectTable = () => {
         <table>
           <thead className='text-left'>
             <tr>
-              <th className='py-1 border-b-4 mr-2 text-primary-500 md:w-[45%]'>Category</th>
-              <th className='py-1 border-b-4 mr-2 text-start text-primary-500 md:w-[45%]'>Name</th>
-              <th className='py-1 border-b-4 mr-2 text-center text-primary-500 md:w-[10%]'>
+              <th className='py-1 border-b-4 mr-2 text-primary-500 md:w-9/20'>Category</th>
+              <th className='py-1 border-b-4 mr-2 text-start text-primary-500 md:w-9/20'>Name</th>
+              <th className='py-1 border-b-4 mr-2 text-center text-primary-500 md:w-1/10'>
                 Actions
               </th>
             </tr>
