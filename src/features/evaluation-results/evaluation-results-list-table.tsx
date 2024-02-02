@@ -7,6 +7,8 @@ import { Pagination } from "@components/shared/pagination/pagination"
 import { formatDate } from "@utils/format-date"
 import { useFullPath } from "@hooks/use-full-path"
 import { setPreviousUrl } from "@redux/slices/app-slice"
+import { Table } from "@components/ui/textarea/table"
+import { type EvaluationResult } from "@custom-types/evaluation-result-type"
 
 export const EvaluationResultsListTable = () => {
   const navigate = useNavigate()
@@ -36,10 +38,42 @@ export const EvaluationResultsListTable = () => {
     appDispatch(setPreviousUrl(fullPath))
     navigate(`/evaluation-results/${id}`)
   }
+  const columns = [
+    "Evaluee Name",
+    "Eval Admin Name",
+    "Eval Period",
+    "Score",
+    "Score Rating",
+    "Z-Score",
+    "Banding",
+  ]
+
+  const renderCell = (item: EvaluationResult, column: unknown) => {
+    switch (column) {
+      case "Evaluee Name":
+        return `${item.users?.last_name}, ${item.users?.first_name}`
+      case "Eval Admin Name":
+        return item.evaluation_administration?.name
+      case "Eval Period":
+        return `${formatDate(
+          item.evaluation_administration?.eval_period_start_date
+        )} to ${formatDate(item.evaluation_administration?.eval_period_end_date)}`
+      case "Score":
+        return item.score
+      case "Score Rating":
+        return item.score_ratings?.display_name
+      case "Z-Score":
+        return item.zscore
+      case "Banding":
+        return item.banding
+      default:
+        return null
+    }
+  }
 
   return (
     <div className='flex flex-col gap-8 overflow-x-auto'>
-      <table className='min-w-600 w-full md:table-fixed whitespace-nowrap md:whitespace-normal'>
+      {/* <table className='min-w-600 w-full md:table-fixed whitespace-nowrap md:whitespace-normal'>
         <thead className='text-left'>
           <tr>
             <th className='pb-3 px-1 w-1/5'>Evaluee Name</th>
@@ -77,7 +111,15 @@ export const EvaluationResultsListTable = () => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </table> */}
+
+      <Table
+        columns={columns}
+        data={evaluation_results}
+        renderCell={renderCell}
+        onClickRow={handleViewEvaluationResult}
+      />
+
       {totalPages !== 1 && (
         <div className='flex justify-center'>
           <Pagination
