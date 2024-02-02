@@ -15,6 +15,7 @@ interface CustomDialogProps {
   maxWidthMin?: true | undefined
   onClose?: () => void
   onSubmit?: () => void
+  loading?: boolean
 }
 
 export const CustomDialog = ({
@@ -30,6 +31,7 @@ export const CustomDialog = ({
   maxWidthMin,
   onClose,
   onSubmit,
+  loading,
 }: CustomDialogProps) => {
   return (
     <Dialog open={open} variant={variant} size={size} maxWidthMin={maxWidthMin}>
@@ -42,7 +44,7 @@ export const CustomDialog = ({
           </Button>
         )}
         {showSubmitButton && (
-          <Button variant='primary' onClick={onSubmit}>
+          <Button variant='primary' onClick={onSubmit} loading={loading}>
             {submitButtonLabel ?? "Yes"}
           </Button>
         )}
