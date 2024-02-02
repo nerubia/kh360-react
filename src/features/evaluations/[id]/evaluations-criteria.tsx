@@ -32,6 +32,7 @@ import { getEvaluationStatusVariant } from "@utils/variant"
 import useSmoothScrollToTop from "@hooks/use-smooth-scroll-to-top"
 import { ReadyState } from "react-use-websocket"
 import { WebSocketContext, type WebSocketType } from "@components/providers/websocket"
+import { CustomDialog } from "@components/ui/dialog/custom-dialog"
 
 export const EvaluationsCriteria = () => {
   const { id, evaluation_id } = useParams()
@@ -628,77 +629,56 @@ export const EvaluationsCriteria = () => {
             )}
           </div>
         )}
-      <Dialog open={showSaveDialog}>
-        <Dialog.Title>Save Evaluation</Dialog.Title>
-        <Dialog.Description>Are you sure you want to save this evaluation?</Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={toggleSaveDialog}>
-            No
-          </Button>
-          <Button
-            variant='primary'
-            onClick={async () => {
-              toggleSaveDialog()
-              await handleSubmit(false)
-            }}
-          >
-            Yes
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
-      <Dialog open={showSubmitDialog}>
-        <Dialog.Title>Submit Evaluation</Dialog.Title>
-        <Dialog.Description>Are you sure you want to submit this evaluation?</Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={toggleSubmitDialog}>
-            No
-          </Button>
-          <Button
-            variant='primary'
-            onClick={async () => {
-              toggleSubmitDialog()
-              await handleSubmit(true)
-            }}
-          >
-            Yes
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
-      <Dialog open={showCompletedDialog} size='medium' maxWidthMin={true}>
-        <Dialog.Title>{emailTemplate?.subject}</Dialog.Title>
-        <Dialog.Description>
+      <CustomDialog
+        open={showSaveDialog}
+        title='Save Evaluation'
+        description='Are you sure you want to save this evaluation?'
+        onClose={toggleSaveDialog}
+        onSubmit={async () => {
+          toggleSaveDialog()
+          await handleSubmit(false)
+        }}
+      />
+      <CustomDialog
+        open={showSubmitDialog}
+        title='Submit Evaluation'
+        description='Are you sure you want to submit this evaluation?'
+        onClose={toggleSubmitDialog}
+        onSubmit={async () => {
+          toggleSubmitDialog()
+          await handleSubmit(true)
+        }}
+      />
+      <CustomDialog
+        open={showCompletedDialog}
+        maxWidthMin={true}
+        title={emailTemplate?.subject}
+        description={
           <pre className='font-sans break-words whitespace-pre-wrap'>{emailTemplate?.content}</pre>
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primary' onClick={toggleCompletedDialog}>
-            Close
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
-      <Dialog open={showRequestToRemoveDialog}>
-        <Dialog.Title>Request to Remove</Dialog.Title>
-        <Dialog.Description>
-          Are you sure you want to request for the removal of this evaluation? If you proceed, your
-          ratings won&apos;t be saved, and the evaluation will be marked for removal.
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primary' onClick={toggleRequestToRemoveDialog}>
-            No
-          </Button>
-          <Button
-            variant='primary'
-            onClick={async () => {
-              toggleRequestToRemoveDialog()
-              await handleRequestToRemove()
-            }}
-          >
-            Yes
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
-      <Dialog open={showSimilarEvaluationsDialog}>
-        <Dialog.Title>Copy Evaluation</Dialog.Title>
-        <Dialog.Description>
+        }
+        onSubmit={toggleCompletedDialog}
+        showCloseButton={false}
+        submitButtonLabel='Close'
+      />
+      <CustomDialog
+        open={showRequestToRemoveDialog}
+        title='Request to Remove'
+        description={
+          <>
+            Are you sure you want to request for the removal of this evaluation? If you proceed,
+            your ratings won&apos;t be saved, and the evaluation will be marked for removal.
+          </>
+        }
+        onClose={toggleRequestToRemoveDialog}
+        onSubmit={async () => {
+          toggleRequestToRemoveDialog()
+          await handleRequestToRemove()
+        }}
+      />
+      <CustomDialog
+        open={showSimilarEvaluationsDialog}
+        title='Copy Evaluation'
+        description={
           <div className='flex flex-col gap-4'>
             {didCopy ? (
               <p>
@@ -735,13 +715,11 @@ export const EvaluationsCriteria = () => {
               ))}
             </div>
           </div>
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primary' onClick={toggleSimilarEvaluationsDialog}>
-            Close
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
+        }
+        onSubmit={toggleSimilarEvaluationsDialog}
+        showCloseButton={false}
+        submitButtonLabel='Close'
+      />
       {completed && <ReactConfetti />}
     </>
   )
