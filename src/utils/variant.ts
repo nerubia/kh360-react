@@ -23,6 +23,9 @@ export const getEvaluationAdministrationStatusVariant = (status: string | undefi
   if (status === EvaluationAdministrationStatus.Cancelled) {
     return "gray"
   }
+  if (status === EvaluationAdministrationStatus.Published) {
+    return "pink"
+  }
 }
 
 export const getEvaluationResultStatusVariant = (status: string | undefined) => {
@@ -75,6 +78,12 @@ export const getProjectStatusVariant = (status: string | undefined) => {
     return "green"
   }
   if (status === ProjectStatus.Closed) {
+    return "blue"
+  }
+  if (status === ProjectStatus.Hold) {
+    return "orange"
+  }
+  if (status === ProjectStatus.Cancelled) {
     return "gray"
   }
 }
