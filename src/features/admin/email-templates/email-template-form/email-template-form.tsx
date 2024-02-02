@@ -234,7 +234,7 @@ export const EmailTemplateForm = () => {
   return (
     <div className='flex flex-col gap-10'>
       <div className='flex flex-col gap-4'>
-        <div className='w-[650px]'>
+        <div className='w-650'>
           <h2 className='font-medium'>Name</h2>
           <Input
             name='name'
@@ -244,7 +244,7 @@ export const EmailTemplateForm = () => {
             error={validationErrors.name}
           />
         </div>
-        <div className='flex flex-wrap gap-4 w-[1100px]'>
+        <div className='flex flex-wrap gap-4 w-1100'>
           <div className='flex-1'>
             <CreateSelect
               data-test-id='SelectEmailTemplateType'
@@ -269,7 +269,7 @@ export const EmailTemplateForm = () => {
           </div>
         </div>
         <div className='flex flex-col gap-4'>
-          <div className='w-[650px]'>
+          <div className='w-650'>
             <Input
               label='Subject'
               name='subject'
@@ -279,7 +279,7 @@ export const EmailTemplateForm = () => {
               error={validationErrors.subject}
             />
           </div>
-          <div className='w-[950px]'>
+          <div className='w-950'>
             <TextArea
               label='Content'
               name='content'

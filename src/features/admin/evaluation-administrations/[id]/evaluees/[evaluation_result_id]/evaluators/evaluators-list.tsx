@@ -214,7 +214,7 @@ export const EvaluatorsList = () => {
   }
 
   return (
-    <div className='flex-1 h-screen lg:h-[calc(100vh_-_185px)] flex flex-col pt-4 overflow-x-auto overflow-y-auto text-sm xl:text-lg'>
+    <div className='flex-1 h-screen lg:calc-screen flex flex-col pt-4 overflow-x-auto overflow-y-auto text-sm xl:text-lg'>
       <PageSubTitle>{internalHeader}</PageSubTitle>
       <div className='flex-1 overflow-y-scroll mt-2'>
         <table className='relative w-full table-fixed'>
@@ -229,11 +229,11 @@ export const EvaluatorsList = () => {
                   onChange={(checked) => handleSelectAll(checked, false)}
                 />
               </th>
-              <th className='pb-3 w-[100px]'>Evaluator</th>
-              <th className='pb-3 w-[100px]'>Project</th>
-              <th className='pb-3 w-[100px]'>Role</th>
-              <th className='pb-3 w-[100px]'>%</th>
-              <th className='pb-3 w-[100px]'>Duration</th>
+              <th className='pb-3 w-100'>Evaluator</th>
+              <th className='pb-3 w-100'>Project</th>
+              <th className='pb-3 w-100'>Role</th>
+              <th className='pb-3 w-100'>%</th>
+              <th className='pb-3 w-100'>Duration</th>
             </tr>
           </thead>
           <tbody>
@@ -280,11 +280,11 @@ export const EvaluatorsList = () => {
                   onChange={(checked) => handleSelectAll(checked, true)}
                 />
               </th>
-              <th className='pb-3 w-[100px]'>Evaluator</th>
-              <th className='pb-3 w-[100px]'>Project</th>
-              <th className='pb-3 w-[100px]'>%</th>
-              <th className='pb-3 w-[100px]'>Duration</th>
-              <th className='pb-3 w-[100px]'>Actions</th>
+              <th className='pb-3 w-100'>Evaluator</th>
+              <th className='pb-3 w-100'>Project</th>
+              <th className='pb-3 w-100'>%</th>
+              <th className='pb-3 w-100'>Duration</th>
+              <th className='pb-3 w-100'>Actions</th>
             </tr>
           </thead>
           <tbody>

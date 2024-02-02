@@ -36,7 +36,7 @@ export const MyEvaluationResultsTable = () => {
               <div className='text-sm md:text-xl text-primary-500 font-bold mb-5'>
                 Detailed Evaluation{" "}
               </div>
-              <table className='text-sm md:text-lg w-full md:w-[860px]'>
+              <table className='text-sm md:text-lg w-full md:w-860'>
                 <thead className='text-left'>
                   <tr>
                     <th className='py-1 border-b-4 text-primary-500'>Evaluations</th>
@@ -85,12 +85,12 @@ export const MyEvaluationResultsTable = () => {
               <div key={index} className='hover:bg-slate-100 p-2'>
                 <div className='flex justify-between mb-2'>
                   <div className='text-primary-500 font-bold w-2/3'>{content.name}</div>
-                  <div className='w-[600px] relative'>
+                  <div className='w-600 relative'>
                     <div className='relative z-0'>
                       <Progress
                         variant={getScoreVariant(content.average_rate ?? 0)}
                         value={content.average_rate ?? 0}
-                        width='w-[20px]'
+                        width='w-5'
                       />
                     </div>
                     <div

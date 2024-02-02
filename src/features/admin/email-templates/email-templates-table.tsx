@@ -69,11 +69,11 @@ export const EmailTemplatesTable = () => {
       <table className='w-full table-fixed'>
         <thead className='text-left whitespace-normal'>
           <tr>
-            <th className='pb-3 w-[200px] md:w-1/3'>Name</th>
-            <th className='pb-3 w-[200px] md:w-1/5'>Template Type</th>
-            <th className='pb-3 text-center w-[100px] md:w-1/6'>Default</th>
-            <th className='pb-3 w-[200px] md:w-1/3'>Subject</th>
-            <th className='pb-3 w-[100px] md:w-1/8 px-1'>Actions</th>
+            <th className='pb-3 w-200 md:w-1/3'>Name</th>
+            <th className='pb-3 w-200 md:w-1/5'>Template Type</th>
+            <th className='pb-3 text-center w-20 md:w-1/6'>Default</th>
+            <th className='pb-3 w-200 md:w-1/3'>Subject</th>
+            <th className='pb-3 w-16 md:w-1/8 px-1'>Actions</th>
           </tr>
         </thead>
         <tbody>
