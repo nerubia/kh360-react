@@ -14,6 +14,7 @@ import {
 import { getScoreRatings } from "@redux/slices/score-ratings-slice"
 import { Banding } from "@custom-types/banding-type"
 import { useMobileView } from "@hooks/use-mobile-view"
+import { sortByFilters } from "@custom-types/evaluation-result-type"
 
 const bandingFilters: Option[] = Object.values(Banding).map((value) => ({
   label: value,
@@ -24,29 +25,6 @@ bandingFilters.unshift({
   label: "All",
   value: "all",
 })
-
-const sortByFilters: Option[] = [
-  {
-    label: "Employee",
-    value: "evaluee",
-  },
-  {
-    label: "Score [Low to High]",
-    value: "score_asc",
-  },
-  {
-    label: "Score [High to Low]",
-    value: "score_desc",
-  },
-  {
-    label: "Standard Score [Low to High]",
-    value: "standard_score_asc",
-  },
-  {
-    label: "Standard Score [High to Low]",
-    value: "standard_score_desc",
-  },
-]
 
 export const EvaluationResultsListFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams()
