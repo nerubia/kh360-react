@@ -5,7 +5,7 @@ import { ViewProjectMemberColumn } from "@components/shared/gantt-chart/view-pro
 import { ViewProjectMemberHeader } from "@components/shared/gantt-chart/view-project-member-header"
 import { Gantt, type Task, ViewMode } from "custom-gantt-task-react"
 import "custom-gantt-task-react/dist/index.css"
-import { getRoleVariant } from "@utils/variant"
+import { getRoleVariant, getDarkRoleVariant } from "@utils/variant"
 import { type ProjectMember } from "@custom-types/project-member-type"
 import { type SkillCategory } from "@custom-types/skill-category-type"
 import { type ProjectMemberSkill } from "@custom-types/project-member-skill-type"
@@ -126,6 +126,7 @@ export const ViewProjectMembersList = () => {
             progressColor: getRoleVariant(projectMember.role),
             backgroundSelectedColor: getRoleVariant(projectMember.role),
             progressSelectedColor: getRoleVariant(projectMember.role),
+            textColor: getDarkRoleVariant(projectMember.role),
           },
           role: projectMember.role,
           dependencies: skillsInTooltip,
