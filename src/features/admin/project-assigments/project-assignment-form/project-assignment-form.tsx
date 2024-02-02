@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 import { debounce } from "lodash"
 import { Button } from "@components/ui/button/button"
 import { CustomSelect } from "@components/ui/select/custom-select"
-import Dialog from "@components/ui/dialog/dialog"
 import { Input } from "@components/ui/input/input"
 import { type Option } from "@custom-types/optionType"
 import { useAppSelector } from "@hooks/useAppSelector"
@@ -29,6 +28,7 @@ import { setSelectedSkills, setCheckedSkills } from "@redux/slices/skills-slice"
 import { getProject } from "@redux/slices/project-slice"
 import { setAlert } from "@redux/slices/app-slice"
 import { setProjectSkills } from "@redux/slices/project-skills-slice"
+import { CustomDialog } from "@components/ui/dialog/custom-dialog"
 
 export const ProjectAssignmentForm = () => {
   const navigate = useNavigate()
@@ -395,70 +395,61 @@ export const ProjectAssignmentForm = () => {
         </Button>
         <Button onClick={toggleSaveDialog}>Save</Button>
       </div>
-      <Dialog open={showSaveDialog}>
-        <Dialog.Title>Save</Dialog.Title>
-        <Dialog.Description>Are you sure you want to save this project?</Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={toggleSaveDialog}>
-            No
-          </Button>
-          <Button variant='primary' onClick={checkOverlap}>
-            Yes
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
-      <Dialog open={showCancelDialog}>
-        <Dialog.Title>Cancel</Dialog.Title>
-        <Dialog.Description>
-          Are you sure you want to cancel? <br />
-          If you cancel, your data won&apos;t be saved.
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={toggleCancelDialog}>
-            No
-          </Button>
-          <Button variant='primary' onClick={handleCancel}>
-            Yes
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
-      <Dialog open={showOverlapDialog}>
-        <Dialog.Title>Warning</Dialog.Title>
-        <Dialog.Description>
-          Hey there!
-          <br />
-          <br />
-          We&apos;ve detected a potential overlap in project assignments based on the information
-          you&apos;re adding. Before we proceed, we want to ensure you&apos;re aware of this and
-          give you the option to reconsider.
-          <br />
-          <br />
-          Overlapping Projects:
-          <br />
-          <br />
-          {project_members.map((projectMember) => (
-            <div key={projectMember.id}>
-              <h2 className='font-bold'>{projectMember.project?.name}</h2>
-              <p>
-                Evaluation Period:{" "}
-                {formatDateRange(projectMember.start_date, projectMember.end_date)}
-              </p>
-              <p>Allocation Rate: {projectMember.allocation_rate}%</p>
-              <br />
-            </div>
-          ))}
-          Please click CONTINUE if you&apos;re confident this overlap is intentional or has been
-          coordinated. Otherwise, click CANCEL to review and make adjustments.
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={toggleOverlapDialog}>
-            Cancel
-          </Button>
-          <Button variant='primary' onClick={handleSubmit}>
-            Continue
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
+      <CustomDialog
+        open={showSaveDialog}
+        title='Save'
+        description='Are you sure you want to save this project?'
+        onClose={toggleSaveDialog}
+        onSubmit={checkOverlap}
+      />
+      <CustomDialog
+        open={showCancelDialog}
+        title='Cancel'
+        description={
+          <>
+            Are you sure you want to cancel? <br />
+            If you cancel, your data won&apos;t be saved.
+          </>
+        }
+        onClose={toggleCancelDialog}
+        onSubmit={handleCancel}
+      />
+      <CustomDialog
+        open={showOverlapDialog}
+        title='Warning'
+        description={
+          <>
+            Hey there!
+            <br />
+            <br />
+            We&apos;ve detected a potential overlap in project assignments based on the information
+            you&apos;re adding. Before we proceed, we want to ensure you&apos;re aware of this and
+            give you the option to reconsider.
+            <br />
+            <br />
+            Overlapping Projects:
+            <br />
+            <br />
+            {project_members.map((projectMember) => (
+              <div key={projectMember.id}>
+                <h2 className='font-bold'>{projectMember.project?.name}</h2>
+                <p>
+                  Evaluation Period:{" "}
+                  {formatDateRange(projectMember.start_date, projectMember.end_date)}
+                </p>
+                <p>Allocation Rate: {projectMember.allocation_rate}%</p>
+                <br />
+              </div>
+            ))}
+            Please click CONTINUE if you&apos;re confident this overlap is intentional or has been
+            coordinated. Otherwise, click CANCEL to review and make adjustments.
+          </>
+        }
+        onClose={toggleOverlapDialog}
+        onSubmit={handleSubmit}
+        closeButtonLabel='Cancel'
+        submitButtonLabel='Continue'
+      />
     </div>
   )
 }
