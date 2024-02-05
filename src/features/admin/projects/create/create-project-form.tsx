@@ -85,7 +85,7 @@ export const CreateProjectForm = () => {
 
   const onChangeClient = async (option: SingleValue<Option>) => {
     setValidationErrors({})
-    const client: string = option !== null ? option.value : ""
+    const client: string | undefined = option?.value
     void appDispatch(setProjectFormData({ ...projectFormData, client_id: client }))
   }
 
@@ -143,7 +143,7 @@ export const CreateProjectForm = () => {
         void appDispatch(
           setProjectFormData({
             name: "",
-            client_id: "",
+            client_id: undefined,
             start_date: "",
             end_date: "",
             description: "",
@@ -198,7 +198,7 @@ export const CreateProjectForm = () => {
           void appDispatch(
             setProjectFormData({
               name: "",
-              client_id: "",
+              client_id: undefined,
               start_date: "",
               end_date: "",
               description: "",
@@ -225,7 +225,7 @@ export const CreateProjectForm = () => {
     void appDispatch(
       setProjectFormData({
         name: "",
-        client_id: "",
+        client_id: undefined,
         start_date: "",
         end_date: "",
         description: "",
