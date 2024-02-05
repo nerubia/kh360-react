@@ -22,6 +22,22 @@ export const getExternalUsers = createAsyncThunk(
   }
 )
 
+export const getExternalUsersOnScroll = createAsyncThunk(
+  "externalUser/getExternalUsersOnScroll",
+  async (params: ExternalUserFilters | undefined, thunkApi) => {
+    try {
+      const response = await axiosInstance.get("/admin/external-users", {
+        params,
+      })
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const createExternalUser = createAsyncThunk(
   "externalUser/createExternalUser",
   async (data: ExternalUserFormData, thunkApi) => {
@@ -79,6 +95,7 @@ interface InitialState {
   external_users: ExternalUser[]
   hasPreviousPage: boolean
   hasNextPage: boolean
+  currentPage: number
   totalPages: number
   totalItems: number
 }
@@ -89,6 +106,7 @@ const initialState: InitialState = {
   external_users: [],
   hasPreviousPage: false,
   hasNextPage: false,
+  currentPage: 1,
   totalPages: 0,
   totalItems: 0,
 }
@@ -119,6 +137,38 @@ const externalEvaluatorsSlice = createSlice({
       state.totalItems = action.payload.pageInfo.totalItems
     })
     builder.addCase(getExternalUsers.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * List external evaluators on scroll
+     */
+    builder.addCase(getExternalUsersOnScroll.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getExternalUsersOnScroll.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      if (action.payload.pageInfo.currentPage > 1) {
+        const newData: ExternalUser[] = []
+        const payloadData = action.payload.data as ExternalUser[]
+        for (const data of payloadData) {
+          if (!state.external_users.some((user) => user.id === data.id)) {
+            newData.push(data)
+          }
+        }
+        state.external_users = payloadData.length > 0 ? [...state.external_users, ...newData] : []
+      } else {
+        state.external_users = action.payload.data
+      }
+      state.hasPreviousPage = action.payload.pageInfo.hasPreviousPage
+      state.hasNextPage = action.payload.pageInfo.hasNextPage
+      state.currentPage = action.payload.pageInfo.currentPage
+      state.totalPages = action.payload.pageInfo.totalPages
+      state.totalItems = action.payload.pageInfo.totalItems
+    })
+    builder.addCase(getExternalUsersOnScroll.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
