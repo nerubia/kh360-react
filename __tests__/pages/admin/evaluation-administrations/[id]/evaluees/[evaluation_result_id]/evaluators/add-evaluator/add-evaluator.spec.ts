@@ -157,6 +157,32 @@ test.describe("Admin - Select Evaluators", () => {
         }
       )
 
+      await mockRequest(page, "/admin/users", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
+
+      await mockRequest(page, "/admin/external-users", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
+
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
       }
@@ -250,6 +276,32 @@ test.describe("Admin - Select Evaluators", () => {
           body: JSON.stringify([]),
         }
       )
+
+      await mockRequest(page, "/admin/users", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
+
+      await mockRequest(page, "/admin/external-users", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
 
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
@@ -345,6 +397,32 @@ test.describe("Admin - Select Evaluators", () => {
           body: JSON.stringify([]),
         }
       )
+
+      await mockRequest(page, "/admin/users", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
+
+      await mockRequest(page, "/admin/external-users", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
 
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()

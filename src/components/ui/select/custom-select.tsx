@@ -1,16 +1,25 @@
-import Select, { type InputActionMeta, type SingleValue } from "react-select"
+import Select, {
+  type InputActionMeta,
+  type SingleValue,
+  type SelectInstance,
+  type GroupBase,
+} from "react-select"
 import { type Option } from "@custom-types/optionType"
 import { useMobileView } from "@hooks/use-mobile-view"
+import { type Ref } from "react"
+
 interface SelectProps {
   label?: string
   name: string
   value?: Option
   onChange: (newValue: SingleValue<Option>) => void
   onInputChange?: (newValue: string, actionMeta: InputActionMeta) => void
+  onMenuOpen?: () => void
   options: Option[]
   fullWidth?: boolean
   error?: string | null
   isLoading?: boolean
+  customRef?: Ref<SelectInstance<Option, false, GroupBase<Option>>>
 }
 
 export const CustomSelect = ({
@@ -19,10 +28,12 @@ export const CustomSelect = ({
   value,
   onChange,
   onInputChange,
+  onMenuOpen,
   options,
   fullWidth,
   error,
   isLoading,
+  customRef,
 }: SelectProps) => {
   const isMobile = useMobileView()
 
@@ -37,6 +48,7 @@ export const CustomSelect = ({
         </label>
       )}
       <Select
+        ref={customRef}
         classNames={{
           container: () =>
             `w-full ${error != null ? "border border-red-500 rounded-md" : ""} ${
@@ -48,6 +60,7 @@ export const CustomSelect = ({
         value={value}
         onChange={onChange}
         onInputChange={onInputChange}
+        onMenuOpen={onMenuOpen}
         options={options}
         isLoading={isLoading}
       />
