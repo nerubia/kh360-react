@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
+import { type SelectInstance, type GroupBase } from "react-select"
 import { debounce } from "lodash"
 import { Button } from "@components/ui/button/button"
 import { CustomSelect } from "@components/ui/select/custom-select"
@@ -6,8 +7,8 @@ import { Input } from "@components/ui/input/input"
 import { type Option } from "@custom-types/optionType"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { useAppDispatch } from "@hooks/useAppDispatch"
-import { getUsers } from "@redux/slices/users-slice"
-import { getAllProjects } from "@redux/slices/projects-slice"
+import { getUsersOnScroll } from "@redux/slices/users-slice"
+import { getProjectsOnScroll } from "@redux/slices/projects-slice"
 import { getProjectRoles } from "@redux/slices/project-roles-slice"
 import { type ProjectMemberFormData } from "@custom-types/form-data-type"
 import { createProjectMember, searchProjectMembers } from "@redux/slices/project-members-slice"
@@ -35,9 +36,19 @@ export const ProjectAssignmentForm = () => {
   const { id } = useParams()
 
   const appDispatch = useAppDispatch()
-  const { users } = useAppSelector((state) => state.users)
+  const {
+    loading: loadingUsers,
+    users,
+    hasNextPage,
+    currentPage,
+  } = useAppSelector((state) => state.users)
   const { project_roles } = useAppSelector((state) => state.projectRoles)
-  const { projects } = useAppSelector((state) => state.projects)
+  const {
+    projects,
+    hasNextPage: projectHasNextPage,
+    loading: loadingProject,
+    currentPage: projectCurrentPage,
+  } = useAppSelector((state) => state.projects)
   const { project_members } = useAppSelector((state) => state.projectMembers)
   const { loading, project_member, projectMemberFormData } = useAppSelector(
     (state) => state.projectMember
@@ -54,13 +65,35 @@ export const ProjectAssignmentForm = () => {
   const [showCancelDialog, setShowCancelDialog] = useState<boolean>(false)
   const [showOverlapDialog, setShowOverlapDialog] = useState<boolean>(false)
 
+  const [employeeMenuList, setEmployeeMenuList] = useState<HTMLDivElement | null | undefined>(null)
+  const [projectMenuList, setProjectMenuList] = useState<HTMLDivElement | null | undefined>(null)
+
+  const customEmployeeRef = useRef<SelectInstance<Option, false, GroupBase<Option>>>(null)
+  const customProjectRef = useRef<SelectInstance<Option, false, GroupBase<Option>>>(null)
+
   useEffect(() => {
     void appDispatch(getProjectRoles())
     void appDispatch(setProjectSkills([]))
+    void appDispatch(getUsersOnScroll())
+    void appDispatch(getProjectsOnScroll())
     if (id !== undefined) {
       void appDispatch(getProjectMember(parseInt(id)))
     }
   }, [])
+
+  useEffect(() => {
+    employeeMenuList?.addEventListener("scroll", handleEmployeeScroll)
+    return () => {
+      employeeMenuList?.removeEventListener("scroll", handleEmployeeScroll)
+    }
+  }, [loadingUsers, employeeMenuList])
+
+  useEffect(() => {
+    projectMenuList?.addEventListener("scroll", handleProjectScroll)
+    return () => {
+      projectMenuList?.removeEventListener("scroll", handleProjectScroll)
+    }
+  }, [loadingProject, projectMenuList])
 
   useEffect(() => {
     if (project_member !== null) {
@@ -149,23 +182,67 @@ export const ProjectAssignmentForm = () => {
     setShowOverlapDialog((prev) => !prev)
   }
 
+  const handleEmployeeScroll = () => {
+    if (employeeMenuList?.scrollTop !== undefined) {
+      const scrollPosition = employeeMenuList?.scrollTop + employeeMenuList.clientHeight
+      if (
+        scrollPosition !== employeeMenuList.scrollHeight ||
+        loading === Loading.Pending ||
+        !hasNextPage
+      ) {
+        return
+      }
+    }
+    const newPage = currentPage + 1
+    void appDispatch(
+      getUsersOnScroll({
+        page: newPage.toString(),
+      })
+    )
+  }
+
+  const handleProjectScroll = () => {
+    if (projectMenuList?.scrollTop !== undefined) {
+      const scrollPosition = projectMenuList?.scrollTop + projectMenuList.clientHeight
+      if (
+        scrollPosition !== projectMenuList.scrollHeight ||
+        loadingProject === Loading.Pending ||
+        !projectHasNextPage
+      ) {
+        return
+      }
+    }
+    if (projectHasNextPage) {
+      const newPage = projectCurrentPage + 1
+      void appDispatch(
+        getProjectsOnScroll({
+          page: newPage.toString(),
+        })
+      )
+    }
+  }
+
   const handleSearchUser = (value: string) => {
     if (value.length !== 0) {
       void appDispatch(
-        getUsers({
+        getUsersOnScroll({
           name: value,
         })
       )
+    } else {
+      void appDispatch(getUsersOnScroll({}))
     }
   }
 
   const handleSearchProject = (value: string) => {
     if (value.length !== 0) {
       void appDispatch(
-        getAllProjects({
+        getProjectsOnScroll({
           name: value,
         })
       )
+    } else {
+      void appDispatch(getProjectsOnScroll({}))
     }
   }
 
@@ -275,6 +352,18 @@ export const ProjectAssignmentForm = () => {
     navigate("/admin/project-assignments")
   }
 
+  const handleOnEmployeeMenuOpen = () => {
+    setTimeout(() => {
+      setEmployeeMenuList(customEmployeeRef?.current?.menuListRef)
+    }, 100)
+  }
+
+  const handleOnProjectMenuOpen = () => {
+    setTimeout(() => {
+      setProjectMenuList(customProjectRef?.current?.menuListRef)
+    }, 100)
+  }
+
   return (
     <div className='flex flex-col gap-10'>
       <div className='flex flex-col md:w-1/2 gap-4'>
@@ -283,6 +372,8 @@ export const ProjectAssignmentForm = () => {
         ) : (
           <>
             <CustomSelect
+              customRef={customEmployeeRef}
+              onMenuOpen={handleOnEmployeeMenuOpen}
               data-test-id='EmployeeName'
               label='Employee Name'
               name='employee_name'
@@ -303,6 +394,8 @@ export const ProjectAssignmentForm = () => {
               error={validationErrors.user_id}
             />
             <CustomSelect
+              customRef={customProjectRef}
+              onMenuOpen={handleOnProjectMenuOpen}
               data-test-id='Project'
               label='Project'
               name='project'

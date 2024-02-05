@@ -21,6 +21,22 @@ export const getUsers = createAsyncThunk(
   }
 )
 
+export const getUsersOnScroll = createAsyncThunk(
+  "users/getUsersScroll",
+  async (params: UserFilters | undefined, thunkApi) => {
+    try {
+      const response = await axiosInstance.get("/admin/users", {
+        params,
+      })
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const getAllUsers = createAsyncThunk(
   "users/getAllUsers",
   async (params: UserFilters | undefined, thunkApi) => {
@@ -44,6 +60,7 @@ interface InitialState {
   allUsers: User[]
   hasPreviousPage: boolean
   hasNextPage: boolean
+  currentPage: number
   totalPages: number
 }
 
@@ -54,6 +71,7 @@ const initialState: InitialState = {
   allUsers: [],
   hasPreviousPage: false,
   hasNextPage: false,
+  currentPage: 1,
   totalPages: 0,
 }
 
@@ -82,6 +100,36 @@ const usersSlice = createSlice({
       state.totalPages = action.payload.pageInfo.totalPages
     })
     builder.addCase(getUsers.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * List on scroll
+     */
+    builder.addCase(getUsersOnScroll.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getUsersOnScroll.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      if (action.payload.pageInfo.currentPage > 1) {
+        const newData: User[] = []
+        const payloadData = action.payload.data as User[]
+        for (const data of payloadData) {
+          if (!state.users.some((user) => user.id === data.id)) {
+            newData.push(data)
+          }
+        }
+        state.users = payloadData.length > 0 ? [...state.users, ...newData] : []
+      } else {
+        state.users = action.payload.data
+      }
+      state.hasPreviousPage = action.payload.pageInfo.hasPreviousPage
+      state.hasNextPage = action.payload.pageInfo.hasNextPage
+      state.totalPages = action.payload.pageInfo.totalPages
+    })
+    builder.addCase(getUsersOnScroll.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
