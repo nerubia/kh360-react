@@ -37,6 +37,22 @@ export const getProjects = createAsyncThunk(
   }
 )
 
+export const getProjectsOnScroll = createAsyncThunk(
+  "project/getProjectsScroll",
+  async (params: ProjectFilters | undefined, thunkApi) => {
+    try {
+      const response = await axiosInstance.get("/admin/projects", {
+        params,
+      })
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const getAllProjectStatus = createAsyncThunk(
   "project/getAllProjectStatus",
   async (params: ProjectFilters | undefined, thunkApi) => {
@@ -73,6 +89,7 @@ interface InitialState {
   projects: Project[]
   project_statuses: Project[]
   hasPreviousPage: boolean
+  currentPage: number
   hasNextPage: boolean
   totalPages: number
   totalItems: number
@@ -84,6 +101,7 @@ const initialState: InitialState = {
   projects: [],
   project_statuses: [],
   hasPreviousPage: false,
+  currentPage: 1,
   hasNextPage: false,
   totalPages: 0,
   totalItems: 0,
@@ -127,6 +145,38 @@ const projectsSlice = createSlice({
       state.totalItems = action.payload.pageInfo.totalItems
     })
     builder.addCase(getProjects.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * List on scroll
+     */
+    builder.addCase(getProjectsOnScroll.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getProjectsOnScroll.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      if (action.payload.pageInfo.currentPage > 1) {
+        const newData: Project[] = []
+        const payloadData = action.payload.data as Project[]
+        for (const data of payloadData) {
+          if (!state.projects.some((project) => project.id === data.id)) {
+            newData.push(data)
+          }
+        }
+        state.projects = payloadData.length > 0 ? [...state.projects, ...newData] : []
+      } else {
+        state.projects = action.payload.data
+      }
+      state.hasPreviousPage = action.payload.pageInfo.hasPreviousPage
+      state.hasNextPage = action.payload.pageInfo.hasNextPage
+      state.currentPage = action.payload.pageInfo.currentPage
+      state.totalPages = action.payload.pageInfo.totalPages
+      state.totalItems = action.payload.pageInfo.totalItems
+    })
+    builder.addCase(getProjectsOnScroll.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })

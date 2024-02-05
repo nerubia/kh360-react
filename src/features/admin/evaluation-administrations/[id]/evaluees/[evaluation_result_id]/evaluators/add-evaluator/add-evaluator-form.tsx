@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
+import { type SelectInstance, type GroupBase } from "react-select"
 import { debounce } from "lodash"
 import { Button, LinkButton } from "@components/ui/button/button"
 import { useAppDispatch } from "@hooks/useAppDispatch"
@@ -10,8 +11,8 @@ import Dialog from "@components/ui/dialog/dialog"
 import { useNavigate, useParams } from "react-router-dom"
 import { getProjectMembers } from "@redux/slices/project-members-slice"
 import { formatDate } from "@utils/format-date"
-import { getUsers } from "@redux/slices/users-slice"
-import { getExternalUsers } from "@redux/slices/external-users-slice"
+import { getUsersOnScroll } from "@redux/slices/users-slice"
+import { getExternalUsersOnScroll } from "@redux/slices/external-users-slice"
 import { type EvaluatorFormData } from "@custom-types/form-data-type"
 import { addEvaluator } from "@redux/slices/evaluation-administration-slice"
 import { setAlert } from "@redux/slices/app-slice"
@@ -27,8 +28,13 @@ export const AddEvaluatorForm = () => {
   const { evaluation_result } = useAppSelector((state) => state.evaluationResult)
   const { evaluation_templates } = useAppSelector((state) => state.evaluationTemplates)
   const { project_members } = useAppSelector((state) => state.projectMembers)
-  const { external_users } = useAppSelector((state) => state.externalUsers)
-  const { users } = useAppSelector((state) => state.users)
+  const {
+    external_users,
+    loading: externalUsersLoading,
+    hasNextPage: externalUsersHasNextPage,
+    currentPage: externalUsersCurrentPage,
+  } = useAppSelector((state) => state.externalUsers)
+  const { users, loading, hasNextPage, currentPage } = useAppSelector((state) => state.users)
 
   const [activeTemplates, setActiveTemplates] = useState<Option[]>([])
   const [activeUsers, setActiveUsers] = useState<Option[]>([])
@@ -46,10 +52,18 @@ export const AddEvaluatorForm = () => {
 
   const [showDialog, setShowDialog] = useState<boolean>(false)
 
+  const [evaluatorMenuList, setEvaluatorMenuList] = useState<HTMLDivElement | null | undefined>(
+    null
+  )
+
+  const customEvaluatorRef = useRef<SelectInstance<Option, false, GroupBase<Option>>>(null)
+
   useEffect(() => {
     if (evaluation_result_id !== undefined) {
       void appDispatch(getEvaluationResult(parseInt(evaluation_result_id)))
       void appDispatch(getActiveTemplates())
+      void appDispatch(getUsersOnScroll({}))
+      void appDispatch(getExternalUsersOnScroll({}))
       void appDispatch(
         getProjectMembers({
           evaluation_administration_id: id,
@@ -86,17 +100,33 @@ export const AddEvaluatorForm = () => {
 
   useEffect(() => {
     const userList = [...users]
+    const externalUserList = [...external_users]
     const options: Option[] = [
       ...userList.map((user) => ({
         label: `${user.last_name}, ${user.first_name}`,
         value: user.id.toString().concat("|0"),
       })),
-      ...external_users.map((user) => ({
+      ...externalUserList.map((user) => ({
         label: `${user.last_name}, ${user.first_name} (External)`,
         value: user.id.toString().concat("|1"),
       })),
     ]
-    setActiveUsers(options)
+
+    const compareNames = (a: Option, b: Option) => {
+      const nameA = a.label.toUpperCase()
+      const nameB = b.label.toUpperCase()
+
+      if (nameA < nameB) {
+        return -1
+      }
+      if (nameA > nameB) {
+        return 1
+      }
+      return 0
+    }
+    const sortedOptions = options.sort(compareNames)
+
+    setActiveUsers(sortedOptions)
   }, [users, external_users])
 
   useEffect(() => {
@@ -110,6 +140,13 @@ export const AddEvaluatorForm = () => {
     setActiveProjectMembers(options)
   }, [project_members])
 
+  useEffect(() => {
+    evaluatorMenuList?.addEventListener("scroll", handleEmployeeScroll)
+    return () => {
+      evaluatorMenuList?.removeEventListener("scroll", handleEmployeeScroll)
+    }
+  }, [loading, externalUsersLoading, evaluatorMenuList])
+
   const toggleDialog = async () => {
     setShowDialog((prev) => !prev)
   }
@@ -117,12 +154,12 @@ export const AddEvaluatorForm = () => {
   const handleSearch = (value: string) => {
     if (value.length !== 0) {
       void appDispatch(
-        getUsers({
+        getUsersOnScroll({
           name: value,
         })
       )
       void appDispatch(
-        getExternalUsers({
+        getExternalUsersOnScroll({
           name: value,
         })
       )
@@ -150,6 +187,41 @@ export const AddEvaluatorForm = () => {
     } catch (error) {}
   }
 
+  const handleEmployeeScroll = () => {
+    if (evaluatorMenuList?.scrollTop !== undefined) {
+      const scrollPosition = evaluatorMenuList?.scrollTop + evaluatorMenuList.clientHeight
+      if (
+        scrollPosition !== evaluatorMenuList.scrollHeight ||
+        loading === Loading.Pending ||
+        (!hasNextPage && !externalUsersHasNextPage)
+      ) {
+        return
+      }
+    }
+    if (hasNextPage) {
+      const newPage = currentPage + 1
+      void appDispatch(
+        getUsersOnScroll({
+          page: newPage.toString(),
+        })
+      )
+    }
+    if (externalUsersHasNextPage) {
+      const newExternalUserPage = externalUsersCurrentPage + 1
+      void appDispatch(
+        getExternalUsersOnScroll({
+          page: newExternalUserPage.toString(),
+        })
+      )
+    }
+  }
+
+  const handleOnEvaluatorMenuOpen = () => {
+    setTimeout(() => {
+      setEvaluatorMenuList(customEvaluatorRef?.current?.menuListRef)
+    }, 100)
+  }
+
   return (
     <div className='flex flex-col gap-10'>
       <div className='flex flex-col md:w-1/2 gap-4'>
@@ -168,6 +240,8 @@ export const AddEvaluatorForm = () => {
           fullWidth
         />
         <CustomSelect
+          customRef={customEvaluatorRef}
+          onMenuOpen={handleOnEvaluatorMenuOpen}
           data-test-id='Evaluator'
           label='Evaluator'
           name='evaluator'
