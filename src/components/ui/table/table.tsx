@@ -24,7 +24,7 @@ export function Table<T extends { id: number }>({
         <thead className='text-black'>
           <tr>
             {columns.map((column, index) => (
-              <th key={index} scope='col' className='pr-3 py-2 whitespace-nowrap'>
+              <th key={index} scope='col' className='pr-3 py-2 whitespace-nowrap text-base'>
                 {column}
               </th>
             ))}
