@@ -12,6 +12,8 @@ import { useFullPath } from "@hooks/use-full-path"
 import { setCheckedSkills, setSelectedSkills } from "@redux/slices/skills-slice"
 import { Badge } from "@components/ui/badge/badge"
 import { getProjectStatusVariant } from "@utils/variant"
+import { type Project } from "@custom-types/project-type"
+import { Table } from "@components/ui/table/table"
 
 export const ProjectsTable = () => {
   const [searchParams] = useSearchParams()
@@ -77,9 +79,44 @@ export const ProjectsTable = () => {
     navigate(`${id}`)
   }
 
+  const columns = ["Name", "Client", "Status", "Actions"]
+
+  const renderCell = (item: Project, column: unknown) => {
+    switch (column) {
+      case "Name":
+        return `${item.name}`
+      case "Client":
+        return `${item.client?.name ?? ""}`
+      case "Status":
+        return (
+          <Badge variant={getProjectStatusVariant(item.status)} size='small'>
+            {item.status?.toUpperCase()}
+          </Badge>
+        )
+      case "Actions":
+        return (
+          <div className='flex gap-2'>
+            <LinkButton
+              testId='ViewButton'
+              variant='unstyled'
+              to={`/admin/projects/${item.id}`}
+              onClick={() => {
+                handleViewProject(item.id)
+              }}
+            >
+              <Icon icon='Eye' />
+            </LinkButton>
+            <Button testId='DeleteButton' variant='unstyled' onClick={() => toggleDialog(item.id)}>
+              <Icon icon='Trash' />
+            </Button>
+          </div>
+        )
+    }
+  }
+
   return (
     <div className='flex flex-col gap-8'>
-      <table className='w-full'>
+      {/* <table className='w-full'>
         <thead className='text-left'>
           <tr>
             <th className='pb-3 w-1/3'>Name</th>
@@ -122,7 +159,8 @@ export const ProjectsTable = () => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </table> */}
+      <Table columns={columns} data={projects} renderCell={renderCell} isRowClickable={true} />
       <Dialog open={showDialog}>
         <Dialog.Title>Delete Project</Dialog.Title>
         <Dialog.Description>

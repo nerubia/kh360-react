@@ -6,13 +6,18 @@ interface TableProps<T extends { id: number }> {
   renderCell: (item: T, column: string) => ReactNode
   onClickRow?: (id: number) => void
   isRowClickable?: boolean
+  overflowXAuto?: boolean
+  overflowYHidden?: boolean
 }
+
 export function Table<T extends { id: number }>({
   data,
   columns,
   renderCell,
   onClickRow,
   isRowClickable = false,
+  overflowXAuto = true,
+  overflowYHidden = true,
 }: TableProps<T>): JSX.Element {
   const handleRowClick = (item: T) => {
     if (onClickRow != null) {
@@ -22,8 +27,12 @@ export function Table<T extends { id: number }>({
 
   const columnWidth = 100 / columns.length
 
+  const containerClassName = `relative sm:rounded-lg ${overflowXAuto ? "overflow-x-auto" : ""} ${
+    overflowYHidden ? "overflow-y-hidden" : ""
+  }`
+
   return (
-    <div className='relative overflow-x-auto sm:rounded-lg'>
+    <div className={containerClassName}>
       <table className='w-full text-left rtl:text-right'>
         <thead className='text-black'>
           <tr>
@@ -32,7 +41,9 @@ export function Table<T extends { id: number }>({
                 key={index}
                 scope='col'
                 className={`pr-3 py-2 whitespace-nowrap text-base ${
-                  ["Score", "Z-Score", "Banding", "Role", "Actions", "Status"].includes(column)
+                  ["Score", "Z-Score", "Banding", "Role", "Actions", "Status", "Default"].includes(
+                    column
+                  )
                     ? "w-1/20"
                     : `w-${columnWidth}`
                 }`}
