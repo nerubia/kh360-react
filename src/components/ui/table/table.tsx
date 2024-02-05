@@ -7,7 +7,6 @@ interface TableProps<T extends { id: number }> {
   onClickRow?: (id: number) => void
   isRowClickable?: boolean
 }
-
 export function Table<T extends { id: number }>({
   data,
   columns,
@@ -21,13 +20,23 @@ export function Table<T extends { id: number }>({
     }
   }
 
+  const columnWidth = 100 / columns.length
+
   return (
-    <div className='relative overflow-x-auto shadow-md sm:rounded-lg'>
+    <div className='relative overflow-x-auto sm:rounded-lg'>
       <table className='w-full text-left rtl:text-right'>
         <thead className='text-black'>
           <tr>
             {columns.map((column, index) => (
-              <th key={index} scope='col' className='pr-3 py-2 whitespace-nowrap text-base'>
+              <th
+                key={index}
+                scope='col'
+                className={`pr-3 py-2 whitespace-nowrap text-base ${
+                  ["Role", "Actions", "Z-Score", "Banding", "Score"].includes(column)
+                    ? "w-5"
+                    : `w-${columnWidth}`
+                }`}
+              >
                 {column}
               </th>
             ))}
@@ -45,9 +54,10 @@ export function Table<T extends { id: number }>({
               {columns.map((column) => (
                 <td
                   key={column}
-                  className={`pr-3 py-2 ${
-                    index === columns.length - 1 ? "mid-w-100 md:w-90" : "w-1/5"
-                  }`}
+                  className={`pr-3 py-2`}
+                  style={{
+                    width: `${column === "Role" || column === "Actions" ? 5 : columnWidth}%`,
+                  }}
                 >
                   {renderCell(item, column)}
                 </td>

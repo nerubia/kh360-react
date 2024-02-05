@@ -70,54 +70,17 @@ export const EvaluationAdministrationsTable = () => {
         )}`
       case "Status":
         return (
-          <Badge variant={getEvaluationAdministrationStatusVariant(item?.status)} size='small'>
-            <div className='uppercase'>{item?.status}</div>
-          </Badge>
+          <div className='py-1'>
+            <Badge variant={getEvaluationAdministrationStatusVariant(item?.status)} size='small'>
+              <div className='uppercase'>{item?.status}</div>
+            </Badge>
+          </div>
         )
     }
   }
   return (
     <div className='flex flex-col gap-8'>
       <div className='md:block hidden'>
-        {/* <table className='w-full table-fixed'>
-          <thead className='text-left'>
-            <tr>
-              <th className='pb-3'>Name</th>
-              <th className='pb-3'>Period</th>
-              <th className='pb-3'>Schedule</th>
-              <th className='pb-3'>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {evaluation_administrations.map((evaluationAdministration) => (
-              <tr
-                className='cursor-pointer hover:bg-slate-100'
-                key={evaluationAdministration.id}
-                onClick={() => handleViewEvaluation(evaluationAdministration.id)}
-              >
-                <td className='py-1 '>{evaluationAdministration.name}</td>
-                <td className='py-1'>
-                  {formatDate(evaluationAdministration.eval_period_start_date)} to{" "}
-                  {formatDate(evaluationAdministration.eval_period_end_date)}
-                </td>
-                <td className='py-1'>
-                  {formatDate(evaluationAdministration.eval_schedule_start_date)} to{" "}
-                  {formatDate(evaluationAdministration.eval_schedule_end_date)}
-                </td>
-                <td className='py-1'>
-                  <Badge
-                    variant={getEvaluationAdministrationStatusVariant(
-                      evaluationAdministration?.status
-                    )}
-                    size='small'
-                  >
-                    <div className='uppercase'>{evaluationAdministration?.status}</div>
-                  </Badge>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table> */}
         <Table
           columns={columns}
           data={evaluation_administrations}
