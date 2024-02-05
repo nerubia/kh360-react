@@ -13,6 +13,8 @@ import Dialog from "@components/ui/dialog/dialog"
 import { setAlert, setPreviousUrl } from "@redux/slices/app-slice"
 import { useFullPath } from "@hooks/use-full-path"
 import { Badge } from "@components/ui/badge/badge"
+import { type EvaluationTemplate } from "@custom-types/evaluation-template-type"
+import { Table } from "@components/ui/table/table"
 
 export const EvaluationTemplatesTable = () => {
   const [searchParams] = useSearchParams()
@@ -90,9 +92,62 @@ export const EvaluationTemplatesTable = () => {
     }
   }
 
+  const columns = [
+    "Name",
+    "Display Name",
+    "Template Type",
+    "With Recommendation",
+    "Evaluator Role",
+    "Evaluee Role",
+    "Rate",
+    "Actions",
+  ]
+  const renderCell = (item: EvaluationTemplate, column: unknown) => {
+    switch (column) {
+      case "Name":
+        return `${item.name}`
+      case "Display Name":
+        return `${item.display_name}`
+      case "Template Type":
+        return `${item.template_type}`
+      case "With Recommendation":
+        return (
+          <Badge variant={`${checkedItems[item.id] ? "green" : "red"}`} size='small'>
+            {checkedItems[item.id] ? "YES" : "NO"}
+          </Badge>
+        )
+      case "Evaluator Role":
+        return `${item.evaluatorRole?.short_name}`
+      case "Evaluee Role":
+        return `${item.evalueeRole?.short_name}`
+      case "Rate":
+        return `${Number(item.rate).toFixed(2)}%`
+      case "Actions":
+        return (
+          <div className='flex gap-2'>
+            <LinkButton
+              testId='EditButton'
+              variant='unstyled'
+              to={`/admin/evaluation-templates/${item.id}/edit?callback=${location.pathname}`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Icon icon='PenSquare' />
+            </LinkButton>
+            <Button
+              testId='DeleteButton'
+              variant='unstyled'
+              onClick={(e) => toggleDialog(item.id, e)}
+            >
+              <Icon icon='Trash' />
+            </Button>
+          </div>
+        )
+    }
+  }
+
   return (
     <div className='flex flex-col gap-8 overflow-x-auto'>
-      <table className='w-full'>
+      {/* <table className='w-full'>
         <thead className='text-left'>
           <tr>
             <th className='pb-3 pr-2'>Name</th>
@@ -152,7 +207,14 @@ export const EvaluationTemplatesTable = () => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </table> */}
+      <Table
+        columns={columns}
+        renderCell={renderCell}
+        data={evaluation_templates}
+        onClickRow={handleViewEvaluationTemplate}
+        isRowClickable={true}
+      />
       <Dialog open={showDialog}>
         <Dialog.Title>Delete Evaluation Template</Dialog.Title>
         <Dialog.Description>
