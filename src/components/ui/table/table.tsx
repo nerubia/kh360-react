@@ -32,8 +32,8 @@ export function Table<T extends { id: number }>({
                 key={index}
                 scope='col'
                 className={`pr-3 py-2 whitespace-nowrap text-base ${
-                  ["Role", "Actions", "Z-Score", "Banding", "Score"].includes(column)
-                    ? "w-5"
+                  ["Score", "Z-Score", "Banding", "Role", "Actions", "Status"].includes(column)
+                    ? "w-1/20"
                     : `w-${columnWidth}`
                 }`}
               >
@@ -52,13 +52,7 @@ export function Table<T extends { id: number }>({
               onClick={isRowClickable ? () => handleRowClick(item) : undefined}
             >
               {columns.map((column) => (
-                <td
-                  key={column}
-                  className={`pr-3 py-2`}
-                  style={{
-                    width: `${column === "Role" || column === "Actions" ? 5 : columnWidth}%`,
-                  }}
-                >
+                <td key={column} className={`pr-3 py-2`}>
                   {renderCell(item, column)}
                 </td>
               ))}

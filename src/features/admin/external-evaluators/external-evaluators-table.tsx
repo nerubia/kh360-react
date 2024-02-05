@@ -70,7 +70,7 @@ export const ExternalEvaluatorsTable = () => {
       case "Name":
         return `${item.last_name}, ${item.first_name}  ${item.middle_name}`
       case "Email Address":
-        return item.email.length > 30 ? `${item.email.substring(0, 25)}...` : item.email
+        return item.email.length > 30 ? `${item.email.substring(0, 30)}...` : item.email
       case "Company":
         return `${item.company}`
       case "Role":
