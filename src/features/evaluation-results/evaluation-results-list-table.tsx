@@ -119,6 +119,7 @@ export const EvaluationResultsListTable = () => {
         data={evaluation_results}
         renderCell={renderCell}
         onClickRow={handleViewEvaluationResult}
+        isRowClickable={true}
       />
       {totalPages !== 1 && (
         <div className='flex justify-center'>

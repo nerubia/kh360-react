@@ -8,6 +8,8 @@ import { Icon } from "@components/ui/icon/icon"
 import { Button, LinkButton } from "@components/ui/button/button"
 import Dialog from "@components/ui/dialog/dialog"
 import { setAlert } from "@redux/slices/app-slice"
+import { type ExternalUser } from "@custom-types/external-user-type"
+import { Table } from "@components/ui/table/table"
 
 export const ExternalEvaluatorsTable = () => {
   const [searchParams] = useSearchParams()
@@ -61,9 +63,39 @@ export const ExternalEvaluatorsTable = () => {
     }
   }
 
+  const columns = ["Name", "Email Address", "Company", "Role", "Actions"]
+
+  const renderCell = (item: ExternalUser, column: unknown) => {
+    switch (column) {
+      case "Name":
+        return `${item.last_name}, ${item.first_name}  ${item.middle_name}`
+      case "Email Address":
+        return `${item.email}`
+      case "Company":
+        return `${item.company}`
+      case "Role":
+        return `${item.role}`
+      case "Actions":
+        return (
+          <div className='flex gap-2'>
+            <LinkButton
+              testId='EditButton'
+              variant='unstyled'
+              to={`/admin/external-evaluators/${item.id}/edit`}
+            >
+              <Icon icon='PenSquare' />
+            </LinkButton>
+            <Button testId='DeleteButton' variant='unstyled' onClick={() => toggleDialog(item.id)}>
+              <Icon icon='Trash' />
+            </Button>
+          </div>
+        )
+    }
+  }
+
   return (
     <div className='flex flex-col gap-8'>
-      <table className='w-11/12'>
+      {/* <table className='w-11/12'>
         <thead className='text-left'>
           <tr>
             <th className='pb-3 pr-4 w-1/4'>Name</th>
@@ -106,7 +138,8 @@ export const ExternalEvaluatorsTable = () => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </table> */}
+      <Table columns={columns} data={external_users} renderCell={renderCell} />
       <Dialog open={showDialog}>
         <Dialog.Title>Delete External Evaluator</Dialog.Title>
         <Dialog.Description>

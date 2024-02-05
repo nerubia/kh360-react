@@ -5,6 +5,7 @@ interface TableProps<T extends { id: number }> {
   columns: string[]
   renderCell: (item: T, column: string) => ReactNode
   onClickRow?: (id: number) => void
+  isRowClickable?: boolean
 }
 
 export function Table<T extends { id: number }>({
@@ -12,12 +13,14 @@ export function Table<T extends { id: number }>({
   columns,
   renderCell,
   onClickRow,
+  isRowClickable = false,
 }: TableProps<T>): JSX.Element {
   const handleRowClick = (item: T) => {
     if (onClickRow != null) {
       onClickRow(item.id)
     }
   }
+
   return (
     <div className='relative overflow-x-auto shadow-md sm:rounded-lg'>
       <table className='w-full text-left rtl:text-right'>
@@ -34,8 +37,10 @@ export function Table<T extends { id: number }>({
           {data.map((item, index) => (
             <tr
               key={index}
-              className='bg-white border-b hover:bg-slate-100 text-black hover:cursor-pointer'
-              onClick={() => handleRowClick(item)}
+              className={`bg-white border-b ${
+                isRowClickable ? "hover:bg-slate-100 hover:cursor-pointer" : ""
+              } text-black`}
+              onClick={isRowClickable ? () => handleRowClick(item) : undefined}
             >
               {columns.map((column) => (
                 <td

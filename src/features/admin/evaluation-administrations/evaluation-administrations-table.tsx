@@ -14,6 +14,8 @@ import { getEvaluationAdministrationStatusVariant } from "@utils/variant"
 import { useFullPath } from "@hooks/use-full-path"
 import { setPreviousUrl } from "@redux/slices/app-slice"
 import { WebSocketContext, type WebSocketType } from "@components/providers/websocket"
+import { type EvaluationAdministration } from "@custom-types/evaluation-administration-type"
+import { Table } from "@components/ui/table/table"
 
 export const EvaluationAdministrationsTable = () => {
   const fullPath = useFullPath()
@@ -52,10 +54,32 @@ export const EvaluationAdministrationsTable = () => {
     navigate(`/admin/evaluation-administrations/${id}`)
   }
 
+  const columns = ["Name", "Period", "Schedule", "Status"]
+
+  const renderCell = (item: EvaluationAdministration, column: unknown) => {
+    switch (column) {
+      case "Name":
+        return `${item.name}`
+      case "Period":
+        return `${formatDate(item.eval_period_start_date)} to ${formatDate(
+          item.eval_period_end_date
+        )}`
+      case "Schedule":
+        return `${formatDate(item.eval_schedule_start_date)} to ${formatDate(
+          item.eval_schedule_start_date
+        )}`
+      case "Status":
+        return (
+          <Badge variant={getEvaluationAdministrationStatusVariant(item?.status)} size='small'>
+            <div className='uppercase'>{item?.status}</div>
+          </Badge>
+        )
+    }
+  }
   return (
     <div className='flex flex-col gap-8'>
       <div className='md:block hidden'>
-        <table className='w-full table-fixed'>
+        {/* <table className='w-full table-fixed'>
           <thead className='text-left'>
             <tr>
               <th className='pb-3'>Name</th>
@@ -93,7 +117,14 @@ export const EvaluationAdministrationsTable = () => {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table> */}
+        <Table
+          columns={columns}
+          data={evaluation_administrations}
+          renderCell={renderCell}
+          onClickRow={handleViewEvaluation}
+          isRowClickable={true}
+        />
       </div>
       <div className='w-full md:hidden' data-testid='eval-list'>
         <div className='flex gap-2 flex-col'>
