@@ -46,8 +46,9 @@ export const EvaluationResultsListTable = () => {
       case "Eval Admin Name":
         return `${item.evaluation_administration?.name}`
       case "Eval Period":
-        return `${formatDate(item.evaluation_administration?.eval_period_start_date)} to ${item
-          .evaluation_administration?.eval_period_end_date}`
+        return `${formatDate(
+          item.evaluation_administration?.eval_period_start_date
+        )} to ${formatDate(item.evaluation_administration?.eval_period_end_date)}`
       case "Score":
         return `${item.score}`
       case "Score Rating":
