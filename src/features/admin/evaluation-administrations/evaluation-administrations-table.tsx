@@ -14,6 +14,11 @@ import { getEvaluationAdministrationStatusVariant } from "@utils/variant"
 import { useFullPath } from "@hooks/use-full-path"
 import { setPreviousUrl } from "@redux/slices/app-slice"
 import { WebSocketContext, type WebSocketType } from "@components/providers/websocket"
+import {
+  evaluationAdminColumns,
+  type EvaluationAdministration,
+} from "@custom-types/evaluation-administration-type"
+import { Table } from "@components/ui/table/table"
 
 export const EvaluationAdministrationsTable = () => {
   const fullPath = useFullPath()
@@ -52,48 +57,36 @@ export const EvaluationAdministrationsTable = () => {
     navigate(`/admin/evaluation-administrations/${id}`)
   }
 
+  const renderCell = (item: EvaluationAdministration, column: unknown) => {
+    switch (column) {
+      case "Name":
+        return `${item.name}`
+      case "Period":
+        return `${formatDate(item.eval_period_start_date)} to ${formatDate(
+          item.eval_period_end_date
+        )}`
+      case "Schedule":
+        return `${formatDate(item.eval_schedule_start_date)} to ${formatDate(
+          item.eval_schedule_end_date
+        )}`
+      case "Status":
+        return (
+          <Badge variant={getEvaluationAdministrationStatusVariant(item?.status)} size='small'>
+            <div className='uppercase'>{item?.status}</div>
+          </Badge>
+        )
+    }
+  }
   return (
     <div className='flex flex-col gap-8'>
       <div className='md:block hidden'>
-        <table className='w-full table-fixed'>
-          <thead className='text-left'>
-            <tr>
-              <th className='pb-3'>Name</th>
-              <th className='pb-3'>Period</th>
-              <th className='pb-3'>Schedule</th>
-              <th className='pb-3'>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {evaluation_administrations.map((evaluationAdministration) => (
-              <tr
-                className='cursor-pointer hover:bg-slate-100'
-                key={evaluationAdministration.id}
-                onClick={() => handleViewEvaluation(evaluationAdministration.id)}
-              >
-                <td className='py-1 '>{evaluationAdministration.name}</td>
-                <td className='py-1'>
-                  {formatDate(evaluationAdministration.eval_period_start_date)} to{" "}
-                  {formatDate(evaluationAdministration.eval_period_end_date)}
-                </td>
-                <td className='py-1'>
-                  {formatDate(evaluationAdministration.eval_schedule_start_date)} to{" "}
-                  {formatDate(evaluationAdministration.eval_schedule_end_date)}
-                </td>
-                <td className='py-1'>
-                  <Badge
-                    variant={getEvaluationAdministrationStatusVariant(
-                      evaluationAdministration?.status
-                    )}
-                    size='small'
-                  >
-                    <div className='uppercase'>{evaluationAdministration?.status}</div>
-                  </Badge>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <Table
+          columns={evaluationAdminColumns}
+          renderCell={renderCell}
+          data={evaluation_administrations}
+          isRowClickable={true}
+          onClickRow={handleViewEvaluation}
+        />
       </div>
       <div className='w-full md:hidden' data-testid='eval-list'>
         <div className='flex gap-2 flex-col'>

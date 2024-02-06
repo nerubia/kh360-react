@@ -49,3 +49,5 @@ export enum EvaluationAdministrationStatus {
   Cancelled = "Cancelled",
   Published = "Published",
 }
+
+export const evaluationAdminColumns = ["Name", "Period", "Schedule", "Status"]
