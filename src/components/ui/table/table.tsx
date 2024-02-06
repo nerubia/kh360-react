@@ -2,8 +2,8 @@ import { type ReactNode } from "react"
 
 interface TableProps<T extends { id: number }> {
   data: T[]
-  columns: string[]
-  renderCell: (item: T, column: string) => ReactNode
+  columns: ReactNode[]
+  renderCell: (item: T, column: string | ReactNode, index: number) => ReactNode
   onClickRow?: (id: number) => void
   isRowClickable?: boolean
   overflowXAuto?: boolean
@@ -29,9 +29,9 @@ export function Table<T extends { id: number }>({
   const wrapColumns = ["With Recommendation", "Evaluator Role", "Evaluee Role"]
   const columnWidth = 100 / columns.length
 
-  const containerClassName = `relative sm:rounded-lg ${overflowXAuto ? "overflow-x-auto" : ""} ${
-    overflowYHidden ? "overflow-y-hidden" : ""
-  }`
+  const containerClassName = `relative h-full sm:rounded-lg ${
+    overflowXAuto ? "overflow-x-auto" : ""
+  } ${overflowYHidden ? "overflow-y-hidden" : ""}`
 
   return (
     <div className={containerClassName}>
@@ -43,9 +43,9 @@ export function Table<T extends { id: number }>({
                 key={index}
                 scope='col'
                 className={`pr-3 py-2 ${
-                  smallColumns.includes(column)
+                  smallColumns.includes(column as string)
                     ? "whitespace-nowrap"
-                    : wrapColumns.includes(column)
+                    : wrapColumns.includes(column as string)
                     ? "whitespace-normal text-center"
                     : `whitespace-nowrap w-${columnWidth}`
                 }`}
@@ -64,12 +64,16 @@ export function Table<T extends { id: number }>({
               } text-black`}
               onClick={isRowClickable ? () => handleRowClick(item) : undefined}
             >
-              {columns.map((column) => (
+              {columns.map((column, index) => (
                 <td
-                  key={column}
-                  className={`pr-3 py-2 ${wrapColumns.includes(column) ? "whitespace-normal" : ""}`}
+                  key={index}
+                  className={`pr-3 py-2 ${
+                    wrapColumns.includes(column as string) ? "whitespace-normal" : ""
+                  }`}
                 >
-                  {renderCell(item, column) !== undefined ? renderCell(item, column) : "-"}
+                  {renderCell(item, column, index) !== undefined
+                    ? renderCell(item, column, index)
+                    : "-"}
                 </td>
               ))}
             </tr>
