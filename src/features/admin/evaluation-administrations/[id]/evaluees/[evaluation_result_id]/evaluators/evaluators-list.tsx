@@ -25,6 +25,8 @@ import Tooltip from "@components/ui/tooltip/tooltip"
 import Dialog from "@components/ui/dialog/dialog"
 import { useMobileView } from "@hooks/use-mobile-view"
 import { TemplateType } from "@custom-types/evaluation-template-type"
+import { Table } from "@components/ui/table/table"
+import { type ReactNode } from "react"
 
 export const EvaluatorsList = () => {
   const navigate = useNavigate()
@@ -45,6 +47,38 @@ export const EvaluatorsList = () => {
   const [selectedEvaluationId, setSelectedEvaluationId] = useState<number>()
   const isMediumSize = useMobileView(1200)
   const isSmallDevice = useMobileView(800)
+
+  const columns = [
+    <Checkbox
+      key={0}
+      checked={
+        sortedEvaluations.length > 0 &&
+        sortedEvaluations.every((evaluation) => evaluation.for_evaluation)
+      }
+      onChange={(checked) => handleSelectAll(checked, false)}
+    />,
+    "Evaluator",
+    "Project",
+    "Role",
+    "%",
+    "Duration",
+  ]
+
+  const columnsExternal = [
+    <Checkbox
+      key={0}
+      checked={
+        sortedExternalEvaluations.length > 0 &&
+        sortedExternalEvaluations.every((evaluation) => evaluation.for_evaluation)
+      }
+      onChange={(checked) => handleSelectAll(checked, true)}
+    />,
+    "Evaluator",
+    "Project",
+    "%",
+    "Duration",
+    "Actions",
+  ]
 
   useEffect(() => {
     if (evaluation_template_id !== "all") {
@@ -213,175 +247,123 @@ export const EvaluatorsList = () => {
     }
   }
 
+  const renderCell = (item: Evaluation, column: ReactNode, index: number) => {
+    switch (index) {
+      case 0:
+        return (
+          <Checkbox
+            checked={item.for_evaluation}
+            onChange={(checked) => handleClickCheckbox(item.id, checked)}
+          />
+        )
+      case 1:
+        return `${item.evaluator?.last_name}, ${item.evaluator?.first_name}`
+      case 2:
+        return item.project?.name !== undefined ? `${item.project?.name}` : null
+      case 3:
+        return item.project_role?.short_name !== undefined
+          ? `${item.project_role?.short_name}`
+          : null
+      case 4:
+        return `${item.percent_involvement}%`
+      case 5:
+        return `${formatDate(item.eval_start_date)} to 
+                            ${formatDate(item.eval_end_date)}`
+    }
+  }
+
+  const renderExternalCell = (item: Evaluation, column: unknown, index: number) => {
+    switch (index) {
+      case 0:
+        return (
+          <Checkbox
+            checked={item.for_evaluation}
+            onChange={(checked) => handleClickCheckbox(item.id, checked)}
+          />
+        )
+      case 1:
+        return (
+          <Tooltip placement='topStart'>
+            <Tooltip.Trigger>
+              {`${item.evaluator?.last_name?.substring(0, 12)}${
+                item.evaluator?.last_name != null && item.evaluator?.last_name.length > 12
+                  ? "..."
+                  : ""
+              }, ${item.evaluator?.first_name?.substring(0, 20)}${
+                item.evaluator?.first_name != null && item.evaluator?.first_name.length > 20
+                  ? "..."
+                  : ""
+              }`}
+            </Tooltip.Trigger>
+            <Tooltip.Content>{item.evaluator?.email}</Tooltip.Content>
+          </Tooltip>
+        )
+      case 2:
+        return showSelectProjectButton ? (
+          <Dropdown>
+            <Dropdown.Trigger>
+              <Button variant='primaryOutline' size='small'>
+                {item.project !== null ? item.project?.name : "Select project"}
+              </Button>
+            </Dropdown.Trigger>
+            <Dropdown.Content>
+              {getAvailableProjects(item.evaluator?.id).map((projectMember, index) => (
+                <React.Fragment key={index}>
+                  <Dropdown.Item
+                    onClick={() => setProject(item.id, projectMember.project?.id, projectMember.id)}
+                  >
+                    <div className='flex-flex-col'>
+                      <p className='text-sm font-bold text-start'>
+                        {projectMember.project?.name} [{projectMember.role}] -{" "}
+                        {projectMember.allocation_rate}%
+                      </p>
+                      <p className='text-sm'>
+                        {formatDate(projectMember.start_date)} to{" "}
+                        {formatDate(projectMember.end_date)}
+                      </p>
+                    </div>
+                  </Dropdown.Item>
+                </React.Fragment>
+              ))}
+            </Dropdown.Content>
+          </Dropdown>
+        ) : null
+      case 3:
+        return item.percent_involvement !== null ? `${item.percent_involvement}%` : null
+      case 4:
+        return item.eval_start_date !== null && item.eval_end_date !== null
+          ? `${formatDate(item.eval_start_date)} to ${formatDate(item.eval_end_date)}`
+          : null
+      case 5:
+        return (
+          <Button testId='DeleteButton' variant='unstyled' onClick={() => toggleDialog(item.id)}>
+            <Icon icon='Trash' />
+          </Button>
+        )
+    }
+  }
+
   return (
     <div className='flex-1 h-screen lg:calc-screen flex flex-col pt-4 overflow-x-auto overflow-y-auto text-sm xl:text-lg'>
       <PageSubTitle>{internalHeader}</PageSubTitle>
       <div className='flex-1 overflow-y-scroll mt-2'>
-        <table className='relative w-full table-fixed'>
-          <thead className='sticky top-0 bg-white text-left'>
-            <tr>
-              <th className='w-10 pb-3'>
-                <Checkbox
-                  checked={
-                    sortedEvaluations.length > 0 &&
-                    sortedEvaluations.every((evaluation) => evaluation.for_evaluation)
-                  }
-                  onChange={(checked) => handleSelectAll(checked, false)}
-                />
-              </th>
-              <th className='pb-3 w-100'>Evaluator</th>
-              <th className='pb-3 w-100'>Project</th>
-              <th className='pb-3 w-100'>Role</th>
-              <th className='pb-3 w-100'>%</th>
-              <th className='pb-3 w-100'>Duration</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sortedEvaluations
-              .filter(
-                (evaluation) => evaluation.is_external === undefined || !evaluation.is_external
-              )
-              .map((evaluation) => (
-                <tr key={evaluation.id}>
-                  <td className='w-fit pb-2'>
-                    <Checkbox
-                      checked={evaluation.for_evaluation}
-                      onChange={(checked) => handleClickCheckbox(evaluation.id, checked)}
-                    />
-                  </td>
-                  <td className='pb-2'>
-                    {evaluation.evaluator?.last_name}, {evaluation.evaluator?.first_name}
-                  </td>
-                  <td className='pb-2'>{evaluation.project?.name}</td>
-                  <td className='pb-2'>{evaluation.project_role?.short_name}</td>
-                  <td className='pb-2'>{evaluation.percent_involvement}%</td>
-                  <td className='pb-2'>
-                    {formatDate(evaluation.eval_start_date)} to{" "}
-                    {formatDate(evaluation.eval_end_date)}
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
+        <Table
+          columns={columns}
+          data={sortedEvaluations}
+          renderCell={renderCell}
+          overflowYHidden={false}
+        />
       </div>
       <div className='pt-5'>
         <PageSubTitle>{externalHeader}</PageSubTitle>
       </div>
       <div className='flex-1 overflow-y-scroll my-2 overflow-x-auto'>
-        <table className='relative w-full table-fixed'>
-          <thead className='sticky top-0 bg-white text-left z-50'>
-            <tr>
-              <th className='w-10 pb-3'>
-                <Checkbox
-                  checked={
-                    sortedExternalEvaluations.length > 0 &&
-                    sortedExternalEvaluations.every((evaluation) => evaluation.for_evaluation)
-                  }
-                  onChange={(checked) => handleSelectAll(checked, true)}
-                />
-              </th>
-              <th className='pb-3 w-100'>Evaluator</th>
-              <th className='pb-3 w-100'>Project</th>
-              <th className='pb-3 w-100'>%</th>
-              <th className='pb-3 w-100'>Duration</th>
-              <th className='pb-3 w-100'>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sortedExternalEvaluations
-              .filter((evaluation) => evaluation.is_external === true)
-              .map((evaluation) => (
-                <tr key={evaluation.id}>
-                  <td className='pb-2'>
-                    <Checkbox
-                      checked={evaluation.for_evaluation}
-                      onChange={(checked) => handleClickCheckbox(evaluation.id, checked)}
-                    />
-                  </td>
-                  <td className='pb-2'>
-                    <Tooltip placement='topStart'>
-                      <Tooltip.Trigger>
-                        {`${evaluation.evaluator?.last_name?.substring(0, 12)}${
-                          evaluation.evaluator?.last_name != null &&
-                          evaluation.evaluator?.last_name.length > 12
-                            ? "..."
-                            : ""
-                        }, ${evaluation.evaluator?.first_name?.substring(0, 20)}${
-                          evaluation.evaluator?.first_name != null &&
-                          evaluation.evaluator?.first_name.length > 20
-                            ? "..."
-                            : ""
-                        }`}
-                      </Tooltip.Trigger>
-                      <Tooltip.Content>{evaluation.evaluator?.email}</Tooltip.Content>
-                    </Tooltip>
-                  </td>
-                  <td className='whitespace-nowrap'>
-                    {showSelectProjectButton && (
-                      <Dropdown>
-                        <Dropdown.Trigger>
-                          <Button variant='primaryOutline' size='small'>
-                            {evaluation.project !== null
-                              ? evaluation.project?.name
-                              : "Select project"}
-                          </Button>
-                        </Dropdown.Trigger>
-                        <Dropdown.Content>
-                          {getAvailableProjects(evaluation.evaluator?.id).map(
-                            (projectMember, index) => (
-                              <React.Fragment key={index}>
-                                <Dropdown.Item
-                                  onClick={() =>
-                                    setProject(
-                                      evaluation.id,
-                                      projectMember.project?.id,
-                                      projectMember.id
-                                    )
-                                  }
-                                >
-                                  <div className='flex-flex-col'>
-                                    <p className='text-sm font-bold text-start'>
-                                      {projectMember.project?.name} [{projectMember.role}] -{" "}
-                                      {projectMember.allocation_rate}%
-                                    </p>
-                                    <p className='text-sm'>
-                                      {formatDate(projectMember.start_date)} to{" "}
-                                      {formatDate(projectMember.end_date)}
-                                    </p>
-                                  </div>
-                                </Dropdown.Item>
-                              </React.Fragment>
-                            )
-                          )}
-                        </Dropdown.Content>
-                      </Dropdown>
-                    )}
-                  </td>
-                  <td className='pb-2'>
-                    {evaluation.percent_involvement !== null &&
-                      `${evaluation.percent_involvement}%`}
-                  </td>
-                  <td className='pb-2'>
-                    {evaluation.eval_start_date !== null && evaluation.eval_end_date !== null && (
-                      <>
-                        {formatDate(evaluation.eval_start_date)} to{" "}
-                        {formatDate(evaluation.eval_end_date)}
-                      </>
-                    )}
-                  </td>
-                  <td className='pb-2'>
-                    <Button
-                      testId='DeleteButton'
-                      variant='unstyled'
-                      onClick={() => toggleDialog(evaluation.id)}
-                    >
-                      <Icon icon='Trash' />
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
+        <Table
+          columns={columnsExternal}
+          data={sortedExternalEvaluations}
+          renderCell={renderExternalCell}
+          overflowYHidden={false}
+        />
       </div>
       <div className='flex gap-4 mt-3'>
         <Button variant='ghost' size='small' onClick={handleAddNew}>
