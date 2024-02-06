@@ -4,9 +4,11 @@ import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { getCmEvaluationResults } from "@redux/slices/evaluation-results-slice"
 import { Pagination } from "@components/shared/pagination/pagination"
-import { formatDate } from "@utils/format-date"
 import { useFullPath } from "@hooks/use-full-path"
 import { setPreviousUrl } from "@redux/slices/app-slice"
+import { Table } from "@components/ui/table/table"
+import { type EvaluationResult, columns } from "@custom-types/evaluation-result-type"
+import { formatDate } from "@utils/format-date"
 
 export const EvaluationResultsListTable = () => {
   const navigate = useNavigate()
@@ -37,47 +39,34 @@ export const EvaluationResultsListTable = () => {
     navigate(`/evaluation-results/${id}`)
   }
 
+  const renderCell = (item: EvaluationResult, column: unknown) => {
+    switch (column) {
+      case "Evaluee Name":
+        return `${item.users?.last_name} ${item.users?.first_name}`
+      case "Eval Admin Name":
+        return `${item.evaluation_administration?.name}`
+      case "Eval Period":
+        return `${formatDate(item.evaluation_administration?.eval_period_start_date)} to ${item
+          .evaluation_administration?.eval_period_end_date}`
+      case "Score":
+        return `${item.score}`
+      case "Score Rating":
+        return `${item.score_ratings?.display_name}`
+      case "Z-Score":
+        return `${item.zscore}`
+      case "Banding":
+        return `${item.banding}`
+    }
+  }
   return (
     <div className='flex flex-col gap-8 overflow-x-auto'>
-      <table className='min-w-[600px] w-full md:table-fixed whitespace-nowrap md:whitespace-normal'>
-        <thead className='text-left'>
-          <tr>
-            <th className='pb-3 px-1 w-1/5'>Evaluee Name</th>
-            <th className='pb-3 px-1 w-1/4'>Eval Admin Name</th>
-            <th className='pb-3 px-1 w-1/4'>Eval Period</th>
-            <th className='pb-3 px-1 w-20'>Score</th>
-            <th className='pb-3 px-1 w-[100px]'>Score Rating</th>
-            <th className='pb-3 px-1 mid-w-[100px] md:w-[90px]'>Z-Score</th>
-            <th className='pb-3 px-1 md:w-[90px]'>Banding</th>
-          </tr>
-        </thead>
-        <tbody>
-          {evaluation_results.map((evaluationResult) => (
-            <tr
-              className='cursor-pointer hover:bg-slate-100 w-[90%]'
-              key={evaluationResult.id}
-              onClick={() => handleViewEvaluationResult(evaluationResult.id)}
-            >
-              <td className='py-1 px-2 min-w-[100px]'>
-                {evaluationResult.users?.last_name}, {evaluationResult.users?.first_name}
-              </td>
-              <td className='py-1 px-2 min-w-[100px]'>
-                {evaluationResult.evaluation_administration?.name}
-              </td>
-              <td className='py-1 px-2 min-w-[100px]'>
-                {formatDate(evaluationResult.evaluation_administration?.eval_period_start_date)} to{" "}
-                {formatDate(evaluationResult.evaluation_administration?.eval_period_end_date)}
-              </td>
-              <td className='py-1 px-2 min-w-[100px]'>{evaluationResult.score}</td>
-              <td className='py-1 px-2 min-w-[100px]'>
-                {evaluationResult.score_ratings?.display_name}
-              </td>
-              <td className='py-1 px-2 min-w-[100px]'>{evaluationResult.zscore}</td>
-              <td className='py-1 px-2 min-w-[100px]'>{evaluationResult.banding}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Table
+        columns={columns}
+        data={evaluation_results}
+        isRowClickable={true}
+        renderCell={renderCell}
+        onClickRow={handleViewEvaluationResult}
+      />
       {totalPages !== 1 && (
         <div className='flex justify-center'>
           <Pagination
