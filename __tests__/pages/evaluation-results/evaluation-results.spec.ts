@@ -320,17 +320,16 @@ test.describe("CM - Evaluation results", () => {
 
       await expect(page.getByRole("button", { name: "Search" })).toBeVisible()
       await expect(page.getByRole("button", { name: "Clear" })).toBeVisible()
-
-      await expect(page.getByRole("cell", { name: "Evaluee Name" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Eval Admin Name" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Eval Period" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Score", exact: true })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Score Rating" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Z-Score" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Banding" })).toBeVisible()
-
-      await expect(page.getByRole("cell", { name: "User, First" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "User, Second" })).toBeVisible()
+      await expect(page.locator("tr > th")).toHaveText([
+        "Evaluee Name",
+        "Eval Admin Name",
+        "Eval Period",
+        "Score Rating",
+        "Z-Score",
+        "Banding",
+      ])
+      await expect(page.locator("tbody")).toContainText("User First")
+      await expect(page.locator("tbody")).toContainText("User Second")
     })
   })
 })
