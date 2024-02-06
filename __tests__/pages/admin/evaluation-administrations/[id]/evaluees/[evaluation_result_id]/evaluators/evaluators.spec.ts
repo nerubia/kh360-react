@@ -233,10 +233,11 @@ test.describe("Admin - Select Evaluators", () => {
         page.getByRole("heading", { name: "PM Evaluation for Developer Role" })
       ).toBeVisible()
 
-      await expect(page.getByRole("cell", { name: "Evaluator", exact: true }).first()).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Project" }).first()).toBeVisible()
-      await expect(page.getByRole("cell", { name: "%" }).first()).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Duration" }).first()).toBeVisible()
+      await expect(page.getByRole("columnheader", { name: "Evaluator" }).first()).toBeVisible()
+      await expect(page.getByRole("columnheader", { name: "Project" }).first()).toBeVisible()
+      await expect(page.getByRole("columnheader", { name: "Role" })).toBeVisible()
+      await expect(page.getByRole("columnheader", { name: "%" }).first()).toBeVisible()
+      await expect(page.getByRole("columnheader", { name: "Duration" }).first()).toBeVisible()
 
       await expect(page.getByRole("cell", { name: "Evaluator, First" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Evaluator, Second" })).toBeVisible()
