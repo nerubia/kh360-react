@@ -117,10 +117,13 @@ test.describe("Admin - External Evaluators", () => {
 
       await expect(page.getByRole("button", { name: "Add External Evaluator" })).toBeVisible()
 
-      await expect(page.getByRole("cell", { name: "Name" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Email Address" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Company" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Role" })).toBeVisible()
+      await expect(page.locator("tr >th")).toHaveText([
+        "Name",
+        "Email Address",
+        "Company",
+        "Role",
+        "Actions",
+      ])
 
       await expect(page.getByRole("cell", { name: "Doe, John" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "john@nerubia.com" })).toBeVisible()

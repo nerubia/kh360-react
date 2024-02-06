@@ -14,3 +14,4 @@ export interface ExternalUserFilters {
   role?: string
   page?: string
 }
+export const externalEvalColumns = ["Name", "Email Address", "Company", "Role", "Actions"]
