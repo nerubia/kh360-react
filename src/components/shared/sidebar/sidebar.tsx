@@ -11,6 +11,7 @@ import { useInternalUser } from "@hooks/use-internal-user"
 import { useCmUser } from "@hooks/use-cm-user"
 import { useLocation } from "react-router-dom"
 import { useMobileView } from "@hooks/use-mobile-view"
+import { routes } from "@routes/routes"
 
 interface MenuLink {
   title: string
@@ -34,61 +35,61 @@ const menuLinks: MenuLink[] = [
   }, */
   {
     title: "My Evaluations",
-    link: "/my-evaluations",
+    link: routes.private.internalUser.myEvaluations,
     icon: "ClipboardCheck",
     access: "Internal",
   },
   {
     title: "Evaluation Forms",
-    link: "/evaluation-administrations",
+    link: routes.private.userEvaluationAdministrations,
     icon: "FileText",
     access: "Public",
   },
   {
     title: "Evaluation Results",
-    link: "/evaluation-results",
+    link: routes.private.cmUser.evaluationResultsList,
     icon: "ListChecks",
     access: "Bod",
   },
   {
     title: "KH360 Admin",
-    link: "/admin/evaluation-administrations",
+    link: routes.private.admin.evaluationAdministrations,
     icon: "UserRoundCog",
     access: "Admin",
     children: [
       {
         title: "Evaluation Admin",
-        link: "/admin/evaluation-administrations",
+        link: routes.private.admin.evaluationAdministrations,
         icon: "PenSquare",
         access: "Admin",
       },
       {
         title: "External Evaluators",
-        link: "/admin/external-evaluators",
+        link: routes.private.admin.externalEvaluators,
         icon: "UserFill",
         access: "Admin",
       },
       {
         title: "Projects",
-        link: "/admin/projects",
+        link: routes.private.admin.projects,
         icon: "Target",
         access: "Admin",
       },
       {
         title: "Project Assignments",
-        link: "/admin/project-assignments",
+        link: routes.private.admin.projectAssignments,
         icon: "GanttChart",
         access: "Admin",
       },
       {
         title: "Message Templates",
-        link: "/admin/message-templates",
+        link: routes.private.admin.emailTemplates,
         icon: "Message",
         access: "Admin",
       },
       {
         title: "Evaluation Templates",
-        link: "/admin/evaluation-templates",
+        link: routes.private.admin.evaluationTemplates,
         icon: "List",
         access: "Admin",
       },
