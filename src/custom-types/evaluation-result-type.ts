@@ -87,3 +87,12 @@ export const sortByFilters: Option[] = [
     value: "standard_score_desc",
   },
 ]
+
+export const columns = [
+  "Evaluee Name",
+  "Eval Admin Name",
+  "Eval Period",
+  "Score Rating",
+  "Z-Score",
+  "Banding",
+]
