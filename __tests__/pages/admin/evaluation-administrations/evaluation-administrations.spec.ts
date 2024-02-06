@@ -152,13 +152,10 @@ test.describe("Admin - Evaluation administrations", () => {
       await expect(page.getByRole("link", { name: "Create Evaluations" })).toBeVisible()
 
       if (!isMobile) {
-        await expect(page.getByRole("cell", { name: "Name" })).toBeVisible()
-        await expect(page.getByRole("cell", { name: "Period" })).toBeVisible()
-        await expect(page.getByRole("cell", { name: "Schedule" })).toBeVisible()
-        await expect(page.getByRole("cell", { name: "Status" })).toBeVisible()
-        await expect(page.getByRole("cell", { name: "Evaluation 1" })).toBeVisible()
-        await expect(page.getByRole("cell", { name: "Evaluation 2" })).toBeVisible()
-        await expect(page.getByRole("cell", { name: "Evaluation 3" })).toBeVisible()
+        await expect(page.locator("tr > th")).toHaveText(["Name", "Period", "Schedule", "Status"])
+        await expect(page.locator("tbody")).toContainText(["Evaluation 1"])
+        await expect(page.locator("tbody")).toContainText(["Evaluation 2"])
+        await expect(page.locator("tbody")).toContainText(["Evaluation 3"])
       } else {
         await expect(page.getByTestId("eval-list")).toBeVisible()
         const nameElement = page.locator('[data-testid="name"]').nth(0)
