@@ -139,10 +139,13 @@ test.describe("Admin - Email Templates", () => {
 
       await expect(page.getByRole("button", { name: "Add Message Template" })).toBeVisible()
 
-      await expect(page.getByRole("cell", { name: "Name" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Template Type" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Default" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Subject" })).toBeVisible()
+      await expect(page.locator("tr > th")).toHaveText([
+        "Name",
+        "Template Type",
+        "Default",
+        "Subject",
+        "Actions",
+      ])
 
       await expect(page.getByRole("cell", { name: "Test Template" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Yes" })).toBeVisible()
