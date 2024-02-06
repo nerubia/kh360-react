@@ -29,3 +29,5 @@ export enum ProjectStatus {
   Hold = "Hold",
   Cancelled = "Cancelled",
 }
+
+export const projectsColumns = ["Name", "Client", "Status", "Actions"]

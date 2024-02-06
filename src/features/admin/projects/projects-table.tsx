@@ -12,6 +12,8 @@ import { useFullPath } from "@hooks/use-full-path"
 import { setCheckedSkills, setSelectedSkills } from "@redux/slices/skills-slice"
 import { Badge } from "@components/ui/badge/badge"
 import { getProjectStatusVariant } from "@utils/variant"
+import { projectsColumns, type Project } from "@custom-types/project-type"
+import { Table } from "@components/ui/table/table"
 
 export const ProjectsTable = () => {
   const [searchParams] = useSearchParams()
@@ -77,52 +79,42 @@ export const ProjectsTable = () => {
     navigate(`${id}`)
   }
 
+  const renderCell = (item: Project, column: unknown) => {
+    switch (column) {
+      case "Name":
+        return `${item.name}`
+      case "Client":
+        return `${item.client?.name ?? "-"}`
+      case "Status":
+        return (
+          <Badge variant={getProjectStatusVariant(item.status)} size='small'>
+            {item.status?.toUpperCase()}
+          </Badge>
+        )
+      case "Actions":
+        return (
+          <div className='flex gap-2'>
+            <LinkButton
+              testId='ViewButton'
+              variant='unstyled'
+              to={`/admin/projects/${item.id}`}
+              onClick={() => {
+                handleViewProject(item.id)
+              }}
+            >
+              <Icon icon='Eye' />
+            </LinkButton>
+            <Button testId='DeleteButton' variant='unstyled' onClick={() => toggleDialog(item.id)}>
+              <Icon icon='Trash' />
+            </Button>
+          </div>
+        )
+    }
+  }
+
   return (
     <div className='flex flex-col gap-8'>
-      <table className='w-full'>
-        <thead className='text-left'>
-          <tr>
-            <th className='pb-3 w-1/3'>Name</th>
-            <th className='pb-3 w-1/3'>Client</th>
-            <th className='pb-3 w-1/6'>Status</th>
-            <th className='pb-3'>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {projects.map((project) => (
-            <tr key={project.id} className='hover:bg-slate-100'>
-              <td className='py-1'>{project.name}</td>
-              <td className='py-1'>{project.client?.name}</td>
-              <td className='py-1 w-1/6'>
-                <div className='flex gap-4'>
-                  <Badge variant={getProjectStatusVariant(project.status)} size='small'>
-                    {project.status?.toUpperCase()}
-                  </Badge>
-                </div>
-              </td>
-              <td className='py-1 flex gap-2'>
-                <LinkButton
-                  testId='ViewButton'
-                  variant='unstyled'
-                  to={`/admin/projects/${project.id}`}
-                  onClick={() => {
-                    handleViewProject(project.id)
-                  }}
-                >
-                  <Icon icon='Eye' />
-                </LinkButton>
-                <Button
-                  testId='DeleteButton'
-                  variant='unstyled'
-                  onClick={() => toggleDialog(project.id)}
-                >
-                  <Icon icon='Trash' />
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Table data={projects} columns={projectsColumns} renderCell={renderCell} />
       <Dialog open={showDialog}>
         <Dialog.Title>Delete Project</Dialog.Title>
         <Dialog.Description>

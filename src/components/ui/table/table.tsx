@@ -25,6 +25,7 @@ export function Table<T extends { id: number }>({
     }
   }
 
+  const columnIncludes = ["Score", "Z-Score", "Banding", "Role", "Actions", "Default"]
   const columnWidth = 100 / columns.length
 
   const containerClassName = `relative sm:rounded-lg ${overflowXAuto ? "overflow-x-auto" : ""} ${
@@ -41,11 +42,7 @@ export function Table<T extends { id: number }>({
                 key={index}
                 scope='col'
                 className={`pr-3 py-2 whitespace-nowrap text-base ${
-                  ["Score", "Z-Score", "Banding", "Role", "Actions", "Status", "Default"].includes(
-                    column
-                  )
-                    ? "w-1/20"
-                    : `w-${columnWidth}`
+                  columnIncludes.includes(column) ? "w-1/20" : `w-${columnWidth}`
                 }`}
               >
                 {column}
