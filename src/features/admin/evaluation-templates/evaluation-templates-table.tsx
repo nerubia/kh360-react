@@ -13,6 +13,11 @@ import Dialog from "@components/ui/dialog/dialog"
 import { setAlert, setPreviousUrl } from "@redux/slices/app-slice"
 import { useFullPath } from "@hooks/use-full-path"
 import { Badge } from "@components/ui/badge/badge"
+import {
+  evaluationTemplateColumns,
+  type EvaluationTemplate,
+} from "@custom-types/evaluation-template-type"
+import { Table } from "@components/ui/table/table"
 
 export const EvaluationTemplatesTable = () => {
   const [searchParams] = useSearchParams()
@@ -90,69 +95,60 @@ export const EvaluationTemplatesTable = () => {
     }
   }
 
+  const renderCell = (item: EvaluationTemplate, column: unknown) => {
+    switch (column) {
+      case "Name":
+        return `${item.name}`
+      case "Display Name":
+        return `${item.display_name}`
+      case "Template Type":
+        return `${item.template_type}`
+      case "With Recommendation":
+        return (
+          <div className='flex justify-center'>
+            <Badge variant={`${checkedItems[item.id] ? "green" : "red"}`} size='small'>
+              {checkedItems[item.id] ? "YES" : "NO"}
+            </Badge>
+          </div>
+        )
+      case "Evaluator Role":
+        return <div className='flex justify-center'>{item.evaluatorRole?.short_name}</div>
+      case "Evaluee Role":
+        return <div className='flex justify-center'>{item.evalueeRole?.short_name}</div>
+      case "Rate":
+        return <div className='flex justify-center'>{Number(item.rate).toFixed(2)}%</div>
+      case "Actions":
+        return (
+          <div className='flex gap-2'>
+            <LinkButton
+              testId='EditButton'
+              variant='unstyled'
+              to={`/admin/evaluation-templates/${item.id}/edit?callback=${location.pathname}`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Icon icon='PenSquare' />
+            </LinkButton>
+            <Button
+              testId='DeleteButton'
+              variant='unstyled'
+              onClick={(e) => toggleDialog(item.id, e)}
+            >
+              <Icon icon='Trash' />
+            </Button>
+          </div>
+        )
+    }
+  }
+
   return (
     <div className='flex flex-col gap-8 overflow-x-auto'>
-      <table className='w-full'>
-        <thead className='text-left'>
-          <tr>
-            <th className='pb-3 pr-2'>Name</th>
-            <th className='pb-3 px-2'>Display Name</th>
-            <th className='pb-3 px-2'>Template Type</th>
-            <th className='pb-3 px-2 text-center'>With Recommendation</th>
-            <th className='pb-3 px-2 text-center'>Evaluator Role</th>
-            <th className='pb-3 px-2 text-center'>Evaluee Role</th>
-            <th className='pb-3 px-2'>Rate</th>
-            <th className='pb-3 px-2'>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {evaluation_templates.map((evaluationTemplate) => (
-            <tr
-              key={evaluationTemplate.id}
-              className=' hover:bg-slate-100 cursor-pointer'
-              onClick={() => handleViewEvaluationTemplate(evaluationTemplate.id)}
-            >
-              <td className='py-1 pr-2'>{evaluationTemplate.name}</td>
-              <td className='py-1 px-2'>{evaluationTemplate.display_name}</td>
-              <td className='py-1 px-2'>{evaluationTemplate.template_type}</td>
-              <td className='py-1 px-2 text-center'>
-                <div className='flex items-center justify-center gap-4'>
-                  <Badge
-                    variant={`${checkedItems[evaluationTemplate.id] ? "green" : "red"}`}
-                    size='small'
-                  >
-                    {checkedItems[evaluationTemplate.id] ? "YES" : "NO"}
-                  </Badge>
-                </div>
-              </td>
-              <td className='py-1 px-2 text-center'>
-                {evaluationTemplate.evaluatorRole?.short_name}
-              </td>
-              <td className='py-1 px-2 text-center'>
-                {evaluationTemplate.evalueeRole?.short_name}
-              </td>
-              <td className='py-1 px-2'>{Number(evaluationTemplate.rate).toFixed(2)}%</td>
-              <td className='py-1 px-2 flex gap-2'>
-                <LinkButton
-                  testId='EditButton'
-                  variant='unstyled'
-                  to={`/admin/evaluation-templates/${evaluationTemplate.id}/edit?callback=${location.pathname}`}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <Icon icon='PenSquare' />
-                </LinkButton>
-                <Button
-                  testId='DeleteButton'
-                  variant='unstyled'
-                  onClick={(e) => toggleDialog(evaluationTemplate.id, e)}
-                >
-                  <Icon icon='Trash' />
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Table
+        data={evaluation_templates}
+        renderCell={renderCell}
+        isRowClickable={true}
+        onClickRow={handleViewEvaluationTemplate}
+        columns={evaluationTemplateColumns}
+      />
       <Dialog open={showDialog}>
         <Dialog.Title>Delete Evaluation Template</Dialog.Title>
         <Dialog.Description>

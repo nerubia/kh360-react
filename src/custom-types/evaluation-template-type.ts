@@ -44,3 +44,13 @@ export enum TemplateType {
   UnitEvaluation = "Unit Evaluation",
   HREvaluation = "HR Evaluation",
 }
+export const evaluationTemplateColumns = [
+  "Name",
+  "Display Name",
+  "Template Type",
+  "With Recommendation",
+  "Evaluator Role",
+  "Evaluee Role",
+  "Rate",
+  "Actions",
+]

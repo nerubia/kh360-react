@@ -25,7 +25,8 @@ export function Table<T extends { id: number }>({
     }
   }
 
-  const columnIncludes = ["Score", "Z-Score", "Banding", "Role", "Actions", "Default"]
+  const smallColumns = ["Score", "Z-Score", "Banding", "Role", "Actions", "Default"]
+  const wrapColumns = ["With Recommendation", "Evaluator Role", "Evaluee Role"]
   const columnWidth = 100 / columns.length
 
   const containerClassName = `relative sm:rounded-lg ${overflowXAuto ? "overflow-x-auto" : ""} ${
@@ -41,8 +42,12 @@ export function Table<T extends { id: number }>({
               <th
                 key={index}
                 scope='col'
-                className={`pr-3 py-2 whitespace-nowrap text-base ${
-                  columnIncludes.includes(column) ? "w-1/20" : `w-${columnWidth}`
+                className={`pr-3 py-2 ${
+                  smallColumns.includes(column)
+                    ? "whitespace-nowrap"
+                    : wrapColumns.includes(column)
+                    ? "whitespace-normal text-center"
+                    : `whitespace-nowrap w-${columnWidth}`
                 }`}
               >
                 {column}
@@ -60,8 +65,11 @@ export function Table<T extends { id: number }>({
               onClick={isRowClickable ? () => handleRowClick(item) : undefined}
             >
               {columns.map((column) => (
-                <td key={column} className={`pr-3 py-2`}>
-                  {renderCell(item, column)}
+                <td
+                  key={column}
+                  className={`pr-3 py-2 ${wrapColumns.includes(column) ? "whitespace-normal" : ""}`}
+                >
+                  {renderCell(item, column) !== undefined ? renderCell(item, column) : "-"}
                 </td>
               ))}
             </tr>

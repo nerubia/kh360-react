@@ -224,13 +224,16 @@ test.describe("Admin - Evaluation Templates", () => {
 
       await expect(page.getByRole("button", { name: "Add Evaluation Template" })).toBeVisible()
 
-      await expect(page.getByRole("cell", { name: "Name", exact: true })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Display Name" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Template Type" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "With Recommendation" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Evaluator Role" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Evaluee Role" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Rate" })).toBeVisible()
+      await expect(page.locator("tr > th")).toHaveText([
+        "Name",
+        "Display Name",
+        "Template Type",
+        "With Recommendation",
+        "Evaluator Role",
+        "Evaluee Role",
+        "Rate",
+        "Actions",
+      ])
 
       await expect(page.getByRole("cell", { name: "PM Evaluation by BOD" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "BOD Evaluation" })).toBeVisible()
