@@ -77,8 +77,8 @@ export const EmailTemplatesFilter = () => {
   }
 
   return (
-    <div className='flex flex-col md:flex-row justify-between gap-4'>
-      <div className='flex-1 flex flex-col md:flex-row gap-4'>
+    <div className='flex flex-col md:flex-row justify-between gap-4 flex-wrap'>
+      <div className='flex-1 flex flex-col md:flex-row gap-4 flex-wrap'>
         <div className='flex-1'>
           <Input
             label='Name'
@@ -99,20 +99,23 @@ export const EmailTemplatesFilter = () => {
             fullWidth
           />
         </div>
-        <CustomSelect
-          data-test-id='DefaultFilter'
-          label='Default'
-          name='is_default'
-          value={defaultOptions.find((option) => option.value === is_default)}
-          onChange={(option) => setDefault(option !== null ? option.value : "")}
-          options={defaultOptions}
-        />
-      </div>
-      <div className='flex items-end gap-4'>
-        <Button onClick={handleSearch}>Search</Button>
-        <Button variant='primaryOutline' onClick={handleClear}>
-          Clear
-        </Button>
+        <div className='w-full lg:flex-1'>
+          <CustomSelect
+            data-test-id='DefaultFilter'
+            label='Default'
+            name='is_default'
+            value={defaultOptions.find((option) => option.value === is_default)}
+            onChange={(option) => setDefault(option !== null ? option.value : "")}
+            options={defaultOptions}
+            fullWidth
+          />
+        </div>
+        <div className='flex items-end gap-4'>
+          <Button onClick={handleSearch}>Search</Button>
+          <Button variant='primaryOutline' onClick={handleClear}>
+            Clear
+          </Button>
+        </div>
       </div>
     </div>
   )
