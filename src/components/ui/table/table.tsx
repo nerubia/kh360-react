@@ -44,7 +44,7 @@ export function Table<T extends { id: number }>({
                 scope='col'
                 className={`pr-3 py-2 ${
                   smallColumns.includes(column as string)
-                    ? "whitespace-nowrap"
+                    ? "whitespace-nowrap w-1/20"
                     : wrapColumns.includes(column as string)
                     ? "whitespace-normal text-center"
                     : `whitespace-nowrap w-${columnWidth}`
@@ -71,9 +71,7 @@ export function Table<T extends { id: number }>({
                     wrapColumns.includes(column as string) ? "whitespace-normal" : ""
                   }`}
                 >
-                  {renderCell(item, column, index) !== undefined
-                    ? renderCell(item, column, index)
-                    : "-"}
+                  {renderCell(item, column, index) ?? "-"}
                 </td>
               ))}
             </tr>
