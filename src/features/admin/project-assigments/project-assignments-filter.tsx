@@ -83,8 +83,8 @@ export const ProjectAssignmentsFilter = () => {
   }
 
   return (
-    <div className='flex flex-col md:flex-row justify-between gap-4'>
-      <div className='flex-1 flex flex-col md:flex-row gap-4'>
+    <div className='flex flex-col md:flex-row justify-between gap-4 flex-wrap px-1'>
+      <div className='flex-1 flex flex-col md:flex-row gap-4 flex-wrap'>
         <div className='flex-1'>
           <Input
             label='Name'
@@ -94,21 +94,26 @@ export const ProjectAssignmentsFilter = () => {
             value={name}
           />
         </div>
-        <Input
-          label='Project'
-          name='project'
-          placeholder='Search by project'
-          onChange={(e) => setProjectName(e.target.value)}
-          value={project_name}
-        />
-        <CustomSelect
-          label='Role'
-          name='role'
-          value={activeProjectRoles.find((option) => option.value === role)}
-          onChange={(option) => setRole(option !== null ? option.value : "all")}
-          options={activeProjectRoles}
-        />
-        <div className='flex flex-col sm:flex-row md:items-end justify-start gap-2'>
+        <div className='flex-1'>
+          <Input
+            label='Project'
+            name='project'
+            placeholder='Search by project'
+            onChange={(e) => setProjectName(e.target.value)}
+            value={project_name}
+          />
+        </div>
+        <div className='w-full lg:w-1/4'>
+          <CustomSelect
+            label='Role'
+            name='role'
+            value={activeProjectRoles.find((option) => option.value === role)}
+            onChange={(option) => setRole(option !== null ? option.value : "all")}
+            options={activeProjectRoles}
+            fullWidth
+          />
+        </div>
+        <div className='flex flex-col sm:flex-row md:items-end justify-start gap-2 w-full flex-wrap lg:flex-nowrap'>
           <div className='w-full'>
             <Input
               label='Duration'
@@ -131,12 +136,12 @@ export const ProjectAssignmentsFilter = () => {
             />
           </div>
         </div>
-      </div>
-      <div className='flex items-end gap-4'>
-        <Button onClick={handleSearch}>Search</Button>
-        <Button variant='primaryOutline' onClick={handleClear}>
-          Clear
-        </Button>
+        <div className='flex items-end gap-4'>
+          <Button onClick={handleSearch}>Search</Button>
+          <Button variant='primaryOutline' onClick={handleClear}>
+            Clear
+          </Button>
+        </div>
       </div>
     </div>
   )

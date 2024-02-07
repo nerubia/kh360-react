@@ -132,73 +132,69 @@ export const EvaluationResultsListFilter = () => {
 
   return (
     <div className='flex flex-col gap-2 md:gap-4'>
-      <div className='flex flex-col md:flex-row gap-2 md:gap-4'>
-        <div className='flex-1 flex flex-col md:flex-row gap-4'>
+      <div className='flex-1 flex flex-col md:flex-row gap-4 flex-wrap'>
+        <div className='flex-1 mb-2 md:mb-0 md:mr-4 max-w-full md:max-w-1/2'>
+          <Input
+            label='Name'
+            name='search'
+            placeholder='Search by name'
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+        <div className='flex-1 mb-2 md:mb-0 md:mr-4 max-w-full md:max-w-1/2'>
           <div className='flex-1'>
-            <Input
-              label='Name'
-              name='search'
-              placeholder='Search by name'
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+            <CustomSelect
+              data-test-id='EvaluationAdministration'
+              label='Evaluation Administration'
+              name='evaluation_administration'
+              value={evaluationAdministrationFilters.find(
+                (option) => option.value === evaluationAdministrationId
+              )}
+              onChange={(option) =>
+                setEvaluationAdministrationId(option !== null ? option.value : "all")
+              }
+              options={evaluationAdministrationFilters}
+              isLoading={isLoading}
+              fullWidth
             />
-          </div>
-          <div className='flex-1'>
-            <div className='flex-1'>
-              <CustomSelect
-                data-test-id='EvaluationAdministration'
-                label='Evaluation Administration'
-                name='evaluation_administration'
-                value={evaluationAdministrationFilters.find(
-                  (option) => option.value === evaluationAdministrationId
-                )}
-                onChange={(option) =>
-                  setEvaluationAdministrationId(option !== null ? option.value : "all")
-                }
-                options={evaluationAdministrationFilters}
-                isLoading={isLoading}
-                fullWidth
-              />
-            </div>
           </div>
         </div>
-        <div className='flex-1 flex flex-col md:flex-row gap-4'>
-          <div className='flex-1'>
-            <CustomSelect
-              data-test-id='ScoreRating'
-              label='Score Rating'
-              name='score_rating'
-              value={scoreRatingFilters.find((option) => option.value === scoreRatingId)}
-              onChange={(option) => setScoreRatingId(option !== null ? option.value : "all")}
-              options={scoreRatingFilters}
-              fullWidth
-            />
-          </div>
-          <div className='flex-1'>
-            <CustomSelect
-              data-test-id='Banding'
-              label='Banding'
-              name='banding'
-              value={bandingFilters.find((option) => option.value === banding)}
-              onChange={(option) => setBanding(option !== null ? option.value : "all")}
-              options={bandingFilters}
-              fullWidth
-            />
-          </div>
-          <div className='flex-1'>
-            <CustomSelect
-              data-test-id='SortBy'
-              label='Sort by'
-              name='sort_by'
-              value={sortByFilters.find((option) => option.value === sortBy)}
-              onChange={(option) => {
-                setSortBy(option !== null ? option.value : "evaluee")
-                void handleSearch(option?.value)
-              }}
-              options={sortByFilters}
-              fullWidth
-            />
-          </div>
+        <div className='flex-1 mb-2 md:mb-0 md:mr-4 max-w-full md:max-w-1/2'>
+          <CustomSelect
+            data-test-id='ScoreRating'
+            label='Score Rating'
+            name='score_rating'
+            value={scoreRatingFilters.find((option) => option.value === scoreRatingId)}
+            onChange={(option) => setScoreRatingId(option !== null ? option.value : "all")}
+            options={scoreRatingFilters}
+            fullWidth
+          />
+        </div>
+        <div className='flex-1 mb-2 md:mb-0 md:mr-4 max-w-full md:max-w-1/2'>
+          <CustomSelect
+            data-test-id='Banding'
+            label='Banding'
+            name='banding'
+            value={bandingFilters.find((option) => option.value === banding)}
+            onChange={(option) => setBanding(option !== null ? option.value : "all")}
+            options={bandingFilters}
+            fullWidth
+          />
+        </div>
+        <div className='flex-1 max-w-full md:max-w-1/2'>
+          <CustomSelect
+            data-test-id='SortBy'
+            label='Sort by'
+            name='sort_by'
+            value={sortByFilters.find((option) => option.value === sortBy)}
+            onChange={(option) => {
+              setSortBy(option !== null ? option.value : "evaluee")
+              void handleSearch(option?.value)
+            }}
+            options={sortByFilters}
+            fullWidth
+          />
         </div>
       </div>
 

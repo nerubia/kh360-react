@@ -114,7 +114,7 @@ export const EvaluationTemplatesFilter = () => {
   }
 
   return (
-    <div className='flex flex-col xl:flex-row justify-between gap-4'>
+    <div className='flex flex-col xl:flex-row justify-between gap-4 flex-wrap'>
       <div className='flex-1 flex flex-col xl:flex-row gap-4'>
         <div className='flex-1'>
           <Input
@@ -164,7 +164,7 @@ export const EvaluationTemplatesFilter = () => {
           fullWidth
         />
       </div>
-      <div className='flex items-end gap-4'>
+      <div className='flex justify-end gap-4 w-full'>
         <Button onClick={handleSearch}>Search</Button>
         <Button variant='primaryOutline' onClick={handleClear}>
           Clear

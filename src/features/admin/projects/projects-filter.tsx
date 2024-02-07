@@ -72,9 +72,9 @@ export const ProjectsFilter = () => {
   }
 
   return (
-    <div className='flex flex-col md:flex-row justify-between gap-4'>
-      <div className='flex-1 flex flex-col md:flex-row gap-4'>
-        <div className='flex-1'>
+    <div className='flex flex-col justify-between gap-4 flex-wrap'>
+      <div className='flex-1 flex flex-col md:flex-row gap-4 flex-wrap'>
+        <div className='flex-1 w-full lg:w-1/4'>
           <Input
             label='Name'
             name='name'
@@ -83,7 +83,7 @@ export const ProjectsFilter = () => {
             onChange={(e) => setName(e.target.value)}
           />
         </div>
-        <div className='flex-1'>
+        <div className='flex-1 w-full lg:w-1/4'>
           <Input
             label='Client'
             name='client'
@@ -92,7 +92,7 @@ export const ProjectsFilter = () => {
             onChange={(e) => setClient(e.target.value)}
           />
         </div>
-        <div className='flex-1'>
+        <div className='flex-1 w-full lg:w-1/4'>
           <Input
             label='Skills'
             name='skills'
@@ -101,7 +101,7 @@ export const ProjectsFilter = () => {
             onChange={(e) => setSkills(e.target.value)}
           />
         </div>
-        <div className='flex-1'>
+        <div className='flex-1 lg:w-1/4'>
           <CustomSelect
             data-test-id='Status'
             label='Status'
@@ -113,7 +113,7 @@ export const ProjectsFilter = () => {
           />
         </div>
       </div>
-      <div className='flex items-end gap-4'>
+      <div className='flex justify-start lg:justify-end gap-4'>
         <Button onClick={handleSearch}>Search</Button>
         <Button variant='primaryOutline' onClick={handleClear}>
           Clear
