@@ -38,8 +38,8 @@ export const ExternalEvaluatorsFilter = () => {
   }
 
   return (
-    <div className='flex flex-col md:flex-row justify-between gap-4'>
-      <div className='flex-1 flex flex-col md:flex-row gap-4'>
+    <div className='flex flex-col md:flex-row justify-between gap-4 flex-wrap'>
+      <div className='flex-1 flex flex-col md:flex-row gap-4 flex-wrap'>
         <div className='flex-1'>
           <Input
             label='Name'
@@ -49,26 +49,30 @@ export const ExternalEvaluatorsFilter = () => {
             onChange={(e) => setName(e.target.value)}
           />
         </div>
-        <Input
-          label='Company'
-          name='searchCompany'
-          placeholder='Search by company'
-          value={company}
-          onChange={(e) => setCompany(e.target.value)}
-        />
-        <Input
-          label='Role'
-          name='searchRole'
-          placeholder='Search by role'
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-        />
-      </div>
-      <div className='flex items-end gap-4'>
-        <Button onClick={handleSearch}>Search</Button>
-        <Button variant='primaryOutline' onClick={handleClear}>
-          Clear
-        </Button>
+        <div className='w-full lg:w-1/4'>
+          <Input
+            label='Company'
+            name='searchCompany'
+            placeholder='Search by company'
+            value={company}
+            onChange={(e) => setCompany(e.target.value)}
+          />
+        </div>
+        <div className='w-full lg:w-1/4'>
+          <Input
+            label='Role'
+            name='searchRole'
+            placeholder='Search by role'
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+          />
+        </div>
+        <div className='flex items-end gap-4'>
+          <Button onClick={handleSearch}>Search</Button>
+          <Button variant='primaryOutline' onClick={handleClear}>
+            Clear
+          </Button>
+        </div>
       </div>
     </div>
   )
