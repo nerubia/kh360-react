@@ -25,7 +25,7 @@ export function Table<T extends { id: number }>({
     }
   }
 
-  const smallColumns = ["Score", "Z-Score", "Banding", "Role", "Actions", "Default"]
+  const smallColumns = ["Score", "Z-Score", "Banding", "Actions", "Default"]
   const wrapColumns = ["With Recommendation", "Evaluator Role", "Evaluee Role"]
   const columnWidth = 100 / columns.length
 
