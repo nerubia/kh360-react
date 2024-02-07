@@ -147,11 +147,18 @@ test.describe("Admin - Create Evaluation", () => {
       await page.getByRole("button", { name: "Save & Proceed" }).click()
 
       await expect(page.getByText("Name is required")).toBeVisible()
-      await expect(page.getByText("Start period must be before end period")).toBeVisible()
-      await expect(page.getByText("End period must not be later than start schedule")).toBeVisible()
-      await expect(page.getByText("End period must not be later than start schedule")).toBeVisible()
-      await expect(page.getByText("Start schedule must be before end schedule")).toBeVisible()
-      await expect(page.getByText("End schedule is required")).toBeVisible()
+      await expect(
+        page.getByText("Must select a date that is within the valid range.").first()
+      ).toBeVisible()
+      await expect(
+        page.getByText("Must select a date that is within the valid range.").nth(1)
+      ).toBeVisible()
+      await expect(
+        page.getByText("Must select a date that is within the valid range.").nth(2)
+      ).toBeVisible()
+      await expect(
+        page.getByText("Must select a date that is within the valid range.").nth(3)
+      ).toBeVisible()
       await expect(page.getByText("Description is required")).toBeVisible()
     })
 
