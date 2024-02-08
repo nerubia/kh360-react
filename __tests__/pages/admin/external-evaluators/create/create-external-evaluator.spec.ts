@@ -347,7 +347,7 @@ test.describe("Admin - Create External Evaluator", () => {
         page.getByText("Are you sure you want to cancel? If you cancel, your data won't be save")
       ).toBeVisible()
       await expect(page.getByRole("button", { name: "No" })).toBeVisible()
-      await expect(page.getByRole("link", { name: "Yes" })).toBeVisible()
+      await expect(page.getByRole("button", { name: "Yes" })).toBeVisible()
     })
 
     test("should allow to cancel & exit", async ({ page, isMobile }) => {
@@ -434,7 +434,7 @@ test.describe("Admin - Create External Evaluator", () => {
       })
 
       await page.getByRole("button", { name: "Cancel" }).click()
-      await page.getByRole("link", { name: "Yes" }).click()
+      await page.getByRole("button", { name: "Yes" }).click()
 
       await page.waitForLoadState("networkidle")
 
