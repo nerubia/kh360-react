@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, lazy, Suspense } from "react"
 import { Input } from "@components/ui/input/input"
 import { type ExternalUserFormData } from "@custom-types/form-data-type"
-import { Button, LinkButton } from "@components/ui/button/button"
-import Dialog from "@components/ui/dialog/dialog"
+import { Button } from "@components/ui/button/button"
 import { ValidationError } from "yup"
 import { createExternalUserSchema } from "@utils/validation/external-evaluator-schema"
 import { useNavigate, useSearchParams } from "react-router-dom"
@@ -45,6 +44,10 @@ export const ExternalEvaluatorForm = () => {
   const [validationErrors, setValidationErrors] = useState<Partial<ExternalUserFormData>>({})
   const [showDialog, setShowDialog] = useState<boolean>(false)
   const [activeTemplates, setActiveTemplates] = useState<Option[]>([])
+
+  const ExternalEvaluatorsDialog = lazy(
+    async () => await import("@features/admin/external-evaluators/external-evaluators-dialog")
+  )
 
   useEffect(() => {
     void appDispatch(getActiveTemplates())
@@ -190,6 +193,10 @@ export const ExternalEvaluatorForm = () => {
     }
   }
 
+  const handleCancel = () => {
+    navigate(callback ?? "/admin/external-evaluators")
+  }
+
   return (
     <div className='flex flex-col gap-10'>
       <div className='flex flex-col md:w-1/2 gap-4'>
@@ -274,21 +281,20 @@ export const ExternalEvaluatorForm = () => {
           Save
         </Button>
       </div>
-      <Dialog open={showDialog}>
-        <Dialog.Title>Cancel</Dialog.Title>
-        <Dialog.Description>
-          Are you sure you want to cancel? <br />
-          If you cancel, your data won&apos;t be saved.
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={toggleDialog}>
-            No
-          </Button>
-          <LinkButton variant='primary' to={callback ?? "/admin/external-evaluators"}>
-            Yes
-          </LinkButton>
-        </Dialog.Actions>
-      </Dialog>
+      <Suspense fallback={<div>Loading...</div>}>
+        <ExternalEvaluatorsDialog
+          open={showDialog}
+          title='Cancel'
+          description={
+            <>
+              Are you sure you want to cancel? <br />
+              If you cancel, your data won&apos;t be saved.
+            </>
+          }
+          onClose={toggleDialog}
+          onSubmit={handleCancel}
+        />
+      </Suspense>
     </div>
   )
 }
