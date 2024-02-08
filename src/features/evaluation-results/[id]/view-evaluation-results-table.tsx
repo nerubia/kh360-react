@@ -1,9 +1,7 @@
-import React, { useState } from "react"
+import React, { useState, lazy, Suspense } from "react"
 import { useParams } from "react-router-dom"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { Loading } from "@custom-types/loadingType"
-import Dialog from "@components/ui/dialog/dialog"
-import { Button } from "@components/ui/button/button"
 import { type EvaluationResultDetail } from "@custom-types/evaluation-result-detail-type"
 import { Progress } from "@components/ui/progress/progress"
 import { getScoreVariant } from "@utils/variant"
@@ -14,6 +12,10 @@ export const ViewEvaluationResultsTable = () => {
   const [showDetails, setShowDetails] = useState<boolean>(false)
   const [selectedEvaluationResultDetail, setSelectedEvaluationResultDetail] =
     useState<EvaluationResultDetail>()
+
+  const EvaluationResultDetailsDialog = lazy(
+    async () => await import("@features/evaluation-results/evaluation-results-dialog")
+  )
 
   const toggleDetails = () => {
     setShowDetails((prev) => !prev)
@@ -93,45 +95,46 @@ export const ViewEvaluationResultsTable = () => {
             </>
           )}
       </div>
-      <Dialog open={showDetails} size={"medium"} maxWidthMin={true}>
-        <Dialog.Title>
-          <div className='py-1 text-primary-500'>
-            {selectedEvaluationResultDetail?.template_name} Score:{" "}
-            {selectedEvaluationResultDetail?.total_score}%
-          </div>
-        </Dialog.Title>
-        <Dialog.Description>
-          <div className='overflow-auto'>
-            {selectedEvaluationResultDetail?.evaluation_template_contents?.map((content, index) => (
-              <div key={index} className='hover:bg-slate-100 p-2'>
-                <div className='flex justify-between mb-2 flex-col md:flex-row overflow-x-hidden'>
-                  <div className='text-primary-500 font-bold w-2/3'>{content.name}</div>
-                  <div className='w-600 relative'>
-                    <div className='relative z-0 w-9/20 md:w-full'>
-                      <Progress
-                        variant={getScoreVariant(content.average_rate ?? 0)}
-                        value={content.average_rate ?? 0}
-                        width='w-5'
-                      />
+      <Suspense fallback={<div>Loading...</div>}>
+        <EvaluationResultDetailsDialog
+          open={showDetails}
+          onSubmit={toggleDetails}
+          title={
+            <div className='py-1 text-primary-500'>
+              {selectedEvaluationResultDetail?.template_name} Score:{" "}
+              {selectedEvaluationResultDetail?.total_score}%
+            </div>
+          }
+          description={
+            <div className='overflow-auto'>
+              {selectedEvaluationResultDetail?.evaluation_template_contents?.map(
+                (content, index) => (
+                  <div key={index} className='hover:bg-slate-100 p-2'>
+                    <div className='flex justify-between mb-2 flex-col md:flex-row overflow-x-hidden'>
+                      <div className='text-primary-500 font-bold w-2/3'>{content.name}</div>
+                      <div className='w-600 relative'>
+                        <div className='relative z-0 w-9/20 md:w-full'>
+                          <Progress
+                            variant={getScoreVariant(content.average_rate ?? 0)}
+                            value={content.average_rate ?? 0}
+                            width='w-5'
+                          />
+                        </div>
+                        <div
+                          className={`absolute top-[10px] left-[30px] transform -translate-x-2/3 -translate-y-1/2 z-10 text-white text-xs`}
+                        >
+                          {content.average_rate}%
+                        </div>
+                      </div>
                     </div>
-                    <div
-                      className={`absolute top-[10px] left-[30px] transform -translate-x-2/3 -translate-y-1/2 z-10 text-white text-xs`}
-                    >
-                      {content.average_rate}%
-                    </div>
+                    <div className='mb-2 text-xs italic'> {content.description}</div>
                   </div>
-                </div>
-                <div className='mb-2 text-xs italic'> {content.description}</div>
-              </div>
-            ))}
-          </div>
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primary' onClick={toggleDetails}>
-            Close
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
+                )
+              )}
+            </div>
+          }
+        />
+      </Suspense>
     </>
   )
 }
