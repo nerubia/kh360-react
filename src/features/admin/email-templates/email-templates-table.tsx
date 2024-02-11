@@ -1,11 +1,10 @@
 import { useSearchParams } from "react-router-dom"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
-import { useEffect, useState } from "react"
+import { useEffect, useState, lazy, Suspense } from "react"
 import { deleteEmailTemplate, getEmailTemplates } from "@redux/slices/email-template-slice"
 import { Button, LinkButton } from "@components/ui/button/button"
 import { Icon } from "@components/ui/icon/icon"
-import Dialog from "@components/ui/dialog/dialog"
 import { Pagination } from "@components/shared/pagination/pagination"
 import { setAlert } from "@redux/slices/app-slice"
 import Tooltip from "@components/ui/tooltip/tooltip"
@@ -22,6 +21,10 @@ export const EmailTemplatesTable = () => {
   const appDispatch = useAppDispatch()
   const { emailTemplates, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
     (state) => state.emailTemplate
+  )
+
+  const EmailTemplatesDialog = lazy(
+    async () => await import("@features/admin/email-templates/email-templates-dialog")
   )
 
   useEffect(() => {
@@ -106,26 +109,22 @@ export const EmailTemplatesTable = () => {
   return (
     <div className='flex flex-col gap-8 overflow-x-auto overflow-y-hidden md:overflow-x-hidden'>
       <Table columns={messageTemplateColumns} data={emailTemplates} renderCell={renderCell} />
-      <Dialog open={showDialog}>
-        <Dialog.Title>Delete Message Template</Dialog.Title>
-        <Dialog.Description>
-          Are you sure you want to delete this template? <br />
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={() => toggleDialog(null)}>
-            No
-          </Button>
-          <Button
-            variant='primary'
-            onClick={async () => {
-              await handleDelete()
-              toggleDialog(null)
-            }}
-          >
-            Yes
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
+      <Suspense fallback={<div>Loading...</div>}>
+        <EmailTemplatesDialog
+          open={showDialog}
+          title='Delete Message Template'
+          description={
+            <>
+              Are you sure you want to delete this template? <br />
+            </>
+          }
+          onClose={() => toggleDialog(null)}
+          onSubmit={async () => {
+            await handleDelete()
+            toggleDialog(null)
+          }}
+        />
+      </Suspense>
       {totalPages !== 1 && (
         <div className='flex justify-center'>
           <Pagination

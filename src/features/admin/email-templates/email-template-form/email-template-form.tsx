@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, lazy, Suspense } from "react"
 import { useNavigate, useParams, useSearchParams } from "react-router-dom"
 import { ValidationError } from "yup"
 import { type SingleValue } from "react-select"
 
 import { Input } from "@components/ui/input/input"
 import { TextArea } from "@components/ui/textarea/text-area"
-import { Button, LinkButton } from "@components/ui/button/button"
-import Dialog from "@components/ui/dialog/dialog"
+import { Button } from "@components/ui/button/button"
 import { Checkbox } from "@components/ui/checkbox/checkbox"
 import { CreateSelect } from "@components/ui/select/create-select"
 import { useAppDispatch } from "@hooks/useAppDispatch"
@@ -50,6 +49,10 @@ export const EmailTemplateForm = () => {
   const [showDefaultDialog, setShowDefaultDialog] = useState<boolean>(false)
   const [isDefault, setIsDefault] = useState<boolean>(false)
   const [templates, setTemplates] = useState<EmailTemplate[]>([])
+
+  const EmailTemplatesDialog = lazy(
+    async () => await import("@features/admin/email-templates/email-templates-dialog")
+  )
 
   useEffect(() => {
     void appDispatch(getTemplateTypes())
@@ -209,25 +212,26 @@ export const EmailTemplateForm = () => {
     }
   }
 
+  const handleCancel = () => {
+    navigate(callback ?? "/admin/message-templates")
+  }
+
   const DefaultModal = (props: DefaultDialogProps) => {
     const { open } = props
     const defaultTemplate = templates[0] ?? { name: "" }
     return (
-      <Dialog open={open}>
-        <Dialog.Title>Cancel</Dialog.Title>
-        <Dialog.Description>
-          {defaultTemplate.name} is currently set as the default template for this type. <br />
-          Would you like to use this template instead?
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={async () => await handleClickCheckbox(false)}>
-            No
-          </Button>
-          <Button variant='primary' onClick={() => setShowDefaultDialog(false)}>
-            Yes
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
+      <EmailTemplatesDialog
+        open={open}
+        title='Cancel'
+        description={
+          <>
+            {defaultTemplate.name} is currently set as the default template for this type. <br />
+            Would you like to use this template instead?
+          </>
+        }
+        onClose={async () => await handleClickCheckbox(false)}
+        onSubmit={() => setShowDefaultDialog(false)}
+      />
     )
   }
 
@@ -300,22 +304,23 @@ export const EmailTemplateForm = () => {
           <Button onClick={emailTemplate === null ? handleSubmit : handleUpdate}>Save</Button>
         </div>
       </div>
-      <Dialog open={showDialog}>
-        <Dialog.Title>Cancel</Dialog.Title>
-        <Dialog.Description>
-          Are you sure you want to cancel? <br />
-          If you cancel, your data won&apos;t be saved.
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={toggleDialog}>
-            No
-          </Button>
-          <LinkButton variant='primary' to={callback ?? "/admin/message-templates"}>
-            Yes
-          </LinkButton>
-        </Dialog.Actions>
-      </Dialog>
-      <DefaultModal open={showDefaultDialog} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <EmailTemplatesDialog
+          open={showDialog}
+          title='Cancel'
+          description={
+            <>
+              Are you sure you want to cancel? <br />
+              If you cancel, your data won&apos;t be saved.
+            </>
+          }
+          onClose={toggleDialog}
+          onSubmit={handleCancel}
+        />
+      </Suspense>
+      <Suspense fallback={<div>Loading...</div>}>
+        <DefaultModal open={showDefaultDialog} />
+      </Suspense>
     </div>
   )
 }
