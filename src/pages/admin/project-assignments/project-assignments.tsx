@@ -5,7 +5,7 @@ import { ProjectAssignmentsAction } from "@features/admin/project-assigments/pro
 import { ProjectAssignmentsList } from "@features/admin/project-assigments/project-assignments-list"
 
 export default function ProjectAssignments() {
-  useTitle("External Evaluators")
+  useTitle("Project Assignments")
 
   return (
     <div className='h-[calc(100vh_-_104px)] flex flex-col gap-8 overflow-x-hidden '>
