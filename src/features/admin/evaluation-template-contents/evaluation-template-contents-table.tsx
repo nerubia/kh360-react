@@ -8,9 +8,9 @@ import {
   setSelectedContentIndex,
 } from "@redux/slices/evaluation-template-contents-slice"
 import { CreateEvaluationTemplateContentForm } from "@features/admin/evaluation-template-contents/evaluation-template-content-form/evaluation-template-content-form"
-import { Checkbox } from "@components/ui/checkbox/checkbox"
 import { Icon } from "@components/ui/icon/icon"
 import Dialog from "@components/ui/dialog/dialog"
+import { Badge } from "@components/ui/badge/badge"
 
 export const EvaluationTemplateContentsTable = () => {
   const appDispatch = useAppDispatch()
@@ -93,8 +93,12 @@ export const EvaluationTemplateContentsTable = () => {
               <td className='py-1 border-b text-center items-center '>
                 {Number(content.rate).toFixed(2)}%
               </td>
-              <td className='py-1 border-b text-center items-center '>
-                <Checkbox checked={content.is_active} onChange={() => null} disabled={true} />
+              <td className='py-1 border-b text-center'>
+                <div className='flex justify-center '>
+                  <Badge variant={`${content.is_active === true ? "green" : "red"}`} size='small'>
+                    {content.is_active === true ? "YES" : "NO"}
+                  </Badge>
+                </div>
               </td>
               <td className='py-1 border-b text-center items-center md:w-1/2'>
                 <div className='flex gap-2 '>

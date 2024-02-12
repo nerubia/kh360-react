@@ -3,7 +3,6 @@ import { Input } from "@components/ui/input/input"
 import { CustomSelect } from "@components/ui/select/custom-select"
 import { Button } from "@components/ui/button/button"
 import { useEffect, useState } from "react"
-import { Checkbox } from "@components/ui/checkbox/checkbox"
 import { CreateSelect } from "@components/ui/select/create-select"
 import {
   createEvaluationTemplate,
@@ -24,6 +23,7 @@ import { getActiveAnswers } from "@redux/slices/answer-slice"
 import { EvaluationTemplateContentsTable } from "@features/admin/evaluation-template-contents/evaluation-template-contents-table"
 import { updateEvaluationTemplate } from "@redux/slices/evaluation-template-slice"
 import { CustomDialog } from "@components/ui/dialog/custom-dialog"
+import { ToggleSwitch } from "@components/ui/toggle-switch/toggle-switch"
 
 export const CreateEvaluationTemplateForm = () => {
   const navigate = useNavigate()
@@ -404,27 +404,23 @@ export const CreateEvaluationTemplateForm = () => {
             />
           </div>
           <div className='flex flex-1 items-end my-2.5'>
-            <div className='mr-2.5'>
-              <Checkbox
-                checked={formData.with_recommendation as boolean}
-                onChange={async (checked) => {
-                  const valueToSet = checked ? 1 : 0
-                  await onChangeWithRecommendation(valueToSet)
-                }}
-              />
-            </div>
+            <ToggleSwitch
+              checked={formData.with_recommendation as boolean}
+              onChange={async (checked) => {
+                const valueToSet = checked ? 1 : 0
+                await onChangeWithRecommendation(valueToSet)
+              }}
+            />
             <h2 className='font-medium'>With Recommendation</h2>
           </div>
           <div className='flex flex-1 items-end my-2.5'>
-            <div className='mr-2.5'>
-              <Checkbox
-                checked={formData.is_active as boolean}
-                onChange={async (checked) => {
-                  const valueToSet = checked ? 1 : 0
-                  await onChangeIsActive(valueToSet)
-                }}
-              />
-            </div>
+            <ToggleSwitch
+              checked={formData.is_active as boolean}
+              onChange={async (checked) => {
+                const valueToSet = checked ? 1 : 0
+                await onChangeIsActive(valueToSet)
+              }}
+            />
             <h2 className='font-medium'>Is Active</h2>
           </div>
         </div>
