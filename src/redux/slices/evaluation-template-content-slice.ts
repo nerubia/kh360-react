@@ -8,7 +8,7 @@ import { type EvaluationTemplateContentFormData } from "@custom-types/form-data-
 import { type EvaluationTemplateContent } from "@custom-types/evaluation-template-content-type"
 
 export const createEvaluationTemplateContent = createAsyncThunk(
-  "evaluationTemplate/createEvaluationTemplateContent",
+  "evaluationTemplateContent/createEvaluationTemplateContent",
   async (data: EvaluationTemplateContentFormData, thunkApi) => {
     try {
       const response = await axiosInstance.post("/admin/evaluation-template-contents", data)

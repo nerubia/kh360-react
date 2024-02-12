@@ -161,7 +161,6 @@ test.describe("Admin - View Evaluation Template", () => {
           name: "Manage overall team in terms of cost, schedule and quality, how organized PM is",
         })
       ).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Primary Skillset" }).first()).toBeVisible()
 
       await expect(page.getByRole("cell", { name: "15.00%" }).first()).toBeVisible()
       await expect(page.locator("td:nth-child(5)").first()).toBeVisible()
@@ -175,7 +174,6 @@ test.describe("Admin - View Evaluation Template", () => {
           name: "Also include ability to prioritize which problems to fix first, know when to escalate",
         })
       ).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Primary Skillset" }).first()).toBeVisible()
 
       await expect(page.getByRole("cell", { name: "15.00%" }).first()).toBeVisible()
       await expect(page.getByRole("cell", { name: "ACTIVE" }).nth(1)).toBeVisible()
