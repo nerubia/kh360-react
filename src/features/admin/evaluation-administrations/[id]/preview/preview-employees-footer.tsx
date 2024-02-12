@@ -1,12 +1,16 @@
-import { useState } from "react"
+import { Suspense, lazy, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { Button, LinkButton } from "@components/ui/button/button"
 import { Icon } from "@components/ui/icon/icon"
-import Dialog from "@components/ui/dialog/dialog"
 import { setAlert } from "@redux/slices/app-slice"
 import { createEvaluationResults } from "@redux/slices/evaluation-results-slice"
+
+const EvaluationAdminDialog = lazy(
+  async () =>
+    await import("@features/admin/evaluation-administrations/evaluation-administrations-dialog")
+)
 
 export const PreviewEmployeesFooter = () => {
   const { id } = useParams()
@@ -42,6 +46,9 @@ export const PreviewEmployeesFooter = () => {
     } catch (error) {}
   }
 
+  const handleRedirect = () => {
+    navigate(`/admin/evaluation-administrations`)
+  }
   return (
     <>
       <div className='flex justify-between'>
@@ -60,21 +67,20 @@ export const PreviewEmployeesFooter = () => {
           <Button onClick={handleSubmit}>Save & Proceed</Button>
         </div>
       </div>
-      <Dialog open={showDialog}>
-        <Dialog.Title>Cancel & Exit</Dialog.Title>
-        <Dialog.Description>
-          Are you sure you want to cancel and exit? <br />
-          If you cancel, your data won&apos;t be saved.
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={toggleDialog}>
-            No
-          </Button>
-          <LinkButton variant='primary' to='/admin/evaluation-administrations'>
-            Yes
-          </LinkButton>
-        </Dialog.Actions>
-      </Dialog>
+      <Suspense fallback={<div>Loading...</div>}>
+        <EvaluationAdminDialog
+          open={showDialog}
+          title='Cancel & Exit'
+          description={
+            <>
+              Are you sure you want to cancel and exit? <br />
+              If you cancel, your data won&apos;t be saved.
+            </>
+          }
+          onClose={toggleDialog}
+          onSubmit={handleRedirect}
+        />
+      </Suspense>
     </>
   )
 }

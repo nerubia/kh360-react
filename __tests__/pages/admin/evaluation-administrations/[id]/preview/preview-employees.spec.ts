@@ -213,7 +213,7 @@ test.describe("Admin - Preview Employees", () => {
         )
       ).toBeVisible()
       await expect(page.getByRole("button", { name: "No" })).toBeVisible()
-      await expect(page.getByRole("link", { name: "Yes" })).toBeVisible()
+      await expect(page.getByRole("button", { name: "Yes" })).toBeVisible()
     })
 
     test("should allow to cancel & exit", async ({ page, isMobile }) => {
@@ -275,7 +275,7 @@ test.describe("Admin - Preview Employees", () => {
       }
 
       await page.getByRole("button", { name: "Cancel & Exit" }).click()
-      await page.getByRole("link", { name: "Yes" }).click()
+      await page.getByRole("button", { name: "Yes" }).click()
 
       await mockRequest(page, "/admin/evaluation-administrations", {
         status: 200,
