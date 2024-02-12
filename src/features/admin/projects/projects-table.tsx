@@ -1,11 +1,10 @@
 import { useSearchParams, useNavigate } from "react-router-dom"
 import { useAppDispatch } from "@hooks/useAppDispatch"
-import { useEffect, useState } from "react"
+import { useEffect, useState, lazy, Suspense } from "react"
 import { deleteProject, getProjects } from "@redux/slices/projects-slice"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { Button, LinkButton } from "@components/ui/button/button"
 import { Icon } from "@components/ui/icon/icon"
-import Dialog from "@components/ui/dialog/dialog"
 import { Pagination } from "@components/shared/pagination/pagination"
 import { setAlert, setPreviousUrl } from "@redux/slices/app-slice"
 import { useFullPath } from "@hooks/use-full-path"
@@ -28,6 +27,8 @@ export const ProjectsTable = () => {
 
   const [showDialog, setShowDialog] = useState<boolean>(false)
   const [selectedProjectId, setSelectedProjectId] = useState<number>()
+
+  const ProjectsDialog = lazy(async () => await import("@features/admin/projects/projects-dialog"))
 
   useEffect(() => {
     void appDispatch(
@@ -115,27 +116,23 @@ export const ProjectsTable = () => {
   return (
     <div className='flex flex-col gap-8'>
       <Table data={projects} columns={projectsColumns} renderCell={renderCell} />
-      <Dialog open={showDialog}>
-        <Dialog.Title>Delete Project</Dialog.Title>
-        <Dialog.Description>
-          Are you sure you want to delete this project? <br />
-          This will delete all records associated with this project and cannot be reverted.
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={() => toggleDialog(null)}>
-            No
-          </Button>
-          <Button
-            variant='primary'
-            onClick={async () => {
-              await handleDelete()
-              toggleDialog(null)
-            }}
-          >
-            Yes
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
+      <Suspense fallback={<div>Loading...</div>}>
+        <ProjectsDialog
+          open={showDialog}
+          title='Delete Project'
+          description={
+            <>
+              Are you sure you want to delete this project? <br />
+              This will delete all records associated with this project and cannot be reverted.
+            </>
+          }
+          onClose={() => toggleDialog(null)}
+          onSubmit={async () => {
+            await handleDelete()
+            toggleDialog(null)
+          }}
+        />
+      </Suspense>
       {totalPages !== 1 && (
         <div className='flex justify-center'>
           <Pagination
