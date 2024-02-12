@@ -1,20 +1,24 @@
-import { useEffect, useState } from "react"
+import { Suspense, lazy, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { ValidationError } from "yup"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
-import { Button, LinkButton } from "@components/ui/button/button"
+import { Button } from "@components/ui/button/button"
 import { Input } from "@components/ui/input/input"
 import { TextArea } from "@components/ui/textarea/text-area"
 import { createEvaluationAdministrationSchema } from "@utils/validation/evaluation-administration-schema"
 import { Loading } from "@custom-types/loadingType"
-import Dialog from "@components/ui/dialog/dialog"
 import { type EvaluationAdministrationFormData } from "@custom-types/form-data-type"
 import {
   getEvaluationAdministration,
   updateEvaluationAdministration,
 } from "@redux/slices/evaluation-administration-slice"
 import { setAlert } from "@redux/slices/app-slice"
+
+const EvaluationAdminDialog = lazy(
+  async () =>
+    await import("@features/admin/evaluation-administrations/evaluation-administrations-dialog")
+)
 
 export const EditEvaluationAdministrationForm = () => {
   const navigate = useNavigate()
@@ -125,6 +129,9 @@ export const EditEvaluationAdministrationForm = () => {
 
   const toggleDialog = () => {
     setShowDialog((prev) => !prev)
+  }
+  const handleRedirect = () => {
+    navigate("/admin/evaluation-administrations")
   }
 
   return (
@@ -241,21 +248,20 @@ export const EditEvaluationAdministrationForm = () => {
               <Button onClick={handleSubmit}>Save</Button>
             </div>
           </div>
-          <Dialog open={showDialog}>
-            <Dialog.Title>Cancel & Exit</Dialog.Title>
-            <Dialog.Description>
-              Are you sure you want to cancel and exit? <br />
-              If you cancel, your data won&apos;t be saved.
-            </Dialog.Description>
-            <Dialog.Actions>
-              <Button variant='primaryOutline' onClick={toggleDialog}>
-                No
-              </Button>
-              <LinkButton variant='primary' to='/admin/evaluation-administrations'>
-                Yes
-              </LinkButton>
-            </Dialog.Actions>
-          </Dialog>
+          <Suspense fallback={<div>Loading...</div>}>
+            <EvaluationAdminDialog
+              open={showDialog}
+              title='Cancel & Exit'
+              description={
+                <>
+                  Are you sure you want to cancel and exit? <br />
+                  If you cancel, your data won&apos;t be saved.
+                </>
+              }
+              onClose={toggleDialog}
+              onSubmit={handleRedirect}
+            />
+          </Suspense>
         </div>
       )}
     </>
