@@ -96,6 +96,9 @@ const evaluationTemplateSlice = createSlice({
         }
       }
     },
+    addEvaluationTemplateContent: (state, action) => {
+      state.evaluation_template?.evaluationTemplateContents?.push(action.payload)
+    },
   },
   extraReducers(builder) {
     /**
@@ -137,6 +140,7 @@ export const {
   setEvaluationTemplate,
   setEvaluationTemplateContent,
   removeEvaluationTemplateContent,
+  addEvaluationTemplateContent,
 } = evaluationTemplateSlice.actions
 
 export default evaluationTemplateSlice.reducer

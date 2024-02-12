@@ -6,6 +6,7 @@ const badge = cva(
     variants: {
       variant: {
         primary: ["bg-customPurple-100", "text-customPurple-700", "border-customPurple-400"],
+        darkPurple: ["bg-primary-500", "text-white", "border-customPurple-400"],
         pink: ["bg-customPink-100", "text-customPink-700", "border-customPink-200"],
         yellow: ["bg-customYellow-300", "text-customBrown-500", "border-customYellow-400"],
         green: ["bg-customLightGreen-100", "text-customGreen-700", "border-customGreen-300"],
@@ -18,6 +19,7 @@ const badge = cva(
         extraSmall: ["text-[10px]", "px-2", "py-0.5"],
         small: ["text-[10px]", "px-2.5", "py-0.5"],
         medium: ["text-base", "px-4", "py-1.5"],
+        iconSize: ["text-[14px]", "px-2.5", "py-1"],
       },
     },
     defaultVariants: {

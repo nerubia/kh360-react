@@ -8,12 +8,14 @@ import { Button } from "@components/ui/button/button"
 import { Checkbox } from "@components/ui/checkbox/checkbox"
 import { Icon } from "@components/ui/icon/icon"
 import {
+  createEvaluationTemplateContent,
   deleteEvaluationTemplateContent,
   updateEvaluationTemplateContent,
 } from "@redux/slices/evaluation-template-content-slice"
 import {
   removeEvaluationTemplateContent,
   setEvaluationTemplateContent,
+  addEvaluationTemplateContent,
 } from "@redux/slices/evaluation-template-slice"
 import { setAlert } from "@redux/slices/app-slice"
 import { type EvaluationTemplateContentFormData } from "@custom-types/form-data-type"
@@ -23,6 +25,8 @@ import { CustomSelect } from "@components/ui/select/custom-select"
 import { type Option } from "@custom-types/optionType"
 import { EvaluationTemplateContentCategory } from "@custom-types/evaluation-template-content-type"
 import { Badge } from "@components/ui/badge/badge"
+import { createEvaluationTemplateContentSchema } from "@utils/validation/evaluation-template-content-schema"
+import { ValidationError } from "yup"
 
 const categoryOptions: Option[] = Object.values(EvaluationTemplateContentCategory).map((value) => ({
   label: value,
@@ -36,8 +40,9 @@ export const ViewEvaluationTemplateTable = () => {
   const [checkedItems, setCheckedItems] = useState<Record<number, boolean>>({})
   const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false)
   const [showEditDialog, setShowEditDialog] = useState<boolean>(false)
-  const [selectedEvaluationTemplateContentId, setSelectedEvaluationTemplateContentId] =
-    useState<number>()
+  const [selectedEvaluationTemplateContentId, setSelectedEvaluationTemplateContentId] = useState<
+    number | null
+  >(null)
   const [formData, setFormData] = useState<EvaluationTemplateContentFormData>({
     name: "",
     description: "",
@@ -45,6 +50,9 @@ export const ViewEvaluationTemplateTable = () => {
     rate: "",
     is_active: false,
   })
+  const [validationErrors, setValidationErrors] = useState<
+    Partial<EvaluationTemplateContentFormData>
+  >({})
 
   useEffect(() => {
     if (evaluation_template?.evaluationTemplateContents !== undefined) {
@@ -71,8 +79,12 @@ export const ViewEvaluationTemplateTable = () => {
           rate: evaluationTemplateContent.rate,
           is_active: evaluationTemplateContent.is_active,
         })
+      } else {
+        setSelectedEvaluationTemplateContentId(null)
+        setFormData({})
       }
     }
+    setValidationErrors({})
     setShowEditDialog((prev) => !prev)
   }
 
@@ -113,7 +125,10 @@ export const ViewEvaluationTemplateTable = () => {
   }
 
   const handleDelete = async () => {
-    if (selectedEvaluationTemplateContentId !== undefined) {
+    if (
+      selectedEvaluationTemplateContentId !== undefined &&
+      selectedEvaluationTemplateContentId !== null
+    ) {
       try {
         const result = await appDispatch(
           deleteEvaluationTemplateContent(selectedEvaluationTemplateContentId)
@@ -145,8 +160,14 @@ export const ViewEvaluationTemplateTable = () => {
 
   const handleSave = async () => {
     if (id !== undefined) {
-      if (selectedEvaluationTemplateContentId !== undefined) {
+      if (
+        selectedEvaluationTemplateContentId !== undefined &&
+        selectedEvaluationTemplateContentId !== null
+      ) {
         try {
+          await createEvaluationTemplateContentSchema.validate(formData, {
+            abortEarly: false,
+          })
           const result = await appDispatch(
             updateEvaluationTemplateContent({
               id: selectedEvaluationTemplateContentId,
@@ -178,8 +199,43 @@ export const ViewEvaluationTemplateTable = () => {
                 variant: "success",
               })
             )
+            toggleEditDialog(null)
+            setFormData({})
           }
         } catch (error) {}
+      }
+      setSelectedEvaluationTemplateContentId(null)
+    }
+  }
+
+  const handleAddContent = async () => {
+    try {
+      await createEvaluationTemplateContentSchema.validate(formData, {
+        abortEarly: false,
+      })
+      const result = await appDispatch(
+        createEvaluationTemplateContent({ ...formData, evaluation_template_id: id })
+      )
+      if (result.type === "evaluationTemplateContent/createEvaluationTemplateContent/fulfilled") {
+        setFormData({})
+        toggleEditDialog(null)
+        appDispatch(addEvaluationTemplateContent(result.payload))
+      }
+      if (result.type === "evaluationTemplateContent/createEvaluationTemplateContent/rejected") {
+        appDispatch(
+          setAlert({
+            description: result.payload,
+            variant: "destructive",
+          })
+        )
+      }
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        const errors: Partial<EvaluationTemplateContentFormData> = {}
+        error.inner.forEach((err) => {
+          errors[err.path as keyof EvaluationTemplateContentFormData] = err.message
+        })
+        setValidationErrors(errors)
       }
     }
   }
@@ -200,12 +256,9 @@ export const ViewEvaluationTemplateTable = () => {
                 <table>
                   <thead className='text-left'>
                     <tr>
-                      <th className='py-1 border-b-4 mr-2 text-primary-500 md:w-1/4'>Name</th>
-                      <th className='py-1 border-b-4 text-start text-primary-500 md:w-1/3'>
+                      <th className='py-1 border-b-4 mr-2 pl-12 text-primary-500 md:w-1/4'>Name</th>
+                      <th className='py-1 border-b-4 pr-4 text-start text-primary-500 md:w-1/2'>
                         Description
-                      </th>
-                      <th className='py-1 border-b-4 mr-2 text-center text-primary-500 md:w-1/5'>
-                        Category
                       </th>
                       <th className='py-1 border-b-4 mr-2 text-start text-primary-500 md:w-1/8'>
                         Rate
@@ -219,11 +272,26 @@ export const ViewEvaluationTemplateTable = () => {
                   <tbody>
                     {evaluation_template?.evaluationTemplateContents.map((content) => (
                       <tr key={content.id} className='hover:bg-slate-100'>
-                        <td className='py-1 border-b'>{content.name}</td>
-                        <td className='py-1 border-b text-start'>{content.description}</td>
-                        <td className='py-1 border-b text-center items-center '>
-                          {content.category}
+                        <td className='py-1 border-b'>
+                          <div className='flex gap-4 items-center'>
+                            <Badge
+                              variant={`${
+                                content.category ===
+                                EvaluationTemplateContentCategory.PrimarySkillSet
+                                  ? "darkPurple"
+                                  : "primary"
+                              }`}
+                              size='iconSize'
+                            >
+                              {content.category ===
+                              EvaluationTemplateContentCategory.PrimarySkillSet
+                                ? "P"
+                                : "S"}
+                            </Badge>
+                            <div>{content.name}</div>
+                          </div>
                         </td>
+                        <td className='py-1 border-b text-start pr-5'>{content.description}</td>
                         <td className='py-1 border-b text-start items-center '>
                           {Number(content.rate).toFixed(2)}%
                         </td>
@@ -262,6 +330,9 @@ export const ViewEvaluationTemplateTable = () => {
               </>
             )}
         </div>
+        <div className='flex justify-end'>
+          <Button onClick={() => toggleEditDialog(null)}>Add Template Content</Button>
+        </div>
         <Dialog open={showDeleteDialog}>
           <Dialog.Title>Delete Evaluation Template Content</Dialog.Title>
           <Dialog.Description>
@@ -284,7 +355,11 @@ export const ViewEvaluationTemplateTable = () => {
           </Dialog.Actions>
         </Dialog>
         <Dialog open={showEditDialog} size={"medium"} maxWidthMin={true}>
-          <Dialog.Title>Edit Evaluation Template Content</Dialog.Title>
+          <Dialog.Title>
+            {selectedEvaluationTemplateContentId !== null
+              ? "Edit Evaluation Template Content"
+              : "Add Evaluation Template Content"}
+          </Dialog.Title>
           <Dialog.Description>
             <div className='flex flex-col gap-4 w-500 p-1'>
               <div>
@@ -294,6 +369,7 @@ export const ViewEvaluationTemplateTable = () => {
                   placeholder='Evaluation name'
                   value={formData.name}
                   onChange={handleInputChange}
+                  error={validationErrors.name}
                 />
               </div>
               <div>
@@ -303,6 +379,7 @@ export const ViewEvaluationTemplateTable = () => {
                   placeholder='Description'
                   value={formData.description}
                   onChange={handleTextAreaChange}
+                  error={validationErrors.description}
                 />
               </div>
               <div>
@@ -314,6 +391,7 @@ export const ViewEvaluationTemplateTable = () => {
                   onChange={(option) => setFormData({ ...formData, category: option?.value })}
                   options={categoryOptions}
                   fullWidth
+                  error={validationErrors.category}
                 />
               </div>
               <div>
@@ -325,6 +403,7 @@ export const ViewEvaluationTemplateTable = () => {
                   placeholder='Rate'
                   value={Number(formData.rate).toFixed(2)}
                   onChange={(event) => checkNumberValue(event)}
+                  error={validationErrors.rate}
                 />
               </div>
               <div className='flex gap-3 items-center'>
@@ -347,8 +426,9 @@ export const ViewEvaluationTemplateTable = () => {
             <Button
               variant='primary'
               onClick={async () => {
-                await handleSave()
-                toggleEditDialog(null)
+                selectedEvaluationTemplateContentId !== null
+                  ? await handleSave()
+                  : await handleAddContent()
               }}
             >
               Save
