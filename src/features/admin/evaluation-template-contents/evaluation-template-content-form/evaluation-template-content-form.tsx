@@ -1,7 +1,6 @@
 import { ValidationError } from "yup"
 import { useState, useEffect } from "react"
 import { Button } from "@components/ui/button/button"
-import { Checkbox } from "@components/ui/checkbox/checkbox"
 import Dialog from "@components/ui/dialog/dialog"
 import { Input } from "@components/ui/input/input"
 import { CustomSelect } from "@components/ui/select/custom-select"
@@ -17,6 +16,7 @@ import { type EvaluationTemplateContentFormData } from "@custom-types/form-data-
 import { createEvaluationTemplateContentSchema } from "@utils/validation/evaluation-template-content-schema"
 import { type SingleValue } from "react-select"
 import { type EvaluationTemplateContent } from "@custom-types/evaluation-template-content-type"
+import { ToggleSwitch } from "@components/ui/toggle-switch/toggle-switch"
 import { TextArea } from "@components/ui/textarea/text-area"
 
 export const CreateEvaluationTemplateContentForm = () => {
@@ -182,14 +182,14 @@ export const CreateEvaluationTemplateContentForm = () => {
                   max={100}
                 />
               </div>
-              <div className='flex gap-3 items-center'>
-                <h2 className='font-medium'>Active</h2>
-                <div className='m-2.5'>
-                  <Checkbox
+              <div className='flex items-center'>
+                <div className='my-2.5'>
+                  <ToggleSwitch
                     checked={Boolean(formData.is_active) ?? false}
                     onChange={async (checked) => await onChangeActive(checked)}
                   />
                 </div>
+                <h2 className='font-medium'>Active</h2>
               </div>
             </div>
           </div>

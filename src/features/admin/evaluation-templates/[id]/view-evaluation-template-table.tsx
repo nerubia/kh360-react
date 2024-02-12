@@ -5,7 +5,6 @@ import { useAppDispatch } from "@hooks/useAppDispatch"
 import { Loading } from "@custom-types/loadingType"
 import Dialog from "@components/ui/dialog/dialog"
 import { Button } from "@components/ui/button/button"
-import { Checkbox } from "@components/ui/checkbox/checkbox"
 import { Icon } from "@components/ui/icon/icon"
 import {
   createEvaluationTemplateContent,
@@ -27,6 +26,7 @@ import { EvaluationTemplateContentCategory } from "@custom-types/evaluation-temp
 import { Badge } from "@components/ui/badge/badge"
 import { createEvaluationTemplateContentSchema } from "@utils/validation/evaluation-template-content-schema"
 import { ValidationError } from "yup"
+import { ToggleSwitch } from "@components/ui/toggle-switch/toggle-switch"
 
 const categoryOptions: Option[] = Object.values(EvaluationTemplateContentCategory).map((value) => ({
   label: value,
@@ -406,9 +406,8 @@ export const ViewEvaluationTemplateTable = () => {
                   error={validationErrors.rate}
                 />
               </div>
-              <div className='flex gap-3 items-center'>
-                <div className='text-lg font-bold'>Active</div>
-                <Checkbox
+              <div className='flex items-center'>
+                <ToggleSwitch
                   checked={Boolean(formData.is_active)}
                   onChange={() => {
                     const newValue: boolean = Boolean(formData.is_active) ?? false
@@ -416,6 +415,7 @@ export const ViewEvaluationTemplateTable = () => {
                     return null
                   }}
                 />
+                <div className='text-lg font-bold'>Active</div>
               </div>
             </div>
           </Dialog.Description>
