@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, lazy, Suspense } from "react"
 import { useNavigate, useSearchParams, useParams } from "react-router-dom"
 import { ValidationError } from "yup"
 import { type SingleValue } from "react-select"
@@ -22,7 +22,6 @@ import {
   updateProject,
 } from "@redux/slices/project-slice"
 import { setSelectedSkills, setCheckedSkills } from "@redux/slices/skills-slice"
-import { CustomDialog } from "@components/ui/dialog/custom-dialog"
 
 export const CreateProjectForm = () => {
   const navigate = useNavigate()
@@ -43,6 +42,8 @@ export const CreateProjectForm = () => {
     label: value,
     value,
   }))
+
+  const ProjectsDialog = lazy(async () => await import("@features/admin/projects/projects-dialog"))
 
   useEffect(() => {
     if (id !== undefined) {
@@ -321,28 +322,32 @@ export const CreateProjectForm = () => {
         </Button>
         <Button onClick={toggleSaveDialog}>Save</Button>
       </div>
-      <CustomDialog
-        open={showSaveDialog}
-        title='Save Project'
-        description='Are you sure you want to save this project?'
-        onClose={toggleSaveDialog}
-        onSubmit={async () => {
-          await toggleSaveDialog()
-          project === null ? await handleSubmit() : await handleUpdate()
-        }}
-      />
-      <CustomDialog
-        open={showCancelDialog}
-        title='Cancel'
-        description={
-          <>
-            Are you sure you want to cancel? <br />
-            If you cancel, your data won&apos;t be saved.
-          </>
-        }
-        onClose={toggleCancelDialog}
-        onSubmit={handleCancel}
-      />
+      <Suspense fallback={<div>Loading...</div>}>
+        <ProjectsDialog
+          open={showSaveDialog}
+          title='Save Project'
+          description='Are you sure you want to save this project?'
+          onClose={toggleSaveDialog}
+          onSubmit={async () => {
+            await toggleSaveDialog()
+            project === null ? await handleSubmit() : await handleUpdate()
+          }}
+        />
+      </Suspense>
+      <Suspense fallback={<div>Loading...</div>}>
+        <ProjectsDialog
+          open={showCancelDialog}
+          title='Cancel'
+          description={
+            <>
+              Are you sure you want to cancel? <br />
+              If you cancel, your data won&apos;t be saved.
+            </>
+          }
+          onClose={toggleCancelDialog}
+          onSubmit={handleCancel}
+        />
+      </Suspense>
     </div>
   )
 }
