@@ -1,7 +1,5 @@
-import { useState, useEffect, lazy, Suspense } from "react"
 import { Input } from "@components/ui/input/input"
 import { type ExternalUserFormData } from "@custom-types/form-data-type"
-import { Button } from "@components/ui/button/button"
 import { ValidationError } from "yup"
 import { createExternalUserSchema } from "@utils/validation/external-evaluator-schema"
 import { useNavigate, useSearchParams } from "react-router-dom"
@@ -14,6 +12,8 @@ import { addExternalEvaluators } from "@redux/slices/evaluation-administration-s
 import { getActiveTemplates } from "@redux/slices/evaluation-templates-slice"
 import { CustomSelect } from "@components/ui/select/custom-select"
 import { type Option } from "@custom-types/optionType"
+import { Suspense, lazy, useEffect, useState } from "react"
+import { Button } from "@components/ui/button/button"
 
 const ExternalEvaluatorDialog = lazy(
   async () => await import("@features/admin/external-evaluators/external-evaluators-dialog")
