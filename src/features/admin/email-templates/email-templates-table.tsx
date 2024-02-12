@@ -13,8 +13,6 @@ import { Badge } from "@components/ui/badge/badge"
 import { messageTemplateColumns, type EmailTemplate } from "@custom-types/email-template-type"
 import { Table } from "@components/ui/table/table"
 
-const EmailTemplateDialog = lazy(async () => await import("./email-template-dialog"))
-
 export const EmailTemplatesTable = () => {
   const [searchParams] = useSearchParams()
   const [showDialog, setShowDialog] = useState<boolean>(false)
@@ -23,6 +21,10 @@ export const EmailTemplatesTable = () => {
   const appDispatch = useAppDispatch()
   const { emailTemplates, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
     (state) => state.emailTemplate
+  )
+
+  const EmailTemplatesDialog = lazy(
+    async () => await import("@features/admin/email-templates/email-templates-dialog")
   )
 
   useEffect(() => {
@@ -108,7 +110,7 @@ export const EmailTemplatesTable = () => {
     <div className='flex flex-col gap-8 overflow-x-auto overflow-y-hidden md:overflow-x-hidden'>
       <Table columns={messageTemplateColumns} data={emailTemplates} renderCell={renderCell} />
       <Suspense fallback={<div>Loading...</div>}>
-        <EmailTemplateDialog
+        <EmailTemplatesDialog
           open={showDialog}
           title='Delete Message Template'
           description={

@@ -207,7 +207,7 @@ test.describe("Admin - Create Email Template", () => {
         page.getByText("Are you sure you want to cancel? If you cancel, your data won't be save")
       ).toBeVisible()
       await expect(page.getByRole("button", { name: "No" })).toBeVisible()
-      await expect(page.getByRole("link", { name: "Yes" })).toBeVisible()
+      await expect(page.getByRole("button", { name: "Yes" })).toBeVisible()
     })
 
     test("should show validation errors", async ({ page, isMobile }) => {

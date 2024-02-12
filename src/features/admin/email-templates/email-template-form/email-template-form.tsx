@@ -23,7 +23,6 @@ import {
 } from "@redux/slices/email-template-slice"
 import { setAlert } from "@redux/slices/app-slice"
 
-const EmailTemplateDialog = lazy(async () => await import("../email-template-dialog"))
 interface DefaultDialogProps {
   open: boolean
 }
@@ -50,6 +49,10 @@ export const EmailTemplateForm = () => {
   const [showDefaultDialog, setShowDefaultDialog] = useState<boolean>(false)
   const [isDefault, setIsDefault] = useState<boolean>(false)
   const [templates, setTemplates] = useState<EmailTemplate[]>([])
+
+  const EmailTemplatesDialog = lazy(
+    async () => await import("@features/admin/email-templates/email-templates-dialog")
+  )
 
   useEffect(() => {
     void appDispatch(getTemplateTypes())
@@ -209,11 +212,15 @@ export const EmailTemplateForm = () => {
     }
   }
 
+  const handleCancel = () => {
+    navigate(callback ?? "/admin/message-templates")
+  }
+
   const DefaultModal = (props: DefaultDialogProps) => {
     const { open } = props
     const defaultTemplate = templates[0] ?? { name: "" }
     return (
-      <EmailTemplateDialog
+      <EmailTemplatesDialog
         open={open}
         title='Cancel'
         description={
@@ -298,7 +305,7 @@ export const EmailTemplateForm = () => {
         </div>
       </div>
       <Suspense fallback={<div>Loading...</div>}>
-        <EmailTemplateDialog
+        <EmailTemplatesDialog
           open={showDialog}
           title='Cancel'
           description={
@@ -307,12 +314,11 @@ export const EmailTemplateForm = () => {
               If you cancel, your data won&apos;t be saved.
             </>
           }
-          showCloseButton={true}
-          showLinkButton={true}
-          showSubmitButton={false}
-          linkTo={callback ?? "/admin/message-templates"}
           onClose={toggleDialog}
+          onSubmit={handleCancel}
         />
+      </Suspense>
+      <Suspense fallback={<div>Loading...</div>}>
         <DefaultModal open={showDefaultDialog} />
       </Suspense>
     </div>
