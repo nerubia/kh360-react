@@ -1,12 +1,10 @@
-import { useEffect, useState } from "react"
+import { lazy, Suspense, useEffect, useState } from "react"
 import { useParams, useSearchParams } from "react-router-dom"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { Button, LinkButton } from "@components/ui/button/button"
 import { Icon } from "@components/ui/icon/icon"
 import { type EvaluationResult } from "@custom-types/evaluation-result-type"
-import Dialog from "@components/ui/dialog/dialog"
-import { Loading } from "@custom-types/loadingType"
 import { setAlert } from "@redux/slices/app-slice"
 import { Pagination } from "@components/shared/pagination/pagination"
 import {
@@ -15,6 +13,11 @@ import {
 } from "@redux/slices/evaluation-results-slice"
 import { getEvaluationResultStatusVariant } from "@utils/variant"
 import { Badge } from "@components/ui/badge/badge"
+
+const EvaluationAdminDialog = lazy(
+  async () =>
+    await import("@features/admin/evaluation-administrations/evaluation-administrations-dialog")
+)
 
 export const EvalueesList = () => {
   const { id } = useParams()
@@ -115,30 +118,22 @@ export const EvalueesList = () => {
           totalPages={totalPages}
         />
       </div>
-      <Dialog open={selectedEvaluee !== undefined}>
-        <Dialog.Title>Delete Evaluee</Dialog.Title>
-        <Dialog.Description>
-          Are you sure you want to remove {selectedEvaluee?.users?.last_name},{" "}
-          {selectedEvaluee?.users?.first_name}? <br />
-          This action cannot be reverted.
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button
-            testId='DialogNoButton'
-            variant='primaryOutline'
-            onClick={() => setSelectedEvaluee(undefined)}
-          >
-            No
-          </Button>
-          <Button
-            testId='DialogYesButton'
-            onClick={handleDeleteEvaluee}
-            loading={loading === Loading.Pending}
-          >
-            Yes
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
+      <Suspense fallback={<div>Loading...</div>}>
+        <EvaluationAdminDialog
+          open={selectedEvaluee !== undefined}
+          title='Delete Evaluee'
+          description={
+            <>
+              Are you sure you want to remove {selectedEvaluee?.users?.last_name},{" "}
+              {selectedEvaluee?.users?.first_name}? <br />
+              This action cannot be reverted.
+            </>
+          }
+          selectedEvaluee={selectedEvaluee}
+          onClose={() => setSelectedEvaluee(undefined)}
+          onSubmit={handleDeleteEvaluee}
+        />
+      </Suspense>
     </>
   )
 }

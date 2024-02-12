@@ -39,12 +39,12 @@ export const CustomDialog = ({
       <Dialog.Description>{description}</Dialog.Description>
       <Dialog.Actions>
         {showCloseButton && (
-          <Button variant='primaryOutline' onClick={onClose}>
+          <Button variant='primaryOutline' onClick={onClose} testId='DialogNoButton'>
             {closeButtonLabel ?? "No"}
           </Button>
         )}
         {showSubmitButton && (
-          <Button variant='primary' onClick={onSubmit} loading={loading}>
+          <Button variant='primary' onClick={onSubmit} loading={loading} testId='DialogYesButton'>
             {submitButtonLabel ?? "Yes"}
           </Button>
         )}
