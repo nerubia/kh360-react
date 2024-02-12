@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react"
+import { useRef, useState, useEffect, lazy, Suspense } from "react"
 import { Button } from "@components/ui/button/button"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
@@ -10,7 +10,11 @@ import {
 import { CreateEvaluationTemplateContentForm } from "@features/admin/evaluation-template-contents/evaluation-template-content-form/evaluation-template-content-form"
 import { Checkbox } from "@components/ui/checkbox/checkbox"
 import { Icon } from "@components/ui/icon/icon"
-import Dialog from "@components/ui/dialog/dialog"
+
+const EvaluationTemplateContentDialog = lazy(
+  async () =>
+    await import("@features/admin/evaluation-template-contents/evaluation-template-content-dialog")
+)
 
 export const EvaluationTemplateContentsTable = () => {
   const appDispatch = useAppDispatch()
@@ -128,27 +132,24 @@ export const EvaluationTemplateContentsTable = () => {
         <Button onClick={toggleModalForm}>Add Template Content</Button>
       </div>
       <CreateEvaluationTemplateContentForm />
-      <Dialog open={showDeleteDialog}>
-        <Dialog.Title>Delete Evaluation Template Content</Dialog.Title>
-        <Dialog.Description>
-          Are you sure you want to delete this evaluation template content? This will delete all
-          data and cannot be reverted.
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={() => toggleDeleteDialog()}>
-            No
-          </Button>
-          <Button
-            variant='primary'
-            onClick={async () => {
-              handleDelete()
-              toggleDeleteDialog()
-            }}
-          >
-            Yes
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
+
+      <Suspense fallback={<div>Loading...</div>}>
+        <EvaluationTemplateContentDialog
+          open={showDeleteDialog}
+          title='Delete Evaluation Template Content'
+          description={
+            <>
+              Are you sure you want to delete this evaluation template content? This will delete all
+              data and cannot be reverted.
+            </>
+          }
+          onClose={() => toggleDeleteDialog()}
+          onSubmit={async () => {
+            handleDelete()
+            toggleDeleteDialog()
+          }}
+        />
+      </Suspense>
     </div>
   )
 }

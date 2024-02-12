@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { Suspense, lazy, useEffect, useState } from "react"
 import { useSearchParams } from "react-router-dom"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
@@ -6,10 +6,13 @@ import { Pagination } from "@components/shared/pagination/pagination"
 import { getExternalUsers, deleteExternalUser } from "@redux/slices/external-users-slice"
 import { Icon } from "@components/ui/icon/icon"
 import { Button, LinkButton } from "@components/ui/button/button"
-import Dialog from "@components/ui/dialog/dialog"
 import { setAlert } from "@redux/slices/app-slice"
 import { externalEvalColumns, type ExternalUser } from "@custom-types/external-user-type"
 import { Table } from "@components/ui/table/table"
+
+const ExternalEvaluatorDialog = lazy(
+  async () => await import("@features/admin/external-evaluators/external-evaluators-dialog")
+)
 
 export const ExternalEvaluatorsTable = () => {
   const [searchParams] = useSearchParams()
@@ -96,27 +99,24 @@ export const ExternalEvaluatorsTable = () => {
   return (
     <div className='flex flex-col gap-8'>
       <Table columns={externalEvalColumns} data={external_users} renderCell={renderCell} />
-      <Dialog open={showDialog}>
-        <Dialog.Title>Delete External Evaluator</Dialog.Title>
-        <Dialog.Description>
-          Are you sure you want to delete this evaluator? <br />
-          This will delete all evaluations associated with this evaluator and cannot be reverted.
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={() => toggleDialog(null)}>
-            No
-          </Button>
-          <Button
-            variant='primary'
-            onClick={async () => {
-              await handleDelete()
-              toggleDialog(null)
-            }}
-          >
-            Yes
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
+      <Suspense fallback={<div>Loading...</div>}>
+        <ExternalEvaluatorDialog
+          open={showDialog}
+          title='Delete External Evaluator'
+          description={
+            <>
+              Are you sure you want to delete this evaluator? <br />
+              This will delete all evaluations associated with this evaluator and cannot be
+              reverted.
+            </>
+          }
+          onClose={() => toggleDialog(null)}
+          onSubmit={async () => {
+            await handleDelete()
+            toggleDialog(null)
+          }}
+        />
+      </Suspense>
       {totalPages !== 1 && (
         <div className='flex justify-center'>
           <Pagination

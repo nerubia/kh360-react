@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, lazy, Suspense } from "react"
 import { useNavigate, useParams, useLocation } from "react-router-dom"
 import { Button, LinkButton } from "@components/ui/button/button"
 import { Checkbox } from "@components/ui/checkbox/checkbox"
@@ -22,12 +22,14 @@ import { setSelectedExternalUserIds } from "@redux/slices/evaluation-administrat
 import { getProjectMembers } from "@redux/slices/project-members-slice"
 import Dropdown from "@components/ui/dropdown/dropdown"
 import Tooltip from "@components/ui/tooltip/tooltip"
-import Dialog from "@components/ui/dialog/dialog"
 import { useMobileView } from "@hooks/use-mobile-view"
 import { TemplateType } from "@custom-types/evaluation-template-type"
 import { Table } from "@components/ui/table/table"
 import { type ReactNode } from "react"
 
+const EvaluationAdminDialog = lazy(
+  async () => await import("@features/admin/evaluation-administrations/evaluation-admin-dialog")
+)
 export const EvaluatorsList = () => {
   const navigate = useNavigate()
   const { id, evaluation_result_id, evaluation_template_id } = useParams()
@@ -409,27 +411,24 @@ export const EvaluatorsList = () => {
           </Button>
         </div>
       </div>
-      <Dialog open={showDialog}>
-        <Dialog.Title>Delete Evaluator</Dialog.Title>
-        <Dialog.Description>
-          Are you sure you want to delete this evaluator? <br />
-          This will delete all evaluations associated with this evaluator and cannot be reverted.
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={() => toggleDialog(null)}>
-            No
-          </Button>
-          <Button
-            variant='primary'
-            onClick={async () => {
-              await handleDelete()
-              toggleDialog(null)
-            }}
-          >
-            Yes
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
+      <Suspense fallback={<div>Loading...</div>}>
+        <EvaluationAdminDialog
+          open={showDialog}
+          title='Delete Evaluator'
+          description={
+            <>
+              Are you sure you want to delete this evaluator? <br />
+              This will delete all evaluations associated with this evaluator and cannot be
+              reverted.
+            </>
+          }
+          onClose={() => toggleDialog(null)}
+          onSubmit={async () => {
+            await handleDelete()
+            toggleDialog(null)
+          }}
+        />
+      </Suspense>
     </div>
   )
 }

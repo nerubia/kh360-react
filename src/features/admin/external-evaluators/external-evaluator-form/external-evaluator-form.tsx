@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, lazy, Suspense } from "react"
 import { Input } from "@components/ui/input/input"
 import { type ExternalUserFormData } from "@custom-types/form-data-type"
-import { Button, LinkButton } from "@components/ui/button/button"
-import Dialog from "@components/ui/dialog/dialog"
+import { Button } from "@components/ui/button/button"
 import { ValidationError } from "yup"
 import { createExternalUserSchema } from "@utils/validation/external-evaluator-schema"
 import { useNavigate, useSearchParams } from "react-router-dom"
@@ -15,6 +14,10 @@ import { addExternalEvaluators } from "@redux/slices/evaluation-administration-s
 import { getActiveTemplates } from "@redux/slices/evaluation-templates-slice"
 import { CustomSelect } from "@components/ui/select/custom-select"
 import { type Option } from "@custom-types/optionType"
+
+const ExternalEvaluatorDialog = lazy(
+  async () => await import("@features/admin/external-evaluators/external-evaluators-dialog")
+)
 
 export const ExternalEvaluatorForm = () => {
   const navigate = useNavigate()
@@ -274,21 +277,23 @@ export const ExternalEvaluatorForm = () => {
           Save
         </Button>
       </div>
-      <Dialog open={showDialog}>
-        <Dialog.Title>Cancel</Dialog.Title>
-        <Dialog.Description>
-          Are you sure you want to cancel? <br />
-          If you cancel, your data won&apos;t be saved.
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={toggleDialog}>
-            No
-          </Button>
-          <LinkButton variant='primary' to={callback ?? "/admin/external-evaluators"}>
-            Yes
-          </LinkButton>
-        </Dialog.Actions>
-      </Dialog>
+      <Suspense fallback={<div>Loading...</div>}>
+        <ExternalEvaluatorDialog
+          open={showDialog}
+          title='Cancel'
+          description={
+            <>
+              Are you sure you want to cancel? <br />
+              If you cancel, your data won&apos;t be saved.
+            </>
+          }
+          onClose={toggleDialog}
+          showCloseButton={true}
+          showSubmitButton={false}
+          showLinkButton={true}
+          linkTo={callback ?? "/admin/external-evaluators"}
+        />
+      </Suspense>
     </div>
   )
 }

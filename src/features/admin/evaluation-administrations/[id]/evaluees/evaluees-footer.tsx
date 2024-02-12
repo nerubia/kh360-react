@@ -1,8 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom"
-import { useEffect, useState } from "react"
+import { Suspense, lazy, useEffect, useState } from "react"
 import { Button, LinkButton } from "@components/ui/button/button"
 import { Icon } from "@components/ui/icon/icon"
-import Dialog from "@components/ui/dialog/dialog"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { generateEvaluationAdministration } from "@redux/slices/evaluation-administrations-slice"
 import { setAlert } from "@redux/slices/app-slice"
@@ -10,6 +9,9 @@ import { useAppSelector } from "@hooks/useAppSelector"
 import { Loading } from "@custom-types/loadingType"
 import { generateStatusEvaluationAdministration } from "@redux/slices/evaluation-administration-slice"
 
+const EvaluationAdminDialog = lazy(
+  async () => await import("@features/admin/evaluation-administrations/evaluation-admin-dialog")
+)
 export const EvalueesFooter = () => {
   const navigate = useNavigate()
   const { id } = useParams()
@@ -76,25 +78,24 @@ export const EvalueesFooter = () => {
           </Button>
         </div>
       </div>
-      <Dialog open={showDialog}>
-        <Dialog.Title>Cancel & Exit</Dialog.Title>
-        <Dialog.Description>
-          Are you sure you want to cancel and exit? <br />
-          If you cancel, your data won&apos;t be saved.
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button testId='DialogNoButton' variant='primaryOutline' onClick={toggleDialog}>
-            No
-          </Button>
-          <LinkButton
-            testId='DialogYesButton'
-            variant='primary'
-            to='/admin/evaluation-administrations'
-          >
-            Yes
-          </LinkButton>
-        </Dialog.Actions>
-      </Dialog>
+      <Suspense fallback={<div>Loading...</div>}>
+        <EvaluationAdminDialog
+          open={showDialog}
+          title='Cancel & Exit'
+          description={
+            <>
+              Are you sure you want to cancel and exit? <br />
+              If you cancel, your data won&apos;t be saved.
+            </>
+          }
+          linkTo='/admin/evaluation-administrations'
+          onClose={toggleDialog}
+          showLinkButton={true}
+          showSubmitButton={false}
+          dialogNoButton='DialogNoButton'
+          dialogYesButton='DialogYesButton'
+        />
+      </Suspense>
     </>
   )
 }
