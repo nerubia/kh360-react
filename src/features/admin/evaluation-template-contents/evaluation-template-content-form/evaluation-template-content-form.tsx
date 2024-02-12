@@ -17,6 +17,7 @@ import { type EvaluationTemplateContentFormData } from "@custom-types/form-data-
 import { createEvaluationTemplateContentSchema } from "@utils/validation/evaluation-template-content-schema"
 import { type SingleValue } from "react-select"
 import { type EvaluationTemplateContent } from "@custom-types/evaluation-template-content-type"
+import { TextArea } from "@components/ui/textarea/text-area"
 
 export const CreateEvaluationTemplateContentForm = () => {
   const appDispatch = useAppDispatch()
@@ -118,6 +119,12 @@ export const CreateEvaluationTemplateContentForm = () => {
     setFormData({ ...formData, [name]: value })
   }
 
+  const onChangeTextArea = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setValidationErrors({})
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]: value })
+  }
+
   const toggleModalForm = () => {
     void appDispatch(showCreateModal(!create_modal_visible))
     setFormData({})
@@ -125,7 +132,7 @@ export const CreateEvaluationTemplateContentForm = () => {
 
   return (
     <div className='flex flex-col gap-8'>
-      <Dialog open={create_modal_visible} size='medium'>
+      <Dialog open={create_modal_visible} size='small'>
         <Dialog.Title>Add Template Content</Dialog.Title>
         <Dialog.Description>
           <div className='flex flex-col gap-10'>
@@ -141,12 +148,12 @@ export const CreateEvaluationTemplateContentForm = () => {
                 />
               </div>
               <div className='flex-1'>
-                <Input
+                <TextArea
                   label='Description'
                   name='description'
                   placeholder='Description'
                   value={formData.description ?? ""}
-                  onChange={onChangeInput}
+                  onChange={onChangeTextArea}
                   error={validationErrors.description}
                 />
               </div>
