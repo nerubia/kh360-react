@@ -490,7 +490,7 @@ test.describe("Admin - Create Evaluation Template", () => {
       await page
         .locator("div")
         .filter({ hasText: /^With Recommendation$/ })
-        .getByRole("checkbox")
+        .locator("label div")
         .setChecked(true)
       await page
         .locator("div")
