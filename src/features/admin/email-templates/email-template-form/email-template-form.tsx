@@ -51,6 +51,10 @@ export const EmailTemplateForm = () => {
   const [isDefault, setIsDefault] = useState<boolean>(false)
   const [templates, setTemplates] = useState<EmailTemplate[]>([])
 
+  const EmailTemplatesDialog = lazy(
+    async () => await import("@features/admin/email-templates/email-templates-dialog")
+  )
+
   useEffect(() => {
     void appDispatch(getTemplateTypes())
 
@@ -207,6 +211,10 @@ export const EmailTemplateForm = () => {
         }
       }
     }
+  }
+
+  const handleCancel = () => {
+    navigate(callback ?? "/admin/message-templates")
   }
 
   const DefaultModal = (props: DefaultDialogProps) => {

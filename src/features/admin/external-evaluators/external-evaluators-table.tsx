@@ -24,6 +24,10 @@ export const ExternalEvaluatorsTable = () => {
     (state) => state.externalUsers
   )
 
+  const ExternalEvaluatorsDialog = lazy(
+    async () => await import("@features/admin/external-evaluators/external-evaluators-dialog")
+  )
+
   useEffect(() => {
     void appDispatch(
       getExternalUsers({

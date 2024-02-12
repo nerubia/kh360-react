@@ -49,6 +49,10 @@ export const ExternalEvaluatorForm = () => {
   const [showDialog, setShowDialog] = useState<boolean>(false)
   const [activeTemplates, setActiveTemplates] = useState<Option[]>([])
 
+  const ExternalEvaluatorsDialog = lazy(
+    async () => await import("@features/admin/external-evaluators/external-evaluators-dialog")
+  )
+
   useEffect(() => {
     void appDispatch(getActiveTemplates())
   }, [])
@@ -191,6 +195,10 @@ export const ExternalEvaluatorForm = () => {
         }
       }
     }
+  }
+
+  const handleCancel = () => {
+    navigate(callback ?? "/admin/external-evaluators")
   }
 
   return (

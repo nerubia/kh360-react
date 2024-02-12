@@ -25,6 +25,10 @@ export const EmailTemplatesTable = () => {
     (state) => state.emailTemplate
   )
 
+  const EmailTemplatesDialog = lazy(
+    async () => await import("@features/admin/email-templates/email-templates-dialog")
+  )
+
   useEffect(() => {
     void appDispatch(
       getEmailTemplates({
