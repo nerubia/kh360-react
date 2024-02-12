@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react"
+import { useState, useEffect, useContext, lazy, Suspense } from "react"
 import { Icon } from "@components/ui/icon/icon"
 import { useParams } from "react-router-dom"
 import { useAppSelector } from "@hooks/useAppSelector"
@@ -23,11 +23,14 @@ import { Badge } from "@components/ui/badge/badge"
 import { getEvaluationStatusVariant, getProgressVariant } from "@utils/variant"
 import { EvaluationStatus } from "@custom-types/evaluation-type"
 import Tooltip from "@components/ui/tooltip/tooltip"
-import Dialog from "@components/ui/dialog/dialog"
 import { EvaluationAdministrationStatus } from "@custom-types/evaluation-administration-type"
 import { convertToFullDateAndTime, shortenFormatDate } from "@utils/format-date"
 import { useMobileView } from "@hooks/use-mobile-view"
 import { WebSocketContext, type WebSocketType } from "@components/providers/websocket"
+
+const EvaluationAdminDialog = lazy(
+  async () => await import("@features/admin/evaluation-administrations/evaluation-admin-dialog")
+)
 
 export const EvaluationProgressList = () => {
   const appDispatch = useAppDispatch()
@@ -503,58 +506,45 @@ export const EvaluationProgressList = () => {
             </div>
           ))}
         </div>
-        <Dialog open={showApproveDialog}>
-          <Dialog.Title>Approve Request to Remove</Dialog.Title>
-          <Dialog.Description>Are you sure you want to approve this request?</Dialog.Description>
-          <Dialog.Actions>
-            <Button variant='primaryOutline' onClick={() => toggleApproveDialog(null, null)}>
-              No
-            </Button>
-            <Button
-              variant='primary'
-              onClick={async () => {
-                toggleApproveDialog(null, selectedEvaluatorId)
-                await handleApprove()
-              }}
-            >
-              Yes
-            </Button>
-          </Dialog.Actions>
-        </Dialog>
-        <Dialog open={showDeclineDialog}>
-          <Dialog.Title>Decline Request to Remove</Dialog.Title>
-          <Dialog.Description>Are you sure you want to decline this request?</Dialog.Description>
-          <Dialog.Actions>
-            <Button variant='primaryOutline' onClick={() => toggleDeclineDialog(null)}>
-              No
-            </Button>
-            <Button
-              variant='primary'
-              onClick={async () => {
-                toggleDeclineDialog(null)
-                await handleDecline()
-              }}
-            >
-              Yes
-            </Button>
-          </Dialog.Actions>
-        </Dialog>
-        <Dialog open={showEmailLogDialog}>
-          <Dialog.Title>Email Logs</Dialog.Title>
-          <Dialog.Description>
-            <p>
-              {selectedEvaluator?.email_logs?.length} reminders sent. Latest reminders sent last:
-            </p>
-            {selectedEvaluator?.email_logs?.map((emailLog) => (
-              <p key={emailLog.id}>- {convertToFullDateAndTime(emailLog.sent_at, user)}</p>
-            ))}
-          </Dialog.Description>
-          <Dialog.Actions>
-            <Button variant='primary' onClick={() => toggleEmailLogDialog(null)}>
-              Close
-            </Button>
-          </Dialog.Actions>
-        </Dialog>
+
+        <Suspense fallback={<div>Loading...</div>}>
+          <EvaluationAdminDialog
+            open={showApproveDialog}
+            title='Approve Request to Remove'
+            description={<>Are you sure you want to approve this request?</>}
+            onClose={() => toggleApproveDialog(null, null)}
+            onSubmit={async () => {
+              toggleApproveDialog(null, selectedEvaluatorId)
+              await handleApprove()
+            }}
+          />
+          <EvaluationAdminDialog
+            open={showEmailLogDialog}
+            title='Email Logs'
+            description={
+              <>
+                <p>
+                  {selectedEvaluator?.email_logs?.length} reminders sent. Latest reminders sent
+                  last:
+                </p>
+                {selectedEvaluator?.email_logs?.map((emailLog) => (
+                  <p key={emailLog.id}>- {convertToFullDateAndTime(emailLog.sent_at, user)}</p>
+                ))}
+              </>
+            }
+            onClose={() => toggleEmailLogDialog(null)}
+          />
+          <EvaluationAdminDialog
+            open={showDeclineDialog}
+            title='Decline Request to Remove'
+            description={<>Are you sure you want to decline this request?</>}
+            onClose={() => toggleDeclineDialog(null)}
+            onSubmit={async () => {
+              toggleDeclineDialog(null)
+              await handleDecline()
+            }}
+          />
+        </Suspense>
       </div>
     </>
   )

@@ -1,13 +1,12 @@
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef, lazy, Suspense } from "react"
 import { type SelectInstance, type GroupBase } from "react-select"
 import { debounce } from "lodash"
-import { Button, LinkButton } from "@components/ui/button/button"
+import { Button } from "@components/ui/button/button"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { getActiveTemplates } from "@redux/slices/evaluation-templates-slice"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { type Option } from "@custom-types/optionType"
 import { CustomSelect } from "@components/ui/select/custom-select"
-import Dialog from "@components/ui/dialog/dialog"
 import { useNavigate, useParams } from "react-router-dom"
 import { getProjectMembers } from "@redux/slices/project-members-slice"
 import { formatDate } from "@utils/format-date"
@@ -19,6 +18,9 @@ import { setAlert } from "@redux/slices/app-slice"
 import { Loading } from "@custom-types/loadingType"
 import { getEvaluationResult } from "@redux/slices/evaluation-result-slice"
 
+const EvaluationAdminDialog = lazy(
+  async () => await import("@features/admin/evaluation-administrations/evaluation-admin-dialog")
+)
 export const AddEvaluatorForm = () => {
   const navigate = useNavigate()
   const { id, evaluation_result_id, evaluation_template_id } = useParams()
@@ -289,24 +291,21 @@ export const AddEvaluatorForm = () => {
           Add
         </Button>
       </div>
-      <Dialog open={showDialog}>
-        <Dialog.Title>Cancel</Dialog.Title>
-        <Dialog.Description>
-          Are you sure you want to cancel? <br />
-          If you cancel, your data won&apos;t be saved.
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={toggleDialog}>
-            No
-          </Button>
-          <LinkButton
-            variant='primary'
-            to={`/admin/evaluation-administrations/${id}/evaluees/${evaluation_result_id}/evaluators/${evaluation_template_id}`}
-          >
-            Yes
-          </LinkButton>
-        </Dialog.Actions>
-      </Dialog>
+      <Suspense fallback={<div>Loading...</div>}>
+        <EvaluationAdminDialog
+          open={showDialog}
+          title='Cancel'
+          description={
+            <>
+              Are you sure you want to cancel? <br />
+              If you cancel, your data won&apos;t be saved.
+            </>
+          }
+          onClose={toggleDialog}
+          showLinkButton={true}
+          linkTo={`/admin/evaluation-administrations/${id}/evaluees/${evaluation_result_id}/evaluators/${evaluation_template_id}`}
+        />
+      </Suspense>
     </div>
   )
 }
