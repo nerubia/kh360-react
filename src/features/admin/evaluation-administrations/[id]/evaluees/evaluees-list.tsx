@@ -13,7 +13,7 @@ import {
 } from "@redux/slices/evaluation-results-slice"
 import { getEvaluationResultStatusVariant } from "@utils/variant"
 import { Badge } from "@components/ui/badge/badge"
-
+import { Loading } from "@custom-types/loadingType"
 const EvaluationAdminDialog = lazy(
   async () =>
     await import("@features/admin/evaluation-administrations/evaluation-administrations-dialog")
@@ -132,6 +132,7 @@ export const EvalueesList = () => {
           selectedEvaluee={selectedEvaluee}
           onClose={() => setSelectedEvaluee(undefined)}
           onSubmit={handleDeleteEvaluee}
+          loading={loading === Loading.Pending}
         />
       </Suspense>
     </>
