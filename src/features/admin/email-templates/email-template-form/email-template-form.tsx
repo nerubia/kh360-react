@@ -6,7 +6,6 @@ import { type SingleValue } from "react-select"
 import { Input } from "@components/ui/input/input"
 import { TextArea } from "@components/ui/textarea/text-area"
 import { Button } from "@components/ui/button/button"
-import { Checkbox } from "@components/ui/checkbox/checkbox"
 import { CreateSelect } from "@components/ui/select/create-select"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
@@ -22,6 +21,7 @@ import {
   updateEmailTemplate,
 } from "@redux/slices/email-template-slice"
 import { setAlert } from "@redux/slices/app-slice"
+import { ToggleSwitch } from "@components/ui/toggle-switch/toggle-switch"
 
 interface DefaultDialogProps {
   open: boolean
@@ -264,8 +264,8 @@ export const EmailTemplateForm = () => {
           </div>
           <div className='flex-1'>
             <h2 className='font-medium'>Default</h2>
-            <div className='m-2.5'>
-              <Checkbox
+            <div className='my-2.5'>
+              <ToggleSwitch
                 checked={isDefault}
                 onChange={async (checked) => await handleClickCheckbox(checked)}
               />
