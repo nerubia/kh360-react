@@ -98,7 +98,12 @@ export const ExternalEvaluatorsTable = () => {
 
   return (
     <div className='flex flex-col gap-8'>
-      <Table columns={externalEvalColumns} data={external_users} renderCell={renderCell} />
+      <Table
+        columns={externalEvalColumns}
+        data={external_users}
+        renderCell={renderCell}
+        applyFixedColWidth={true}
+      />
       <Suspense fallback={<div>Loading...</div>}>
         <ExternalEvaluatorsDialog
           open={showDialog}
