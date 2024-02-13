@@ -20,6 +20,7 @@ interface SelectProps {
   error?: string | null
   isLoading?: boolean
   customRef?: Ref<SelectInstance<Option, false, GroupBase<Option>>>
+  isClearable?: boolean
 }
 
 export const CustomSelect = ({
@@ -34,6 +35,7 @@ export const CustomSelect = ({
   error,
   isLoading,
   customRef,
+  isClearable,
 }: SelectProps) => {
   const isMobile = useMobileView()
 
@@ -52,7 +54,7 @@ export const CustomSelect = ({
         classNames={{
           container: () =>
             `w-full ${error != null ? "border border-red-500 rounded-md" : ""} ${
-              fullWidth === true ? "" : "md:w-40"
+              fullWidth === true ? "" : "md:w-80"
             }`,
           control: () => "h-38",
         }}
@@ -63,6 +65,7 @@ export const CustomSelect = ({
         onMenuOpen={onMenuOpen}
         options={options}
         isLoading={isLoading}
+        isClearable={isClearable}
       />
       {error != null && <p className='text-red-500 text-sm'>{error}</p>}
     </div>
