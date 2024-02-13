@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { Suspense, lazy, useEffect, useState } from "react"
 import { useSearchParams, useNavigate, useLocation } from "react-router-dom"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import {
@@ -9,7 +9,6 @@ import { useAppSelector } from "@hooks/useAppSelector"
 import { Button, LinkButton } from "@components/ui/button/button"
 import { Icon } from "@components/ui/icon/icon"
 import { Pagination } from "@components/shared/pagination/pagination"
-import Dialog from "@components/ui/dialog/dialog"
 import { setAlert, setPreviousUrl } from "@redux/slices/app-slice"
 import { useFullPath } from "@hooks/use-full-path"
 import { Badge } from "@components/ui/badge/badge"
@@ -18,6 +17,10 @@ import {
   type EvaluationTemplate,
 } from "@custom-types/evaluation-template-type"
 import { Table } from "@components/ui/table/table"
+
+const EvaluationTemplateDialog = lazy(
+  async () => await import("@features/admin/evaluation-templates/evaluation-templates-dialog")
+)
 
 export const EvaluationTemplatesTable = () => {
   const [searchParams] = useSearchParams()
@@ -58,11 +61,15 @@ export const EvaluationTemplatesTable = () => {
     }
   }, [evaluation_templates])
 
-  const toggleDialog = (id: number | null, e: React.MouseEvent) => {
-    e.stopPropagation()
+  const toggleDialog = (id: number | null, e: React.MouseEvent | null) => {
+    if (e != null) {
+      e.stopPropagation()
+    }
+
     if (id !== null) {
       setSelectedEvaluationTemplateId(id)
     }
+
     setShowDialog((prev) => !prev)
   }
 
@@ -149,27 +156,25 @@ export const EvaluationTemplatesTable = () => {
         onClickRow={handleViewEvaluationTemplate}
         columns={evaluationTemplateColumns}
       />
-      <Dialog open={showDialog}>
-        <Dialog.Title>Delete Evaluation Template</Dialog.Title>
-        <Dialog.Description>
-          Are you sure you want to delete this template? <br />
-          This will delete all evaluations associated with this template and cannot be reverted.
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={(e) => toggleDialog(null, e)}>
-            No
-          </Button>
-          <Button
-            variant='primary'
-            onClick={async (e) => {
-              await handleDelete()
-              toggleDialog(null, e)
-            }}
-          >
-            Yes
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
+      <Suspense fallback={<div>Loading...</div>}>
+        <EvaluationTemplateDialog
+          open={showDialog}
+          title='Delete Evaluation Template'
+          description={
+            <>
+              Are you sure you want to delete this template? <br />
+              This will delete all evaluations associated with this template and cannot be reverted.
+            </>
+          }
+          closeBtn='No'
+          acceptBtn='Yes'
+          onClose={(e) => toggleDialog(null, e)}
+          onSubmit={async (e) => {
+            await handleDelete()
+            toggleDialog(null, e)
+          }}
+        />
+      </Suspense>
       {totalPages !== 1 && (
         <div className='flex justify-center'>
           <Pagination

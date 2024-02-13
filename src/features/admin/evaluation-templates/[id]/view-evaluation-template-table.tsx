@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react"
+import { Suspense, lazy, useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { Loading } from "@custom-types/loadingType"
-import Dialog from "@components/ui/dialog/dialog"
 import { Button } from "@components/ui/button/button"
 import { Icon } from "@components/ui/icon/icon"
 import {
@@ -32,6 +31,10 @@ const categoryOptions: Option[] = Object.values(EvaluationTemplateContentCategor
   label: value,
   value,
 }))
+
+const EvaluationTemplateDialog = lazy(
+  async () => await import("@features/admin/evaluation-templates/evaluation-templates-dialog")
+)
 
 export const ViewEvaluationTemplateTable = () => {
   const { id } = useParams()
@@ -330,111 +333,107 @@ export const ViewEvaluationTemplateTable = () => {
               </>
             )}
         </div>
+        <Suspense fallback={<div>Loading...</div>}>
+          <EvaluationTemplateDialog
+            open={showDeleteDialog}
+            title='Delete Evaluation Template Content'
+            description={
+              <>
+                Are you sure you want to delete this evaluation template content? This will delete
+                all data and cannot be reverted.
+              </>
+            }
+            onClose={() => toggleDeleteDialog(null)}
+            onSubmit={async () => {
+              await handleDelete()
+              toggleDeleteDialog(null)
+            }}
+            closeBtn='No'
+            acceptBtn='Yes'
+          />
+          <EvaluationTemplateDialog
+            size={"medium"}
+            maxWidthMin={true}
+            open={showEditDialog}
+            title={
+              selectedEvaluationTemplateContentId !== null
+                ? "Edit Evaluation Template Content"
+                : "Add Evaluation Template Content"
+            }
+            description={
+              <>
+                <div className='flex flex-col gap-4 w-500 p-1'>
+                  <div>
+                    <div className='text-lg font-bold'>Name</div>
+                    <Input
+                      name='name'
+                      placeholder='Evaluation name'
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      error={validationErrors.name}
+                    />
+                  </div>
+                  <div>
+                    <div className='text-lg font-bold'>Description</div>
+                    <TextArea
+                      name='description'
+                      placeholder='Description'
+                      value={formData.description}
+                      onChange={handleTextAreaChange}
+                      error={validationErrors.description}
+                    />
+                  </div>
+                  <div>
+                    <div className='text-lg font-bold'>Category</div>
+                    <CustomSelect
+                      data-test-id='CategoryDropdown'
+                      name='category'
+                      value={categoryOptions.find((option) => option.value === formData.category)}
+                      onChange={(option) => setFormData({ ...formData, category: option?.value })}
+                      options={categoryOptions}
+                      fullWidth
+                      error={validationErrors.category}
+                    />
+                  </div>
+                  <div>
+                    <div className='text-lg font-bold'>Rate</div>
+                    <Input
+                      step={0.01}
+                      name='rate'
+                      type='number'
+                      placeholder='Rate'
+                      value={Number(formData.rate).toFixed(2)}
+                      onChange={(event) => checkNumberValue(event)}
+                      error={validationErrors.rate}
+                    />
+                  </div>
+                  <div className='flex items-center'>
+                    <ToggleSwitch
+                      checked={Boolean(formData.is_active)}
+                      onChange={() => {
+                        const newValue: boolean = Boolean(formData.is_active) ?? false
+                        setFormData({ ...formData, is_active: !newValue })
+                        return null
+                      }}
+                    />
+                    <div className='text-lg font-bold'>Active</div>
+                  </div>
+                </div>
+              </>
+            }
+            closeBtn='Close'
+            acceptBtn='Save'
+            onClose={() => toggleEditDialog(null)}
+            onSubmit={async () => {
+              selectedEvaluationTemplateContentId !== null
+                ? await handleSave()
+                : await handleAddContent()
+            }}
+          />
+        </Suspense>
         <div className='flex justify-end'>
           <Button onClick={() => toggleEditDialog(null)}>Add Template Content</Button>
         </div>
-        <Dialog open={showDeleteDialog}>
-          <Dialog.Title>Delete Evaluation Template Content</Dialog.Title>
-          <Dialog.Description>
-            Are you sure you want to delete this evaluation template content? This will delete all
-            data and cannot be reverted.
-          </Dialog.Description>
-          <Dialog.Actions>
-            <Button variant='primaryOutline' onClick={() => toggleDeleteDialog(null)}>
-              No
-            </Button>
-            <Button
-              variant='primary'
-              onClick={async () => {
-                await handleDelete()
-                toggleDeleteDialog(null)
-              }}
-            >
-              Yes
-            </Button>
-          </Dialog.Actions>
-        </Dialog>
-        <Dialog open={showEditDialog} size={"medium"} maxWidthMin={true}>
-          <Dialog.Title>
-            {selectedEvaluationTemplateContentId !== null
-              ? "Edit Evaluation Template Content"
-              : "Add Evaluation Template Content"}
-          </Dialog.Title>
-          <Dialog.Description>
-            <div className='flex flex-col gap-4 w-500 p-1'>
-              <div>
-                <div className='text-lg font-bold'>Name</div>
-                <Input
-                  name='name'
-                  placeholder='Evaluation name'
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  error={validationErrors.name}
-                />
-              </div>
-              <div>
-                <div className='text-lg font-bold'>Description</div>
-                <TextArea
-                  name='description'
-                  placeholder='Description'
-                  value={formData.description}
-                  onChange={handleTextAreaChange}
-                  error={validationErrors.description}
-                />
-              </div>
-              <div>
-                <div className='text-lg font-bold'>Category</div>
-                <CustomSelect
-                  data-test-id='CategoryDropdown'
-                  name='category'
-                  value={categoryOptions.find((option) => option.value === formData.category)}
-                  onChange={(option) => setFormData({ ...formData, category: option?.value })}
-                  options={categoryOptions}
-                  fullWidth
-                  error={validationErrors.category}
-                />
-              </div>
-              <div>
-                <div className='text-lg font-bold'>Rate</div>
-                <Input
-                  step={0.01}
-                  name='rate'
-                  type='number'
-                  placeholder='Rate'
-                  value={Number(formData.rate).toFixed(2)}
-                  onChange={(event) => checkNumberValue(event)}
-                  error={validationErrors.rate}
-                />
-              </div>
-              <div className='flex items-center'>
-                <ToggleSwitch
-                  checked={Boolean(formData.is_active)}
-                  onChange={() => {
-                    const newValue: boolean = Boolean(formData.is_active) ?? false
-                    setFormData({ ...formData, is_active: !newValue })
-                    return null
-                  }}
-                />
-                <div className='text-lg font-bold'>Active</div>
-              </div>
-            </div>
-          </Dialog.Description>
-          <Dialog.Actions>
-            <Button variant='primaryOutline' onClick={() => toggleEditDialog(null)}>
-              Close
-            </Button>
-            <Button
-              variant='primary'
-              onClick={async () => {
-                selectedEvaluationTemplateContentId !== null
-                  ? await handleSave()
-                  : await handleAddContent()
-              }}
-            >
-              Save
-            </Button>
-          </Dialog.Actions>
-        </Dialog>
       </div>
     </>
   )
