@@ -235,7 +235,6 @@ test.describe("Admin - Edit Project", () => {
       await expect(
         page.getByText("Must select a date that is within the valid range.").nth(1)
       ).toBeVisible()
-      await expect(page.getByText("Description is required")).toBeVisible()
       await expect(page.getByText("Status is required.")).toBeVisible()
     })
 

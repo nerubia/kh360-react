@@ -4,10 +4,9 @@ export const createProjectSchema = object().shape({
   name: string().required("Name is required."),
   client_id: string(),
   start_date: string()
-    .required("Start date is required.")
     .test("start-date", "Start date must not be later than end date.", function (start_date) {
       const end_date = this.parent.end_date
-      return new Date(start_date) <= new Date(end_date)
+      return new Date(start_date ?? "") <= new Date(end_date)
     })
     .test(
       "start-date",
@@ -28,7 +27,8 @@ export const createProjectSchema = object().shape({
         )
 
         return (
-          new Date(start_date) <= new Date(maxDate) && new Date(minDate) <= new Date(start_date)
+          new Date(start_date ?? "") <= new Date(maxDate) &&
+          new Date(minDate) <= new Date(start_date ?? "")
         )
       }
     ),
@@ -55,7 +55,7 @@ export const createProjectSchema = object().shape({
 
       return new Date(end_date) <= new Date(maxDate) && new Date(minDate) <= new Date(end_date)
     }),
-  description: string().required("Description is required."),
+  description: string(),
   status: string().required("Status is required."),
   skill_ids: array(),
 })
