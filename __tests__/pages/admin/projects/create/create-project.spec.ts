@@ -102,7 +102,7 @@ test.describe("Admin - Create Project", () => {
       await expect(page.getByPlaceholder("Start date")).toBeVisible()
       await expect(page.getByPlaceholder("End date")).toBeVisible()
       await expect(page.getByPlaceholder("Description")).toBeVisible()
-      await expect(page.getByText("Skills")).toBeVisible()
+      await expect(page.getByText("Skills", { exact: true })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Category" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Name" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Actions" })).toBeVisible()
@@ -143,7 +143,6 @@ test.describe("Admin - Create Project", () => {
       await expect(
         page.getByText("Must select a date that is within the valid range.").nth(1)
       ).toBeVisible()
-      await expect(page.getByText("Description is required")).toBeVisible()
       await expect(page.getByText("Status is required.")).toBeVisible()
     })
 

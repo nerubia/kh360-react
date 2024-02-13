@@ -263,6 +263,7 @@ export const CreateProjectForm = () => {
               options={clientOptions}
               fullWidth
               error={validationErrors.client_id}
+              isClearable={true}
             />
           </div>
         </div>
@@ -311,7 +312,7 @@ export const CreateProjectForm = () => {
           value={statusOptions.find((option) => option.value === projectFormData.status)}
           onChange={async (option) => await onChangeStatus(option)}
           options={statusOptions}
-          fullWidth
+          fullWidth={false}
           error={validationErrors.status}
         />
       </div>
