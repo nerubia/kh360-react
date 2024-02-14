@@ -33,11 +33,13 @@ import useSmoothScrollToTop from "@hooks/use-smooth-scroll-to-top"
 import { ReadyState } from "react-use-websocket"
 import { WebSocketContext, type WebSocketType } from "@components/providers/websocket"
 import { CustomDialog } from "@components/ui/dialog/custom-dialog"
+import { useMobileView } from "@hooks/use-mobile-view"
 
 export const EvaluationsCriteria = () => {
   const { id, evaluation_id } = useParams()
   const navigate = useNavigate()
   const appDispatch = useAppDispatch()
+  const isMediumSize = useMobileView(1028)
   const { evaluation_template_contents, is_editing } = useAppSelector(
     (state) => state.evaluationTemplateContents
   )
@@ -454,13 +456,13 @@ export const EvaluationsCriteria = () => {
           <div className='flex flex-col w-full pb-5 pr-5 mx-4 mb-3 overflow-y-scroll md:w-3/4 overflow-x-hidden'>
             <div className='items-center justify-between p-1 border rounded sm:flex sm:flex-col md:flex-row md:border-none md:p-0'>
               <div className='flex-flex-col'>
-                <div className='mb-1 text-xl font-bold text-primary-500'>
+                <div className='mb-1 test-base lg:text-xl font-bold text-primary-500'>
                   <p>
                     {evaluation?.evaluee?.last_name}
                     {", "} {evaluation?.evaluee?.first_name}
                   </p>
                 </div>
-                <p className='mb-1 text-base font-bold'>
+                <p className='mb-1 text-sm lg:text-base font-bold'>
                   {evaluation?.project !== null ? (
                     <>
                       {evaluation?.project?.name} [{evaluation?.project_role?.short_name}] -{" "}
@@ -470,7 +472,7 @@ export const EvaluationsCriteria = () => {
                     <>{evaluation?.template?.display_name}</>
                   )}
                 </p>
-                <p className='mb-4 text-sm'>
+                <p className='mb-4 text-xs lg:text-sm'>
                   Evaluation Period:{" "}
                   {formatDateRange(evaluation?.eval_start_date, evaluation?.eval_end_date)}
                 </p>
@@ -493,12 +495,12 @@ export const EvaluationsCriteria = () => {
                 key={templateContent.id}
                 className='rounded-md hover:bg-primary-50 sm:mt-1 md:mt-0'
               >
-                <div className='flex flex-col p-4 h-fit md:flex-row'>
-                  <div className='w-full mr-5 md:w-9/12'>
-                    <h1 className='mb-3 md:mb-0 text-base font-medium text-primary-500'>
+                <div className={`flex flex-col p-4 h-fit lg:flex-row`}>
+                  <div className='w-full mr-5 lg:w-9/12'>
+                    <h1 className='mb-3 md:mb-0 text-xs lg:text-base font-medium text-primary-500'>
                       {templateContent.name}
                     </h1>
-                    <p className='mb-2 text-sm'>{templateContent.description}</p>
+                    <p className='mb-2 text-xs lg:text-sm'>{templateContent.description}</p>
                   </div>
                   <span className='inline-block w-full md:w-auto'>
                     <StarRating
@@ -577,22 +579,33 @@ export const EvaluationsCriteria = () => {
                       <div className='flex justify-between'>
                         <div className='flex gap-4'>
                           <Button
+                            size={isMediumSize ? "small" : "medium"}
                             variant='destructiveOutline'
                             onClick={toggleRequestToRemoveDialog}
                           >
-                            <span className='text-sm sm:text-base'>Request to Remove</span>
+                            <span
+                              className={`text-sm sm:text-base ${isMediumSize ? "truncate" : ""}`}
+                            >
+                              {isMediumSize ? "Request to ..." : "Request to Remove"}
+                            </span>
                           </Button>
                         </div>
                         <div className='flex gap-4 ml-2'>
                           <Button
+                            size={isMediumSize ? "small" : "medium"}
                             disabled={!is_editing}
                             variant='primaryOutline'
                             onClick={toggleSaveDialog}
                           >
                             Save
                           </Button>
-                          <Button onClick={handleClickSaveAndSubmit}>
-                            <span className='text-sm sm:text-base'>Save & Submit</span>
+                          <Button
+                            onClick={handleClickSaveAndSubmit}
+                            size={isMediumSize ? "small" : "medium"}
+                          >
+                            <span className='text-sm sm:text-base whitespace-nowrap'>
+                              {isMediumSize ? "Save & ..." : "Save & Submit"}
+                            </span>
                           </Button>
                         </div>
                       </div>

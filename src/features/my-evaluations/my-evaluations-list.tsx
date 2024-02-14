@@ -12,7 +12,7 @@ import { useMobileView } from "@hooks/use-mobile-view"
 
 export const MyEvaluationsList = () => {
   const appDispatch = useAppDispatch()
-  const isMobile = useMobileView()
+  const isMobile = useMobileView(1030)
   const { user } = useAppSelector((state) => state.auth)
   const { loading, my_evaluation_administrations, hasNextPage, currentPage } = useAppSelector(
     (state) => state.user
@@ -45,9 +45,8 @@ export const MyEvaluationsList = () => {
       })
     )
   }
-
   return (
-    <div className='flex flex-col gap-8'>
+    <div className='flex flex-col gap-8 items-center'>
       {loading === Loading.Fulfilled && my_evaluation_administrations.length === 0 && (
         <p className='whitespace-pre-wrap'>{emailTemplate?.content}</p>
       )}
@@ -56,9 +55,9 @@ export const MyEvaluationsList = () => {
           key={evaluationAdministration.id}
           to={`/my-evaluations/${evaluationAdministration.id}`}
         >
-          <div className='flex flex-col gap-4 shadow-md rounded-md p-4 hover:bg-slate-100'>
+          <div className='flex flex-col gap-4 shadow-md rounded-md p-4 hover:bg-slate-100 w-500 lg:w-800'>
             <div className='flex flex-col items-center gap-5'>
-              <div className='w-280 md:w-700'>
+              <div className='w-full'>
                 <ScoreRange
                   user_picture={user?.picture}
                   score_rating={evaluationAdministration.score_rating}

@@ -36,7 +36,7 @@ export const MyEvaluationResultsTable = () => {
               <div className='text-sm md:text-xl text-primary-500 font-bold mb-5'>
                 Detailed Evaluation{" "}
               </div>
-              <table className='text-sm md:text-lg w-full md:w-860'>
+              <table className='text-sm md:text-lg w-full'>
                 <thead className='text-left'>
                   <tr>
                     <th className='py-1 border-b-4 text-primary-500'>Evaluations</th>
