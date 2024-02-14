@@ -21,7 +21,7 @@ export const ProjectColumn: React.FC<{
         if (t.hideChildren === false) {
           expanderSymbol = "ChevronDown"
         } else if (t.hideChildren === true) {
-          expanderSymbol = "ChevronRight"
+          expanderSymbol = "ChevronUp"
         }
 
         return (
@@ -36,10 +36,10 @@ export const ProjectColumn: React.FC<{
               <div className='flex p-2'>
                 <div
                   className={`flex gap-5 pl-4 items-center ${
-                    t.hideChildren !== undefined ? "text-primary-500" : "pl-8"
+                    t.hideChildren !== undefined ? "text-primary-500" : "pl-8 w-60"
                   } `}
                 >
-                  {t.name}
+                  <span className='truncate'>{t.name}</span>
                   {t.hideChildren === undefined && (
                     <div>
                       <LinkButton to={`${t.projectMemberId}/edit`} variant='unstyled' size='small'>
@@ -56,8 +56,8 @@ export const ProjectColumn: React.FC<{
                 >
                   {expanderSymbol.length > 0 && (
                     <>
-                      {expanderSymbol === "ChevronRight" || t.hideChildren === true ? (
-                        <Icon icon='ChevronRight' />
+                      {expanderSymbol === "ChevronUp" || t.hideChildren === true ? (
+                        <Icon icon='ChevronUp' />
                       ) : (
                         <Icon icon='ChevronDown' />
                       )}
