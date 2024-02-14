@@ -35,8 +35,22 @@ export const ProjectColumn: React.FC<{
             >
               <div className='flex p-2'>
                 <div
+                  className={`flex gap-5 pl-4 items-center ${
+                    t.hideChildren !== undefined ? "text-primary-500" : "pl-8"
+                  } `}
+                >
+                  {t.name}
+                  {t.hideChildren === undefined && (
+                    <div>
+                      <LinkButton to={`${t.projectMemberId}/edit`} variant='unstyled' size='small'>
+                        <Icon icon='PenSquare' size='extraSmall' color='gray' />
+                      </LinkButton>
+                    </div>
+                  )}
+                </div>
+                <div
                   className={`${
-                    expanderSymbol.length > 0 ? "text-gray-600 text-xs" : "text-xs p-4"
+                    expanderSymbol.length > 0 ? "text-gray-600 text-xs px-2" : "text-xs p-4"
                   } cursor-pointer`}
                   onClick={() => onExpanderClick(t)}
                 >
@@ -48,16 +62,6 @@ export const ProjectColumn: React.FC<{
                         <Icon icon='ChevronDown' />
                       )}
                     </>
-                  )}
-                </div>
-                <div className='flex gap-5 items-center'>
-                  {t.name}
-                  {t.hideChildren === undefined && (
-                    <div>
-                      <LinkButton to={`${t.projectMemberId}/edit`} variant='unstyled' size='small'>
-                        <Icon icon='PenSquare' size='extraSmall' color='gray' />
-                      </LinkButton>
-                    </div>
                   )}
                 </div>
               </div>
