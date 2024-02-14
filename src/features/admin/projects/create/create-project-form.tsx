@@ -228,6 +228,7 @@ export const CreateProjectForm = () => {
                   value={projectFormData?.name}
                   onChange={handleInputChange}
                   error={validationErrors.name}
+                  maxLength={255}
                 />
               </div>
               <div className='flex flex-wrap gap-4'>
