@@ -240,84 +240,86 @@ export const CreateProjectForm = () => {
   }
 
   return (
-    <div className='flex flex-col gap-10 md:w-1/2'>
-      <div className='flex flex-col gap-4'>
-        <div>
-          <h2 className='font-medium'>Name</h2>
-          <Input
-            name='name'
-            placeholder='Name'
-            value={projectFormData.name}
-            onChange={handleInputChange}
-            error={validationErrors.name}
-          />
-        </div>
-        <div className='flex flex-wrap gap-4'>
-          <div className='flex-1'>
-            <CustomSelect
-              data-test-id='SelectClient'
-              label='Client'
-              name='client_id'
-              value={clientOptions.find((option) => option.value === projectFormData.client_id)}
-              onChange={async (option) => await onChangeClient(option)}
-              options={clientOptions}
-              fullWidth
-              error={validationErrors.client_id}
-              isClearable={true}
+    <>
+      <div className='flex flex-col gap-10 md:w-1/2'>
+        <div className='flex flex-col gap-4'>
+          <div>
+            <h2 className='font-medium'>Name</h2>
+            <Input
+              name='name'
+              placeholder='Name'
+              value={projectFormData.name}
+              onChange={handleInputChange}
+              error={validationErrors.name}
             />
           </div>
-        </div>
-        <div className='flex flex-col'>
-          <h2 className='font-medium'>Project Duration</h2>
-          <div className='flex flex-col sm:flex-row items-center gap-4'>
-            <div className='w-full'>
-              <Input
-                name='start_date'
-                type='date'
-                placeholder='Start date'
-                value={projectFormData.start_date}
-                onChange={handleInputChange}
-                error={validationErrors.start_date}
-                max={projectFormData.end_date}
-              />
-            </div>
-            <h2 className='font-medium'>to</h2>
-            <div className='w-full'>
-              <Input
-                name='end_date'
-                type='date'
-                placeholder='End date'
-                value={projectFormData.end_date}
-                onChange={handleInputChange}
-                error={validationErrors.end_date}
-                min={projectFormData.start_date}
+          <div className='flex flex-wrap gap-4'>
+            <div className='flex-1'>
+              <CustomSelect
+                data-test-id='SelectClient'
+                label='Client'
+                name='client_id'
+                value={clientOptions.find((option) => option.value === projectFormData.client_id)}
+                onChange={async (option) => await onChangeClient(option)}
+                options={clientOptions}
+                fullWidth
+                error={validationErrors.client_id}
+                isClearable={true}
               />
             </div>
           </div>
-        </div>
-        <div className='flex flex-col gap-4'>
-          <TextArea
-            label='Description'
-            name='description'
-            placeholder='Description'
-            value={projectFormData.description}
-            onChange={handleTextAreaChange}
-            error={validationErrors.description}
+          <div className='flex flex-col'>
+            <h2 className='font-medium'>Project Duration</h2>
+            <div className='flex flex-col sm:flex-row items-center gap-4'>
+              <div className='w-full'>
+                <Input
+                  name='start_date'
+                  type='date'
+                  placeholder='Start date'
+                  value={projectFormData.start_date}
+                  onChange={handleInputChange}
+                  error={validationErrors.start_date}
+                  max={projectFormData.end_date}
+                />
+              </div>
+              <h2 className='font-medium'>to</h2>
+              <div className='w-full'>
+                <Input
+                  name='end_date'
+                  type='date'
+                  placeholder='End date'
+                  value={projectFormData.end_date}
+                  onChange={handleInputChange}
+                  error={validationErrors.end_date}
+                  min={projectFormData.start_date}
+                />
+              </div>
+            </div>
+          </div>
+          <div className='flex flex-col gap-4'>
+            <TextArea
+              label='Description'
+              name='description'
+              placeholder='Description'
+              value={projectFormData.description}
+              onChange={handleTextAreaChange}
+              error={validationErrors.description}
+            />
+          </div>
+          <CustomSelect
+            data-test-id='SelectProjectStatus'
+            label='Status'
+            name='project_status'
+            value={statusOptions.find((option) => option.value === projectFormData.status)}
+            onChange={async (option) => await onChangeStatus(option)}
+            options={statusOptions}
+            fullWidth={false}
+            error={validationErrors.status}
           />
         </div>
-        <CustomSelect
-          data-test-id='SelectProjectStatus'
-          label='Status'
-          name='project_status'
-          value={statusOptions.find((option) => option.value === projectFormData.status)}
-          onChange={async (option) => await onChangeStatus(option)}
-          options={statusOptions}
-          fullWidth={false}
-          error={validationErrors.status}
-        />
       </div>
       <CreateProjectTable />
-      <div className='flex justify-between'>
+      <div className='flex justify-between xl:w-2/3 pr-5'>
         <Button variant='primaryOutline' onClick={toggleCancelDialog}>
           Cancel
         </Button>
@@ -349,6 +351,6 @@ export const CreateProjectForm = () => {
           onSubmit={handleCancel}
         />
       </Suspense>
-    </div>
+    </>
   )
 }
