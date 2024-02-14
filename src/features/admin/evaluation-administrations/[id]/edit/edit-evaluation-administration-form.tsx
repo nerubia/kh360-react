@@ -155,6 +155,7 @@ export const EditEvaluationAdministrationForm = () => {
                   value={formData.name}
                   onChange={handleInputChange}
                   error={validationErrors.name}
+                  maxLength={100}
                 />
               </div>
               <div className='flex flex-col gap-4'>

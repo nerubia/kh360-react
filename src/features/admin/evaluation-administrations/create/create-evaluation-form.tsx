@@ -13,6 +13,7 @@ import { type EvaluationAdministrationFormData } from "@custom-types/form-data-t
 import { createEvaluationAdministration } from "@redux/slices/evaluation-administrations-slice"
 import { setSelectedEmployeeIds } from "@redux/slices/evaluation-administration-slice"
 import { setEvaluationResults } from "@redux/slices/evaluation-results-slice"
+import { setAlert } from "@redux/slices/app-slice"
 
 const EvaluationAdminDialog = lazy(
   async () =>
@@ -22,7 +23,7 @@ const EvaluationAdminDialog = lazy(
 export const CreateEvaluationForm = () => {
   const navigate = useNavigate()
   const appDispatch = useAppDispatch()
-  const { loading, error } = useAppSelector((state) => state.evaluationAdministrations)
+  const { loading } = useAppSelector((state) => state.evaluationAdministrations)
   const { emailTemplate } = useAppSelector((state) => state.emailTemplate)
 
   const [formData, setFormData] = useState<EvaluationAdministrationFormData>({
@@ -60,10 +61,18 @@ export const CreateEvaluationForm = () => {
         abortEarly: false,
       })
       const result = await appDispatch(createEvaluationAdministration(formData))
-      if (result.payload.id !== undefined) {
+      if (result.type === "evaluationAdministration/createEvaluationAdministration/fulfilled") {
         appDispatch(setEvaluationResults([]))
         appDispatch(setSelectedEmployeeIds([]))
         navigate(`/admin/evaluation-administrations/${result.payload.id}/select`)
+      }
+      if (result.type === "evaluationAdministration/createEvaluationAdministration/rejected") {
+        appDispatch(
+          setAlert({
+            description: result.payload,
+            variant: "destructive",
+          })
+        )
       }
     } catch (error) {
       if (error instanceof ValidationError) {
@@ -103,6 +112,7 @@ export const CreateEvaluationForm = () => {
             value={formData.name}
             onChange={handleInputChange}
             error={validationErrors.name}
+            maxLength={100}
           />
         </div>
         <div className='flex flex-col'>
@@ -192,7 +202,6 @@ export const CreateEvaluationForm = () => {
         />
       </div>
       <div>
-        {error != null && <p className='text-red-500'>{error}</p>}
         <div className='flex justify-between'>
           <Button variant='primaryOutline' onClick={toggleDialog}>
             Cancel & Exit
