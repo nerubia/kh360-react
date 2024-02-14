@@ -37,7 +37,7 @@ export const CreateProjectTable = () => {
 
   return (
     <>
-      <div className='flex-2 flex flex-col pr-5 mb-5 overflow-y-scroll'>
+      <div className='flex-2 flex flex-col pr-5 mb-5 overflow-y-scroll xl:w-2/3'>
         <div className='text-xl text-primary-500 font-bold pb-4'>Skills</div>
         <table>
           <thead className='text-left'>
