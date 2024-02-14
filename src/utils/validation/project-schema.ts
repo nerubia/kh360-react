@@ -1,7 +1,7 @@
 import { object, string, array } from "yup"
 
 export const createProjectSchema = object().shape({
-  name: string().required("Name is required."),
+  name: string().required("Name is required.").max(255, "Name must be at most 255 characters"),
   client_id: string(),
   start_date: string()
     .test("start-date", "Start date must not be later than end date.", function (start_date) {
