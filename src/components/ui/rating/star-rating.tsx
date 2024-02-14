@@ -40,6 +40,7 @@ export const StarRating = ({
   const [comment, setComment] = useState<string>("")
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const isMobile = useMobileView()
+  const isMediumSize = useMobileView(1028)
   const handleSaveComment = async (templateContentId: number) => {
     void appDispatch(
       updateEvaluationRatingCommentById({
@@ -130,12 +131,15 @@ export const StarRating = ({
                                             answerOption.answer_type
                                           )
                                   }
-                                  size='small'
+                                  size={`${isMediumSize ? "extraSmall" : "small"}`}
                                 >
                                   {answerOption.answer_type === AnswerType.NA ? (
                                     "N/A"
                                   ) : (
-                                    <Icon icon='Star' />
+                                    <Icon
+                                      icon='Star'
+                                      size={isMediumSize ? "extraSmall" : "medium"}
+                                    />
                                   )}
                                 </Button>
                               </Tooltip.Trigger>
