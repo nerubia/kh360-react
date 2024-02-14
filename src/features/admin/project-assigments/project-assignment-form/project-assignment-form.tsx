@@ -444,48 +444,55 @@ export const ProjectAssignmentForm = () => {
               fullWidth
               error={validationErrors.project_role_id}
             />
-            <div className='flex flex-col'>
-              <h2 className='font-medium'>Assignment Duration</h2>
-              <div className='flex flex-col sm:flex-row items-center gap-4'>
-                <div className='w-full'>
-                  <Input
-                    name='start_date'
-                    type='date'
-                    placeholder='Start date'
-                    value={projectMemberFormData?.start_date}
-                    onChange={handleInputChange}
-                    error={validationErrors.start_date}
-                  />
+            <div className='flex xl:flex-row flex-col gap-5'>
+              <div className='flex-1 flex flex-col'>
+                <h2 className='font-medium'>Assignment Duration</h2>
+                <div className='flex flex-col sm:flex-row items-center gap-4'>
+                  <div className='w-full'>
+                    <Input
+                      name='start_date'
+                      type='date'
+                      placeholder='Start date'
+                      value={projectMemberFormData?.start_date}
+                      onChange={handleInputChange}
+                      error={validationErrors.start_date}
+                    />
+                  </div>
+                  <h2 className='font-medium'>to</h2>
+                  <div className='w-full'>
+                    <Input
+                      name='end_date'
+                      type='date'
+                      placeholder='End date'
+                      value={projectMemberFormData?.end_date}
+                      onChange={handleInputChange}
+                      error={validationErrors.end_date}
+                      min={projectMemberFormData?.start_date}
+                    />
+                  </div>
                 </div>
-                <h2 className='font-medium'>to</h2>
-                <div className='w-full'>
+              </div>
+              <div className='flex flex-col'>
+                <h2 className='font-medium'>Allocation Rate</h2>
+                <div className='flex flex-row gap-4 items-end'>
                   <Input
-                    name='end_date'
-                    type='date'
-                    placeholder='End date'
-                    value={projectMemberFormData?.end_date}
+                    name='allocation_rate'
+                    type='number'
+                    placeholder='Allocation rate'
+                    value={projectMemberFormData?.allocation_rate}
                     onChange={handleInputChange}
-                    error={validationErrors.end_date}
-                    min={projectMemberFormData?.start_date}
+                    error={validationErrors.allocation_rate}
+                    max={100}
                   />
+                  <h2 className='font-medium pb-2'>%</h2>
                 </div>
               </div>
             </div>
-            <Input
-              label='Allocation rate'
-              name='allocation_rate'
-              type='number'
-              placeholder='Allocation rate'
-              value={projectMemberFormData?.allocation_rate}
-              onChange={handleInputChange}
-              error={validationErrors.allocation_rate}
-              max={100}
-            />
           </>
         )}
       </div>
       <EditProjectAssignmentTable />
-      <div className='flex justify-between md:w-1/2'>
+      <div className='flex justify-between md:w-2/3'>
         <Button variant='primaryOutline' onClick={toggleCancelDialog}>
           Cancel
         </Button>
