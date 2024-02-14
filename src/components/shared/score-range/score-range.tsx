@@ -142,7 +142,7 @@ export const ScoreRange = ({
               >
                 {score_rating.display_name}
               </div>
-              <pre className='flex font-sans break-words whitespace-pre-wrap text-xs md:text-sm italic leading-loose ml-5 md:w-860'>
+              <pre className='flex font-sans break-words whitespace-pre-wrap text-xs md:text-sm italic leading-loose ml-5 md:w-500 lg:w-800'>
                 {is_evaluee ? score_rating.evaluee_description : score_rating.result_description}
               </pre>
             </>
