@@ -38,7 +38,7 @@ export const EditProjectAssignmentTable = () => {
 
   return (
     <>
-      <div className='flex-2 flex flex-col gap-5 overflow-y-scroll md:w-1/2'>
+      <div className='flex-2 flex flex-col gap-5 overflow-y-scroll xl:w-2/3'>
         <div className='text-xl text-primary-500 font-bold'>Skills</div>
         <table>
           <thead className='text-left'>
@@ -92,9 +92,23 @@ export const EditProjectAssignmentTable = () => {
             ))}
           </tbody>
         </table>
-      </div>
-      <div className='flex justify-end w-1/2'>
-        <Button onClick={handleAddSkill}>Add Skill</Button>
+        {selectedSkills.length === 0 ? (
+          <div className='pb-4 pl-2 border-b'>
+            No skills added yet. Click{" "}
+            <span onClick={handleAddSkill} className='text-primary-500 cursor-pointer underline'>
+              {" "}
+              here
+            </span>{" "}
+            to add
+          </div>
+        ) : (
+          <div className='flex justify-start pb-10'>
+            <Button onClick={handleAddSkill} variant={"ghost"}>
+              <Icon icon='Plus' size='small' color='primary' />
+              <p className='text-primary-500 uppercase whitespace-nowrap text-sm'>Add Skill</p>
+            </Button>
+          </div>
+        )}
       </div>
     </>
   )
