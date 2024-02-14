@@ -55,22 +55,14 @@ interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
   project: Project | null
-  projectFormData: ProjectFormData
+  projectFormData: ProjectFormData | null
 }
 
 const initialState: InitialState = {
   loading: Loading.Idle,
   error: null,
   project: null,
-  projectFormData: {
-    name: "",
-    client_id: undefined,
-    start_date: "",
-    end_date: "",
-    description: "",
-    status: "",
-    skill_ids: [],
-  },
+  projectFormData: null,
 }
 
 const projectSlice = createSlice({
