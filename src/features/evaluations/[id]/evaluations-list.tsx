@@ -14,6 +14,7 @@ import Dialog from "@components/ui/dialog/dialog"
 import { Badge } from "@components/ui/badge/badge"
 import { getEvaluationStatusVariant } from "@utils/variant"
 import { getByTemplateType } from "@redux/slices/email-template-slice"
+import { useMobileView } from "@hooks/use-mobile-view"
 
 export const EvaluationsList = () => {
   const navigate = useNavigate()
@@ -25,6 +26,7 @@ export const EvaluationsList = () => {
   const [sortedEvaluations, setSortedEvaluations] = useState<Evaluation[]>([])
   const [showDialog, setShowDialog] = useState<boolean>(false)
   const [selectedEvaluationId, setSelectedEvaluationId] = useState<number>()
+  const isMediumSize = useMobileView(1028)
 
   useEffect(() => {
     const getEvaluations = async () => {
@@ -183,7 +185,7 @@ export const EvaluationsList = () => {
                       } w-20 h-15 `}
                     >
                       <div className='flex flex-col justify-between gap-4 md:flex-row'>
-                        <p className='text-sm'>
+                        <p className='text-xs lg:text-sm'>
                           {evaluation.evaluee?.last_name},{" "}
                           {evaluation.evaluee?.first_name != null &&
                             (evaluation.evaluee.first_name.length > 13
@@ -227,8 +229,12 @@ export const EvaluationsList = () => {
             </Dialog.Actions>
           </Dialog>
           <div className='hidden p-2 md:block'>
-            <LinkButton to='/evaluation-administrations' variant='primaryOutline'>
-              <Icon icon='ChevronLeft' />
+            <LinkButton
+              to='/evaluation-administrations'
+              variant='primaryOutline'
+              size={isMediumSize ? "extraSmall" : "medium"}
+            >
+              <Icon icon='ChevronLeft' size={isMediumSize ? "extraSmall" : "medium"} />
             </LinkButton>
           </div>
         </div>

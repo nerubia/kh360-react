@@ -108,6 +108,7 @@ export const Sidebar = () => {
   const isCm = useCmUser()
 
   const isMobileView = useMobileView()
+  const isMediumSize = useMobileView(1028)
 
   const toggleSidebar = () => {
     appDispatch(setActiveSidebar(!activeSidebar))
@@ -131,13 +132,13 @@ export const Sidebar = () => {
   return (
     <div
       className={`${
-        activeSidebar ? "w-full md:w-64" : "w-64 -ml-64"
+        activeSidebar ? (isMediumSize ? "w-full md:w-44" : "w-full md:w-64") : "w-64 -ml-64"
       } bg-primary-500 fixed z-10 h-screen transition-all duration-300`}
     >
       <div className='relative flex flex-col h-full gap-4 p-5 overflow-y-auto'>
         <div className='absolute block top-5 md:hidden'>
           <Button testId='SidebarCloseButton' variant='ghost' size='small' onClick={toggleSidebar}>
-            <Icon icon='Close' />
+            <Icon icon='Close' size={isMediumSize ? "extraSmall" : "medium"} />
           </Button>
         </div>
         <div className='flex justify-center'>
@@ -164,11 +165,20 @@ export const Sidebar = () => {
                       isParentActive(menu) ? "!bg-primary-700" : ""
                     }`}
                   >
-                    <div className='flex gap-2'>
-                      {menu.icon != null && <Icon icon={menu.icon as keyof typeof icons} />}
+                    <div
+                      className={isMediumSize ? "text-xs flex gap-2 items-center" : "flex gap-2"}
+                    >
+                      {menu.icon != null && (
+                        <Icon
+                          size={isMediumSize ? "extraSmall" : "medium"}
+                          icon={menu.icon as keyof typeof icons}
+                        />
+                      )}
                       {menu.title}
                     </div>
-                    {menu.children !== undefined ? <Icon icon='ChevronDown' /> : null}
+                    {menu.children !== undefined ? (
+                      <Icon size={isMediumSize ? "extraSmall" : "medium"} icon='ChevronDown' />
+                    ) : null}
                   </Menu>
                   <div className={isParentActive(menu) ? "" : "hidden"}>
                     {menu.children?.map((child, i) => (
@@ -178,8 +188,13 @@ export const Sidebar = () => {
                           isEvaluation={false}
                           className='w-full rounded-md flex items-center gap-2 bg-primary-500 text-sm text-white hover:bg-primary-600 active:bg-primary-700 disabled:bg-primary-200 [&.active]:bg-primary-700 [&.active]:cursor-default px-4 py-2'
                         >
-                          {child.icon != null && <Icon icon={child.icon as keyof typeof icons} />}
-                          {child.title}
+                          {child.icon != null && (
+                            <Icon
+                              size={isMediumSize ? "extraSmall" : "medium"}
+                              icon={child.icon as keyof typeof icons}
+                            />
+                          )}
+                          <div className={isMediumSize ? "text-xs" : ""}>{child.title}</div>
                         </Menu>
                       </div>
                     ))}
@@ -188,8 +203,8 @@ export const Sidebar = () => {
               )
           )}
           <Button fullWidth center={false} onClick={handleLogout}>
-            <Icon icon='Logout' />
-            Logout
+            <Icon size={isMediumSize ? "extraSmall" : "medium"} icon='Logout' />
+            <div className={isMediumSize ? "text-xs" : ""}>Logout</div>
           </Button>
         </div>
       </div>
