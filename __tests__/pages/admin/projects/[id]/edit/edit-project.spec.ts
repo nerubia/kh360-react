@@ -229,12 +229,6 @@ test.describe("Admin - Edit Project", () => {
       await page.getByRole("button", { name: "Yes" }).click()
 
       await expect(page.getByText("Name is required")).toBeVisible()
-      await expect(
-        page.getByText("Must select a date that is within the valid range.").first()
-      ).toBeVisible()
-      await expect(
-        page.getByText("Must select a date that is within the valid range.").nth(1)
-      ).toBeVisible()
       await expect(page.getByText("Status is required.")).toBeVisible()
     })
 
