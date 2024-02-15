@@ -27,6 +27,7 @@ export default function DashboardLayout() {
     <div className='flex overflow-x-hidden'>
       <Sidebar />
       <div
+        id='scrollable-div'
         className={`${
           activeSidebar ? "md:ml-64" : ""
         } flex flex-col h-screen w-full transition-all duration-300 overflow-x-hidden`}
