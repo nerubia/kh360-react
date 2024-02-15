@@ -22,12 +22,14 @@ import {
   updateProject,
 } from "@redux/slices/project-slice"
 import { setSelectedSkills, setCheckedSkills } from "@redux/slices/skills-slice"
+import useSmoothScrollToTop from "@hooks/use-smooth-scroll-to-top"
 
 export const CreateProjectForm = () => {
   const navigate = useNavigate()
   const { id } = useParams()
   const [searchParams] = useSearchParams()
   const callback = searchParams.get("callback")
+  const scrollToTop = useSmoothScrollToTop()
 
   const appDispatch = useAppDispatch()
   const { project, projectFormData } = useAppSelector((state) => state.project)
@@ -50,6 +52,7 @@ export const CreateProjectForm = () => {
       void appDispatch(getProject(parseInt(id)))
     }
     void appDispatch(getActiveClients())
+    scrollToTop()
   }, [])
 
   useEffect(() => {
