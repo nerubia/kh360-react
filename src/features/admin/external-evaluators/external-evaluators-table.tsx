@@ -14,7 +14,6 @@ export const ExternalEvaluatorsTable = () => {
   const [searchParams] = useSearchParams()
   const [showDialog, setShowDialog] = useState<boolean>(false)
   const [selectedEvaluatorId, setSelectedEvaluatorId] = useState<number>()
-
   const appDispatch = useAppDispatch()
   const { external_users, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
     (state) => state.externalUsers
@@ -68,10 +67,17 @@ export const ExternalEvaluatorsTable = () => {
 
   const renderCell = (item: ExternalUser, column: unknown) => {
     switch (column) {
-      case "Name":
-        return `${item.last_name}, ${item.first_name}  ${item.middle_name}`
-      case "Email Address":
-        return item.email.length > 30 ? `${item.email.substring(0, 30)}...` : item.email
+      case "Name": {
+        const fullName = `${item.last_name}, ${item.first_name}  ${item.middle_name}`
+        return fullName.length > 30 ? `${fullName.substring(0, 30)}...` : fullName
+      }
+      case "Email Address": {
+        return item.email.length > 30 ? (
+          <div className='whitespace-normal'>{item.email.substring(0, 30)}...</div>
+        ) : (
+          <div>{item.email}</div>
+        )
+      }
       case "Company":
         return `${item.company}`
       case "Role":

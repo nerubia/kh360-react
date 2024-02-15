@@ -28,6 +28,7 @@ export function Table<T extends { id: number }>({
   }
 
   const smallColumns = ["Score", "Z-Score", "Banding", "Actions", "Default"]
+  const mediumColumns = ["Role", "Company"]
   const wrapColumns = ["With Recommendation", "Evaluator Role", "Evaluee Role"]
   const fixColWidth = ["Name", "Email Address"]
   const columnWidth = 100 / columns.length
@@ -35,14 +36,17 @@ export function Table<T extends { id: number }>({
   const getColumnClassName = (column: string | ReactNode) => {
     const isSmallColumn = smallColumns.includes(column as string)
     const isWrapColumn = wrapColumns.includes(column as string)
+    const isMediumColumn = mediumColumns.includes(column as string)
     const isFixColWidth = applyFixedColWidth && fixColWidth.includes(column as string)
 
     if (isSmallColumn) {
       return "whitespace-nowrap w-1/20"
+    } else if (isMediumColumn) {
+      return "whitespace-nowrap w-1/10"
     } else if (isWrapColumn) {
       return "whitespace-normal text-center"
     } else if (isFixColWidth) {
-      return "whitespace-nowrap w-1/4"
+      return "w-1/4"
     } else {
       return `whitespace-nowrap w-${columnWidth}`
     }
