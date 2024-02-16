@@ -14,6 +14,7 @@ import {
   updateEvaluationAdministration,
 } from "@redux/slices/evaluation-administration-slice"
 import { setAlert } from "@redux/slices/app-slice"
+import { getEvaluationResults } from "@redux/slices/evaluation-results-slice"
 
 const EvaluationAdminDialog = lazy(
   async () =>
@@ -27,6 +28,7 @@ export const EditEvaluationAdministrationForm = () => {
   const { loading, error, evaluation_administration } = useAppSelector(
     (state) => state.evaluationAdministration
   )
+  const { evaluation_results } = useAppSelector((state) => state.evaluationResults)
   const { emailTemplate } = useAppSelector((state) => state.emailTemplate)
 
   const [formData, setFormData] = useState<EvaluationAdministrationFormData>({
@@ -47,6 +49,11 @@ export const EditEvaluationAdministrationForm = () => {
   useEffect(() => {
     if (id !== undefined) {
       void appDispatch(getEvaluationAdministration(parseInt(id)))
+      void appDispatch(
+        getEvaluationResults({
+          evaluation_administration_id: id,
+        })
+      )
     }
   }, [])
 
@@ -95,7 +102,11 @@ export const EditEvaluationAdministrationForm = () => {
               variant: "success",
             })
           )
-          navigate(`/admin/evaluation-administrations/${result.payload.id}`)
+          if (evaluation_results.length === 0) {
+            navigate(`/admin/evaluation-administrations/${result.payload.id}/select`)
+          } else {
+            navigate(`/admin/evaluation-administrations/${result.payload.id}`)
+          }
         }
         if (result.type === "evaluationAdministration/updateEvaluationAdministration/rejected") {
           appDispatch(
@@ -131,7 +142,7 @@ export const EditEvaluationAdministrationForm = () => {
     setShowDialog((prev) => !prev)
   }
   const handleRedirect = () => {
-    navigate("/admin/evaluation-administrations")
+    navigate(`/admin/evaluation-administrations/${id}`)
   }
 
   return (
@@ -245,7 +256,10 @@ export const EditEvaluationAdministrationForm = () => {
               <Button variant='primaryOutline' onClick={toggleDialog}>
                 Cancel & Exit
               </Button>
-              <Button onClick={handleSubmit}>Save</Button>
+              <Button onClick={handleSubmit}>
+                {" "}
+                {evaluation_results.length !== 0 ? "Save" : "Save and Proceed"}
+              </Button>
             </div>
           </div>
           <Suspense fallback={<div>Loading...</div>}>

@@ -56,7 +56,7 @@ export const EvalueesFooter = () => {
     }
   }
   const handleRedirect = () => {
-    navigate(`/admin/evaluation-administrations`)
+    navigate(`/admin/evaluation-administrations/${id}`)
   }
 
   return (
