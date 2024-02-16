@@ -247,7 +247,7 @@ test.describe("Admin - Select Evaluators", () => {
         page.getByRole("heading", { name: "External Evaluators for Developer Role" })
       ).toBeVisible()
 
-      await expect(page.getByRole("link", { name: "Back to Employee List" })).toBeVisible()
+      await expect(page.getByRole("link", { name: "Back to Evaluees List" })).toBeVisible()
       await expect(page.getByRole("button", { name: "Save as Draft" })).toBeVisible()
       await expect(page.getByRole("button", { name: "Mark as Ready" })).toBeVisible()
     })
@@ -446,7 +446,7 @@ test.describe("Admin - Select Evaluators", () => {
       await expect(page).toHaveURL("/admin/evaluation-administrations/1/evaluees/2/evaluators/4")
     })
 
-    test("should allow to go back to employee list", async ({ page, isMobile }) => {
+    test("should allow to go back to evaluees list", async ({ page, isMobile }) => {
       await loginUser("admin", page)
 
       await page.goto("/admin/evaluation-administrations/1/evaluees/1/evaluators/4")
@@ -496,7 +496,7 @@ test.describe("Admin - Select Evaluators", () => {
         await page.getByTestId("SidebarCloseButton").click()
       }
 
-      await page.getByRole("link", { name: "Back to Employee List" }).click()
+      await page.getByRole("link", { name: "Back to Evaluees List" }).click()
 
       await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
         status: 200,

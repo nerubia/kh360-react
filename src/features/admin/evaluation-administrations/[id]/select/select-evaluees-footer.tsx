@@ -6,6 +6,7 @@ import { setSelectedEmployeeIds } from "@redux/slices/evaluation-administration-
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { CustomDialog } from "@components/ui/dialog/custom-dialog"
+import { setEvaluationResults } from "@redux/slices/evaluation-results-slice"
 
 export const SelectEvalueesFooter = () => {
   const { id } = useParams()
@@ -31,7 +32,8 @@ export const SelectEvalueesFooter = () => {
 
   const handleCancelAndExit = () => {
     appDispatch(setSelectedEmployeeIds([]))
-    navigate(`/admin/evaluation-administrations`)
+    appDispatch(setEvaluationResults([]))
+    navigate(`/admin/evaluation-administrations/${id}`)
   }
 
   const handleCheckAndReview = () => {

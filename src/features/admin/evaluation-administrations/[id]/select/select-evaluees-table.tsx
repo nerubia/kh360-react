@@ -88,6 +88,10 @@ export const SelectEvalueesTable = () => {
                       <Checkbox
                         checked={selectedEmployeeIds.includes(user.id)}
                         onChange={(checked) => handleClickCheckbox(checked, user.id)}
+                        disabled={
+                          evaluation_results.find((result) => result.users?.id === user.id) !==
+                          undefined
+                        }
                       />
                       {user.last_name}, {user.first_name}
                     </div>
