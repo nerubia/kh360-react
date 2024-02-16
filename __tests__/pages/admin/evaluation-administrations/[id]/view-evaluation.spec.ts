@@ -228,7 +228,7 @@ test.describe("Admin - Evaluations", () => {
       }
       await expect(page.getByRole("link", { name: "Progress" })).toBeVisible()
       await expect(page.getByRole("button", { name: "More actions" })).toBeVisible()
-      await expect(page.getByRole("heading", { name: "Employees" })).toBeVisible()
+      await expect(page.getByRole("heading", { name: "Evaluees" })).toBeVisible()
 
       await expect(page.getByRole("button", { name: "User, Sample" })).toBeVisible()
 
@@ -1038,7 +1038,9 @@ test.describe("Admin - Evaluations", () => {
         }
       )
 
-      await expect(page).toHaveURL("/admin/evaluation-administrations/1/evaluees/1/evaluators/4")
+      await expect(page).toHaveURL(
+        "/admin/evaluation-administrations/1/evaluees/1/evaluators/4?callback=/admin/evaluation-administrations/1"
+      )
     })
   })
 })

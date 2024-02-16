@@ -389,7 +389,7 @@ export const EvaluatorsList = () => {
           variant='primaryOutline'
           to={`/admin/evaluation-administrations/${id}/evaluees`}
         >
-          Back to Employee List
+          Back to Evaluees List
         </LinkButton>
         <div className='flex flex-col md:flex-row items-center gap-2'>
           <Button

@@ -95,6 +95,29 @@ test.describe("Admin - Edit Evaluation Administration", () => {
         }),
       })
 
+      await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              status: "For Review",
+              users: {
+                first_name: "Sample",
+                last_name: "User",
+                picture: null,
+              },
+            },
+          ],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
+
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
       }
@@ -153,6 +176,29 @@ test.describe("Admin - Edit Evaluation Administration", () => {
         }),
       })
 
+      await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              status: "For Review",
+              users: {
+                first_name: "Sample",
+                last_name: "User",
+                picture: null,
+              },
+            },
+          ],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
+
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
       }
@@ -200,6 +246,29 @@ test.describe("Admin - Edit Evaluation Administration", () => {
           remarks: "Remarks 1",
           email_subject: "Email subject",
           email_content: "Email content",
+        }),
+      })
+
+      await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              status: "For Review",
+              users: {
+                first_name: "Sample",
+                last_name: "User",
+                picture: null,
+              },
+            },
+          ],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
         }),
       })
 
@@ -387,6 +456,29 @@ test.describe("Admin - Edit Evaluation Administration", () => {
         }),
       })
 
+      await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              status: "For Review",
+              users: {
+                first_name: "Sample",
+                last_name: "User",
+                picture: null,
+              },
+            },
+          ],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
+
       await mockRequest(page, "/admin/email-templates/default", {
         status: 200,
         contentType: "application/json",
@@ -436,6 +528,29 @@ test.describe("Admin - Edit Evaluation Administration", () => {
           eval_period_start_date: "2023-01-01T00:00:00.000Z",
           eval_period_end_date: "2023-12-31T00:00:00.000Z",
           remarks: "Remarks 1",
+        }),
+      })
+
+      await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              status: "For Review",
+              users: {
+                first_name: "Sample",
+                last_name: "User",
+                picture: null,
+              },
+            },
+          ],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
         }),
       })
 
@@ -535,7 +650,7 @@ test.describe("Admin - Edit Evaluation Administration", () => {
 
       await page.waitForLoadState("networkidle")
 
-      await expect(page).toHaveURL("/admin/evaluation-administrations")
+      await expect(page).toHaveURL("/admin/evaluation-administrations/1")
     })
   })
 })
