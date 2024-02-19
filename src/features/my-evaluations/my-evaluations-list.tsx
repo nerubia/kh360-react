@@ -50,23 +50,24 @@ export const MyEvaluationsList = () => {
       {loading === Loading.Fulfilled && my_evaluation_administrations.length === 0 && (
         <p className='whitespace-pre-wrap'>{emailTemplate?.content}</p>
       )}
+
       {my_evaluation_administrations.map((evaluationAdministration) => (
         <Link
           key={evaluationAdministration.id}
           to={`/my-evaluations/${evaluationAdministration.id}`}
+          className='w-full'
         >
-          <div className='flex flex-col gap-4 shadow-md rounded-md p-4 hover:bg-slate-100 w-500 lg:w-800'>
+          <div className='flex flex-col gap-4 shadow-md rounded-md p-4 hover:bg-slate-100'>
             <div className='flex flex-col items-center gap-5'>
-              <div className='w-full'>
-                <ScoreRange
-                  user_picture={user?.picture}
-                  score_rating={evaluationAdministration.score_rating}
-                  score={evaluationAdministration?.score}
-                  size={isMobile ? "extraSmall" : "small"}
-                  is_evaluee={true}
-                  showDetails={false}
-                />
-              </div>
+              <ScoreRange
+                user_picture={user?.picture}
+                score_rating={evaluationAdministration.score_rating}
+                score={evaluationAdministration?.score}
+                size={isMobile ? "extraSmall" : "small"}
+                is_evaluee={true}
+                showDetails={false}
+              />
+
               <div className='text-center'>
                 <h2 className='text-primary-500 sm:text-sm md:text-lg font-semibold'>
                   {evaluationAdministration.name}
@@ -84,6 +85,7 @@ export const MyEvaluationsList = () => {
           </div>
         </Link>
       ))}
+
       {loading === Loading.Pending && (
         <div className='text-center'>
           <Spinner />
