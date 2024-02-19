@@ -149,7 +149,7 @@ export const ProjectAssignmentsList = () => {
 
   return (
     <>
-      <div className='flex-1 flex flex-col md:w-1435'>
+      <div className='flex-1 flex flex-col'>
         <div className='flex flex-col'>
           {activeProjectMembers.length > 0 && (
             <div className='flex flex-col gap-2'>
