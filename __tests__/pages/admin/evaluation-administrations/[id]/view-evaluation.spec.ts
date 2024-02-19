@@ -1038,9 +1038,7 @@ test.describe("Admin - Evaluations", () => {
         }
       )
 
-      await expect(page).toHaveURL(
-        "/admin/evaluation-administrations/1/evaluees/1/evaluators/4?callback=/admin/evaluation-administrations/1"
-      )
+      await expect(page).toHaveURL("/admin/evaluation-administrations/1/evaluees/1/evaluators/4")
     })
   })
 })

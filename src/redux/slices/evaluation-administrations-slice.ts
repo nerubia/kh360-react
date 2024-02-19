@@ -56,10 +56,26 @@ export const createEvaluationAdministration = createAsyncThunk(
 )
 
 export const generateEvaluationAdministration = createAsyncThunk(
-  "evaluationAdministration/getEvaluationAdministraion",
+  "evaluationAdministration/generate",
   async (id: number, thunkApi) => {
     try {
       const response = await axiosInstance.post(`/admin/evaluation-administrations/${id}/generate`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const generateUpdate = createAsyncThunk(
+  "evaluationAdministration/generateUpdate",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.post(
+        `/admin/evaluation-administrations/${id}/generate-update`
+      )
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -155,6 +171,21 @@ const evaluationAdministrationsSlice = createSlice({
       state.error = null
     })
     builder.addCase(generateEvaluationAdministration.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Generate updated records
+     */
+    builder.addCase(generateUpdate.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(generateUpdate.fulfilled, (state) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+    })
+    builder.addCase(generateUpdate.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
