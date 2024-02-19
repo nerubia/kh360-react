@@ -246,6 +246,7 @@ export const EmailTemplateForm = () => {
             value={formData.name}
             onChange={handleInputChange}
             error={validationErrors.name}
+            maxLength={255}
           />
         </div>
         <div className='flex flex-wrap gap-4 w-1100'>
@@ -281,6 +282,7 @@ export const EmailTemplateForm = () => {
               value={formData.subject}
               onChange={handleInputChange}
               error={validationErrors.subject}
+              maxLength={255}
             />
           </div>
           <div className='w-950'>
