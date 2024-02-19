@@ -209,6 +209,7 @@ export const ExternalEvaluatorForm = () => {
               value={formData.first_name}
               onChange={handleInputChange}
               error={validationErrors.first_name}
+              maxLength={100}
             />
           </div>
           <div className='flex-1'>
@@ -219,6 +220,7 @@ export const ExternalEvaluatorForm = () => {
               value={formData.middle_name}
               onChange={handleInputChange}
               error={validationErrors.middle_name}
+              maxLength={75}
             />
           </div>
           <div className='flex-1'>
@@ -229,6 +231,7 @@ export const ExternalEvaluatorForm = () => {
               value={formData.last_name}
               onChange={handleInputChange}
               error={validationErrors.last_name}
+              maxLength={75}
             />
           </div>
         </div>
@@ -239,6 +242,7 @@ export const ExternalEvaluatorForm = () => {
           value={formData.email}
           onChange={handleInputChange}
           error={validationErrors.email}
+          maxLength={255}
         />
         <Input
           label='Role'
@@ -247,6 +251,7 @@ export const ExternalEvaluatorForm = () => {
           value={formData.role}
           onChange={handleInputChange}
           error={validationErrors.role}
+          maxLength={255}
         />
         <Input
           label='Company'
@@ -255,6 +260,7 @@ export const ExternalEvaluatorForm = () => {
           value={formData.company}
           onChange={handleInputChange}
           error={validationErrors.company}
+          maxLength={255}
         />
         {callback !== null && (
           <CustomSelect
