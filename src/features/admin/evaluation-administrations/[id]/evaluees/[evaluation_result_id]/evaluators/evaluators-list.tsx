@@ -15,10 +15,11 @@ import { setEvaluationResultStatus } from "@redux/slices/evaluation-result-slice
 import { EvaluationResultStatus } from "@custom-types/evaluation-result-type"
 import { Loading } from "@custom-types/loadingType"
 import { setAlert } from "@redux/slices/app-slice"
-import { type Evaluation } from "@custom-types/evaluation-type"
+import { EvaluationStatus, type Evaluation } from "@custom-types/evaluation-type"
 import { PageSubTitle } from "@components/shared/page-sub-title"
 import { Icon } from "@components/ui/icon/icon"
 import { setSelectedExternalUserIds } from "@redux/slices/evaluation-administration-slice"
+import { generateUpdate } from "@redux/slices/evaluation-administrations-slice"
 import { getProjectMembers } from "@redux/slices/project-members-slice"
 import Dropdown from "@components/ui/dropdown/dropdown"
 import Tooltip from "@components/ui/tooltip/tooltip"
@@ -36,7 +37,8 @@ export const EvaluatorsList = () => {
   const { id, evaluation_result_id, evaluation_template_id } = useParams()
   const appDispatch = useAppDispatch()
   const location = useLocation()
-  const { loading } = useAppSelector((state) => state.evaluationResult)
+  const { loading, evaluation_result } = useAppSelector((state) => state.evaluationResult)
+  const { loading: loadingEvalAdmin } = useAppSelector((state) => state.evaluationAdministrations)
   const { evaluations } = useAppSelector((state) => state.evaluations)
   const { project_members } = useAppSelector((state) => state.projectMembers)
   const { evaluation_templates } = useAppSelector((state) => state.evaluationTemplates)
@@ -47,6 +49,7 @@ export const EvaluatorsList = () => {
   const [showSelectProjectButton, setShowSelectProjectButton] = useState<boolean>(false)
 
   const [showDialog, setShowDialog] = useState<boolean>(false)
+  const [showSaveDialog, setShowSaveDialog] = useState<boolean>(false)
   const [selectedEvaluationId, setSelectedEvaluationId] = useState<number>()
   const isMediumSize = useMobileView(1200)
   const isSmallDevice = useMobileView(800)
@@ -196,6 +199,31 @@ export const EvaluatorsList = () => {
     )
   }
 
+  const handleSaveEdit = async () => {
+    try {
+      if (id !== undefined) {
+        const result = await appDispatch(generateUpdate(parseInt(id)))
+        if (result.type === "evaluationAdministration/generateUpdate/fulfilled") {
+          navigate(`/admin/evaluation-administrations/${id}`)
+          appDispatch(
+            setAlert({
+              description: "Successfully updated evaluation",
+              variant: "success",
+            })
+          )
+        }
+        if (result.type === "evaluationAdministration/generateUpdate/rejected") {
+          appDispatch(
+            setAlert({
+              description: result.payload.message,
+              variant: "destructive",
+            })
+          )
+        }
+      }
+    } catch (error) {}
+  }
+
   const getAvailableProjects = (evaluatorId?: number) => {
     const existingProjectIds = sortedExternalEvaluations
       .filter(
@@ -224,6 +252,10 @@ export const EvaluatorsList = () => {
       setSelectedEvaluationId(id)
     }
     setShowDialog((prev) => !prev)
+  }
+
+  const toggleSaveDialog = () => {
+    setShowSaveDialog((prev) => !prev)
   }
 
   const handleDelete = async () => {
@@ -257,6 +289,11 @@ export const EvaluatorsList = () => {
           <Checkbox
             checked={item.for_evaluation}
             onChange={(checked) => handleClickCheckbox(item.id, checked)}
+            disabled={
+              item.status !== EvaluationStatus.Open &&
+              item.status !== EvaluationStatus.Excluded &&
+              item.status !== EvaluationStatus.Draft
+            }
           />
         )
       case 1:
@@ -347,7 +384,7 @@ export const EvaluatorsList = () => {
   }
 
   return (
-    <div className='flex-1 h-screen lg:calc-screen flex flex-col pt-4 overflow-x-auto overflow-y-auto text-sm xl:text-lg'>
+    <div className='flex-1 h-[calc(100vh_-_185px)] flex flex-col pt-4 overflow-x-auto overflow-y-auto text-sm xl:text-lg'>
       <PageSubTitle>{internalHeader}</PageSubTitle>
       <div className='flex-1 overflow-y-scroll mt-2'>
         <Table
@@ -387,29 +424,48 @@ export const EvaluatorsList = () => {
           fullWidth={isSmallDevice}
           size={isMediumSize ? "small" : "medium"}
           variant='primaryOutline'
-          to={`/admin/evaluation-administrations/${id}/evaluees`}
+          to={
+            evaluation_result?.status === EvaluationResultStatus.Ongoing
+              ? `/admin/evaluation-administrations/${id}`
+              : `/admin/evaluation-administrations/${id}/evaluees`
+          }
         >
-          Back to Evaluees List
+          {evaluation_result?.status === EvaluationResultStatus.Ongoing
+            ? "Back"
+            : "Back to Evaluees List"}
         </LinkButton>
         <div className='flex flex-col md:flex-row items-center gap-2'>
-          <Button
-            fullWidth={isMediumSize}
-            size={isMediumSize ? "small" : "medium"}
-            variant='primaryOutline'
-            onClick={async () => await handleUpdateStatus(EvaluationResultStatus.Draft)}
-            loading={loading === Loading.Pending}
-          >
-            Save as Draft
-          </Button>
+          {evaluation_result?.status !== EvaluationResultStatus.Ongoing && (
+            <Button
+              fullWidth={isMediumSize}
+              size={isMediumSize ? "small" : "medium"}
+              variant='primaryOutline'
+              onClick={async () => await handleUpdateStatus(EvaluationResultStatus.Draft)}
+              loading={loading === Loading.Pending}
+            >
+              Save as Draft
+            </Button>
+          )}
 
-          <Button
-            fullWidth={isMediumSize}
-            size={isMediumSize ? "small" : "medium"}
-            onClick={async () => await handleUpdateStatus(EvaluationResultStatus.Ready)}
-            loading={loading === Loading.Pending}
-          >
-            Mark as Ready
-          </Button>
+          {evaluation_result?.status === EvaluationResultStatus.Ongoing ? (
+            <Button
+              fullWidth={isMediumSize}
+              size={isMediumSize ? "small" : "medium"}
+              onClick={toggleSaveDialog}
+              loading={loadingEvalAdmin === Loading.Pending}
+            >
+              Save and Generate
+            </Button>
+          ) : (
+            <Button
+              fullWidth={isMediumSize}
+              size={isMediumSize ? "small" : "medium"}
+              onClick={async () => await handleUpdateStatus(EvaluationResultStatus.Ready)}
+              loading={loading === Loading.Pending}
+            >
+              Mark as Ready
+            </Button>
+          )}
         </div>
       </div>
       <Suspense fallback={<div>Loading...</div>}>
@@ -428,6 +484,19 @@ export const EvaluatorsList = () => {
             await handleDelete()
             toggleDialog(null)
           }}
+        />
+      </Suspense>
+      <Suspense>
+        <EvaluationAdminDialog
+          open={showSaveDialog}
+          title='Save Changes'
+          description={"Are you sure you want to save your changes?"}
+          onClose={() => toggleSaveDialog()}
+          onSubmit={async () => {
+            await handleSaveEdit()
+            toggleSaveDialog()
+          }}
+          loading={loadingEvalAdmin === Loading.Pending}
         />
       </Suspense>
     </div>
