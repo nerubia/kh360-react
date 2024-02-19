@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, lazy, Suspense } from "react"
 import { Icon } from "@components/ui/icon/icon"
-import { useParams, useNavigate, useLocation } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { formatDate, shortenFormatDate } from "@utils/format-date"
@@ -18,7 +18,6 @@ import { setAlert } from "@redux/slices/app-slice"
 import { setSelectedEmployeeIds } from "@redux/slices/evaluation-administration-slice"
 
 export const ViewEvaluationList = () => {
-  const location = useLocation()
   const appDispatch = useAppDispatch()
   const navigate = useNavigate()
   const { id } = useParams()
@@ -222,15 +221,9 @@ export const ViewEvaluationList = () => {
       )
       if (result.type === "evaluationTemplate/getEvaluationTemplates/fulfilled") {
         const templateId = result.payload[0].id
-        if (evaluation_administration?.status === EvaluationAdministrationStatus.Draft) {
-          navigate(
-            `/admin/evaluation-administrations/${id}/evaluees/${evaluation_result_id}/evaluators/${templateId}`
-          )
-        } else {
-          navigate(
-            `/admin/evaluation-administrations/${id}/evaluees/${evaluation_result_id}/evaluators/${templateId}?callback=${location.pathname}`
-          )
-        }
+        navigate(
+          `/admin/evaluation-administrations/${id}/evaluees/${evaluation_result_id}/evaluators/${templateId}`
+        )
       }
     } catch (err) {}
   }
@@ -289,16 +282,16 @@ export const ViewEvaluationList = () => {
                     }
                     variant={"unstyled"}
                   >
-                    <Icon icon='PenSquare' />
+                    <Icon icon='PenSquare' size='small' />
                   </Button>
                 )}
                 {evaluation_administration?.status === EvaluationAdministrationStatus.Draft && (
                   <Button
-                    testId='EditButton'
+                    testId='DeleteButton'
                     onClick={() => toggleDeleteDialog(evaluationResult.id?.toString())}
                     variant={"unstyled"}
                   >
-                    <Icon icon='Trash' />
+                    <Icon icon='Trash' size='small' />
                   </Button>
                 )}
                 <Button
