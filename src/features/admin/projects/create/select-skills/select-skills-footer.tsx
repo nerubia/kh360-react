@@ -13,7 +13,7 @@ export const SelectSkillsFooter = () => {
   const callback = searchParams.get("callback")
 
   const handleCancel = () => {
-    navigate(callback ?? `/admin/projects/create`)
+    navigate(callback ?? `/admin/projects/create?hasEdited=true`)
     void appDispatch(setCheckedSkills(selectedSkills))
   }
 

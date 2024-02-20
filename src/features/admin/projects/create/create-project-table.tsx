@@ -21,7 +21,7 @@ export const CreateProjectTable = () => {
   }
 
   const handleAddSkill = () => {
-    navigate(`/admin/projects/create/select-skills?callback=${location.pathname}`)
+    navigate(`/admin/projects/create/select-skills?callback=${location.pathname}?hasEdited=true`)
   }
 
   const handleSort = () => {

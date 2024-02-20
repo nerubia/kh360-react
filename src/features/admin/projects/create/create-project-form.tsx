@@ -29,6 +29,7 @@ export const CreateProjectForm = () => {
   const { id } = useParams()
   const [searchParams] = useSearchParams()
   const callback = searchParams.get("callback")
+  const hasEdited = searchParams.get("hasEdited")
   const scrollToTop = useSmoothScrollToTop()
 
   const appDispatch = useAppDispatch()
@@ -50,6 +51,9 @@ export const CreateProjectForm = () => {
   useEffect(() => {
     if (id !== undefined) {
       void appDispatch(getProject(parseInt(id)))
+    }
+    if (hasEdited === null) {
+      void appDispatch(setProjectFormData(null))
     }
     void appDispatch(getActiveClients())
     scrollToTop()
@@ -225,7 +229,7 @@ export const CreateProjectForm = () => {
                 <Input
                   name='name'
                   placeholder='Name'
-                  value={projectFormData?.name}
+                  value={projectFormData?.name ?? ""}
                   onChange={handleInputChange}
                   error={validationErrors.name}
                   maxLength={255}
@@ -256,7 +260,7 @@ export const CreateProjectForm = () => {
                       name='start_date'
                       type='date'
                       placeholder='Start date'
-                      value={projectFormData?.start_date}
+                      value={projectFormData?.start_date ?? ""}
                       onChange={handleInputChange}
                       error={validationErrors.start_date}
                       max={projectFormData?.end_date}
@@ -268,7 +272,7 @@ export const CreateProjectForm = () => {
                       name='end_date'
                       type='date'
                       placeholder='End date'
-                      value={projectFormData?.end_date}
+                      value={projectFormData?.end_date ?? ""}
                       onChange={handleInputChange}
                       error={validationErrors.end_date}
                       min={projectFormData?.start_date}
@@ -281,7 +285,7 @@ export const CreateProjectForm = () => {
                   label='Description'
                   name='description'
                   placeholder='Description'
-                  value={projectFormData?.description}
+                  value={projectFormData?.description ?? ""}
                   onChange={handleTextAreaChange}
                   error={validationErrors.description}
                 />
