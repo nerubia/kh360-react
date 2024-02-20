@@ -99,7 +99,7 @@ export const EditProjectAssignmentTable = () => {
               {" "}
               here
             </span>{" "}
-            to add
+            to add.
           </div>
         ) : (
           <div className='flex justify-start pb-10'>
