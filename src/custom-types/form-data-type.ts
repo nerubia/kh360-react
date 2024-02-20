@@ -86,6 +86,8 @@ export interface ProjectFormData {
 export interface ProjectMemberFormData {
   id?: string
   project_id?: string
+  project_name?: string
+  project_member_name?: string
   user_id?: string
   project_role_id?: string
   start_date?: string
