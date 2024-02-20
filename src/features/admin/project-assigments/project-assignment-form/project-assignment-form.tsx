@@ -22,7 +22,6 @@ import {
   updateProjectMember,
   setProjectMemberFormData,
 } from "@redux/slices/project-member-slice"
-import { Spinner } from "@components/ui/spinner/spinner"
 import { Loading } from "@custom-types/loadingType"
 import { EditProjectAssignmentTable } from "@features/admin/project-assigments/[id]/edit/edit-project-assignment-table"
 import { setSelectedSkills, setCheckedSkills } from "@redux/slices/skills-slice"
@@ -77,8 +76,6 @@ export const ProjectAssignmentForm = () => {
   useEffect(() => {
     void appDispatch(getProjectRoles())
     void appDispatch(setProjectSkills([]))
-    void appDispatch(getUsersOnScroll())
-    void appDispatch(getProjectsOnScroll())
     if (id !== undefined) {
       void appDispatch(getProjectMember(parseInt(id)))
     }
@@ -173,6 +170,26 @@ export const ProjectAssignmentForm = () => {
     projectMemberFormData?.end_date,
   ])
 
+  useEffect(() => {
+    if (projectMemberFormData?.project_member_name !== null) {
+      void appDispatch(
+        getUsersOnScroll({
+          name: projectMemberFormData?.project_member_name,
+        })
+      )
+    }
+  }, [projectMemberFormData?.user_id])
+
+  useEffect(() => {
+    if (projectMemberFormData?.project_id !== null) {
+      void appDispatch(
+        getProjectsOnScroll({
+          name: projectMemberFormData?.project_name,
+        })
+      )
+    }
+  }, [projectMemberFormData?.project_id])
+
   const toggleSaveDialog = async () => {
     setShowSaveDialog((prev) => !prev)
   }
@@ -266,15 +283,15 @@ export const ProjectAssignmentForm = () => {
       const existingProjectMemberIds = project_members.map((member) => member.id)
       if (
         project_members.length > 0 &&
-        !existingProjectMemberIds.includes(project_member?.id ?? 0)
+        !existingProjectMemberIds.includes(parseInt(projectMemberFormData?.user_id ?? ""))
       ) {
         setShowOverlapDialog(true)
         return
       }
-      if (project_member === null) {
-        void handleSubmit()
-      } else {
+      if (id !== undefined) {
         void handleEdit()
+      } else {
+        void handleSubmit()
       }
     } catch (error) {
       if (error instanceof ValidationError) {
@@ -370,126 +387,122 @@ export const ProjectAssignmentForm = () => {
   return (
     <div className='flex flex-col gap-10'>
       <div className='flex flex-col md:w-1/2 gap-4'>
-        {loading === Loading.Pending ? (
-          <Spinner />
-        ) : (
-          <>
-            <CustomSelect
-              customRef={customEmployeeRef}
-              onMenuOpen={handleOnEmployeeMenuOpen}
-              data-test-id='EmployeeName'
-              label='Employee Name'
-              name='employee_name'
-              value={activeUsers.find((option) => option.value === projectMemberFormData?.user_id)}
-              onChange={(option) => {
-                if (option?.value !== undefined) {
-                  void appDispatch(
-                    setProjectMemberFormData({
-                      ...projectMemberFormData,
-                      user_id: option.value,
-                    })
-                  )
-                }
-              }}
-              onInputChange={(value) => debouncedSearchUser(value)}
-              options={activeUsers}
-              fullWidth
-              error={validationErrors.user_id}
-            />
-            <CustomSelect
-              customRef={customProjectRef}
-              onMenuOpen={handleOnProjectMenuOpen}
-              data-test-id='Project'
-              label='Project'
-              name='project'
-              value={activeProjects.find(
-                (option) => option.value === projectMemberFormData?.project_id
-              )}
-              onChange={(option) => {
-                if (option?.value !== undefined) {
-                  void appDispatch(
-                    setProjectMemberFormData({
-                      ...projectMemberFormData,
-                      project_id: option.value,
-                    })
-                  )
-                  void appDispatch(getProject(parseInt(option.value)))
-                  void appDispatch(setSelectedSkills([]))
-                  void appDispatch(setCheckedSkills([]))
-                }
-              }}
-              onInputChange={(value) => debouncedSearchProject(value)}
-              options={activeProjects}
-              fullWidth
-              error={validationErrors.project_id}
-            />
-            <CustomSelect
-              data-test-id='ProjectRole'
-              label='Role'
-              name='role'
-              value={activeProjectRoles.find(
-                (option) => option.value === projectMemberFormData?.project_role_id
-              )}
-              onChange={(option) => {
-                if (option?.value !== undefined) {
-                  void appDispatch(
-                    setProjectMemberFormData({
-                      ...projectMemberFormData,
-                      project_role_id: option.value,
-                    })
-                  )
-                }
-              }}
-              options={activeProjectRoles}
-              fullWidth
-              error={validationErrors.project_role_id}
-            />
-            <div className='flex xl:flex-row flex-col gap-5'>
-              <div className='flex-1 flex flex-col'>
-                <h2 className='font-medium'>Assignment Duration</h2>
-                <div className='flex flex-col sm:flex-row items-center gap-4'>
-                  <div className='w-full'>
-                    <Input
-                      name='start_date'
-                      type='date'
-                      placeholder='Start date'
-                      value={projectMemberFormData?.start_date}
-                      onChange={handleInputChange}
-                      error={validationErrors.start_date}
-                    />
-                  </div>
-                  <h2 className='font-medium'>to</h2>
-                  <div className='w-full'>
-                    <Input
-                      name='end_date'
-                      type='date'
-                      placeholder='End date'
-                      value={projectMemberFormData?.end_date}
-                      onChange={handleInputChange}
-                      error={validationErrors.end_date}
-                      min={projectMemberFormData?.start_date}
-                    />
-                  </div>
-                </div>
+        <CustomSelect
+          customRef={customEmployeeRef}
+          onMenuOpen={handleOnEmployeeMenuOpen}
+          data-test-id='EmployeeName'
+          label='Employee Name'
+          name='employee_name'
+          value={activeUsers.find((option) => option.value === projectMemberFormData?.user_id)}
+          onChange={(option) => {
+            void appDispatch(
+              setProjectMemberFormData({
+                ...projectMemberFormData,
+                user_id: option?.value,
+                project_member_name: option?.label,
+              })
+            )
+          }}
+          onInputChange={(value) => debouncedSearchUser(value)}
+          options={activeUsers}
+          fullWidth
+          error={validationErrors.user_id}
+          isClearable
+        />
+        <CustomSelect
+          customRef={customProjectRef}
+          onMenuOpen={handleOnProjectMenuOpen}
+          data-test-id='Project'
+          label='Project'
+          name='project'
+          value={activeProjects.find(
+            (option) => option.value === projectMemberFormData?.project_id
+          )}
+          onChange={(option) => {
+            void appDispatch(
+              setProjectMemberFormData({
+                ...projectMemberFormData,
+                project_id: option?.value,
+                project_name: option?.label,
+              })
+            )
+            if (option !== null) {
+              void appDispatch(getProject(parseInt(option.value)))
+            }
+            void appDispatch(setSelectedSkills([]))
+            void appDispatch(setCheckedSkills([]))
+          }}
+          onInputChange={(value) => debouncedSearchProject(value)}
+          options={activeProjects}
+          fullWidth
+          error={validationErrors.project_id}
+          isClearable
+        />
+        <CustomSelect
+          data-test-id='ProjectRole'
+          label='Role'
+          name='role'
+          value={activeProjectRoles.find(
+            (option) => option.value === projectMemberFormData?.project_role_id
+          )}
+          onChange={(option) => {
+            if (option?.value !== undefined) {
+              void appDispatch(
+                setProjectMemberFormData({
+                  ...projectMemberFormData,
+                  project_role_id: option.value,
+                })
+              )
+            }
+          }}
+          options={activeProjectRoles}
+          fullWidth
+          error={validationErrors.project_role_id}
+        />
+        <div className='flex xl:flex-row flex-col gap-5'>
+          <div className='flex-1 flex flex-col'>
+            <h2 className='font-medium'>Assignment Duration</h2>
+            <div className='flex flex-col sm:flex-row items-center gap-4'>
+              <div className='w-full'>
+                <Input
+                  name='start_date'
+                  type='date'
+                  placeholder='Start date'
+                  value={projectMemberFormData?.start_date}
+                  onChange={handleInputChange}
+                  error={validationErrors.start_date}
+                />
               </div>
-              <div className='flex flex-col'>
-                <h2 className='font-medium'>Allocation Rate</h2>
-                <div className='flex flex-row gap-4 items-end'>
-                  <Input
-                    name='allocation_rate'
-                    type='number'
-                    placeholder='Allocation rate'
-                    value={projectMemberFormData?.allocation_rate}
-                    onChange={handleInputChange}
-                    error={validationErrors.allocation_rate}
-                    max={100}
-                  />
-                  <h2 className='font-medium pb-2'>%</h2>
-                </div>
+              <h2 className='font-medium'>to</h2>
+              <div className='w-full'>
+                <Input
+                  name='end_date'
+                  type='date'
+                  placeholder='End date'
+                  value={projectMemberFormData?.end_date}
+                  onChange={handleInputChange}
+                  error={validationErrors.end_date}
+                  min={projectMemberFormData?.start_date}
+                />
               </div>
             </div>
-          </>
-        )}
+          </div>
+          <div className='flex flex-col'>
+            <h2 className='font-medium'>Allocation Rate</h2>
+            <div className='flex flex-row gap-4 items-end'>
+              <Input
+                name='allocation_rate'
+                type='number'
+                placeholder='Allocation rate'
+                value={projectMemberFormData?.allocation_rate}
+                onChange={handleInputChange}
+                error={validationErrors.allocation_rate}
+                max={100}
+              />
+              <h2 className='font-medium pb-2'>%</h2>
+            </div>
+          </div>
+        </div>
       </div>
       <EditProjectAssignmentTable />
       <div className='flex justify-between md:w-2/3'>
@@ -498,25 +511,16 @@ export const ProjectAssignmentForm = () => {
         </Button>
         <Button onClick={toggleSaveDialog}>Save</Button>
       </div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense>
         <ProjectAssignmentsDialog
           open={showSaveDialog}
           title='Save'
-          description='Are you sure you want to save this project?'
+          description='Are you sure you want to save this project assignment?'
           onClose={toggleSaveDialog}
           onSubmit={checkOverlap}
         />
       </Suspense>
-      <Suspense fallback={<div>Loading...</div>}>
-        <ProjectAssignmentsDialog
-          open={showSaveDialog}
-          title='Save'
-          description='Are you sure you want to save this project?'
-          onClose={toggleSaveDialog}
-          onSubmit={checkOverlap}
-        />
-      </Suspense>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense>
         <ProjectAssignmentsDialog
           open={showCancelDialog}
           title='Cancel'
@@ -530,7 +534,7 @@ export const ProjectAssignmentForm = () => {
           onSubmit={handleCancel}
         />
       </Suspense>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense>
         <ProjectAssignmentsDialog
           open={showOverlapDialog}
           title='Warning'
@@ -563,7 +567,7 @@ export const ProjectAssignmentForm = () => {
             </>
           }
           onClose={toggleOverlapDialog}
-          onSubmit={handleSubmit}
+          onSubmit={async () => (id === undefined ? await handleSubmit() : await handleEdit())}
           closeButtonLabel='Cancel'
           submitButtonLabel='Continue'
         />
