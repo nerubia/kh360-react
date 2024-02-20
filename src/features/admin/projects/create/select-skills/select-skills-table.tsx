@@ -45,42 +45,30 @@ export const SelectSkillsTable = () => {
 
   return (
     <>
-      <div className='flex-1 flex flex-col gap-8 overflow-y-scroll'>
-        <div className='flex flex-col gap-8'>
-          <table className='w-full'>
-            <thead className='text-left'>
-              <tr>
-                <th className='py-3 pr-3 w-1/20'>
+      <div className='flex-1 flex flex-col overflow-y-scroll'>
+        <div className='flex pl-2'>
+          <Checkbox
+            checked={skills.every((skill) =>
+              checkedSkills.map((skill) => skill.id).includes(skill.id)
+            )}
+            onChange={(checked) => handleSelectAll(checked)}
+          />
+          <div className='py-3 px-3 font-bold'>Select All</div>
+        </div>
+        <div className='flex flex-col'>
+          <div className='columns-5 gap-4'>
+            {skills.map((skill) => (
+              <div key={skill.id} className='flex hover:bg-slate-100'>
+                <div className='py-2 px-2 '>
                   <Checkbox
-                    checked={skills.every((skill) =>
-                      checkedSkills.map((skill) => skill.id).includes(skill.id)
-                    )}
-                    onChange={(checked) => handleSelectAll(checked)}
+                    checked={checkedSkills.map((skill) => skill.id).includes(skill.id)}
+                    onChange={(checked) => handleClickCheckbox(checked, skill.id)}
                   />
-                </th>
-                <th className='py-3 px-3 w-2/5'>Category</th>
-                <th className='py-3 px-3 w-3/5'>Name</th>
-              </tr>
-            </thead>
-            <tbody>
-              {skills.map((skill) => (
-                <tr key={skill.id} className='hover:bg-slate-100'>
-                  <td className='py-3 pr-3'>
-                    <div>
-                      <Checkbox
-                        checked={checkedSkills.map((skill) => skill.id).includes(skill.id)}
-                        onChange={(checked) => handleClickCheckbox(checked, skill.id)}
-                      />
-                    </div>
-                  </td>
-                  <td className='py-3 px-3 whitespace-pre-line break-all'>
-                    {skill.skill_categories.name}
-                  </td>
-                  <td className='py-3 px-3 whitespace-pre-line break-all'>{skill.name}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                </div>
+                <div className='py-2 px-2 whitespace-pre-line break-all'>{skill.name}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       {totalPages !== 1 && (
