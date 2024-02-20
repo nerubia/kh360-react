@@ -22,9 +22,9 @@ export const ViewProjectMemberColumn: React.FC<{
             className={`table-row text-ellipsis ${index % 2 === 0 ? "" : "bg-neutral-100"}`}
             key={`${t.id}row`}
           >
-            <div className='table-cell vertical-align h-50 md:w-200 ' title={t.name}>
-              <div className='p-2'>
-                <div>{t.name}</div>
+            <div className='table-cell vertical-align h-50 md:w-200' title={t.name}>
+              <div className='p-2 md:w-52'>
+                <div className='truncate'>{t.name}</div>
               </div>
             </div>
             <div

@@ -35,8 +35,8 @@ export const ProjectColumn: React.FC<{
             >
               <div className='flex p-2'>
                 <div
-                  className={`flex gap-5 pl-4 items-center ${
-                    t.hideChildren !== undefined ? "text-primary-500" : "pl-8 w-60"
+                  className={`flex gap-5 pl-4 items-center w-60 ${
+                    t.hideChildren !== undefined ? "text-primary-500" : "pl-8"
                   } `}
                 >
                   <span className='truncate'>{t.name}</span>
