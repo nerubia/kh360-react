@@ -95,7 +95,7 @@ export const CreateProjectTable = () => {
               {" "}
               here
             </span>{" "}
-            to add
+            to add.
           </div>
         ) : (
           <div className='flex justify-start py-2'>
