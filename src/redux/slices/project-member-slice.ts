@@ -57,6 +57,8 @@ const initialState: InitialState = {
   projectMemberFormData: {
     project_id: "",
     user_id: "",
+    project_name: "",
+    project_member_name: "",
     project_role_id: "",
     start_date: "",
     end_date: "",
