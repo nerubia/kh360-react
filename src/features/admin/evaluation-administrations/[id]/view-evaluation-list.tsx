@@ -422,7 +422,7 @@ export const ViewEvaluationList = () => {
             {" "}
             here
           </span>{" "}
-          to add
+          to add.
         </div>
       ) : (
         <div className='flex justify-start pb-10'>
