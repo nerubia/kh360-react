@@ -88,6 +88,9 @@ const button = cva(["w-fit", "rounded-md", "flex", "items-center", "gap-2"], {
     fullWidth: {
       true: "!w-full",
     },
+    fullHeight: {
+      true: ["py-1", "!h-full"],
+    },
   },
   defaultVariants: {
     variant: "primary",
@@ -110,6 +113,7 @@ export const Button = ({
   variant,
   size,
   fullWidth,
+  fullHeight,
   center,
   onClick,
   loading,
@@ -118,7 +122,7 @@ export const Button = ({
   return (
     <button
       data-testid={testId}
-      className={button({ variant, size, fullWidth, center })}
+      className={button({ variant, size, fullWidth, fullHeight, center })}
       onClick={onClick}
       disabled={loading === true || disabled === true}
     >
