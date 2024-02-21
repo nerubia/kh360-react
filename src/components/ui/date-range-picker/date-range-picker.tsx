@@ -13,6 +13,13 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
   value,
   onChange,
 }: DateRangePickerProps) => {
+  const currentDate = new Date()
+  const minDate = new Date(currentDate)
+  minDate.setFullYear(currentDate.getFullYear() - 50)
+
+  const maxDate = new Date(currentDate)
+  maxDate.setFullYear(currentDate.getFullYear() + 50)
+
   return (
     <div>
       {label != null && (
@@ -29,7 +36,11 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
           onChange={onChange}
           showShortcuts={true}
           popoverDirection='down'
-          placeholder='yyyy/mm/dd'
+          configs={{
+            shortcuts: {},
+          }}
+          minDate={minDate}
+          maxDate={maxDate}
         />
       </div>
     </div>
