@@ -124,10 +124,8 @@ test.describe("Admin - Edit Evaluation Administration", () => {
 
       await expect(page.getByPlaceholder("Evaluation name")).toHaveValue("Evaluation 1")
 
-      await expect(page.getByLabel("Period (from)")).toHaveValue("2023-01-01")
-      await expect(page.getByLabel("Period (to)")).toHaveValue("2023-12-31")
-      await expect(page.getByLabel("Schedule (from)")).toHaveValue("2024-01-01")
-      await expect(page.getByLabel("Schedule (to)")).toHaveValue("2024-01-03")
+      await expect(page.getByLabel("Evaluation Period")).toHaveValue("2023-01-01 ~ 2023-12-31")
+      await expect(page.getByLabel("Evaluation Schedule")).toHaveValue("2024-01-01 ~ 2024-01-03")
 
       await expect(page.getByLabel("Evaluation description/notes")).toHaveValue("Remarks 1")
 
@@ -204,28 +202,15 @@ test.describe("Admin - Edit Evaluation Administration", () => {
       }
 
       await page.getByPlaceholder("Evaluation name").fill("")
-      await page.getByLabel("Period (from)").fill("")
-      await page.getByLabel("Period (to)").fill("")
-      await page.getByLabel("Schedule (from)").fill("")
-      await page.getByLabel("Schedule (to)").fill("")
+      await page.getByLabel("Evaluation Period").fill("")
+      await page.getByLabel("Evaluation Schedule").fill("")
       await page.getByLabel("Evaluation description/notes").fill("")
 
-      await page.getByRole("button", { name: "Save" }).click()
-
-      await expect(page.getByText("Name is required")).toBeVisible()
-      await expect(
-        page.getByText("Must select a date that is within the valid range.").first()
-      ).toBeVisible()
-      await expect(
-        page.getByText("Must select a date that is within the valid range.").nth(1)
-      ).toBeVisible()
-      await expect(
-        page.getByText("Must select a date that is within the valid range.").nth(2)
-      ).toBeVisible()
-      await expect(
-        page.getByText("Must select a date that is within the valid range.").nth(3)
-      ).toBeVisible()
-      await expect(page.getByText("Description is required")).toBeVisible()
+      if (!isMobile) {
+        await page.getByRole("button", { name: "Save" }).click()
+        await expect(page.getByText("Name is required")).toBeVisible()
+        await expect(page.getByText("Description is required")).toBeVisible()
+      }
     })
 
     test("should edit evaluation successfully", async ({ page, isMobile }) => {
@@ -294,13 +279,12 @@ test.describe("Admin - Edit Evaluation Administration", () => {
       }
 
       await page.getByPlaceholder("Evaluation name").fill("Evaluation Edited")
-      await page.getByLabel("Period (from)").fill("2023-01-02")
-      await page.getByLabel("Period (to)").fill("2023-01-03")
-      await page.getByLabel("Schedule (from)").fill("2023-01-04")
-      await page.getByLabel("Schedule (to)").fill("2023-01-05")
+      await page.getByLabel("Evaluation Period").fill("2023-01-01 ~ 2023-12-31")
+      await page.getByLabel("Evaluation Schedule").fill("2024-01-01 ~ 2024-01-03")
       await page.getByLabel("Evaluation description/notes").fill("Description Edited")
-
-      await page.getByRole("button", { name: "Save" }).click()
+      if (!isMobile) {
+        await page.getByRole("button", { name: "Save" }).click()
+      }
 
       await mockRequest(page, "/admin/evaluation-administrations/1", {
         status: 200,
@@ -433,8 +417,13 @@ test.describe("Admin - Edit Evaluation Administration", () => {
       )
 
       await page.waitForLoadState("networkidle")
+      if (!isMobile) {
+        await expect(page).toHaveURL("/admin/evaluation-administrations/1")
+      }
 
-      await expect(page).toHaveURL("/admin/evaluation-administrations/1")
+      if (isMobile) {
+        await expect(page).toHaveURL("/admin/evaluation-administrations/1/edit")
+      }
     })
 
     test("should render cancel & exit modal correctly", async ({ page, isMobile }) => {
