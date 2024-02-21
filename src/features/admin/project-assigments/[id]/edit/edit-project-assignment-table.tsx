@@ -1,13 +1,14 @@
 import { useRef, useState } from "react"
-import { useNavigate, useLocation } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { Button } from "@components/ui/button/button"
 import { Icon } from "@components/ui/icon/icon"
 import { setSelectedSkills, setCheckedSkills } from "@redux/slices/skills-slice"
 import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useFullPath } from "@hooks/use-full-path"
 
 export const EditProjectAssignmentTable = () => {
-  const location = useLocation()
+  const fullPath = useFullPath()
   const navigate = useNavigate()
   const appDispatch = useAppDispatch()
   const { selectedSkills } = useAppSelector((state) => state.skills)
@@ -22,7 +23,7 @@ export const EditProjectAssignmentTable = () => {
   }
 
   const handleAddSkill = () => {
-    navigate(`/admin/project-assignments/select?callback=${location.pathname}`)
+    navigate(`/admin/project-assignments/select?callback=${fullPath}`)
   }
 
   const handleSort = () => {
