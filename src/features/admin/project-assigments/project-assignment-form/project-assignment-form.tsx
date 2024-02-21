@@ -434,11 +434,7 @@ export const ProjectAssignmentForm = () => {
     }, 100)
   }
 
-  const handleDateRangeChange = (
-    value: DateValueType,
-    _e?: HTMLInputElement | null | undefined
-  ) => {
-    void appDispatch(setIsEditingProjectMember(true))
+  const handleDateRangeChange = (value: DateValueType) => {
     void appDispatch(
       setProjectMemberFormData({
         ...projectMemberFormData,
@@ -540,7 +536,7 @@ export const ProjectAssignmentForm = () => {
               onChange={handleDateRangeChange}
             />
           </div>
-          <div className='flex flex-col'>
+          <div className='flex flex-col w-full'>
             <h2 className='font-medium'>Allocation Rate</h2>
             <div className='flex flex-row gap-4 items-end pt-1'>
               <Input
@@ -558,7 +554,7 @@ export const ProjectAssignmentForm = () => {
         </div>
       </div>
       <EditProjectAssignmentTable />
-      <div className='flex justify-between md:w-2/3'>
+      <div className='flex justify-between md:w-2/3 mt-20'>
         <Button variant='primaryOutline' onClick={toggleCancelDialog}>
           Cancel
         </Button>
