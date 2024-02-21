@@ -12,7 +12,7 @@ import { getProjectsOnScroll } from "@redux/slices/projects-slice"
 import { getProjectRoles } from "@redux/slices/project-roles-slice"
 import { type ProjectMemberFormData } from "@custom-types/form-data-type"
 import { createProjectMember, searchProjectMembers } from "@redux/slices/project-members-slice"
-import { useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams, useSearchParams } from "react-router-dom"
 import { ValidationError } from "yup"
 import { createProjectMemberSchema } from "@utils/validation/project-member-schema"
 import { formatDateRange } from "@utils/format-date"
@@ -21,6 +21,7 @@ import {
   setProjectMember,
   updateProjectMember,
   setProjectMemberFormData,
+  setIsEditingProjectMember,
 } from "@redux/slices/project-member-slice"
 import { Loading } from "@custom-types/loadingType"
 import { EditProjectAssignmentTable } from "@features/admin/project-assigments/[id]/edit/edit-project-assignment-table"
@@ -34,25 +35,28 @@ import { type DateValueType } from "react-tailwindcss-datepicker"
 export const ProjectAssignmentForm = () => {
   const navigate = useNavigate()
   const { id } = useParams()
-
   const appDispatch = useAppDispatch()
+  const [searchParams] = useSearchParams()
+  const project_name = searchParams.get("project_name")
+  const project_id = searchParams.get("project_id")
+
   const {
     loading: loadingUsers,
     users,
     hasNextPage,
     currentPage,
   } = useAppSelector((state) => state.users)
-  const { project_roles } = useAppSelector((state) => state.projectRoles)
   const {
     projects,
     hasNextPage: projectHasNextPage,
     loading: loadingProject,
     currentPage: projectCurrentPage,
   } = useAppSelector((state) => state.projects)
-  const { project_members } = useAppSelector((state) => state.projectMembers)
-  const { loading, project_member, projectMemberFormData } = useAppSelector(
+  const { loading, project_member, projectMemberFormData, isEditingProjectMember } = useAppSelector(
     (state) => state.projectMember
   )
+  const { project_members } = useAppSelector((state) => state.projectMembers)
+  const { project_roles } = useAppSelector((state) => state.projectRoles)
   const { selectedSkills } = useAppSelector((state) => state.skills)
 
   const [activeUsers, setActiveUsers] = useState<Option[]>([])
@@ -81,6 +85,9 @@ export const ProjectAssignmentForm = () => {
     if (id !== undefined) {
       void appDispatch(getProjectMember(parseInt(id)))
     }
+    if (project_id !== null) {
+      void appDispatch(getProject(parseInt(project_id)))
+    }
   }, [])
 
   useEffect(() => {
@@ -98,7 +105,7 @@ export const ProjectAssignmentForm = () => {
   }, [loadingProject, projectMenuList])
 
   useEffect(() => {
-    if (project_member !== null) {
+    if (project_member !== null && project_id === null && !isEditingProjectMember) {
       handleSearchUser(project_member.user?.last_name ?? "")
       handleSearchProject(project_member.project?.name ?? "")
       void appDispatch(
@@ -113,7 +120,7 @@ export const ProjectAssignmentForm = () => {
         })
       )
       if (project_member.project_id !== undefined) {
-        void appDispatch(getProject(project_member.project_id))
+        void appDispatch(getProject(project_member.project_id ?? project_id))
       }
       if (selectedSkills.length === 0) {
         const skillsCopy = [...(project_member.project_member_skills ?? [])]
@@ -173,7 +180,10 @@ export const ProjectAssignmentForm = () => {
   ])
 
   useEffect(() => {
-    if (projectMemberFormData?.project_member_name !== null) {
+    if (
+      projectMemberFormData?.project_member_name !== null &&
+      projectMemberFormData?.project_member_name !== undefined
+    ) {
       void appDispatch(
         getUsersOnScroll({
           name: projectMemberFormData?.project_member_name,
@@ -183,7 +193,10 @@ export const ProjectAssignmentForm = () => {
   }, [projectMemberFormData?.user_id])
 
   useEffect(() => {
-    if (projectMemberFormData?.project_id !== null) {
+    if (
+      projectMemberFormData?.project_id !== null &&
+      projectMemberFormData?.project_name !== undefined
+    ) {
       void appDispatch(
         getProjectsOnScroll({
           name: projectMemberFormData?.project_name,
@@ -191,6 +204,32 @@ export const ProjectAssignmentForm = () => {
       )
     }
   }, [projectMemberFormData?.project_id])
+
+  useEffect(() => {
+    if (project_name !== null) {
+      void appDispatch(
+        getProjectsOnScroll({
+          name: project_name,
+        })
+      )
+      if (!isEditingProjectMember) {
+        void appDispatch(
+          setProjectMemberFormData({
+            project_id,
+            project_name,
+          })
+        )
+      } else {
+        void appDispatch(
+          setProjectMemberFormData({
+            ...projectMemberFormData,
+            project_id,
+            project_name,
+          })
+        )
+      }
+    }
+  }, [project_name])
 
   const toggleSaveDialog = async () => {
     setShowSaveDialog((prev) => !prev)
@@ -273,6 +312,7 @@ export const ProjectAssignmentForm = () => {
 
   const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
+    void appDispatch(setIsEditingProjectMember(true))
     void appDispatch(setProjectMemberFormData({ ...projectMemberFormData, [name]: value }))
   }
 
@@ -321,7 +361,11 @@ export const ProjectAssignmentForm = () => {
               variant: "success",
             })
           )
-          navigate(`/admin/project-assignments`)
+          if (project_id !== null) {
+            navigate(`/admin/projects/${project_id}`)
+          } else {
+            navigate("/admin/project-assignments")
+          }
         }
         if (result.type === "projectMember/createProjectMember/rejected") {
           appDispatch(
@@ -371,7 +415,11 @@ export const ProjectAssignmentForm = () => {
     void appDispatch(setProjectMember(null))
     void appDispatch(setSelectedSkills([]))
     void appDispatch(setCheckedSkills([]))
-    navigate("/admin/project-assignments")
+    if (project_id !== null) {
+      navigate(`/admin/projects/${project_id}`)
+    } else {
+      navigate("/admin/project-assignments")
+    }
   }
 
   const handleOnEmployeeMenuOpen = () => {
@@ -390,6 +438,7 @@ export const ProjectAssignmentForm = () => {
     value: DateValueType,
     _e?: HTMLInputElement | null | undefined
   ) => {
+    void appDispatch(setIsEditingProjectMember(true))
     void appDispatch(
       setProjectMemberFormData({
         ...projectMemberFormData,
@@ -401,7 +450,7 @@ export const ProjectAssignmentForm = () => {
 
   return (
     <div className='flex flex-col gap-10'>
-      <div className='flex flex-col md:w-3/4 gap-4'>
+      <div className='flex flex-col xl:w-1/2 gap-4'>
         <CustomSelect
           customRef={customEmployeeRef}
           onMenuOpen={handleOnEmployeeMenuOpen}
@@ -410,6 +459,7 @@ export const ProjectAssignmentForm = () => {
           name='employee_name'
           value={activeUsers.find((option) => option.value === projectMemberFormData?.user_id)}
           onChange={(option) => {
+            void appDispatch(setIsEditingProjectMember(true))
             void appDispatch(
               setProjectMemberFormData({
                 ...projectMemberFormData,
@@ -423,6 +473,7 @@ export const ProjectAssignmentForm = () => {
           fullWidth
           error={validationErrors.user_id}
           isClearable
+          disabled={id !== undefined}
         />
         <CustomSelect
           customRef={customProjectRef}
@@ -434,6 +485,7 @@ export const ProjectAssignmentForm = () => {
             (option) => option.value === projectMemberFormData?.project_id
           )}
           onChange={(option) => {
+            void appDispatch(setIsEditingProjectMember(true))
             void appDispatch(
               setProjectMemberFormData({
                 ...projectMemberFormData,
@@ -452,6 +504,7 @@ export const ProjectAssignmentForm = () => {
           fullWidth
           error={validationErrors.project_id}
           isClearable
+          disabled={(id === undefined && project_name !== null) || id !== undefined}
         />
         <CustomSelect
           data-test-id='ProjectRole'
@@ -461,6 +514,7 @@ export const ProjectAssignmentForm = () => {
             (option) => option.value === projectMemberFormData?.project_role_id
           )}
           onChange={(option) => {
+            void appDispatch(setIsEditingProjectMember(true))
             if (option?.value !== undefined) {
               void appDispatch(
                 setProjectMemberFormData({
@@ -475,7 +529,7 @@ export const ProjectAssignmentForm = () => {
           error={validationErrors.project_role_id}
         />
         <div className='flex flex-row gap-5'>
-          <div className='w-53/100'>
+          <div className='flex-1'>
             <DateRangePicker
               name='assignment-duration'
               label='Assignment Duration'
@@ -493,7 +547,7 @@ export const ProjectAssignmentForm = () => {
                 name='allocation_rate'
                 type='number'
                 placeholder='Allocation rate'
-                value={projectMemberFormData?.allocation_rate}
+                value={projectMemberFormData?.allocation_rate ?? ""}
                 onChange={handleInputChange}
                 error={validationErrors.allocation_rate}
                 max={100}

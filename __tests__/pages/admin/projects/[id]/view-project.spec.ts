@@ -170,7 +170,7 @@ test.describe("Admin - View Project", () => {
       await expect(page.getByText("Client Name: John Doe")).toBeVisible()
 
       await expect(page.getByText("Project Duration: Jan 1 - Dec 31, 2023")).toBeVisible()
-      await expect(page.getByText("Status: Ongoing")).toBeVisible()
+      await expect(page.getByText("Ongoing")).toBeVisible()
       await expect(page.getByText("Skills Used")).toBeVisible()
       await expect(page.getByRole("cell", { name: "Category" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Programming Languages" })).toBeVisible()
