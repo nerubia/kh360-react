@@ -23,6 +23,8 @@ import {
 } from "@redux/slices/project-slice"
 import { setSelectedSkills, setCheckedSkills } from "@redux/slices/skills-slice"
 import useSmoothScrollToTop from "@hooks/use-smooth-scroll-to-top"
+import { DateRangePicker } from "@components/ui/date-range-picker/date-range-picker"
+import { type DateValueType } from "react-tailwindcss-datepicker"
 
 export const CreateProjectForm = () => {
   const navigate = useNavigate()
@@ -253,32 +255,23 @@ export const CreateProjectForm = () => {
                 </div>
               </div>
               <div className='flex flex-col'>
-                <h2 className='font-medium'>Project Duration</h2>
-                <div className='flex flex-col sm:flex-row items-center gap-4'>
-                  <div className='w-full'>
-                    <Input
-                      name='start_date'
-                      type='date'
-                      placeholder='Start date'
-                      value={projectFormData?.start_date ?? ""}
-                      onChange={handleInputChange}
-                      error={validationErrors.start_date}
-                      max={projectFormData?.end_date}
-                    />
-                  </div>
-                  <h2 className='font-medium'>to</h2>
-                  <div className='w-full'>
-                    <Input
-                      name='end_date'
-                      type='date'
-                      placeholder='End date'
-                      value={projectFormData?.end_date ?? ""}
-                      onChange={handleInputChange}
-                      error={validationErrors.end_date}
-                      min={projectFormData?.start_date}
-                    />
-                  </div>
-                </div>
+                <DateRangePicker
+                  name='project-duration'
+                  label='Project Duration'
+                  value={{
+                    startDate: projectFormData?.start_date ?? "",
+                    endDate: projectFormData?.end_date ?? "",
+                  }}
+                  onChange={(value: DateValueType) => {
+                    void appDispatch(
+                      setProjectFormData({
+                        ...projectFormData,
+                        start_date: value?.startDate?.toString().split("T")[0] ?? "",
+                        end_date: value?.endDate?.toString().split("T")[0] ?? "",
+                      })
+                    )
+                  }}
+                />
               </div>
               <div className='flex flex-col gap-4'>
                 <TextArea
