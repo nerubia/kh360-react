@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react"
 import { useAppSelector } from "@hooks/useAppSelector"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useNavigate } from "react-router-dom"
 import { ProjectTooltipContent } from "@components/shared/gantt-chart/project-tooltip-content"
 import { ViewProjectMemberColumn } from "@components/shared/gantt-chart/view-project-member-column"
 import { ViewProjectMemberHeader } from "@components/shared/gantt-chart/view-project-member-header"
@@ -9,9 +11,16 @@ import { getRoleVariant, getDarkRoleVariant } from "@utils/variant"
 import { type ProjectMember } from "@custom-types/project-member-type"
 import { type SkillCategory } from "@custom-types/skill-category-type"
 import { type ProjectMemberSkill } from "@custom-types/project-member-skill-type"
+import {
+  setProjectMemberFormData,
+  setIsEditingProjectMember,
+} from "@redux/slices/project-member-slice"
+import { setCheckedSkills, setSelectedSkills } from "@redux/slices/skills-slice"
 
 export const ViewProjectMembersList = () => {
   const { project } = useAppSelector((state) => state.project)
+  const navigate = useNavigate()
+  const appDispatch = useAppDispatch()
 
   const [activeProjectMembers, setActiveProjectMembers] = useState<Task[]>([])
   const [legendData, setLegendData] = useState<ProjectMember[]>([])
@@ -158,6 +167,29 @@ export const ViewProjectMembersList = () => {
     }
   }, [project])
 
+  const handleAddMember = () => {
+    void appDispatch(setIsEditingProjectMember(false))
+    void appDispatch(
+      setProjectMemberFormData({
+        project_id: project?.id,
+        user_id: "",
+        project_name: "",
+        project_member_name: "",
+        project_role_id: "",
+        start_date: "",
+        end_date: "",
+        allocation_rate: "",
+        remarks: "",
+        skill_ids: [],
+      })
+    )
+    void appDispatch(setSelectedSkills([]))
+    void appDispatch(setCheckedSkills([]))
+    navigate(
+      `/admin/project-assignments/create?project_name=${project?.name}&project_id=${project?.id}`
+    )
+  }
+
   return (
     <>
       <div className='flex-1 flex flex-col gap-5 md:w-full overflow-y-scroll'>
@@ -184,7 +216,15 @@ export const ViewProjectMembersList = () => {
               </div>
             </div>
           ) : (
-            <div>Not found</div>
+            <div>
+              {" "}
+              No team members added yet. Click{" "}
+              <span onClick={handleAddMember} className='text-primary-500 cursor-pointer underline'>
+                {" "}
+                here
+              </span>{" "}
+              to add.
+            </div>
           )}
         </div>
       </div>

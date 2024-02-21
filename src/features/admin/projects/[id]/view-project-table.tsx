@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate, useLocation } from "react-router-dom"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { Loading } from "@custom-types/loadingType"
 import { type SkillCategory } from "@custom-types/skill-category-type"
 
 export const ViewProjectTable = () => {
   const { id } = useParams()
+  const navigate = useNavigate()
   const { loading, project } = useAppSelector((state) => state.project)
   const [groupedProjectSkills, setGroupedProjectSkills] = useState<SkillCategory[]>([])
+  const location = useLocation()
 
   useEffect(() => {
     const groupedSkillsByCategory = project?.project_skills?.reduce(
@@ -39,12 +41,30 @@ export const ViewProjectTable = () => {
     setGroupedProjectSkills(groupedSkillsByCategory ?? [])
   }, [project])
 
+  const handleSelectSkills = () => {
+    navigate(
+      `/admin/projects/create/select-skills?project_name=${project?.name}&id=${project?.id}&callback=${location.pathname}`
+    )
+  }
+
   return (
     <>
       <div className='flex-2 flex flex-col gap-5 overflow-y-scroll'>
         <div className='text-xl text-primary-500 font-bold'>Skills Used</div>
         {loading === Loading.Pending && <div>Loading...</div>}
-        {loading === Loading.Fulfilled && groupedProjectSkills.length === 0 && <div>Not found</div>}
+        {loading === Loading.Fulfilled && groupedProjectSkills.length === 0 && (
+          <div>
+            No skills added yet. Click{" "}
+            <span
+              onClick={handleSelectSkills}
+              className='text-primary-500 cursor-pointer underline'
+            >
+              {" "}
+              here
+            </span>{" "}
+            to add.
+          </div>
+        )}
         {loading === Loading.Fulfilled && groupedProjectSkills.length > 0 && id !== undefined && (
           <>
             <table>
