@@ -184,9 +184,8 @@ test.describe("Admin - Edit Project", () => {
       await expect(page.getByRole("heading", { name: "Edit Project" })).toBeVisible()
 
       await expect(page.getByPlaceholder("Name")).toHaveValue("Project 1")
-      await expect(page.getByPlaceholder("Start date")).toHaveValue("2023-01-01")
-      await expect(page.getByPlaceholder("End date")).toHaveValue("2023-12-31")
       await expect(page.getByPlaceholder("Description")).toHaveValue("Test description")
+      await expect(page.getByLabel("Project Duration")).toHaveValue("2023-01-01 ~ 2023-12-31")
 
       await expect(page.getByRole("button", { name: "Add Skill" })).toBeVisible()
       await expect(page.getByRole("button", { name: "Cancel" })).toBeVisible()
@@ -348,8 +347,7 @@ test.describe("Admin - Edit Project", () => {
       await page.getByPlaceholder("Name").fill("Create Sample Project edited")
       await page.getByLabel("Client").click()
       await page.getByText("Sample Edit", { exact: true }).click()
-      await page.getByPlaceholder("Start date").fill("2023-01-05")
-      await page.getByPlaceholder("End date").fill("2023-12-05")
+      await expect(page.getByLabel("Project Duration")).toHaveValue("2023-01-01 ~ 2023-12-31")
       await page.getByPlaceholder("Description").fill("Test Edit")
       await page.getByLabel("Status").fill("Ongoing")
       await page.getByText("Ongoing", { exact: true }).click()
