@@ -15,6 +15,8 @@ import {
 } from "@redux/slices/evaluation-administration-slice"
 import { setAlert } from "@redux/slices/app-slice"
 import { getEvaluationResults } from "@redux/slices/evaluation-results-slice"
+import { DateRangePicker } from "@components/ui/date-range-picker/date-range-picker"
+import { type DateValueType } from "react-tailwindcss-datepicker"
 
 const EvaluationAdminDialog = lazy(
   async () =>
@@ -128,6 +130,14 @@ export const EditEvaluationAdministrationForm = () => {
     }
   }
 
+  const handleChangeDateRange = (value: DateValueType, field: string) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [field + "_start_date"]: value?.startDate?.toString().split("T")[0] ?? "",
+      [field + "_end_date"]: value?.endDate?.toString().split("T")[0] ?? "",
+    }))
+  }
+
   const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
@@ -158,7 +168,6 @@ export const EditEvaluationAdministrationForm = () => {
           <div className='flex flex-col gap-4'>
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
               <div>
-                <h1 className='text-lg font-bold'>Evaluation Name</h1>
                 <Input
                   label='Evaluation name'
                   name='name'
@@ -171,56 +180,26 @@ export const EditEvaluationAdministrationForm = () => {
               </div>
               <div className='flex flex-col gap-4'>
                 <div>
-                  <h1 className='text-lg font-bold'>Evaluation Period</h1>
-                  <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
-                    <Input
-                      label='Period (from)'
-                      name='eval_period_start_date'
-                      type='date'
-                      placeholder='Evaluation period'
-                      value={formData.eval_period_start_date}
-                      onChange={handleInputChange}
-                      error={validationErrors.eval_period_start_date}
-                      max={formData.eval_period_end_date}
-                    />
-                    <Input
-                      label='Period (to)'
-                      name='eval_period_end_date'
-                      type='date'
-                      placeholder='Evaluation period'
-                      value={formData.eval_period_end_date}
-                      onChange={handleInputChange}
-                      error={validationErrors.eval_period_end_date}
-                      min={formData.eval_period_start_date}
-                      max={formData.eval_schedule_start_date}
-                    />
-                  </div>
+                  <DateRangePicker
+                    name='evaluation_period'
+                    label='Evaluation Period'
+                    value={{
+                      startDate: formData.eval_period_start_date ?? "",
+                      endDate: formData.eval_period_end_date ?? "",
+                    }}
+                    onChange={(value) => handleChangeDateRange(value, "eval_period")}
+                  />
                 </div>
                 <div>
-                  <h1 className='text-lg font-bold'>Evaluation Schedule</h1>
-                  <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
-                    <Input
-                      label='Schedule (from)'
-                      name='eval_schedule_start_date'
-                      type='date'
-                      placeholder='Evaluation schedule'
-                      value={formData.eval_schedule_start_date}
-                      onChange={handleInputChange}
-                      min={formData.eval_period_end_date}
-                      max={formData.eval_schedule_end_date}
-                      error={validationErrors.eval_schedule_start_date}
-                    />
-                    <Input
-                      label='Schedule (to)'
-                      name='eval_schedule_end_date'
-                      type='date'
-                      placeholder='Evaluation schedule'
-                      value={formData.eval_schedule_end_date}
-                      onChange={handleInputChange}
-                      error={validationErrors.eval_schedule_end_date}
-                      min={formData.eval_schedule_start_date}
-                    />
-                  </div>
+                  <DateRangePicker
+                    name='evaluation_schedule'
+                    label='Evaluation Schedule'
+                    value={{
+                      startDate: formData.eval_schedule_start_date ?? "",
+                      endDate: formData.eval_schedule_end_date ?? "",
+                    }}
+                    onChange={(value) => handleChangeDateRange(value, "eval_schedule")}
+                  />
                 </div>
               </div>
             </div>
