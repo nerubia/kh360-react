@@ -21,6 +21,7 @@ interface SelectProps {
   isLoading?: boolean
   customRef?: Ref<SelectInstance<Option, false, GroupBase<Option>>>
   isClearable?: boolean
+  disabled?: boolean
 }
 
 export const CustomSelect = ({
@@ -36,6 +37,7 @@ export const CustomSelect = ({
   isLoading,
   customRef,
   isClearable,
+  disabled,
 }: SelectProps) => {
   const isMobile = useMobileView()
 
@@ -66,6 +68,7 @@ export const CustomSelect = ({
         options={options}
         isLoading={isLoading}
         isClearable={isClearable}
+        isDisabled={disabled}
       />
       {error != null && <p className='text-red-500 text-sm'>{error}</p>}
     </div>

@@ -2,6 +2,8 @@ import { type Task } from "custom-gantt-task-react"
 import React from "react"
 import { Icon } from "@components/ui/icon/icon"
 import { LinkButton } from "@components/ui/button/button"
+import { setIsEditingProjectMember } from "@redux/slices/project-member-slice"
+import { useAppDispatch } from "@hooks/useAppDispatch"
 
 export const ProjectColumn: React.FC<{
   rowHeight: number
@@ -14,6 +16,8 @@ export const ProjectColumn: React.FC<{
   setSelectedTask: (taskId: string) => void
   onExpanderClick: (task: Task) => void
 }> = ({ tasks, onExpanderClick }) => {
+  const appDispatch = useAppDispatch()
+
   return (
     <div className='table border-l '>
       {tasks.map((t, index) => {
@@ -42,7 +46,12 @@ export const ProjectColumn: React.FC<{
                   <span className='truncate'>{t.name}</span>
                   {t.hideChildren === undefined && (
                     <div>
-                      <LinkButton to={`${t.projectMemberId}/edit`} variant='unstyled' size='small'>
+                      <LinkButton
+                        to={`${t.projectMemberId}/edit`}
+                        variant='unstyled'
+                        size='small'
+                        onClick={() => appDispatch(setIsEditingProjectMember(false))}
+                      >
                         <Icon icon='PenSquare' size='extraSmall' color='gray' />
                       </LinkButton>
                     </div>

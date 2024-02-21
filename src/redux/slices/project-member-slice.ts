@@ -48,6 +48,7 @@ interface InitialState {
   error: string | null
   project_member: ProjectMember | null
   projectMemberFormData: ProjectMemberFormData | null
+  isEditingProjectMember: boolean
 }
 
 const initialState: InitialState = {
@@ -66,6 +67,7 @@ const initialState: InitialState = {
     remarks: "",
     skill_ids: [],
   },
+  isEditingProjectMember: false,
 }
 
 const projectMemberSlice = createSlice({
@@ -77,6 +79,9 @@ const projectMemberSlice = createSlice({
     },
     setProjectMemberFormData: (state, action) => {
       state.projectMemberFormData = action.payload
+    },
+    setIsEditingProjectMember: (state, action) => {
+      state.isEditingProjectMember = action.payload
     },
   },
   extraReducers(builder) {
@@ -115,5 +120,6 @@ const projectMemberSlice = createSlice({
   },
 })
 
-export const { setProjectMemberFormData, setProjectMember } = projectMemberSlice.actions
+export const { setProjectMemberFormData, setProjectMember, setIsEditingProjectMember } =
+  projectMemberSlice.actions
 export default projectMemberSlice.reducer
