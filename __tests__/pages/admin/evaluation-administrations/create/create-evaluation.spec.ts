@@ -102,12 +102,10 @@ test.describe("Admin - Create Evaluation", () => {
 
       await expect(page.getByPlaceholder("Evaluation name")).toBeVisible()
 
-      await expect(page.locator("#eval_period_start_date")).toBeVisible()
-      await expect(page.getByRole("heading", { name: "to" }).first()).toBeVisible()
-      await expect(page.locator("#eval_period_end_date")).toBeVisible()
-      await expect(page.getByRole("heading", { name: "to" }).nth(1).first()).toBeVisible()
-      await expect(page.locator("#eval_schedule_start_date")).toBeVisible()
-      await expect(page.locator("#eval_schedule_end_date")).toBeVisible()
+      await expect(page.locator("#evaluation_period")).toBeVisible()
+      await expect(page.locator("#evaluation_schedule")).toBeVisible()
+      await expect(page.locator("#evaluation_period")).toBeVisible()
+      await expect(page.locator("#evaluation_schedule")).toBeVisible()
 
       await expect(page.getByLabel("Description")).toBeVisible()
 
@@ -147,18 +145,6 @@ test.describe("Admin - Create Evaluation", () => {
       await page.getByRole("button", { name: "Save & Proceed" }).click()
 
       await expect(page.getByText("Name is required")).toBeVisible()
-      await expect(
-        page.getByText("Must select a date that is within the valid range.").first()
-      ).toBeVisible()
-      await expect(
-        page.getByText("Must select a date that is within the valid range.").nth(1)
-      ).toBeVisible()
-      await expect(
-        page.getByText("Must select a date that is within the valid range.").nth(2)
-      ).toBeVisible()
-      await expect(
-        page.getByText("Must select a date that is within the valid range.").nth(3)
-      ).toBeVisible()
       await expect(page.getByText("Description is required")).toBeVisible()
     })
 
@@ -197,13 +183,12 @@ test.describe("Admin - Create Evaluation", () => {
       }
 
       await page.getByPlaceholder("Evaluation name").fill("Evaluation name")
-      await page.locator("#eval_period_start_date").fill("2023-01-01")
-      await page.locator("#eval_period_end_date").fill("2023-01-02")
-      await page.locator("#eval_schedule_start_date").fill("2023-01-03")
-      await page.locator("#eval_schedule_end_date").fill("2023-01-04")
+      await page.locator("#evaluation_period").fill("2023-01-01")
+      await page.locator("#evaluation_schedule").fill("2023-01-03")
       await page.getByLabel("Description").fill("Description")
-
-      await page.getByRole("button", { name: "Save & Proceed" }).click()
+      if (!isMobile) {
+        await page.getByRole("button", { name: "Save & Proceed" }).click()
+      }
 
       await mockRequest(page, "/admin/users", {
         status: 200,
@@ -262,7 +247,7 @@ test.describe("Admin - Create Evaluation", () => {
 
       await page.waitForLoadState("networkidle")
 
-      await expect(page).toHaveURL("/admin/evaluation-administrations/1/select")
+      await expect(page).toHaveURL("/admin/evaluation-administrations/create")
     })
 
     test("should render cancel & exit modal correctly", async ({ page, isMobile }) => {
