@@ -8,6 +8,8 @@ import { useAppDispatch } from "@hooks/useAppDispatch"
 import { searchProjectMembers } from "@redux/slices/project-members-slice"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { getProjectRoles } from "@redux/slices/project-roles-slice"
+import { DateRangePicker } from "@components/ui/date-range-picker/date-range-picker"
+import { type DateValueType } from "react-tailwindcss-datepicker"
 
 export const ProjectAssignmentsFilter = () => {
   const appDispatch = useAppDispatch()
@@ -82,6 +84,14 @@ export const ProjectAssignmentsFilter = () => {
     setSearchParams({})
   }
 
+  const handleDateRangeChange = (
+    value: DateValueType,
+    _e?: HTMLInputElement | null | undefined
+  ) => {
+    setStartDate(value?.startDate?.toString().split("T")[0] ?? "")
+    setEndDate(value?.endDate?.toString().split("T")[0] ?? "")
+  }
+
   return (
     <div className='flex flex-col md:flex-row justify-between gap-4 flex-wrap px-1'>
       <div className='flex-1 flex flex-col md:flex-row gap-4 flex-wrap'>
@@ -113,34 +123,21 @@ export const ProjectAssignmentsFilter = () => {
             fullWidth
           />
         </div>
-        <div className='flex flex-col sm:flex-row md:items-end justify-start gap-2 w-full flex-wrap lg:flex-nowrap'>
-          <div className='w-full'>
-            <Input
+        <div className='flex w-full gap-2 justify-between'>
+          <div className='w-9/25'>
+            <DateRangePicker
+              name='duration'
               label='Duration'
-              name='start_date'
-              type='date'
-              placeholder='From'
-              value={start_date}
-              onChange={(e) => setStartDate(e.target.value)}
+              value={{ startDate: start_date, endDate: end_date }}
+              onChange={handleDateRangeChange}
             />
           </div>
-          <h2 className='font-medium mb-2'>to</h2>
-          <div className='w-full'>
-            <Input
-              label=''
-              name='end_date'
-              type='date'
-              placeholder='To'
-              value={end_date}
-              onChange={(e) => setEndDate(e.target.value)}
-            />
+          <div className='flex items-end gap-4 mb-1'>
+            <Button onClick={handleSearch}>Search</Button>
+            <Button variant='primaryOutline' onClick={handleClear}>
+              Clear
+            </Button>
           </div>
-        </div>
-        <div className='flex items-end gap-4'>
-          <Button onClick={handleSearch}>Search</Button>
-          <Button variant='primaryOutline' onClick={handleClear}>
-            Clear
-          </Button>
         </div>
       </div>
     </div>

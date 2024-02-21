@@ -28,6 +28,8 @@ import { setSelectedSkills, setCheckedSkills } from "@redux/slices/skills-slice"
 import { getProject } from "@redux/slices/project-slice"
 import { setAlert } from "@redux/slices/app-slice"
 import { setProjectSkills } from "@redux/slices/project-skills-slice"
+import { DateRangePicker } from "@components/ui/date-range-picker/date-range-picker"
+import { type DateValueType } from "react-tailwindcss-datepicker"
 
 export const ProjectAssignmentForm = () => {
   const navigate = useNavigate()
@@ -384,9 +386,22 @@ export const ProjectAssignmentForm = () => {
     }, 100)
   }
 
+  const handleDateRangeChange = (
+    value: DateValueType,
+    _e?: HTMLInputElement | null | undefined
+  ) => {
+    void appDispatch(
+      setProjectMemberFormData({
+        ...projectMemberFormData,
+        start_date: value?.startDate?.toString().split("T")[0] ?? "",
+        end_date: value?.endDate?.toString().split("T")[0] ?? "",
+      })
+    )
+  }
+
   return (
     <div className='flex flex-col gap-10'>
-      <div className='flex flex-col md:w-1/2 gap-4'>
+      <div className='flex flex-col md:w-3/4 gap-4'>
         <CustomSelect
           customRef={customEmployeeRef}
           onMenuOpen={handleOnEmployeeMenuOpen}
@@ -459,37 +474,21 @@ export const ProjectAssignmentForm = () => {
           fullWidth
           error={validationErrors.project_role_id}
         />
-        <div className='flex xl:flex-row flex-col gap-5'>
-          <div className='flex-1 flex flex-col'>
-            <h2 className='font-medium'>Assignment Duration</h2>
-            <div className='flex flex-col sm:flex-row items-center gap-4'>
-              <div className='w-full'>
-                <Input
-                  name='start_date'
-                  type='date'
-                  placeholder='Start date'
-                  value={projectMemberFormData?.start_date}
-                  onChange={handleInputChange}
-                  error={validationErrors.start_date}
-                />
-              </div>
-              <h2 className='font-medium'>to</h2>
-              <div className='w-full'>
-                <Input
-                  name='end_date'
-                  type='date'
-                  placeholder='End date'
-                  value={projectMemberFormData?.end_date}
-                  onChange={handleInputChange}
-                  error={validationErrors.end_date}
-                  min={projectMemberFormData?.start_date}
-                />
-              </div>
-            </div>
+        <div className='flex flex-row gap-5'>
+          <div className='w-53/100'>
+            <DateRangePicker
+              name='assignment-duration'
+              label='Assignment Duration'
+              value={{
+                startDate: projectMemberFormData?.start_date ?? "",
+                endDate: projectMemberFormData?.end_date ?? "",
+              }}
+              onChange={handleDateRangeChange}
+            />
           </div>
           <div className='flex flex-col'>
             <h2 className='font-medium'>Allocation Rate</h2>
-            <div className='flex flex-row gap-4 items-end'>
+            <div className='flex flex-row gap-4 items-end pt-1'>
               <Input
                 name='allocation_rate'
                 type='number'
