@@ -20,6 +20,11 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
   const maxDate = new Date(currentDate)
   maxDate.setFullYear(currentDate.getFullYear() + 50)
 
+  const containerClassName = (defaultClassName: string) => {
+    const customStyle = "border rounded-md mb-10"
+    return `${defaultClassName} ${customStyle}`
+  }
+
   return (
     <div>
       {label != null && (
@@ -27,22 +32,21 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
           {label}
         </label>
       )}
-      <div className='border rounded-md'>
-        <Datepicker
-          inputId={name}
-          inputName={name}
-          primaryColor={"blue"}
-          value={value}
-          onChange={onChange}
-          showShortcuts={true}
-          popoverDirection='down'
-          configs={{
-            shortcuts: {},
-          }}
-          minDate={minDate}
-          maxDate={maxDate}
-        />
-      </div>
+      <Datepicker
+        inputId={name}
+        inputName={name}
+        primaryColor={"blue"}
+        value={value}
+        onChange={onChange}
+        showShortcuts={true}
+        popoverDirection='down'
+        configs={{
+          shortcuts: {},
+        }}
+        minDate={minDate}
+        maxDate={maxDate}
+        containerClassName={containerClassName}
+      />
     </div>
   )
 }
