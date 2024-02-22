@@ -7,6 +7,7 @@ import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { formatDate } from "@utils/format-date"
 import { getEvaluationResultIds } from "@redux/slices/evaluation-results-slice"
+import { EvaluationResultStatus } from "@custom-types/evaluation-result-type"
 
 export const SelectEvalueesTable = () => {
   const { id } = useParams()
@@ -89,8 +90,11 @@ export const SelectEvalueesTable = () => {
                         checked={selectedEmployeeIds.includes(user.id)}
                         onChange={(checked) => handleClickCheckbox(checked, user.id)}
                         disabled={
-                          evaluation_results.find((result) => result.users?.id === user.id) !==
-                          undefined
+                          evaluation_results.find(
+                            (result) =>
+                              result.users?.id === user.id &&
+                              result.status === EvaluationResultStatus.Ongoing
+                          ) !== undefined
                         }
                       />
                       {user.last_name}, {user.first_name}
