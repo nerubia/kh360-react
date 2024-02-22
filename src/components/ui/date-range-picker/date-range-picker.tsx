@@ -20,7 +20,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
   maxDate.setFullYear(currentDate.getFullYear() + 50)
 
   const containerClassName = (defaultClassName: string) => {
-    const customStyle = "border rounded-md mb-10"
+    const customStyle = "border rounded-md"
     return `${defaultClassName} ${customStyle}`
   }
 
