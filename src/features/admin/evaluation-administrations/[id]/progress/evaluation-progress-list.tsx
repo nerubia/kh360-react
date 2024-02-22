@@ -533,7 +533,9 @@ export const EvaluationProgressList = () => {
                 ))}
               </>
             }
-            onClose={() => toggleEmailLogDialog(null)}
+            onSubmit={() => toggleEmailLogDialog(null)}
+            showCloseButton={false}
+            submitButtonLabel='Close'
           />
           <EvaluationAdminDialog
             open={showDeclineDialog}

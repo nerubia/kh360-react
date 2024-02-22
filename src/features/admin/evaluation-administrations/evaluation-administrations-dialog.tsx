@@ -9,6 +9,8 @@ interface EvaluationAdminDialogProps {
   onClose?: () => void
   onSubmit?: () => void
   loading?: boolean | undefined
+  showCloseButton?: boolean
+  submitButtonLabel?: string
 }
 
 const EvaluationAdminDialog: React.FC<EvaluationAdminDialogProps> = ({
@@ -18,6 +20,8 @@ const EvaluationAdminDialog: React.FC<EvaluationAdminDialogProps> = ({
   onClose,
   onSubmit,
   loading,
+  showCloseButton,
+  submitButtonLabel,
 }: EvaluationAdminDialogProps) => {
   return (
     <CustomDialog
@@ -27,6 +31,8 @@ const EvaluationAdminDialog: React.FC<EvaluationAdminDialogProps> = ({
       onClose={onClose}
       onSubmit={onSubmit}
       loading={loading}
+      showCloseButton={showCloseButton}
+      submitButtonLabel={submitButtonLabel}
     />
   )
 }
