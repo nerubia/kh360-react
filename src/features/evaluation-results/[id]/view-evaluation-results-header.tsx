@@ -7,6 +7,7 @@ import { PageTitle } from "@components/shared/page-title"
 import { getCmEvaluationResult } from "@redux/slices/evaluation-result-slice"
 import { ScoreRange } from "@components/shared/score-range/score-range"
 import { useMobileView } from "@hooks/use-mobile-view"
+import { getScoreRatings } from "@redux/slices/score-ratings-slice"
 
 export const ViewEvaluationResultsHeader = () => {
   const { id } = useParams()
@@ -18,6 +19,7 @@ export const ViewEvaluationResultsHeader = () => {
     if (id !== undefined) {
       void appDispatch(getCmEvaluationResult(parseInt(id)))
     }
+    void appDispatch(getScoreRatings())
   }, [])
 
   return (
