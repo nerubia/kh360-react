@@ -11,7 +11,6 @@ import {
 import { axiosInstance } from "@utils/axios-instance"
 import { Loading } from "@custom-types/loadingType"
 import { type EvaluationResult } from "@custom-types/evaluation-result-type"
-import { type ScoreRating } from "@custom-types/score-rating-type"
 
 export const getUserEvaluations = createAsyncThunk(
   "user/getUserEvaluations",
@@ -125,17 +124,6 @@ export const sendRequestToRemove = createAsyncThunk(
   }
 )
 
-export const getScoreRatings = createAsyncThunk("user/getScoreRatings", async (_, thunkApi) => {
-  try {
-    const response = await axiosInstance.get("user/score-ratings")
-    return response.data
-  } catch (error) {
-    const axiosError = error as AxiosError
-    const response = axiosError.response?.data as ApiError
-    return thunkApi.rejectWithValue(response.message)
-  }
-})
-
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   loading_answer: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
@@ -146,7 +134,6 @@ interface InitialState {
   user_evaluation_administrations: EvaluationAdministration[]
   my_evaluation_administrations: EvaluationAdministration[]
   user_evaluation_result: EvaluationResult | null
-  score_ratings: ScoreRating[]
   hasPreviousPage: boolean
   hasNextPage: boolean
   currentPage: number
@@ -164,7 +151,6 @@ const initialState: InitialState = {
   user_evaluation_administrations: [],
   my_evaluation_administrations: [],
   user_evaluation_result: null,
-  score_ratings: [],
   hasPreviousPage: false,
   hasNextPage: false,
   currentPage: 0,
@@ -374,22 +360,6 @@ const userSlice = createSlice({
       state.error = null
     })
     builder.addCase(sendRequestToRemove.rejected, (state, action) => {
-      state.loading = Loading.Rejected
-      state.error = action.payload as string
-    })
-    /**
-     * List score ratings
-     */
-    builder.addCase(getScoreRatings.pending, (state) => {
-      state.loading = Loading.Pending
-      state.error = null
-    })
-    builder.addCase(getScoreRatings.fulfilled, (state, action) => {
-      state.score_ratings = action.payload
-      state.loading = Loading.Fulfilled
-      state.error = null
-    })
-    builder.addCase(getScoreRatings.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
