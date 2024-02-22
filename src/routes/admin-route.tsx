@@ -24,7 +24,7 @@ const SelectEvaluees = lazy(
   async () => await import("@pages/admin/evaluation-administrations/[id]/select/select-evaluees")
 )
 const PreviewEmployees = lazy(
-  async () => await import("@pages/admin/evaluation-administrations/[id]/preview/preview-employees")
+  async () => await import("@pages/admin/evaluation-administrations/[id]/preview/preview-evaluees")
 )
 const Evaluees = lazy(
   async () => await import("@pages/admin/evaluation-administrations/[id]/evaluees/evaluees")
