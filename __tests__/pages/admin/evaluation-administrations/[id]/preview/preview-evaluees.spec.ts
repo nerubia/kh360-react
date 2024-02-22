@@ -5,7 +5,7 @@ import { loginUser } from "@test-utils/login-user"
 
 setupPlaywright()
 
-test.describe("Admin - Preview Employees", () => {
+test.describe("Admin - Preview Evaluees", () => {
   test.beforeEach(async ({ page }) => {
     await mockRequest(page, "/auth/refresh", {
       status: 403,
@@ -19,7 +19,7 @@ test.describe("Admin - Preview Employees", () => {
   })
 
   test.describe("as Guest", () => {
-    test("should not allow to view the admin preview employees", async ({ page }) => {
+    test("should not allow to view the admin preview evaluees", async ({ page }) => {
       await page.goto("/admin/evaluation-administrations/1/preview")
 
       await expect(page).toHaveURL(
@@ -29,7 +29,7 @@ test.describe("Admin - Preview Employees", () => {
   })
 
   test.describe("as Employee", () => {
-    test("should not allow to view the admin preview employees", async ({ page }) => {
+    test("should not allow to view the admin preview evaluees", async ({ page }) => {
       await loginUser("employee", page)
 
       await page.goto("/admin/evaluation-administrations/1/preview")
@@ -134,7 +134,7 @@ test.describe("Admin - Preview Employees", () => {
         await page.getByTestId("SidebarCloseButton").click()
       }
 
-      await expect(page.getByRole("heading", { name: "Review Employees" })).toBeVisible()
+      await expect(page.getByRole("heading", { name: "Review Evaluees" })).toBeVisible()
 
       await expect(page.getByRole("cell", { name: "Name" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Date Started" })).toBeVisible()
