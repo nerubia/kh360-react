@@ -52,7 +52,7 @@ export const ProjectAssignmentForm = () => {
     loading: loadingProject,
     currentPage: projectCurrentPage,
   } = useAppSelector((state) => state.projects)
-  const { loading, project_member, projectMemberFormData, isEditingProjectMember } = useAppSelector(
+  const { project_member, projectMemberFormData, isEditingProjectMember } = useAppSelector(
     (state) => state.projectMember
   )
   const { project_members } = useAppSelector((state) => state.projectMembers)
@@ -245,10 +245,11 @@ export const ProjectAssignmentForm = () => {
 
   const handleEmployeeScroll = () => {
     if (employeeMenuList?.scrollTop !== undefined) {
+      const offset = 10
       const scrollPosition = employeeMenuList?.scrollTop + employeeMenuList.clientHeight
       if (
-        scrollPosition !== employeeMenuList.scrollHeight ||
-        loading === Loading.Pending ||
+        scrollPosition < employeeMenuList.scrollHeight - offset ||
+        loadingUsers === Loading.Pending ||
         !hasNextPage
       ) {
         return
@@ -264,9 +265,10 @@ export const ProjectAssignmentForm = () => {
 
   const handleProjectScroll = () => {
     if (projectMenuList?.scrollTop !== undefined) {
+      const offset = 10
       const scrollPosition = projectMenuList?.scrollTop + projectMenuList.clientHeight
       if (
-        scrollPosition !== projectMenuList.scrollHeight ||
+        scrollPosition < projectMenuList.scrollHeight - offset ||
         loadingProject === Loading.Pending ||
         !projectHasNextPage
       ) {
