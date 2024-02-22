@@ -14,6 +14,8 @@ import {
 import { getEvaluationResultStatusVariant } from "@utils/variant"
 import { Badge } from "@components/ui/badge/badge"
 import { Loading } from "@custom-types/loadingType"
+import { setSelectedEmployeeIds } from "@redux/slices/evaluation-administration-slice"
+
 const EvaluationAdminDialog = lazy(
   async () =>
     await import("@features/admin/evaluation-administrations/evaluation-administrations-dialog")
@@ -28,6 +30,7 @@ export const EvalueesList = () => {
   const { loading, evaluation_results, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
     (state) => state.evaluationResults
   )
+  const { selectedEmployeeIds } = useAppSelector((state) => state.evaluationAdministration)
 
   const [selectedEvaluee, setSelectedEvaluee] = useState<EvaluationResult | undefined>(undefined)
 
@@ -46,14 +49,27 @@ export const EvalueesList = () => {
     if (selectedEvaluee !== undefined) {
       try {
         const result = await appDispatch(deleteEvaluationResult(selectedEvaluee.id))
-        if (result.payload.id !== undefined) {
+        if (result.type === "evaluationResults/deleteEvaluationResult/fulfilled") {
           appDispatch(
             setAlert({
               description: `${selectedEvaluee?.users?.first_name} ${selectedEvaluee?.users?.last_name} successfully removed.`,
               variant: "success",
             })
           )
+          appDispatch(
+            setSelectedEmployeeIds(
+              selectedEmployeeIds.filter((id) => id !== selectedEvaluee.users?.id)
+            )
+          )
           setSelectedEvaluee(undefined)
+        }
+        if (result.type === "evaluationResults/deleteEvaluationResult/rejected") {
+          appDispatch(
+            setAlert({
+              description: result.payload,
+              variant: "destructive",
+            })
+          )
         }
       } catch (error) {}
     }
