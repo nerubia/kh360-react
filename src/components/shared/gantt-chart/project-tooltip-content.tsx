@@ -10,8 +10,8 @@ export const ProjectTooltipContent: React.FC<{
   return (
     <>
       {task.role !== undefined && (
-        <div className='absolute z-50 w-max max-w-md bg-customYellow-300 text-customBrown-500 text-xs border border-customYellow-400 rounded-md p-1.5 group-hover:visible bottom-full right-1/2 transform -translate-x-1/2 mb-1'>
-          <p>
+        <div className='absolute z-50 w-max max-w-xs bg-customYellow-300 text-customBrown-500 text-xs border border-customYellow-400 rounded-md p-1.5 group-hover:visible right-1 -translate-y-full'>
+          <p className='truncate'>
             <b>{task.name}</b>
           </p>
           <p>{formatDateRange(task.start, task.end)}</p>
