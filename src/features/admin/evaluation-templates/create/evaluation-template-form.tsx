@@ -187,7 +187,10 @@ export const CreateEvaluationTemplateForm = () => {
     const matchResult = value.match(regex)
 
     if (matchResult !== null) {
-      return matchResult[0]
+      const parsedValue = parseFloat(matchResult[0].replace(",", "."))
+      if (!isNaN(parsedValue) && parsedValue <= 100) {
+        return matchResult[0]
+      }
     }
     return ""
   }
@@ -378,6 +381,18 @@ export const CreateEvaluationTemplateForm = () => {
         </div>
         <div className='xl:flex xl:flex-wrap gap-4'>
           <div className='flex-1'>
+            <CustomSelect
+              data-test-id='SelectAnswer'
+              label='Answer'
+              name='answer_id'
+              value={answerOptions.find((option) => option.value === formData.answer_id)}
+              onChange={async (option) => await onChangeAnswer(option)}
+              options={answerOptions}
+              fullWidth
+              error={validationErrors.answer_id}
+            />
+          </div>
+          <div className='flex flex-1 items-end gap-2'>
             <Input
               label='Rate'
               step={0.01}
@@ -390,18 +405,7 @@ export const CreateEvaluationTemplateForm = () => {
               max={100}
               error={validationErrors.rate}
             />
-          </div>
-          <div className='flex-1'>
-            <CustomSelect
-              data-test-id='SelectAnswer'
-              label='Answer'
-              name='answer_id'
-              value={answerOptions.find((option) => option.value === formData.answer_id)}
-              onChange={async (option) => await onChangeAnswer(option)}
-              options={answerOptions}
-              fullWidth
-              error={validationErrors.answer_id}
-            />
+            <span className='pb-2'>%</span>
           </div>
           <div className='flex flex-1 items-end my-2.5'>
             <ToggleSwitch
