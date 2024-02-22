@@ -8,7 +8,7 @@ export default function ProjectAssignments() {
   useTitle("Project Assignments")
 
   return (
-    <div className='h-[calc(100vh_-_104px)] flex flex-col gap-8 overflow-x-hidden '>
+    <div className='h-[calc(100vh_-_104px)] flex flex-col gap-8'>
       <ProjectAssignmentsHeader />
       <ProjectAssignmentsFilter />
       <ProjectAssignmentsAction />
