@@ -12,6 +12,7 @@ import { type EvaluationAdministrationFormData } from "@custom-types/form-data-t
 import {
   getEvaluationAdministration,
   updateEvaluationAdministration,
+  setSelectedEmployeeIds,
 } from "@redux/slices/evaluation-administration-slice"
 import { setAlert } from "@redux/slices/app-slice"
 import { getEvaluationResults } from "@redux/slices/evaluation-results-slice"
@@ -98,6 +99,7 @@ export const EditEvaluationAdministrationForm = () => {
           })
         )
         if (result.type === "evaluationAdministration/updateEvaluationAdministration/fulfilled") {
+          appDispatch(setSelectedEmployeeIds([]))
           appDispatch(
             setAlert({
               description: "Evaluation adminstration updated successfully",

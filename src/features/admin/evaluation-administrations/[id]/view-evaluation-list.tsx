@@ -258,6 +258,7 @@ export const ViewEvaluationList = () => {
   }
 
   const handleAddEvaluee = () => {
+    appDispatch(setSelectedEmployeeIds([]))
     navigate(`/admin/evaluation-administrations/${id}/select`)
   }
 
