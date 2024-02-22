@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import navigationalChallenge from "@assets/navigational-challenge.png"
 import needsGps from "@assets/needs-gps.png"
 import smoothSailing from "@assets/smooth-sailing.png"
@@ -6,8 +6,6 @@ import rocketBooster from "@assets/rocket-booster.png"
 import unicornStatus from "@assets/unicorn-status.png"
 import { type VariantProps, cva } from "class-variance-authority"
 import { type ScoreRating } from "@custom-types/score-rating-type"
-import { getScoreRatings } from "@redux/slices/user-slice"
-import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { Progress } from "@components/ui/progress/progress"
 import { getScoreRatingVariant } from "@utils/variant"
@@ -43,8 +41,7 @@ export const ScoreRange = ({
   size,
   showDetails = true,
 }: ScoreRangeProps) => {
-  const appDispatch = useAppDispatch()
-  const { score_ratings } = useAppSelector((state) => state.user)
+  const { score_ratings } = useAppSelector((state) => state.scoreRatings)
   const displayScore = ((score ?? 0) - 0.25) * 10
   const [onError, setOnError] = useState<boolean>(false)
   const scoreImages: Record<string, string> = {
@@ -54,10 +51,6 @@ export const ScoreRange = ({
     "Rocket Booster": rocketBooster,
     "Unicorn Status": unicornStatus,
   }
-
-  useEffect(() => {
-    void appDispatch(getScoreRatings())
-  }, [])
 
   const getColor = (score_rating: string, icon: string) => {
     if (score_rating !== icon) {
