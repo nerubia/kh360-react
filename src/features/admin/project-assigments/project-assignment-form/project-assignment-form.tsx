@@ -435,6 +435,7 @@ export const ProjectAssignmentForm = () => {
   }
 
   const handleDateRangeChange = (value: DateValueType) => {
+    void appDispatch(setIsEditingProjectMember(true))
     void appDispatch(
       setProjectMemberFormData({
         ...projectMemberFormData,
