@@ -125,6 +125,24 @@ export const CreateEvaluationTemplateContentForm = () => {
     setFormData({ ...formData, [name]: value })
   }
 
+  const checkNumberValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value
+    setFormData({ ...formData, rate: handleDecimalsOnValue(inputValue) })
+  }
+
+  const handleDecimalsOnValue = (value: string) => {
+    const regex = /([0-9]*[.|,]{0,1}[0-9]{0,2})/s
+    const matchResult = value.match(regex)
+
+    if (matchResult !== null) {
+      const parsedValue = parseFloat(matchResult[0].replace(",", "."))
+      if (!isNaN(parsedValue) && parsedValue <= 100) {
+        return matchResult[0]
+      }
+    }
+    return ""
+  }
+
   const toggleModalForm = () => {
     void appDispatch(showCreateModal(!create_modal_visible))
     setFormData({})
@@ -169,27 +187,31 @@ export const CreateEvaluationTemplateContentForm = () => {
                   error={validationErrors.category}
                 />
               </div>
-              <div className='flex-1'>
-                <Input
-                  label='Rate'
-                  name='rate'
-                  placeholder='Rate'
-                  value={formData.rate ?? ""}
-                  onChange={onChangeInput}
-                  error={validationErrors.rate}
-                  type='number'
-                  min={0}
-                  max={100}
-                />
-              </div>
-              <div className='flex items-center'>
-                <div className='my-2.5'>
-                  <ToggleSwitch
-                    checked={Boolean(formData.is_active) ?? false}
-                    onChange={async (checked) => await onChangeActive(checked)}
+              <div className='flex items-end gap-6'>
+                <div className='flex items-end gap-2'>
+                  <Input
+                    label='Rate'
+                    name='rate'
+                    placeholder='Rate'
+                    step={0.01}
+                    value={Number(formData.rate).toFixed(2)}
+                    onChange={checkNumberValue}
+                    error={validationErrors.rate}
+                    type='number'
+                    min={0}
+                    max={100}
                   />
+                  <span className='pb-2'>%</span>
                 </div>
-                <h2 className='font-medium'>Active</h2>
+                <div className='flex items-center'>
+                  <div className='my-2.5'>
+                    <ToggleSwitch
+                      checked={Boolean(formData.is_active) ?? false}
+                      onChange={async (checked) => await onChangeActive(checked)}
+                    />
+                  </div>
+                  <h2 className='font-medium'>Active</h2>
+                </div>
               </div>
             </div>
           </div>
