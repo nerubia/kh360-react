@@ -16,7 +16,6 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
   const currentDate = new Date()
   const minDate = new Date(currentDate)
   minDate.setFullYear(currentDate.getFullYear() - 50)
-
   const maxDate = new Date(currentDate)
   maxDate.setFullYear(currentDate.getFullYear() + 50)
 
