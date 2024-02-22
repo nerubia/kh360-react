@@ -49,7 +49,6 @@ export const SelectProjectMemberSkillsFilter = () => {
   const handleClear = async () => {
     setName("")
     setCategory("all")
-    setSearchParams({})
   }
 
   return (
