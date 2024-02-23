@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams, useSearchParams } from "react-router-dom"
 import { Button, LinkButton } from "@components/ui/button/button"
 import { Icon } from "@components/ui/icon/icon"
 import { useAppSelector } from "@hooks/useAppSelector"
@@ -10,6 +10,8 @@ import { setExternalUsers } from "@redux/slices/external-users-slice"
 
 export const EvaluatorsUser = () => {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const callback = searchParams.get("callback")
   const { id, evaluation_result_id, evaluation_template_id } = useParams()
 
   const appDispatch = useAppDispatch()
@@ -29,17 +31,19 @@ export const EvaluatorsUser = () => {
     <div className='flex justify-between items-center'>
       <div className='w-80 flex items-center lg:pb-4'>
         <div className='flex items-center justify-center'>
-          <div className='w-6'>
-            {previousId !== undefined && (
-              <LinkButton
-                testId='PreviousButton'
-                variant='unstyled'
-                to={`/admin/evaluation-administrations/${id}/evaluees/${previousId}/evaluators/all`}
-              >
-                <Icon icon='ChevronLeft' />
-              </LinkButton>
-            )}
-          </div>
+          {callback === null && (
+            <div className='w-6'>
+              {previousId !== undefined && (
+                <LinkButton
+                  testId='PreviousButton'
+                  variant='unstyled'
+                  to={`/admin/evaluation-administrations/${id}/evaluees/${previousId}/evaluators/all`}
+                >
+                  <Icon icon='ChevronLeft' />
+                </LinkButton>
+              )}
+            </div>
+          )}
           <div className='flex-1 flex items-center gap-4'>
             {evaluation_result?.users?.picture === undefined ||
             evaluation_result.users?.picture === null ? (
@@ -64,17 +68,19 @@ export const EvaluatorsUser = () => {
             </div>
           </div>
         </div>
-        <div className='w-6'>
-          {nextId !== undefined && (
-            <LinkButton
-              testId='NextButton'
-              variant='unstyled'
-              to={`/admin/evaluation-administrations/${id}/evaluees/${nextId}/evaluators/all`}
-            >
-              <Icon icon='ChevronRight' />
-            </LinkButton>
-          )}
-        </div>
+        {callback === null && (
+          <div className='w-6'>
+            {nextId !== undefined && (
+              <LinkButton
+                testId='NextButton'
+                variant='unstyled'
+                to={`/admin/evaluation-administrations/${id}/evaluees/${nextId}/evaluators/all`}
+              >
+                <Icon icon='ChevronRight' />
+              </LinkButton>
+            )}
+          </div>
+        )}
       </div>
       <div className='pb-4 md:pb-0'>
         <Button size='small' variant='ghost' onClick={handleAddEvaluator}>

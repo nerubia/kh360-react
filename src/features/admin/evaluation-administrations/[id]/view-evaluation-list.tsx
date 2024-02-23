@@ -222,7 +222,7 @@ export const ViewEvaluationList = () => {
       if (result.type === "evaluationTemplate/getEvaluationTemplates/fulfilled") {
         const templateId = result.payload[0].id
         navigate(
-          `/admin/evaluation-administrations/${id}/evaluees/${evaluation_result_id}/evaluators/${templateId}`
+          `/admin/evaluation-administrations/${id}/evaluees/${evaluation_result_id}/evaluators/${templateId}?callback=${location.pathname}`
         )
       }
     } catch (err) {}
