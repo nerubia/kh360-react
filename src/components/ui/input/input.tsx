@@ -16,6 +16,7 @@ interface InputProps {
   autoFocus?: boolean
   maxLength?: number
   step?: number
+  width?: string
 }
 
 export const Input = ({
@@ -33,6 +34,7 @@ export const Input = ({
   maxLength,
   autoFocus,
   step,
+  width = "w-full",
 }: InputProps) => {
   const isMobile = useMobileView()
 
@@ -44,9 +46,9 @@ export const Input = ({
         </label>
       )}
       <input
-        className={`${error != null ? "border-red-500" : ""} border px-4 py-1.5 rounded-md ${
-          isMobile ? "text-sm" : "text-base"
-        }`}
+        className={`${width} ${
+          error != null ? "border-red-500" : ""
+        } border px-4 py-1.5 rounded-md ${isMobile ? "text-sm" : "text-base"}`}
         id={name}
         name={name}
         type={type}
