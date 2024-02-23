@@ -1,5 +1,5 @@
 import React, { useEffect, useState, lazy, Suspense } from "react"
-import { useNavigate, useParams, useLocation } from "react-router-dom"
+import { useNavigate, useParams, useLocation, useSearchParams } from "react-router-dom"
 import { Button, LinkButton } from "@components/ui/button/button"
 import { Checkbox } from "@components/ui/checkbox/checkbox"
 import { useAppDispatch } from "@hooks/useAppDispatch"
@@ -34,6 +34,8 @@ const EvaluationAdminDialog = lazy(
 )
 export const EvaluatorsList = () => {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const callback = searchParams.get("callback")
   const { id, evaluation_result_id, evaluation_template_id } = useParams()
   const appDispatch = useAppDispatch()
   const location = useLocation()
@@ -425,12 +427,12 @@ export const EvaluatorsList = () => {
           size={isMediumSize ? "small" : "medium"}
           variant='primaryOutline'
           to={
-            evaluation_result?.status === EvaluationResultStatus.Ongoing
+            evaluation_result?.status === EvaluationResultStatus.Ongoing || callback !== null
               ? `/admin/evaluation-administrations/${id}`
               : `/admin/evaluation-administrations/${id}/evaluees`
           }
         >
-          {evaluation_result?.status === EvaluationResultStatus.Ongoing
+          {evaluation_result?.status === EvaluationResultStatus.Ongoing || callback !== null
             ? "Back"
             : "Back to Evaluees List"}
         </LinkButton>
