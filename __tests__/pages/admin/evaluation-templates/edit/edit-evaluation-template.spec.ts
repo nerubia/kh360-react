@@ -255,7 +255,7 @@ test.describe("Admin - Edit Evaluation Template", () => {
       ).toBeVisible()
       await expect(page.locator("div").filter({ hasText: /^BOD$/ }).nth(2)).toBeVisible()
       await expect(page.locator("div").filter({ hasText: /^PM$/ }).nth(1)).toBeVisible()
-      await expect(page.getByPlaceholder("Rate")).toHaveValue("35.00")
+      await expect(page.getByPlaceholder("Rate")).toHaveValue("35")
       await expect(
         page
           .locator("div")

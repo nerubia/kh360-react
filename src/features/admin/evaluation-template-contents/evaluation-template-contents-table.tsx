@@ -11,6 +11,7 @@ import { CreateEvaluationTemplateContentForm } from "@features/admin/evaluation-
 import { Icon } from "@components/ui/icon/icon"
 import Dialog from "@components/ui/dialog/dialog"
 import { Badge } from "@components/ui/badge/badge"
+import { EvaluationTemplateContentCategory } from "@custom-types/evaluation-template-content-type"
 
 export const EvaluationTemplateContentsTable = () => {
   const appDispatch = useAppDispatch()
@@ -55,81 +56,107 @@ export const EvaluationTemplateContentsTable = () => {
   }
 
   return (
-    <div className='flex flex-col gap-8'>
-      <table className='w-full table-fixed'>
-        <thead className='text-left'>
-          <tr>
-            <th className='pb-3'>Name</th>
-            <th className='pb-3'>Description</th>
-            <th className='pb-3'>Category</th>
-            <th className='pb-3 text-center'>Rate</th>
-            <th className='pb-3 text-center'>Active</th>
-            <th className='pb-3'>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {evaluation_template_contents.map((content, index) => (
-            <tr
-              key={index}
-              className={`hover:bg-slate-100 cursor-grab`}
-              draggable
-              onDragStart={() => {
-                dragContent.current = index
-              }}
-              onDragEnter={() => (draggedOverContent.current = index)}
-              onDragEnd={() => {
-                handleSort()
-              }}
-              onDragOver={(e) => e.preventDefault()}
-            >
-              <td className='py-1 border-b'>
-                <div className='flex gap-3 items-center'>
-                  <Icon icon='Menu' size='extraSmall' />
-                  <div>{content.name}</div>
-                </div>
-              </td>
-              <td className='py-1 border-b text-start'>{content.description}</td>
-              <td className='py-1 border-b text-start items-center '>{content.category}</td>
-              <td className='py-1 border-b text-center items-center '>
-                {Number(content.rate).toFixed(2)}%
-              </td>
-              <td className='py-1 border-b text-center'>
-                <div className='flex justify-center '>
-                  <Badge variant={`${content.is_active === true ? "green" : "red"}`} size='small'>
-                    {content.is_active === true ? "YES" : "NO"}
-                  </Badge>
-                </div>
-              </td>
-              <td className='py-1 border-b text-center items-center md:w-1/2'>
-                <div className='flex gap-2 '>
-                  <Button
-                    testId={`EditButton${content.id}`}
-                    variant='unstyled'
-                    onClick={() => {
-                      toggleEditModalForm()
-                      void appDispatch(setSelectedContentIndex(index))
-                    }}
-                  >
-                    <Icon icon='PenSquare' />
-                  </Button>
-                  <Button
-                    testId={`DeleteButton${content.id}`}
-                    variant='unstyled'
-                    onClick={() => {
-                      toggleDeleteDialog()
-                      void appDispatch(setSelectedContentIndex(index))
-                    }}
-                  >
-                    <Icon icon='Trash' />
-                  </Button>
-                </div>
-              </td>
+    <div className='flex flex-col gap-8 mt-5'>
+      <div className='text-xl text-primary-500 font-bold'>Evaluation Template Contents</div>
+      <div>
+        <table>
+          <thead className='text-left'>
+            <tr>
+              <th className='py-1 border-b-4 mr-2 pl-20 text-primary-500 md:w-1/4'>Name</th>
+              <th className='py-1 border-b-4 pr-4 text-start text-primary-500 md:w-1/2'>
+                Description
+              </th>
+              <th className='py-1 border-b-4 mr-2 text-start text-primary-500 md:w-1/8'>Rate</th>
+              <th className='py-1 border-b-4 mr-2 text-center text-primary-500 md:w-1/6'>Active</th>
+              <th className='py-1 border-b-4 m-5 text-start text-primary-500 md:w-1/2'>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <div className='flex justify-end'>
-        <Button onClick={toggleModalForm}>Add Template Content</Button>
+          </thead>
+          <tbody>
+            {evaluation_template_contents.map((content, index) => (
+              <tr
+                key={index}
+                className={`hover:bg-slate-100 cursor-grab`}
+                draggable
+                onDragStart={() => {
+                  dragContent.current = index
+                }}
+                onDragEnter={() => (draggedOverContent.current = index)}
+                onDragEnd={() => {
+                  handleSort()
+                }}
+                onDragOver={(e) => e.preventDefault()}
+              >
+                <td className='py-1 border-b'>
+                  <div className='flex gap-4 items-center'>
+                    <Icon icon='Menu' size='extraSmall' />
+                    <Badge
+                      variant={`${
+                        content.category === EvaluationTemplateContentCategory.PrimarySkillSet
+                          ? "darkPurple"
+                          : "primary"
+                      }`}
+                      size='iconSize'
+                    >
+                      {content.category === EvaluationTemplateContentCategory.PrimarySkillSet
+                        ? "P"
+                        : "S"}
+                    </Badge>
+                    <div>{content.name}</div>
+                  </div>
+                </td>
+                <td className='py-1 border-b text-start pr-5'>{content.description}</td>
+                <td className='py-1 border-b text-start items-center '>
+                  {Number(content.rate).toFixed(2)}%
+                </td>
+                <td className='py-1 border-b'>
+                  <div className='flex items-center justify-center '>
+                    <Badge variant={`${content.is_active === true ? "green" : "red"}`} size='small'>
+                      {content.is_active === true ? "YES" : "NO"}
+                    </Badge>
+                  </div>
+                </td>
+                <td className='py-1 border-b text-center items-center md:w-1/2'>
+                  <div className='flex gap-2 '>
+                    <Button
+                      testId={`EditButton${content.id}`}
+                      variant='unstyled'
+                      onClick={() => {
+                        toggleEditModalForm()
+                        void appDispatch(setSelectedContentIndex(index))
+                      }}
+                    >
+                      <Icon icon='PenSquare' />
+                    </Button>
+                    <Button
+                      testId={`DeleteButton${content.id}`}
+                      variant='unstyled'
+                      onClick={() => {
+                        toggleDeleteDialog()
+                        void appDispatch(setSelectedContentIndex(index))
+                      }}
+                    >
+                      <Icon icon='Trash' />
+                    </Button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {evaluation_template_contents.length === 0 ? (
+          <div className='py-4 border-b mr-2 pl-20'>
+            No template content added yet. Click{" "}
+            <span onClick={toggleModalForm} className='text-primary-500 cursor-pointer underline'>
+              {" "}
+              here
+            </span>{" "}
+            to add.
+          </div>
+        ) : (
+          <div className='flex justify-end mt-5'>
+            <Button onClick={toggleModalForm}>Add Template Content</Button>
+          </div>
+        )}
       </div>
       <CreateEvaluationTemplateContentForm />
       <Dialog open={showDeleteDialog}>
