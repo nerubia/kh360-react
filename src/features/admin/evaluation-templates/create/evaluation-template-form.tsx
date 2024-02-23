@@ -192,7 +192,10 @@ export const CreateEvaluationTemplateForm = () => {
         return matchResult[0]
       }
     }
-    return ""
+    if (value.length === 0) {
+      return ""
+    }
+    return formData.rate
   }
 
   const handleSubmit = async () => {
@@ -399,7 +402,7 @@ export const CreateEvaluationTemplateForm = () => {
               name='rate'
               type='number'
               placeholder='Rate'
-              value={Number(formData.rate).toFixed(2)}
+              value={formData.rate}
               onChange={(event) => checkNumberValue(event)}
               min={0}
               max={100}
