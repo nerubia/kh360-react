@@ -528,7 +528,7 @@ export const ProjectAssignmentForm = () => {
           error={validationErrors.project_role_id}
         />
         <div className='flex flex-row gap-5'>
-          <div className='flex-1'>
+          <div className='w-3/4'>
             <DateRangePicker
               name='assignment-duration'
               label='Assignment Duration'
@@ -539,9 +539,9 @@ export const ProjectAssignmentForm = () => {
               onChange={handleDateRangeChange}
             />
           </div>
-          <div className='flex flex-col w-full'>
+          <div className='flex flex-col'>
             <h2 className='font-medium'>Allocation Rate</h2>
-            <div className='flex flex-row gap-4 items-end pt-1'>
+            <div className='flex flex-row items-end pt-1 gap-1'>
               <Input
                 name='allocation_rate'
                 type='number'
