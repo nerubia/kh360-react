@@ -81,9 +81,12 @@ export const ProjectsTable = () => {
   }
 
   const renderCell = (item: Project, column: unknown) => {
+    let truncatedName: string | undefined
     switch (column) {
       case "Name":
-        return `${item.name}`
+        truncatedName =
+          item.name != null && item.name.length > 50 ? `${item.name.slice(0, 50)}...` : item.name
+        return <div>{truncatedName}</div>
       case "Client":
         return `${item.client?.name ?? "-"}`
       case "Status":
