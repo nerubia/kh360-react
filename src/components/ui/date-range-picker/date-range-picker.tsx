@@ -5,6 +5,8 @@ interface DateRangePickerProps {
   label?: string
   value: DateValueType
   onChange: (value: DateValueType, e?: HTMLInputElement | null | undefined) => void
+  start_date_limit?: string | Date | undefined
+  end_date_limit?: string | Date | undefined
 }
 
 export const DateRangePicker: React.FC<DateRangePickerProps> = ({
@@ -12,18 +14,23 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
   label,
   value,
   onChange,
+  start_date_limit,
+  end_date_limit,
 }: DateRangePickerProps) => {
   const currentDate = new Date()
-  const minDate = new Date(currentDate)
-  minDate.setFullYear(currentDate.getFullYear() - 50)
-  const maxDate = new Date(currentDate)
-  maxDate.setFullYear(currentDate.getFullYear() + 50)
+  const minDate =
+    start_date_limit !== undefined
+      ? new Date(start_date_limit)
+      : new Date(currentDate.getFullYear() - 50, 0, 1)
+  const maxDate =
+    end_date_limit !== undefined
+      ? new Date(end_date_limit)
+      : new Date(currentDate.getFullYear() + 50, 0, 1)
 
   const containerClassName = (defaultClassName: string) => {
     const customStyle = "border rounded-md mb-10"
     return `${defaultClassName} ${customStyle}`
   }
-
   return (
     <div>
       {label != null && (

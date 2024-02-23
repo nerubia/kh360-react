@@ -40,6 +40,8 @@ export const ProjectAssignmentForm = () => {
   const project_name = searchParams.get("project_name")
   const project_id = searchParams.get("project_id")
 
+  const { project } = useAppSelector((state) => state.project)
+
   const {
     loading: loadingUsers,
     users,
@@ -317,7 +319,6 @@ export const ProjectAssignmentForm = () => {
     void appDispatch(setIsEditingProjectMember(true))
     void appDispatch(setProjectMemberFormData({ ...projectMemberFormData, [name]: value }))
   }
-
   const checkOverlap = async () => {
     try {
       await toggleSaveDialog()
@@ -325,13 +326,15 @@ export const ProjectAssignmentForm = () => {
         abortEarly: false,
       })
       const existingProjectMemberIds = project_members.map((member) => member.id)
-      if (
-        project_members.length > 0 &&
-        !existingProjectMemberIds.includes(parseInt(projectMemberFormData?.user_id ?? ""))
-      ) {
-        setShowOverlapDialog(true)
-        return
+      const userId = projectMemberFormData?.user_id
+      if (userId !== undefined && !isNaN(parseInt(userId, 10))) {
+        const parsedUserId = parseInt(userId, 10)
+        if (project_members.length > 0 && !existingProjectMemberIds.includes(parsedUserId)) {
+          setShowOverlapDialog(true)
+          return
+        }
       }
+
       if (id !== undefined) {
         void handleEdit()
       } else {
@@ -351,7 +354,6 @@ export const ProjectAssignmentForm = () => {
   const handleSubmit = async () => {
     try {
       if (projectMemberFormData !== null) {
-        await toggleSaveDialog()
         const skill_ids = selectedSkills.map((skill) => skill.id)
         const result = await appDispatch(
           createProjectMember({ ...projectMemberFormData, skill_ids })
@@ -376,6 +378,8 @@ export const ProjectAssignmentForm = () => {
               variant: "destructive",
             })
           )
+          setShowSaveDialog(false)
+          setShowOverlapDialog(false)
         }
       }
     } catch (error) {}
@@ -408,6 +412,8 @@ export const ProjectAssignmentForm = () => {
               variant: "destructive",
             })
           )
+          setShowSaveDialog(false)
+          setShowOverlapDialog(false)
         }
       }
     } catch (error) {}
@@ -536,6 +542,8 @@ export const ProjectAssignmentForm = () => {
                 endDate: projectMemberFormData?.end_date ?? "",
               }}
               onChange={handleDateRangeChange}
+              start_date_limit={project?.start_date}
+              end_date_limit={project?.end_date}
             />
           </div>
           <div className='flex flex-col w-full'>
