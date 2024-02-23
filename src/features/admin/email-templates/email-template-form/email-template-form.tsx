@@ -306,7 +306,7 @@ export const EmailTemplateForm = () => {
           <Button onClick={emailTemplate === null ? handleSubmit : handleUpdate}>Save</Button>
         </div>
       </div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense>
         <EmailTemplatesDialog
           open={showDialog}
           title='Cancel'
@@ -320,7 +320,7 @@ export const EmailTemplateForm = () => {
           onSubmit={handleCancel}
         />
       </Suspense>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense>
         <DefaultModal open={showDefaultDialog} />
       </Suspense>
     </div>
