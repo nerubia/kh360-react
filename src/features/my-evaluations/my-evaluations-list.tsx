@@ -9,6 +9,7 @@ import { Spinner } from "@components/ui/spinner/spinner"
 import { getByTemplateType } from "@redux/slices/email-template-slice"
 import { ScoreRange } from "@components/shared/score-range/score-range"
 import { useMobileView } from "@hooks/use-mobile-view"
+import { getScoreRatings } from "@redux/slices/score-ratings-slice"
 
 export const MyEvaluationsList = () => {
   const appDispatch = useAppDispatch()
@@ -22,6 +23,7 @@ export const MyEvaluationsList = () => {
   useEffect(() => {
     void appDispatch(getEvaluationAdministrationsAsEvaluee({}))
     void appDispatch(getByTemplateType("No Available Evaluation Results"))
+    void appDispatch(getScoreRatings())
   }, [])
 
   useEffect(() => {
