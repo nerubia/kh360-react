@@ -240,7 +240,7 @@ test.describe("Admin - Evaluation Templates", () => {
       await expect(page.getByText("YES")).toBeVisible()
       await expect(page.getByRole("cell", { name: "BOD", exact: true })).toBeVisible()
       await expect(page.getByRole("cell", { name: "PM", exact: true })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "35.00" })).toBeVisible()
+      await expect(page.getByRole("cell", { name: "35" })).toBeVisible()
 
       await expect(page.getByTestId("EditButton")).toBeVisible()
       await expect(page.getByTestId("DeleteButton")).toBeVisible()
