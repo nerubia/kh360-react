@@ -312,12 +312,6 @@ export const ProjectAssignmentForm = () => {
   const debouncedSearchUser = debounce(handleSearchUser, 500)
   const debouncedSearchProject = debounce(handleSearchProject, 500)
 
-  const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    void appDispatch(setIsEditingProjectMember(true))
-    void appDispatch(setProjectMemberFormData({ ...projectMemberFormData, [name]: value }))
-  }
-
   const checkOverlap = async () => {
     try {
       await toggleSaveDialog()
@@ -447,6 +441,34 @@ export const ProjectAssignmentForm = () => {
     )
   }
 
+  const checkNumberValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value
+
+    void appDispatch(
+      setProjectMemberFormData({
+        ...projectMemberFormData,
+        allocation_rate: handleDecimalsOnValue(inputValue),
+      })
+    )
+    void appDispatch(setIsEditingProjectMember(true))
+  }
+
+  const handleDecimalsOnValue = (value: string) => {
+    const regex = /([0-9]*[.|,]{0,1}[0-9]{0,2})/s
+    const matchResult = value.match(regex)
+
+    if (matchResult !== null) {
+      const parsedValue = parseFloat(matchResult[0].replace(",", "."))
+      if (!isNaN(parsedValue) && parsedValue <= 100) {
+        return matchResult[0]
+      }
+    }
+    if (value.length === 0) {
+      return ""
+    }
+    return projectMemberFormData?.allocation_rate
+  }
+
   return (
     <div className='flex flex-col gap-10'>
       <div className='flex flex-col xl:w-1/2 gap-4'>
@@ -547,7 +569,7 @@ export const ProjectAssignmentForm = () => {
                 type='number'
                 placeholder='Allocation rate'
                 value={projectMemberFormData?.allocation_rate ?? ""}
-                onChange={handleInputChange}
+                onChange={(event) => checkNumberValue(event)}
                 error={validationErrors.allocation_rate}
                 max={100}
               />
