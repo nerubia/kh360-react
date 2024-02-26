@@ -222,7 +222,7 @@ export const EmailTemplateForm = () => {
     return (
       <EmailTemplatesDialog
         open={open}
-        title='Cancel'
+        title='Confirm default'
         description={
           <>
             {defaultTemplate.name} is currently set as the default template for this type. <br />
