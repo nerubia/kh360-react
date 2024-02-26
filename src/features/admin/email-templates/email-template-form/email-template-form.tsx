@@ -300,7 +300,7 @@ export const EmailTemplateForm = () => {
           </div>
         </div>
       </div>
-      <div className='flex justify-between'>
+      <div className='flex justify-between w-1142'>
         <Button variant='primaryOutline' onClick={toggleDialog}>
           Cancel
         </Button>
