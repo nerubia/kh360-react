@@ -29,7 +29,7 @@ export const CreateEvaluationTemplateContentForm = () => {
     description: "",
     category: "",
     rate: "",
-    is_active: false,
+    is_active: true,
   }
 
   const [formData, setFormData] = useState<EvaluationTemplateContentFormData>(defaultFormData)
@@ -140,7 +140,10 @@ export const CreateEvaluationTemplateContentForm = () => {
         return matchResult[0]
       }
     }
-    return ""
+    if (value.length === 0) {
+      return ""
+    }
+    return formData.rate
   }
 
   const toggleModalForm = () => {
@@ -153,7 +156,7 @@ export const CreateEvaluationTemplateContentForm = () => {
       <Dialog open={create_modal_visible} size='small'>
         <Dialog.Title>Add Template Content</Dialog.Title>
         <Dialog.Description>
-          <div className='flex flex-col gap-10'>
+          <div className='flex flex-col gap-10 h-450'>
             <div className='flex flex-col gap-4 p-1'>
               <div className='flex-1'>
                 <Input
@@ -188,13 +191,13 @@ export const CreateEvaluationTemplateContentForm = () => {
                 />
               </div>
               <div className='flex items-end gap-6'>
-                <div className='flex items-end gap-2'>
+                <div className='flex items-end gap-2 mr-6'>
                   <Input
                     label='Rate'
                     name='rate'
                     placeholder='Rate'
                     step={0.01}
-                    value={Number(formData.rate).toFixed(2)}
+                    value={formData.rate}
                     onChange={checkNumberValue}
                     error={validationErrors.rate}
                     type='number'
