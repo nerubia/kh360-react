@@ -333,7 +333,7 @@ export const ViewEvaluationTemplateTable = () => {
               </>
             )}
         </div>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense>
           <EvaluationTemplateDialog
             open={showDeleteDialog}
             title='Delete Evaluation Template Content'

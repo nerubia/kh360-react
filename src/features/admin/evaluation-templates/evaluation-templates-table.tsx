@@ -156,7 +156,7 @@ export const EvaluationTemplatesTable = () => {
         onClickRow={handleViewEvaluationTemplate}
         columns={evaluationTemplateColumns}
       />
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense>
         <EvaluationTemplateDialog
           open={showDialog}
           title='Delete Evaluation Template'

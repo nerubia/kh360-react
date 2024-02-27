@@ -134,7 +134,7 @@ export const EvalueesList = () => {
           totalPages={totalPages}
         />
       </div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense>
         <EvaluationAdminDialog
           open={selectedEvaluee !== undefined}
           title='Delete Evaluee'
