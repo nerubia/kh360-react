@@ -287,7 +287,7 @@ export const ExternalEvaluatorForm = () => {
           Save
         </Button>
       </div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense>
         <ExternalEvaluatorsDialog
           open={showDialog}
           title='Cancel'

@@ -508,7 +508,7 @@ export const EvaluationProgressList = () => {
           ))}
         </div>
 
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense>
           <EvaluationAdminDialog
             open={showApproveDialog}
             title='Approve Request to Remove'
