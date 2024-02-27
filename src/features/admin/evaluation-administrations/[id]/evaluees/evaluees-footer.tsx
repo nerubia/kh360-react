@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom"
-import { Suspense, lazy, useEffect, useState } from "react"
+import { Suspense, lazy, useEffect, useState, useContext } from "react"
 import { Button, LinkButton } from "@components/ui/button/button"
 import { Icon } from "@components/ui/icon/icon"
 import { useAppDispatch } from "@hooks/useAppDispatch"
@@ -8,6 +8,8 @@ import { setAlert } from "@redux/slices/app-slice"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { Loading } from "@custom-types/loadingType"
 import { generateStatusEvaluationAdministration } from "@redux/slices/evaluation-administration-slice"
+import { WebSocketContext, type WebSocketType } from "@components/providers/websocket"
+import { ReadyState } from "react-use-websocket"
 
 const EvaluationAdminDialog = lazy(
   async () =>
@@ -21,6 +23,7 @@ export const EvalueesFooter = () => {
   const { loading } = useAppSelector((state) => state.evaluationAdministrations)
 
   const [showDialog, setShowDialog] = useState<boolean>(false)
+  const { sendJsonMessage, readyState } = useContext(WebSocketContext) as WebSocketType
 
   useEffect(() => {
     if (id !== undefined) {
@@ -36,14 +39,20 @@ export const EvalueesFooter = () => {
     if (id !== undefined) {
       try {
         const result = await appDispatch(generateEvaluationAdministration(parseInt(id)))
-        if (typeof result.payload === "string") {
+        if (result.type === "evaluationAdministration/generate/rejected") {
           appDispatch(
             setAlert({
               description: result.payload,
               variant: "destructive",
             })
           )
-        } else if (result.payload !== undefined) {
+        } else if (result.type === "evaluationAdministration/generate/fulfilled") {
+          if (readyState === ReadyState.OPEN) {
+            sendJsonMessage({
+              event: "generateEvaluations",
+              data: "generateEvaluations",
+            })
+          }
           navigate(`/admin/evaluation-administrations`)
           appDispatch(
             setAlert({
