@@ -119,7 +119,7 @@ export const ProjectsTable = () => {
   return (
     <div className='flex flex-col gap-8'>
       <Table data={projects} columns={projectsColumns} renderCell={renderCell} />
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense>
         <ProjectsDialog
           open={showDialog}
           title='Delete Project'
