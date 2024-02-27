@@ -298,7 +298,7 @@ export const AddEvaluatorForm = () => {
           Add
         </Button>
       </div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense>
         <EvaluationAdminDialog
           open={showDialog}
           title='Cancel'

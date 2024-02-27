@@ -110,7 +110,7 @@ export const ExternalEvaluatorsTable = () => {
         renderCell={renderCell}
         applyFixedColWidth={true}
       />
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense>
         <ExternalEvaluatorsDialog
           open={showDialog}
           title='Delete External Evaluator'

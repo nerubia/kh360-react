@@ -95,7 +95,7 @@ export const ViewEvaluationResultsTable = () => {
             </>
           )}
       </div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense>
         <EvaluationResultDetailsDialog
           open={showDetails}
           onSubmit={toggleDetails}

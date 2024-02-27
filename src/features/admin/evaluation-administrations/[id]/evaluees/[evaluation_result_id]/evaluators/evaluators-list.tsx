@@ -470,7 +470,7 @@ export const EvaluatorsList = () => {
           )}
         </div>
       </div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense>
         <EvaluationAdminDialog
           open={showDialog}
           title='Delete Evaluator'
