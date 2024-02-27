@@ -550,7 +550,7 @@ export const ProjectAssignmentForm = () => {
           error={validationErrors.project_role_id}
         />
         <div className='flex flex-row gap-5'>
-          <div className='w-3/4'>
+          <div className='flex-1'>
             <DateRangePicker
               name='assignment-duration'
               label='Assignment Duration'
@@ -573,7 +573,13 @@ export const ProjectAssignmentForm = () => {
                 error={validationErrors.allocation_rate}
                 max={100}
               />
-              <h2 className='font-medium pb-2'>%</h2>
+              <h2
+                className={`font-medium ${
+                  validationErrors.allocation_rate != null ? "pb-6.5" : "pb-2"
+                }`}
+              >
+                %
+              </h2>
             </div>
           </div>
         </div>
