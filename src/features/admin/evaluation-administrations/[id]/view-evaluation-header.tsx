@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useContext } from "react"
 import { Button, LinkButton } from "@components/ui/button/button"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { useNavigate, useParams } from "react-router-dom"
@@ -21,8 +21,11 @@ import { Loading } from "@custom-types/loadingType"
 import { DateRangeDisplay } from "@components/shared/display-range-date"
 import { useMobileView } from "@hooks/use-mobile-view"
 import { CustomDialog } from "@components/ui/dialog/custom-dialog"
+import { ReadyState } from "react-use-websocket"
+import { WebSocketContext, type WebSocketType } from "@components/providers/websocket"
 
 export const ViewEvaluationHeader = () => {
+  const { sendJsonMessage, readyState } = useContext(WebSocketContext) as WebSocketType
   const navigate = useNavigate()
   const isMobile = useMobileView()
   const { id } = useParams()
@@ -60,18 +63,34 @@ export const ViewEvaluationHeader = () => {
 
   const handleCancel = async () => {
     if (id !== undefined) {
-      await appDispatch(cancelEvaluationAdministration(parseInt(id)))
-      appDispatch(
-        setAlert({
-          description: "Evaluation has been canceled successfully.",
-          variant: "success",
-        })
-      )
-      if (previousUrl !== null) {
-        navigate(previousUrl)
-        return
+      const result = await appDispatch(cancelEvaluationAdministration(parseInt(id)))
+      if (result.type === "evaluationAdministration/cancel/fulfilled") {
+        appDispatch(
+          setAlert({
+            description: "Evaluation has been canceled successfully.",
+            variant: "success",
+          })
+        )
+        if (readyState === ReadyState.OPEN) {
+          sendJsonMessage({
+            event: "cancelEvaluationAdministration",
+            data: "cancelEvaluationAdministration",
+          })
+        }
+        if (previousUrl !== null) {
+          navigate(previousUrl)
+          return
+        }
+        navigate("/admin/evaluation-administrations")
       }
-      navigate("/admin/evaluation-administrations")
+      if (result.type === "evaluationAdministration/cancel/rejected") {
+        appDispatch(
+          setAlert({
+            description: result.payload,
+            variant: "destructive",
+          })
+        )
+      }
     }
   }
 
@@ -94,35 +113,59 @@ export const ViewEvaluationHeader = () => {
 
   const handleClose = async () => {
     if (id !== undefined) {
-      await appDispatch(closeEvaluationAdministration(parseInt(id)))
-      appDispatch(
-        setAlert({
-          description: "Evaluation has been closed successfully.",
-          variant: "success",
-        })
-      )
-      if (previousUrl !== null) {
-        navigate(previousUrl)
-        return
+      const result = await appDispatch(closeEvaluationAdministration(parseInt(id)))
+      if (result.type === "evaluationAdministration/close/fulfilled") {
+        appDispatch(
+          setAlert({
+            description: "Evaluation has been closed successfully.",
+            variant: "success",
+          })
+        )
+        if (readyState === ReadyState.OPEN) {
+          sendJsonMessage({
+            event: "closeEvaluationAdministration",
+            data: "closeEvaluationAdministration",
+          })
+        }
+        if (previousUrl !== null) {
+          navigate(previousUrl)
+          return
+        }
+        navigate("/admin/evaluation-administrations")
       }
-      navigate("/admin/evaluation-administrations")
     }
   }
 
   const handlePublish = async () => {
     if (id !== undefined) {
-      await appDispatch(publishEvaluationAdministration(parseInt(id)))
-      appDispatch(
-        setAlert({
-          description: "Evaluation has been published successfully.",
-          variant: "success",
-        })
-      )
-      if (previousUrl !== null) {
-        navigate(previousUrl)
-        return
+      const result = await appDispatch(publishEvaluationAdministration(parseInt(id)))
+      if (result.type === "evaluationAdministration/publish/fulfilled") {
+        appDispatch(
+          setAlert({
+            description: "Evaluation has been published successfully.",
+            variant: "success",
+          })
+        )
+        if (readyState === ReadyState.OPEN) {
+          sendJsonMessage({
+            event: "publishEvaluationAdministration",
+            data: "publishEvaluationAdministration",
+          })
+        }
+        if (previousUrl !== null) {
+          navigate(previousUrl)
+          return
+        }
+        navigate("/admin/evaluation-administrations")
       }
-      navigate("/admin/evaluation-administrations")
+      if (result.type === "evaluationAdministration/publish/rejected") {
+        appDispatch(
+          setAlert({
+            description: result.payload,
+            variant: "destructive",
+          })
+        )
+      }
     }
   }
 
@@ -137,6 +180,12 @@ export const ViewEvaluationHeader = () => {
               variant: "success",
             })
           )
+          if (readyState === ReadyState.OPEN) {
+            sendJsonMessage({
+              event: "reopenEvaluationAdministration",
+              data: "reopenEvaluationAdministration",
+            })
+          }
         }
         if (result.type === "evaluationAdministration/reopen/rejected") {
           appDispatch(
