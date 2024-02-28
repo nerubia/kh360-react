@@ -71,6 +71,7 @@ export const EvalueesList = () => {
             })
           )
         }
+        setSelectedEvaluee(undefined)
       } catch (error) {}
     }
   }
