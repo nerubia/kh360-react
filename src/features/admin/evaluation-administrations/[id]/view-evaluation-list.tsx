@@ -409,23 +409,36 @@ export const ViewEvaluationList = () => {
           ))}
         </div>
       </div>
-      {evaluationResults.length === 0 ? (
-        <div className='pb-4 pl-2'>
-          No evaluees added yet. Click{" "}
-          <span onClick={handleAddEvaluee} className='text-primary-500 cursor-pointer underline'>
-            {" "}
-            here
-          </span>{" "}
-          to add.
-        </div>
-      ) : (
-        <div className='flex justify-start pb-10'>
-          <Button onClick={handleAddEvaluee} variant={"ghost"}>
-            <Icon icon='Plus' size='small' color='primary' />
-            <p className='text-primary-500 uppercase whitespace-nowrap text-sm'>Add Evaluee</p>
-          </Button>
-        </div>
-      )}
+      <>
+        {(evaluation_administration?.status === EvaluationAdministrationStatus.Draft ||
+          evaluation_administration?.status === EvaluationAdministrationStatus.Pending ||
+          evaluation_administration?.status === EvaluationAdministrationStatus.Ongoing) && (
+          <>
+            {evaluationResults.length === 0 ? (
+              <div className='pb-4 pl-2'>
+                No evaluees added yet. Click{" "}
+                <span
+                  onClick={handleAddEvaluee}
+                  className='text-primary-500 cursor-pointer underline'
+                >
+                  {" "}
+                  here
+                </span>{" "}
+                to add.
+              </div>
+            ) : (
+              <div className='flex justify-start pb-10'>
+                <Button onClick={handleAddEvaluee} variant={"ghost"}>
+                  <Icon icon='Plus' size='small' color='primary' />
+                  <p className='text-primary-500 uppercase whitespace-nowrap text-sm'>
+                    Add Evaluee
+                  </p>
+                </Button>
+              </div>
+            )}
+          </>
+        )}
+      </>
       <Suspense>
         <EvaluationAdminDialog
           open={showDeleteDialog}
