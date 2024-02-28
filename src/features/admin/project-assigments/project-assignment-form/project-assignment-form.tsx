@@ -584,12 +584,14 @@ export const ProjectAssignmentForm = () => {
           </div>
         </div>
       </div>
-      <EditProjectAssignmentTable />
-      <div className='flex justify-between md:w-2/3 mt-20'>
-        <Button variant='primaryOutline' onClick={toggleCancelDialog}>
-          Cancel
-        </Button>
-        <Button onClick={toggleSaveDialog}>Save</Button>
+      <div className='xl:w-2/3'>
+        <EditProjectAssignmentTable />
+        <div className='flex justify-between mt-20'>
+          <Button variant='primaryOutline' onClick={toggleCancelDialog}>
+            Cancel
+          </Button>
+          <Button onClick={toggleSaveDialog}>Save</Button>
+        </div>
       </div>
       <Suspense>
         <ProjectAssignmentsDialog
