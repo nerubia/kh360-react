@@ -287,7 +287,7 @@ export const EmailTemplateForm = () => {
               maxLength={255}
             />
           </div>
-          <div className='w-950'>
+          <div className='w-11/12'>
             <TextArea
               label='Content'
               name='content'
@@ -300,13 +300,11 @@ export const EmailTemplateForm = () => {
           </div>
         </div>
       </div>
-      <div className='flex justify-between w-1142'>
+      <div className='flex justify-between w-11/12'>
         <Button variant='primaryOutline' onClick={toggleDialog}>
           Cancel
         </Button>
-        <div className='mr-[190px]'>
-          <Button onClick={emailTemplate === null ? handleSubmit : handleUpdate}>Save</Button>
-        </div>
+        <Button onClick={emailTemplate === null ? handleSubmit : handleUpdate}>Save</Button>
       </div>
       <Suspense>
         <EmailTemplatesDialog
