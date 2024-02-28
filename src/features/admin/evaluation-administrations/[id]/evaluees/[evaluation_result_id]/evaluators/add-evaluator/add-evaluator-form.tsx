@@ -233,7 +233,7 @@ export const AddEvaluatorForm = () => {
 
   return (
     <div className='flex flex-col gap-10'>
-      <div className='flex flex-col md:w-1/2 gap-4'>
+      <div className='flex flex-col md:w-3/4 gap-4'>
         <CustomSelect
           data-test-id='TemplateType'
           label='Template Type'
@@ -298,7 +298,7 @@ export const AddEvaluatorForm = () => {
           Add
         </Button>
       </div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense>
         <EvaluationAdminDialog
           open={showDialog}
           title='Cancel'

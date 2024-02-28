@@ -222,7 +222,7 @@ export const EmailTemplateForm = () => {
     return (
       <EmailTemplatesDialog
         open={open}
-        title='Cancel'
+        title='Confirm default'
         description={
           <>
             {defaultTemplate.name} is currently set as the default template for this type. <br />
@@ -263,13 +263,15 @@ export const EmailTemplateForm = () => {
               error={validationErrors.template_type}
             />
           </div>
-          <div className='flex-1'>
-            <h2 className='font-medium'>Default</h2>
-            <div className='my-2.5'>
-              <ToggleSwitch
-                checked={isDefault}
-                onChange={async (checked) => await handleClickCheckbox(checked)}
-              />
+          <div className='flex-1 flex items-center'>
+            <div className='flex items-center mt-5'>
+              <div className='my-2.5'>
+                <ToggleSwitch
+                  checked={isDefault}
+                  onChange={async (checked) => await handleClickCheckbox(checked)}
+                />
+              </div>
+              <h2 className='font-medium'>Default</h2>
             </div>
           </div>
         </div>

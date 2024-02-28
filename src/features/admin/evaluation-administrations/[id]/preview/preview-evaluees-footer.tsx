@@ -67,7 +67,7 @@ export const PreviewEmployeesFooter = () => {
           <Button onClick={handleSubmit}>Save & Proceed</Button>
         </div>
       </div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense>
         <EvaluationAdminDialog
           open={showDialog}
           title='Cancel & Exit'
