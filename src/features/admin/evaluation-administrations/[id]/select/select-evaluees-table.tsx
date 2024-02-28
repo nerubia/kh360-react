@@ -7,7 +7,6 @@ import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { formatDate } from "@utils/format-date"
 import { getEvaluationResultIds } from "@redux/slices/evaluation-results-slice"
-import { EvaluationResultStatus } from "@custom-types/evaluation-result-type"
 
 export const SelectEvalueesTable = () => {
   const { id } = useParams()
@@ -42,12 +41,18 @@ export const SelectEvalueesTable = () => {
 
   const handleSelectAll = (checked: boolean) => {
     let employeeIds = users.map((user) => user.id)
+    const evaluationResultUserIds = evaluation_results.map(
+      (evaluationResult) => evaluationResult.users?.id
+    )
+    const filteredEmployeeIds = employeeIds.filter((id) => !evaluationResultUserIds.includes(id))
     if (checked) {
-      appDispatch(setSelectedEmployeeIds([...selectedEmployeeIds, ...employeeIds]))
+      appDispatch(setSelectedEmployeeIds([...selectedEmployeeIds, ...filteredEmployeeIds]))
     } else {
       employeeIds = users.map((user) => user.id)
       appDispatch(
-        setSelectedEmployeeIds(selectedEmployeeIds.filter((id) => !employeeIds.includes(id)))
+        setSelectedEmployeeIds(
+          selectedEmployeeIds.filter((id) => !filteredEmployeeIds.includes(id))
+        )
       )
     }
   }
@@ -72,6 +77,11 @@ export const SelectEvalueesTable = () => {
                     <Checkbox
                       checked={users.every((user) => selectedEmployeeIds.includes(user.id))}
                       onChange={(checked) => handleSelectAll(checked)}
+                      disabled={users.every(
+                        (user) =>
+                          evaluation_results.find((result) => result.users?.id === user.id) !==
+                          undefined
+                      )}
                     />
                     Name
                   </div>
@@ -90,11 +100,8 @@ export const SelectEvalueesTable = () => {
                         checked={selectedEmployeeIds.includes(user.id)}
                         onChange={(checked) => handleClickCheckbox(checked, user.id)}
                         disabled={
-                          evaluation_results.find(
-                            (result) =>
-                              result.users?.id === user.id &&
-                              result.status === EvaluationResultStatus.Ongoing
-                          ) !== undefined
+                          evaluation_results.find((result) => result.users?.id === user.id) !==
+                          undefined
                         }
                       />
                       {user.last_name}, {user.first_name}
