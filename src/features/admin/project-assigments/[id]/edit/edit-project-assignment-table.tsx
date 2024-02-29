@@ -157,7 +157,6 @@ export const EditProjectAssignmentTable = () => {
           description={
             <>
               Are you sure you want to redirect to view {project?.name}?
-              <br />
               <br /> If you redirect now, your data won&apos;t be saved.
             </>
           }
