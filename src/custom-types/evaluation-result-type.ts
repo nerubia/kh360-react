@@ -1,4 +1,5 @@
 import { type User } from "@custom-types/user-type"
+import { type Evaluation } from "./evaluation-type"
 import { type EvaluationTemplate } from "@custom-types/evaluation-template-type"
 import { type EvaluationResultDetail } from "@custom-types/evaluation-result-detail-type"
 import { type EvaluationAdministration } from "@custom-types/evaluation-administration-type"
@@ -11,6 +12,7 @@ export interface EvaluationResult {
   status?: string
   users?: User
   evaluation_templates?: EvaluationTemplate[]
+  evaluations?: Evaluation[]
   evaluation_result_details?: EvaluationResultDetail[]
   eval_admin_name?: string
   eval_period_start_date: string
