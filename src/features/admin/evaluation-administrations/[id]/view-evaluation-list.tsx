@@ -16,6 +16,8 @@ import {
 import { useMobileView } from "@hooks/use-mobile-view"
 import { setAlert } from "@redux/slices/app-slice"
 import { setSelectedEmployeeIds } from "@redux/slices/evaluation-administration-slice"
+import { Badge } from "@components/ui/badge/badge"
+import { getEvaluationStatusVariant } from "@utils/variant"
 
 export const ViewEvaluationList = () => {
   const appDispatch = useAppDispatch()
@@ -24,15 +26,12 @@ export const ViewEvaluationList = () => {
   const { evaluation_administration, selectedEmployeeIds } = useAppSelector(
     (state) => state.evaluationAdministration
   )
-  const { evaluation_templates } = useAppSelector((state) => state.evaluationTemplates)
   const { evaluations } = useAppSelector((state) => state.evaluations)
   const { evaluation_results, hasNextPage } = useAppSelector((state) => state.evaluationResults)
 
   const [evaluationResults, setEvaluationResults] = useState<EvaluationResult[]>(evaluation_results)
   const [selectedEvaluationResultId, setSelectedEvaluationResultId] = useState<string>()
-  const [selectedEvaluationTemplateId, setSelectedEvaluationTemplateId] = useState<string>()
   const [dispatchedEmployees, setDispatchedEmployees] = useState<number[]>([])
-  const [dispatchedEvaluationDetails, setDispatchedEvaluationDetails] = useState<string[]>([])
 
   const listInnerRef = useRef<HTMLDivElement>(null)
   const [currPage, setCurrPage] = useState(1)
@@ -44,15 +43,6 @@ export const ViewEvaluationList = () => {
   const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false)
 
   const [evaluationResultToggledState, setEvaluationResultToggledState] = useState<boolean[]>([])
-
-  const [evaluationDetailsToggledState, setEvaluationDetailsToggledState] = useState<boolean[][]>(
-    Array.from(
-      {
-        length: 0,
-      },
-      () => [false]
-    )
-  )
 
   const EvaluationAdminDialog = lazy(
     async () =>
@@ -102,13 +92,6 @@ export const ViewEvaluationList = () => {
       ...prevState,
       ...new Array(uniqueResults.length - prevState.length).fill(false),
     ])
-
-    setEvaluationDetailsToggledState((prevState) => [
-      ...prevState,
-      ...new Array(uniqueResults.length - prevState.length).fill(
-        new Array(prevState.length > 0 ? prevState[0].length : 0).fill(false)
-      ),
-    ])
   }, [isInsertingData, evaluation_results])
 
   useEffect(() => {
@@ -116,31 +99,7 @@ export const ViewEvaluationList = () => {
       setEvaluationResults((prevResults) =>
         prevResults.map((result) => {
           if (result.id === parseInt(selectedEvaluationResultId)) {
-            return { ...result, evaluation_templates }
-          }
-          return result
-        })
-      )
-    }
-  }, [evaluation_templates])
-
-  useEffect(() => {
-    if (
-      selectedEvaluationTemplateId !== undefined &&
-      selectedEvaluationResultId !== undefined &&
-      evaluations.length > 0
-    ) {
-      setEvaluationResults((prevResults) =>
-        prevResults.map((result) => {
-          if (result.id === parseInt(selectedEvaluationResultId)) {
-            const updatedTemplates = result.evaluation_templates?.map((template) => {
-              if (template.id === parseInt(selectedEvaluationTemplateId)) {
-                return { ...template, evaluation_details: evaluations }
-              }
-              return template
-            })
-
-            return { ...result, evaluation_templates: updatedTemplates }
+            return { ...result, evaluations }
           }
           return result
         })
@@ -164,7 +123,7 @@ export const ViewEvaluationList = () => {
     setEvaluationResultToggledState(updatedToggledState)
     if (!dispatchedEmployees.includes(index)) {
       void appDispatch(
-        getEvaluationTemplates({
+        getEvaluations({
           evaluation_result_id,
           for_evaluation: true,
         })
@@ -178,37 +137,6 @@ export const ViewEvaluationList = () => {
     setShowDeleteDialog((prev) => !prev)
     if (evaluation_result_id !== null) {
       setSelectedEvaluationResultId(evaluation_result_id)
-    }
-  }
-
-  const toggleEvaluationDetails = (
-    employeeIndex: number,
-    templateIndex: number,
-    evaluation_result_id: string | undefined,
-    evaluation_template_id: string | undefined
-  ) => {
-    const updatedToggledState: boolean[][] = evaluationDetailsToggledState.map((row) => [...row])
-    updatedToggledState[employeeIndex][templateIndex] =
-      !updatedToggledState[employeeIndex][templateIndex]
-
-    setEvaluationDetailsToggledState(updatedToggledState)
-
-    const evaluationDetailsKey = `${employeeIndex}_${templateIndex}`
-
-    if (!dispatchedEvaluationDetails.includes(evaluationDetailsKey)) {
-      void appDispatch(
-        getEvaluations({
-          evaluation_result_id,
-          evaluation_template_id,
-          for_evaluation: true,
-        })
-      )
-      setDispatchedEvaluationDetails((prevDispatchedDetails) => [
-        ...prevDispatchedDetails,
-        evaluationDetailsKey,
-      ])
-      setSelectedEvaluationResultId(evaluation_result_id)
-      setSelectedEvaluationTemplateId(evaluation_template_id)
     }
   }
 
@@ -246,7 +174,6 @@ export const ViewEvaluationList = () => {
           )
           setEvaluationResults(updatedEvaluationResults)
           setEvaluationResultToggledState((prev) => prev.slice(0, -1))
-          setEvaluationDetailsToggledState((prev) => prev.slice(0, -1))
           setSelectedEvaluationResultId(undefined)
           appDispatch(
             setSelectedEmployeeIds(selectedEmployeeIds.filter((id) => id !== result.payload.id))
@@ -317,92 +244,59 @@ export const ViewEvaluationList = () => {
               </div>
               {evaluationResultToggledState[evaluationIndex] && (
                 <div>
-                  {evaluationResult.evaluation_templates !== undefined &&
-                  evaluationResult.evaluation_templates !== null &&
-                  evaluationResult.evaluation_templates.length > 0
-                    ? evaluationResult.evaluation_templates.map((template, templateIndex) => (
-                        <div
-                          key={templateIndex}
-                          className={`mb-2 ${
-                            evaluation_administration?.status ===
-                            EvaluationAdministrationStatus.Draft
-                              ? "ml-14"
-                              : "ml-4"
-                          }`}
-                        >
-                          <button
-                            onClick={() =>
-                              toggleEvaluationDetails(
-                                evaluationIndex,
-                                templateIndex,
-                                evaluationResult?.id?.toString(),
-                                template.id?.toString()
-                              )
-                            }
-                            className='text-sm'
-                          >
-                            <div className='flex items-center ml-5'>
-                              <span className='text-xs'>
-                                {evaluationDetailsToggledState[evaluationIndex][templateIndex] ? (
-                                  <Icon icon='ChevronDown' />
-                                ) : (
-                                  <Icon icon='ChevronRight' />
-                                )}
-                              </span>
-                              <span>{template.display_name}</span>
-                            </div>
-                          </button>
-                          {evaluationDetailsToggledState[evaluationIndex][templateIndex] &&
-                            template.evaluation_details !== undefined &&
-                            template.evaluation_details !== null && (
-                              <table className='md:w-10/12 ml-11 md:table-fixed'>
-                                <thead className='sticky top-0 bg-white text-left'>
-                                  <tr>
-                                    <th className='md:w-170'>Evaluator</th>
-                                    <th className='md:w-150'>Project</th>
-                                    <th className='whitespace-nowrap md:w-150'>Evaluee Role</th>
-                                    <th className='md:w-150'>%</th>
-                                    <th className='md:w-150'>Duration</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {template.evaluation_details?.map(
-                                    (evaluationDetails, evaluationDetailsIndex) => (
-                                      <tr
-                                        key={evaluationDetailsIndex}
-                                        className='sm:overflow-x-auto'
-                                      >
-                                        <td className='min-w-196'>
-                                          {evaluationDetails.evaluator?.last_name},{" "}
-                                          {evaluationDetails.evaluator?.first_name}
-                                        </td>
-                                        <td className='min-w-100'>
-                                          {evaluationDetails.project?.name}
-                                        </td>
-                                        <td className='min-w-150'>
-                                          {evaluationDetails.project_role?.name}
-                                        </td>
-                                        <td className='min-w-68'>
-                                          {evaluationDetails.percent_involvement}%
-                                        </td>
-                                        <td className='min-w-254'>
-                                          {isMobile
-                                            ? shortenFormatDate(evaluationDetails.eval_start_date)
-                                            : formatDate(evaluationDetails.eval_start_date)}{" "}
-                                          to{" "}
-                                          {isMobile
-                                            ? shortenFormatDate(evaluationDetails.eval_end_date)
-                                            : formatDate(evaluationDetails.eval_end_date)}
-                                        </td>
-                                      </tr>
-                                    )
-                                  )}
-                                </tbody>
-                              </table>
-                            )}
-                        </div>
-                      ))
-                    : null}
+                  {evaluationResult.evaluations !== undefined &&
+                  evaluationResult.evaluations !== null &&
+                  evaluationResult.evaluations.length > 0 ? (
+                    <table
+                      className={`md:w-full md:table-fixed text-sm mb-2 ${
+                        evaluation_administration?.status === EvaluationAdministrationStatus.Draft
+                          ? "ml-20"
+                          : "ml-16"
+                      }`}
+                    >
+                      <thead className='sticky top-0 bg-white text-left'>
+                        <tr>
+                          <th className='md:w-170 p-1'>Evaluator</th>
+                          <th className='md:w-150 p-1'>Template Type</th>
+                          <th className='md:w-150 p-1'>Project</th>
+                          <th className='whitespace-nowrap md:w-150 p-1'>Evaluee Role</th>
+                          <th className='md:w-150 p-1'>%</th>
+                          <th className='md:w-150 p-1'>Duration</th>
+                          <th className='md:w-150 p-1'>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {evaluationResult.evaluations.map((evaluation, evaluationIndex) => (
+                          <tr key={evaluationIndex} className='sm:overflow-x-auto '>
+                            <td className='min-w-196 p-1'>
+                              {evaluation.evaluator?.last_name}, {evaluation.evaluator?.first_name}
+                            </td>
+                            <td className='min-w-100 p-1'>{evaluation.template?.display_name}</td>
+                            <td className='min-w-100 p-1'>{evaluation.project?.name}</td>
+                            <td className='min-w-150 p-1'>{evaluation.project_role?.name}</td>
+                            <td className='min-w-68 p-1'>{evaluation.percent_involvement}%</td>
+                            <td className='min-w-254 p-1'>
+                              {isMobile
+                                ? shortenFormatDate(evaluation.eval_start_date)
+                                : formatDate(evaluation.eval_start_date)}{" "}
+                              to{" "}
+                              {isMobile
+                                ? shortenFormatDate(evaluation.eval_end_date)
+                                : formatDate(evaluation.eval_end_date)}
+                            </td>
+                            <td>
+                              <Badge
+                                size='extraSmall'
+                                variant={getEvaluationStatusVariant(evaluation.status)}
+                              >
+                                {evaluation.status?.toUpperCase().substring(0, 2)}
+                              </Badge>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  ) : null}
                 </div>
               )}
             </div>
