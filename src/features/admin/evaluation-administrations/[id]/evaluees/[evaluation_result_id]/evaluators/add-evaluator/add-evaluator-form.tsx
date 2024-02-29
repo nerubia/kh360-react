@@ -193,9 +193,11 @@ export const AddEvaluatorForm = () => {
   const handleEmployeeScroll = () => {
     if (evaluatorMenuList?.scrollTop !== undefined) {
       const scrollPosition = evaluatorMenuList?.scrollTop + evaluatorMenuList.clientHeight
+      const offset = 10
       if (
-        scrollPosition !== evaluatorMenuList.scrollHeight ||
+        scrollPosition < evaluatorMenuList.scrollHeight - offset ||
         loading === Loading.Pending ||
+        externalUsersLoading === Loading.Pending ||
         (!hasNextPage && !externalUsersHasNextPage)
       ) {
         return
@@ -233,7 +235,7 @@ export const AddEvaluatorForm = () => {
 
   return (
     <div className='flex flex-col gap-10'>
-      <div className='flex flex-col md:w-3/4 gap-4'>
+      <div className='flex flex-col md:w-1/2 gap-4'>
         <CustomSelect
           data-test-id='TemplateType'
           label='Template Type'
