@@ -40,7 +40,7 @@ export function Table<T extends { id: number }>({
     const isFixColWidth = applyFixedColWidth && fixColWidth.includes(column as string)
 
     if (isSmallColumn) {
-      return "whitespace-nowrap w-1/20"
+      return "whitespace-nowrap w-1/20 text-center"
     } else if (isMediumColumn) {
       return "whitespace-nowrap w-1/10"
     } else if (isWrapColumn) {
