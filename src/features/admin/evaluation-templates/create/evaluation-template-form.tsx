@@ -395,7 +395,11 @@ export const CreateEvaluationTemplateForm = () => {
               error={validationErrors.answer_id}
             />
           </div>
-          <div className='flex flex-1 items-end gap-2'>
+          <div
+            className={`flex flex-1 gap-2 ${
+              validationErrors.rate !== undefined ? "items-center" : "items-end"
+            }`}
+          >
             <Input
               label='Rate'
               step={0.01}
@@ -408,9 +412,13 @@ export const CreateEvaluationTemplateForm = () => {
               max={100}
               error={validationErrors.rate}
             />
-            <span className='pb-2'>%</span>
+            <span className={`${validationErrors.rate !== undefined ? "" : "pb-2"}`}>%</span>
           </div>
-          <div className='flex flex-1 items-end my-2.5'>
+          <div
+            className={`flex flex-1 items-end my-2.5 ${
+              validationErrors.rate !== undefined ? "mb-7" : ""
+            }`}
+          >
             <ToggleSwitch
               checked={formData.with_recommendation as boolean}
               onChange={async (checked) => {
@@ -420,7 +428,11 @@ export const CreateEvaluationTemplateForm = () => {
             />
             <h2 className='font-medium'>With Recommendation</h2>
           </div>
-          <div className='flex flex-1 items-end my-2.5'>
+          <div
+            className={`flex flex-1 items-end my-2.5 ${
+              validationErrors.rate !== undefined ? "mb-7" : ""
+            }`}
+          >
             <ToggleSwitch
               checked={formData.is_active as boolean}
               onChange={async (checked) => {
