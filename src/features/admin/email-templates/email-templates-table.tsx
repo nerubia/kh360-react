@@ -90,16 +90,16 @@ export const EmailTemplatesTable = () => {
         )
       case "Actions":
         return (
-          <div className='flex gap-2'>
+          <div className='flex gap-2 justify-center'>
             <LinkButton
               testId='EditButton'
               variant='unstyled'
               to={`/admin/message-templates/${item.id}/edit`}
             >
-              <Icon icon='PenSquare' />
+              <Icon icon='PenSquare' size='extraSmall' color='gray' />
             </LinkButton>
             <Button testId='DeleteButton' variant='unstyled' onClick={() => toggleDialog(item.id)}>
-              <Icon icon='Trash' />
+              <Icon icon='Trash' size='extraSmall' color='gray' />
             </Button>
           </div>
         )
