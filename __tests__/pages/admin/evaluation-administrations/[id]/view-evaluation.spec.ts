@@ -67,6 +67,83 @@ test.describe("Admin - Evaluations", () => {
         }
       )
 
+      await mockRequest(page, "/user/score-ratings", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            id: 1,
+            name: "Needs Improvement",
+            display_name: "Navigational Challenge",
+            min_score: "0",
+            max_score: "1.99",
+            result_description:
+              "Employee faces occasional difficulty in navigating job responsibilities.\nPerformance consistently falls below expectations and significant improvement is needed in various aspects of job responsibilities.\nGoals and objectives are not met consistently.",
+            evaluee_description:
+              "You face occasional difficulty in navigating job responsibilities.\nYour performance consistently falls below expectations and significant improvement is needed in various aspects of job responsibilities.\nYour goals and objectives are not met consistently.",
+            status: null,
+            created_at: null,
+            updated_at: null,
+          },
+          {
+            id: 2,
+            name: "Fair",
+            display_name: "Needs a GPS",
+            min_score: "2",
+            max_score: "3.99",
+            result_description:
+              "Employee is on the right track but occasionally takes detours.\nPerformance meets some basic expectations but falls short in key areas.\nLike a GPS signal with occasional hiccups, improvement is required to meet all performance expectations.\nGoals and objectives are partially achieved occasionally taking the scenic route.",
+            evaluee_description:
+              "You are on the right track but occasionally takes detours.\nYour performance meets some basic expectations but falls short in key areas.\nLike a GPS signal with occasional hiccups, improvement is required to meet all performance expectations.\nGoals and objectives are partially achieved occasionally taking the scenic route.",
+            status: null,
+            created_at: null,
+            updated_at: null,
+          },
+          {
+            id: 3,
+            name: "Satisfactory",
+            display_name: "Smooth Sailing",
+            min_score: "4",
+            max_score: "5.99",
+            result_description:
+              "Employee navigates job responsibilities with ease, performing consistently and meeting the established expectations.\nLike a well-oiled machine, goals and objectives are typically reached.\nEmployee fulfills job responsibilities adequately.\nGoals and objectives are generally met.",
+            evaluee_description:
+              "You navigate job responsibilities with ease, performing consistently and meeting the established expectations.\nLike a well-oiled machine, goals and objectives are typically reached.\nYou fulfill job responsibilities adequately.\nGoals and objectives are generally met.",
+            status: null,
+            created_at: null,
+            updated_at: null,
+          },
+          {
+            id: 4,
+            name: "Good",
+            display_name: "Rocket Booster",
+            min_score: "6",
+            max_score: "7.99",
+            result_description:
+              "Employee's performance is out of this world, reaching new heights.\nLike a rocket with booster engines, employee demonstrates exceptional skills and achievements in various aspects of the job.\nGoals and objectives are consistently surpassed on a trajectory toward the stars.",
+            evaluee_description:
+              "Your performance is out of this world, reaching new heights.\nLike a rocket with booster engines, you demonstrate exceptional skills and achievements in various aspects of the job.\nGoals and objectives are consistently surpassed on a trajectory toward the stars.",
+            status: null,
+            created_at: null,
+            updated_at: null,
+          },
+          {
+            id: 5,
+            name: "Excellent",
+            display_name: "Unicorn Status",
+            min_score: "8",
+            max_score: "10",
+            result_description:
+              "Employee is as rare and magical as a unicorn, consistently exceeding expectations.\nLike finding a four-leaf clover, outstanding achievements are consistently realized.\nEmployee consistently demonstrates exceptional skills, innovation, and leadership.\nGoals and objectives are consistently exceeded with outstanding results.",
+            evaluee_description:
+              "You are as rare and magical as a unicorn, consistently exceeding expectations.\nLike finding a four-leaf clover, outstanding achievements are consistently realized.\nYou consistently demonstrate exceptional skills, innovation, and leadership.\nGoals and objectives are consistently exceeded with outstanding results.",
+            status: null,
+            created_at: null,
+            updated_at: null,
+          },
+        ]),
+      })
+
       await page.waitForLoadState("networkidle")
 
       await expect(page).toHaveURL("/my-evaluations")
@@ -119,95 +196,60 @@ test.describe("Admin - Evaluations", () => {
         }),
       })
 
-      await mockRequest(
-        page,
-        "/admin/evaluation-templates?evaluation_result_id=1&for_evaluation=true",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify([
-            {
-              id: 4,
-              name: "DEV Evaluation by PM",
-              display_name: "PM Evaluation",
+      await mockRequest(page, "/admin/evaluations?evaluation_result_id=1&for_evaluation=true", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            id: 1,
+            eval_start_date: "2023-10-16T00:00:00.000Z",
+            eval_end_date: "2023-12-31T00:00:00.000Z",
+            percent_involvement: "75",
+            evaluator: {
+              first_name: "First",
+              last_name: "Evaluator",
             },
-            {
-              id: 5,
-              name: "DEV Evaluation by Dev Peers",
-              display_name: "Peer Evaluation",
+            project: {
+              name: "iAssess",
             },
-            {
-              id: 6,
-              name: "DEV Evaluation by Code Reviewer",
-              display_name: "Code Reviewer Evaluation",
+            project_role: {
+              name: "Developer",
             },
-            {
-              id: 7,
-              name: "DEV Evaluation by QA",
-              display_name: "QA Evaluation",
+          },
+          {
+            id: 2,
+            eval_start_date: "2023-01-01T00:00:00.000Z",
+            eval_end_date: "2023-10-15T00:00:00.000Z",
+            percent_involvement: "100",
+            evaluator: {
+              first_name: "Second",
+              last_name: "Evaluator",
             },
-          ]),
-        }
-      )
-
-      await mockRequest(
-        page,
-        "/admin/evaluations?evaluation_result_id=1&evaluation_template_id=4&for_evaluation=true",
-        {
-          status: 200,
-          contentType: "application/json",
-          body: JSON.stringify([
-            {
-              id: 1,
-              eval_start_date: "2023-10-16T00:00:00.000Z",
-              eval_end_date: "2023-12-31T00:00:00.000Z",
-              percent_involvement: "75",
-              evaluator: {
-                first_name: "First",
-                last_name: "Evaluator",
-              },
-              project: {
-                name: "iAssess",
-              },
-              project_role: {
-                name: "Developer",
-              },
+            project: {
+              name: "ProductHQ",
             },
-            {
-              id: 2,
-              eval_start_date: "2023-01-01T00:00:00.000Z",
-              eval_end_date: "2023-10-15T00:00:00.000Z",
-              percent_involvement: "100",
-              evaluator: {
-                first_name: "Second",
-                last_name: "Evaluator",
-              },
-              project: {
-                name: "ProductHQ",
-              },
-              project_role: {
-                name: "Developer",
-              },
+            project_role: {
+              name: "Developer",
             },
-            {
-              id: 3,
-              eval_start_date: "2023-01-01T00:00:00.000Z",
-              eval_end_date: "2023-10-15T00:00:00.000Z",
-              percent_involvement: "100",
-              evaluator: {
-                first_name: "Third",
-                last_name: "Evaluator",
-              },
-              project: {
-                name: "ProductHQ",
-              },
-              project_role: {
-                name: "Developer",
-              },
+          },
+          {
+            id: 3,
+            eval_start_date: "2023-01-01T00:00:00.000Z",
+            eval_end_date: "2023-10-15T00:00:00.000Z",
+            percent_involvement: "100",
+            evaluator: {
+              first_name: "Third",
+              last_name: "Evaluator",
             },
-          ]),
-        }
-      )
+            project: {
+              name: "ProductHQ",
+            },
+            project_role: {
+              name: "Developer",
+            },
+          },
+        ]),
+      })
 
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
@@ -234,13 +276,6 @@ test.describe("Admin - Evaluations", () => {
 
       await expect(page.getByTestId("EditButton")).toBeVisible()
       await page.getByRole("button", { name: "User, Sample" }).click()
-
-      await expect(page.getByRole("button", { name: "PM Evaluation" })).toBeVisible()
-      await expect(page.getByRole("button", { name: "Peer Evaluation" })).toBeVisible()
-      await expect(page.getByRole("button", { name: "Code Reviewer Evaluation" })).toBeVisible()
-      await expect(page.getByRole("button", { name: "QA Evaluation" })).toBeVisible()
-
-      await page.getByRole("button", { name: "PM Evaluation" }).click()
 
       await expect(page.getByRole("cell", { name: "Evaluator", exact: true })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Project" })).toBeVisible()
@@ -886,6 +921,8 @@ test.describe("Admin - Evaluations", () => {
       })
 
       await page.getByRole("button", { name: "Yes" }).click()
+
+      await page.waitForLoadState("networkidle")
 
       await expect(page.getByText("Ongoing")).toBeVisible()
     })
