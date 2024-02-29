@@ -79,18 +79,20 @@ export const SelectSkillsFilter = () => {
           </Button>
         </div>
       </div>
-      <div className='flex flex-row gap-4'>
+      <div className='flex flex-row gap-4 overflow-auto whitespace-nowrap'>
         {categoryOptions.map((categoryOption, index) => (
           <div key={index}>
-            <Button
-              fullWidth
-              variant={categoryOption.value === category ? "primary" : "primaryOutline"}
-              onClick={() => setCategory(categoryOption.value ?? "all")}
-              size='small'
-              fullHeight
-            >
-              {categoryOption.label}
-            </Button>
+            <div className='mb-4'>
+              <Button
+                fullWidth
+                variant={categoryOption.value === category ? "primary" : "primaryOutline"}
+                onClick={() => setCategory(categoryOption.value ?? "all")}
+                size='small'
+                fullHeight
+              >
+                {categoryOption.label}
+              </Button>
+            </div>
           </div>
         ))}
       </div>
