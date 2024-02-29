@@ -75,6 +75,12 @@ export const EmailTemplateForm = () => {
     }
   }, [emailTemplate])
 
+  useEffect(() => {
+    if (formData.is_default === true) {
+      void setDefaultChecking()
+    }
+  }, [formData.is_default, formData.template_type])
+
   const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
@@ -90,9 +96,6 @@ export const EmailTemplateForm = () => {
   }
 
   const setTemplate = async (option: SingleValue<Option>) => {
-    if (formData.is_default === true) {
-      void setDefaultChecking()
-    }
     setFormData({ ...formData, template_type: option?.value })
   }
 
@@ -106,12 +109,20 @@ export const EmailTemplateForm = () => {
   }
 
   const setDefaultChecking = async () => {
-    const { payload } = await appDispatch(
-      getEmailTemplates({ template_type: formData.template_type, is_default: "true" })
-    )
-    if (payload.data.length > 0) {
-      setTemplates(payload.data)
-      void setShowDefaultDialog(true)
+    if (formData.template_type !== undefined) {
+      const { payload } = await appDispatch(
+        getEmailTemplates({ template_type: formData.template_type, is_default: "true" })
+      )
+
+      const existingEmailTemplates = payload.data
+
+      if (
+        existingEmailTemplates.length > 0 &&
+        emailTemplate?.id !== parseInt(existingEmailTemplates[0].id)
+      ) {
+        setTemplates(payload.data)
+        void setShowDefaultDialog(true)
+      }
     }
   }
 
