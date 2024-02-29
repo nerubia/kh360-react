@@ -126,21 +126,21 @@ export const EvaluationTemplatesTable = () => {
         return <div className='flex justify-center'>{Number(item.rate).toFixed(2)}%</div>
       case "Actions":
         return (
-          <div className='flex gap-2'>
+          <div className='flex gap-2 justify-center'>
             <LinkButton
               testId='EditButton'
               variant='unstyled'
               to={`/admin/evaluation-templates/${item.id}/edit?callback=${location.pathname}`}
               onClick={(e) => e.stopPropagation()}
             >
-              <Icon icon='PenSquare' />
+              <Icon icon='PenSquare' size='extraSmall' color='gray' />
             </LinkButton>
             <Button
               testId='DeleteButton'
               variant='unstyled'
               onClick={(e) => toggleDialog(item.id, e)}
             >
-              <Icon icon='Trash' />
+              <Icon icon='Trash' size='extraSmall' color='gray' />
             </Button>
           </div>
         )

@@ -97,7 +97,7 @@ export const ProjectsTable = () => {
         )
       case "Actions":
         return (
-          <div className='flex gap-2'>
+          <div className='flex gap-2 justify-center'>
             <LinkButton
               testId='ViewButton'
               variant='unstyled'
@@ -106,10 +106,10 @@ export const ProjectsTable = () => {
                 handleViewProject(item.id)
               }}
             >
-              <Icon icon='Eye' />
+              <Icon icon='Eye' size='extraSmall' color='gray' />
             </LinkButton>
             <Button testId='DeleteButton' variant='unstyled' onClick={() => toggleDialog(item.id)}>
-              <Icon icon='Trash' />
+              <Icon icon='Trash' size='extraSmall' color='gray' />
             </Button>
           </div>
         )
