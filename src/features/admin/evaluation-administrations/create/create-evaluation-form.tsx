@@ -6,7 +6,6 @@ import { useAppSelector } from "@hooks/useAppSelector"
 import { Button } from "@components/ui/button/button"
 import { Input } from "@components/ui/input/input"
 import { TextArea } from "@components/ui/textarea/text-area"
-import { createEvaluationAdministrationSchema } from "@utils/validation/evaluation-administration-schema"
 import { Loading } from "@custom-types/loadingType"
 import { getDefaultEmailTemplate } from "@redux/slices/email-template-slice"
 import { type EvaluationAdministrationFormData } from "@custom-types/form-data-type"
@@ -16,6 +15,7 @@ import { setEvaluationResults } from "@redux/slices/evaluation-results-slice"
 import { setAlert } from "@redux/slices/app-slice"
 import { DateRangePicker } from "@components/ui/date-range-picker/date-range-picker"
 import { type DateValueType } from "react-tailwindcss-datepicker"
+import { createEvaluationAdministrationSchema } from "@utils/validation/evaluation-administration-schema"
 
 const EvaluationAdminDialog = lazy(
   async () =>
@@ -87,10 +87,13 @@ export const CreateEvaluationForm = () => {
     }
   }
   const handleChangeDateRange = (value: DateValueType, field: string) => {
+    const startDate = value?.startDate != null ? value.startDate.toString().split("T")[0] : ""
+    const endDate = value?.endDate != null ? value.endDate.toString().split("T")[0] : ""
+
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [field + "_start_date"]: value?.startDate?.toString().split("T")[0] ?? "",
-      [field + "_end_date"]: value?.endDate?.toString().split("T")[0] ?? "",
+      [`${field}_start_date`]: startDate,
+      [`${field}_end_date`]: endDate,
     }))
   }
 
@@ -134,6 +137,10 @@ export const CreateEvaluationForm = () => {
               endDate: formData.eval_period_end_date ?? "",
             }}
             onChange={(value) => handleChangeDateRange(value, "eval_period")}
+            error={{
+              start_date: validationErrors.eval_period_start_date,
+              end_date: validationErrors.eval_period_end_date,
+            }}
           />
         </div>
         <div>
@@ -145,6 +152,13 @@ export const CreateEvaluationForm = () => {
               endDate: formData.eval_schedule_end_date ?? "",
             }}
             onChange={(value) => handleChangeDateRange(value, "eval_schedule")}
+            dateLimit={{
+              start_date: formData.eval_period_start_date,
+            }}
+            error={{
+              start_date: validationErrors.eval_schedule_start_date,
+              end_date: validationErrors.eval_schedule_end_date,
+            }}
           />
         </div>
       </div>

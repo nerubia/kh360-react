@@ -6,14 +6,13 @@ export const SelectSkillsHeader = () => {
   const { projectFormData } = useAppSelector((state) => state.project)
   const [searchParams] = useSearchParams()
   const project_name = searchParams.get("project_name")
+
   return (
     <div className='flex flex-col md:flex-row justify-between gap-4'>
       <PageTitle>
         Select Skills{" "}
-        {project_name !== null
-          ? `for ${project_name}`
-          : projectFormData?.name !== null
-          ? `for ${projectFormData?.name}`
+        {project_name !== null || projectFormData?.name !== undefined
+          ? `for ${project_name ?? projectFormData?.name}`
           : ""}
       </PageTitle>
     </div>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useSearchParams } from "react-router-dom"
+import { useParams, useSearchParams, useNavigate } from "react-router-dom"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { Pagination } from "@components/shared/pagination/pagination"
@@ -7,31 +7,44 @@ import { setCheckedSkills } from "@redux/slices/skills-slice"
 import { Checkbox } from "@components/ui/checkbox/checkbox"
 import { type Skill } from "@custom-types/skill-type"
 import { getProjectSkills } from "@redux/slices/project-skills-slice"
+import { getProject } from "@redux/slices/project-slice"
+import { setIsEditingProjectMember } from "@redux/slices/project-member-slice"
 
 export const SelectProjectMemberSkillsTable = () => {
   const [searchParams] = useSearchParams()
-
+  const callback = searchParams.get("callback")
+  const { project_id } = useParams()
+  const navigate = useNavigate()
   const appDispatch = useAppDispatch()
   const { checkedSkills } = useAppSelector((state) => state.skills)
   const { project } = useAppSelector((state) => state.project)
-  const { projectMemberFormData } = useAppSelector((state) => state.projectMember)
   const { project_skills, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
     (state) => state.projectSkills
   )
   const [projectSkills, setProjectSkills] = useState<Skill[]>([])
 
   useEffect(() => {
+    if (project_id !== undefined) {
+      void appDispatch(getProject(parseInt(project_id)))
+    }
+  }, [])
+
+  useEffect(() => {
     if (project !== null) {
       const projectSkillIds = project.project_skills?.map((skill) => skill.id)
       const filteredSkills = project_skills.filter((skill) => projectSkillIds?.includes(skill.id))
       setProjectSkills(filteredSkills)
+
+      if (project.project_skills?.length === 0) {
+        navigate(callback ?? "/admin/project-assignments/create")
+      }
     }
   }, [project, project_skills])
 
   useEffect(() => {
     void appDispatch(
       getProjectSkills({
-        project_id: projectMemberFormData?.project_id,
+        project_id,
         name: searchParams.get("name") ?? undefined,
         skill_category_id: searchParams.get("skill_category_id") ?? undefined,
         page: searchParams.get("page") ?? undefined,
@@ -40,6 +53,7 @@ export const SelectProjectMemberSkillsTable = () => {
   }, [searchParams])
 
   const handleSelectAll = (checked: boolean) => {
+    appDispatch(setIsEditingProjectMember(true))
     if (checked) {
       appDispatch(setCheckedSkills([...checkedSkills, ...project_skills]))
     } else {
@@ -49,6 +63,7 @@ export const SelectProjectMemberSkillsTable = () => {
   }
 
   const handleClickCheckbox = (checked: boolean, skillId: number) => {
+    appDispatch(setIsEditingProjectMember(true))
     if (checked) {
       const skill = project_skills.find((skill) => skill.id === skillId)
       appDispatch(setCheckedSkills([...checkedSkills, skill]))

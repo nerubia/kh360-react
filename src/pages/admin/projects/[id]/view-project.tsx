@@ -5,7 +5,7 @@ import { ViewProjectFooter } from "@features/admin/projects/[id]/view-project-fo
 import { useTitle } from "@hooks/useTitle"
 
 export default function ViewProject() {
-  useTitle("View Evaluation Templates")
+  useTitle("View Project")
   return (
     <div className='flex flex-col gap-10'>
       <ViewProjectHeader />
