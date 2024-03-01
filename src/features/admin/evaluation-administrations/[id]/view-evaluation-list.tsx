@@ -243,7 +243,7 @@ export const ViewEvaluationList = () => {
                 </Button>
               </div>
               {evaluationResultToggledState[evaluationIndex] && (
-                <div>
+                <div className='overflow-x-auto'>
                   {evaluationResult.evaluations !== undefined &&
                   evaluationResult.evaluations !== null &&
                   evaluationResult.evaluations.length > 0 ? (
