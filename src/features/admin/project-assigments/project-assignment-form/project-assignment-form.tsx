@@ -106,7 +106,9 @@ export const ProjectAssignmentForm = () => {
   }, [loadingProject, projectMenuList])
 
   useEffect(() => {
-    if (project_member !== null && project_id === null && !isEditingProjectMember) {
+    const isEditing = project_member !== null && project_id === null && !isEditingProjectMember
+
+    if (isEditing) {
       handleSearchUser(project_member.user?.last_name ?? "")
       handleSearchProject(project_member.project?.name ?? "")
       void appDispatch(
@@ -123,15 +125,13 @@ export const ProjectAssignmentForm = () => {
       if (project_member.project_id !== undefined) {
         void appDispatch(getProject(project_member.project_id ?? project_id))
       }
-      if (selectedSkills.length === 0) {
-        const skillsCopy = [...(project_member.project_member_skills ?? [])]
-        const sortedSkills = skillsCopy?.sort((a, b) => {
-          return (a.sequence_no ?? 0) - (b.sequence_no ?? 0)
-        })
-        const sortedSelectedSkills = sortedSkills.map((skill) => skill.skills)
-        void appDispatch(setSelectedSkills(sortedSelectedSkills))
-        void appDispatch(setCheckedSkills(sortedSelectedSkills))
-      }
+      const skillsCopy = [...(project_member.project_member_skills ?? [])]
+      const sortedSkills = skillsCopy?.sort((a, b) => {
+        return (a.sequence_no ?? 0) - (b.sequence_no ?? 0)
+      })
+      const sortedSelectedSkills = sortedSkills.map((skill) => skill.skills)
+      void appDispatch(setSelectedSkills(sortedSelectedSkills))
+      void appDispatch(setCheckedSkills(sortedSelectedSkills))
     }
   }, [project_member])
 
