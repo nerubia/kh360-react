@@ -39,6 +39,7 @@ export const ProjectAssignmentForm = () => {
   const [searchParams] = useSearchParams()
   const project_name = searchParams.get("project_name")
   const project_id = searchParams.get("project_id")
+  const { project } = useAppSelector((state) => state.project)
 
   const {
     loading: loadingUsers,
@@ -319,13 +320,16 @@ export const ProjectAssignmentForm = () => {
         abortEarly: false,
       })
       const existingProjectMemberIds = project_members.map((member) => member.id)
-      if (
-        project_members.length > 0 &&
-        !existingProjectMemberIds.includes(parseInt(projectMemberFormData?.user_id ?? ""))
-      ) {
-        setShowOverlapDialog(true)
-        return
+      const userId = projectMemberFormData?.user_id
+      const parsedUserId = userId !== undefined ? parseInt(userId, 10) : undefined
+
+      if (userId !== undefined && parsedUserId !== undefined && !isNaN(parsedUserId)) {
+        if (project_members.length > 0 && !existingProjectMemberIds.includes(parsedUserId)) {
+          setShowOverlapDialog(true)
+          return
+        }
       }
+
       if (id !== undefined) {
         void handleEdit()
       } else {
@@ -370,6 +374,8 @@ export const ProjectAssignmentForm = () => {
               variant: "destructive",
             })
           )
+          setShowOverlapDialog(false)
+          setShowSaveDialog(false)
         }
       }
     } catch (error) {}
@@ -386,6 +392,7 @@ export const ProjectAssignmentForm = () => {
             id: parseInt(id),
           })
         )
+
         if (result.type === "projectMember/updateProjectMember/fulfilled") {
           appDispatch(
             setAlert({
@@ -395,6 +402,7 @@ export const ProjectAssignmentForm = () => {
           )
           navigate(`/admin/project-assignments`)
         }
+
         if (result.type === "projectMember/updateProjectMember/rejected") {
           appDispatch(
             setAlert({
@@ -402,6 +410,8 @@ export const ProjectAssignmentForm = () => {
               variant: "destructive",
             })
           )
+          setShowOverlapDialog(false)
+          setShowSaveDialog(false)
         }
       }
     } catch (error) {}
@@ -429,14 +439,17 @@ export const ProjectAssignmentForm = () => {
       setProjectMenuList(customProjectRef?.current?.menuListRef)
     }, 100)
   }
-
   const handleDateRangeChange = (value: DateValueType) => {
     void appDispatch(setIsEditingProjectMember(true))
+
+    const startDate = value?.startDate != null ? value.startDate.toString().split("T")[0] : ""
+    const endDate = value?.endDate != null ? value.endDate.toString().split("T")[0] : ""
+
     void appDispatch(
       setProjectMemberFormData({
         ...projectMemberFormData,
-        start_date: value?.startDate?.toString().split("T")[0] ?? "",
-        end_date: value?.endDate?.toString().split("T")[0] ?? "",
+        start_date: startDate,
+        end_date: endDate,
       })
     )
   }
@@ -559,6 +572,11 @@ export const ProjectAssignmentForm = () => {
                 endDate: projectMemberFormData?.end_date ?? "",
               }}
               onChange={handleDateRangeChange}
+              error={{
+                start_date: validationErrors.start_date,
+                end_date: validationErrors.end_date,
+              }}
+              dateLimit={{ start_date: project?.start_date, end_date: project?.end_date }}
             />
           </div>
           <div className='flex flex-col'>
