@@ -8,7 +8,7 @@ export default function EmailTemplates() {
   useTitle("Message Templates")
 
   return (
-    <div className='flex flex-col gap-8'>
+    <div className='md:h-[calc(100vh_-_104px)] flex flex-col gap-8'>
       <EmailTemplatesHeader />
       <EmailTemplatesFilter />
       <EmailTemplatesAction />
