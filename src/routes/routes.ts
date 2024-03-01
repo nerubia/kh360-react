@@ -42,7 +42,7 @@ export const routes = {
       projectAssignments,
       createProjectAssignment: `${projectAssignments}/create`,
       editProjectAssignment: `${projectAssignments}/:id/edit`,
-      selectProjectMemberSkills: `${projectAssignments}/select`,
+      selectProjectMemberSkills: `${projectAssignments}/select/:project_id`,
       emailTemplates: messageTemplates,
       createEmailTemplate: `${messageTemplates}/create`,
       editEmailTemplate: `${messageTemplates}/:id/edit`,
