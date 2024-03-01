@@ -191,11 +191,7 @@ export const ViewEvaluationList = () => {
 
   return (
     <>
-      <div
-        className='flex flex-col gap-8 overflow-y-auto md:overflow-x-hidden'
-        onScroll={onScroll}
-        ref={listInnerRef}
-      >
+      <div className='flex flex-col gap-8 overflow-y-auto' onScroll={onScroll} ref={listInnerRef}>
         <div className='flex flex-col'>
           {evaluationResults?.map((evaluationResult, evaluationIndex) => (
             <div key={evaluationIndex} className='mb-2'>
@@ -243,7 +239,7 @@ export const ViewEvaluationList = () => {
                 </Button>
               </div>
               {evaluationResultToggledState[evaluationIndex] && (
-                <div className='overflow-x-auto'>
+                <div>
                   {evaluationResult.evaluations !== undefined &&
                   evaluationResult.evaluations !== null &&
                   evaluationResult.evaluations.length > 0 ? (
