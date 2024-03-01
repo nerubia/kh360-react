@@ -133,10 +133,13 @@ export const EditEvaluationAdministrationForm = () => {
   }
 
   const handleChangeDateRange = (value: DateValueType, field: string) => {
+    const startDate = value?.startDate != null ? value.startDate.toString().split("T")[0] : ""
+    const endDate = value?.endDate != null ? value.endDate.toString().split("T")[0] : ""
+
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [field + "_start_date"]: value?.startDate?.toString().split("T")[0] ?? "",
-      [field + "_end_date"]: value?.endDate?.toString().split("T")[0] ?? "",
+      [`${field}_start_date`]: startDate,
+      [`${field}_end_date`]: endDate,
     }))
   }
 
@@ -190,6 +193,10 @@ export const EditEvaluationAdministrationForm = () => {
                       endDate: formData.eval_period_end_date ?? "",
                     }}
                     onChange={(value) => handleChangeDateRange(value, "eval_period")}
+                    error={{
+                      start_date: validationErrors.eval_period_start_date,
+                      end_date: validationErrors.eval_period_end_date,
+                    }}
                   />
                 </div>
                 <div>
@@ -201,6 +208,13 @@ export const EditEvaluationAdministrationForm = () => {
                       endDate: formData.eval_schedule_end_date ?? "",
                     }}
                     onChange={(value) => handleChangeDateRange(value, "eval_schedule")}
+                    dateLimit={{
+                      start_date: formData.eval_period_start_date,
+                    }}
+                    error={{
+                      start_date: validationErrors.eval_schedule_start_date,
+                      end_date: validationErrors.eval_schedule_end_date,
+                    }}
                   />
                 </div>
               </div>
