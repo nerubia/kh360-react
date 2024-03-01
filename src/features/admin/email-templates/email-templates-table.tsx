@@ -8,7 +8,6 @@ import { Icon } from "@components/ui/icon/icon"
 import { Pagination } from "@components/shared/pagination/pagination"
 import { setAlert } from "@redux/slices/app-slice"
 import Tooltip from "@components/ui/tooltip/tooltip"
-import { useMobileView } from "@hooks/use-mobile-view"
 import { Badge } from "@components/ui/badge/badge"
 import { messageTemplateColumns, type EmailTemplate } from "@custom-types/email-template-type"
 import { Table } from "@components/ui/table/table"
@@ -17,12 +16,10 @@ export const EmailTemplatesTable = () => {
   const [searchParams] = useSearchParams()
   const [showDialog, setShowDialog] = useState<boolean>(false)
   const [selectedTemplateId, setSelectedTemplateId] = useState<number>()
-  const isMobile = useMobileView()
   const appDispatch = useAppDispatch()
   const { emailTemplates, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
     (state) => state.emailTemplate
   )
-
   const EmailTemplatesDialog = lazy(
     async () => await import("@features/admin/email-templates/email-templates-dialog")
   )
@@ -83,10 +80,12 @@ export const EmailTemplatesTable = () => {
         )
       case "Subject":
         return (
-          <Tooltip placement={isMobile ? "bottomStart" : "top"}>
-            <Tooltip.Trigger>{item.subject}</Tooltip.Trigger>
-            <Tooltip.Content>{item.content}</Tooltip.Content>
-          </Tooltip>
+          <div>
+            <Tooltip placement='bottomStart'>
+              <Tooltip.Trigger>{item.subject}</Tooltip.Trigger>
+              <Tooltip.Content>{item.content}</Tooltip.Content>
+            </Tooltip>
+          </div>
         )
       case "Actions":
         return (
@@ -107,8 +106,13 @@ export const EmailTemplatesTable = () => {
   }
 
   return (
-    <div className='flex flex-col gap-8 overflow-x-auto overflow-y-hidden md:overflow-x-hidden'>
-      <Table columns={messageTemplateColumns} data={emailTemplates} renderCell={renderCell} />
+    <div className='flex flex-col gap-8 overflow-x-auto xl:overflow-x-hidden'>
+      <Table
+        columns={messageTemplateColumns}
+        data={emailTemplates}
+        renderCell={renderCell}
+        overflowYHidden={false}
+      />
       <Suspense fallback={<div>Loading...</div>}>
         <EmailTemplatesDialog
           open={showDialog}
