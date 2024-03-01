@@ -34,7 +34,7 @@ export const EditProjectAssignmentTable = () => {
   }
 
   const handleAddSkill = () => {
-    navigate(`/admin/project-assignments/select?callback=${fullPath}`)
+    navigate(`/admin/project-assignments/select/${project?.id}?callback=${fullPath}`)
   }
 
   const handleViewProject = () => {

@@ -4,6 +4,7 @@ import { Icon } from "@components/ui/icon/icon"
 import { LinkButton } from "@components/ui/button/button"
 import { setIsEditingProjectMember } from "@redux/slices/project-member-slice"
 import { useAppDispatch } from "@hooks/useAppDispatch"
+import { setSelectedSkills, setCheckedSkills } from "@redux/slices/skills-slice"
 
 export const ProjectColumn: React.FC<{
   rowHeight: number
@@ -17,6 +18,12 @@ export const ProjectColumn: React.FC<{
   onExpanderClick: (task: Task) => void
 }> = ({ tasks, onExpanderClick }) => {
   const appDispatch = useAppDispatch()
+
+  const handleEdit = () => {
+    appDispatch(setIsEditingProjectMember(false))
+    void appDispatch(setSelectedSkills([]))
+    void appDispatch(setCheckedSkills([]))
+  }
 
   return (
     <div className='table border-l '>
@@ -50,7 +57,7 @@ export const ProjectColumn: React.FC<{
                         to={`${t.projectMemberId}/edit`}
                         variant='unstyled'
                         size='small'
-                        onClick={() => appDispatch(setIsEditingProjectMember(false))}
+                        onClick={handleEdit}
                       >
                         <Icon icon='PenSquare' size='extraSmall' color='gray' />
                       </LinkButton>

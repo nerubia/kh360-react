@@ -1,11 +1,9 @@
-import { useEffect } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import { Button } from "@components/ui/button/button"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { setSelectedSkills, setCheckedSkills } from "@redux/slices/skills-slice"
 import { setAlert } from "@redux/slices/app-slice"
-import { setIsEditingProjectMember } from "@redux/slices/project-member-slice"
 
 export const SelectProjectMemberSkillsFooter = () => {
   const navigate = useNavigate()
@@ -14,10 +12,6 @@ export const SelectProjectMemberSkillsFooter = () => {
   const { selectedSkills, checkedSkills } = useAppSelector((state) => state.skills)
   const callback = searchParams.get("callback")
   const project_id = searchParams.get("project_id")
-
-  useEffect(() => {
-    void appDispatch(setIsEditingProjectMember(true))
-  }, [])
 
   const handleCancel = () => {
     let navigateUrl = callback ?? "/admin/project-assignments"
