@@ -25,7 +25,7 @@ export const ViewProjectFooter = () => {
         testId='EditButton'
         variant='primaryOutline'
         size='medium'
-        to={`/admin/projects/${id}/edit`}
+        to={`/admin/projects/${id}/edit?callback=/admin/projects/${id}`}
       >
         <Icon icon='PenSquare' />
       </LinkButton>

@@ -19,6 +19,7 @@ import {
   setProjectFormData,
   createProject,
   getProject,
+  setProject,
   updateProject,
 } from "@redux/slices/project-slice"
 import { setSelectedSkills, setCheckedSkills } from "@redux/slices/skills-slice"
@@ -38,6 +39,7 @@ export const CreateProjectForm = () => {
   const { project, projectFormData } = useAppSelector((state) => state.project)
   const { selectedSkills } = useAppSelector((state) => state.skills)
   const { clients } = useAppSelector((state) => state.clients)
+  const { previousUrl } = useAppSelector((state) => state.app)
 
   const [validationErrors, setValidationErrors] = useState<Partial<ProjectFormData>>({})
   const [showCancelDialog, setShowCancelDialog] = useState<boolean>(false)
@@ -145,7 +147,7 @@ export const CreateProjectForm = () => {
         )
       }
       if (result.type === "project/createProject/fulfilled") {
-        navigate(callback ?? `/admin/projects/${result.payload.id}`)
+        navigate(callback ?? previousUrl ?? `/admin/projects/${result.payload.id}`)
         appDispatch(
           setAlert({
             description: "Added new project",
@@ -153,6 +155,7 @@ export const CreateProjectForm = () => {
           })
         )
         void appDispatch(setProjectFormData(null))
+        void appDispatch(setProject(null))
         void appDispatch(setSelectedSkills([]))
         void appDispatch(setCheckedSkills([]))
       }
@@ -190,7 +193,7 @@ export const CreateProjectForm = () => {
           )
         }
         if (result.type === "project/updateProject/fulfilled") {
-          navigate(callback ?? `/admin/projects/${result.payload.id}`)
+          navigate(callback ?? previousUrl ?? `/admin/projects/${result.payload.id}`)
           appDispatch(
             setAlert({
               description: "Successfully updated project",
@@ -198,6 +201,7 @@ export const CreateProjectForm = () => {
             })
           )
           void appDispatch(setProjectFormData(null))
+          void appDispatch(setProject(null))
           void appDispatch(setSelectedSkills([]))
           void appDispatch(setCheckedSkills([]))
         }
@@ -215,9 +219,10 @@ export const CreateProjectForm = () => {
 
   const handleCancel = () => {
     void appDispatch(setProjectFormData(null))
+    void appDispatch(setProject(null))
     void appDispatch(setSelectedSkills([]))
     void appDispatch(setCheckedSkills([]))
-    navigate(callback ?? "/admin/projects")
+    navigate(callback ?? previousUrl ?? `/admin/projects/${id}`)
   }
 
   return (
