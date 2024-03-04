@@ -203,24 +203,24 @@ export const ViewEvaluationList = () => {
                 {(evaluation_administration?.status === EvaluationAdministrationStatus.Pending ||
                   evaluation_administration?.status === EvaluationAdministrationStatus.Ongoing ||
                   evaluation_administration?.status === EvaluationAdministrationStatus.Draft) && (
-                  <Button
-                    testId='EditButton'
-                    onClick={async () =>
-                      await handleEditEvaluationResult(evaluationResult.id?.toString())
-                    }
-                    variant={"unstyled"}
-                  >
-                    <Icon icon='PenSquare' size='small' />
-                  </Button>
-                )}
-                {evaluation_administration?.status === EvaluationAdministrationStatus.Draft && (
-                  <Button
-                    testId='DeleteButton'
-                    onClick={() => toggleDeleteDialog(evaluationResult.id?.toString())}
-                    variant={"unstyled"}
-                  >
-                    <Icon icon='Trash' size='small' />
-                  </Button>
+                  <>
+                    <Button
+                      testId='EditButton'
+                      onClick={async () =>
+                        await handleEditEvaluationResult(evaluationResult.id?.toString())
+                      }
+                      variant={"unstyled"}
+                    >
+                      <Icon icon='PenSquare' size='extraSmall' color='gray' />
+                    </Button>
+                    <Button
+                      testId='DeleteButton'
+                      onClick={() => toggleDeleteDialog(evaluationResult.id?.toString())}
+                      variant={"unstyled"}
+                    >
+                      <Icon icon='Trash' size='extraSmall' color='gray' />
+                    </Button>
+                  </>
                 )}
                 <Button
                   onClick={() =>
