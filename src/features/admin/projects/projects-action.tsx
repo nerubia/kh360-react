@@ -11,7 +11,7 @@ export const ProjectsAction = () => {
   const { totalItems } = useAppSelector((state) => state.projects)
 
   const handleAdd = () => {
-    navigate("/admin/projects/create")
+    navigate("/admin/projects/create?callback=/admin/projects")
     appDispatch(setProject(null))
     appDispatch(setSelectedSkills([]))
     appDispatch(setCheckedSkills([]))
