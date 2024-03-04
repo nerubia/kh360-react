@@ -261,7 +261,7 @@ export const ViewEvaluationHeader = () => {
                       <Dropdown.Item
                         onClick={() => navigate(`/admin/evaluation-administrations/${id}/edit`)}
                       >
-                        <Icon icon='PenSquare' />
+                        <Icon icon='PenSquare' size='extraSmall' color='gray' />
                         Edit
                       </Dropdown.Item>
                     )}
@@ -270,34 +270,34 @@ export const ViewEvaluationHeader = () => {
                       evaluation_administration?.status ===
                         EvaluationAdministrationStatus.Ongoing) && (
                       <Dropdown.Item onClick={toggleCancelDialog}>
-                        <Icon icon='Ban' />
+                        <Icon icon='Ban' size='extraSmall' color='gray' />
                         Cancel
                       </Dropdown.Item>
                     )}
                     {evaluation_administration?.status === EvaluationAdministrationStatus.Draft && (
                       <Dropdown.Item onClick={toggleDeleteDialog}>
-                        <Icon icon='Trash' />
+                        <Icon icon='Trash' size='extraSmall' color='gray' />
                         Delete
                       </Dropdown.Item>
                     )}
                     {evaluation_administration?.status ===
                       EvaluationAdministrationStatus.Ongoing && (
                       <Dropdown.Item onClick={toggleCloseDialog}>
-                        <Icon icon='Lock' />
+                        <Icon icon='Lock' size='extraSmall' color='gray' />
                         Close
                       </Dropdown.Item>
                     )}
                     {evaluation_administration?.status ===
                       EvaluationAdministrationStatus.Closed && (
                       <Dropdown.Item onClick={togglePublishDialog}>
-                        <Icon icon='UploadCloud' />
+                        <Icon icon='UploadCloud' size='extraSmall' color='gray' />
                         Publish
                       </Dropdown.Item>
                     )}
                     {evaluation_administration?.status ===
                       EvaluationAdministrationStatus.Closed && (
                       <Dropdown.Item onClick={toggleReopenDialog}>
-                        <Icon icon='RefreshCw' />
+                        <Icon icon='RefreshCw' size='extraSmall' color='gray' />
                         Reopen
                       </Dropdown.Item>
                     )}
