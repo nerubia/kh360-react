@@ -27,6 +27,7 @@ import { useMobileView } from "@hooks/use-mobile-view"
 import { TemplateType } from "@custom-types/evaluation-template-type"
 import { Table } from "@components/ui/table/table"
 import { type ReactNode } from "react"
+import { setIsToggled } from "@redux/slices/toggle-slice"
 
 const EvaluationAdminDialog = lazy(
   async () =>
@@ -55,7 +56,7 @@ export const EvaluatorsList = () => {
   const [selectedEvaluationId, setSelectedEvaluationId] = useState<number>()
   const isMediumSize = useMobileView(1200)
   const isSmallDevice = useMobileView(800)
-
+  const isToggled = useAppSelector((state) => state.toggle.isToggled)
   const columns = [
     <Checkbox
       key={0}
@@ -87,6 +88,17 @@ export const EvaluatorsList = () => {
     "Duration",
     "Actions",
   ]
+  useEffect(() => {
+    const internalHasEvaluationTrue = evaluations.some(
+      (evaluation) => evaluation.for_evaluation === true
+    )
+    const externalHasEvaluationTrue = sortedExternalEvaluations.some(
+      (evaluation) => evaluation.for_evaluation === true
+    )
+    if (internalHasEvaluationTrue || externalHasEvaluationTrue) {
+      void appDispatch(setIsToggled(true))
+    }
+  }, [evaluations, sortedExternalEvaluations])
 
   useEffect(() => {
     if (evaluation_template_id !== "all") {
@@ -166,6 +178,7 @@ export const EvaluatorsList = () => {
         })
       )
     }
+    void appDispatch(setIsToggled(!isToggled))
   }
 
   const handleUpdateStatus = async (status: string) => {
@@ -444,6 +457,7 @@ export const EvaluatorsList = () => {
               variant='primaryOutline'
               onClick={async () => await handleUpdateStatus(EvaluationResultStatus.Draft)}
               loading={loading === Loading.Pending}
+              disabled={!isToggled}
             >
               Save as Draft
             </Button>
@@ -455,6 +469,7 @@ export const EvaluatorsList = () => {
               size={isMediumSize ? "small" : "medium"}
               onClick={toggleSaveDialog}
               loading={loadingEvalAdmin === Loading.Pending}
+              disabled={!isToggled}
             >
               Save and Generate
             </Button>
@@ -464,6 +479,7 @@ export const EvaluatorsList = () => {
               size={isMediumSize ? "small" : "medium"}
               onClick={async () => await handleUpdateStatus(EvaluationResultStatus.Ready)}
               loading={loading === Loading.Pending}
+              disabled={!isToggled}
             >
               Mark as Ready
             </Button>

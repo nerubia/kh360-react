@@ -27,6 +27,7 @@ import skillsReducer from "@redux/slices/skills-slice"
 import skillCategoriesReducer from "@redux/slices/skill-category-slice"
 import usersReducer from "@redux/slices/users-slice"
 import userReducer from "@redux/slices/user-slice"
+import toggleSlice from "./slices/toggle-slice"
 
 export const store = configureStore({
   reducer: {
@@ -57,6 +58,7 @@ export const store = configureStore({
     skillCategories: skillCategoriesReducer,
     users: usersReducer,
     user: userReducer,
+    toggle: toggleSlice,
   },
 })
 
