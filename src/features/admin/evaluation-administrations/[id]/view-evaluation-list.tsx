@@ -180,6 +180,15 @@ export const ViewEvaluationList = () => {
           )
           toggleDeleteDialog(null)
         }
+        if (result.type === "evaluationResults/deleteEvaluationResult/rejected") {
+          appDispatch(
+            setAlert({
+              description: result.payload,
+              variant: "destructive",
+            })
+          )
+          toggleDeleteDialog(null)
+        }
       } catch (error) {}
     }
   }
