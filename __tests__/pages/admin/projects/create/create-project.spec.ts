@@ -20,9 +20,9 @@ test.describe("Admin - Create Project", () => {
 
   test.describe("as Guest", () => {
     test("should not allow to view the create project page", async ({ page }) => {
-      await page.goto("/admin/message-templates/create")
+      await page.goto("/admin/projects/create")
 
-      await expect(page).toHaveURL("/auth/login?callback=/admin/message-templates/create")
+      await expect(page).toHaveURL("/auth/login?callback=/admin/projects/create")
     })
   })
 
@@ -30,7 +30,7 @@ test.describe("Admin - Create Project", () => {
     test("should not allow to view the create project page", async ({ page }) => {
       await loginUser("employee", page)
 
-      await page.goto("/admin/message-templates/create")
+      await page.goto("/admin/projects/create")
 
       await mockRequest(page, "/user/my-evaluations", {
         status: 200,
@@ -66,6 +66,27 @@ test.describe("Admin - Create Project", () => {
           }),
         }
       )
+
+      await mockRequest(page, "/user/score-ratings", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            created_at: null,
+            display_name: "Navigational Challenge",
+            evaluee_description:
+              "You face occasional difficulty in navigating job responsibilities.\nYour performance consistently falls below expectations and significant improvement is needed in various aspects of job responsibilities.\nYour goals and objectives are not met consistently.",
+            id: 1,
+            max_score: "1.99",
+            min_score: "0",
+            name: "Needs Improvement",
+            result_description:
+              "Employee faces occasional difficulty in navigating job responsibilities.\nPerformance consistently falls below expectations and significant improvement is needed in various aspects of job responsibilities.\nGoals and objectives are not met consistently.",
+            status: null,
+            updated_at: null,
+          },
+        ]),
+      })
 
       await page.waitForLoadState("networkidle")
 
@@ -253,7 +274,7 @@ test.describe("Admin - Create Project", () => {
     test("should allow to cancel & exit", async ({ page, isMobile }) => {
       await loginUser("admin", page)
 
-      await page.goto("/admin/projects/create")
+      await page.goto("/admin/projects/create?callback=/admin/projects")
 
       await mockRequest(page, "/admin/clients/active", {
         status: 200,

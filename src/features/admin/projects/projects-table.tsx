@@ -44,7 +44,11 @@ export const ProjectsTable = () => {
     void appDispatch(setCheckedSkills([]))
   }, [searchParams])
 
-  const toggleDialog = (id: number | null) => {
+  const toggleDialog = (id: number | null, e: React.MouseEvent | null) => {
+    if (e != null) {
+      e.stopPropagation()
+    }
+
     if (id !== null) {
       setSelectedProjectId(id)
     }
@@ -99,16 +103,21 @@ export const ProjectsTable = () => {
         return (
           <div className='flex gap-2 justify-center'>
             <LinkButton
-              testId='ViewButton'
+              testId='EditButton'
               variant='unstyled'
-              to={`/admin/projects/${item.id}`}
-              onClick={() => {
-                handleViewProject(item.id)
+              to={`/admin/projects/${item.id}/edit`}
+              onClick={(e) => {
+                e.stopPropagation()
+                appDispatch(setPreviousUrl(fullPath))
               }}
             >
-              <Icon icon='Eye' size='extraSmall' color='gray' />
+              <Icon icon='PenSquare' size='extraSmall' color='gray' />
             </LinkButton>
-            <Button testId='DeleteButton' variant='unstyled' onClick={() => toggleDialog(item.id)}>
+            <Button
+              testId='DeleteButton'
+              variant='unstyled'
+              onClick={(e) => toggleDialog(item.id, e)}
+            >
               <Icon icon='Trash' size='extraSmall' color='gray' />
             </Button>
           </div>
@@ -118,7 +127,13 @@ export const ProjectsTable = () => {
 
   return (
     <div className='flex flex-col gap-8'>
-      <Table data={projects} columns={projectsColumns} renderCell={renderCell} />
+      <Table
+        data={projects}
+        columns={projectsColumns}
+        renderCell={renderCell}
+        onClickRow={handleViewProject}
+        isRowClickable={true}
+      />
       <Suspense>
         <ProjectsDialog
           open={showDialog}
@@ -129,10 +144,10 @@ export const ProjectsTable = () => {
               This will delete all records associated with this project and cannot be reverted.
             </>
           }
-          onClose={() => toggleDialog(null)}
-          onSubmit={async () => {
+          onClose={(e) => toggleDialog(null, e)}
+          onSubmit={async (e) => {
             await handleDelete()
-            toggleDialog(null)
+            toggleDialog(null, e)
           }}
         />
       </Suspense>
