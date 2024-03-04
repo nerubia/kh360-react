@@ -7,6 +7,7 @@ import { Badge } from "@components/ui/badge/badge"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { setUsers } from "@redux/slices/users-slice"
 import { setExternalUsers } from "@redux/slices/external-users-slice"
+import Image from "@components/ui/image/image"
 
 export const EvaluatorsUser = () => {
   const navigate = useNavigate()
@@ -49,10 +50,11 @@ export const EvaluatorsUser = () => {
             evaluation_result.users?.picture === null ? (
               <Icon icon='UserFill' color='primary' size='large' />
             ) : (
-              <img
-                className='w-10 h-10 rounded-full'
-                src={evaluation_result?.users?.picture}
-                alt={`Avatar of ${evaluation_result?.users?.first_name} ${evaluation_result?.users?.first_name}`}
+              <Image
+                altText={`Avatar of ${evaluation_result?.users?.first_name} ${evaluation_result?.users?.first_name}`}
+                first_name={evaluation_result?.users?.first_name}
+                imageUrl={evaluation_result?.users?.picture}
+                variant={"brokenImage"}
               />
             )}
             <div className='flex-1 flex lg:block gap-3 pb-1'>
