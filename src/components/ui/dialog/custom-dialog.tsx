@@ -13,8 +13,8 @@ interface CustomDialogProps {
   variant?: "white" | undefined
   size?: "small" | "medium" | undefined
   maxWidthMin?: true | undefined
-  onClose?: () => void
-  onSubmit?: () => void
+  onClose?: (e: null | React.MouseEvent) => void
+  onSubmit?: (e: null | React.MouseEvent) => void
   loading?: boolean
 }
 

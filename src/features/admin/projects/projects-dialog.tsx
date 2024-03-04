@@ -3,8 +3,8 @@ import { CustomDialog } from "@components/ui/dialog/custom-dialog"
 
 interface ProjectsDialogProps {
   open: boolean
-  onClose?: () => void
-  onSubmit?: () => void
+  onClose?: (e: null | React.MouseEvent) => void
+  onSubmit?: (e: null | React.MouseEvent) => void
   title?: React.ReactNode
   description?: React.ReactNode
 }
