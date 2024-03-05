@@ -1,21 +1,33 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { Button } from "@components/ui/button/button"
 import { Icon } from "@components/ui/icon/icon"
-import { setSelectedEmployeeIds } from "@redux/slices/evaluation-administration-slice"
+import {
+  getEvaluationAdministration,
+  setSelectedEmployeeIds,
+} from "@redux/slices/evaluation-administration-slice"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { CustomDialog } from "@components/ui/dialog/custom-dialog"
 import { setEvaluationResults } from "@redux/slices/evaluation-results-slice"
+import { EvaluationAdministrationStatus } from "@custom-types/evaluation-administration-type"
 
 export const SelectEvalueesFooter = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const appDispatch = useAppDispatch()
-  const { selectedEmployeeIds } = useAppSelector((state) => state.evaluationAdministration)
+  const { evaluation_administration, selectedEmployeeIds } = useAppSelector(
+    (state) => state.evaluationAdministration
+  )
 
   const [showCancelDialog, setShowCancelDialog] = useState<boolean>(false)
   const [showBackDialog, setShowBackDialog] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (id !== undefined) {
+      void appDispatch(getEvaluationAdministration(parseInt(id)))
+    }
+  }, [])
 
   const toggleCancelDialog = () => {
     setShowCancelDialog((prev) => !prev)
@@ -47,14 +59,16 @@ export const SelectEvalueesFooter = () => {
           Cancel & Exit
         </Button>
         <div className='flex items-center gap-2'>
-          <Button
-            testId='BackButton'
-            variant='primaryOutline'
-            size='medium'
-            onClick={toggleBackDialog}
-          >
-            <Icon icon='ChevronLeft' />
-          </Button>
+          {evaluation_administration?.status !== EvaluationAdministrationStatus.Ongoing && (
+            <Button
+              testId='BackButton'
+              variant='primaryOutline'
+              size='medium'
+              onClick={toggleBackDialog}
+            >
+              <Icon icon='ChevronLeft' />
+            </Button>
+          )}
           <Button onClick={handleCheckAndReview} disabled={selectedEmployeeIds.length === 0}>
             Check & Review
           </Button>
