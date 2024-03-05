@@ -18,6 +18,7 @@ import { setAlert } from "@redux/slices/app-slice"
 import { getEvaluationResults } from "@redux/slices/evaluation-results-slice"
 import { DateRangePicker } from "@components/ui/date-range-picker/date-range-picker"
 import { type DateValueType } from "react-tailwindcss-datepicker"
+import { EvaluationAdministrationStatus } from "@custom-types/evaluation-administration-type"
 
 const EvaluationAdminDialog = lazy(
   async () =>
@@ -61,6 +62,9 @@ export const EditEvaluationAdministrationForm = () => {
   }, [])
 
   useEffect(() => {
+    if (evaluation_administration?.status === EvaluationAdministrationStatus.Ongoing) {
+      navigate(`/admin/evaluation-administrations/${id}`)
+    }
     if (evaluation_administration !== null) {
       setFormData({
         name: evaluation_administration?.name,
