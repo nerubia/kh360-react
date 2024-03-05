@@ -67,6 +67,27 @@ test.describe("Admin - Edit Evaluation Administration", () => {
         }
       )
 
+      await mockRequest(page, "/user/score-ratings", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            created_at: null,
+            display_name: "Navigational Challenge",
+            evaluee_description:
+              "You face occasional difficulty in navigating job responsibilities.\nYour performance consistently falls below expectations and significant improvement is needed in various aspects of job responsibilities.\nYour goals and objectives are not met consistently.",
+            id: 1,
+            max_score: "1.99",
+            min_score: "0",
+            name: "Needs Improvement",
+            result_description:
+              "Employee faces occasional difficulty in navigating job responsibilities.\nPerformance consistently falls below expectations and significant improvement is needed in various aspects of job responsibilities.\nGoals and objectives are not met consistently.",
+            status: null,
+            updated_at: null,
+          },
+        ]),
+      })
+
       await page.waitForLoadState("networkidle")
 
       await expect(page).toHaveURL("/my-evaluations")
@@ -178,17 +199,7 @@ test.describe("Admin - Edit Evaluation Administration", () => {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
-          data: [
-            {
-              id: 1,
-              status: "For Review",
-              users: {
-                first_name: "Sample",
-                last_name: "User",
-                picture: null,
-              },
-            },
-          ],
+          data: [],
           pageInfo: {
             hasPreviousPage: false,
             hasNextPage: false,
@@ -238,17 +249,7 @@ test.describe("Admin - Edit Evaluation Administration", () => {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
-          data: [
-            {
-              id: 1,
-              status: "For Review",
-              users: {
-                first_name: "Sample",
-                last_name: "User",
-                picture: null,
-              },
-            },
-          ],
+          data: [],
           pageInfo: {
             hasPreviousPage: false,
             hasNextPage: false,
@@ -279,12 +280,7 @@ test.describe("Admin - Edit Evaluation Administration", () => {
       }
 
       await page.getByPlaceholder("Evaluation name").fill("Evaluation Edited")
-      await page.getByLabel("Evaluation Period").fill("2023-01-01 ~ 2023-12-31")
-      await page.getByLabel("Evaluation Schedule").fill("2024-01-01 ~ 2024-01-03")
       await page.getByLabel("Evaluation description/notes").fill("Description Edited")
-      if (!isMobile) {
-        await page.getByRole("button", { name: "Save" }).click()
-      }
 
       await mockRequest(page, "/admin/evaluation-administrations/1", {
         status: 200,
@@ -299,7 +295,33 @@ test.describe("Admin - Edit Evaluation Administration", () => {
           remarks: "Remarks 1",
           email_subject: "Subject 1",
           email_content: "Content 1",
-          status: "Pending",
+          status: "Draft",
+        }),
+      })
+
+      await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
+
+      await mockRequest(page, "/admin/evaluation-results/all?evaluation_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
         }),
       })
 
@@ -416,14 +438,64 @@ test.describe("Admin - Edit Evaluation Administration", () => {
         }
       )
 
-      await page.waitForLoadState("networkidle")
-      if (!isMobile) {
-        await expect(page).toHaveURL("/admin/evaluation-administrations/1")
-      }
+      await mockRequest(page, "/admin/users", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              email: "sample1@gmail.com",
+              first_name: "Adam",
+              last_name: "Baker",
+              is_active: true,
+              user_details: {
+                start_date: "2023-04-12T00:00:00.000Z",
+                user_id: 1,
+                user_position: "Project Manager",
+                user_type: "Regular",
+              },
+            },
+            {
+              id: 2,
+              email: "sample2@gmail.com",
+              first_name: "Clark",
+              last_name: "Davis",
+              is_active: true,
+              user_details: {
+                start_date: "2023-04-12T00:00:00.000Z",
+                user_id: 2,
+                user_position: "Quality Assurance",
+                user_type: "Probationary",
+              },
+            },
+            {
+              id: 3,
+              email: "sample2@gmail.com",
+              first_name: "Hill",
+              last_name: "Evans",
+              is_active: true,
+              user_details: {
+                start_date: "2023-04-12T00:00:00.000Z",
+                user_id: 3,
+                user_position: "Intern",
+                user_type: "Developer",
+              },
+            },
+          ],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
 
-      if (isMobile) {
-        await expect(page).toHaveURL("/admin/evaluation-administrations/1/edit")
-      }
+      await page.getByRole("button", { name: "Save and Proceed" }).click()
+
+      await page.waitForLoadState("networkidle")
+
+      await expect(page).toHaveURL("/admin/evaluation-administrations/1/select")
     })
 
     test("should render cancel & exit modal correctly", async ({ page, isMobile }) => {
