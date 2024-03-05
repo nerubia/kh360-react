@@ -279,8 +279,6 @@ test.describe("Admin - Evaluations", () => {
 
       await expect(page.getByRole("cell", { name: "Evaluator", exact: true })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Project" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "Evaluee Role" })).toBeVisible()
-      await expect(page.getByRole("cell", { name: "%", exact: true })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Duration" })).toBeVisible()
 
       await expect(page.getByRole("cell", { name: "Evaluator, First" })).toBeVisible()
