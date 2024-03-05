@@ -121,7 +121,7 @@ export const EvalueesList = () => {
                   size='small'
                   onClick={() => setSelectedEvaluee(evaluationResult)}
                 >
-                  <Icon icon='Trash' color='red' size='small' />
+                  <Icon icon='Trash' size='extraSmall' color='gray' />
                 </Button>
               </div>
             </div>
