@@ -197,6 +197,7 @@ export const EditEvaluationAdministrationForm = () => {
                       start_date: validationErrors.eval_period_start_date,
                       end_date: validationErrors.eval_period_end_date,
                     }}
+                    disabled={evaluation_results.length !== 0}
                   />
                 </div>
                 <div>
