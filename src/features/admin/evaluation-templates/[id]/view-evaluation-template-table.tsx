@@ -26,6 +26,7 @@ import { Badge } from "@components/ui/badge/badge"
 import { createEvaluationTemplateContentSchema } from "@utils/validation/evaluation-template-content-schema"
 import { ValidationError } from "yup"
 import { ToggleSwitch } from "@components/ui/toggle-switch/toggle-switch"
+import { type EvaluationTemplate } from "@custom-types/evaluation-template-type"
 
 const categoryOptions: Option[] = Object.values(EvaluationTemplateContentCategory).map((value) => ({
   label: value,
@@ -46,6 +47,7 @@ export const ViewEvaluationTemplateTable = () => {
   const [selectedEvaluationTemplateContentId, setSelectedEvaluationTemplateContentId] = useState<
     number | null
   >(null)
+  const [evaluationTemplate, setEvaluationTemplate] = useState<EvaluationTemplate>()
   const [formData, setFormData] = useState<EvaluationTemplateContentFormData>({
     name: "",
     description: "",
@@ -65,6 +67,13 @@ export const ViewEvaluationTemplateTable = () => {
           [content.id]: content.is_active ?? false,
         }))
       })
+
+      const templateContentsCopy = [...evaluation_template.evaluationTemplateContents]
+      const sortedContents = templateContentsCopy.sort(
+        (a, b) => (a.sequence_no ?? 0) - (b.sequence_no ?? 0)
+      )
+
+      setEvaluationTemplate({ ...evaluation_template, evaluationTemplateContents: sortedContents })
     }
   }, [evaluation_template])
 
@@ -249,11 +258,11 @@ export const ViewEvaluationTemplateTable = () => {
         <div className='text-xl text-primary-500 font-bold'>Evaluation Template Contents </div>
         {loading === Loading.Pending && <div>Loading...</div>}
         {loading === Loading.Fulfilled &&
-          evaluation_template?.evaluationTemplateContents === null && <div>Not found</div>}
+          evaluationTemplate?.evaluationTemplateContents === null && <div>Not found</div>}
         <div className='overflow-y-scroll'>
           {loading === Loading.Fulfilled &&
-            evaluation_template?.evaluationTemplateContents !== undefined &&
-            evaluation_template?.evaluationTemplateContents.length > 0 &&
+            evaluationTemplate?.evaluationTemplateContents !== undefined &&
+            evaluationTemplate?.evaluationTemplateContents.length > 0 &&
             id !== undefined && (
               <>
                 <table>
@@ -269,11 +278,13 @@ export const ViewEvaluationTemplateTable = () => {
                       <th className='py-1 border-b-4 mr-2 text-center text-primary-500 md:w-1/6'>
                         Status
                       </th>
-                      <th className='py-1 border-b-4 m-5 text-start text-primary-500 md:w-1/2'></th>
+                      <th className='py-1 border-b-4 m-5 text-center text-primary-500 md:w-1/2'>
+                        Actions
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {evaluation_template?.evaluationTemplateContents.map((content) => (
+                    {evaluationTemplate?.evaluationTemplateContents.map((content) => (
                       <tr key={content.id} className='hover:bg-slate-100'>
                         <td className='py-1 border-b'>
                           <div className='flex gap-4 items-center'>
@@ -309,20 +320,20 @@ export const ViewEvaluationTemplateTable = () => {
                           </div>
                         </td>
                         <td className='py-1 border-b text-center items-center md:w-1/2'>
-                          <div className='flex gap-2 '>
+                          <div className='flex gap-2 justify-center'>
                             <Button
                               testId={`EditButton${content.id}`}
                               variant='unstyled'
                               onClick={() => toggleEditDialog(content.id)}
                             >
-                              <Icon icon='PenSquare' />
+                              <Icon icon='PenSquare' size='extraSmall' color='gray' />
                             </Button>
                             <Button
                               testId={`DeleteButton${content.id}`}
                               variant='unstyled'
                               onClick={() => toggleDeleteDialog(content.id)}
                             >
-                              <Icon icon='Trash' />
+                              <Icon icon='Trash' size='extraSmall' color='gray' />
                             </Button>
                           </div>
                         </td>
