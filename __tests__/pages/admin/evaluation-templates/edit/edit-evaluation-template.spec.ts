@@ -67,6 +67,27 @@ test.describe("Admin - Edit Evaluation Template", () => {
         }
       )
 
+      await mockRequest(page, "/user/score-ratings", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            created_at: null,
+            display_name: "Navigational Challenge",
+            evaluee_description:
+              "You face occasional difficulty in navigating job responsibilities.\nYour performance consistently falls below expectations and significant improvement is needed in various aspects of job responsibilities.\nYour goals and objectives are not met consistently.",
+            id: 1,
+            max_score: "1.99",
+            min_score: "0",
+            name: "Needs Improvement",
+            result_description:
+              "Employee faces occasional difficulty in navigating job responsibilities.\nPerformance consistently falls below expectations and significant improvement is needed in various aspects of job responsibilities.\nGoals and objectives are not met consistently.",
+            status: null,
+            updated_at: null,
+          },
+        ]),
+      })
+
       await page.waitForLoadState("networkidle")
 
       await expect(page).toHaveURL("/my-evaluations")
@@ -495,6 +516,17 @@ test.describe("Admin - Edit Evaluation Template", () => {
 
       await page.getByPlaceholder("Name", { exact: true }).fill("Edited Project Evaluation")
       await page.getByPlaceholder("Display Name").fill("Display Name Edit")
+      await page.getByText("here").click()
+      await page.getByRole("textbox", { name: "Name", exact: true }).fill("Template Content 1")
+      await page.getByPlaceholder("Description").fill("Template Content Description 1")
+      await page.getByLabel("Category").click()
+      await page.getByText("Primary Skillset", { exact: true }).click()
+      await page
+        .locator("div")
+        .filter({ hasText: /^Rate%Active$/ })
+        .getByPlaceholder("Rate")
+        .fill("50.0")
+      await page.getByRole("button", { name: "Save" }).first().click()
 
       await page.getByRole("button", { name: "Save" }).click()
       await page.getByRole("button", { name: "Yes" }).click()

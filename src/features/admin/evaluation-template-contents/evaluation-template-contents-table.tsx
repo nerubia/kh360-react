@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react"
 import { Button } from "@components/ui/button/button"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
+import { useParams } from "react-router-dom"
 import {
   showCreateModal,
   setEvaluationTemplateContents,
@@ -15,14 +16,23 @@ import { EvaluationTemplateContentCategory } from "@custom-types/evaluation-temp
 
 export const EvaluationTemplateContentsTable = () => {
   const appDispatch = useAppDispatch()
+  const { id } = useParams()
   const { create_modal_visible, evaluation_template_contents, selected_content_index } =
     useAppSelector((state) => state.evaluationTemplateContents)
+  const { evaluation_template } = useAppSelector((state) => state.evaluationTemplate)
   const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false)
   const dragContent = useRef<number>(0)
   const draggedOverContent = useRef<number>(0)
 
   useEffect(() => {
     void appDispatch(setEvaluationTemplateContents([]))
+    if (id !== undefined) {
+      const templateContentsCopy = [...(evaluation_template?.evaluationTemplateContents ?? [])]
+      const sortedContents = templateContentsCopy.sort(
+        (a, b) => (a.sequence_no ?? 0) - (b.sequence_no ?? 0)
+      )
+      void appDispatch(setEvaluationTemplateContents(sortedContents ?? []))
+    }
   }, [])
 
   const toggleModalForm = () => {
@@ -68,7 +78,7 @@ export const EvaluationTemplateContentsTable = () => {
               </th>
               <th className='py-1 border-b-4 mr-2 text-start text-primary-500 md:w-1/8'>Rate</th>
               <th className='py-1 border-b-4 mr-2 text-center text-primary-500 md:w-1/6'>Active</th>
-              <th className='py-1 border-b-4 m-5 text-start text-primary-500 md:w-1/2'>Actions</th>
+              <th className='py-1 border-b-4 m-5 text-center text-primary-500 md:w-1/2'>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -116,7 +126,7 @@ export const EvaluationTemplateContentsTable = () => {
                   </div>
                 </td>
                 <td className='py-1 border-b text-center items-center md:w-1/2'>
-                  <div className='flex gap-2 '>
+                  <div className='flex gap-2 justify-center'>
                     <Button
                       testId={`EditButton${content.id}`}
                       variant='unstyled'
@@ -125,7 +135,7 @@ export const EvaluationTemplateContentsTable = () => {
                         void appDispatch(setSelectedContentIndex(index))
                       }}
                     >
-                      <Icon icon='PenSquare' />
+                      <Icon icon='PenSquare' size='extraSmall' color='gray' />
                     </Button>
                     <Button
                       testId={`DeleteButton${content.id}`}
@@ -135,7 +145,7 @@ export const EvaluationTemplateContentsTable = () => {
                         void appDispatch(setSelectedContentIndex(index))
                       }}
                     >
-                      <Icon icon='Trash' />
+                      <Icon icon='Trash' size='extraSmall' color='gray' />
                     </Button>
                   </div>
                 </td>
