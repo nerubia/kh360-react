@@ -447,201 +447,199 @@ export const EvaluationsCriteria = () => {
   return (
     <>
       {loading === Loading.Pending && <div>Loading...</div>}
-      {loading === Loading.Fulfilled && evaluation_template_contents === null && (
-        <div>Not found</div>
-      )}
-      {loading === Loading.Fulfilled &&
-        evaluation_template_contents.length > 0 &&
-        user_evaluations.length > 0 && (
-          <div className='flex flex-col w-full pb-5 pr-5 mx-4 mb-3 overflow-y-scroll md:w-3/4 overflow-x-hidden'>
-            <div className='items-center justify-between p-1 border rounded sm:flex sm:flex-col md:flex-row md:border-none md:p-0'>
-              <div className='flex-flex-col'>
-                <div className='mb-1 test-base lg:text-xl font-bold text-primary-500'>
-                  <p>
-                    {evaluation?.evaluee?.last_name}
-                    {", "} {evaluation?.evaluee?.first_name}
-                  </p>
-                </div>
-                <p className='mb-1 text-sm lg:text-base font-bold'>
-                  {evaluation?.project !== null ? (
-                    <>
-                      {evaluation?.project?.name} [{evaluation?.project_role?.short_name}] -{" "}
-                      {evaluation?.template?.display_name}
-                    </>
-                  ) : (
-                    <>{evaluation?.template?.display_name}</>
-                  )}
-                </p>
-                <p className='mb-4 text-xs lg:text-sm'>
-                  Evaluation Period:{" "}
-                  {formatDateRange(evaluation?.eval_start_date, evaluation?.eval_end_date)}
+      {loading === Loading.Fulfilled && user_evaluations.length > 0 && (
+        <div className='flex flex-col w-full pb-5 pr-5 mx-4 mb-3 overflow-y-scroll md:w-3/4 overflow-x-hidden'>
+          <div className='items-center justify-between p-1 border rounded sm:flex sm:flex-col md:flex-row md:border-none md:p-0'>
+            <div className='flex-flex-col'>
+              <div className='mb-1 test-base lg:text-xl font-bold text-primary-500'>
+                <p>
+                  {evaluation?.evaluee?.last_name}
+                  {", "} {evaluation?.evaluee?.first_name}
                 </p>
               </div>
-              <span className='flex justify-between justify-items-center'>
-                <div className='block mt-2 uppercase md:hidden'>
-                  <Badge variant={getEvaluationStatusVariant(evaluation?.status)} size='small'>
-                    {evaluation?.status}
-                  </Badge>
-                </div>
-                {similarEvaluations.length > 0 && (
-                  <Button variant='primaryOutline' onClick={toggleSimilarEvaluationsDialog}>
-                    <span className='text-sm sm:text-base'> Copy Evaluation</span>
-                  </Button>
-                )}
-              </span>
-            </div>
-            {evaluation_template_contents.map((templateContent) => (
-              <div
-                key={templateContent.id}
-                className='rounded-md hover:bg-primary-50 sm:mt-1 md:mt-0'
-              >
-                <div className={`flex flex-col p-4 h-fit lg:flex-row`}>
-                  <div className='w-full mr-5 lg:w-9/12'>
-                    <h1 className='mb-3 md:mb-0 text-xs lg:text-base font-medium text-primary-500'>
-                      {templateContent.name}
-                    </h1>
-                    <p className='mb-2 text-xs lg:text-sm'>{templateContent.description}</p>
-                  </div>
-                  <span className='inline-block w-full md:w-auto'>
-                    <StarRating
-                      templateContent={templateContent}
-                      loadingAnswer={loading_answer}
-                      evaluation={evaluation}
-                      handleOnClick={handleOnClickStar}
-                      error={ratingCommentErrorMessage}
-                    />
-                  </span>
-                </div>
-                <Dialog open={showDialog[templateContent.id]} size='medium' maxWidthMin={true}>
-                  <Dialog.Title>{dialogMessage?.subject}</Dialog.Title>
-                  <Dialog.Description>
-                    <pre className='font-sans break-words whitespace-pre-wrap'>
-                      {dialogMessage?.content}
-                    </pre>
-                  </Dialog.Description>
-                  <Dialog.Actions>
-                    <Button
-                      variant='primary'
-                      onClick={async () => await handleOnClickOk(templateContent.id)}
-                    >
-                      Ok
-                    </Button>
-                  </Dialog.Actions>
-                </Dialog>
-              </div>
-            ))}
-            <h2 className='mt-10 mb-2 text-lg font-bold text-primary-500'>Comments</h2>
-            {evaluation?.status === EvaluationStatus.Submitted ||
-              (evaluation?.status === EvaluationStatus.ForRemoval &&
-                (evaluation?.comments === null || evaluation?.comments === "") && (
-                  <div>No comments</div>
-                ))}
-            {evaluation?.status !== EvaluationStatus.Submitted &&
-            evaluation?.status !== EvaluationStatus.ForRemoval ? (
-              <>
-                <TextArea
-                  name='remarks'
-                  placeholder='Comments'
-                  value={comment}
-                  onChange={handleTextAreaChange}
-                  disabled={loading_comment === Loading.Pending}
-                  error={errorMessage}
-                />
-              </>
-            ) : (
-              <pre className='font-sans break-words whitespace-pre-wrap'>{comment}</pre>
-            )}
-            {evaluation?.template?.with_recommendation === true && (
-              <h2 className='mt-10 mb-2 text-lg font-bold text-primary-500'>Recommendations</h2>
-            )}
-            {evaluation?.template?.with_recommendation === true && (
-              <>
-                {evaluation?.status !== EvaluationStatus.Submitted ? (
+              <p className='mb-1 text-sm lg:text-base font-bold'>
+                {evaluation?.project !== null ? (
                   <>
-                    <TextArea
-                      name='recommendations'
-                      placeholder='Recommendations'
-                      value={recommendation}
-                      onChange={handleRecommendationChange}
-                    />
+                    {evaluation?.project?.name} [{evaluation?.project_role?.short_name}] -{" "}
+                    {evaluation?.template?.display_name}
                   </>
                 ) : (
-                  <p>{recommendation}</p>
+                  <>{evaluation?.template?.display_name}</>
                 )}
-              </>
-            )}
-            {evaluation?.status !== EvaluationStatus.Submitted && (
-              <div className='flex justify-between my-4'>
-                {(evaluation?.status === EvaluationStatus.Open ||
-                  evaluation?.status === EvaluationStatus.Ongoing) && (
-                  <>
-                    <div className='hidden w-full md:block'>
-                      <div className='flex justify-between'>
-                        <div className='flex gap-4'>
-                          <Button
-                            size={isMediumSize ? "small" : "medium"}
-                            variant='destructiveOutline'
-                            onClick={toggleRequestToRemoveDialog}
+              </p>
+              <p className='mb-4 text-xs lg:text-sm'>
+                Evaluation Period:{" "}
+                {formatDateRange(evaluation?.eval_start_date, evaluation?.eval_end_date)}
+              </p>
+              {loading === Loading.Fulfilled && evaluation_template_contents.length === 0 && (
+                <div>No available ratings</div>
+              )}
+            </div>
+            <span className='flex justify-between justify-items-center'>
+              <div className='block mt-2 uppercase md:hidden'>
+                <Badge variant={getEvaluationStatusVariant(evaluation?.status)} size='small'>
+                  {evaluation?.status}
+                </Badge>
+              </div>
+              {similarEvaluations.length > 0 && (
+                <Button variant='primaryOutline' onClick={toggleSimilarEvaluationsDialog}>
+                  <span className='text-sm sm:text-base'> Copy Evaluation</span>
+                </Button>
+              )}
+            </span>
+          </div>
+          {evaluation_template_contents.map((templateContent) => (
+            <div
+              key={templateContent.id}
+              className='rounded-md hover:bg-primary-50 sm:mt-1 md:mt-0'
+            >
+              <div className={`flex flex-col p-4 h-fit lg:flex-row`}>
+                <div className='w-full mr-5 lg:w-9/12'>
+                  <h1 className='mb-3 md:mb-0 text-xs lg:text-base font-medium text-primary-500'>
+                    {templateContent.name}
+                  </h1>
+                  <p className='mb-2 text-xs lg:text-sm'>{templateContent.description}</p>
+                </div>
+                <span className='inline-block w-full md:w-auto'>
+                  <StarRating
+                    templateContent={templateContent}
+                    loadingAnswer={loading_answer}
+                    evaluation={evaluation}
+                    handleOnClick={handleOnClickStar}
+                    error={ratingCommentErrorMessage}
+                  />
+                </span>
+              </div>
+              <Dialog open={showDialog[templateContent.id]} size='medium' maxWidthMin={true}>
+                <Dialog.Title>{dialogMessage?.subject}</Dialog.Title>
+                <Dialog.Description>
+                  <pre className='font-sans break-words whitespace-pre-wrap'>
+                    {dialogMessage?.content}
+                  </pre>
+                </Dialog.Description>
+                <Dialog.Actions>
+                  <Button
+                    variant='primary'
+                    onClick={async () => await handleOnClickOk(templateContent.id)}
+                  >
+                    Ok
+                  </Button>
+                </Dialog.Actions>
+              </Dialog>
+            </div>
+          ))}
+          <h2 className='mt-10 mb-2 text-lg font-bold text-primary-500'>Comments</h2>
+          {evaluation?.status === EvaluationStatus.Submitted ||
+            (evaluation?.status === EvaluationStatus.ForRemoval &&
+              (evaluation?.comments === null || evaluation?.comments === "") && (
+                <div>No comments</div>
+              ))}
+          {evaluation?.status !== EvaluationStatus.Submitted &&
+          evaluation?.status !== EvaluationStatus.ForRemoval ? (
+            <>
+              <TextArea
+                name='remarks'
+                placeholder='Comments'
+                value={comment}
+                onChange={handleTextAreaChange}
+                disabled={loading_comment === Loading.Pending}
+                error={errorMessage}
+              />
+            </>
+          ) : (
+            <pre className='font-sans break-words whitespace-pre-wrap'>{comment}</pre>
+          )}
+          {evaluation?.template?.with_recommendation === true && (
+            <h2 className='mt-10 mb-2 text-lg font-bold text-primary-500'>Recommendations</h2>
+          )}
+          {evaluation?.template?.with_recommendation === true && (
+            <>
+              {evaluation?.status !== EvaluationStatus.Submitted ? (
+                <>
+                  <TextArea
+                    name='recommendations'
+                    placeholder='Recommendations'
+                    value={recommendation}
+                    onChange={handleRecommendationChange}
+                  />
+                </>
+              ) : (
+                <p>{recommendation}</p>
+              )}
+            </>
+          )}
+          {evaluation?.status !== EvaluationStatus.Submitted && (
+            <div className='flex justify-between my-4'>
+              {(evaluation?.status === EvaluationStatus.Open ||
+                evaluation?.status === EvaluationStatus.Ongoing) && (
+                <>
+                  <div className='hidden w-full md:block'>
+                    <div className='flex justify-between'>
+                      <div className='flex gap-4'>
+                        <Button
+                          size={isMediumSize ? "small" : "medium"}
+                          variant='destructiveOutline'
+                          onClick={toggleRequestToRemoveDialog}
+                        >
+                          <span
+                            className={`text-sm sm:text-base ${isMediumSize ? "truncate" : ""}`}
                           >
-                            <span
-                              className={`text-sm sm:text-base ${isMediumSize ? "truncate" : ""}`}
-                            >
-                              {isMediumSize ? "Request to ..." : "Request to Remove"}
-                            </span>
-                          </Button>
-                        </div>
-                        <div className='flex gap-4 ml-2'>
-                          <Button
-                            size={isMediumSize ? "small" : "medium"}
-                            disabled={!is_editing}
-                            variant='primaryOutline'
-                            onClick={toggleSaveDialog}
-                          >
-                            Save
-                          </Button>
-                          <Button
-                            onClick={handleClickSaveAndSubmit}
-                            size={isMediumSize ? "small" : "medium"}
-                          >
-                            <span className='text-sm sm:text-base whitespace-nowrap'>
-                              {isMediumSize ? "Save & ..." : "Save & Submit"}
-                            </span>
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className='block w-full ml-0 md:hidden'>
-                      <div className='flex w-full gap-4 m-2 ml-0'>
-                        <Button onClick={handleClickSaveAndSubmit} fullWidth>
-                          <span className='text-sm sm:text-base'>Save & Submit</span>
+                            {isMediumSize ? "Request to ..." : "Request to Remove"}
+                          </span>
                         </Button>
                       </div>
-                      <div className='flex w-full gap-4 m-2 ml-0'>
+                      <div className='flex gap-4 ml-2'>
                         <Button
+                          size={isMediumSize ? "small" : "medium"}
                           disabled={!is_editing}
-                          fullWidth
                           variant='primaryOutline'
                           onClick={toggleSaveDialog}
                         >
                           Save
                         </Button>
-                      </div>
-                      <div className='flex w-full gap-4 m-2 ml-0'>
                         <Button
-                          variant='destructiveOutline'
-                          fullWidth
-                          onClick={toggleRequestToRemoveDialog}
+                          onClick={handleClickSaveAndSubmit}
+                          size={isMediumSize ? "small" : "medium"}
                         >
-                          <span className='text-sm sm:text-base'>Request to Remove</span>
+                          <span className='text-sm sm:text-base whitespace-nowrap'>
+                            {isMediumSize ? "Save & ..." : "Save & Submit"}
+                          </span>
                         </Button>
                       </div>
                     </div>
-                  </>
-                )}
-              </div>
-            )}
-          </div>
-        )}
+                  </div>
+                  <div className='block w-full ml-0 md:hidden'>
+                    <div className='flex w-full gap-4 m-2 ml-0'>
+                      <Button onClick={handleClickSaveAndSubmit} fullWidth>
+                        <span className='text-sm sm:text-base'>Save & Submit</span>
+                      </Button>
+                    </div>
+                    <div className='flex w-full gap-4 m-2 ml-0'>
+                      <Button
+                        disabled={!is_editing}
+                        fullWidth
+                        variant='primaryOutline'
+                        onClick={toggleSaveDialog}
+                      >
+                        Save
+                      </Button>
+                    </div>
+                    <div className='flex w-full gap-4 m-2 ml-0'>
+                      <Button
+                        variant='destructiveOutline'
+                        fullWidth
+                        onClick={toggleRequestToRemoveDialog}
+                      >
+                        <span className='text-sm sm:text-base'>Request to Remove</span>
+                      </Button>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          )}
+        </div>
+      )}
       <CustomDialog
         open={showSaveDialog}
         title='Save Evaluation'

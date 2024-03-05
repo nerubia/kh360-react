@@ -139,6 +139,17 @@ export const CreateEvaluationTemplateForm = () => {
     setTemplateTypeOptions(options)
   }, [template_types])
 
+  useEffect(() => {
+    if (validationErrors.evaluation_template_contents !== undefined) {
+      appDispatch(
+        setAlert({
+          description: validationErrors.evaluation_template_contents,
+          variant: "destructive",
+        })
+      )
+    }
+  }, [validationErrors.evaluation_template_contents])
+
   const onChangeAnswer = async (option: SingleValue<Option>) => {
     const answer_id: string = option !== null ? option.value : ""
     setFormData({ ...formData, answer_id })
@@ -241,9 +252,17 @@ export const CreateEvaluationTemplateForm = () => {
     }
   }
 
-  const handleSave = async () => {
+  const handleEdit = async () => {
     if (id !== undefined) {
       try {
+        const assignedTemplateContents = evaluation_template_contents.map((content, index) => ({
+          ...content,
+          sequence_no: index + 1,
+        }))
+
+        Object.assign(formData, {
+          evaluation_template_contents: assignedTemplateContents,
+        })
         await createEvaluationTemplateSchema.validate(formData, {
           abortEarly: false,
         })
@@ -444,7 +463,7 @@ export const CreateEvaluationTemplateForm = () => {
           </div>
         </div>
       </div>
-      {evaluation_template === null && <EvaluationTemplateContentsTable />}
+      <EvaluationTemplateContentsTable />
       <div className='flex justify-between'>
         <Button variant='primaryOutline' onClick={toggleCancelDialog}>
           Cancel
@@ -460,7 +479,7 @@ export const CreateEvaluationTemplateForm = () => {
         onClose={toggleSaveDialog}
         onSubmit={async () => {
           toggleSaveDialog()
-          evaluation_template === null ? await handleSubmit() : await handleSave()
+          evaluation_template === null ? await handleSubmit() : await handleEdit()
         }}
       />
       <CustomDialog

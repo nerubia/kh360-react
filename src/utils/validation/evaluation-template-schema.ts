@@ -1,4 +1,4 @@
-import { boolean, number, object, string } from "yup"
+import { boolean, number, object, string, array } from "yup"
 
 export const createEvaluationTemplateSchema = object().shape({
   name: string().required("Name is required"),
@@ -15,4 +15,8 @@ export const createEvaluationTemplateSchema = object().shape({
       return !isNaN(value) && value >= 0 && value <= 100
     }),
   answer_id: number().required("Answer is required"),
+  evaluation_template_contents: array().min(
+    1,
+    "Evaluation template contents must have at least one item"
+  ),
 })
