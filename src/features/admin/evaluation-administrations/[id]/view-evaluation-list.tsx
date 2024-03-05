@@ -200,7 +200,11 @@ export const ViewEvaluationList = () => {
 
   return (
     <>
-      <div className='flex flex-col gap-8 overflow-y-auto' onScroll={onScroll} ref={listInnerRef}>
+      <div
+        className={isMobile ? "overflow-y-auto whitespace-nowrap" : "flex flex-col gap-8"}
+        onScroll={onScroll}
+        ref={listInnerRef}
+      >
         <div className='flex flex-col'>
           {evaluationResults?.map((evaluationResult, evaluationIndex) => (
             <div key={evaluationIndex} className='mb-2'>
@@ -264,8 +268,6 @@ export const ViewEvaluationList = () => {
                           <th className='md:w-170 p-1'>Evaluator</th>
                           <th className='md:w-150 p-1'>Template Type</th>
                           <th className='md:w-150 p-1'>Project</th>
-                          <th className='whitespace-nowrap md:w-150 p-1'>Evaluee Role</th>
-                          <th className='md:w-150 p-1'>%</th>
                           <th className='md:w-150 p-1'>Duration</th>
                           <th className='md:w-150 p-1'>Status</th>
                         </tr>
@@ -277,9 +279,9 @@ export const ViewEvaluationList = () => {
                               {evaluation.evaluator?.last_name}, {evaluation.evaluator?.first_name}
                             </td>
                             <td className='min-w-100 p-1'>{evaluation.template?.display_name}</td>
-                            <td className='min-w-100 p-1'>{evaluation.project?.name}</td>
-                            <td className='min-w-150 p-1'>{evaluation.project_role?.name}</td>
-                            <td className='min-w-68 p-1'>{evaluation.percent_involvement}%</td>
+                            <td className='min-w-100 p-1'>
+                              {evaluation.project?.name} {"-"} {evaluation.project_role?.name}
+                            </td>
                             <td className='min-w-254 p-1'>
                               {isMobile
                                 ? shortenFormatDate(evaluation.eval_start_date)
@@ -287,7 +289,8 @@ export const ViewEvaluationList = () => {
                               to{" "}
                               {isMobile
                                 ? shortenFormatDate(evaluation.eval_end_date)
-                                : formatDate(evaluation.eval_end_date)}
+                                : formatDate(evaluation.eval_end_date)}{" "}
+                              ({evaluation.percent_involvement}%)
                             </td>
                             <td>
                               <Badge

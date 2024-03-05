@@ -383,7 +383,6 @@ export const EvaluationProgressList = () => {
                       <th className='pb-3 pr-5 w-270'>Evaluee</th>
                       <th className='pb-3 w-270'>Template</th>
                       <th className='pb-3 w-270'>Project</th>
-                      <th className='pb-3 w-270'>Role</th>
                       <th className='pb-3 w-100'>Status</th>
                     </tr>
                   </thead>
@@ -427,6 +426,14 @@ export const EvaluationProgressList = () => {
                                           30 - evaluation.project.name.length
                                         )}...`
                                       : evaluation.project?.name}
+                                    {" - "}
+                                    {evaluation.project_role?.name != null &&
+                                    evaluation.project_role?.name.length > 30
+                                      ? `${evaluation.project_role?.name?.slice(
+                                          0,
+                                          30 - evaluation.project_role?.name.length
+                                        )}...`
+                                      : evaluation.project_role?.name}{" "}
                                     {evaluation.project !== null && (
                                       <Icon icon='Calendar' size={"extraSmall"} color={"primary"} />
                                     )}
@@ -439,15 +446,6 @@ export const EvaluationProgressList = () => {
                                   </pre>
                                 </Tooltip.Content>
                               </Tooltip>
-                            </td>
-                            <td className='py-1 pr-3'>
-                              {evaluation.project_role?.name != null &&
-                              evaluation.project_role?.name.length > 30
-                                ? `${evaluation.project_role?.name?.slice(
-                                    0,
-                                    30 - evaluation.project_role?.name.length
-                                  )}...`
-                                : evaluation.project_role?.name}
                             </td>
                             <td className='py-1 pr-3 whitespace-nowrap'>
                               {evaluation.status === EvaluationStatus.ForRemoval ? (
