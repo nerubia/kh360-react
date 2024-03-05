@@ -12,6 +12,7 @@ interface DateRangePickerProps {
   onChange: (value: DateValueType, e?: HTMLInputElement | null | undefined) => void
   error?: DateType | null
   dateLimit?: DateType | null
+  disabled?: boolean
 }
 
 export const DateRangePicker: React.FC<DateRangePickerProps> = ({
@@ -21,6 +22,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
   onChange,
   error,
   dateLimit,
+  disabled,
 }: DateRangePickerProps) => {
   const currentDate = new Date()
 
@@ -71,6 +73,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
         minDate={minDate}
         maxDate={maxDate}
         containerClassName={containerClassName}
+        disabled={disabled}
       />
       {isErrorPresent && (
         <p className='text-red-500 text-sm'>
