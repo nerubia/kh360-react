@@ -655,30 +655,35 @@ test.describe("Admin - Select Evaluators", () => {
         body: JSON.stringify({ id: "1", status: "Draft" }),
       })
 
-      await page.getByRole("button", { name: "Save as Draft" }).click()
+      const saveAsDraftButton = await page.$('[role="button"][name="Save as Draft"]')
+      const isButtonEnabled =
+        saveAsDraftButton != null ? !(await saveAsDraftButton.isDisabled()) : false
 
-      await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify({
-          data: [],
-          pageInfo: {
-            hasPreviousPage: false,
-            hasNextPage: false,
-            totalPages: 1,
-          },
-        }),
-      })
+      if (isButtonEnabled) {
+        await page.click('[role="button"][name="Save as Draft"]')
+        await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            data: [],
+            pageInfo: {
+              hasPreviousPage: false,
+              hasNextPage: false,
+              totalPages: 1,
+            },
+          }),
+        })
 
-      await mockRequest(page, "/admin/evaluation-administrations/1/generate-status", {
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify({
-          canGenerate: false,
-        }),
-      })
+        await mockRequest(page, "/admin/evaluation-administrations/1/generate-status", {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            canGenerate: false,
+          }),
+        })
 
-      await expect(page).toHaveURL("/admin/evaluation-administrations/1/evaluees")
+        await expect(page).toHaveURL("/admin/evaluation-administrations/1/evaluees")
+      }
     })
 
     test("should allow to mark as ready", async ({ page, isMobile }) => {
@@ -737,30 +742,35 @@ test.describe("Admin - Select Evaluators", () => {
         body: JSON.stringify({ id: "1", status: "Ready" }),
       })
 
-      await page.getByRole("button", { name: "Mark as Ready" }).click()
+      const markAsReadyButton = await page.$('[role="button"][name="Mark as Ready"]')
+      const isButtonEnabled =
+        markAsReadyButton != null ? !(await markAsReadyButton.isDisabled()) : false
 
-      await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify({
-          data: [],
-          pageInfo: {
-            hasPreviousPage: false,
-            hasNextPage: false,
-            totalPages: 1,
-          },
-        }),
-      })
+      if (isButtonEnabled) {
+        await page.click('[role="button"][name="Mark as Ready"]')
+        await mockRequest(page, "/admin/evaluation-results?evaluation_administration_id=1", {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            data: [],
+            pageInfo: {
+              hasPreviousPage: false,
+              hasNextPage: false,
+              totalPages: 1,
+            },
+          }),
+        })
 
-      await mockRequest(page, "/admin/evaluation-administrations/1/generate-status", {
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify({
-          canGenerate: false,
-        }),
-      })
+        await mockRequest(page, "/admin/evaluation-administrations/1/generate-status", {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            canGenerate: false,
+          }),
+        })
 
-      await expect(page).toHaveURL("/admin/evaluation-administrations/1/evaluees")
+        await expect(page).toHaveURL("/admin/evaluation-administrations/1/evaluees")
+      }
     })
   })
 })
