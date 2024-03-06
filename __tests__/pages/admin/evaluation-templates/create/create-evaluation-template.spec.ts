@@ -507,7 +507,7 @@ test.describe("Admin - Create Evaluation Template", () => {
       await page.locator('[placeholder="Name"]').fill("PM Evaluation by BOD")
       await page.getByPlaceholder("Display Name").fill("BOD Evaluation")
       await page.getByLabel("Template Type").click()
-      await page.getByText("Project Evaluation", { exact: true }).click()
+      await page.getByText("Unit Evaluation", { exact: true }).click()
       await page
         .locator("div")
         .filter({ hasText: /^With Recommendation$/ })

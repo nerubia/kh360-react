@@ -107,7 +107,7 @@ test.describe("Admin - Edit Evaluation Template", () => {
           id: 1,
           name: "PM Evaluation by BOD",
           display_name: "BOD Evaluation",
-          template_type: "Project Evaluation",
+          template_type: "Unit Evaluation",
           template_class: "Internal",
           with_recommendation: true,
           evaluator_role_id: 1,
@@ -144,7 +144,7 @@ test.describe("Admin - Edit Evaluation Template", () => {
             id: 1,
             name: "PM Evaluation by BOD",
             display_name: "BOD Evaluation",
-            template_type: "Project Evaluation",
+            template_type: "Unit Evaluation",
             template_class: "Internal",
             with_recommendation: true,
             evaluator_role_id: 1,
@@ -265,7 +265,7 @@ test.describe("Admin - Edit Evaluation Template", () => {
       await expect(
         page
           .locator("div")
-          .filter({ hasText: /^Project Evaluation$/ })
+          .filter({ hasText: /^Unit Evaluation$/ })
           .nth(1)
       ).toBeVisible()
       await expect(
@@ -367,7 +367,7 @@ test.describe("Admin - Edit Evaluation Template", () => {
           id: 1,
           name: "PM Evaluation by BOD",
           display_name: "BOD Evaluation",
-          template_type: "Project Evaluation",
+          template_type: "BOD Evaluation",
           template_class: "Internal",
           with_recommendation: true,
           evaluator_role_id: 1,
@@ -404,7 +404,7 @@ test.describe("Admin - Edit Evaluation Template", () => {
             id: 1,
             name: "PM Evaluation by BOD",
             display_name: "BOD Evaluation",
-            template_type: "Project Evaluation",
+            template_type: "Unit Evaluation",
             template_class: "Internal",
             with_recommendation: true,
             evaluator_role_id: 1,
@@ -514,7 +514,7 @@ test.describe("Admin - Edit Evaluation Template", () => {
         await page.getByTestId("SidebarCloseButton").click()
       }
 
-      await page.getByPlaceholder("Name", { exact: true }).fill("Edited Project Evaluation")
+      await page.getByPlaceholder("Name", { exact: true }).fill("Edited Evaluation Template")
       await page.getByPlaceholder("Display Name").fill("Display Name Edit")
       await page.getByText("here").click()
       await page.getByRole("textbox", { name: "Name", exact: true }).fill("Template Content 1")
@@ -538,7 +538,7 @@ test.describe("Admin - Edit Evaluation Template", () => {
           id: 1,
           name: "PM Evaluation by BOD",
           display_name: "BOD Evaluation",
-          template_type: "Project Evaluation",
+          template_type: "Unit Evaluation",
           template_class: "Internal",
           with_recommendation: true,
           evaluator_role_id: 1,
@@ -604,7 +604,7 @@ test.describe("Admin - Edit Evaluation Template", () => {
           id: 1,
           name: "PM Evaluation by BOD",
           display_name: "BOD Evaluation",
-          template_type: "Project Evaluation",
+          template_type: "Unit Evaluation",
           template_class: "Internal",
           with_recommendation: true,
           evaluator_role_id: 1,
@@ -641,7 +641,7 @@ test.describe("Admin - Edit Evaluation Template", () => {
             id: 1,
             name: "PM Evaluation by BOD",
             display_name: "BOD Evaluation",
-            template_type: "Project Evaluation",
+            template_type: "Unit Evaluation",
             template_class: "Internal",
             with_recommendation: true,
             evaluator_role_id: 1,
@@ -773,7 +773,7 @@ test.describe("Admin - Edit Evaluation Template", () => {
           id: 1,
           name: "PM Evaluation by BOD",
           display_name: "BOD Evaluation",
-          template_type: "Project Evaluation",
+          template_type: "Unit Evaluation",
           template_class: "Internal",
           with_recommendation: true,
           evaluator_role_id: 1,
@@ -810,7 +810,7 @@ test.describe("Admin - Edit Evaluation Template", () => {
             id: 1,
             name: "PM Evaluation by BOD",
             display_name: "BOD Evaluation",
-            template_type: "Project Evaluation",
+            template_type: "Unit Evaluation",
             template_class: "Internal",
             with_recommendation: true,
             evaluator_role_id: 1,
@@ -931,7 +931,7 @@ test.describe("Admin - Edit Evaluation Template", () => {
             id: 1,
             name: "PM Evaluation by BOD",
             display_name: "BOD Evaluation",
-            template_type: "Project Evaluation",
+            template_type: "Unit Evaluation",
             template_class: "Internal",
             with_recommendation: true,
             evaluator_role_id: 1,
@@ -1022,7 +1022,7 @@ test.describe("Admin - Edit Evaluation Template", () => {
               id: 1,
               name: "PM Evaluation by BOD",
               display_name: "BOD Evaluation",
-              template_type: "Project Evaluation",
+              template_type: "Unit Evaluation",
               template_class: "Internal",
               with_recommendation: true,
               evaluator_role_id: 1,
