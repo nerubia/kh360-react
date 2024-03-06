@@ -17,7 +17,7 @@ import { createEvaluationTemplateSchema } from "@utils/validation/evaluation-tem
 import { Loading } from "@custom-types/loadingType"
 import { ValidationError } from "yup"
 import { setAlert } from "@redux/slices/app-slice"
-import { TemplateClass } from "@custom-types/evaluation-template-type"
+import { TemplateClass, TemplateType } from "@custom-types/evaluation-template-type"
 import { getAllProjectRoles } from "@redux/slices/project-roles-slice"
 import { getActiveAnswers } from "@redux/slices/answer-slice"
 import { EvaluationTemplateContentsTable } from "@features/admin/evaluation-template-contents/evaluation-template-contents-table"
@@ -92,6 +92,10 @@ export const CreateEvaluationTemplateForm = () => {
   }, [evaluation_template])
 
   useEffect(() => {
+    handleSetRoleOptions()
+  }, [formData.template_type])
+
+  useEffect(() => {
     const options: Option[] = answers.map((answer) => ({
       label: answer.name ?? "",
       value: answer.id.toString(),
@@ -100,19 +104,7 @@ export const CreateEvaluationTemplateForm = () => {
   }, [answers])
 
   useEffect(() => {
-    let options: Option[] = project_roles.map((project_role) => ({
-      label: project_role.short_name ?? "",
-      value: project_role.id.toString(),
-    }))
-    setEvaluatorRoleOptions(options)
-
-    options = project_roles
-      .filter((project_role) => project_role.is_evaluee)
-      .map((project_role) => ({
-        label: project_role.short_name ?? "",
-        value: project_role.id.toString(),
-      }))
-    setEvalueeRoleOptions(options)
+    handleSetRoleOptions()
   }, [project_roles])
 
   useEffect(() => {
@@ -149,6 +141,26 @@ export const CreateEvaluationTemplateForm = () => {
       )
     }
   }, [validationErrors.evaluation_template_contents])
+
+  const handleSetRoleOptions = () => {
+    let projectRoles = project_roles
+    if (formData.template_type === TemplateType.ProjectEvaluation) {
+      projectRoles = project_roles.filter((role) => role.for_project)
+    }
+    let options: Option[] = projectRoles.map((project_role) => ({
+      label: project_role.short_name ?? "",
+      value: project_role.id.toString(),
+    }))
+    setEvaluatorRoleOptions(options)
+
+    options = projectRoles
+      .filter((project_role) => project_role.is_evaluee)
+      .map((project_role) => ({
+        label: project_role.short_name ?? "",
+        value: project_role.id.toString(),
+      }))
+    setEvalueeRoleOptions(options)
+  }
 
   const onChangeAnswer = async (option: SingleValue<Option>) => {
     const answer_id: string = option !== null ? option.value : ""
