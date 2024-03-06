@@ -15,6 +15,7 @@ import { getEvaluationResultStatusVariant } from "@utils/variant"
 import { Badge } from "@components/ui/badge/badge"
 import { Loading } from "@custom-types/loadingType"
 import { setSelectedEmployeeIds } from "@redux/slices/evaluation-administration-slice"
+import Image from "@components/ui/image/image"
 
 const EvaluationAdminDialog = lazy(
   async () =>
@@ -24,7 +25,6 @@ const EvaluationAdminDialog = lazy(
 export const EvalueesList = () => {
   const { id } = useParams()
   const [searchParams] = useSearchParams()
-  const [onError, setOnError] = useState<boolean>(false)
 
   const appDispatch = useAppDispatch()
   const { loading, evaluation_results, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
@@ -87,15 +87,14 @@ export const EvalueesList = () => {
             >
               <div className='flex items-center gap-4'>
                 {evaluationResult.users?.picture === undefined ||
-                onError ||
                 evaluationResult.users?.picture === null ? (
                   <Icon icon='UserFill' color='primary' size='large' />
                 ) : (
-                  <img
-                    className='w-10 h-10 rounded-full'
-                    src={evaluationResult.users.picture}
-                    alt={`Avatar of ${evaluationResult.users?.first_name} ${evaluationResult.users?.first_name}`}
-                    onError={() => setOnError(true)}
+                  <Image
+                    altText={`Avatar of ${evaluationResult.users?.first_name} ${evaluationResult.users?.first_name}`}
+                    first_name={evaluationResult.users?.first_name}
+                    imageUrl={evaluationResult.users.picture}
+                    variant={"brokenImage"}
                   />
                 )}
                 <div className='flex'>

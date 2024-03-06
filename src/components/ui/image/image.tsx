@@ -16,7 +16,7 @@ interface ImageProps extends VariantProps<typeof image> {
 }
 
 export default function Image({ altText, first_name, imageUrl, variant }: ImageProps) {
-  const [imageError, setImageError] = useState(false)
+  const [imageError, setImageError] = useState<boolean>(false)
 
   const handleImageError = () => {
     setImageError(true)
