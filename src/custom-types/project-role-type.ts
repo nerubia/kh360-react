@@ -3,4 +3,5 @@ export interface ProjectRole {
   name?: string
   short_name?: string
   is_evaluee?: boolean
+  for_project?: boolean
 }
