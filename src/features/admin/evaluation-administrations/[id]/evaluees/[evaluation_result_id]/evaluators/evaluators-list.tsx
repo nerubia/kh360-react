@@ -55,6 +55,9 @@ export const EvaluatorsList = () => {
   const [selectedEvaluationId, setSelectedEvaluationId] = useState<number>()
   const isMediumSize = useMobileView(1200)
   const isSmallDevice = useMobileView(800)
+  const [checked, setChecked] = useState<boolean>(false)
+
+  const hasForEvaluation = evaluations.some((evaluation) => evaluation.hasForEvaluation > 0)
 
   const columns = [
     <Checkbox
@@ -105,7 +108,19 @@ export const EvaluatorsList = () => {
         })
       )
     }
+    setChecked(false)
   }, [evaluation_template_id])
+  useEffect(() => {
+    if (evaluation_template_id !== "all") {
+      void appDispatch(
+        getEvaluations({
+          evaluation_result_id,
+          evaluation_template_id,
+        })
+      )
+    }
+    setChecked(false)
+  }, [checked])
 
   useEffect(() => {
     const newEvaluations = [...evaluations]
@@ -147,6 +162,7 @@ export const EvaluatorsList = () => {
   }, [evaluations])
 
   const handleSelectAll = (checked: boolean, external: boolean) => {
+    setChecked(true)
     void appDispatch(
       setForEvaluations({
         evaluation_ids: external
@@ -158,6 +174,7 @@ export const EvaluatorsList = () => {
   }
 
   const handleClickCheckbox = (evaluationId: number, checked: boolean) => {
+    setChecked(true)
     if (evaluationId !== undefined) {
       void appDispatch(
         setForEvaluations({
@@ -261,6 +278,7 @@ export const EvaluatorsList = () => {
   }
 
   const handleDelete = async () => {
+    setChecked(true)
     if (selectedEvaluationId !== undefined) {
       try {
         const result = await appDispatch(deleteEvaluation(selectedEvaluationId))
@@ -444,6 +462,7 @@ export const EvaluatorsList = () => {
               variant='primaryOutline'
               onClick={async () => await handleUpdateStatus(EvaluationResultStatus.Draft)}
               loading={loading === Loading.Pending}
+              disabled={!hasForEvaluation}
             >
               Save as Draft
             </Button>
@@ -464,6 +483,7 @@ export const EvaluatorsList = () => {
               size={isMediumSize ? "small" : "medium"}
               onClick={async () => await handleUpdateStatus(EvaluationResultStatus.Ready)}
               loading={loading === Loading.Pending}
+              disabled={!hasForEvaluation}
             >
               Mark as Ready
             </Button>
