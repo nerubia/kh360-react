@@ -109,11 +109,7 @@ export const ViewEvaluationTemplateTable = () => {
 
   const checkNumberValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value
-    const parsedValue = Number(inputValue)
-
-    if (!isNaN(parsedValue) && parsedValue >= 1 && parsedValue <= 100) {
-      setFormData({ ...formData, rate: handleDecimalsOnValue(e.target.value) })
-    }
+    setFormData({ ...formData, rate: handleDecimalsOnValue(inputValue) })
   }
 
   const handleDecimalsOnValue = (value: string) => {
@@ -121,9 +117,15 @@ export const ViewEvaluationTemplateTable = () => {
     const matchResult = value.match(regex)
 
     if (matchResult !== null) {
-      return matchResult[0]
+      const parsedValue = parseFloat(matchResult[0].replace(",", "."))
+      if (!isNaN(parsedValue) && parsedValue <= 100) {
+        return matchResult[0]
+      }
     }
-    return ""
+    if (value.length === 0) {
+      return ""
+    }
+    return formData.rate
   }
 
   const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -413,7 +415,7 @@ export const ViewEvaluationTemplateTable = () => {
                       name='rate'
                       type='number'
                       placeholder='Rate'
-                      value={Number(formData.rate).toFixed(2)}
+                      value={formData.rate}
                       onChange={(event) => checkNumberValue(event)}
                       error={validationErrors.rate}
                     />
