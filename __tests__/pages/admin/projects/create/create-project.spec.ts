@@ -122,7 +122,9 @@ test.describe("Admin - Create Project", () => {
       await expect(page.getByText("Client")).toBeVisible()
       await expect(page.getByLabel("Project Duration")).toBeVisible()
       await expect(page.getByPlaceholder("Description")).toBeVisible()
-      await expect(page.getByText("Skills", { exact: true })).toBeVisible()
+      await expect(
+        page.locator("#scrollable-div").getByText("Skills", { exact: true })
+      ).toBeVisible()
       await expect(page.getByRole("cell", { name: "Category" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Name" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Actions" })).toBeVisible()
