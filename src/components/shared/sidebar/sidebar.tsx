@@ -52,7 +52,7 @@ const menuLinks: MenuLink[] = [
     access: "Bod",
   },
   {
-    title: "KH360 Admin",
+    title: "Evaluation Admin",
     link: routes.private.admin.evaluationAdministrations,
     icon: "UserRoundCog",
     access: "Admin",
@@ -70,7 +70,35 @@ const menuLinks: MenuLink[] = [
         access: "Admin",
       },
       {
-        title: "Projects",
+        title: "Evaluation Templates",
+        link: routes.private.admin.evaluationTemplates,
+        icon: "List",
+        access: "Admin",
+      },
+    ],
+  },
+  {
+    title: "Skill Map Admin",
+    link: routes.notFound,
+    icon: "UserRoundCog",
+    access: "Admin",
+    children: [
+      {
+        title: "Skill Map Admin List",
+        link: routes.notFound,
+        icon: "PenSquare",
+        access: "Admin",
+      },
+    ],
+  },
+  {
+    title: "Project Admin",
+    link: routes.private.admin.projects,
+    icon: "UserRoundCog",
+    access: "Admin",
+    children: [
+      {
+        title: "Project List",
         link: routes.private.admin.projects,
         icon: "Target",
         access: "Admin",
@@ -81,6 +109,14 @@ const menuLinks: MenuLink[] = [
         icon: "GanttChart",
         access: "Admin",
       },
+    ],
+  },
+  {
+    title: "KH360 Admin",
+    link: routes.private.admin.emailTemplates,
+    icon: "UserRoundCog",
+    access: "Admin",
+    children: [
       {
         title: "Message Templates",
         link: routes.private.admin.emailTemplates,
@@ -88,9 +124,15 @@ const menuLinks: MenuLink[] = [
         access: "Admin",
       },
       {
-        title: "Evaluation Templates",
-        link: routes.private.admin.evaluationTemplates,
-        icon: "List",
+        title: "Skill Categories",
+        link: routes.notFound,
+        icon: "Message",
+        access: "Admin",
+      },
+      {
+        title: "Skills",
+        link: routes.notFound,
+        icon: "Message",
         access: "Admin",
       },
     ],
