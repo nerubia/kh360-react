@@ -269,7 +269,7 @@ export const EvaluationProgressList = () => {
 
   return (
     <>
-      <div className='flex-1 flex flex-col gap-8 overflow-y-auto h-screen'>
+      <div className={isMobile ? "overflow-y-auto whitespace-nowrap" : "flex flex-col gap-8"}>
         <div className='flex flex-col'>
           {sortedEvaluators?.map((evaluator, evaluatorIndex) => (
             <div key={evaluatorIndex} className='mb-2'>
@@ -307,7 +307,7 @@ export const EvaluationProgressList = () => {
                           evaluator.totalSubmitted ?? 0,
                           evaluator.totalEvaluations ?? 0
                         )}
-                        width='w-96'
+                        width='w-96 w-56'
                       />
                     </div>
                   </div>
@@ -377,7 +377,7 @@ export const EvaluationProgressList = () => {
                   )}
               </div>
               {evaluatorToggledState[evaluatorIndex] && (
-                <table className='w-9/10 ml-14 mb-5 table-fixed whitespace-normal'>
+                <table className='`xl:w-full xl:table-fixed ml-14 text-sm mb-2'>
                   <thead className='bg-white text-left'>
                     <tr>
                       <th className='pb-3 pr-5 w-270'>Evaluee</th>
