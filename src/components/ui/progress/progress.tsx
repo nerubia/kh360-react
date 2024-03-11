@@ -30,7 +30,7 @@ interface ProgressProps extends VariantProps<typeof progress> {
 
 export const Progress = ({ value, width, variant, size }: ProgressProps) => {
   return (
-    <div className={`bg-slate-200 w-full md:${width} rounded-full ${progress({ size })}`}>
+    <div className={`bg-slate-200 xl:${width} rounded-full ${progress({ size })}`}>
       <div className={progress({ variant, size })} style={{ width: `${value}%` }}></div>
     </div>
   )

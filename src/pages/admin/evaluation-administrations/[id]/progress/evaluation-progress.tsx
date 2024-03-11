@@ -39,7 +39,7 @@ export default function EvaluationProgress() {
     <div className='flex flex-col gap-2'>
       {loading === Loading.Pending && <div>Loading...</div>}
       {loading === Loading.Fulfilled && evaluation_administration === null && <div>Not found</div>}
-      <div className='h-[calc(100vh_-_104px)] flex flex-col gap-2' id='scroll-container'>
+      <div className='xl:h-[calc(100vh_-_104px)] flex flex-col gap-2' id='scroll-container'>
         {loading === Loading.Fulfilled && evaluation_administration !== null && (
           <>
             <EvaluationProgressHeader />
