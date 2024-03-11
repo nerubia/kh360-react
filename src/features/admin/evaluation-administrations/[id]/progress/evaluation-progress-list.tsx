@@ -54,7 +54,7 @@ export const EvaluationProgressList = () => {
 
   const { lastJsonMessage } = useContext(WebSocketContext) as WebSocketType
 
-  const isMobile = useMobileView()
+  const isMobile = useMobileView(1028)
   useEffect(() => {
     if (id !== undefined) {
       void appDispatch(getEvaluators(parseInt(id)))
@@ -269,8 +269,8 @@ export const EvaluationProgressList = () => {
 
   return (
     <>
-      <div className={isMobile ? "overflow-y-auto whitespace-nowrap" : "flex flex-col gap-8"}>
-        <div className='flex flex-col'>
+      <div className={isMobile ? "whitespace-nowrap" : "flex flex-col gap-8"}>
+        <div className={isMobile ? "flex flex-col overflow-x-auto" : ""}>
           {sortedEvaluators?.map((evaluator, evaluatorIndex) => (
             <div key={evaluatorIndex} className='mb-2'>
               <div className='flex gap-8 mb-2 items-center'>
