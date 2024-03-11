@@ -58,7 +58,7 @@ const menuLinks: MenuLink[] = [
     access: "Admin",
     children: [
       {
-        title: "Evaluation Admin",
+        title: "Evaluation Admin List",
         link: routes.private.admin.evaluationAdministrations,
         icon: "PenSquare",
         access: "Admin",
@@ -205,7 +205,7 @@ export const Sidebar = () => {
                     isEvaluation={false}
                     className={`w-full rounded-md flex justify-between items-center bg-primary-500 text-white hover:bg-primary-600 active:bg-primary-700 disabled:bg-primary-200 [&.active]:bg-primary-700 [&.active]:cursor-default h-9 px-4 ${
                       isParentActive(menu) ? "!bg-primary-700" : ""
-                    }`}
+                    } ${isMediumSize ? "" : "p-6"}`}
                   >
                     <div
                       className={isMediumSize ? "text-xs flex gap-2 items-center" : "flex gap-2"}
