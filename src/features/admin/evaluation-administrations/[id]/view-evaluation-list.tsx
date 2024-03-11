@@ -38,7 +38,7 @@ export const ViewEvaluationList = () => {
   const [prevPage, setPrevPage] = useState(0)
   const [lastList, setLastList] = useState(false)
   const [isInsertingData, setIsInsertingData] = useState<boolean>(false)
-  const isMobile = useMobileView()
+  const isMobile = useMobileView(1028)
 
   const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false)
 
@@ -200,12 +200,8 @@ export const ViewEvaluationList = () => {
 
   return (
     <>
-      <div
-        className={isMobile ? "overflow-y-auto whitespace-nowrap" : "flex flex-col gap-8"}
-        onScroll={onScroll}
-        ref={listInnerRef}
-      >
-        <div className='flex flex-col'>
+      <div className={`flex flex-col gap-8`} onScroll={onScroll} ref={listInnerRef}>
+        <div className={`flex flex-col ${isMobile ? "overflow-x-auto" : ""}`}>
           {evaluationResults?.map((evaluationResult, evaluationIndex) => (
             <div key={evaluationIndex} className='mb-2'>
               <div className='flex gap-2 mb-2'>
