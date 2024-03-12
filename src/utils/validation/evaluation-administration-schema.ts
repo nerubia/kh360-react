@@ -71,7 +71,6 @@ export const createEvaluationAdministrationSchema = object().shape({
     .transform(toDateOrUndefined)
     .test("start-date", "Start schedule must be before end schedule", function (start_date) {
       const end_date = this.parent.eval_schedule_end_date
-
       return new Date(start_date) <= new Date(end_date)
     })
     .test(
@@ -95,6 +94,14 @@ export const createEvaluationAdministrationSchema = object().shape({
         return (
           new Date(start_date) <= new Date(maxDate) && new Date(minDate) <= new Date(start_date)
         )
+      }
+    )
+    .test(
+      "not-in-eval-period",
+      "Evaluation schedule must be later than Evaluation Period",
+      function (start_date) {
+        const evalPeriodEndDate = this.parent.eval_period_end_date
+        return new Date(start_date) > new Date(evalPeriodEndDate)
       }
     ),
   eval_schedule_end_date: string()
