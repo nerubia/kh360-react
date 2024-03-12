@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { useAppSelector } from "@hooks/useAppSelector"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { formatDateRange } from "@utils/format-date"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { PageTitle } from "@components/shared/page-title"
@@ -11,17 +11,26 @@ import { useMobileView } from "@hooks/use-mobile-view"
 
 export const MyEvaluationResultsHeader = () => {
   const isMobile = useMobileView()
+  const navigate = useNavigate()
   const { id } = useParams()
   const appDispatch = useAppDispatch()
   const { user_evaluation_result } = useAppSelector((state) => state.user)
   const size = isMobile ? "small" : "medium"
 
   useEffect(() => {
-    if (id !== undefined) {
-      void appDispatch(getUserEvaluationResult(parseInt(id)))
-    }
+    void handleGetUserEvaluationResult()
     void appDispatch(getScoreRatings())
   }, [])
+
+  const handleGetUserEvaluationResult = async () => {
+    if (id !== undefined) {
+      const result = await appDispatch(getUserEvaluationResult(parseInt(id)))
+
+      if (result.type === "user/getUserEvaluationResult/rejected") {
+        navigate(`/my-evaluations`)
+      }
+    }
+  }
 
   return (
     <>
