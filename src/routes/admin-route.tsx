@@ -119,6 +119,10 @@ const EditEvaluationTemplate = lazy(
   async () => await import("@pages/admin/evaluation-templates/[id]/edit/edit-evaluation-template")
 )
 
+const SkillCategories = lazy(
+  async () => await import("@pages/admin/skill-categories/skill-categories")
+)
+
 export const adminRoutes = {
   element: <AdminRoute />,
   children: [
@@ -263,6 +267,13 @@ export const adminRoutes = {
     {
       path: routes.private.admin.editEvaluationTemplate,
       element: <EditEvaluationTemplate />,
+    },
+    /**
+     * Skill Categories
+     */
+    {
+      path: routes.private.admin.skillCategories,
+      element: <SkillCategories />,
     },
   ],
 }
