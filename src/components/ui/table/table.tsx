@@ -6,9 +6,13 @@ interface TableProps<T extends { id: number }> {
   renderCell: (item: T, column: string | ReactNode, index: number) => ReactNode
   onClickRow?: (id: number) => void
   isRowClickable?: boolean
+  isRowDraggable?: boolean
   overflowXAuto?: boolean
   overflowYHidden?: boolean
   applyFixedColWidth?: boolean
+  handleSort?: () => void
+  dragContent?: React.MutableRefObject<number>
+  draggedOverContent?: React.MutableRefObject<number>
 }
 
 export function Table<T extends { id: number }>({
@@ -17,9 +21,13 @@ export function Table<T extends { id: number }>({
   renderCell,
   onClickRow,
   isRowClickable = false,
+  isRowDraggable = false,
   overflowXAuto = true,
   overflowYHidden = true,
   applyFixedColWidth = false,
+  handleSort,
+  dragContent,
+  draggedOverContent,
 }: TableProps<T>): JSX.Element {
   const handleRowClick = (item: T) => {
     if (onClickRow != null) {
@@ -74,8 +82,25 @@ export function Table<T extends { id: number }>({
               key={index}
               className={`bg-white border-b ${
                 isRowClickable ? "hover:bg-slate-100 cursor-pointer" : ""
-              } text-black`}
+              } text-black ${isRowDraggable ? "cursor-grab" : ""}`}
               onClick={isRowClickable ? () => handleRowClick(item) : undefined}
+              draggable={isRowDraggable}
+              onDragStart={() => {
+                if (dragContent !== undefined) {
+                  dragContent.current = index
+                }
+              }}
+              onDragEnter={() => {
+                if (draggedOverContent !== undefined) {
+                  draggedOverContent.current = index
+                }
+              }}
+              onDragEnd={() => {
+                if (handleSort !== undefined) {
+                  handleSort()
+                }
+              }}
+              onDragOver={(e) => e.preventDefault()}
             >
               {columns.map((column, index) => (
                 <td
