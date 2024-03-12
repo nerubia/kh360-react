@@ -14,7 +14,7 @@ import { setSelectedEmployeeIds } from "@redux/slices/evaluation-administration-
 import { setEvaluationResults } from "@redux/slices/evaluation-results-slice"
 import { setAlert } from "@redux/slices/app-slice"
 import { DateRangePicker } from "@components/ui/date-range-picker/date-range-picker"
-import { type DateValueType } from "react-tailwindcss-datepicker"
+import { type DateType, type DateValueType } from "react-tailwindcss-datepicker"
 import { createEvaluationAdministrationSchema } from "@utils/validation/evaluation-administration-schema"
 
 const EvaluationAdminDialog = lazy(
@@ -114,6 +114,15 @@ export const CreateEvaluationForm = () => {
     navigate(`/admin/evaluation-administrations`)
   }
 
+  const dateLimit = (dateString: null | undefined | DateType) => {
+    if (dateString != null) {
+      const currentDate = new Date(dateString)
+      currentDate.setDate(currentDate.getDate() + 1)
+      return currentDate.toString()
+    }
+    return undefined
+  }
+
   return (
     <div className='flex flex-col gap-10'>
       <div className='flex flex-col md:w-1/2 gap-4'>
@@ -152,9 +161,7 @@ export const CreateEvaluationForm = () => {
               endDate: formData.eval_schedule_end_date ?? "",
             }}
             onChange={(value) => handleChangeDateRange(value, "eval_schedule")}
-            dateLimit={{
-              start_date: formData.eval_period_start_date,
-            }}
+            dateLimit={{ start_date: dateLimit(formData.eval_period_end_date) }}
             error={{
               start_date: validationErrors.eval_schedule_start_date,
               end_date: validationErrors.eval_schedule_end_date,
