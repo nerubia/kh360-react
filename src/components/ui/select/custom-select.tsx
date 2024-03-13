@@ -11,7 +11,7 @@ import { type Ref } from "react"
 interface SelectProps {
   label?: string
   name: string
-  value?: Option
+  value?: Option | null
   onChange: (newValue: SingleValue<Option>) => void
   onInputChange?: (newValue: string, actionMeta: InputActionMeta) => void
   onMenuOpen?: () => void
@@ -22,12 +22,13 @@ interface SelectProps {
   customRef?: Ref<SelectInstance<Option, false, GroupBase<Option>>>
   isClearable?: boolean
   disabled?: boolean
+  maxMenuHeight?: number
 }
 
 export const CustomSelect = ({
   label,
   name,
-  value,
+  value = null,
   onChange,
   onInputChange,
   onMenuOpen,
@@ -38,6 +39,7 @@ export const CustomSelect = ({
   customRef,
   isClearable,
   disabled,
+  maxMenuHeight,
 }: SelectProps) => {
   const isMobile = useMobileView()
 
@@ -69,6 +71,7 @@ export const CustomSelect = ({
         isLoading={isLoading}
         isClearable={isClearable}
         isDisabled={disabled}
+        maxMenuHeight={maxMenuHeight}
       />
       {error != null && <p className='text-red-500 text-sm'>{error}</p>}
     </div>
