@@ -204,8 +204,10 @@ export const Sidebar = () => {
                     to={menu.link}
                     isEvaluation={false}
                     className={`w-full rounded-md flex justify-between items-center bg-primary-500 text-white hover:bg-primary-600 active:bg-primary-700 disabled:bg-primary-200 [&.active]:bg-primary-700 [&.active]:cursor-default h-9 px-4 ${
-                      isParentActive(menu) ? "!bg-primary-700" : ""
-                    } ${isMediumSize ? "" : "p-6"}`}
+                      isParentActive(menu) && menu.title === "Evaluation Admin"
+                        ? "!bg-primary-700 p-6"
+                        : ""
+                    } ${menu.title === "Evaluation Admin" && isMediumSize ? "p-6" : ""}`}
                   >
                     <div
                       className={isMediumSize ? "text-xs flex gap-2 items-center" : "flex gap-2"}
@@ -224,7 +226,7 @@ export const Sidebar = () => {
                   </Menu>
                   <div className={isParentActive(menu) ? "" : "hidden"}>
                     {menu.children?.map((child, i) => (
-                      <div key={i} className='ml-2'>
+                      <div key={i} className='ml-2 pb-1'>
                         <Menu
                           to={child.link}
                           isEvaluation={false}
