@@ -131,8 +131,8 @@ const menuLinks: MenuLink[] = [
       },
       {
         title: "Skills",
-        link: routes.notFound,
-        icon: "Message",
+        link: routes.private.admin.skills,
+        icon: "Shapes",
         access: "Admin",
       },
     ],

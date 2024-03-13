@@ -23,6 +23,7 @@ import projectSkillsReducer from "@redux/slices/project-skills-slice"
 import projectReducer from "@redux/slices/project-slice"
 import projectsReducer from "@redux/slices/projects-slice"
 import scoreRatingsReducer from "@redux/slices/score-ratings-slice"
+import skillReducer from "@redux/slices/skill-slice"
 import skillsReducer from "@redux/slices/skills-slice"
 import skillCategoryReducer from "@redux/slices/skill-category-slice"
 import skillCategoriesReducer from "@redux/slices/skill-categories-slice"
@@ -54,6 +55,7 @@ export const store = configureStore({
     project: projectReducer,
     projects: projectsReducer,
     scoreRatings: scoreRatingsReducer,
+    skill: skillReducer,
     skills: skillsReducer,
     skillCategory: skillCategoryReducer,
     skillCategories: skillCategoriesReducer,

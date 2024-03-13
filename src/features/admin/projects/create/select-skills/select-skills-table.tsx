@@ -19,6 +19,7 @@ export const SelectSkillsTable = () => {
       getSkills({
         name: searchParams.get("name") ?? undefined,
         skill_category_id: searchParams.get("skill_category_id") ?? undefined,
+        status: "Active",
         page: searchParams.get("page") ?? undefined,
       })
     )

@@ -26,6 +26,7 @@ export const icons = {
   PenSquare: lazy(async () => await import("./icons/pen-square-icon")),
   Plus: lazy(async () => await import("./icons/plus-icon")),
   RefreshCw: lazy(async () => await import("./icons/refresh-cw-icon")),
+  Shapes: lazy(async () => await import("./icons/shapes-icon")),
   Stack: lazy(async () => await import("./icons/stack-icon")),
   Star: lazy(async () => await import("./icons/star-icon")),
   Info: lazy(async () => await import("./icons/info-icon")),
