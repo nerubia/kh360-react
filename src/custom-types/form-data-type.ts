@@ -107,6 +107,13 @@ export interface EvaluationTemplateContentFormData {
   sequence_no?: number | string
 }
 
+export interface SkillFormData {
+  name?: string
+  description?: string
+  skill_category_id?: string
+  status?: boolean | string
+}
+
 export interface SkillCategoryFormData {
   name?: string
   description?: string
