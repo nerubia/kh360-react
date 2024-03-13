@@ -4,6 +4,7 @@ const projects = "admin/projects"
 const projectAssignments = "admin/project-assignments"
 const messageTemplates = "admin/message-templates"
 const evaluationTemplates = "admin/evaluation-templates"
+const skills = "admin/skills"
 const skillCategories = "admin/skill-categories"
 
 export const routes = {
@@ -51,6 +52,7 @@ export const routes = {
       createEvaluationTemplate: `${evaluationTemplates}/create`,
       viewEvaluationTemplate: `${evaluationTemplates}/:id`,
       editEvaluationTemplate: `${evaluationTemplates}/:id/edit`,
+      skills,
       skillCategories,
     },
     cmUser: {

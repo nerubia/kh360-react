@@ -49,6 +49,9 @@ const skillsSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
+    setSkills: (state, action) => {
+      state.skills = action.payload
+    },
     setSelectedSkills: (state, action) => {
       state.selectedSkills = action.payload
     },
@@ -80,5 +83,5 @@ const skillsSlice = createSlice({
   },
 })
 
-export const { setSelectedSkills, setCheckedSkills } = skillsSlice.actions
+export const { setSkills, setSelectedSkills, setCheckedSkills } = skillsSlice.actions
 export default skillsSlice.reducer
