@@ -52,6 +52,12 @@ const menuLinks: MenuLink[] = [
     access: "Bod",
   },
   {
+    title: "Survey Forms",
+    link: routes.private.internalUser.surveyForms,
+    icon: "Clipboard",
+    access: "Bod",
+  },
+  {
     title: "Evaluation Admin",
     link: routes.private.admin.evaluationAdministrations,
     icon: "UserRoundCog",
@@ -133,6 +139,12 @@ const menuLinks: MenuLink[] = [
         title: "Skills",
         link: routes.private.admin.skills,
         icon: "Shapes",
+        access: "Admin",
+      },
+      {
+        title: "Survey Admin List",
+        link: routes.private.admin.surveyAdministrations,
+        icon: "ClipboardList",
         access: "Admin",
       },
     ],
