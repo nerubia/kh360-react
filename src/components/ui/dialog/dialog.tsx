@@ -12,7 +12,7 @@ const dialog = cva(["w-full", "flex", "flex-col", "gap-4", "p-5", "rounded-md", 
     size: {
       small: ["md:w-500"],
       medium: ["md:min-w-600 p-7"],
-      lg: ["md:w-700 p-7"],
+      lg: ["md:w-650 p-7"],
     },
     maxWidthMin: {
       true: "max-w-min",

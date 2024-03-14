@@ -382,43 +382,59 @@ export const ViewEvaluationHeader = () => {
         onSubmit={handlePublish}
         loading={loading === Loading.Pending}
       />
-      <Dialog open={showReopenDialog} size='lg'>
-        <Dialog.Title>{<div>Reopen Evaluation</div>}</Dialog.Title>
-        <Dialog.Description>
-          {
-            <div className='mb-80 mr-1'>
-              <DateRangeDisplay
-                label='Evaluation Schedule'
-                startDate={evaluation_administration?.eval_schedule_start_date}
-                endDate={evaluation_administration?.eval_schedule_end_date}
-                isMobile={isMobile}
-              />
-              <div className='flex whitespace-nowrap justify-start align-center gap-20'>
-                <h2 className='flex justify-center items-center mr-1 font-bold'>
-                  Reschedule evaluation end date:
-                </h2>
-                <span className='border rounded'>
-                  <Datepicker
-                    useRange={false}
-                    asSingle={true}
-                    value={formData}
-                    minDate={new Date()}
-                    onChange={handleChangeDateRange}
-                  />
-                </span>
+      {evaluation_administration?.eval_schedule_end_date != null &&
+      new Date() > new Date(evaluation_administration.eval_schedule_end_date) ? (
+        <Dialog open={showReopenDialog} size='lg'>
+          <Dialog.Title>{<div>Reopen Evaluation</div>}</Dialog.Title>
+          <Dialog.Description>
+            {
+              <div className='mb-80 mr-1'>
+                <DateRangeDisplay
+                  label='Evaluation Schedule'
+                  startDate={evaluation_administration?.eval_schedule_start_date}
+                  endDate={evaluation_administration?.eval_schedule_end_date}
+                  isMobile={isMobile}
+                />
+                <div className='flex whitespace-nowrap justify-start align-center gap-20'>
+                  <h2 className='flex justify-center items-center mr-1 font-bold'>
+                    Change evaluation end date:
+                  </h2>
+                  <span className='border rounded'>
+                    <Datepicker
+                      useRange={false}
+                      asSingle={true}
+                      value={formData}
+                      minDate={new Date()}
+                      onChange={handleChangeDateRange}
+                    />
+                  </span>
+                </div>
               </div>
-            </div>
-          }
-        </Dialog.Description>
-        <Dialog.Actions>
-          <Button variant='primaryOutline' onClick={toggleReopenDialog} testId='DialogNoButton'>
-            Cancel
-          </Button>
-          <Button variant='primary' onClick={handleReopen} testId='DialogYesButton'>
-            Reopen
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
+            }
+          </Dialog.Description>
+          <Dialog.Actions>
+            <Button variant='primaryOutline' onClick={toggleReopenDialog} testId='DialogNoButton'>
+              Cancel
+            </Button>
+            <Button variant='primary' onClick={handleReopen} testId='DialogYesButton'>
+              Reopen
+            </Button>
+          </Dialog.Actions>
+        </Dialog>
+      ) : (
+        <Dialog open={showReopenDialog} size='small'>
+          <Dialog.Title>{<div>Reopen Evaluation</div>}</Dialog.Title>
+          <Dialog.Description>Are you sure you want to reopen?</Dialog.Description>
+          <Dialog.Actions>
+            <Button variant='primaryOutline' onClick={toggleReopenDialog} testId='DialogNoButton'>
+              Cancel
+            </Button>
+            <Button variant='primary' onClick={handleReopen} testId='DialogYesButton'>
+              Reopen
+            </Button>
+          </Dialog.Actions>
+        </Dialog>
+      )}
     </>
   )
 }
