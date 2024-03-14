@@ -162,8 +162,8 @@ test.describe("Admin - Email Templates", () => {
       await expect(page.locator("tr > th")).toHaveText([
         "Name",
         "Template Type",
-        "Default",
         "Subject",
+        "Default",
         "Actions",
       ])
 
