@@ -8,6 +8,7 @@ import {
   cancelEvaluationAdministration,
   closeEvaluationAdministration,
   deleteEvaluationAdministration,
+  getEvaluationAdministration,
   publishEvaluationAdministration,
   reopenEvaluationAdministration,
 } from "@redux/slices/evaluation-administration-slice"
@@ -23,6 +24,9 @@ import { useMobileView } from "@hooks/use-mobile-view"
 import { CustomDialog } from "@components/ui/dialog/custom-dialog"
 import { ReadyState } from "react-use-websocket"
 import { WebSocketContext, type WebSocketType } from "@components/providers/websocket"
+import { type DateValueType } from "react-tailwindcss-datepicker"
+import Dialog from "@components/ui/dialog/dialog"
+import Datepicker from "react-tailwindcss-datepicker"
 
 export const ViewEvaluationHeader = () => {
   const { sendJsonMessage, readyState } = useContext(WebSocketContext) as WebSocketType
@@ -40,6 +44,10 @@ export const ViewEvaluationHeader = () => {
   const [showCloseDialog, setShowCloseDialog] = useState<boolean>(false)
   const [showPublishDialog, setShowPublishDialog] = useState<boolean>(false)
   const [showReopenDialog, setShowReopenDialog] = useState<boolean>(false)
+  const [formData, setFormData] = useState<DateValueType>({
+    startDate: null,
+    endDate: null,
+  })
 
   const toggleCancelDialog = () => {
     setShowCancelDialog((prev) => !prev)
@@ -50,6 +58,10 @@ export const ViewEvaluationHeader = () => {
   }
 
   const toggleCloseDialog = () => {
+    setFormData({
+      startDate: null,
+      endDate: null,
+    })
     setShowCloseDialog((prev) => !prev)
   }
 
@@ -58,6 +70,10 @@ export const ViewEvaluationHeader = () => {
   }
 
   const toggleReopenDialog = () => {
+    setFormData({
+      startDate: null,
+      endDate: evaluation_administration?.eval_schedule_end_date ?? null,
+    })
     setShowReopenDialog((prev) => !prev)
   }
 
@@ -168,11 +184,16 @@ export const ViewEvaluationHeader = () => {
       }
     }
   }
-
   const handleReopen = async () => {
     if (id !== undefined) {
       try {
-        const result = await appDispatch(reopenEvaluationAdministration(parseInt(id)))
+        let endDate: Date
+        if (formData?.endDate === undefined || formData.endDate === null) {
+          endDate = new Date()
+        } else {
+          endDate = new Date(formData.endDate)
+        }
+        const result = await appDispatch(reopenEvaluationAdministration({ id, endDate }))
         if (result.type === "evaluationAdministration/reopen/fulfilled") {
           appDispatch(
             setAlert({
@@ -180,6 +201,7 @@ export const ViewEvaluationHeader = () => {
               variant: "success",
             })
           )
+          await appDispatch(getEvaluationAdministration(result.payload.id))
           if (readyState === ReadyState.OPEN) {
             sendJsonMessage({
               event: "reopenEvaluationAdministration",
@@ -200,6 +222,9 @@ export const ViewEvaluationHeader = () => {
     }
   }
 
+  const handleChangeDateRange = (newValue: DateValueType) => {
+    setFormData(newValue)
+  }
   return (
     <>
       <div className='flex flex-col'>
@@ -357,14 +382,43 @@ export const ViewEvaluationHeader = () => {
         onSubmit={handlePublish}
         loading={loading === Loading.Pending}
       />
-      <CustomDialog
-        open={showReopenDialog}
-        title='Reopen Evaluation'
-        description='Are you sure you want to reopen this record?'
-        onClose={toggleReopenDialog}
-        onSubmit={handleReopen}
-        loading={loading === Loading.Pending}
-      />
+      <Dialog open={showReopenDialog} size='lg'>
+        <Dialog.Title>{<div>Reopen Evaluation</div>}</Dialog.Title>
+        <Dialog.Description>
+          {
+            <div className='mb-80 mr-1'>
+              <DateRangeDisplay
+                label='Evaluation Schedule'
+                startDate={evaluation_administration?.eval_schedule_start_date}
+                endDate={evaluation_administration?.eval_schedule_end_date}
+                isMobile={isMobile}
+              />
+              <div className='flex whitespace-nowrap justify-start align-center gap-20'>
+                <h2 className='flex justify-center items-center mr-1 font-bold'>
+                  Reschedule evaluation end date:
+                </h2>
+                <span className='border rounded'>
+                  <Datepicker
+                    useRange={false}
+                    asSingle={true}
+                    value={formData}
+                    minDate={new Date()}
+                    onChange={handleChangeDateRange}
+                  />
+                </span>
+              </div>
+            </div>
+          }
+        </Dialog.Description>
+        <Dialog.Actions>
+          <Button variant='primaryOutline' onClick={toggleReopenDialog} testId='DialogNoButton'>
+            Cancel
+          </Button>
+          <Button variant='primary' onClick={handleReopen} testId='DialogYesButton'>
+            Reopen
+          </Button>
+        </Dialog.Actions>
+      </Dialog>
     </>
   )
 }

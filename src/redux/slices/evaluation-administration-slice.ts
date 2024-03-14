@@ -140,9 +140,11 @@ export const publishEvaluationAdministration = createAsyncThunk(
 
 export const reopenEvaluationAdministration = createAsyncThunk(
   "evaluationAdministration/reopen",
-  async (id: number, thunkApi) => {
+  async ({ id, endDate }: { id: number | string; endDate: Date | string }, thunkApi) => {
     try {
-      const response = await axiosInstance.post(`/admin/evaluation-administrations/${id}/reopen`)
+      const response = await axiosInstance.post(`/admin/evaluation-administrations/${id}/reopen`, {
+        eval_end_date: endDate,
+      })
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
