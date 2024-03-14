@@ -6,4 +6,18 @@ export interface SkillCategory {
   sequence_no?: number
   description?: string
   project_skills?: Skill[]
+  status?: boolean
 }
+
+export interface SkillCategoryFilters {
+  name?: string
+  status?: string
+  page?: string
+}
+
+export enum SkillCategoryStatus {
+  Active = "Active",
+  Inactive = "Inactive",
+}
+
+export const skillCategoryColumns = ["Name", "Description", "Status", "Actions"]

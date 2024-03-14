@@ -4,7 +4,7 @@ import { Input } from "@components/ui/input/input"
 import { Button } from "@components/ui/button/button"
 import { CustomSelect } from "@components/ui/select/custom-select"
 import { useAppSelector } from "@hooks/useAppSelector"
-import { getSkillCategories } from "@redux/slices/skill-category-slice"
+import { getAllSkillCategories } from "@redux/slices/skill-categories-slice"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { type Option } from "@custom-types/optionType"
 
@@ -19,7 +19,7 @@ export const SelectProjectMemberSkillsFilter = () => {
   const { skill_categories } = useAppSelector((state) => state.skillCategories)
 
   useEffect(() => {
-    void appDispatch(getSkillCategories())
+    void appDispatch(getAllSkillCategories())
   }, [])
 
   useEffect(() => {
