@@ -119,3 +119,18 @@ export interface SkillCategoryFormData {
   description?: string
   status?: boolean | string | number
 }
+
+export interface SurveyAdministrationFormData {
+  name?: string
+  survey_start_date?: string
+  survey_end_date?: string
+  survey_template_id?: string
+  remarks?: string
+  email_subject?: string
+  email_content?: string
+}
+
+export interface SurveyResultsFormData {
+  survey_administration_id?: string
+  employee_ids: number[]
+}

@@ -125,6 +125,19 @@ const SkillCategories = lazy(
   async () => await import("@pages/admin/skill-categories/skill-categories")
 )
 
+const CreateSurveyAdministration = lazy(
+  async () =>
+    await import("@pages/admin/survey-administrations/create/create-survey-administration")
+)
+
+const SelectRespondents = lazy(
+  async () => await import("@pages/admin/survey-administrations/[id]/select/select-respondents")
+)
+
+const PreviewRespondents = lazy(
+  async () => await import("@pages/admin/survey-administrations/[id]/preview/preview-respondents")
+)
+
 export const adminRoutes = {
   element: <AdminRoute />,
   children: [
@@ -290,6 +303,21 @@ export const adminRoutes = {
     {
       path: routes.private.admin.skillMapAdministrations,
       element: <></>,
+    },
+    /**
+     * Survey Administrations
+     */
+    {
+      path: routes.private.admin.createSurveyAdministrations,
+      element: <CreateSurveyAdministration />,
+    },
+    {
+      path: routes.private.admin.selectRespondents,
+      element: <SelectRespondents />,
+    },
+    {
+      path: routes.private.admin.previewRespondents,
+      element: <PreviewRespondents />,
     },
   ],
 }
