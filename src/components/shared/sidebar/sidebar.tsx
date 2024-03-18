@@ -55,7 +55,7 @@ const menuLinks: MenuLink[] = [
     title: "Survey Forms",
     link: routes.private.internalUser.surveyForms,
     icon: "Clipboard",
-    access: "Bod",
+    access: "Internal",
   },
   {
     title: "Evaluation Admin",
