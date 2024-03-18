@@ -58,6 +58,9 @@ export const routes = {
       skillCategories,
       skillMapAdministrations,
       surveyAdministrations,
+      createSurveyAdministrations: `${surveyAdministrations}/create`,
+      selectRespondents: `${surveyAdministrations}/:id/select`,
+      previewRespondents: `${surveyAdministrations}/:id/preview`,
     },
     cmUser: {
       evaluationResultsList: "/evaluation-results",
