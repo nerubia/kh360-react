@@ -541,7 +541,7 @@ test.describe("User - Evaluations", () => {
         await page.getByTestId("SidebarCloseButton").click()
       }
 
-      await page.getByRole("link").nth(2).click()
+      await page.locator("#scrollable-div").getByRole("link").click()
 
       await mockRequest(page, "/user/evaluation-administrations", {
         status: 200,
