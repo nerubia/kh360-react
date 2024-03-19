@@ -6,6 +6,7 @@ const messageTemplates = "admin/message-templates"
 const evaluationTemplates = "admin/evaluation-templates"
 const skills = "admin/skills"
 const skillCategories = "admin/skill-categories"
+const skillMapAdministrations = "admin/skill-map-administrations"
 const surveyAdministrations = "admin/survey-administrations"
 
 export const routes = {
@@ -55,6 +56,7 @@ export const routes = {
       editEvaluationTemplate: `${evaluationTemplates}/:id/edit`,
       skills,
       skillCategories,
+      skillMapAdministrations,
       surveyAdministrations,
     },
     cmUser: {
