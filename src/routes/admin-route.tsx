@@ -284,6 +284,13 @@ export const adminRoutes = {
       path: routes.private.admin.skillCategories,
       element: <SkillCategories />,
     },
+    /**
+     * Skill Map Administrations
+     */
+    {
+      path: routes.private.admin.skillMapAdministrations,
+      element: <></>,
+    },
   ],
 }
 
