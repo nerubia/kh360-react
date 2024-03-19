@@ -76,6 +76,7 @@ export const SkillCategoriesTable = () => {
               variant: "destructive",
             })
           )
+          toggleDialog(null)
         }
         if (result.type === "skillCategory/deleteSkillCategory/fulfilled") {
           appDispatch(
@@ -130,7 +131,7 @@ export const SkillCategoriesTable = () => {
         return `${item.description ?? ""}`
       case "Status":
         return (
-          <Badge variant={`${item.status === true ? "green" : "red"}`} size='small'>
+          <Badge variant={`${item.status === true ? "green" : "gray"}`} size='small'>
             {item.status === true ? "ACTIVE" : "INACTIVE"}
           </Badge>
         )
