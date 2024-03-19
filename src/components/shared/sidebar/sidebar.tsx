@@ -85,13 +85,13 @@ const menuLinks: MenuLink[] = [
   },
   {
     title: "Skill Map Admin",
-    link: routes.notFound,
+    link: routes.private.admin.skillMapAdministrations,
     icon: "UserRoundCog",
     access: "Admin",
     children: [
       {
         title: "Skill Map Admin List",
-        link: routes.notFound,
+        link: routes.private.admin.skillMapAdministrations,
         icon: "PenSquare",
         access: "Admin",
       },
