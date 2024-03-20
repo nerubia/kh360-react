@@ -219,7 +219,13 @@ export const Sidebar = () => {
                       isParentActive(menu) && menu.title === "Evaluation Admin"
                         ? "!bg-primary-700 p-6"
                         : ""
-                    } ${menu.title === "Evaluation Admin" && isMediumSize ? "p-6" : ""}`}
+                    } ${
+                      menu.title === "Evaluation Admin" && isMediumSize
+                        ? "p-6"
+                        : menu.title === "Evaluation Admin"
+                        ? "whitespace-nowrap"
+                        : ""
+                    }`}
                   >
                     <div
                       className={isMediumSize ? "text-xs flex gap-2 items-center" : "flex gap-2"}
