@@ -9,45 +9,19 @@ import { WebSocketContext, type WebSocketType } from "@components/providers/webs
 import { Badge } from "@components/ui/badge/badge"
 import { getSurveyStatusVariant } from "@utils/variant"
 import { Loading } from "@custom-types/loadingType"
+import { getUserSurveyAdministrations } from "@redux/slices/survey-administrations-slice"
 
-const mocksurvey_administration = [
-  {
-    id: 1,
-    name: "Sample Survey 1",
-    status: "Ready",
-    startDate: "2024-03-01",
-    endDate: "2024-03-15",
-    description: "This is a sample survey for testing purposes.",
-    remarks: "Sample remarks",
-  },
-  {
-    id: 2,
-    name: "Sample Survey 2",
-    status: "Draft",
-    startDate: "2024-04-01",
-    endDate: "2024-04-15",
-    description: "Another sample survey for testing purposes.",
-    remarks: "Another sample remarks",
-  },
-  {
-    id: 3,
-    name: "Sample Survey 3",
-    status: "Ongoing",
-    startDate: "2024-04-01",
-    endDate: "2024-04-15",
-    description: "Another sample survey for testing purposes.",
-    remarks: "Another sample remarks",
-  },
-]
-
-export const SurveyTable = () => {
+export const SurveyFormsList = () => {
   const appDispatch = useAppDispatch()
-  const { loading } = useAppSelector((state) => state.surveyAdministration)
+  const { loading, user_survey_administrations } = useAppSelector(
+    (state) => state.surveyAdministrations
+  )
   const { emailTemplate } = useAppSelector((state) => state.emailTemplate)
   const { lastJsonMessage } = useContext(WebSocketContext) as WebSocketType
 
   useEffect(() => {
     void appDispatch(getByTemplateType("No Pending Survey Forms"))
+    void appDispatch(getUserSurveyAdministrations())
   }, [])
 
   useEffect(() => {
@@ -66,8 +40,8 @@ export const SurveyTable = () => {
       )}
       {
         <>
-          {mocksurvey_administration.map((survey) => (
-            <Link key={survey.id} to={`/survey_administration/${survey.id}/details`}>
+          {user_survey_administrations.map((survey) => (
+            <Link key={survey.id} to={`/survey-forms/${survey.id}`}>
               <div className='flex flex-col items-start gap-4 md:flex-row md:justify-between shadow-md rounded-md p-4 hover:bg-slate-100'>
                 <div className='flex flex-col gap-2'>
                   <div className='flex gap-2 items-center'>
@@ -77,7 +51,10 @@ export const SurveyTable = () => {
                     </Badge>
                   </div>
                   <div>
-                    <p>Survey Period: {formatDateRange(survey.startDate, survey.endDate)}</p>
+                    <p>
+                      Survey Period:{" "}
+                      {formatDateRange(survey.survey_start_date, survey.survey_end_date)}
+                    </p>
                     <p>{survey.remarks}</p>
                   </div>
                 </div>

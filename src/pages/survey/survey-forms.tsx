@@ -1,5 +1,5 @@
-import { SurveyHeader } from "@features/survey/survey-header"
-import { SurveyTable } from "@features/survey/survey-table"
+import { SurveyFormsHeader } from "@features/survey/survey-forms-header"
+import { SurveyFormsList } from "@features/survey/survey-forms-list"
 import { useTitle } from "@hooks/useTitle"
 
 export default function EvaluationAdministrations() {
@@ -7,8 +7,8 @@ export default function EvaluationAdministrations() {
 
   return (
     <div className='flex flex-col gap-8'>
-      <SurveyHeader />
-      <SurveyTable />
+      <SurveyFormsHeader />
+      <SurveyFormsList />
     </div>
   )
 }
