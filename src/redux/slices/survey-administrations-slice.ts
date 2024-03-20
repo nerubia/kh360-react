@@ -24,6 +24,22 @@ export const getSurveyAdministrations = createAsyncThunk(
   }
 )
 
+export const getUserSurveyAdministrations = createAsyncThunk(
+  "surveyAdministrations/getUserSurveyAdministrations",
+  async (params: SurveyAdministrationFilters | undefined, thunkApi) => {
+    try {
+      const response = await axiosInstance.get("/user/survey-administrations", {
+        params,
+      })
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const getSurveyAdministrationsSocket = createAsyncThunk(
   "surveyAdministrations/getSurveyAdministrationsSocket",
   async (params: SurveyAdministrationFilters | undefined, thunkApi) => {
@@ -43,6 +59,7 @@ export const getSurveyAdministrationsSocket = createAsyncThunk(
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
+  user_survey_administrations: SurveyAdminstration[]
   survey_administrations: SurveyAdminstration[]
   hasPreviousPage: boolean
   hasNextPage: boolean
@@ -54,6 +71,7 @@ interface InitialState {
 const initialState: InitialState = {
   loading: Loading.Idle,
   error: null,
+  user_survey_administrations: [],
   survey_administrations: [],
   hasPreviousPage: false,
   hasNextPage: false,
@@ -98,6 +116,26 @@ const surveyAdministrationsSlice = createSlice({
       state.hasNextPage = action.payload.pageInfo.hasNextPage
       state.totalPages = action.payload.pageInfo.totalPages
       state.totalItems = action.payload.pageInfo.totalItems
+    })
+    /**
+     * List user survey administrations
+     */
+    builder.addCase(getUserSurveyAdministrations.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getUserSurveyAdministrations.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.user_survey_administrations = action.payload.data
+      state.hasPreviousPage = action.payload.pageInfo.hasPreviousPage
+      state.hasNextPage = action.payload.pageInfo.hasNextPage
+      state.totalPages = action.payload.pageInfo.totalPages
+      state.totalItems = action.payload.pageInfo.totalItems
+    })
+    builder.addCase(getUserSurveyAdministrations.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
     })
   },
 })
