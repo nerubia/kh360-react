@@ -54,7 +54,7 @@ export const SurveyAdministrationForm = () => {
 
   useEffect(() => {
     const filterOptions: Option[] = survey_templates.map((surveyTemplate) => ({
-      label: surveyTemplate.name ?? "",
+      label: surveyTemplate.display_name ?? "",
       value: surveyTemplate.id?.toString() ?? "",
     }))
     setSurveyTemplateOptions(filterOptions)
