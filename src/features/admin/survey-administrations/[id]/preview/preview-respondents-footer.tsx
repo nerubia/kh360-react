@@ -48,7 +48,7 @@ export const PreviewRespondentsFooter = () => {
   }
 
   const handleRedirect = () => {
-    navigate(`/admin/survey-administrations`)
+    navigate(`/admin/survey-administrations/${id}`)
   }
   return (
     <>
