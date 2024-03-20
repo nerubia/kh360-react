@@ -294,22 +294,40 @@ test.describe("Admin - Preview Respondents", () => {
       await page.getByRole("button", { name: "Cancel & Exit" }).click()
       await page.getByRole("button", { name: "Yes" }).click()
 
-      await mockRequest(page, "/admin/survey-administrations", {
+      await mockRequest(page, "/admin/survey-administrations/1", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
-          data: [],
-          pageInfo: {
-            hasPreviousPage: false,
-            hasNextPage: false,
-            totalPages: 1,
-          },
+          id: 1,
+          name: "Survey 1",
+          survey_start_date: "2024-01-01T00:00:00.000Z",
+          survey_end_date: "2024-01-03T00:00:00.000Z",
+          remarks: "Remarks 1",
+          email_subject: "Subject 1",
+          email_content: "Content 1",
+          status: "Draft",
         }),
+      })
+
+      await mockRequest(page, "/admin/survey-results/all?survey_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            id: 1,
+            status: "For Review",
+            users: {
+              first_name: "Sample",
+              last_name: "User",
+              picture: null,
+            },
+          },
+        ]),
       })
 
       await page.waitForLoadState("networkidle")
 
-      await expect(page).toHaveURL("/admin/survey-administrations")
+      await expect(page).toHaveURL("/admin/survey-administrations/1")
     })
 
     test("should allow to go back", async ({ page, isMobile }) => {

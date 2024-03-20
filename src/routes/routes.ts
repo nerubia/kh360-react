@@ -58,6 +58,7 @@ export const routes = {
       skillCategories,
       skillMapAdministrations,
       surveyAdministrations,
+      viewSurveyAdministrations: `${surveyAdministrations}/:id`,
       createSurveyAdministrations: `${surveyAdministrations}/create`,
       selectRespondents: `${surveyAdministrations}/:id/select`,
       previewRespondents: `${surveyAdministrations}/:id/preview`,
