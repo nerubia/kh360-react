@@ -20,6 +20,20 @@ export const getSurveyAdministration = createAsyncThunk(
   }
 )
 
+export const getSurveyAdministrationSocket = createAsyncThunk(
+  "surveyAdministration/getSurveyAdministrationSocket",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.get(`/admin/survey-administrations/${id}`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const createSurveyAdministration = createAsyncThunk(
   "surveyAdministration/createSurveyAdministration",
   async (data: SurveyAdministrationFormData, thunkApi) => {
@@ -95,7 +109,7 @@ const surveyAdministrationSlice = createSlice({
   },
   extraReducers(builder) {
     /**
-     * Get skill
+     * Get survey administration
      */
     builder.addCase(getSurveyAdministration.pending, (state) => {
       state.loading = Loading.Pending
@@ -109,6 +123,14 @@ const surveyAdministrationSlice = createSlice({
     builder.addCase(getSurveyAdministration.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
+    })
+    /**
+     * Get triggered by socket
+     */
+    builder.addCase(getSurveyAdministrationSocket.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.survey_administration = action.payload
     })
     /**
      * Create
