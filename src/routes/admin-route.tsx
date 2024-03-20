@@ -134,6 +134,10 @@ const CreateSurveyAdministration = lazy(
     await import("@pages/admin/survey-administrations/create/create-survey-administration")
 )
 
+const ViewSurveyAdministration = lazy(
+  async () => await import("@pages/admin/survey-administrations/[id]/view-survey-admin")
+)
+
 const SelectRespondents = lazy(
   async () => await import("@pages/admin/survey-administrations/[id]/select/select-respondents")
 )
@@ -314,6 +318,10 @@ export const adminRoutes = {
     {
       path: routes.private.admin.surveyAdministrations,
       element: <SurveyAdministrations />,
+    },
+    {
+      path: routes.private.admin.viewSurveyAdministrations,
+      element: <ViewSurveyAdministration />,
     },
     {
       path: routes.private.admin.createSurveyAdministrations,
