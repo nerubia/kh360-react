@@ -198,6 +198,7 @@ test.describe("Admin - Create Survey Administration", () => {
 
       await expect(page.getByText("Name is required")).toBeVisible()
       await expect(page.getByText("Start date is required, End date is required")).toBeVisible()
+      await expect(page.getByText("Survey Template is required")).toBeVisible()
       await expect(page.getByText("Description is required")).toBeVisible()
     })
 
@@ -229,9 +230,11 @@ test.describe("Admin - Create Survey Administration", () => {
         body: JSON.stringify([
           {
             id: 1,
+            name: "Template name",
             display_name: "Template display name",
-            template_type: "Create Survey type",
+            survey_type: "Create Survey type",
             is_active: true,
+            remarks: "remarks",
           },
         ]),
       })
@@ -244,6 +247,8 @@ test.describe("Admin - Create Survey Administration", () => {
         }),
       })
 
+      await page.waitForLoadState("networkidle")
+
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
       }
@@ -252,6 +257,12 @@ test.describe("Admin - Create Survey Administration", () => {
       await page.getByPlaceholder("YYYY-MM-DD ~ YYYY-MM-DD").fill("2023-01-03 ~ 2023-01-05")
       await page.getByLabel("Description").fill("Description")
       await page.getByText("Schedule").click()
+      await page
+        .locator("div")
+        .filter({ hasText: /^Select\.\.\.$/ })
+        .nth(1)
+        .click()
+      await page.getByText("Template display name", { exact: true }).click()
 
       await mockRequest(page, "/admin/users", {
         status: 200,
