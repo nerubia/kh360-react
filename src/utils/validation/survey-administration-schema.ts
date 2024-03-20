@@ -63,7 +63,7 @@ export const createSurveyAdministrationSchema = object().shape({
       return new Date(end_date) <= new Date(maxDate) && new Date(minDate) <= new Date(end_date)
     }),
   remarks: string().required("Description is required"),
-  // survey_template_id: string().required("Survey Template is required"),
+  survey_template_id: string().required("Survey Template is required"),
   email_subject: string().required("Email subject is required"),
   email_content: string().required("Email content is required"),
 })
