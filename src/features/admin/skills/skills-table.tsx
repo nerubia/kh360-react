@@ -58,6 +58,7 @@ export const SkillsTable = () => {
               variant: "destructive",
             })
           )
+          setShowDialog((prev) => !prev)
         }
         if (result.type === "skill/deleteSkill/fulfilled") {
           appDispatch(
