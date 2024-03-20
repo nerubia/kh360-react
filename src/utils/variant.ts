@@ -197,3 +197,21 @@ export const getScoreVariant = (score: number) => {
     return "green"
   }
 }
+
+export const getSurveyStatusVariant = (status: string | undefined) => {
+  if (status === EvaluationResultStatus.ForReview) {
+    return "yellow"
+  }
+  if (status === EvaluationResultStatus.Draft) {
+    return "primary"
+  }
+  if (status === EvaluationResultStatus.Ready) {
+    return "green"
+  }
+  if (status === EvaluationResultStatus.Ongoing) {
+    return "blue"
+  }
+  if (status === EvaluationResultStatus.Completed) {
+    return "pink"
+  }
+}
