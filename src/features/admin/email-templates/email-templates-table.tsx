@@ -7,14 +7,15 @@ import { Button, LinkButton } from "@components/ui/button/button"
 import { Icon } from "@components/ui/icon/icon"
 import { Pagination } from "@components/shared/pagination/pagination"
 import { setAlert } from "@redux/slices/app-slice"
-import Tooltip from "@components/ui/tooltip/tooltip"
 import { Badge } from "@components/ui/badge/badge"
 import { messageTemplateColumns, type EmailTemplate } from "@custom-types/email-template-type"
 import { Table } from "@components/ui/table/table"
+import Dialog from "@components/ui/dialog/dialog"
 
 export const EmailTemplatesTable = () => {
   const [searchParams] = useSearchParams()
   const [showDialog, setShowDialog] = useState<boolean>(false)
+  const [showDetails, setShowDetails] = useState<boolean>(false)
   const [selectedTemplateId, setSelectedTemplateId] = useState<number>()
   const appDispatch = useAppDispatch()
   const { emailTemplates, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
@@ -23,6 +24,15 @@ export const EmailTemplatesTable = () => {
   const EmailTemplatesDialog = lazy(
     async () => await import("@features/admin/email-templates/email-templates-dialog")
   )
+
+  const handleInfoIconClick = (id: number) => {
+    setSelectedTemplateId(id)
+    setShowDetails(true)
+  }
+
+  const handleCloseDialog = () => {
+    setShowDetails(false)
+  }
 
   useEffect(() => {
     void appDispatch(
@@ -72,20 +82,46 @@ export const EmailTemplatesTable = () => {
         return `${item.name}`
       case "Template Type":
         return `${item.template_type}`
+      case "Subject":
+        return (
+          <div className='inline-flex items-baseline gap-1'>
+            {item.subject?.length !== 0 ? (
+              <span className='relative mr-10'>
+                {item.subject}
+                <span
+                  className='cursor-pointer absolute origin-bottom-right ml-1'
+                  onClick={() => handleInfoIconClick(item.id)}
+                >
+                  <Icon icon='Info' color='primary' />
+                </span>
+              </span>
+            ) : (
+              <div className='cursor-pointer' onClick={() => handleInfoIconClick(item.id)}>
+                <Icon icon='Info' color='primary' />
+              </div>
+            )}
+            <Dialog open={showDetails && selectedTemplateId === item.id} size='small'>
+              <Dialog.Title>
+                <div className={`py-1 text-primary-500`}>
+                  {item.name?.replace(/\s/g, "").substring(0, 30)}
+                </div>
+              </Dialog.Title>
+              <Dialog.Description>
+                <div>{item.content}</div>
+              </Dialog.Description>
+              <Dialog.Actions>
+                <Button variant='primary' onClick={handleCloseDialog}>
+                  Close
+                </Button>
+              </Dialog.Actions>
+            </Dialog>
+          </div>
+        )
       case "Default":
         return (
           <Badge variant={`${item.is_default ? "green" : "red"}`} size='small'>
             {item.is_default ? "YES" : "NO"}
           </Badge>
-        )
-      case "Subject":
-        return (
-          <div>
-            <Tooltip placement='bottomStart'>
-              <Tooltip.Trigger>{item.subject}</Tooltip.Trigger>
-              <Tooltip.Content>{item.content}</Tooltip.Content>
-            </Tooltip>
-          </div>
         )
       case "Actions":
         return (
@@ -106,7 +142,7 @@ export const EmailTemplatesTable = () => {
   }
 
   return (
-    <div className='flex flex-col gap-8 overflow-x-auto xl:overflow-x-hidden'>
+    <div className='flex flex-col gap-8'>
       <Table
         columns={messageTemplateColumns}
         data={emailTemplates}

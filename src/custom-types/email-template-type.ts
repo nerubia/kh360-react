@@ -38,4 +38,4 @@ export enum EmailTemplateDefault {
 export interface TemplateTypeOption {
   label: string
 }
-export const messageTemplateColumns = ["Name", "Template Type", "Default", "Subject", "Actions"]
+export const messageTemplateColumns = ["Name", "Template Type", "Subject", "Default", "Actions"]
