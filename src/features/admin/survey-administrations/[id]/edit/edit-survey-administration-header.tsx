@@ -1,0 +1,9 @@
+import { PageTitle } from "@components/shared/page-title"
+
+export const EditSurveyAdministrationHeader = () => {
+  return (
+    <div className='flex flex-col md:flex-row justify-between gap-4'>
+      <PageTitle>Edit Survey Administration</PageTitle>
+    </div>
+  )
+}
