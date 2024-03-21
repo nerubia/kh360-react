@@ -141,10 +141,24 @@ const menuLinks: MenuLink[] = [
         icon: "Shapes",
         access: "Admin",
       },
+    ],
+  },
+  {
+    title: "Survey Admin",
+    link: routes.private.admin.surveyAdministrations,
+    icon: "UserRoundCog",
+    access: "Admin",
+    children: [
       {
         title: "Survey Admin List",
         link: routes.private.admin.surveyAdministrations,
         icon: "ClipboardList",
+        access: "Admin",
+      },
+      {
+        title: "Survey Results",
+        link: routes.private.admin.surveyResults,
+        icon: "PieChart",
         access: "Admin",
       },
     ],

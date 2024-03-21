@@ -26,6 +26,7 @@ export const icons = {
   Menu: lazy(async () => await import("./icons/menu-icon")),
   Message: lazy(async () => await import("./icons/message-icon")),
   PenSquare: lazy(async () => await import("./icons/pen-square-icon")),
+  PieChart: lazy(async () => await import("./icons/pie-chart-icon")),
   Plus: lazy(async () => await import("./icons/plus-icon")),
   RefreshCw: lazy(async () => await import("./icons/refresh-cw-icon")),
   Shapes: lazy(async () => await import("./icons/shapes-icon")),
