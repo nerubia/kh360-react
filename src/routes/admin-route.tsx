@@ -138,6 +138,11 @@ const ViewSurveyAdministration = lazy(
   async () => await import("@pages/admin/survey-administrations/[id]/view-survey-admin")
 )
 
+const EditSurveyAdministration = lazy(
+  async () =>
+    await import("@pages/admin/survey-administrations/[id]/edit/edit-survey-administration")
+)
+
 const SelectRespondents = lazy(
   async () => await import("@pages/admin/survey-administrations/[id]/select/select-respondents")
 )
@@ -324,8 +329,12 @@ export const adminRoutes = {
       element: <ViewSurveyAdministration />,
     },
     {
-      path: routes.private.admin.createSurveyAdministrations,
+      path: routes.private.admin.createSurveyAdministration,
       element: <CreateSurveyAdministration />,
+    },
+    {
+      path: routes.private.admin.editSurveyAdministration,
+      element: <EditSurveyAdministration />,
     },
     {
       path: routes.private.admin.selectRespondents,
