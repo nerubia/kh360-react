@@ -327,6 +327,13 @@ export const adminRoutes = {
       path: routes.private.admin.previewRespondents,
       element: <PreviewRespondents />,
     },
+    /**
+     * Survey Results
+     */
+    {
+      path: routes.private.admin.surveyResults,
+      element: <></>,
+    },
   ],
 }
 
