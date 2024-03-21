@@ -8,6 +8,7 @@ const skills = "admin/skills"
 const skillCategories = "admin/skill-categories"
 const skillMapAdministrations = "admin/skill-map-administrations"
 const surveyAdministrations = "admin/survey-administrations"
+const surveyResults = "admin/survey-results"
 
 export const routes = {
   home: "/",
@@ -62,6 +63,7 @@ export const routes = {
       createSurveyAdministrations: `${surveyAdministrations}/create`,
       selectRespondents: `${surveyAdministrations}/:id/select`,
       previewRespondents: `${surveyAdministrations}/:id/preview`,
+      surveyResults,
     },
     cmUser: {
       evaluationResultsList: "/evaluation-results",
