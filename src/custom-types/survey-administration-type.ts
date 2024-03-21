@@ -3,6 +3,7 @@ export interface SurveyAdminstration {
   name?: string
   survey_start_date?: string
   survey_end_date?: string
+  survey_template_id?: string
   remarks?: string
   email_subject?: string
   email_content?: string
