@@ -1,5 +1,5 @@
 import { Suspense, lazy, useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { ValidationError } from "yup"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
@@ -9,7 +9,11 @@ import { TextArea } from "@components/ui/textarea/text-area"
 import { Loading } from "@custom-types/loadingType"
 import { getByTemplateType } from "@redux/slices/email-template-slice"
 import { type SurveyAdministrationFormData } from "@custom-types/form-data-type"
-import { createSurveyAdministration } from "@redux/slices/survey-administration-slice"
+import {
+  createSurveyAdministration,
+  getSurveyAdministration,
+  updateSurveyAdministration,
+} from "@redux/slices/survey-administration-slice"
 import { setAlert } from "@redux/slices/app-slice"
 import { DateRangePicker } from "@components/ui/date-range-picker/date-range-picker"
 import { type DateValueType, type DateType } from "react-tailwindcss-datepicker"
@@ -19,15 +23,15 @@ import { type Option } from "@custom-types/optionType"
 import { type SingleValue } from "react-select"
 import { getAllSurveyTemplates } from "@redux/slices/survey-templates-slice"
 
-const EvaluationAdminDialog = lazy(
-  async () =>
-    await import("@features/admin/evaluation-administrations/evaluation-administrations-dialog")
+const SurveyAdminDialog = lazy(
+  async () => await import("@features/admin/survey-administrations/survey-administration-dialog")
 )
 
 export const SurveyAdministrationForm = () => {
   const navigate = useNavigate()
   const appDispatch = useAppDispatch()
-  const { loading } = useAppSelector((state) => state.evaluationAdministrations)
+  const { id } = useParams()
+  const { loading, survey_administration } = useAppSelector((state) => state.surveyAdministration)
   const { emailTemplate } = useAppSelector((state) => state.emailTemplate)
   const { survey_templates } = useAppSelector((state) => state.surveyTemplates)
 
@@ -50,7 +54,22 @@ export const SurveyAdministrationForm = () => {
   useEffect(() => {
     void appDispatch(getByTemplateType("Create Survey"))
     void appDispatch(getAllSurveyTemplates())
+    if (id !== undefined) {
+      void appDispatch(getSurveyAdministration(parseInt(id)))
+    }
   }, [])
+
+  useEffect(() => {
+    setFormData({
+      name: survey_administration?.name,
+      survey_start_date: survey_administration?.survey_start_date,
+      survey_end_date: survey_administration?.survey_end_date,
+      survey_template_id: survey_administration?.survey_template_id?.toString(),
+      remarks: survey_administration?.remarks,
+      email_subject: survey_administration?.email_subject,
+      email_content: survey_administration?.email_content,
+    })
+  }, [survey_administration])
 
   useEffect(() => {
     const filterOptions: Option[] = survey_templates.map((surveyTemplate) => ({
@@ -98,6 +117,38 @@ export const SurveyAdministrationForm = () => {
     }
   }
 
+  const handleEdit = async () => {
+    try {
+      await createSurveyAdministrationSchema.validate(formData, {
+        abortEarly: false,
+      })
+      if (id !== undefined) {
+        const result = await appDispatch(
+          updateSurveyAdministration({ id: parseInt(id), skillCategory: formData })
+        )
+        if (result.type === "surveyAdministration/updateSurveyAdministration/fulfilled") {
+          navigate(`/admin/survey-administrations/${result.payload.id}`)
+        }
+        if (result.type === "surveyAdministration/updateSurveyAdministration/rejected") {
+          appDispatch(
+            setAlert({
+              description: result.payload,
+              variant: "destructive",
+            })
+          )
+        }
+      }
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        const errors: Partial<SurveyAdministrationFormData> = {}
+        error.inner.forEach((err) => {
+          errors[err.path as keyof SurveyAdministrationFormData] = err.message
+        })
+        setValidationErrors(errors)
+      }
+    }
+  }
+
   const handleChangeDateRange = (value: DateValueType, field: string) => {
     const startDate = value?.startDate != null ? value.startDate.toString().split("T")[0] : ""
     const endDate = value?.endDate != null ? value.endDate.toString().split("T")[0] : ""
@@ -128,7 +179,11 @@ export const SurveyAdministrationForm = () => {
     setShowDialog((prev) => !prev)
   }
   const handleRedirect = () => {
-    navigate(`/admin/survey-administrations`)
+    if (id !== undefined) {
+      navigate(`/admin/survey-administrations/${id}`)
+    } else {
+      navigate(`/admin/survey-administrations`)
+    }
   }
 
   const dateLimit = (dateString: null | undefined | DateType) => {
@@ -148,7 +203,7 @@ export const SurveyAdministrationForm = () => {
           <Input
             name='name'
             placeholder='Name'
-            value={formData.name}
+            value={formData.name ?? ""}
             onChange={handleInputChange}
             error={validationErrors.name}
             maxLength={100}
@@ -191,7 +246,7 @@ export const SurveyAdministrationForm = () => {
         label='Description'
         name='remarks'
         placeholder='Some description'
-        value={formData.remarks}
+        value={formData.remarks ?? ""}
         onChange={handleTextAreaChange}
         error={validationErrors.remarks}
       />
@@ -201,7 +256,7 @@ export const SurveyAdministrationForm = () => {
           label='Subject'
           name='email_subject'
           placeholder='Subject'
-          value={formData.email_subject}
+          value={formData.email_subject ?? ""}
           onChange={handleInputChange}
           error={validationErrors.email_subject}
         />
@@ -219,13 +274,16 @@ export const SurveyAdministrationForm = () => {
           <Button variant='primaryOutline' onClick={toggleDialog}>
             Cancel & Exit
           </Button>
-          <Button onClick={handleSubmit} loading={loading === Loading.Pending}>
+          <Button
+            onClick={async () => (id === undefined ? await handleSubmit() : await handleEdit())}
+            loading={loading === Loading.Pending}
+          >
             Save & Proceed
           </Button>
         </div>
       </div>
       <Suspense>
-        <EvaluationAdminDialog
+        <SurveyAdminDialog
           open={showDialog}
           title='Cancel & Exit'
           description={
