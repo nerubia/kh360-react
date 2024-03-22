@@ -1,5 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { type SurveyAdminstration } from "@custom-types/survey-administration-type"
+import {
+  SurveyAdministrationStatus,
+  type SurveyAdminstration,
+} from "@custom-types/survey-administration-type"
 import { Loading } from "@custom-types/loadingType"
 import { axiosInstance } from "@utils/axios-instance"
 import { type AxiosError } from "axios"
@@ -76,6 +79,48 @@ export const deleteSurveyAdministration = createAsyncThunk(
   async (id: number, thunkApi) => {
     try {
       const response = await axiosInstance.delete(`/admin/survey-administrations/${id}`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const closeSurveyAdministration = createAsyncThunk(
+  "surveyAdministration/close",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.post(`/admin/survey-administrations/${id}/close`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const cancelSurveyAdministration = createAsyncThunk(
+  "surveyAdministration/cancel",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.post(`/admin/survey-administrations/${id}/cancel`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const reopenSurveyAdministration = createAsyncThunk(
+  "surveyAdministration/reopen",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.post(`/admin/survey-administrations/${id}/reopen`)
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -176,6 +221,69 @@ const surveyAdministrationSlice = createSlice({
       state.error = null
     })
     builder.addCase(deleteSurveyAdministration.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Close
+     */
+    builder.addCase(closeSurveyAdministration.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(closeSurveyAdministration.fulfilled, (state) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      if (state.survey_administration !== null) {
+        state.survey_administration = {
+          ...state.survey_administration,
+          status: SurveyAdministrationStatus.Closed,
+        }
+      }
+    })
+    builder.addCase(closeSurveyAdministration.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Cancel
+     */
+    builder.addCase(cancelSurveyAdministration.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(cancelSurveyAdministration.fulfilled, (state) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      if (state.survey_administration !== null) {
+        state.survey_administration = {
+          ...state.survey_administration,
+          status: SurveyAdministrationStatus.Cancelled,
+        }
+      }
+    })
+    builder.addCase(cancelSurveyAdministration.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Reopen
+     */
+    builder.addCase(reopenSurveyAdministration.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(reopenSurveyAdministration.fulfilled, (state) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      if (state.survey_administration !== null) {
+        state.survey_administration = {
+          ...state.survey_administration,
+          status: SurveyAdministrationStatus.Ongoing,
+        }
+      }
+    })
+    builder.addCase(reopenSurveyAdministration.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
