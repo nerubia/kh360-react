@@ -132,6 +132,7 @@ export const reopenSurveyAdministration = createAsyncThunk(
 
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
+  loading_send: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
   survey_administration: SurveyAdminstration | null
   selectedEmployeeIds: number[]
@@ -139,6 +140,7 @@ interface InitialState {
 
 const initialState: InitialState = {
   loading: Loading.Idle,
+  loading_send: Loading.Idle,
   error: null,
   survey_administration: null,
   selectedEmployeeIds: [],

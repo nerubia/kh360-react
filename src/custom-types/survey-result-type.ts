@@ -1,4 +1,5 @@
 import { type User } from "./user-type"
+import { type EmailLog } from "./email-log-type"
 
 export interface SurveyResult {
   id?: string
@@ -6,6 +7,9 @@ export interface SurveyResult {
   status?: string
   remarks?: string
   users?: User
+  total_questions?: number
+  total_answered?: number
+  email_logs?: EmailLog[]
 }
 
 export interface SurveyResultFilters {
