@@ -35,7 +35,7 @@ export const ViewSurveyAdminList = () => {
 
   return (
     <>
-      <div className={`flex flex-col gap-8`}>
+      <div className={`flex flex-col gap-8 mb-4`}>
         <div className={`flex flex-col ${isMobile ? "overflow-x-auto" : ""}`}>
           {survey_results?.map((surveyResult, surveyIndex) => (
             <div key={surveyIndex} className='mb-2 ml-2'>
