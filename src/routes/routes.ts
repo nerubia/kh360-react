@@ -74,6 +74,7 @@ export const routes = {
       myEvaluations: "/my-evaluations",
       myEvaluationResults: "/my-evaluations/:id",
       surveyForms: "/survey-forms",
+      survey: "survey-forms/:id",
     },
   },
 }
