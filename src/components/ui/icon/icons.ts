@@ -38,4 +38,5 @@ export const icons = {
   UploadCloud: lazy(async () => await import("./icons/upload-cloud-icon")),
   UserFill: lazy(async () => await import("./icons/user-fill-icon")),
   UserRoundCog: lazy(async () => await import("./icons/user-round-cog-icon")),
+  DefaultImage: lazy(async () => await import("./icons/default-image")),
 }

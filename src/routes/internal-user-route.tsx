@@ -7,7 +7,8 @@ const MyEvaluations = lazy(async () => await import("@pages/my-evaluations/my-ev
 const MyEvaluationResults = lazy(
   async () => await import("@pages/my-evaluations/[id]/my-evaluation-results")
 )
-const SurveyForms = lazy(async () => await import("@pages/survey/survey-forms"))
+const SurveyForm = lazy(async () => await import("@pages/survey-forms/survey-forms"))
+const SurveyForms = lazy(async () => await import("@pages/survey-forms/[id]/survey-form"))
 
 export const internalUserRoutes = {
   element: <InternalUserRoute />,
@@ -26,6 +27,10 @@ export const internalUserRoutes = {
     },
     {
       path: routes.private.internalUser.surveyForms,
+      element: <SurveyForm />,
+    },
+    {
+      path: routes.private.internalUser.survey,
       element: <SurveyForms />,
     },
   ],
