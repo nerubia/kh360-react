@@ -13,6 +13,7 @@ import {
   createSurveyAdministration,
   getSurveyAdministration,
   updateSurveyAdministration,
+  setSelectedEmployeeIds,
 } from "@redux/slices/survey-administration-slice"
 import { setAlert } from "@redux/slices/app-slice"
 import { DateRangePicker } from "@components/ui/date-range-picker/date-range-picker"
@@ -22,6 +23,7 @@ import { CustomSelect } from "@components/ui/select/custom-select"
 import { type Option } from "@custom-types/optionType"
 import { type SingleValue } from "react-select"
 import { getAllSurveyTemplates } from "@redux/slices/survey-templates-slice"
+import { setSurveyResults } from "@redux/slices/survey-results-slice"
 
 const SurveyAdminDialog = lazy(
   async () => await import("@features/admin/survey-administrations/survey-administration-dialog")
@@ -60,15 +62,17 @@ export const SurveyAdministrationForm = () => {
   }, [])
 
   useEffect(() => {
-    setFormData({
-      name: survey_administration?.name,
-      survey_start_date: survey_administration?.survey_start_date,
-      survey_end_date: survey_administration?.survey_end_date,
-      survey_template_id: survey_administration?.survey_template_id?.toString(),
-      remarks: survey_administration?.remarks,
-      email_subject: survey_administration?.email_subject,
-      email_content: survey_administration?.email_content,
-    })
+    if (id !== undefined) {
+      setFormData({
+        name: survey_administration?.name,
+        survey_start_date: survey_administration?.survey_start_date,
+        survey_end_date: survey_administration?.survey_end_date,
+        survey_template_id: survey_administration?.survey_template_id?.toString(),
+        remarks: survey_administration?.remarks,
+        email_subject: survey_administration?.email_subject,
+        email_content: survey_administration?.email_content,
+      })
+    }
   }, [survey_administration])
 
   useEffect(() => {
@@ -96,6 +100,8 @@ export const SurveyAdministrationForm = () => {
       })
       const result = await appDispatch(createSurveyAdministration(formData))
       if (result.type === "surveyAdministration/createSurveyAdministration/fulfilled") {
+        void appDispatch(setSurveyResults([]))
+        void appDispatch(setSelectedEmployeeIds([]))
         navigate(`/admin/survey-administrations/${result.payload.id}/select`)
       }
       if (result.type === "surveyAdministration/createSurveyAdministration/rejected") {
