@@ -35,7 +35,7 @@ export const SurveyFormsList = () => {
           <Spinner />
         </div>
       )}
-      {loading === Loading.Pending && (
+      {loading === Loading.Fulfilled && user_survey_administrations?.length === 0 && (
         <p className='whitespace-pre-wrap'>{emailTemplate?.content}</p>
       )}
       {
