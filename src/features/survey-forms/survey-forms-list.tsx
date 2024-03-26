@@ -9,13 +9,11 @@ import { WebSocketContext, type WebSocketType } from "@components/providers/webs
 import { Badge } from "@components/ui/badge/badge"
 import { getSurveyStatusVariant } from "@utils/variant"
 import { Loading } from "@custom-types/loadingType"
-import { getUserSurveyAdministrations } from "@redux/slices/survey-administrations-slice"
+import { getUserSurveyAdministrations } from "@redux/slices/user-slice"
 
 export const SurveyFormsList = () => {
   const appDispatch = useAppDispatch()
-  const { loading, user_survey_administrations } = useAppSelector(
-    (state) => state.surveyAdministrations
-  )
+  const { loading, user_survey_administrations } = useAppSelector((state) => state.user)
   const { emailTemplate } = useAppSelector((state) => state.emailTemplate)
   const { lastJsonMessage } = useContext(WebSocketContext) as WebSocketType
 

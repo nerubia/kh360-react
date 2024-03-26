@@ -48,3 +48,7 @@ export interface UserEvaluationsFilter {
   evaluation_administration_id?: number
   for_evaluation: number
 }
+
+export interface UserQuestionsFilter {
+  survey_administration_id?: number
+}
