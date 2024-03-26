@@ -918,7 +918,7 @@ test.describe("Admin - Evaluations", () => {
         body: JSON.stringify({}),
       })
 
-      await page.getByRole("button", { name: "Yes" }).click()
+      await page.getByRole("button", { name: "Reopen" }).click()
 
       await page.waitForLoadState("networkidle")
 

@@ -11,7 +11,7 @@ interface CustomDialogProps {
   closeButtonLabel?: string
   submitButtonLabel?: string
   variant?: "white" | undefined
-  size?: "small" | "medium" | undefined
+  size?: "small" | "medium" | "lg" | undefined
   maxWidthMin?: true | undefined
   onClose?: (e: null | React.MouseEvent) => void
   onSubmit?: (e: null | React.MouseEvent) => void
