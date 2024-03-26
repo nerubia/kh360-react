@@ -120,6 +120,7 @@ export const ViewSurveyAdminList = () => {
                 {surveyResult.total_questions !== surveyResult.total_answered &&
                   survey_administration?.status !== SurveyAdministrationStatus.Closed &&
                   survey_administration?.status !== SurveyAdministrationStatus.Cancelled &&
+                  survey_administration?.status !== SurveyAdministrationStatus.Pending &&
                   survey_administration?.status !== SurveyAdministrationStatus.Published && (
                     <Tooltip placement='bottomStart'>
                       <Tooltip.Trigger>
