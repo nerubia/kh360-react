@@ -6,7 +6,7 @@ export default function SurveyForm() {
   useTitle("Survey Form")
 
   return (
-    <div className='h-[calc(100vh_-_104px)] flex flex-col gap-8 justify-evenly'>
+    <div className='flex flex-col gap-8 justify-evenly'>
       <SurveyFormHeader />
       <SurveyFormTable />
     </div>
