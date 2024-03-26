@@ -18,3 +18,14 @@ export interface SurveyResultFilters {
   user_id?: string
   status?: string
 }
+
+export enum SurveyResultStatus {
+  ForReview = "For Review",
+  Draft = "Draft",
+  Ready = "Ready",
+  Ongoing = "Ongoing",
+  Closed = "Closed",
+  Completed = "Completed",
+  Cancelled = "Cancelled",
+  NoResult = "No Result",
+}

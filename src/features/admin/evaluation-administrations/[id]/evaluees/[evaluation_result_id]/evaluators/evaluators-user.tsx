@@ -7,7 +7,7 @@ import { Badge } from "@components/ui/badge/badge"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { setUsers } from "@redux/slices/users-slice"
 import { setExternalUsers } from "@redux/slices/external-users-slice"
-import Image from "@components/ui/image/image"
+import Image from "@components/ui/image/user-image"
 
 export const EvaluatorsUser = () => {
   const navigate = useNavigate()

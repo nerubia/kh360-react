@@ -15,7 +15,7 @@ import { getEvaluationResultStatusVariant } from "@utils/variant"
 import { Badge } from "@components/ui/badge/badge"
 import { Loading } from "@custom-types/loadingType"
 import { setSelectedEmployeeIds } from "@redux/slices/evaluation-administration-slice"
-import Image from "@components/ui/image/image"
+import Image from "@components/ui/image/user-image"
 
 const EvaluationAdminDialog = lazy(
   async () =>

@@ -1,9 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
 import { type ApiError } from "@custom-types/apiErrorType"
-import { type UserEvaluationsFilter } from "@custom-types/user-type"
+import { type UserEvaluationsFilter, type UserQuestionsFilter } from "@custom-types/user-type"
 import { type Evaluation } from "@custom-types/evaluation-type"
 import { type Answers } from "@custom-types/answers-type"
+import { type SurveyAnswer, type SurveyAnswers } from "@custom-types/survey-answer-type"
 import {
   type EvaluationAdministration,
   type EvaluationAdministrationFilters,
@@ -11,6 +12,11 @@ import {
 import { axiosInstance } from "@utils/axios-instance"
 import { Loading } from "@custom-types/loadingType"
 import { type EvaluationResult } from "@custom-types/evaluation-result-type"
+import {
+  type SurveyAdminstration,
+  type SurveyAdministrationFilters,
+} from "@custom-types/survey-administration-type"
+import { type SurveyTemplateQuestion } from "@custom-types/survey-template-question-type"
 
 export const getUserEvaluations = createAsyncThunk(
   "user/getUserEvaluations",
@@ -35,6 +41,55 @@ export const getUserEvaluationAdministrations = createAsyncThunk(
       const response = await axiosInstance.get("/user/evaluation-administrations", {
         params,
       })
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const getUserSurveyAdministrations = createAsyncThunk(
+  "surveyAdministrations/getUserSurveyAdministrations",
+  async (params: SurveyAdministrationFilters | undefined, thunkApi) => {
+    try {
+      const response = await axiosInstance.get("/user/survey-administrations", {
+        params,
+      })
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const getUserSurveyQuestions = createAsyncThunk(
+  "user/getUserSurveyQuestions",
+  async (params: UserQuestionsFilter | undefined, thunkApi) => {
+    try {
+      const response = await axiosInstance.get("user/survey-questions", {
+        params,
+      })
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const submitSurveyAnswers = createAsyncThunk(
+  "user/submitSurveyAnswers",
+  async (data: SurveyAnswers, thunkApi) => {
+    try {
+      const response = await axiosInstance.post(
+        `/user/survey-administrations/${data.survey_administration_id}/submit-survey`,
+        data
+      )
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -132,6 +187,10 @@ interface InitialState {
   error: string | null
   user_evaluations: Evaluation[]
   user_evaluation_administrations: EvaluationAdministration[]
+  user_survey_administrations: SurveyAdminstration[]
+  user_survey_questions: SurveyTemplateQuestion[]
+  user_survey_answers: SurveyAnswer[]
+  survey_result_status: string | null
   my_evaluation_administrations: EvaluationAdministration[]
   user_evaluation_result: EvaluationResult | null
   hasPreviousPage: boolean
@@ -149,6 +208,10 @@ const initialState: InitialState = {
   error: null,
   user_evaluations: [],
   user_evaluation_administrations: [],
+  user_survey_administrations: [],
+  user_survey_questions: [],
+  user_survey_answers: [],
+  survey_result_status: null,
   my_evaluation_administrations: [],
   user_evaluation_result: null,
   hasPreviousPage: false,
@@ -199,6 +262,9 @@ const userSlice = createSlice({
           state.user_evaluation_administrations[index].totalSubmitted = newTotal + 1
         }
       }
+    },
+    updateSurveyResultStatus: (state, action) => {
+      state.survey_result_status = action.payload
     },
   },
   extraReducers(builder) {
@@ -363,9 +429,52 @@ const userSlice = createSlice({
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
+    /**
+     * List user survey administrations
+     */
+    builder.addCase(getUserSurveyAdministrations.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getUserSurveyAdministrations.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.user_survey_administrations = action.payload.data
+      state.hasPreviousPage = action.payload.pageInfo.hasPreviousPage
+      state.hasNextPage = action.payload.pageInfo.hasNextPage
+      state.totalPages = action.payload.pageInfo.totalPages
+      state.totalItems = action.payload.pageInfo.totalItems
+    })
+    builder.addCase(getUserSurveyAdministrations.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Get user survey questions
+     */
+    builder.addCase(getUserSurveyQuestions.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getUserSurveyQuestions.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.user_survey_questions = action.payload.survey_template_questions
+      state.user_survey_administrations = [action.payload.survey_administration]
+      state.survey_result_status = action.payload.survey_result_status
+      state.user_survey_answers = action.payload.survey_answers
+    })
+    builder.addCase(getUserSurveyQuestions.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
   },
 })
 
-export const { updateEvaluationStatusById, updateTotalEvaluations, updateTotalSubmitted } =
-  userSlice.actions
+export const {
+  updateEvaluationStatusById,
+  updateTotalEvaluations,
+  updateTotalSubmitted,
+  updateSurveyResultStatus,
+} = userSlice.actions
 export default userSlice.reducer
