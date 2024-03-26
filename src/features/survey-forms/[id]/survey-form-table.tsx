@@ -30,7 +30,9 @@ export const SurveyFormTable = () => {
   const { id } = useParams()
   const { loading, user_survey_questions, survey_result_status, user_survey_answers } =
     useAppSelector((state) => state.user)
-  const [selectedCategory, setSelectedCategory] = useState<SurveyTemplateCategory>()
+  const [selectedCategory, setSelectedCategory] = useState<Record<number, SurveyTemplateCategory>>(
+    {}
+  )
   const [totalAmount, setTotalAmount] = useState<Record<number, number>>({})
   const [selectedSurveyAnswerIds, setSelectedSurveyAnswerIds] = useState<number[]>([])
   const [surveyAnswers, setSurveyAnswers] = useState<SurveyAnswer[]>([])
@@ -46,14 +48,18 @@ export const SurveyFormTable = () => {
 
   useEffect(() => {
     if (user_survey_questions.length > 0) {
-      const firstQuestion = user_survey_questions[0]
-      if (firstQuestion.surveyTemplateCategories !== undefined) {
-        setSelectedCategory(firstQuestion.surveyTemplateCategories[0])
-      }
-
       for (const question of user_survey_questions) {
-        if (question.id !== undefined) {
-          getQuestionRules(question.id, question.survey_template_question_rules)
+        const questionId = question.id
+        if (questionId !== undefined) {
+          getQuestionRules(questionId, question.survey_template_question_rules)
+          if (question.surveyTemplateCategories !== undefined) {
+            const selectedCategory = question.surveyTemplateCategories
+
+            setSelectedCategory((prev) => ({
+              ...prev,
+              [questionId]: selectedCategory[0],
+            }))
+          }
         }
       }
     }
@@ -206,11 +212,18 @@ export const SurveyFormTable = () => {
                         <Button
                           fullWidth
                           variant={
-                            selectedCategory?.id === category.id ? "primary" : "primaryOutline"
+                            selectedCategory[question.id ?? 0]?.id === category.id
+                              ? "primary"
+                              : "primaryOutline"
                           }
                           size='small'
                           fullHeight
-                          onClick={() => setSelectedCategory(category)}
+                          onClick={() =>
+                            setSelectedCategory((prevState) => ({
+                              ...prevState,
+                              [question.id ?? 0]: category,
+                            }))
+                          }
                         >
                           {category.name}
                         </Button>
@@ -219,7 +232,7 @@ export const SurveyFormTable = () => {
                   ))}
                 </div>
                 <div className='flex flex-wrap justify-center gap-1 mt-1 h-96 overflow-y-auto overflow-x-hidden bg-gray-50'>
-                  {selectedCategory?.surveyTemplateAnswers?.map((choice) => (
+                  {selectedCategory[question.id ?? 0]?.surveyTemplateAnswers?.map((choice) => (
                     <label
                       key={choice.id}
                       className='flex-shrink-0 relative overflow-hidden rounded-lg max-w-xs shadow-lg cursor-pointer'
