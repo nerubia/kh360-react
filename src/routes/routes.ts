@@ -65,6 +65,7 @@ export const routes = {
       selectRespondents: `${surveyAdministrations}/:id/select`,
       previewRespondents: `${surveyAdministrations}/:id/preview`,
       surveyResults,
+      viewSurveyResults: `${surveyResults}/:id`,
     },
     cmUser: {
       evaluationResultsList: "/evaluation-results",
