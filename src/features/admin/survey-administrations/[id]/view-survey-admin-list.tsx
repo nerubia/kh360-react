@@ -120,7 +120,6 @@ export const ViewSurveyAdminList = () => {
                 {surveyResult.total_questions !== surveyResult.total_answered &&
                   survey_administration?.status !== SurveyAdministrationStatus.Closed &&
                   survey_administration?.status !== SurveyAdministrationStatus.Cancelled &&
-                  survey_administration?.status !== SurveyAdministrationStatus.Published &&
                   survey_administration?.status !== SurveyAdministrationStatus.Pending && (
                     <Tooltip placement='bottomStart'>
                       <Tooltip.Trigger>
@@ -185,7 +184,7 @@ export const ViewSurveyAdminList = () => {
               <>
                 {survey_results.length === 0 ? (
                   <div className='pb-4 pl-2'>
-                    No evaluees added yet. Click{" "}
+                    No respondents added yet. Click{" "}
                     <span
                       onClick={handleAddRespondent}
                       className='text-primary-500 cursor-pointer underline'
