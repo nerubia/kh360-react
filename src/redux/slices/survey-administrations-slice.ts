@@ -24,6 +24,33 @@ export const getSurveyAdministrations = createAsyncThunk(
   }
 )
 
+export const getAllSurveyAdministrations = createAsyncThunk(
+  "surveyAdministrations/getAllSurveyAdministrations",
+  async (params: SurveyAdministrationFilters | undefined, thunkApi) => {
+    try {
+      let allData: SurveyAdminstration[] = []
+      let currentPage = 1
+      let hasMorePages = true
+
+      while (hasMorePages) {
+        const response = await axiosInstance.get("/admin/survey-administrations", {
+          params: { ...params, page: currentPage },
+        })
+        const responseData = response.data
+
+        allData = [...allData, ...responseData.data]
+        hasMorePages = responseData.pageInfo.hasNextPage
+        currentPage++
+      }
+      return allData
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const getSurveyAdministrationsSocket = createAsyncThunk(
   "surveyAdministrations/getSurveyAdministrationsSocket",
   async (params: SurveyAdministrationFilters | undefined, thunkApi) => {
@@ -45,6 +72,7 @@ interface InitialState {
   error: string | null
   user_survey_administrations: SurveyAdminstration[]
   survey_administrations: SurveyAdminstration[]
+  all_survey_administrations: SurveyAdminstration[] // New state variable to store all survey administrations
   hasPreviousPage: boolean
   hasNextPage: boolean
   currentPage: number
@@ -57,6 +85,7 @@ const initialState: InitialState = {
   error: null,
   user_survey_administrations: [],
   survey_administrations: [],
+  all_survey_administrations: [], // Initialize all_survey_administrations as an empty array
   hasPreviousPage: false,
   hasNextPage: false,
   currentPage: 0,
@@ -100,6 +129,15 @@ const surveyAdministrationsSlice = createSlice({
       state.hasNextPage = action.payload.pageInfo.hasNextPage
       state.totalPages = action.payload.pageInfo.totalPages
       state.totalItems = action.payload.pageInfo.totalItems
+    })
+
+    /**
+     * getAllSurveyAdministrations
+     */
+    builder.addCase(getAllSurveyAdministrations.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.all_survey_administrations = action.payload // Update all_survey_administrations with the fetched data
     })
   },
 })

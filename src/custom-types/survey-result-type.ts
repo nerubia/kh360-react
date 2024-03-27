@@ -19,6 +19,7 @@ export interface SurveyResultFilters {
   status?: string
 }
 
+export const columns = ["Name", "Description", "Schedule"]
 export enum SurveyResultStatus {
   ForReview = "For Review",
   Draft = "Draft",
