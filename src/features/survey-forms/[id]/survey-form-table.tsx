@@ -22,6 +22,8 @@ import { type SurveyAnswer } from "@custom-types/survey-answer-type"
 import { setAlert } from "@redux/slices/app-slice"
 import { SurveyResultStatus } from "@custom-types/survey-result-type"
 import { CustomDialog } from "@components/ui/dialog/custom-dialog"
+import { Icon } from "@components/ui/icon/icon"
+import Tooltip from "@components/ui/tooltip/tooltip"
 
 export const SurveyFormTable = () => {
   const isMobile = useMobileView()
@@ -35,10 +37,13 @@ export const SurveyFormTable = () => {
   )
   const [totalAmount, setTotalAmount] = useState<Record<number, number>>({})
   const [selectedSurveyAnswerIds, setSelectedSurveyAnswerIds] = useState<number[]>([])
+  const [selectedSurveyAnswers, setSelectedSurveyAnswers] = useState<
+    Array<SurveyAnswer | undefined>
+  >([])
   const [surveyAnswers, setSurveyAnswers] = useState<SurveyAnswer[]>([])
   const [maxLimits, setMaxLimits] = useState<Record<string, number>>({})
   const [showSubmitDialog, setShowSubmitDialog] = useState<boolean>(false)
-  const [showCancelDialog, setShowCancelDialog] = useState<boolean>(false)
+  const [showBackDialog, setShowBackDialog] = useState<boolean>(false)
 
   useEffect(() => {
     if (id !== undefined) {
@@ -70,7 +75,16 @@ export const SurveyFormTable = () => {
       .map((answer) => answer.survey_template_answer_id ?? 0)
       .filter((answerId) => answerId !== 0)
 
+    const selectedSurveyTemplateAnswers = user_survey_answers.map((answer) => {
+      return {
+        survey_template_answer_id: answer.survey_template_answer_id,
+        survey_template_question_id: answer.survey_template_question_id,
+        answer_text: answer.survey_template_answers?.answer_text,
+      }
+    })
+
     setSelectedSurveyAnswerIds(selectedAnswerIds)
+    setSelectedSurveyAnswers(selectedSurveyTemplateAnswers)
     setSurveyAnswers(user_survey_answers)
 
     for (const question of user_survey_questions) {
@@ -108,12 +122,12 @@ export const SurveyFormTable = () => {
     }
   }
 
-  const handleCancel = () => {
+  const handleRedirect = () => {
     navigate("/survey-forms")
   }
 
-  const toggleCancelDialog = () => {
-    setShowCancelDialog((prev) => !prev)
+  const toggleBackDialog = () => {
+    setShowBackDialog((prev) => !prev)
   }
 
   const toggleSubmitDialog = () => {
@@ -137,6 +151,7 @@ export const SurveyFormTable = () => {
 
     if (isChecked) {
       setSelectedSurveyAnswerIds((prev) => [...prev, choiceId ?? 0])
+      setSelectedSurveyAnswers((prev) => [...prev, choice])
       setSurveyAnswers((prev) => [
         ...prev,
         {
@@ -146,10 +161,24 @@ export const SurveyFormTable = () => {
       ])
     } else {
       setSelectedSurveyAnswerIds((prev) => prev.filter((id) => id !== choiceId))
+      setSelectedSurveyAnswers((prev) => prev.filter((answer) => answer?.id !== choiceId))
       setSurveyAnswers(
         surveyAnswers.filter((answer) => answer.survey_template_answer_id !== choiceId)
       )
     }
+  }
+
+  const handleClear = () => {
+    setSelectedSurveyAnswerIds([])
+    setSelectedSurveyAnswers([])
+    setSurveyAnswers([])
+    setTotalAmount((prev) => {
+      const updatedTotalAmount: Record<number, number> = {}
+      for (const key in prev) {
+        updatedTotalAmount[key] = 0
+      }
+      return updatedTotalAmount
+    })
   }
 
   const handleSubmit = async () => {
@@ -199,22 +228,47 @@ export const SurveyFormTable = () => {
                   {"."} {question.question_text}
                   {question.is_required === true && <span className='text-red-500'>*</span>}
                 </p>
-                <div className='flex gap-2 items-center mb-5 ml-4'>
+                <div className='flex gap-2 items-center mb-4 ml-4'>
                   <p>Total Amount: </p>
                   <Badge variant='darkPurple' size='medium'>
                     {totalAmount[question.id ?? 0] ?? 0}
                   </Badge>
-                </div>
-                <div className='flex flex-row gap-4 overflow-auto whitespace-nowrap'>
-                  {question.surveyTemplateCategories?.map((category, index) => (
+                  {selectedSurveyAnswers.map((answer, index) => (
                     <div key={index}>
-                      <div className='mb-4'>
+                      <Button
+                        fullWidth
+                        variant='tag'
+                        size='small'
+                        fullHeight
+                        onClick={() => {
+                          if (answer !== undefined) {
+                            handleSelectItem(answer, false, question.id ?? 0)
+                          }
+                        }}
+                        disabled={survey_result_status === SurveyResultStatus.Completed}
+                      >
+                        <p>{answer?.answer_text}</p>
+                        <Icon icon='Close' size={"extraSmall"} />
+                      </Button>
+                    </div>
+                  ))}
+                  {selectedSurveyAnswers.length > 0 &&
+                    survey_result_status !== SurveyResultStatus.Completed && (
+                      <Button variant='textLink' size='small' onClick={handleClear}>
+                        Clear All
+                      </Button>
+                    )}
+                </div>
+                <div className='flex h-450 w-full'>
+                  <div className='flex flex-col overflow-auto w-4/25 p-2 mr-2'>
+                    {question.surveyTemplateCategories?.map((category, index) => (
+                      <div key={index} className='border-b text-primary-500 text-left'>
                         <Button
                           fullWidth
                           variant={
                             selectedCategory[question.id ?? 0]?.id === category.id
                               ? "primary"
-                              : "primaryOutline"
+                              : "ghost"
                           }
                           size='small'
                           fullHeight
@@ -225,61 +279,79 @@ export const SurveyFormTable = () => {
                             }))
                           }
                         >
-                          {category.name}
+                          <p className='w-full text-left'>{category.name}</p>
                         </Button>
                       </div>
-                    </div>
-                  ))}
-                </div>
-                <div className='flex flex-wrap justify-center gap-1 mt-1 h-96 overflow-y-auto overflow-x-hidden bg-gray-50'>
-                  {selectedCategory[question.id ?? 0]?.surveyTemplateAnswers?.map((choice) => (
-                    <label
-                      key={choice.id}
-                      className='flex-shrink-0 relative overflow-hidden rounded-lg max-w-xs shadow-lg cursor-pointer'
-                    >
-                      <div
+                    ))}
+                  </div>
+                  <div className='flex flex-wrap justify-center gap-2 mt-1 h-450 overflow-y-auto overflow-x-hidden bg-gray-50 w-21/25'>
+                    {selectedCategory[question.id ?? 0]?.surveyTemplateAnswers?.map((choice) => (
+                      <label
                         key={choice.id}
-                        className={`flex-grow max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 h-full`}
+                        className='flex-shrink-0 overflow-hidden rounded-lg max-w-xs cursor-pointer'
                       >
-                        <div className={`${isMobile ? "w-64" : "w-48"} h-full relative 2xl:w-96`}>
-                          <SurveyImage
-                            altText={`Image of ${choice.answer_text}`}
-                            imageUrl={getSurveyImage(
-                              choice.answer_image ?? "",
-                              choice.survey_template_id as string
-                            )}
-                            variant={"brokenImage"}
-                          />
-                          <div className='p-5 2xl:w-80'>
-                            <div className='flex items-start justify-start gap-2'>
-                              <div className='mt-1'>
-                                <Checkbox
-                                  checked={selectedSurveyAnswerIds.includes(choice?.id ?? 0)}
-                                  onChange={(checked) =>
-                                    handleSelectItem(choice, checked, question.id ?? 0)
-                                  }
-                                  disabled={
-                                    survey_result_status === SurveyResultStatus.Completed ||
-                                    (!selectedSurveyAnswerIds.includes(choice?.id ?? 0) &&
-                                      parseInt(choice.amount as string) +
-                                        (totalAmount[question.id ?? 0] ?? 0) >
-                                        maxLimits[question.id ?? 0])
-                                  }
-                                />
+                        <div
+                          key={choice.id}
+                          className={`flex-grow max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 `}
+                        >
+                          <div className={`${isMobile ? "w-52" : "w-56"} min-h-[250px]`}>
+                            <SurveyImage
+                              altText={`Image of ${choice.answer_text}`}
+                              imageUrl={getSurveyImage(
+                                choice.answer_image ?? "",
+                                choice.survey_template_id as string
+                              )}
+                              variant={"brokenImage"}
+                            />
+                            <div className='p-4'>
+                              <div className='flex items-start justify-start gap-2'>
+                                <div>
+                                  <Checkbox
+                                    checked={selectedSurveyAnswerIds.includes(choice?.id ?? 0)}
+                                    onChange={(checked) =>
+                                      handleSelectItem(choice, checked, question.id ?? 0)
+                                    }
+                                    disabled={
+                                      survey_result_status === SurveyResultStatus.Completed ||
+                                      (!selectedSurveyAnswerIds.includes(choice?.id ?? 0) &&
+                                        parseInt(choice.amount as string) +
+                                          (totalAmount[question.id ?? 0] ?? 0) >
+                                          maxLimits[question.id ?? 0])
+                                    }
+                                  />
+                                </div>
+                                <h5 className='text-sm font-bold tracking-tight text-gray-900 dark:text-white'>
+                                  {choice.answer_text ?? ""}
+                                </h5>
                               </div>
-                              <h5 className='text-xl font-bold tracking-tight text-gray-900 dark:text-white'>
-                                {choice.answer_text ?? ""}
-                              </h5>
+                              <div
+                                className={`mb-1 ml-2.5 pr-2.5 text-gray-700 text-xs dark:text-gray-400 px-3 break-words`}
+                              >
+                                {choice.answer_description != null &&
+                                choice.answer_description.length > 55 ? (
+                                  <Tooltip placement='top' wFit={false} size='medium'>
+                                    <Tooltip.Trigger>
+                                      <p>{`${choice.answer_description.slice(0, 55)}...`}</p>
+                                    </Tooltip.Trigger>
+                                    <Tooltip.Content>
+                                      <p className=' break-words whitespace-pre-wrap'>
+                                        {choice.answer_description ?? ""}
+                                      </p>
+                                    </Tooltip.Content>
+                                  </Tooltip>
+                                ) : (
+                                  <p>{choice.answer_description}</p>
+                                )}
+                              </div>
+                              <div className='font-bold ml-2.5 px-3 text-xs'>
+                                Price: Php {choice.amount}
+                              </div>
                             </div>
-                            <p className='mb-1 ml-2.5 font-normal text-gray-700 dark:text-gray-400 whitespace-pre-wrap px-3 break-words'>
-                              {choice.answer_description ?? ""}
-                            </p>
-                            <div className='font-bold ml-2.5 px-3'>Price: {choice.amount}</div>
                           </div>
                         </div>
-                      </div>
-                    </label>
-                  ))}
+                      </label>
+                    ))}
+                  </div>
                 </div>
               </div>
             ))}
@@ -287,8 +359,15 @@ export const SurveyFormTable = () => {
         )}
       </div>
       <div className='flex justify-between'>
-        <Button variant='primaryOutline' onClick={toggleCancelDialog}>
-          Cancel & Exit
+        <Button
+          variant='primaryOutline'
+          onClick={() =>
+            survey_result_status === SurveyResultStatus.Completed
+              ? handleRedirect()
+              : toggleBackDialog()
+          }
+        >
+          {survey_result_status === SurveyResultStatus.Completed ? "Back" : "Cancel & Exit"}
         </Button>
         <Button
           variant='primary'
@@ -299,16 +378,23 @@ export const SurveyFormTable = () => {
         </Button>
       </div>
       <CustomDialog
-        open={showCancelDialog}
-        title='Cancel'
+        open={showBackDialog}
+        title={survey_result_status === SurveyResultStatus.Completed ? "Go Back" : "Cancel"}
         description={
-          <>
-            Are you sure you want to cancel? <br />
-            If you cancel, your data won&apos;t be saved.
-          </>
+          survey_result_status === SurveyResultStatus.Completed ? (
+            <>
+              Are you sure you want to go back? <br />
+              If you do, your data won&apos;t be saved.
+            </>
+          ) : (
+            <>
+              Are you sure you want to cancel? <br />
+              If you cancel, your data won&apos;t be saved.
+            </>
+          )
         }
-        onClose={toggleCancelDialog}
-        onSubmit={handleCancel}
+        onClose={toggleBackDialog}
+        onSubmit={handleRedirect}
       />
       <CustomDialog
         open={showSubmitDialog}
