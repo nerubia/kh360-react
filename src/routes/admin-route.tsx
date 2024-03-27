@@ -151,6 +151,10 @@ const PreviewRespondents = lazy(
   async () => await import("@pages/admin/survey-administrations/[id]/preview/preview-respondents")
 )
 
+const ViewSurveyResults = lazy(
+  async () => await import("@pages/admin/survey-results/[id]/view-survey-results")
+)
+
 export const adminRoutes = {
   element: <AdminRoute />,
   children: [
@@ -350,6 +354,10 @@ export const adminRoutes = {
     {
       path: routes.private.admin.surveyResults,
       element: <></>,
+    },
+    {
+      path: routes.private.admin.viewSurveyResults,
+      element: <ViewSurveyResults />,
     },
   ],
 }

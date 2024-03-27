@@ -156,6 +156,10 @@ export const ViewSurveyAdminHeader = () => {
     }
   }
 
+  const handleViewResults = () => {
+    navigate(`/admin/survey-results/${id}`)
+  }
+
   return (
     <>
       <div className='flex flex-col'>
@@ -178,6 +182,11 @@ export const ViewSurveyAdminHeader = () => {
             />
           </div>
           <div className='flex justify-between gap-4'>
+            {survey_administration?.status === SurveyAdministrationStatus.Closed && (
+              <Button size={isMobile ? "small" : "medium"} onClick={handleViewResults}>
+                <div className='whitespace-nowrap'>Results</div>
+              </Button>
+            )}
             {survey_administration?.status !== SurveyAdministrationStatus.Processing &&
               survey_administration?.status !== SurveyAdministrationStatus.Cancelled && (
                 <Dropdown>
