@@ -2,10 +2,10 @@ import { type VariantProps, cva } from "class-variance-authority"
 import { useState } from "react"
 import { Icon } from "../icon/icon"
 
-const image = cva(["rounded-t-lg", "object-cover", "w-full", "h-48"], {
+const image = cva(["rounded-t-lg", "object-cover", "w-full", "h-32"], {
   variants: {
     variant: {
-      brokenImage: ["bg-gray-200", "h-48", "flex", "justify-center", "items-center", "2xl:w-80"],
+      brokenImage: ["bg-gray-200", "flex", "justify-center", "items-center"],
     },
   },
 })
