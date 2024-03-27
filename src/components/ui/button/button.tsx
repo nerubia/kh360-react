@@ -76,6 +76,15 @@ const button = cva(["w-fit", "rounded-md", "flex", "items-center", "gap-2"], {
         "disabled:border-primary-200",
         "disabled:text-primary-200",
       ],
+      tag: [
+        "mr-2.5",
+        "bg-primary-100",
+        "text-gray-500",
+        "active:bg-primary-200",
+        "disabled:bg-white",
+        "disabled:border-primary-200",
+        "disabled:text-primary-200",
+      ],
     },
     size: {
       extraSmall: ["h-5", "text-xs", "px-2"],
