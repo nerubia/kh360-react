@@ -244,7 +244,10 @@ export const SurveyFormTable = () => {
                         <div className={`${isMobile ? "w-64" : "w-48"} h-full relative 2xl:w-96`}>
                           <SurveyImage
                             altText={`Image of ${choice.answer_text}`}
-                            imageUrl={getSurveyImage(choice.answer_image ?? "", id ?? "")}
+                            imageUrl={getSurveyImage(
+                              choice.answer_image ?? "",
+                              choice.survey_template_id as string
+                            )}
                             variant={"brokenImage"}
                           />
                           <div className='p-5 2xl:w-80'>
