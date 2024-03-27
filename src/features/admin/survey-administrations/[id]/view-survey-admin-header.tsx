@@ -178,8 +178,7 @@ export const ViewSurveyAdminHeader = () => {
             />
           </div>
           <div className='flex justify-between gap-4'>
-            {survey_administration?.status !== SurveyAdministrationStatus.Published &&
-              survey_administration?.status !== SurveyAdministrationStatus.Processing &&
+            {survey_administration?.status !== SurveyAdministrationStatus.Processing &&
               survey_administration?.status !== SurveyAdministrationStatus.Cancelled && (
                 <Dropdown>
                   <Dropdown.Trigger>

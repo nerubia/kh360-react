@@ -17,7 +17,6 @@ export enum SurveyAdministrationStatus {
   Ongoing = "Ongoing",
   Closed = "Closed",
   Cancelled = "Cancelled",
-  Published = "Published",
 }
 
 export interface SurveyAdministrationFilters {
