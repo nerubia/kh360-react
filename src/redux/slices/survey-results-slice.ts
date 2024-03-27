@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
 import { type ApiError } from "@custom-types/apiErrorType"
 import { type SurveyResult, type SurveyResultFilters } from "@custom-types/survey-result-type"
+import { type SurveyAnswer } from "@custom-types/survey-answer-type"
 import { axiosInstance } from "@utils/axios-instance"
 import { Loading } from "@custom-types/loadingType"
 import { type SurveyResultsFormData } from "@custom-types/form-data-type"
@@ -12,6 +13,38 @@ export const getSurveyResults = createAsyncThunk(
   async (params: SurveyResultFilters | undefined, thunkApi) => {
     try {
       const response = await axiosInstance.get(`/admin/survey-results/all`, {
+        params,
+      })
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const getResultsByRespondent = createAsyncThunk(
+  "surveyResults/getResultsByRespondent",
+  async (params: SurveyResultFilters | undefined, thunkApi) => {
+    try {
+      const response = await axiosInstance.get(`/admin/survey-results/by-respondent`, {
+        params,
+      })
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const getResultsByAnswer = createAsyncThunk(
+  "surveyResults/getResultsByAnswer",
+  async (params: SurveyResultFilters | undefined, thunkApi) => {
+    try {
+      const response = await axiosInstance.get(`/admin/survey-results/by-answer`, {
         params,
       })
       return response.data
@@ -59,6 +92,7 @@ interface InitialState {
   loading_send: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
   survey_results: SurveyResult[]
+  survey_results_answers: SurveyAnswer[]
   hasPreviousPage: boolean
   hasNextPage: boolean
   totalPages: number
@@ -70,6 +104,7 @@ const initialState: InitialState = {
   loading_send: Loading.Idle,
   error: null,
   survey_results: [],
+  survey_results_answers: [],
   hasPreviousPage: false,
   hasNextPage: false,
   totalPages: 0,
@@ -86,7 +121,7 @@ const surveyResultsSlice = createSlice({
   },
   extraReducers(builder) {
     /**
-     * List selected
+     * List results
      */
     builder.addCase(getSurveyResults.pending, (state) => {
       state.loading = Loading.Pending
@@ -98,6 +133,38 @@ const surveyResultsSlice = createSlice({
       state.survey_results = action.payload
     })
     builder.addCase(getSurveyResults.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * List results by respondent
+     */
+    builder.addCase(getResultsByRespondent.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getResultsByRespondent.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.survey_results = action.payload
+    })
+    builder.addCase(getResultsByRespondent.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * List results by answers
+     */
+    builder.addCase(getResultsByAnswer.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getResultsByAnswer.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.survey_results_answers = action.payload
+    })
+    builder.addCase(getResultsByAnswer.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })

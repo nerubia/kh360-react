@@ -31,6 +31,7 @@ import surveyAdministrationReducer from "./slices/survey-administration-slice"
 import surveyAdministrationsReducer from "./slices/survey-administrations-slice"
 import surveyResultsReducer from "./slices/survey-results-slice"
 import surveyTemplatesReducer from "./slices/survey-templates-slice"
+import surveyTemplateQuestionsReducer from "./slices/survey-template-questions-slice"
 import usersReducer from "@redux/slices/users-slice"
 import userReducer from "@redux/slices/user-slice"
 
@@ -67,6 +68,7 @@ export const store = configureStore({
     surveyAdministrations: surveyAdministrationsReducer,
     surveyResults: surveyResultsReducer,
     surveyTemplates: surveyTemplatesReducer,
+    surveyTemplateQuestions: surveyTemplateQuestionsReducer,
     users: usersReducer,
     user: userReducer,
   },
