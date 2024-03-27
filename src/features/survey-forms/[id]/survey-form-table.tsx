@@ -247,7 +247,9 @@ export const SurveyFormTable = () => {
                         }}
                         disabled={survey_result_status === SurveyResultStatus.Completed}
                       >
-                        <p>{answer?.answer_text}</p>
+                        <p>
+                          {answer?.answer_text} (Php {answer?.amount})
+                        </p>
                         <Icon icon='Close' size={"extraSmall"} />
                       </Button>
                     </div>
@@ -284,7 +286,7 @@ export const SurveyFormTable = () => {
                       </div>
                     ))}
                   </div>
-                  <div className='flex flex-wrap justify-center gap-2 mt-1 h-450 overflow-y-auto overflow-x-hidden bg-gray-50 w-21/25'>
+                  <div className='flex flex-wrap justify-left gap-2 mt-1 p-2 h-450 overflow-y-auto overflow-x-hidden bg-gray-50 w-21/25'>
                     {selectedCategory[question.id ?? 0]?.surveyTemplateAnswers?.map((choice) => (
                       <label
                         key={choice.id}
