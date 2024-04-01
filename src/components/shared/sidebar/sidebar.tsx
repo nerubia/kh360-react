@@ -155,12 +155,12 @@ const menuLinks: MenuLink[] = [
         icon: "ClipboardList",
         access: "Admin",
       },
-      {
-        title: "Survey Results",
-        link: routes.private.admin.surveyResults,
-        icon: "PieChart",
-        access: "Admin",
-      },
+      // {
+      //   title: "Survey Results",
+      //   link: routes.private.admin.surveyResults,
+      //   icon: "PieChart",
+      //   access: "Admin",
+      // },
     ],
   },
 ]
