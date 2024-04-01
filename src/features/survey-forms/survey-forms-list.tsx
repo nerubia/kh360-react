@@ -44,8 +44,11 @@ export const SurveyFormsList = () => {
                 <div className='flex flex-col gap-2'>
                   <div className='flex gap-2 items-center'>
                     <h2 className='text-primary-500 text-lg font-semibold'>{survey.name}</h2>
-                    <Badge variant={getSurveyStatusVariant(survey?.status)} size='small'>
-                      <div className='uppercase'>{survey?.status}</div>
+                    <Badge
+                      variant={getSurveyStatusVariant(survey?.survey_result_status)}
+                      size='small'
+                    >
+                      <div className='uppercase'>{survey?.survey_result_status}</div>
                     </Badge>
                   </div>
                   <div>
