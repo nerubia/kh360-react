@@ -80,6 +80,8 @@ export const SurveyFormTable = () => {
         survey_template_answer_id: answer.survey_template_answer_id,
         survey_template_question_id: answer.survey_template_question_id,
         answer_text: answer.survey_template_answers?.answer_text,
+        amount: answer.survey_template_answers?.amount,
+        survey_template_answers: answer.survey_template_answers,
       }
     })
 
@@ -135,12 +137,12 @@ export const SurveyFormTable = () => {
   }
 
   const handleSelectItem = (
-    choice: SurveyTemplateAnswer,
+    choice: SurveyTemplateAnswer | undefined,
     isChecked: boolean,
     questionId: number
   ) => {
-    const choiceAmount = parseInt(choice.amount as string)
-    const choiceId = choice.id
+    const choiceAmount = parseInt(choice?.amount as string)
+    const choiceId = choice?.id
 
     setTotalAmount((prev) => ({
       ...prev,
@@ -206,6 +208,9 @@ export const SurveyFormTable = () => {
             })
           )
           appDispatch(updateSurveyResultStatus(SurveyResultStatus.Completed))
+          if (id !== undefined) {
+            void appDispatch(getUserSurveyQuestions({ survey_administration_id: parseInt(id) }))
+          }
         }
       }
     } catch (error) {}
@@ -231,7 +236,7 @@ export const SurveyFormTable = () => {
                 <div className='flex gap-2 items-center mb-4 ml-4'>
                   <p>Total Amount: </p>
                   <Badge variant='darkPurple' size='medium'>
-                    {totalAmount[question.id ?? 0] ?? 0}
+                    Php {totalAmount[question.id ?? 0] ?? 0}
                   </Badge>
                   {selectedSurveyAnswers.map((answer, index) => (
                     <div key={index}>
@@ -261,100 +266,161 @@ export const SurveyFormTable = () => {
                       </Button>
                     )}
                 </div>
-                <div className='flex h-450 w-full'>
-                  <div className='flex flex-col overflow-auto w-4/25 p-2 mr-2'>
-                    {question.surveyTemplateCategories?.map((category, index) => (
-                      <div key={index} className='border-b text-primary-500 text-left'>
-                        <Button
-                          fullWidth
-                          variant={
-                            selectedCategory[question.id ?? 0]?.id === category.id
-                              ? "primary"
-                              : "ghost"
-                          }
-                          size='small'
-                          fullHeight
-                          onClick={() =>
-                            setSelectedCategory((prevState) => ({
-                              ...prevState,
-                              [question.id ?? 0]: category,
-                            }))
-                          }
+                {survey_result_status === SurveyResultStatus.Completed ? (
+                  <div className='flex w-full'>
+                    <div className='flex flex-wrap justify-left gap-2 mt-1 p-2 overflow-y-auto overflow-x-hidden bg-gray-50 w-full'>
+                      {selectedSurveyAnswers?.map((choice, index) => (
+                        <label
+                          key={index}
+                          className='flex-shrink-0 overflow-hidden rounded-lg max-w-xs'
                         >
-                          <p className='w-full text-left'>{category.name}</p>
-                        </Button>
-                      </div>
-                    ))}
-                  </div>
-                  <div className='flex flex-wrap justify-left gap-2 mt-1 p-2 h-450 overflow-y-auto overflow-x-hidden bg-gray-50 w-21/25'>
-                    {selectedCategory[question.id ?? 0]?.surveyTemplateAnswers?.map((choice) => (
-                      <label
-                        key={choice.id}
-                        className='flex-shrink-0 overflow-hidden rounded-lg max-w-xs cursor-pointer'
-                      >
-                        <div
-                          key={choice.id}
-                          className={`flex-grow max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 `}
-                        >
-                          <div className={`${isMobile ? "w-52" : "w-56"} min-h-[250px]`}>
-                            <SurveyImage
-                              altText={`Image of ${choice.answer_text}`}
-                              imageUrl={getSurveyImage(
-                                choice.answer_image ?? "",
-                                choice.survey_template_id as string
-                              )}
-                              variant={"brokenImage"}
-                            />
-                            <div className='p-4'>
-                              <div className='flex items-start justify-start gap-2'>
-                                <div>
-                                  <Checkbox
-                                    checked={selectedSurveyAnswerIds.includes(choice?.id ?? 0)}
-                                    onChange={(checked) =>
-                                      handleSelectItem(choice, checked, question.id ?? 0)
-                                    }
-                                    disabled={
-                                      survey_result_status === SurveyResultStatus.Completed ||
-                                      (!selectedSurveyAnswerIds.includes(choice?.id ?? 0) &&
-                                        parseInt(choice.amount as string) +
-                                          (totalAmount[question.id ?? 0] ?? 0) >
-                                          maxLimits[question.id ?? 0])
-                                    }
-                                  />
-                                </div>
-                                <h5 className='text-sm font-bold tracking-tight text-gray-900 dark:text-white'>
-                                  {choice.answer_text ?? ""}
-                                </h5>
-                              </div>
-                              <div
-                                className={`mb-1 ml-2.5 pr-2.5 text-gray-700 text-xs dark:text-gray-400 px-3 break-words`}
-                              >
-                                {choice.answer_description != null &&
-                                choice.answer_description.length > 55 ? (
-                                  <Tooltip placement='top' wFit={false} size='medium'>
-                                    <Tooltip.Trigger>
-                                      <p>{`${choice.answer_description.slice(0, 55)}...`}</p>
-                                    </Tooltip.Trigger>
-                                    <Tooltip.Content>
-                                      <p className=' break-words whitespace-pre-wrap'>
-                                        {choice.answer_description ?? ""}
-                                      </p>
-                                    </Tooltip.Content>
-                                  </Tooltip>
-                                ) : (
-                                  <p>{choice.answer_description}</p>
+                          <div
+                            key={index}
+                            className={`flex-grow max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 `}
+                          >
+                            <div className={`${isMobile ? "w-52" : "w-56"} min-h-[250px]`}>
+                              <SurveyImage
+                                altText={`Image of ${choice?.answer_text}`}
+                                imageUrl={getSurveyImage(
+                                  choice?.survey_template_answers?.answer_image ?? "",
+                                  choice?.survey_template_answers?.survey_template_id as string
                                 )}
-                              </div>
-                              <div className='font-bold ml-2.5 px-3 text-xs'>
-                                Price: Php {choice.amount}
+                                variant={"brokenImage"}
+                              />
+                              <div className='p-4'>
+                                <div className='flex items-start justify-start gap-2'>
+                                  <h5 className='ml-5 mb-2 text-sm font-bold tracking-tight text-gray-900 dark:text-white'>
+                                    {choice?.survey_template_answers?.answer_text ?? ""}
+                                  </h5>
+                                </div>
+                                <div
+                                  className={`mb-1 ml-2 pr-2.5 text-gray-700 text-xs dark:text-gray-400 px-3 break-words`}
+                                >
+                                  {choice?.survey_template_answers?.answer_description != null &&
+                                  choice.survey_template_answers?.answer_description.length > 55 ? (
+                                    <Tooltip placement='top' wFit={false} size='medium'>
+                                      <Tooltip.Trigger>
+                                        <p>{`${choice.survey_template_answers?.answer_description.slice(
+                                          0,
+                                          55
+                                        )}...`}</p>
+                                      </Tooltip.Trigger>
+                                      <Tooltip.Content>
+                                        <p className=' break-words whitespace-pre-wrap'>
+                                          {choice.survey_template_answers?.answer_description ?? ""}
+                                        </p>
+                                      </Tooltip.Content>
+                                    </Tooltip>
+                                  ) : (
+                                    <p>{choice?.survey_template_answers?.answer_description}</p>
+                                  )}
+                                </div>
+                                <div className='font-bold ml-2 px-3 text-xs'>
+                                  Price: Php {choice?.survey_template_answers?.amount ?? ""}
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </label>
-                    ))}
+                        </label>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div className='flex h-450 w-full'>
+                    <div className='flex flex-col overflow-auto w-4/25 p-2 mr-2'>
+                      {question.surveyTemplateCategories?.map((category, index) => (
+                        <div key={index} className='border-b text-primary-500 text-left'>
+                          <Button
+                            fullWidth
+                            variant={
+                              selectedCategory[question.id ?? 0]?.id === category.id
+                                ? "primary"
+                                : "ghost"
+                            }
+                            size='small'
+                            fullHeight
+                            onClick={() =>
+                              setSelectedCategory((prevState) => ({
+                                ...prevState,
+                                [question.id ?? 0]: category,
+                              }))
+                            }
+                          >
+                            <p className='w-full text-left'>{category.name}</p>
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                    <div className='flex flex-wrap justify-left gap-2 mt-1 p-2 h-450 overflow-y-auto overflow-x-hidden bg-gray-50 w-21/25'>
+                      {selectedCategory[question.id ?? 0]?.surveyTemplateAnswers?.map((choice) => (
+                        <label
+                          key={choice.id}
+                          className='flex-shrink-0 overflow-hidden rounded-lg max-w-xs cursor-pointer'
+                        >
+                          <div
+                            key={choice.id}
+                            className={`flex-grow max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 `}
+                          >
+                            <div className={`${isMobile ? "w-52" : "w-56"} min-h-[250px]`}>
+                              <SurveyImage
+                                altText={`Image of ${choice.answer_text}`}
+                                imageUrl={getSurveyImage(
+                                  choice.answer_image ?? "",
+                                  choice.survey_template_id as string
+                                )}
+                                variant={"brokenImage"}
+                              />
+                              <div className='p-4'>
+                                <div className='flex items-start justify-start gap-2'>
+                                  <div>
+                                    <Checkbox
+                                      checked={selectedSurveyAnswerIds.includes(choice?.id ?? 0)}
+                                      onChange={(checked) =>
+                                        handleSelectItem(choice, checked, question.id ?? 0)
+                                      }
+                                      disabled={
+                                        survey_result_status === SurveyResultStatus.Completed ||
+                                        (!selectedSurveyAnswerIds.includes(choice?.id ?? 0) &&
+                                          parseInt(choice.amount as string) +
+                                            (totalAmount[question.id ?? 0] ?? 0) >
+                                            maxLimits[question.id ?? 0])
+                                      }
+                                    />
+                                  </div>
+                                  <h5 className='text-sm font-bold tracking-tight text-gray-900 dark:text-white'>
+                                    {choice.answer_text ?? ""}
+                                  </h5>
+                                </div>
+                                <div
+                                  className={`mb-1 ml-2.5 pr-2.5 text-gray-700 text-xs dark:text-gray-400 px-3 break-words`}
+                                >
+                                  {choice.answer_description != null &&
+                                  choice.answer_description.length > 55 ? (
+                                    <Tooltip placement='top' wFit={false} size='medium'>
+                                      <Tooltip.Trigger>
+                                        <p>{`${choice.answer_description.slice(0, 55)}...`}</p>
+                                      </Tooltip.Trigger>
+                                      <Tooltip.Content>
+                                        <p className=' break-words whitespace-pre-wrap'>
+                                          {choice.answer_description ?? ""}
+                                        </p>
+                                      </Tooltip.Content>
+                                    </Tooltip>
+                                  ) : (
+                                    <p>{choice.answer_description}</p>
+                                  )}
+                                </div>
+                                <div className='font-bold ml-2.5 px-3 text-xs'>
+                                  Price: Php {choice.amount}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
           </>
@@ -371,13 +437,15 @@ export const SurveyFormTable = () => {
         >
           {survey_result_status === SurveyResultStatus.Completed ? "Back" : "Cancel & Exit"}
         </Button>
-        <Button
-          variant='primary'
-          disabled={survey_result_status === SurveyResultStatus.Completed}
-          onClick={toggleSubmitDialog}
-        >
-          Save & Submit
-        </Button>
+        {survey_result_status !== SurveyResultStatus.Completed && (
+          <Button
+            variant='primary'
+            disabled={survey_result_status === SurveyResultStatus.Completed}
+            onClick={toggleSubmitDialog}
+          >
+            Save & Submit
+          </Button>
+        )}
       </div>
       <CustomDialog
         open={showBackDialog}
@@ -398,16 +466,18 @@ export const SurveyFormTable = () => {
         onClose={toggleBackDialog}
         onSubmit={handleRedirect}
       />
-      <CustomDialog
-        open={showSubmitDialog}
-        title='Submit Survey'
-        description='Are you sure you want to submit your answers?'
-        onClose={toggleSubmitDialog}
-        onSubmit={async () => {
-          toggleSubmitDialog()
-          await handleSubmit()
-        }}
-      />
+      {survey_result_status !== SurveyResultStatus.Completed && (
+        <CustomDialog
+          open={showSubmitDialog}
+          title='Submit Survey'
+          description='Are you sure you want to submit your answers?'
+          onClose={toggleSubmitDialog}
+          onSubmit={async () => {
+            toggleSubmitDialog()
+            await handleSubmit()
+          }}
+        />
+      )}
     </div>
   )
 }
