@@ -83,12 +83,9 @@ export const SkillForm = ({ open, toggleDialog }: SkillFormProps) => {
       })
       const result = await appDispatch(createSkill(formData))
       if (result.type === "skill/createSkill/rejected") {
-        appDispatch(
-          setAlert({
-            description: result.payload,
-            variant: "destructive",
-          })
-        )
+        setValidationErrors({
+          name: result.payload,
+        })
       }
       if (result.type === "skill/createSkill/fulfilled") {
         appDispatch(
@@ -137,12 +134,9 @@ export const SkillForm = ({ open, toggleDialog }: SkillFormProps) => {
           updateSkill({ id: selectedSkillId, skillCategory: formData })
         )
         if (result.type === "skill/updateSkill/rejected") {
-          appDispatch(
-            setAlert({
-              description: result.payload,
-              variant: "destructive",
-            })
-          )
+          setValidationErrors({
+            name: result.payload,
+          })
         }
         if (result.type === "skill/updateSkill/fulfilled") {
           appDispatch(
