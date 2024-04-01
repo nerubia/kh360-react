@@ -24,11 +24,13 @@ import { SurveyResultStatus } from "@custom-types/survey-result-type"
 import { CustomDialog } from "@components/ui/dialog/custom-dialog"
 import { Icon } from "@components/ui/icon/icon"
 import Tooltip from "@components/ui/tooltip/tooltip"
+import useSmoothScrollToTop from "@hooks/use-smooth-scroll-to-top"
 
 export const SurveyFormTable = () => {
   const isMobile = useMobileView()
   const appDispatch = useAppDispatch()
   const navigate = useNavigate()
+  const scrollToTop = useSmoothScrollToTop()
   const { id } = useParams()
   const { loading, user_survey_questions, survey_result_status, user_survey_answers } =
     useAppSelector((state) => state.user)
@@ -199,6 +201,7 @@ export const SurveyFormTable = () => {
               variant: "destructive",
             })
           )
+          scrollToTop()
         }
         if (result.type === "user/submitSurveyAnswers/fulfilled") {
           appDispatch(
