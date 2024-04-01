@@ -284,7 +284,7 @@ export const SurveyAdministrationForm = () => {
             onClick={async () => (id === undefined ? await handleSubmit() : await handleEdit())}
             loading={loading === Loading.Pending}
           >
-            Save & Proceed
+            {id === undefined ? "Save & Proceed" : "Save"}
           </Button>
         </div>
       </div>

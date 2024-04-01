@@ -163,7 +163,7 @@ test.describe("Admin - Edit Survey Administration", () => {
       await expect(page.getByPlaceholder("Email content")).toHaveValue("Content 1")
 
       await expect(page.getByRole("button", { name: "Cancel & Exit" })).toBeVisible()
-      await expect(page.getByRole("button", { name: "Save & Proceed" })).toBeVisible()
+      await expect(page.getByRole("button", { name: "Save" })).toBeVisible()
     })
 
     test("should show validation errors", async ({ page, isMobile }) => {
@@ -344,7 +344,7 @@ test.describe("Admin - Edit Survey Administration", () => {
         ]),
       })
 
-      await page.getByRole("button", { name: "Save & Proceed" }).click()
+      await page.getByRole("button", { name: "Save" }).click()
 
       await page.waitForLoadState("networkidle")
 
