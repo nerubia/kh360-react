@@ -8,6 +8,7 @@ export interface SurveyAdminstration {
   email_subject?: string
   email_content?: string
   status?: string
+  survey_result_status?: string
 }
 
 export enum SurveyAdministrationStatus {
