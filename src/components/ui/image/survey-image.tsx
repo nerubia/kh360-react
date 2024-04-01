@@ -5,7 +5,7 @@ import { Icon } from "../icon/icon"
 const image = cva(["rounded-t-lg", "object-cover", "w-full", "h-32"], {
   variants: {
     variant: {
-      brokenImage: ["bg-gray-200", "flex", "justify-center", "items-center"],
+      brokenImage: ["bg-gray-100", "flex", "justify-center", "items-center", "text-gray-200"],
     },
   },
 })
