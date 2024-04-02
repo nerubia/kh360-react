@@ -17,8 +17,10 @@ export const SurveyFormHeader = () => {
   }
 
   useEffect(() => {
-    if (user_survey_administrations[0]?.status !== SurveyAdministrationStatus.Ongoing) {
-      handleRedirect()
+    if (user_survey_administrations[0] !== undefined) {
+      if (user_survey_administrations[0]?.status !== SurveyAdministrationStatus.Ongoing) {
+        handleRedirect()
+      }
     }
   }, [user_survey_administrations])
 
