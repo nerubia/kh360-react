@@ -91,25 +91,25 @@ export const SurveyFormTable = () => {
     setSelectedSurveyAnswers(selectedSurveyTemplateAnswers)
     setSurveyAnswers(user_survey_answers)
 
-    for (const question of user_survey_questions) {
-      let totalAmount = 0
+    const newTotalAmount: Record<number, number> = {}
 
+    for (const question of user_survey_questions) {
       if (question.surveyTemplateCategories !== undefined) {
+        let total = 0
         for (const category of question.surveyTemplateCategories) {
           if (category.surveyTemplateAnswers !== undefined) {
             for (const answer of category.surveyTemplateAnswers) {
               if (selectedSurveyAnswerIds.includes(answer.id ?? 0)) {
-                totalAmount += parseInt(answer.amount as string)
+                total += parseInt(answer.amount as string)
               }
             }
           }
         }
-        setTotalAmount((prev) => ({
-          ...prev,
-          [question.id as number]: totalAmount,
-        }))
+        newTotalAmount[question.id as number] = total
       }
     }
+
+    setTotalAmount(newTotalAmount)
   }, [user_survey_answers])
 
   const getQuestionRules = (id: number, rules?: SurveyTemplateQuestionRule[]) => {
