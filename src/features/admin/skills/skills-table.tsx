@@ -92,7 +92,7 @@ export const SkillsTable = () => {
         return `${item.description ?? ""}`
       case "Status":
         return (
-          <Badge variant={`${item.status ? "green" : "red"}`} size='small'>
+          <Badge variant={`${item.status ? "green" : "gray"}`} size='small'>
             {item.status ? "ACTIVE" : "INACTIVE"}
           </Badge>
         )
