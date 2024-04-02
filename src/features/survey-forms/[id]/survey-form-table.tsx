@@ -210,7 +210,7 @@ export const SurveyFormTable = () => {
               variant: "success",
             })
           )
-          appDispatch(updateSurveyResultStatus(SurveyResultStatus.Completed))
+          appDispatch(updateSurveyResultStatus(SurveyResultStatus.Submitted))
           if (id !== undefined) {
             void appDispatch(getUserSurveyQuestions({ survey_administration_id: parseInt(id) }))
           }
@@ -253,7 +253,7 @@ export const SurveyFormTable = () => {
                             handleSelectItem(answer, false, question.id ?? 0)
                           }
                         }}
-                        disabled={survey_result_status === SurveyResultStatus.Completed}
+                        disabled={survey_result_status === SurveyResultStatus.Submitted}
                       >
                         <p>
                           {answer?.answer_text} (Php {answer?.amount})
@@ -263,13 +263,13 @@ export const SurveyFormTable = () => {
                     </div>
                   ))}
                   {selectedSurveyAnswers.length > 0 &&
-                    survey_result_status !== SurveyResultStatus.Completed && (
+                    survey_result_status !== SurveyResultStatus.Submitted && (
                       <Button variant='textLink' size='small' onClick={handleClear}>
                         Clear All
                       </Button>
                     )}
                 </div>
-                {survey_result_status === SurveyResultStatus.Completed ? (
+                {survey_result_status === SurveyResultStatus.Submitted ? (
                   <div className='flex w-full'>
                     <div className='flex flex-wrap justify-left gap-2 mt-1 p-2 overflow-y-auto overflow-x-hidden bg-gray-50 w-full'>
                       {selectedSurveyAnswers?.map((choice, index) => (
@@ -382,7 +382,7 @@ export const SurveyFormTable = () => {
                                         handleSelectItem(choice, checked, question.id ?? 0)
                                       }
                                       disabled={
-                                        survey_result_status === SurveyResultStatus.Completed ||
+                                        survey_result_status === SurveyResultStatus.Submitted ||
                                         (!selectedSurveyAnswerIds.includes(choice?.id ?? 0) &&
                                           parseInt(choice.amount as string) +
                                             (totalAmount[question.id ?? 0] ?? 0) >
@@ -433,17 +433,17 @@ export const SurveyFormTable = () => {
         <Button
           variant='primaryOutline'
           onClick={() =>
-            survey_result_status === SurveyResultStatus.Completed
+            survey_result_status === SurveyResultStatus.Submitted
               ? handleRedirect()
               : toggleBackDialog()
           }
         >
-          {survey_result_status === SurveyResultStatus.Completed ? "Back" : "Cancel & Exit"}
+          {survey_result_status === SurveyResultStatus.Submitted ? "Back" : "Cancel & Exit"}
         </Button>
-        {survey_result_status !== SurveyResultStatus.Completed && (
+        {survey_result_status !== SurveyResultStatus.Submitted && (
           <Button
             variant='primary'
-            disabled={survey_result_status === SurveyResultStatus.Completed}
+            disabled={survey_result_status === SurveyResultStatus.Submitted}
             onClick={toggleSubmitDialog}
           >
             Save & Submit
@@ -452,9 +452,9 @@ export const SurveyFormTable = () => {
       </div>
       <CustomDialog
         open={showBackDialog}
-        title={survey_result_status === SurveyResultStatus.Completed ? "Go Back" : "Cancel"}
+        title={survey_result_status === SurveyResultStatus.Submitted ? "Go Back" : "Cancel"}
         description={
-          survey_result_status === SurveyResultStatus.Completed ? (
+          survey_result_status === SurveyResultStatus.Submitted ? (
             <>
               Are you sure you want to go back? <br />
               If you do, your data won&apos;t be saved.
@@ -469,7 +469,7 @@ export const SurveyFormTable = () => {
         onClose={toggleBackDialog}
         onSubmit={handleRedirect}
       />
-      {survey_result_status !== SurveyResultStatus.Completed && (
+      {survey_result_status !== SurveyResultStatus.Submitted && (
         <CustomDialog
           open={showSubmitDialog}
           title='Submit Survey'
