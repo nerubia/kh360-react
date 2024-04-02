@@ -10,4 +10,5 @@ export interface SurveyTemplateQuestion {
   is_required?: boolean
   surveyTemplateCategories?: SurveyTemplateCategory[]
   survey_template_question_rules?: SurveyTemplateQuestionRule[]
+  totalAmount?: number
 }
