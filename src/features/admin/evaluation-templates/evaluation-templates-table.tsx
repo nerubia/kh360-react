@@ -113,7 +113,7 @@ export const EvaluationTemplatesTable = () => {
       case "With Recommendation":
         return (
           <div className='flex justify-center'>
-            <Badge variant={`${checkedItems[item.id] ? "green" : "red"}`} size='small'>
+            <Badge variant={`${checkedItems[item.id] ? "green" : "gray"}`} size='small'>
               {checkedItems[item.id] ? "YES" : "NO"}
             </Badge>
           </div>
