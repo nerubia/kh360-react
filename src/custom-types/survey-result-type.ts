@@ -23,12 +23,12 @@ export interface SurveyResultFilters {
 
 export const columns = ["Name", "Description", "Schedule"]
 export enum SurveyResultStatus {
-  ForReview = "For Review",
+  Open = "Open",
   Draft = "Draft",
   Ready = "Ready",
   Ongoing = "Ongoing",
   Closed = "Closed",
-  Completed = "Completed",
+  Submitted = "Submitted",
   Cancelled = "Cancelled",
   NoResult = "No Result",
 }

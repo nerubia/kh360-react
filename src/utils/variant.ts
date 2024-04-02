@@ -3,6 +3,7 @@ import { EvaluationStatus } from "@custom-types/evaluation-type"
 import { EvaluationAdministrationStatus } from "@custom-types/evaluation-administration-type"
 import { AnswerType } from "@custom-types/answer-option-type"
 import { ProjectStatus } from "@custom-types/project-type"
+import { SurveyResultStatus } from "@custom-types/survey-result-type"
 
 export const getEvaluationAdministrationStatusVariant = (status: string | undefined) => {
   if (status === EvaluationAdministrationStatus.Draft) {
@@ -213,5 +214,20 @@ export const getSurveyStatusVariant = (status: string | undefined) => {
   }
   if (status === EvaluationResultStatus.Completed) {
     return "pink"
+  }
+}
+
+export const getSurveyResultStatusVariant = (status: string | undefined) => {
+  if (status === SurveyResultStatus.Open) {
+    return "yellow"
+  }
+  if (status === SurveyResultStatus.Draft) {
+    return "primary"
+  }
+  if (status === SurveyResultStatus.Ongoing) {
+    return "green"
+  }
+  if (status === SurveyResultStatus.Submitted) {
+    return "blue"
   }
 }

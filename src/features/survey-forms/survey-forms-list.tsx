@@ -7,7 +7,7 @@ import { Spinner } from "@components/ui/spinner/spinner"
 import { getByTemplateType, getByTemplateTypeSocket } from "@redux/slices/email-template-slice"
 import { WebSocketContext, type WebSocketType } from "@components/providers/websocket"
 import { Badge } from "@components/ui/badge/badge"
-import { getSurveyStatusVariant } from "@utils/variant"
+import { getSurveyResultStatusVariant } from "@utils/variant"
 import { Loading } from "@custom-types/loadingType"
 import { getUserSurveyAdministrations } from "@redux/slices/user-slice"
 
@@ -45,7 +45,7 @@ export const SurveyFormsList = () => {
                   <div className='flex gap-2 items-center'>
                     <h2 className='text-primary-500 text-lg font-semibold'>{survey.name}</h2>
                     <Badge
-                      variant={getSurveyStatusVariant(survey?.survey_result_status)}
+                      variant={getSurveyResultStatusVariant(survey?.survey_result_status)}
                       size='small'
                     >
                       <div className='uppercase'>{survey?.survey_result_status}</div>
