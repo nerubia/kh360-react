@@ -90,31 +90,18 @@ export const SurveyFormTable = () => {
     setSelectedSurveyAnswerIds(selectedAnswerIds)
     setSelectedSurveyAnswers(selectedSurveyTemplateAnswers)
     setSurveyAnswers(user_survey_answers)
+  }, [user_survey_answers])
 
-    const newTotalAmount: Record<number, number> = {}
-
+  useEffect(() => {
     if (user_survey_questions.length > 0) {
       for (const question of user_survey_questions) {
-        if (question.surveyTemplateCategories !== undefined) {
-          let total = 0
-          for (const category of question.surveyTemplateCategories) {
-            if (category.surveyTemplateAnswers !== undefined) {
-              for (const answer of category.surveyTemplateAnswers) {
-                if (selectedSurveyAnswerIds.includes(answer.id ?? 0)) {
-                  total += parseInt(answer.amount as string)
-                }
-              }
-            }
-          }
-          if (total !== 0) {
-            newTotalAmount[question.id as number] = total
-          }
-        }
+        setTotalAmount((prev) => ({
+          ...prev,
+          [question.id as number]: question.totalAmount as number,
+        }))
       }
     }
-
-    setTotalAmount(newTotalAmount)
-  }, [user_survey_answers])
+  }, [user_survey_questions])
 
   const getQuestionRules = (id: number, rules?: SurveyTemplateQuestionRule[]) => {
     if (rules !== undefined) {
