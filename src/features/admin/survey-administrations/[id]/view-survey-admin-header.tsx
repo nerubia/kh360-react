@@ -182,7 +182,8 @@ export const ViewSurveyAdminHeader = () => {
             />
           </div>
           <div className='flex justify-between gap-4'>
-            {survey_administration?.status === SurveyAdministrationStatus.Closed && (
+            {(survey_administration?.status === SurveyAdministrationStatus.Closed ||
+              survey_administration?.status === SurveyAdministrationStatus.Ongoing) && (
               <Button size={isMobile ? "small" : "medium"} onClick={handleViewResults}>
                 <div className='whitespace-nowrap'>Results</div>
               </Button>

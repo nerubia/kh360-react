@@ -65,7 +65,8 @@ export const ViewSurveyResultsHeader = () => {
         </div>
         {loading === Loading.Fulfilled &&
           (survey_administration === null ||
-            survey_administration?.status !== SurveyAdministrationStatus.Closed) && (
+            (survey_administration?.status !== SurveyAdministrationStatus.Closed &&
+              survey_administration?.status !== SurveyAdministrationStatus.Ongoing)) && (
             <div className='mt-10'>Results not found or not available yet.</div>
           )}
       </div>
