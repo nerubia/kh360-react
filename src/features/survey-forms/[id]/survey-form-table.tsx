@@ -40,7 +40,7 @@ export const SurveyFormTable = () => {
   const [totalAmount, setTotalAmount] = useState<Record<number, number>>({})
   const [selectedSurveyAnswerIds, setSelectedSurveyAnswerIds] = useState<number[]>([])
   const [selectedSurveyAnswers, setSelectedSurveyAnswers] = useState<
-    Array<SurveyAnswer | undefined>
+    Array<SurveyTemplateAnswer | undefined>
   >([])
   const [surveyAnswers, setSurveyAnswers] = useState<SurveyAnswer[]>([])
   const [maxLimits, setMaxLimits] = useState<Record<string, number>>({})
@@ -79,11 +79,7 @@ export const SurveyFormTable = () => {
 
     const selectedSurveyTemplateAnswers = user_survey_answers.map((answer) => {
       return {
-        survey_template_answer_id: answer.survey_template_answer_id,
-        survey_template_question_id: answer.survey_template_question_id,
-        answer_text: answer.survey_template_answers?.answer_text,
-        amount: answer.survey_template_answers?.amount,
-        survey_template_answers: answer.survey_template_answers,
+        ...answer.survey_template_answers,
       }
     })
 
@@ -158,7 +154,7 @@ export const SurveyFormTable = () => {
       setSelectedSurveyAnswerIds((prev) => prev.filter((id) => id !== choiceId))
       setSelectedSurveyAnswers((prev) => prev.filter((answer) => answer?.id !== choiceId))
       setSurveyAnswers(
-        surveyAnswers.filter((answer) => answer.survey_template_answer_id !== choiceId)
+        surveyAnswers.filter((answer) => answer?.survey_template_answer_id !== choiceId)
       )
     }
   }
@@ -276,41 +272,38 @@ export const SurveyFormTable = () => {
                               <SurveyImage
                                 altText={`Image of ${choice?.answer_text}`}
                                 imageUrl={getSurveyImage(
-                                  choice?.survey_template_answers?.answer_image ?? "",
-                                  choice?.survey_template_answers?.survey_template_id as string
+                                  choice?.answer_image ?? "",
+                                  choice?.survey_template_id as string
                                 )}
                                 variant={"brokenImage"}
                               />
                               <div className='p-4'>
                                 <div className='flex items-start justify-start gap-2'>
                                   <h5 className='ml-5 mb-2 text-sm font-bold tracking-tight text-gray-900 dark:text-white'>
-                                    {choice?.survey_template_answers?.answer_text ?? ""}
+                                    {choice?.answer_text ?? ""}
                                   </h5>
                                 </div>
                                 <div
                                   className={`mb-1 ml-2 pr-2.5 text-gray-700 text-xs dark:text-gray-400 px-3 break-words`}
                                 >
-                                  {choice?.survey_template_answers?.answer_description != null &&
-                                  choice.survey_template_answers?.answer_description.length > 55 ? (
+                                  {choice?.answer_description != null &&
+                                  choice?.answer_description.length > 55 ? (
                                     <Tooltip placement='top' wFit={false} size='medium'>
                                       <Tooltip.Trigger>
-                                        <p>{`${choice.survey_template_answers?.answer_description.slice(
-                                          0,
-                                          55
-                                        )}...`}</p>
+                                        <p>{`${choice?.answer_description.slice(0, 55)}...`}</p>
                                       </Tooltip.Trigger>
                                       <Tooltip.Content>
                                         <p className=' break-words whitespace-pre-wrap'>
-                                          {choice.survey_template_answers?.answer_description ?? ""}
+                                          {choice?.answer_description ?? ""}
                                         </p>
                                       </Tooltip.Content>
                                     </Tooltip>
                                   ) : (
-                                    <p>{choice?.survey_template_answers?.answer_description}</p>
+                                    <p>{choice?.answer_description}</p>
                                   )}
                                 </div>
                                 <div className='font-bold ml-2 px-3 text-xs'>
-                                  Price: Php {choice?.survey_template_answers?.amount ?? ""}
+                                  Price: Php {choice?.amount ?? ""}
                                 </div>
                               </div>
                             </div>
