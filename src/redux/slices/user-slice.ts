@@ -1,7 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
 import { type ApiError } from "@custom-types/apiErrorType"
-import { type UserEvaluationsFilter, type UserQuestionsFilter } from "@custom-types/user-type"
+import {
+  type User,
+  type UserEvaluationsFilter,
+  type UserQuestionsFilter,
+} from "@custom-types/user-type"
 import { type Evaluation } from "@custom-types/evaluation-type"
 import { type Answers } from "@custom-types/answers-type"
 import { type SurveyAnswer, type SurveyAnswers } from "@custom-types/survey-answer-type"
@@ -17,6 +21,8 @@ import {
   type SurveyAdministrationFilters,
 } from "@custom-types/survey-administration-type"
 import { type SurveyTemplateQuestion } from "@custom-types/survey-template-question-type"
+import { type SurveyResultsFormData, type ExternalUserFormData } from "@custom-types/form-data-type"
+import { type SurveyResult } from "@custom-types/survey-result-type"
 
 export const getUserEvaluations = createAsyncThunk(
   "user/getUserEvaluations",
@@ -82,6 +88,22 @@ export const getUserSurveyQuestions = createAsyncThunk(
   }
 )
 
+export const getCompanionSurveyQuestions = createAsyncThunk(
+  "user/getCompanionSurveyQuestions",
+  async (survey_result_id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.get(
+        `user/survey-questions/companions/${survey_result_id}`
+      )
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const submitSurveyAnswers = createAsyncThunk(
   "user/submitSurveyAnswers",
   async (data: SurveyAnswers, thunkApi) => {
@@ -90,6 +112,34 @@ export const submitSurveyAnswers = createAsyncThunk(
         `/user/survey-administrations/${data.survey_administration_id}/submit-survey`,
         data
       )
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const createExternalUser = createAsyncThunk(
+  "externalUser/createExternalUser",
+  async (data: ExternalUserFormData, thunkApi) => {
+    try {
+      const response = await axiosInstance.post("/user/external-users", data)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const createSurveyResults = createAsyncThunk(
+  "surveyResults/createSurveyResults",
+  async (data: SurveyResultsFormData, thunkApi) => {
+    try {
+      const response = await axiosInstance.post(`/user/survey-results`, data)
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -189,6 +239,9 @@ interface InitialState {
   user_evaluation_administrations: EvaluationAdministration[]
   user_survey_administrations: SurveyAdminstration[]
   user_survey_questions: SurveyTemplateQuestion[]
+  user_survey_companions: SurveyResult[]
+  user_survey_companion: User | null
+  user_companion_questions: SurveyTemplateQuestion[]
   user_survey_answers: SurveyAnswer[]
   survey_result_status: string | null
   my_evaluation_administrations: EvaluationAdministration[]
@@ -210,7 +263,10 @@ const initialState: InitialState = {
   user_evaluation_administrations: [],
   user_survey_administrations: [],
   user_survey_questions: [],
+  user_survey_companions: [],
+  user_companion_questions: [],
   user_survey_answers: [],
+  user_survey_companion: null,
   survey_result_status: null,
   my_evaluation_administrations: [],
   user_evaluation_result: null,
@@ -463,8 +519,59 @@ const userSlice = createSlice({
       state.user_survey_administrations = [action.payload.survey_administration]
       state.survey_result_status = action.payload.survey_result_status
       state.user_survey_answers = action.payload.survey_answers
+      state.user_survey_companions = action.payload.survey_user_companions
     })
     builder.addCase(getUserSurveyQuestions.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Create survey results
+     */
+    builder.addCase(createSurveyResults.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(createSurveyResults.fulfilled, (state) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+    })
+    builder.addCase(createSurveyResults.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Get companion survey questions
+     */
+    builder.addCase(getCompanionSurveyQuestions.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getCompanionSurveyQuestions.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.user_survey_administrations = [action.payload.survey_administration]
+      state.user_companion_questions = action.payload.survey_template_questions
+      state.survey_result_status = action.payload.survey_result_status
+      state.user_survey_answers = action.payload.survey_answers
+      state.user_survey_companion = action.payload.survey_result_companion
+    })
+    builder.addCase(getCompanionSurveyQuestions.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Create External User
+     */
+    builder.addCase(createExternalUser.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(createExternalUser.fulfilled, (state) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+    })
+    builder.addCase(createExternalUser.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })

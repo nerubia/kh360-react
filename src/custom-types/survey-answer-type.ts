@@ -15,4 +15,6 @@ export interface SurveyAnswer {
 export interface SurveyAnswers {
   survey_administration_id: number
   survey_answers: SurveyAnswer[]
+  is_external?: boolean
+  survey_result_id?: number
 }

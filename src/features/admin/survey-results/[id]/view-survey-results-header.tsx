@@ -10,7 +10,6 @@ import { Loading } from "@custom-types/loadingType"
 import { Spinner } from "@components/ui/spinner/spinner"
 import { getResultsByRespondent, getResultsByAnswer } from "@redux/slices/survey-results-slice"
 import { getSurveyTemplateQuestions } from "@redux/slices/survey-template-questions-slice"
-import { SurveyAdministrationStatus } from "@custom-types/survey-administration-type"
 
 export const ViewSurveyResultsHeader = () => {
   const { id } = useParams()
