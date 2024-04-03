@@ -87,6 +87,34 @@ export const sendReminder = createAsyncThunk(
   }
 )
 
+export const reopenSurveyResult = createAsyncThunk(
+  "surveyResults/reopenSurveyResult",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.post(`/admin/survey-results/${id}/reopen`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const deleteSurveyResult = createAsyncThunk(
+  "surveyResults/deleteSurveyResult",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.delete(`/admin/survey-results/${id}`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   loading_send: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
@@ -204,6 +232,47 @@ const surveyResultsSlice = createSlice({
       state.error = null
     })
     builder.addCase(sendReminder.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Reopen survey result
+     */
+    builder.addCase(reopenSurveyResult.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(reopenSurveyResult.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+
+      const index = state.survey_results.findIndex(
+        (result) => parseInt(result.id as string) === parseInt(action.payload.id)
+      )
+
+      if (index !== -1) {
+        state.survey_results[index].status = action.payload.status
+      }
+    })
+    builder.addCase(reopenSurveyResult.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Delete
+     */
+    builder.addCase(deleteSurveyResult.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(deleteSurveyResult.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.survey_results = state.survey_results?.filter(
+        (result) => parseInt(result.id as string) !== parseInt(action.payload.id)
+      )
+    })
+    builder.addCase(deleteSurveyResult.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
