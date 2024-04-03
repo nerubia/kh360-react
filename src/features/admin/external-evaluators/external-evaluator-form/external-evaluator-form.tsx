@@ -37,6 +37,7 @@ export const ExternalEvaluatorForm = () => {
     first_name: external_user?.first_name ?? "",
     middle_name: external_user?.middle_name ?? "",
     last_name: external_user?.last_name ?? "",
+    user_type: "evaluation",
     email: external_user?.email ?? "",
     role: external_user?.role ?? "",
     company: external_user?.company ?? "",
