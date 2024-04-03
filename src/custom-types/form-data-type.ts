@@ -50,6 +50,7 @@ export interface ExternalUserFormData {
   first_name?: string
   middle_name?: string
   last_name?: string
+  user_type?: string
   email?: string
   role?: string
   company?: string
@@ -132,5 +133,7 @@ export interface SurveyAdministrationFormData {
 
 export interface SurveyResultsFormData {
   survey_administration_id?: string
-  employee_ids: number[]
+  employee_ids?: number[]
+  companion_ids?: number[]
+  is_external?: boolean
 }

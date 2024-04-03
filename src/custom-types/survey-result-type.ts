@@ -12,6 +12,7 @@ export interface SurveyResult {
   total_answered?: number
   email_logs?: EmailLog[]
   survey_answers?: SurveyAnswer[]
+  companion_user?: User
 }
 
 export interface SurveyResultFilters {
