@@ -120,6 +120,7 @@ interface InitialState {
   loading_send: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
   survey_results: SurveyResult[]
+  companion_survey_results: SurveyResult[]
   survey_results_answers: SurveyAnswer[]
   hasPreviousPage: boolean
   hasNextPage: boolean
@@ -132,6 +133,7 @@ const initialState: InitialState = {
   loading_send: Loading.Idle,
   error: null,
   survey_results: [],
+  companion_survey_results: [],
   survey_results_answers: [],
   hasPreviousPage: false,
   hasNextPage: false,
@@ -174,7 +176,8 @@ const surveyResultsSlice = createSlice({
     builder.addCase(getResultsByRespondent.fulfilled, (state, action) => {
       state.loading = Loading.Fulfilled
       state.error = null
-      state.survey_results = action.payload
+      state.survey_results = action.payload.surveyResults
+      state.companion_survey_results = action.payload.companionResults
     })
     builder.addCase(getResultsByRespondent.rejected, (state, action) => {
       state.loading = Loading.Rejected

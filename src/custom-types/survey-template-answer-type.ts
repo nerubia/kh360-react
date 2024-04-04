@@ -1,3 +1,5 @@
+import { type SurveyTemplateCategory } from "./survey-template-category-type"
+
 export interface SurveyTemplateAnswer {
   id?: number
   survey_template_id?: number | string
@@ -7,4 +9,5 @@ export interface SurveyTemplateAnswer {
   amount?: string | number
   answer_image?: string
   is_active?: string | boolean
+  survey_template_categories?: SurveyTemplateCategory
 }
