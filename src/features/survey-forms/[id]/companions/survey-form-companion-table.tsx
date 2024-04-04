@@ -79,11 +79,7 @@ export const SurveyFormCompanionTable = () => {
 
     const selectedSurveyTemplateAnswers = user_survey_answers.map((answer) => {
       return {
-        survey_template_answer_id: answer.survey_template_answer_id,
-        survey_template_question_id: answer.survey_template_question_id,
-        answer_text: answer.survey_template_answers?.answer_text,
-        amount: answer.survey_template_answers?.amount,
-        survey_template_answers: answer.survey_template_answers,
+        ...answer.survey_template_answers,
       }
     })
 
@@ -158,7 +154,7 @@ export const SurveyFormCompanionTable = () => {
       setSelectedSurveyAnswerIds((prev) => prev.filter((id) => id !== choiceId))
       setSelectedSurveyAnswers((prev) => prev.filter((answer) => answer?.id !== choiceId))
       setSurveyAnswers(
-        surveyAnswers.filter((answer) => answer.survey_template_answer_id !== choiceId)
+        surveyAnswers.filter((answer) => answer?.survey_template_answer_id !== choiceId)
       )
     }
   }
