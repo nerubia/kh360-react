@@ -148,7 +148,7 @@ export const ViewSurveyAdminList = () => {
                 <div>
                   <div className='flex items-center'>
                     <div className='flex flex-row items-center gap-5'>
-                      <span className='mx-4 w-48 text-start'>
+                      <span className='mx-4 w-64 text-start'>
                         - {surveyResult.users?.last_name}, {surveyResult.users?.first_name}
                       </span>
                       <Progress
