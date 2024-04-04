@@ -132,7 +132,7 @@ export const SurveyFormHeader = () => {
         </div>
         <div>{user_survey_administrations[0]?.remarks}</div>
         <b className='text-primary-500'>Companions:</b>
-        {user_survey_companions.map((companion) => (
+        {user_survey_companions?.map((companion) => (
           <div key={companion.id}>
             <LinkButton to={`/survey-forms/${id}/companions/${companion.id}`} variant='ghost'>
               <p className='text-primary-500'>
@@ -147,7 +147,7 @@ export const SurveyFormHeader = () => {
             </LinkButton>
           </div>
         ))}
-        {user_survey_companions.length === 0 ? (
+        {user_survey_companions?.length === 0 ? (
           <div className='pb-4 pl-2'>
             No companions added. Click{" "}
             <span
