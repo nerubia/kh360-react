@@ -22,6 +22,7 @@ import {
 } from "@redux/slices/survey-administration-slice"
 import { ReadyState } from "react-use-websocket"
 import { WebSocketContext, type WebSocketType } from "@components/providers/websocket"
+import { getSurveyResults } from "@redux/slices/survey-results-slice"
 
 export const ViewSurveyAdminHeader = () => {
   const navigate = useNavigate()
@@ -99,6 +100,12 @@ export const ViewSurveyAdminHeader = () => {
             data: "closeSurveyAdministration",
           })
         }
+
+        void appDispatch(
+          getSurveyResults({
+            survey_administration_id: id,
+          })
+        )
       }
     }
   }
@@ -141,6 +148,12 @@ export const ViewSurveyAdminHeader = () => {
               data: "reopenSurveyAdministration",
             })
           }
+
+          void appDispatch(
+            getSurveyResults({
+              survey_administration_id: id,
+            })
+          )
 
           toggleReopenDialog()
         }
