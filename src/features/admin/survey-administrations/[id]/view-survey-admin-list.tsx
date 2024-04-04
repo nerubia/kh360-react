@@ -14,12 +14,13 @@ import { Button } from "@components/ui/button/button"
 import { SurveyAdministrationStatus } from "@custom-types/survey-administration-type"
 import { Icon } from "@components/ui/icon/icon"
 import { Progress } from "@components/ui/progress/progress"
-import { getProgressVariant } from "@utils/variant"
+import { getProgressVariant, getSurveyResultStatusVariant } from "@utils/variant"
 import Tooltip from "@components/ui/tooltip/tooltip"
 import { setAlert } from "@redux/slices/app-slice"
 import { convertToFullDateAndTime } from "@utils/format-date"
 import { type User } from "@custom-types/user-type"
 import { SurveyResultStatus } from "@custom-types/survey-result-type"
+import { Badge } from "@components/ui/badge/badge"
 
 export const ViewSurveyAdminList = () => {
   const appDispatch = useAppDispatch()
@@ -167,29 +168,39 @@ export const ViewSurveyAdminList = () => {
                     </div>
                   </div>
                 </div>
-                <div className='w-8 text-right'>
+                <div className='w-6 text-right'>
                   {Math.round(
                     getValue(surveyResult.total_answered ?? 0, surveyResult.total_questions ?? 0)
                   )}
                   %
+                </div>
+                <div className='w-16'>
+                  <Badge
+                    size={"small"}
+                    variant={getSurveyResultStatusVariant(surveyResult.status ?? "")}
+                  >
+                    <div className='uppercase'>{surveyResult.status ?? ""}</div>
+                  </Badge>
                 </div>
                 <div className='flex gap-4 justify-start'>
                   {surveyResult.total_questions !== surveyResult.total_answered &&
                     survey_administration?.status === SurveyAdministrationStatus.Ongoing && (
                       <Tooltip placement='bottomStart'>
                         <Tooltip.Trigger>
-                          <Button
-                            variant='primaryOutline'
-                            size='small'
-                            onClick={async () =>
-                              await handleNudge(
-                                surveyResult.users?.first_name as string,
-                                surveyResult.users?.id as number
-                              )
-                            }
-                          >
-                            Nudge
-                          </Button>
+                          <div className='w-16'>
+                            <Button
+                              variant='primaryOutline'
+                              size='small'
+                              onClick={async () =>
+                                await handleNudge(
+                                  surveyResult.users?.first_name as string,
+                                  surveyResult.users?.id as number
+                                )
+                              }
+                            >
+                              Nudge
+                            </Button>
+                          </div>
                         </Tooltip.Trigger>
                         <Tooltip.Content>
                           {surveyResult?.email_logs?.length === 0 && <p>No reminders sent.</p>}
