@@ -20,7 +20,7 @@ export const SurveyFormHeader = () => {
   const navigate = useNavigate()
   const appDispatch = useAppDispatch()
   const { id } = useParams()
-  const { user_survey_administrations, survey_result_status, user_survey_companions } =
+  const { user_survey_administrations, survey_result_status, user_survey_companions, error } =
     useAppSelector((state) => state.user)
   const [showCompanionDialog, setShowCompanionDialog] = useState<boolean>(false)
   const [formData, setFormData] = useState<ExternalUserFormData>({
@@ -39,6 +39,12 @@ export const SurveyFormHeader = () => {
       }
     }
   }, [user_survey_administrations])
+
+  useEffect(() => {
+    if (error !== null) {
+      handleRedirect()
+    }
+  }, [error])
 
   const toggleCompanionDialog = () => {
     setFormData({
