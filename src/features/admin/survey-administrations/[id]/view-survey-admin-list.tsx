@@ -145,7 +145,7 @@ export const ViewSurveyAdminList = () => {
         <div className={`flex flex-col ${isMobile ? "overflow-x-auto" : ""}`}>
           {survey_results?.map((surveyResult, surveyIndex) => (
             <div key={surveyIndex} className='mb-2 ml-2'>
-              <div className='flex gap-8 mb-2 items-center'>
+              <div className='flex gap-5 mb-2 items-center'>
                 <div>
                   <div className='flex items-center'>
                     <div className='flex flex-row items-center gap-5'>
@@ -168,7 +168,7 @@ export const ViewSurveyAdminList = () => {
                     </div>
                   </div>
                 </div>
-                <div className='w-6 text-right'>
+                <div className='w-6 mr-4 text-right'>
                   {Math.round(
                     getValue(surveyResult.total_answered ?? 0, surveyResult.total_questions ?? 0)
                   )}
@@ -182,88 +182,82 @@ export const ViewSurveyAdminList = () => {
                     <div className='uppercase'>{surveyResult.status ?? ""}</div>
                   </Badge>
                 </div>
-                <div className='flex gap-4 justify-start'>
-                  <div className='w-16'>
-                    {surveyResult.total_questions !== surveyResult.total_answered &&
-                      survey_administration?.status === SurveyAdministrationStatus.Ongoing && (
-                        <Tooltip placement='bottomStart'>
-                          <Tooltip.Trigger>
+                <Button
+                  variant='unstyled'
+                  size='small'
+                  onClick={() => toggleDeleteDialog(parseInt(surveyResult.id as string))}
+                >
+                  <Icon icon='Trash' size='extraSmall' color='gray' />
+                </Button>
+                {surveyResult.total_questions !== surveyResult.total_answered &&
+                  survey_administration?.status === SurveyAdministrationStatus.Ongoing && (
+                    <Tooltip placement='bottomStart'>
+                      <Tooltip.Trigger>
+                        <Button
+                          variant='primaryOutline'
+                          size='small'
+                          onClick={async () =>
+                            await handleNudge(
+                              surveyResult.users?.first_name as string,
+                              surveyResult.users?.id as number
+                            )
+                          }
+                        >
+                          Nudge
+                        </Button>
+                      </Tooltip.Trigger>
+                      <Tooltip.Content>
+                        {surveyResult?.email_logs?.length === 0 && <p>No reminders sent.</p>}
+                        {surveyResult.email_logs !== undefined &&
+                          surveyResult?.email_logs.length > 0 &&
+                          surveyResult?.email_logs.length <= 3 && (
+                            <p>
+                              {surveyResult?.email_logs.length}{" "}
+                              {surveyResult?.email_logs.length === 1 ? "reminder" : "reminders"}{" "}
+                              sent. Reminders sent last:
+                            </p>
+                          )}
+                        {surveyResult?.email_logs !== undefined &&
+                          surveyResult?.email_logs.length > 3 && (
+                            <p>
+                              {surveyResult?.email_logs.length} reminders sent. Latest reminders
+                              sent last:
+                            </p>
+                          )}
+                        {surveyResult?.email_logs
+                          ?.slice(0, 3)
+                          .map((emailLog) => (
+                            <p key={emailLog.id}>
+                              - {convertToFullDateAndTime(emailLog.sent_at, user)}
+                            </p>
+                          ))}
+                        {surveyResult?.email_logs !== undefined &&
+                          surveyResult?.email_logs.length > 3 && (
                             <Button
-                              variant='primaryOutline'
+                              variant='unstyled'
                               size='small'
-                              onClick={async () =>
-                                await handleNudge(
-                                  surveyResult.users?.first_name as string,
-                                  surveyResult.users?.id as number
-                                )
-                              }
+                              onClick={() => toggleEmailLogDialog(surveyResult.users?.id ?? 0)}
                             >
-                              Nudge
+                              <span className='text-primary-500 text-xs underline'>View More</span>
                             </Button>
-                          </Tooltip.Trigger>
-                          <Tooltip.Content>
-                            {surveyResult?.email_logs?.length === 0 && <p>No reminders sent.</p>}
-                            {surveyResult.email_logs !== undefined &&
-                              surveyResult?.email_logs.length > 0 &&
-                              surveyResult?.email_logs.length <= 3 && (
-                                <p>
-                                  {surveyResult?.email_logs.length}{" "}
-                                  {surveyResult?.email_logs.length === 1 ? "reminder" : "reminders"}{" "}
-                                  sent. Reminders sent last:
-                                </p>
-                              )}
-                            {surveyResult?.email_logs !== undefined &&
-                              surveyResult?.email_logs.length > 3 && (
-                                <p>
-                                  {surveyResult?.email_logs.length} reminders sent. Latest reminders
-                                  sent last:
-                                </p>
-                              )}
-                            {surveyResult?.email_logs
-                              ?.slice(0, 3)
-                              .map((emailLog) => (
-                                <p key={emailLog.id}>
-                                  - {convertToFullDateAndTime(emailLog.sent_at, user)}
-                                </p>
-                              ))}
-                            {surveyResult?.email_logs !== undefined &&
-                              surveyResult?.email_logs.length > 3 && (
-                                <Button
-                                  variant='unstyled'
-                                  size='small'
-                                  onClick={() => toggleEmailLogDialog(surveyResult.users?.id ?? 0)}
-                                >
-                                  <span className='text-primary-500 text-xs underline'>
-                                    View More
-                                  </span>
-                                </Button>
-                              )}
-                          </Tooltip.Content>
-                        </Tooltip>
-                      )}
-                    {surveyResult.status === SurveyResultStatus.Submitted && (
-                      <Button
-                        variant='primaryOutline'
-                        size='small'
-                        onClick={async () =>
-                          await handleReopenByRespondent(
-                            surveyResult.users?.first_name as string,
-                            parseInt(surveyResult.id as string)
-                          )
-                        }
-                      >
-                        Reopen
-                      </Button>
-                    )}
-                  </div>
+                          )}
+                      </Tooltip.Content>
+                    </Tooltip>
+                  )}
+                {surveyResult.status === SurveyResultStatus.Submitted && (
                   <Button
-                    variant='unstyled'
+                    variant='primaryOutline'
                     size='small'
-                    onClick={() => toggleDeleteDialog(parseInt(surveyResult.id as string))}
+                    onClick={async () =>
+                      await handleReopenByRespondent(
+                        surveyResult.users?.first_name as string,
+                        parseInt(surveyResult.id as string)
+                      )
+                    }
                   >
-                    <Icon icon='Trash' size='extraSmall' color='gray' />
+                    Reopen
                   </Button>
-                </div>
+                )}
               </div>
             </div>
           ))}
