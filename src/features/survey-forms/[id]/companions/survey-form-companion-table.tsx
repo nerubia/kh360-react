@@ -225,42 +225,50 @@ export const SurveyFormCompanionTable = () => {
                   {"."} {question.question_text}
                   {question.is_required === true && <span className='text-red-500'>*</span>}
                 </p>
-                <div className='flex gap-2 items-center mb-4 ml-4'>
-                  <p>Total Amount: </p>
-                  <Badge variant='darkPurple' size='medium'>
-                    Php {totalAmount[question.id ?? 0] ?? 0}
-                  </Badge>
-                  {selectedSurveyAnswers.map((answer, index) => (
-                    <div key={index}>
-                      <Button
-                        fullWidth
-                        variant='tag'
-                        size='small'
-                        fullHeight
-                        onClick={() => {
-                          if (answer !== undefined) {
-                            handleSelectItem(answer, false, question.id ?? 0)
-                          }
-                        }}
-                        disabled={survey_result_status === SurveyResultStatus.Submitted}
-                      >
-                        <p>
-                          {answer?.answer_text} (Php {answer?.amount})
-                        </p>
-                        <Icon icon='Close' size={"extraSmall"} />
-                      </Button>
-                    </div>
-                  ))}
-                  {selectedSurveyAnswers.length > 0 &&
-                    survey_result_status !== SurveyResultStatus.Submitted && (
-                      <Button variant='textLink' size='small' onClick={handleClear}>
-                        Clear All
-                      </Button>
-                    )}
+                <div className='flex gap-2 items-center mb-4 flex-wrap'>
+                  <div className='flex items-center w-full md:w-auto'>
+                    <p className='mr-2'>Total Amount:</p>
+                    <Badge variant='darkPurple' size='medium'>
+                      Php {totalAmount[question.id ?? 0] ?? 0}
+                    </Badge>
+                  </div>
+                  <div className='w-full md:w-auto flex justify-start flex-wrap gap-2'>
+                    {selectedSurveyAnswers.map((answer, index) => (
+                      <div key={index}>
+                        <Button
+                          fullWidth
+                          variant='tag'
+                          size='small'
+                          fullHeight
+                          onClick={() => {
+                            if (answer !== undefined) {
+                              handleSelectItem(answer, false, question.id ?? 0)
+                            }
+                          }}
+                          disabled={survey_result_status === SurveyResultStatus.Submitted}
+                        >
+                          <p>
+                            {answer?.answer_text} (Php {answer?.amount})
+                          </p>
+                          <Icon icon='Close' size={"extraSmall"} />
+                        </Button>
+                      </div>
+                    ))}
+                    {selectedSurveyAnswers.length > 0 &&
+                      survey_result_status !== SurveyResultStatus.Submitted && (
+                        <Button variant='textLink' size='small' onClick={handleClear}>
+                          Clear All
+                        </Button>
+                      )}
+                  </div>
                 </div>
                 {survey_result_status === SurveyResultStatus.Submitted ? (
                   <div className='flex w-full'>
-                    <div className='flex flex-wrap justify-left gap-2 mt-1 p-2 overflow-y-auto overflow-x-hidden bg-gray-50 w-full'>
+                    <div
+                      className={`${
+                        isMobile ? "justify-center" : "justify-left"
+                      } flex flex-wrap gap-2 mt-1 p-2 overflow-y-auto overflow-x-hidden bg-gray-50 w-full`}
+                    >
                       {selectedSurveyAnswers?.map((choice, index) => (
                         <label
                           key={index}
@@ -270,7 +278,7 @@ export const SurveyFormCompanionTable = () => {
                             key={index}
                             className={`flex-grow max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 `}
                           >
-                            <div className={`${isMobile ? "w-52" : "w-56"} min-h-[250px]`}>
+                            <div className={`${isMobile ? "w-40" : "w-56"} min-h-[250px]`}>
                               <SurveyImage
                                 altText={`Image of ${choice?.answer_text}`}
                                 imageUrl={getSurveyImage(
@@ -319,7 +327,7 @@ export const SurveyFormCompanionTable = () => {
                   </div>
                 ) : (
                   <div className='flex h-450 w-full'>
-                    <div className='flex flex-col overflow-auto w-4/25 p-2 mr-2'>
+                    <div className='flex flex-col overflow-auto w-2/4 md:w-2/6 p-2 mr-2'>
                       {question.surveyTemplateCategories?.map((category, index) => (
                         <div key={index} className='border-b text-primary-500 text-left'>
                           <Button
@@ -343,7 +351,9 @@ export const SurveyFormCompanionTable = () => {
                         </div>
                       ))}
                     </div>
-                    <div className='flex flex-wrap justify-left gap-2 mt-1 p-2 h-450 overflow-y-auto overflow-x-hidden bg-gray-50 w-21/25'>
+                    <div
+                      className={`flex flex-wrap gap-2 mt-1 p-2 h-450 overflow-y-auto overflow-x-hidden bg-gray-50 w-21/25`}
+                    >
                       {selectedCategory[question.id ?? 0]?.surveyTemplateAnswers?.map((choice) => (
                         <label
                           key={choice.id}
@@ -353,7 +363,7 @@ export const SurveyFormCompanionTable = () => {
                             key={choice.id}
                             className={`flex-grow max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 `}
                           >
-                            <div className={`${isMobile ? "w-52" : "w-56"} min-h-[250px]`}>
+                            <div className={`${isMobile ? "w-40" : "w-56"} min-h-[250px]`}>
                               <SurveyImage
                                 altText={`Image of ${choice.answer_text}`}
                                 imageUrl={getSurveyImage(
@@ -392,8 +402,8 @@ export const SurveyFormCompanionTable = () => {
                                       <Tooltip.Trigger>
                                         <p>{`${choice.answer_description.slice(0, 55)}...`}</p>
                                       </Tooltip.Trigger>
-                                      <Tooltip.Content>
-                                        <p className=' break-words whitespace-pre-wrap'>
+                                      <Tooltip.Content wFullOnMd={false}>
+                                        <p className='break-words whitespace-pre-wrap'>
                                           {choice.answer_description ?? ""}
                                         </p>
                                       </Tooltip.Content>
