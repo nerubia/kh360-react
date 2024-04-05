@@ -124,7 +124,7 @@ export const SurveyFormHeader = () => {
 
   return (
     <>
-      <div className='flex md:flex-col justify-between gap-4'>
+      <div className='flex flex-col justify-between gap-4'>
         <div className='flex gap-4'>
           <div className='flex gap-4 items-center'>
             <PageTitle>{user_survey_administrations[0]?.name}</PageTitle>
