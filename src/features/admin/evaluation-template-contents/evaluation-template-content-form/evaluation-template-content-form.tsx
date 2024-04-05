@@ -154,7 +154,11 @@ export const CreateEvaluationTemplateContentForm = () => {
   return (
     <div className='flex flex-col gap-8'>
       <Dialog open={create_modal_visible} size='small'>
-        <Dialog.Title>Add Template Content</Dialog.Title>
+        <Dialog.Title>
+          {selectedTemplateContent != null
+            ? "Edit Evaluation Template Content"
+            : "Add Template Content"}
+        </Dialog.Title>
         <Dialog.Description>
           <div className='flex flex-col gap-10 h-450'>
             <div className='flex flex-col gap-4 p-1'>
