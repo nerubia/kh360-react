@@ -223,7 +223,7 @@ export const ViewSurveyAdminList = () => {
                               ?.slice(0, 3)
                               .map((emailLog) => (
                                 <p key={emailLog.id}>
-                                  - {convertToFullDateAndTime(emailLog.sent_at, surveyResult.users)}
+                                  - {convertToFullDateAndTime(emailLog.sent_at, user)}
                                 </p>
                               ))}
                             {surveyResult?.email_logs !== undefined &&
