@@ -10,6 +10,7 @@ interface TableProps<T extends { id: number }> {
   overflowXAuto?: boolean
   overflowYHidden?: boolean
   applyFixedColWidth?: boolean
+  customWidth?: string
   handleSort?: () => void
   dragContent?: React.MutableRefObject<number>
   draggedOverContent?: React.MutableRefObject<number>
@@ -25,6 +26,7 @@ export function Table<T extends { id: number }>({
   overflowXAuto = true,
   overflowYHidden = true,
   applyFixedColWidth = false,
+  customWidth,
   handleSort,
   dragContent,
   draggedOverContent,
@@ -39,6 +41,7 @@ export function Table<T extends { id: number }>({
   const mediumColumns = ["Role", "Company"]
   const wrapColumns = ["With Recommendation", "Evaluator Role", "Evaluee Role"]
   const fixColWidth = ["Name", "Email Address"]
+  const hasCustomWidth = ["Description"]
   const columnWidth = 100 / columns.length
 
   const getColumnClassName = (column: string | ReactNode) => {
@@ -46,6 +49,7 @@ export function Table<T extends { id: number }>({
     const isWrapColumn = wrapColumns.includes(column as string)
     const isMediumColumn = mediumColumns.includes(column as string)
     const isFixColWidth = applyFixedColWidth && fixColWidth.includes(column as string)
+    const hasCustomColWidth = customWidth !== undefined && hasCustomWidth.includes(column as string)
 
     if (isSmallColumn) {
       return "whitespace-nowrap w-1/20 text-center"
@@ -55,6 +59,8 @@ export function Table<T extends { id: number }>({
       return "whitespace-normal text-center"
     } else if (isFixColWidth) {
       return "w-1/4"
+    } else if (hasCustomColWidth) {
+      return customWidth
     } else {
       return `whitespace-nowrap w-${columnWidth}`
     }

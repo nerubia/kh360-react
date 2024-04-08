@@ -54,7 +54,7 @@ export const SkillCategoriesFilter = () => {
 
   return (
     <div className='flex flex-col md:flex-row justify-between gap-4 flex-wrap'>
-      <div className='flex-1 flex flex-col md:flex-row gap-4 flex-wrap'>
+      <div className='flex-1 flex flex-col md:flex-row gap-4'>
         <div className='flex-1'>
           <Input
             label='Name'
@@ -64,23 +64,23 @@ export const SkillCategoriesFilter = () => {
             onChange={(e) => setName(e.target.value)}
           />
         </div>
-        <div className='w-full lg:flex-1'>
+        <div className='w-1/5'>
           <CustomSelect
             data-test-id='StatusFilter'
             label='Status'
             name='status'
             value={defaultOptions.find((option) => option.value === status)}
-            onChange={(option) => setStatus(option !== null ? option.value : "")}
+            onChange={(option) => setStatus(option !== null ? option.value : "all")}
             options={defaultOptions}
             fullWidth
           />
         </div>
-        <div className='flex items-end gap-4'>
-          <Button onClick={handleSearch}>Search</Button>
-          <Button variant='primaryOutline' onClick={handleClear}>
-            Clear
-          </Button>
-        </div>
+      </div>
+      <div className='flex items-end gap-4'>
+        <Button onClick={handleSearch}>Search</Button>
+        <Button variant='primaryOutline' onClick={handleClear}>
+          Clear
+        </Button>
       </div>
     </div>
   )
