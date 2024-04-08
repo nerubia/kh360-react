@@ -151,7 +151,20 @@ test.describe("Admin - Select Respondents", () => {
       await mockRequest(page, "/admin/survey-results/all?survey_administration_id=1", {
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify([]),
+        body: JSON.stringify({
+          survey_results: [
+            {
+              id: 1,
+              status: "For Review",
+              users: {
+                first_name: "Sample",
+                last_name: "User",
+                picture: null,
+              },
+            },
+          ],
+          companion_survey_results: [],
+        }),
       })
 
       await mockRequest(page, "/admin/survey-administrations/1", {
@@ -256,7 +269,20 @@ test.describe("Admin - Select Respondents", () => {
       await mockRequest(page, "/admin/survey-results/all?survey_administration_id=1", {
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify([]),
+        body: JSON.stringify({
+          survey_results: [
+            {
+              id: 1,
+              status: "For Review",
+              users: {
+                first_name: "Sample",
+                last_name: "User",
+                picture: null,
+              },
+            },
+          ],
+          companion_survey_results: [],
+        }),
       })
 
       await mockRequest(page, "/admin/survey-administrations/1", {
@@ -340,7 +366,20 @@ test.describe("Admin - Select Respondents", () => {
       await mockRequest(page, "/admin/survey-results/all?survey_administration_id=1", {
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify([]),
+        body: JSON.stringify({
+          survey_results: [
+            {
+              id: 1,
+              status: "For Review",
+              users: {
+                first_name: "Sample",
+                last_name: "User",
+                picture: null,
+              },
+            },
+          ],
+          companion_survey_results: [],
+        }),
       })
 
       await mockRequest(page, "/admin/survey-administrations/1", {
@@ -428,7 +467,20 @@ test.describe("Admin - Select Respondents", () => {
       await mockRequest(page, "/admin/survey-results/all?survey_administration_id=1", {
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify([]),
+        body: JSON.stringify({
+          survey_results: [
+            {
+              id: 1,
+              status: "For Review",
+              users: {
+                first_name: "Sample",
+                last_name: "User",
+                picture: null,
+              },
+            },
+          ],
+          companion_survey_results: [],
+        }),
       })
 
       await mockRequest(page, "/admin/survey-administrations/1", {
@@ -546,7 +598,20 @@ test.describe("Admin - Select Respondents", () => {
       await mockRequest(page, "/admin/survey-results/all?survey_administration_id=1", {
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify([]),
+        body: JSON.stringify({
+          survey_results: [
+            {
+              id: 1,
+              status: "For Review",
+              users: {
+                first_name: "Sample",
+                last_name: "User",
+                picture: null,
+              },
+            },
+          ],
+          companion_survey_results: [],
+        }),
       })
 
       await mockRequest(page, "/admin/survey-administrations/1", {
@@ -630,14 +695,34 @@ test.describe("Admin - Select Respondents", () => {
       await mockRequest(page, "/admin/survey-results/all?survey_administration_id=1", {
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify([]),
+        body: JSON.stringify({
+          survey_results: [
+            {
+              id: 1,
+              status: "For Review",
+              users: {
+                first_name: "Sample",
+                last_name: "User",
+                picture: null,
+              },
+            },
+          ],
+          companion_survey_results: [],
+        }),
       })
 
       await mockRequest(page, "/admin/survey-administrations/1", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
-          data: {},
+          id: 1,
+          name: "Survey 1",
+          survey_start_date: "2024-01-01T00:00:00.000Z",
+          survey_end_date: "2024-01-03T00:00:00.000Z",
+          remarks: "Remarks 1",
+          email_subject: "Subject 1",
+          email_content: "Content 1",
+          status: "Draft",
         }),
       })
 
@@ -648,7 +733,48 @@ test.describe("Admin - Select Respondents", () => {
       await mockRequest(page, "/admin/survey-administrations/1", {
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify({}),
+        body: JSON.stringify({
+          id: 1,
+          name: "Survey 1",
+          survey_start_date: "2024-01-01T00:00:00.000Z",
+          survey_end_date: "2024-01-03T00:00:00.000Z",
+          remarks: "Remarks 1",
+          email_subject: "Subject 1",
+          email_content: "Content 1",
+          status: "Draft",
+        }),
+      })
+
+      await mockRequest(page, "/user/email-templates?template_type=Create+Survey", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          id: 1,
+          name: null,
+          template_type: "Create Survey",
+          is_default: true,
+          subject: "Subject 1",
+          content: "Content 1",
+          created_by_id: null,
+          updated_by_id: null,
+          created_at: null,
+          updated_at: null,
+        }),
+      })
+
+      await mockRequest(page, "/admin/survey-templates/all", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            id: 1,
+            name: "Template name",
+            display_name: "Template display name",
+            survey_type: "Create Survey type",
+            is_active: true,
+            remarks: "remarks",
+          },
+        ]),
       })
 
       await page.getByTestId("BackButton").click()
