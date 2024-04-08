@@ -161,6 +161,7 @@ export const SkillCategoriesTable = () => {
           handleSort={isDraggable ? async () => await handleSort() : undefined}
           dragContent={isDraggable ? dragContent : undefined}
           draggedOverContent={isDraggable ? draggedOverContent : undefined}
+          customWidth='w-1/2'
         />
         <Suspense>
           <SkillCategoriesDialog
