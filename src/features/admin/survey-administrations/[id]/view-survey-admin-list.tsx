@@ -21,6 +21,7 @@ import { convertToFullDateAndTime } from "@utils/format-date"
 import { type User } from "@custom-types/user-type"
 import { SurveyResultStatus } from "@custom-types/survey-result-type"
 import { Badge } from "@components/ui/badge/badge"
+import { Loading } from "@custom-types/loadingType"
 
 export const ViewSurveyAdminList = () => {
   const appDispatch = useAppDispatch()
@@ -28,7 +29,9 @@ export const ViewSurveyAdminList = () => {
   const { id } = useParams()
   const { survey_administration } = useAppSelector((state) => state.surveyAdministration)
   const { user } = useAppSelector((state) => state.auth)
-  const { survey_results } = useAppSelector((state) => state.surveyResults)
+  const { loading, survey_results, companion_survey_results } = useAppSelector(
+    (state) => state.surveyResults
+  )
   const [showEmailLogDialog, setShowEmailLogDialog] = useState<boolean>(false)
   const [showDeleteDialog, setShowDeleteialog] = useState<boolean>(false)
   const [selectedRespondent, setSelectedRespondent] = useState<User | null>(null)
@@ -262,11 +265,12 @@ export const ViewSurveyAdminList = () => {
             </div>
           ))}
           <>
-            {(survey_administration?.status === SurveyAdministrationStatus.Draft ||
+            {loading !== Loading.Pending &&
+            (survey_administration?.status === SurveyAdministrationStatus.Draft ||
               survey_administration?.status === SurveyAdministrationStatus.Pending ||
-              survey_administration?.status === SurveyAdministrationStatus.Ongoing) && (
+              survey_administration?.status === SurveyAdministrationStatus.Ongoing) ? (
               <>
-                {survey_results.length === 0 ? (
+                {survey_results?.length === 0 ? (
                   <div className='pb-4 pl-2'>
                     No respondents added yet. Click{" "}
                     <span
@@ -289,8 +293,75 @@ export const ViewSurveyAdminList = () => {
                   </div>
                 )}
               </>
+            ) : (
+              <p className='ml-4'>No Respondents.</p>
             )}
           </>
+          <h2 className='mt-5 mb-5 text-2xl font-bold'>Companions</h2>
+          {companion_survey_results?.length === 0 && <p className='ml-4'>No Companions.</p>}
+          {companion_survey_results?.map((surveyResult, surveyIndex) => (
+            <div key={surveyIndex} className='mb-2 ml-2'>
+              <div className='flex gap-5 mb-2 items-center'>
+                <div>
+                  <div className='flex items-center'>
+                    <div className='flex flex-row items-center gap-5'>
+                      <span className='mx-4 w-64 text-start'>
+                        - {surveyResult.users?.last_name}, {surveyResult.users?.first_name}
+                      </span>
+                      <Progress
+                        variant={getProgressVariant(
+                          getValue(
+                            surveyResult.total_answered ?? 0,
+                            surveyResult.total_questions ?? 0
+                          )
+                        )}
+                        value={getValue(
+                          surveyResult.total_answered ?? 0,
+                          surveyResult.total_questions ?? 0
+                        )}
+                        width='w-96 w-56'
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className='w-6 mr-4 text-right'>
+                  {Math.round(
+                    getValue(surveyResult.total_answered ?? 0, surveyResult.total_questions ?? 0)
+                  )}
+                  %
+                </div>
+                <div className='w-20'>
+                  <Badge
+                    size={"small"}
+                    variant={getSurveyResultStatusVariant(surveyResult.status ?? "")}
+                  >
+                    <div className='uppercase'>{surveyResult.status ?? ""}</div>
+                  </Badge>
+                </div>
+                <Button
+                  variant='unstyled'
+                  size='small'
+                  onClick={() => toggleDeleteDialog(parseInt(surveyResult.id as string))}
+                >
+                  <Icon icon='Trash' size='extraSmall' color='gray' />
+                </Button>
+                {surveyResult.status === SurveyResultStatus.Submitted && (
+                  <Button
+                    variant='primaryOutline'
+                    size='small'
+                    onClick={async () =>
+                      await handleReopenByRespondent(
+                        surveyResult.users?.first_name as string,
+                        parseInt(surveyResult.id as string)
+                      )
+                    }
+                  >
+                    Reopen
+                  </Button>
+                )}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
       <Suspense>

@@ -77,7 +77,7 @@ export const SelectRespondentsTable = () => {
                       onChange={(checked) => handleSelectAll(checked)}
                       disabled={users.every(
                         (user) =>
-                          survey_results.find((result) => result.users?.id === user.id) !==
+                          survey_results?.find((result) => result.users?.id === user.id) !==
                           undefined
                       )}
                     />
@@ -98,7 +98,7 @@ export const SelectRespondentsTable = () => {
                         checked={selectedEmployeeIds.includes(user.id)}
                         onChange={(checked) => handleClickCheckbox(checked, user.id)}
                         disabled={
-                          survey_results.find((result) => result.users?.id === user.id) !==
+                          survey_results?.find((result) => result.users?.id === user.id) !==
                           undefined
                         }
                       />

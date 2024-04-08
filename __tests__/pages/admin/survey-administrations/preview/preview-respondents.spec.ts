@@ -312,17 +312,20 @@ test.describe("Admin - Preview Respondents", () => {
       await mockRequest(page, "/admin/survey-results/all?survey_administration_id=1", {
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify([
-          {
-            id: 1,
-            status: "For Review",
-            users: {
-              first_name: "Sample",
-              last_name: "User",
-              picture: null,
+        body: JSON.stringify({
+          survey_results: [
+            {
+              id: 1,
+              status: "For Review",
+              users: {
+                first_name: "Sample",
+                last_name: "User",
+                picture: null,
+              },
             },
-          },
-        ]),
+          ],
+          companion_survey_results: [],
+        }),
       })
 
       await page.waitForLoadState("networkidle")
@@ -512,7 +515,20 @@ test.describe("Admin - Preview Respondents", () => {
       await mockRequest(page, "/admin/survey-results/all?survey_administration_id=1", {
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify([]),
+        body: JSON.stringify({
+          survey_results: [
+            {
+              id: 1,
+              status: "For Review",
+              users: {
+                first_name: "Sample",
+                last_name: "User",
+                picture: null,
+              },
+            },
+          ],
+          companion_survey_results: [],
+        }),
       })
 
       await mockRequest(page, "/admin/survey-administrations/1", {
