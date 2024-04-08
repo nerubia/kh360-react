@@ -12,6 +12,7 @@ import { ViewSurveyAdminList } from "@features/admin/survey-administrations/[id]
 import { ViewSurveyAdminFooter } from "@features/admin/survey-administrations/[id]/view-survey-admin-footer"
 import { useTitle } from "@hooks/useTitle"
 import { WebSocketContext, type WebSocketType } from "@components/providers/websocket"
+import { Spinner } from "@components/ui/spinner/spinner"
 
 export default function ViewSurveyAdministration() {
   useTitle("View Survey Administration")
@@ -44,7 +45,7 @@ export default function ViewSurveyAdministration() {
         {survey_administration !== null && (
           <>
             <ViewSurveyAdminHeader />
-            {loading_survey_results === Loading.Pending && <div>Loading...</div>}
+            {loading_survey_results === Loading.Pending && <Spinner />}
             {loading_survey_results === Loading.Fulfilled && survey_results === null && (
               <div>Not found</div>
             )}

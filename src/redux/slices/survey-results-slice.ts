@@ -160,7 +160,8 @@ const surveyResultsSlice = createSlice({
     builder.addCase(getSurveyResults.fulfilled, (state, action) => {
       state.loading = Loading.Fulfilled
       state.error = null
-      state.survey_results = action.payload
+      state.survey_results = action.payload.survey_results
+      state.companion_survey_results = action.payload.companion_survey_results
     })
     builder.addCase(getSurveyResults.rejected, (state, action) => {
       state.loading = Loading.Rejected
@@ -253,8 +254,16 @@ const surveyResultsSlice = createSlice({
         (result) => parseInt(result.id as string) === parseInt(action.payload.id)
       )
 
+      const indexCompanion = state.companion_survey_results.findIndex(
+        (result) => parseInt(result.id as string) === parseInt(action.payload.id)
+      )
+
       if (index !== -1) {
         state.survey_results[index].status = action.payload.status
+      }
+
+      if (indexCompanion !== -1) {
+        state.companion_survey_results[indexCompanion].status = action.payload.status
       }
     })
     builder.addCase(reopenSurveyResult.rejected, (state, action) => {
@@ -272,6 +281,9 @@ const surveyResultsSlice = createSlice({
       state.loading = Loading.Fulfilled
       state.error = null
       state.survey_results = state.survey_results?.filter(
+        (result) => parseInt(result.id as string) !== parseInt(action.payload.id)
+      )
+      state.companion_survey_results = state.companion_survey_results?.filter(
         (result) => parseInt(result.id as string) !== parseInt(action.payload.id)
       )
     })
