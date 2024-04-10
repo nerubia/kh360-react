@@ -314,7 +314,7 @@ export const ViewEvaluationTemplateTable = () => {
                         <td className='py-1 border-b'>
                           <div className='flex items-center justify-center'>
                             <Badge
-                              variant={`${checkedItems[content.id] ? "green" : "red"}`}
+                              variant={`${checkedItems[content.id] ? "green" : "gray"}`}
                               size='small'
                             >
                               {checkedItems[content.id] ? "ACTIVE" : "INACTIVE"}

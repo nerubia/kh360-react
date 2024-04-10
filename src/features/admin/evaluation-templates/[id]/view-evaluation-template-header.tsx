@@ -35,7 +35,7 @@ export const ViewEvaluationTemplateHeader = () => {
               <PageTitle>
                 <div className='flex items-center gap-4'>
                   {evaluation_template?.name} ({evaluation_template?.display_name}){" "}
-                  <Badge variant={`${isActive ? "green" : "red"}`}>
+                  <Badge variant={`${isActive ? "green" : "gray"}`}>
                     {isActive ? "ACTIVE" : "INACTIVE"}
                   </Badge>
                 </div>
