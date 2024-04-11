@@ -294,11 +294,11 @@ export const ViewSurveyAdminList = () => {
                 )}
               </>
             ) : (
-              <p className='ml-4'>No Respondents.</p>
+              <>{survey_results?.length === 0 && <p className='ml-2'>No Respondents.</p>}</>
             )}
           </>
           <h2 className='mt-5 mb-5 text-2xl font-bold'>Companions</h2>
-          {companion_survey_results?.length === 0 && <p className='ml-4'>No Companions.</p>}
+          {companion_survey_results?.length === 0 && <p className='ml-2'>No Companions.</p>}
           {companion_survey_results?.map((surveyResult, surveyIndex) => (
             <div key={surveyIndex} className='mb-2 ml-2'>
               <div className='flex gap-5 mb-2 items-center'>
