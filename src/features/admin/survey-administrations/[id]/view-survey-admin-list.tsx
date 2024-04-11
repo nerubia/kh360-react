@@ -22,6 +22,7 @@ import { type User } from "@custom-types/user-type"
 import { SurveyResultStatus } from "@custom-types/survey-result-type"
 import { Badge } from "@components/ui/badge/badge"
 import { Loading } from "@custom-types/loadingType"
+import { Spinner } from "@components/ui/spinner/spinner"
 
 export const ViewSurveyAdminList = () => {
   const appDispatch = useAppDispatch()
@@ -294,11 +295,18 @@ export const ViewSurveyAdminList = () => {
                 )}
               </>
             ) : (
-              <>{survey_results?.length === 0 && <p className='ml-2'>No Respondents.</p>}</>
+              <>
+                {loading !== Loading.Pending && survey_results?.length === 0 && (
+                  <p className='ml-2'>No Respondents.</p>
+                )}
+              </>
             )}
           </>
           <h2 className='mt-5 mb-5 text-2xl font-bold'>Companions</h2>
-          {companion_survey_results?.length === 0 && <p className='ml-2'>No Companions.</p>}
+          {loading === Loading.Pending && <Spinner />}
+          {loading !== Loading.Pending && companion_survey_results?.length === 0 && (
+            <p className='ml-2'>No Companions.</p>
+          )}
           {companion_survey_results?.map((surveyResult, surveyIndex) => (
             <div key={surveyIndex} className='mb-2 ml-2'>
               <div className='flex gap-5 mb-2 items-center'>
