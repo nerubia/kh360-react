@@ -280,11 +280,15 @@ const surveyResultsSlice = createSlice({
     builder.addCase(deleteSurveyResult.fulfilled, (state, action) => {
       state.loading = Loading.Fulfilled
       state.error = null
+
+      const deletedIds: number[] = action.payload.deletedIds.map((id: string) => parseInt(id))
+
       state.survey_results = state.survey_results?.filter(
-        (result) => parseInt(result.id as string) !== parseInt(action.payload.id)
+        (result) => !deletedIds.includes(parseInt(result.id as string))
       )
+
       state.companion_survey_results = state.companion_survey_results?.filter(
-        (result) => parseInt(result.id as string) !== parseInt(action.payload.id)
+        (result) => !deletedIds.includes(parseInt(result.id as string))
       )
     })
     builder.addCase(deleteSurveyResult.rejected, (state, action) => {
