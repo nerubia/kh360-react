@@ -12,6 +12,7 @@ import { useCmUser } from "@hooks/use-cm-user"
 import { useLocation } from "react-router-dom"
 import { useMobileView } from "@hooks/use-mobile-view"
 import { routes } from "@routes/routes"
+import { useState } from "react"
 
 interface MenuLink {
   title: string
@@ -177,6 +178,7 @@ export const Sidebar = () => {
 
   const isMobileView = useMobileView()
   const isMediumSize = useMobileView(1028)
+  const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({})
 
   const toggleSidebar = () => {
     appDispatch(setActiveSidebar(!activeSidebar))
@@ -195,6 +197,13 @@ export const Sidebar = () => {
       }
     }
     return false
+  }
+
+  const toggleMenuState = (title: string) => {
+    setOpenMenus((prevOpenMenus) => ({
+      ...prevOpenMenus,
+      [title]: !prevOpenMenus[title],
+    }))
   }
 
   return (
@@ -225,7 +234,11 @@ export const Sidebar = () => {
                 (isAdmin && menu.access === "Admin") ||
                 (isCm && menu.access === "Bod") ||
                 menu.access === "Public") && (
-                <div key={index} className='flex flex-col gap-2'>
+                <div
+                  key={index}
+                  className='flex flex-col gap-2'
+                  onClick={() => (menu.children !== undefined ? toggleMenuState(menu.title) : null)}
+                >
                   <Menu
                     to={menu.link}
                     isEvaluation={false}
@@ -253,10 +266,14 @@ export const Sidebar = () => {
                       {menu.title}
                     </div>
                     {menu.children !== undefined ? (
-                      <Icon size={isMediumSize ? "extraSmall" : "medium"} icon='ChevronDown' />
+                      openMenus[menu.title] ? (
+                        <Icon size={isMediumSize ? "extraSmall" : "medium"} icon='ChevronUp' />
+                      ) : (
+                        <Icon size={isMediumSize ? "extraSmall" : "medium"} icon='ChevronRight' />
+                      )
                     ) : null}
                   </Menu>
-                  <div className={isParentActive(menu) ? "" : "hidden"}>
+                  <div className={openMenus[menu.title] ? "" : "hidden"}>
                     {menu.children?.map((child, i) => (
                       <div key={i} className='ml-2 pb-1'>
                         <Menu
