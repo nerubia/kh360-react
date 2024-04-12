@@ -128,7 +128,7 @@ export const SkillCategoriesTable = () => {
           </div>
         )
       case "Description":
-        return `${item.description ?? ""}`
+        return <div className='max-w-[800px]'>{item.description ?? ""}</div>
       case "Status":
         return (
           <Badge variant={`${item.status === true ? "green" : "gray"}`} size='small'>
@@ -161,7 +161,8 @@ export const SkillCategoriesTable = () => {
           handleSort={isDraggable ? async () => await handleSort() : undefined}
           dragContent={isDraggable ? dragContent : undefined}
           draggedOverContent={isDraggable ? draggedOverContent : undefined}
-          customWidth='w-1/2'
+          customWidth='max-w-[800px]'
+          applyFixedColWidth
         />
         <Suspense>
           <SkillCategoriesDialog

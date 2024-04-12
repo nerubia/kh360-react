@@ -64,17 +64,14 @@ export const SkillCategoriesFilter = () => {
             onChange={(e) => setName(e.target.value)}
           />
         </div>
-        <div className='w-1/5'>
-          <CustomSelect
-            data-test-id='StatusFilter'
-            label='Status'
-            name='status'
-            value={defaultOptions.find((option) => option.value === status)}
-            onChange={(option) => setStatus(option !== null ? option.value : "all")}
-            options={defaultOptions}
-            fullWidth
-          />
-        </div>
+        <CustomSelect
+          data-test-id='StatusFilter'
+          label='Status'
+          name='status'
+          value={defaultOptions.find((option) => option.value === status)}
+          onChange={(option) => setStatus(option !== null ? option.value : "all")}
+          options={defaultOptions}
+        />
       </div>
       <div className='flex items-end gap-4'>
         <Button onClick={handleSearch}>Search</Button>
