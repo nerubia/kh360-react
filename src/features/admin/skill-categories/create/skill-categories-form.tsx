@@ -72,12 +72,9 @@ export const SkillCategoriesForm = ({ open, toggleDialog }: SkillCategoriesFormP
       })
       const result = await appDispatch(createSkillCategory(formData))
       if (result.type === "skillCategory/createSkillCategory/rejected") {
-        appDispatch(
-          setAlert({
-            description: result.payload,
-            variant: "destructive",
-          })
-        )
+        setValidationErrors({
+          name: result.payload,
+        })
       }
       if (result.type === "skillCategory/createSkillCategory/fulfilled") {
         appDispatch(
@@ -112,12 +109,9 @@ export const SkillCategoriesForm = ({ open, toggleDialog }: SkillCategoriesFormP
           updateSkillCategory({ id: selectedSkillCategoryId, skillCategory: formData })
         )
         if (result.type === "skillCategory/updateSkillCategory/rejected") {
-          appDispatch(
-            setAlert({
-              description: result.payload,
-              variant: "destructive",
-            })
-          )
+          setValidationErrors({
+            name: result.payload,
+          })
         }
         if (result.type === "skillCategory/updateSkillCategory/fulfilled") {
           appDispatch(
