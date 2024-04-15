@@ -94,7 +94,7 @@ test.describe("Admin - Email Templates", () => {
   })
 
   test.describe("as Admin", () => {
-    test("should render correctly", async ({ page }) => {
+    test("should render correctly", async ({ page, isMobile }) => {
       await loginUser("admin", page)
 
       await page.goto("/admin/message-templates")
@@ -149,6 +149,10 @@ test.describe("Admin - Email Templates", () => {
           ],
         }),
       })
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
 
       await page.waitForLoadState("networkidle")
 
