@@ -137,3 +137,16 @@ export interface SurveyResultsFormData {
   companion_ids?: number[]
   is_external?: boolean
 }
+
+export interface SkillMapAdminFormData {
+  id?: string
+  name?: string
+  skill_map_period_start_date?: string
+  skill_map_period_end_date?: string
+  skill_map_schedule_start_date?: string
+  skill_map_schedule_end_date?: string
+  remarks?: string
+  email_subject?: string
+  email_content?: string
+  status?: string
+}
