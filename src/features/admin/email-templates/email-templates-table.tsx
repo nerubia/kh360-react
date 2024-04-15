@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
-import { useEffect, useState, lazy, Suspense } from "react"
+import { useEffect, lazy, Suspense, useState, type ReactNode } from "react"
 import { deleteEmailTemplate, getEmailTemplates } from "@redux/slices/email-template-slice"
 import { Button, LinkButton } from "@components/ui/button/button"
 import { Icon } from "@components/ui/icon/icon"
@@ -14,9 +14,9 @@ import Dialog from "@components/ui/dialog/dialog"
 
 export const EmailTemplatesTable = () => {
   const [searchParams] = useSearchParams()
-  const [showDialog, setShowDialog] = useState<boolean>(false)
-  const [showDetails, setShowDetails] = useState<boolean>(false)
-  const [selectedTemplateId, setSelectedTemplateId] = useState<number>()
+  const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false)
+  const [selectedTemplateId, setSelectedTemplateId] = useState<number | null>(null)
+  const [selectedTemplateIdSubject, setSelectedTemplateIdSubject] = useState<number | null>(null)
   const appDispatch = useAppDispatch()
   const { emailTemplates, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
     (state) => state.emailTemplate
@@ -24,15 +24,6 @@ export const EmailTemplatesTable = () => {
   const EmailTemplatesDialog = lazy(
     async () => await import("@features/admin/email-templates/email-templates-dialog")
   )
-
-  const handleInfoIconClick = (id: number) => {
-    setSelectedTemplateId(id)
-    setShowDetails(true)
-  }
-
-  const handleCloseDialog = () => {
-    setShowDetails(false)
-  }
 
   useEffect(() => {
     void appDispatch(
@@ -46,7 +37,7 @@ export const EmailTemplatesTable = () => {
   }, [searchParams])
 
   const handleDelete = async () => {
-    if (selectedTemplateId !== undefined) {
+    if (selectedTemplateId !== null) {
       try {
         const result = await appDispatch(deleteEmailTemplate(selectedTemplateId))
         if (result.type === "emailTemplate/deleteEmailTemplate/rejected") {
@@ -69,14 +60,19 @@ export const EmailTemplatesTable = () => {
     }
   }
 
-  const toggleDialog = (id: number | null) => {
-    if (id !== null) {
-      setSelectedTemplateId(id)
-    }
-    setShowDialog((prev) => !prev)
+  const toggleDeleteDialog = (id: number | null) => {
+    setShowDeleteDialog((prev) => !prev)
+    setSelectedTemplateId(id)
   }
 
-  const renderCell = (item: EmailTemplate, column: unknown) => {
+  const toggleDescriptionModal = (id: number | null) => {
+    setSelectedTemplateId(id)
+    setSelectedTemplateIdSubject(id)
+  }
+
+  const renderCell = (item: EmailTemplate, column: ReactNode) => {
+    const isOpen = selectedTemplateIdSubject === item.id
+
     switch (column) {
       case "Name":
         return `${item.name}`
@@ -84,38 +80,34 @@ export const EmailTemplatesTable = () => {
         return `${item.template_type}`
       case "Subject":
         return (
-          <div className='inline-flex items-baseline gap-1'>
-            {item.subject?.length !== 0 ? (
-              <span className='relative mr-10'>
-                {item.subject}
-                <span
-                  className='cursor-pointer absolute origin-bottom-right ml-1'
-                  onClick={() => handleInfoIconClick(item.id)}
-                >
-                  <Icon icon='Info' color='primary' />
-                </span>
-              </span>
-            ) : (
-              <div className='cursor-pointer' onClick={() => handleInfoIconClick(item.id)}>
-                <Icon icon='Info' color='primary' />
-              </div>
-            )}
-            <Dialog open={showDetails && selectedTemplateId === item.id} size='small'>
-              <Dialog.Title>
-                <div className={`py-1 text-primary-500`}>
-                  {item.name?.replace(/\s/g, "").substring(0, 30)}
-                </div>
-              </Dialog.Title>
-              <Dialog.Description>
-                <div>{item.content}</div>
-              </Dialog.Description>
-              <Dialog.Actions>
-                <Button variant='primary' onClick={handleCloseDialog}>
-                  Close
-                </Button>
-              </Dialog.Actions>
-            </Dialog>
-          </div>
+          <>
+            {item.subject}
+            <div
+              className='ml-2 pb-0.5 align-middle inline-block cursor-pointer'
+              onClick={() => toggleDescriptionModal(isOpen ? null : item.id)}
+            >
+              <Icon icon='Info' color='primary' size='small' />
+            </div>
+            <div className='flex gap-2 items-center'>
+              <Dialog open={isOpen} size='lg'>
+                {item.name !== undefined && item.name.length > 50 ? (
+                  <Dialog.Title>{item.name.substring(0, 50)}...</Dialog.Title>
+                ) : (
+                  <Dialog.Title>{item.name}</Dialog.Title>
+                )}
+                <Dialog.Description>{item.content}</Dialog.Description>
+                <Dialog.Actions>
+                  <Button
+                    variant='primaryOutline'
+                    onClick={() => toggleDescriptionModal(null)}
+                    testId='DialogNoButton'
+                  >
+                    Close
+                  </Button>
+                </Dialog.Actions>
+              </Dialog>
+            </div>
+          </>
         )
       case "Default":
         return (
@@ -133,35 +125,36 @@ export const EmailTemplatesTable = () => {
             >
               <Icon icon='PenSquare' size='extraSmall' color='gray' />
             </LinkButton>
-            <Button testId='DeleteButton' variant='unstyled' onClick={() => toggleDialog(item.id)}>
+            <Button
+              testId='DeleteButton'
+              variant='unstyled'
+              onClick={() => toggleDeleteDialog(item.id)}
+            >
               <Icon icon='Trash' size='extraSmall' color='gray' />
             </Button>
           </div>
         )
+      default:
+        return null
     }
   }
 
   return (
     <div className='flex flex-col gap-8'>
-      <Table
-        columns={messageTemplateColumns}
-        data={emailTemplates}
-        renderCell={renderCell}
-        overflowYHidden={false}
-      />
+      <Table columns={messageTemplateColumns} data={emailTemplates} renderCell={renderCell} />
       <Suspense fallback={<div>Loading...</div>}>
         <EmailTemplatesDialog
-          open={showDialog}
+          open={showDeleteDialog}
           title='Delete Message Template'
           description={
             <>
               Are you sure you want to delete this template? <br />
             </>
           }
-          onClose={() => toggleDialog(null)}
+          onClose={() => toggleDeleteDialog(null)}
           onSubmit={async () => {
             await handleDelete()
-            toggleDialog(null)
+            toggleDeleteDialog(null)
           }}
         />
       </Suspense>
