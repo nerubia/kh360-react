@@ -275,7 +275,7 @@ export const Sidebar = () => {
                   </Menu>
                   <div className={openMenus[menu.title] ? "" : "hidden"}>
                     {menu.children?.map((child, i) => (
-                      <div key={i} className='ml-2 pb-1'>
+                      <div key={i} className='ml-2 pb-1' onClick={(e) => e.stopPropagation()}>
                         <Menu
                           to={child.link}
                           isEvaluation={false}
