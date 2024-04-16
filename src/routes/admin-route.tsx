@@ -23,7 +23,7 @@ const EvaluationProgress = lazy(
 const SelectEvaluees = lazy(
   async () => await import("@pages/admin/evaluation-administrations/[id]/select/select-evaluees")
 )
-const PreviewEmployees = lazy(
+const PreviewEvaluees = lazy(
   async () => await import("@pages/admin/evaluation-administrations/[id]/preview/preview-evaluees")
 )
 const Evaluees = lazy(
@@ -161,6 +161,14 @@ const CreateSkillMapAdmin = lazy(
   async () => await import("@pages/admin/skill-map-administrations/create/create-skill-map-admin")
 )
 
+const SelectEmployees = lazy(
+  async () => await import("@pages/admin/skill-map-administrations/[id]/select/select-employees")
+)
+
+const PreviewEmployees = lazy(
+  async () => await import("@pages/admin/skill-map-administrations/[id]/preview/preview-employees")
+)
+
 export const adminRoutes = {
   element: <AdminRoute />,
   children: [
@@ -196,8 +204,8 @@ export const adminRoutes = {
       element: <SelectEvaluees />,
     },
     {
-      path: routes.private.admin.previewEmployees,
-      element: <PreviewEmployees />,
+      path: routes.private.admin.previewEvaluees,
+      element: <PreviewEvaluees />,
     },
     {
       path: routes.private.admin.evaluees,
@@ -372,6 +380,14 @@ export const adminRoutes = {
     {
       path: routes.private.admin.createSkillMapAdmin,
       element: <CreateSkillMapAdmin />,
+    },
+    {
+      path: routes.private.admin.selectEmployees,
+      element: <SelectEmployees />,
+    },
+    {
+      path: routes.private.admin.previewEmployees,
+      element: <PreviewEmployees />,
     },
   ],
 }

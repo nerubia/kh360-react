@@ -5,21 +5,21 @@ import { useAppSelector } from "@hooks/useAppSelector"
 import { Button, LinkButton } from "@components/ui/button/button"
 import { Icon } from "@components/ui/icon/icon"
 import { setAlert } from "@redux/slices/app-slice"
-import { createEvaluationResults } from "@redux/slices/evaluation-results-slice"
+import { createSkillMapResults } from "@redux/slices/skill-map-results-slice"
 
-const EvaluationAdminDialog = lazy(
+const SkillMapAdminDialog = lazy(
   async () =>
-    await import("@features/admin/evaluation-administrations/evaluation-administrations-dialog")
+    await import("@features/admin/skill-map-administrations/skill-map-administrations-dialog")
 )
 
-export const PreviewEvalueesFooter = () => {
+export const PreviewEmployeesFooter = () => {
   const { id } = useParams()
   const appDispatch = useAppDispatch()
   const navigate = useNavigate()
 
   const [showDialog, setShowDialog] = useState<boolean>(false)
 
-  const { selectedEmployeeIds } = useAppSelector((state) => state.evaluationAdministration)
+  const { selectedEmployeeIds } = useAppSelector((state) => state.skillMapAdministration)
 
   const toggleDialog = () => {
     setShowDialog((prev) => !prev)
@@ -28,26 +28,26 @@ export const PreviewEvalueesFooter = () => {
   const handleSubmit = async () => {
     try {
       const result = await appDispatch(
-        createEvaluationResults({
-          evaluation_administration_id: id,
+        createSkillMapResults({
+          skill_map_administration_id: id,
           employee_ids: selectedEmployeeIds,
         })
       )
-      if (typeof result.payload === "string") {
+      if (result.type === "skillMapResults/createSkillMapResults/rejected") {
         appDispatch(
           setAlert({
             description: result.payload,
             variant: "destructive",
           })
         )
-      } else if (result.payload !== undefined) {
-        navigate(`/admin/evaluation-administrations/${id}/evaluees`)
+      } else if (result.type === "skillMapResults/createSkillMapResults/fulfilled") {
+        navigate(`/admin/skill-map-administrations/${id}`)
       }
     } catch (error) {}
   }
 
   const handleRedirect = () => {
-    navigate(`/admin/evaluation-administrations`)
+    navigate(`/admin/skill-map-administrations/${id}`)
   }
   return (
     <>
@@ -60,7 +60,7 @@ export const PreviewEvalueesFooter = () => {
             testId='BackButton'
             variant='primaryOutline'
             size='medium'
-            to={`/admin/evaluation-administrations/${id}/select`}
+            to={`/admin/skill-map-administrations/${id}/select`}
           >
             <Icon icon='ChevronLeft' />
           </LinkButton>
@@ -68,7 +68,7 @@ export const PreviewEvalueesFooter = () => {
         </div>
       </div>
       <Suspense>
-        <EvaluationAdminDialog
+        <SkillMapAdminDialog
           open={showDialog}
           title='Cancel & Exit'
           description={

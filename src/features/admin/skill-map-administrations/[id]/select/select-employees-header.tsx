@@ -1,9 +1,9 @@
 import { PageTitle } from "@components/shared/page-title"
 
-export const PreviewEvalueesHeader = () => {
+export const SelectEmployeesHeader = () => {
   return (
     <div>
-      <PageTitle>Review Evaluees</PageTitle>
+      <PageTitle>Select Employees</PageTitle>
     </div>
   )
 }
