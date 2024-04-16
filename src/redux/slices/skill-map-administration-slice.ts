@@ -89,7 +89,7 @@ interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   loading_send: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
-  skill_map_admin: SkillMapAdministration | null
+  skill_map_administration: SkillMapAdministration | null
   selectedEmployeeIds: number[]
 }
 
@@ -97,7 +97,7 @@ const initialState: InitialState = {
   loading: Loading.Idle,
   loading_send: Loading.Idle,
   error: null,
-  skill_map_admin: null,
+  skill_map_administration: null,
   selectedEmployeeIds: [],
 }
 
@@ -120,7 +120,7 @@ const skillMapAdministrationSlice = createSlice({
     builder.addCase(getSkillMapAdmin.fulfilled, (state, action) => {
       state.loading = Loading.Fulfilled
       state.error = null
-      state.skill_map_admin = action.payload
+      state.skill_map_administration = action.payload
     })
     builder.addCase(getSkillMapAdmin.rejected, (state, action) => {
       state.loading = Loading.Rejected
@@ -132,7 +132,7 @@ const skillMapAdministrationSlice = createSlice({
     builder.addCase(getSkillMapAdminSocket.fulfilled, (state, action) => {
       state.loading = Loading.Fulfilled
       state.error = null
-      state.skill_map_admin = action.payload
+      state.skill_map_administration = action.payload
     })
     /**
      * Create
@@ -144,7 +144,7 @@ const skillMapAdministrationSlice = createSlice({
     builder.addCase(createSkillMapAdmin.fulfilled, (state, action) => {
       state.loading = Loading.Fulfilled
       state.error = null
-      state.skill_map_admin = action.payload
+      state.skill_map_administration = action.payload
     })
     builder.addCase(createSkillMapAdmin.rejected, (state, action) => {
       state.loading = Loading.Rejected
@@ -160,7 +160,7 @@ const skillMapAdministrationSlice = createSlice({
     builder.addCase(updateSkillMapAdmin.fulfilled, (state, action) => {
       state.loading = Loading.Fulfilled
       state.error = null
-      state.skill_map_admin = action.payload
+      state.skill_map_administration = action.payload
     })
     builder.addCase(updateSkillMapAdmin.rejected, (state, action) => {
       state.loading = Loading.Rejected

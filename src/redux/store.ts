@@ -27,7 +27,8 @@ import skillReducer from "@redux/slices/skill-slice"
 import skillsReducer from "@redux/slices/skills-slice"
 import skillCategoryReducer from "@redux/slices/skill-category-slice"
 import skillCategoriesReducer from "@redux/slices/skill-categories-slice"
-import skillMapAdministrationReducer from "@redux/slices/skill-map-admin-slice"
+import skillMapAdministrationReducer from "@redux/slices/skill-map-administration-slice"
+import skillMapAdministrationsReducer from "@redux/slices/skill-map-administrations-slice"
 import skillMapResultsReducer from "@redux/slices/skill-map-results-slice"
 import surveyAdministrationReducer from "./slices/survey-administration-slice"
 import surveyAdministrationsReducer from "./slices/survey-administrations-slice"
@@ -67,6 +68,7 @@ export const store = configureStore({
     skillCategory: skillCategoryReducer,
     skillCategories: skillCategoriesReducer,
     skillMapAdministration: skillMapAdministrationReducer,
+    skillMapAdministrations: skillMapAdministrationsReducer,
     skillMapResults: skillMapResultsReducer,
     surveyAdministration: surveyAdministrationReducer,
     surveyAdministrations: surveyAdministrationsReducer,

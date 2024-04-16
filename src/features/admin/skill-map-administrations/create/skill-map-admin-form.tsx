@@ -14,7 +14,7 @@ import {
   getSkillMapAdmin,
   updateSkillMapAdmin,
   setSelectedEmployeeIds,
-} from "@redux/slices/skill-map-admin-slice"
+} from "@redux/slices/skill-map-administration-slice"
 import { setAlert } from "@redux/slices/app-slice"
 import { DateRangePicker } from "@components/ui/date-range-picker/date-range-picker"
 import { type DateValueType, type DateType } from "react-tailwindcss-datepicker"
@@ -29,7 +29,9 @@ export const SkillMapAdminForm = () => {
   const navigate = useNavigate()
   const appDispatch = useAppDispatch()
   const { id } = useParams()
-  const { loading, skill_map_admin } = useAppSelector((state) => state.skillMapAdministration)
+  const { loading, skill_map_administration } = useAppSelector(
+    (state) => state.skillMapAdministration
+  )
   const { emailTemplate } = useAppSelector((state) => state.emailTemplate)
 
   const [formData, setFormData] = useState<SkillMapAdminFormData>({
@@ -56,17 +58,17 @@ export const SkillMapAdminForm = () => {
   useEffect(() => {
     if (id !== undefined) {
       setFormData({
-        name: skill_map_admin?.name,
-        skill_map_period_start_date: skill_map_admin?.skill_map_period_start_date,
-        skill_map_period_end_date: skill_map_admin?.skill_map_period_end_date,
-        skill_map_schedule_start_date: skill_map_admin?.skill_map_schedule_start_date,
-        skill_map_schedule_end_date: skill_map_admin?.skill_map_schedule_end_date,
-        remarks: skill_map_admin?.remarks,
-        email_subject: skill_map_admin?.email_subject,
-        email_content: skill_map_admin?.email_content,
+        name: skill_map_administration?.name,
+        skill_map_period_start_date: skill_map_administration?.skill_map_period_start_date,
+        skill_map_period_end_date: skill_map_administration?.skill_map_period_end_date,
+        skill_map_schedule_start_date: skill_map_administration?.skill_map_schedule_start_date,
+        skill_map_schedule_end_date: skill_map_administration?.skill_map_schedule_end_date,
+        remarks: skill_map_administration?.remarks,
+        email_subject: skill_map_administration?.email_subject,
+        email_content: skill_map_administration?.email_content,
       })
     }
-  }, [skill_map_admin])
+  }, [skill_map_administration])
 
   useEffect(() => {
     if (emailTemplate !== null) {
