@@ -142,7 +142,7 @@ export const EmailTemplatesTable = () => {
   return (
     <div className='flex flex-col gap-8'>
       <Table columns={messageTemplateColumns} data={emailTemplates} renderCell={renderCell} />
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense>
         <EmailTemplatesDialog
           open={showDeleteDialog}
           title='Delete Message Template'
