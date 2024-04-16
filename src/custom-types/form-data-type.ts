@@ -150,3 +150,8 @@ export interface SkillMapAdminFormData {
   email_content?: string
   status?: string
 }
+
+export interface SkillMapResultsFormData {
+  skill_map_administration_id?: string
+  employee_ids?: number[]
+}

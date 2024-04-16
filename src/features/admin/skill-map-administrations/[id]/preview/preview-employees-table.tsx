@@ -7,9 +7,9 @@ import { Icon } from "@components/ui/icon/icon"
 import { formatDate } from "@utils/format-date"
 import { Divider } from "@components/ui/divider/divider"
 
-export const PreviewEvalueesTable = () => {
+export const PreviewEmployeesTable = () => {
   const appDispatch = useAppDispatch()
-  const { selectedEmployeeIds } = useAppSelector((state) => state.evaluationAdministration)
+  const { selectedEmployeeIds } = useAppSelector((state) => state.skillMapAdministration)
   const { allUsers } = useAppSelector((state) => state.users)
   const [showIncluded, setShowIncluded] = useState(true)
   const [showExcluded, setShowExcluded] = useState(false)
