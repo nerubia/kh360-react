@@ -23,3 +23,11 @@ export enum SkillMapAdminStatus {
   Cancelled = "Cancelled",
   Published = "Published",
 }
+
+export interface SkillMapAdminFilters {
+  name?: string
+  status?: string
+  page?: string
+}
+
+export const skillMapColumns = ["Name", "Description", "Schedule", "Status"]

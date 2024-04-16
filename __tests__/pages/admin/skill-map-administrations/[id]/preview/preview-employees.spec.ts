@@ -296,38 +296,12 @@ test.describe("Admin - Preview Employees", () => {
       await page.getByRole("button", { name: "Cancel & Exit" }).click()
       await page.getByRole("button", { name: "Yes" }).click()
 
-      await mockRequest(page, "/admin/skill-map-administrations/1", {
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify({
-          id: 1,
-          name: "Survey 1",
-          survey_start_date: "2024-01-01T00:00:00.000Z",
-          survey_end_date: "2024-01-03T00:00:00.000Z",
-          remarks: "Remarks 1",
-          email_subject: "Subject 1",
-          email_content: "Content 1",
-          status: "Draft",
-        }),
-      })
+      await mockRequest(page, "/admin/skill-map-administrations/1", {})
 
       await mockRequest(page, "/admin/skill-map-results/all?skill_map_administration_id=1", {
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify({
-          survey_results: [
-            {
-              id: 1,
-              status: "For Review",
-              users: {
-                first_name: "Sample",
-                last_name: "User",
-                picture: null,
-              },
-            },
-          ],
-          companion_survey_results: [],
-        }),
+        body: JSON.stringify([]),
       })
 
       await page.waitForLoadState("networkidle")

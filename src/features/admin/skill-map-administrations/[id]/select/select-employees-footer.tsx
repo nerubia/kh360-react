@@ -2,7 +2,10 @@ import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { Button } from "@components/ui/button/button"
 import { Icon } from "@components/ui/icon/icon"
-import { getSkillMapAdmin, setSelectedEmployeeIds } from "@redux/slices/skill-map-admin-slice"
+import {
+  getSkillMapAdmin,
+  setSelectedEmployeeIds,
+} from "@redux/slices/skill-map-administration-slice"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { CustomDialog } from "@components/ui/dialog/custom-dialog"
@@ -13,7 +16,7 @@ export const SelectEmployeesFooter = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const appDispatch = useAppDispatch()
-  const { skill_map_admin, selectedEmployeeIds } = useAppSelector(
+  const { skill_map_administration, selectedEmployeeIds } = useAppSelector(
     (state) => state.skillMapAdministration
   )
 
@@ -56,7 +59,7 @@ export const SelectEmployeesFooter = () => {
           Cancel & Exit
         </Button>
         <div className='flex items-center gap-2'>
-          {skill_map_admin?.status !== SkillMapAdminStatus.Ongoing && (
+          {skill_map_administration?.status !== SkillMapAdminStatus.Ongoing && (
             <Button
               testId='BackButton'
               variant='primaryOutline'
