@@ -399,23 +399,21 @@ export const ViewEvaluationHeader = () => {
       new Date() > new Date(evaluation_administration.eval_schedule_end_date) ? (
         <Dialog open={showReopenDialog} size='extraSmall'>
           {
-            <div className='flex flex-row justify-start items-center font-bold'>
-              Reopen Evaluation
-              <div className='font-light text-sm'>
-                <DateRangeDisplay
-                  label=''
-                  startDate={evaluation_administration?.eval_schedule_start_date}
-                  endDate={evaluation_administration?.eval_schedule_end_date}
-                  isMobile={isMobile}
-                />
+            <div className='mr-1 '>
+              <div className='flex flex-row justify-start items-center font-bold mt-1'>
+                Evaluation Schedule
+                <div className='font-light text-sm'>
+                  <DateRangeDisplay
+                    label=''
+                    startDate={evaluation_administration?.eval_schedule_start_date}
+                    endDate={evaluation_administration?.eval_schedule_end_date}
+                    isMobile={isMobile}
+                  />
+                </div>
               </div>
-            </div>
-          }
-          {
-            <div className='mb-80 mr-1'>
-              <div className='flex whitespace-nowrap justify-between align-center gap-20'>
+              <div className='flex whitespace-nowrap justify-start align-center gap-20'>
                 <h6 className={`flex items-center font-bold ${validationErrors ? "mb-5" : ""}`}>
-                  Select date:
+                  Reschedule End Date:
                 </h6>
                 <DateRangePicker
                   useRange={false}
@@ -427,7 +425,8 @@ export const ViewEvaluationHeader = () => {
                   readOnly={true}
                 />
               </div>
-              <div className='flex gap-2 justify-between mt-20 text-normal'>
+
+              <div className='flex gap-2 justify-between mt-10 text-normal'>
                 <Button
                   variant='primaryOutline'
                   onClick={toggleReopenDialog}
