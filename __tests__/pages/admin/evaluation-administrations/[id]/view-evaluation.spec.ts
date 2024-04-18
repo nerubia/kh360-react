@@ -910,15 +910,21 @@ test.describe("Admin - Evaluations", () => {
       }
 
       await page.getByRole("button", { name: "More actions" }).click()
+
       await page.getByRole("button", { name: "Reopen" }).click()
 
       await mockRequest(page, "/admin/evaluation-administrations/1/reopen", {
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify({}),
+        body: JSON.stringify({
+          eval_end_date: "2024-04-19T00:00:00.000Z",
+        }),
       })
 
-      await page.getByRole("button", { name: "Yes" }).click()
+      await page.locator("#evaluation_schedule").fill("2023-01-05")
+      await page.getByRole("heading", { name: "Select date:" }).click()
+
+      await page.getByTestId("DialogYesButton").click()
 
       await page.waitForLoadState("networkidle")
 

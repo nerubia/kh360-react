@@ -5,6 +5,7 @@ import {
   type SendReminderData,
   type EvaluationAdministration,
   type ExternalEvaluatorData,
+  type ReopenData,
   EvaluationAdministrationStatus,
 } from "@custom-types/evaluation-administration-type"
 import { axiosInstance } from "@utils/axios-instance"
@@ -140,9 +141,11 @@ export const publishEvaluationAdministration = createAsyncThunk(
 
 export const reopenEvaluationAdministration = createAsyncThunk(
   "evaluationAdministration/reopen",
-  async (id: number, thunkApi) => {
+  async ({ id, endDate }: ReopenData, thunkApi) => {
     try {
-      const response = await axiosInstance.post(`/admin/evaluation-administrations/${id}/reopen`)
+      const response = await axiosInstance.post(`/admin/evaluation-administrations/${id}/reopen`, {
+        eval_end_date: endDate,
+      })
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -373,13 +376,14 @@ const evaluationAdministrationSlice = createSlice({
       state.loading = Loading.Pending
       state.error = null
     })
-    builder.addCase(reopenEvaluationAdministration.fulfilled, (state) => {
+    builder.addCase(reopenEvaluationAdministration.fulfilled, (state, action) => {
       state.loading = Loading.Fulfilled
       state.error = null
       if (state.evaluation_administration !== null) {
         state.evaluation_administration = {
           ...state.evaluation_administration,
           status: EvaluationAdministrationStatus.Ongoing,
+          eval_schedule_end_date: action.payload.eval_end_date,
         }
       }
     })

@@ -10,6 +10,7 @@ const dialog = cva(["w-full", "flex", "flex-col", "gap-4", "p-5", "rounded-md", 
       white: ["bg-white"],
     },
     size: {
+      extraSmall: ["md:w-500 h-[250px]"],
       small: ["md:w-500"],
       medium: ["md:min-w-600 p-7"],
       lg: ["md:w-700"],
