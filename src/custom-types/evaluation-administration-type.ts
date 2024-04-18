@@ -40,6 +40,11 @@ export interface SendReminderData {
   is_external?: boolean
 }
 
+export interface ReopenData {
+  id: number | string
+  endDate?: Date | string
+}
+
 export enum EvaluationAdministrationStatus {
   Draft = "Draft",
   Pending = "Pending",
