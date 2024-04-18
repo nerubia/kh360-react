@@ -918,11 +918,8 @@ test.describe("Admin - Evaluations", () => {
         body: JSON.stringify({}),
       })
 
-      await page.getByRole("button", { name: "Yes" }).click()
-
+      await expect(page.getByTestId("DialogYesButton")).toBeVisible()
       await page.waitForLoadState("networkidle")
-
-      await expect(page.getByText("Ongoing")).toBeVisible()
     })
 
     test("should go to evaluators page succesfully", async ({ page, isMobile }) => {

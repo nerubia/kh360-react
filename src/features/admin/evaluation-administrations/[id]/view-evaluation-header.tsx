@@ -8,6 +8,7 @@ import {
   cancelEvaluationAdministration,
   closeEvaluationAdministration,
   deleteEvaluationAdministration,
+  getEvaluationAdministration,
   publishEvaluationAdministration,
   reopenEvaluationAdministration,
 } from "@redux/slices/evaluation-administration-slice"
@@ -23,6 +24,9 @@ import { useMobileView } from "@hooks/use-mobile-view"
 import { CustomDialog } from "@components/ui/dialog/custom-dialog"
 import { ReadyState } from "react-use-websocket"
 import { WebSocketContext, type WebSocketType } from "@components/providers/websocket"
+import { type DateValueType } from "react-tailwindcss-datepicker"
+import Dialog from "@components/ui/dialog/dialog"
+import { DateRangePicker } from "@components/ui/date-range-picker/date-range-picker"
 
 export const ViewEvaluationHeader = () => {
   const { sendJsonMessage, readyState } = useContext(WebSocketContext) as WebSocketType
@@ -40,7 +44,13 @@ export const ViewEvaluationHeader = () => {
   const [showCloseDialog, setShowCloseDialog] = useState<boolean>(false)
   const [showPublishDialog, setShowPublishDialog] = useState<boolean>(false)
   const [showReopenDialog, setShowReopenDialog] = useState<boolean>(false)
+  const [isDateSelected, setIsDateSelected] = useState(false)
 
+  const [formData, setFormData] = useState<DateValueType>({
+    startDate: null,
+    endDate: null,
+  })
+  const [validationErrors, setValidationErrors] = useState(false)
   const toggleCancelDialog = () => {
     setShowCancelDialog((prev) => !prev)
   }
@@ -50,6 +60,10 @@ export const ViewEvaluationHeader = () => {
   }
 
   const toggleCloseDialog = () => {
+    setFormData({
+      startDate: null,
+      endDate: null,
+    })
     setShowCloseDialog((prev) => !prev)
   }
 
@@ -58,6 +72,11 @@ export const ViewEvaluationHeader = () => {
   }
 
   const toggleReopenDialog = () => {
+    setValidationErrors(false)
+    setFormData({
+      startDate: null,
+      endDate: evaluation_administration?.eval_schedule_end_date ?? null,
+    })
     setShowReopenDialog((prev) => !prev)
   }
 
@@ -168,11 +187,25 @@ export const ViewEvaluationHeader = () => {
       }
     }
   }
-
   const handleReopen = async () => {
     if (id !== undefined) {
       try {
-        const result = await appDispatch(reopenEvaluationAdministration(parseInt(id)))
+        if (formData?.endDate === undefined || formData.endDate === null) {
+          setValidationErrors(true)
+          return
+        }
+        if (
+          !isDateSelected &&
+          evaluation_administration?.eval_schedule_end_date != null &&
+          new Date() > new Date(evaluation_administration.eval_schedule_end_date)
+        ) {
+          setValidationErrors(true)
+          return
+        }
+
+        const endDate = new Date(formData.endDate)
+        const result = await appDispatch(reopenEvaluationAdministration({ id, endDate }))
+
         if (result.type === "evaluationAdministration/reopen/fulfilled") {
           appDispatch(
             setAlert({
@@ -180,14 +213,14 @@ export const ViewEvaluationHeader = () => {
               variant: "success",
             })
           )
+          await appDispatch(getEvaluationAdministration(result.payload.id))
           if (readyState === ReadyState.OPEN) {
             sendJsonMessage({
               event: "reopenEvaluationAdministration",
               data: "reopenEvaluationAdministration",
             })
           }
-        }
-        if (result.type === "evaluationAdministration/reopen/rejected") {
+        } else if (result.type === "evaluationAdministration/reopen/rejected") {
           appDispatch(
             setAlert({
               description: result.payload,
@@ -198,6 +231,11 @@ export const ViewEvaluationHeader = () => {
         setShowReopenDialog(false)
       } catch (error) {}
     }
+  }
+
+  const handleChangeDateRange = (newValue: DateValueType) => {
+    setFormData(newValue)
+    setIsDateSelected(true)
   }
 
   return (
@@ -357,14 +395,69 @@ export const ViewEvaluationHeader = () => {
         onSubmit={handlePublish}
         loading={loading === Loading.Pending}
       />
-      <CustomDialog
-        open={showReopenDialog}
-        title='Reopen Evaluation'
-        description='Are you sure you want to reopen this record?'
-        onClose={toggleReopenDialog}
-        onSubmit={handleReopen}
-        loading={loading === Loading.Pending}
-      />
+      {evaluation_administration?.eval_schedule_end_date != null &&
+      new Date() > new Date(evaluation_administration.eval_schedule_end_date) ? (
+        <Dialog open={showReopenDialog} size='extraSmall'>
+          {
+            <div className='flex flex-row justify-start items-center font-bold'>
+              Reopen Evaluation
+              <div className='font-light text-sm'>
+                <DateRangeDisplay
+                  label=''
+                  startDate={evaluation_administration?.eval_schedule_start_date}
+                  endDate={evaluation_administration?.eval_schedule_end_date}
+                  isMobile={isMobile}
+                />
+              </div>
+            </div>
+          }
+          <div className='font-bold'>
+            {
+              <div className='mb-80 mr-1'>
+                <div className='flex whitespace-nowrap justify-between align-center gap-20'>
+                  <h6 className='flex items-center'>Select date:</h6>
+                  <span className='border rounded'>
+                    <DateRangePicker
+                      useRange={false}
+                      asSingle={true}
+                      value={formData}
+                      reopenMinDate={new Date()}
+                      onChange={handleChangeDateRange}
+                      reopenError={validationErrors}
+                      readOnly={true}
+                    />
+                  </span>
+                </div>
+                <div className='flex gap-2 justify-between mt-20'>
+                  <Button
+                    variant='primaryOutline'
+                    onClick={toggleReopenDialog}
+                    testId='DialogNoButton'
+                  >
+                    Cancel
+                  </Button>
+                  <Button variant='primary' onClick={handleReopen} testId='DialogYesButton'>
+                    Reopen
+                  </Button>
+                </div>
+              </div>
+            }
+          </div>
+        </Dialog>
+      ) : (
+        <Dialog open={showReopenDialog} size='small'>
+          <Dialog.Title>{<div>Reopen Evaluation</div>}</Dialog.Title>
+          <Dialog.Description>Are you sure you want to reopen?</Dialog.Description>
+          <Dialog.Actions>
+            <Button variant='primaryOutline' onClick={toggleReopenDialog} testId='DialogNoButton'>
+              Cancel
+            </Button>
+            <Button variant='primary' onClick={handleReopen} testId='DialogYesButton'>
+              Reopen
+            </Button>
+          </Dialog.Actions>
+        </Dialog>
+      )}
     </>
   )
 }
