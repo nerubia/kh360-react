@@ -151,7 +151,7 @@ export const EmailTemplateForm = () => {
         )
       }
 
-      if (templates.length > 0) {
+      if (templates.length > 0 && formData?.is_default === true) {
         templates.map(
           async (data: EmailTemplate) =>
             await appDispatch(
@@ -189,7 +189,7 @@ export const EmailTemplateForm = () => {
           })
         )
         if (result.payload.id !== undefined) {
-          if (templates.length > 0) {
+          if (templates.length > 0 && formData?.is_default === true) {
             templates.map(
               async (data: EmailTemplate) =>
                 await appDispatch(
