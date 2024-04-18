@@ -35,7 +35,7 @@ function Dialog({ open, children, variant, size, maxWidthMin }: DialogProps) {
   const { activeSidebar } = useAppSelector((state) => state.app)
   return open ? (
     <div className='fixed top-0 left-0 z-50 w-full h-full transition-all duration-300'>
-      <div className={`${activeSidebar ? "md:ml-64" : ""} h-full`}>
+      <div className={`${activeSidebar ? "md:ml-44 lg:ml-64" : ""} h-full`}>
         <div className='bg-black/50 w-full h-full flex justify-center items-center p-5'>
           <div className={dialog({ variant, size, maxWidthMin })}>{children}</div>
         </div>

@@ -411,38 +411,36 @@ export const ViewEvaluationHeader = () => {
               </div>
             </div>
           }
-          <div className='font-bold'>
-            {
-              <div className='mb-80 mr-1'>
-                <div className='flex whitespace-nowrap justify-between align-center gap-20'>
-                  <h6 className='flex items-center'>Select date:</h6>
-                  <span className='border rounded'>
-                    <DateRangePicker
-                      useRange={false}
-                      asSingle={true}
-                      value={formData}
-                      reopenMinDate={new Date()}
-                      onChange={handleChangeDateRange}
-                      reopenError={validationErrors}
-                      readOnly={true}
-                    />
-                  </span>
-                </div>
-                <div className='flex gap-2 justify-between mt-20'>
-                  <Button
-                    variant='primaryOutline'
-                    onClick={toggleReopenDialog}
-                    testId='DialogNoButton'
-                  >
-                    Cancel
-                  </Button>
-                  <Button variant='primary' onClick={handleReopen} testId='DialogYesButton'>
-                    Reopen
-                  </Button>
-                </div>
+          {
+            <div className='mb-80 mr-1'>
+              <div className='flex whitespace-nowrap justify-between align-center gap-20'>
+                <h6 className={`flex items-center font-bold ${validationErrors ? "mb-5" : ""}`}>
+                  Select date:
+                </h6>
+                <DateRangePicker
+                  useRange={false}
+                  asSingle={true}
+                  value={formData}
+                  reopenMinDate={new Date()}
+                  onChange={handleChangeDateRange}
+                  reopenError={validationErrors}
+                  readOnly={true}
+                />
               </div>
-            }
-          </div>
+              <div className='flex gap-2 justify-between mt-20 text-normal'>
+                <Button
+                  variant='primaryOutline'
+                  onClick={toggleReopenDialog}
+                  testId='DialogNoButton'
+                >
+                  Cancel
+                </Button>
+                <Button variant='primary' onClick={handleReopen} testId='DialogYesButton'>
+                  Reopen
+                </Button>
+              </div>
+            </div>
+          }
         </Dialog>
       ) : (
         <Dialog open={showReopenDialog} size='small'>
