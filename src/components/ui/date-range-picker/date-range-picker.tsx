@@ -6,13 +6,18 @@ interface DateType {
 }
 
 interface DateRangePickerProps {
-  name: string
+  name?: string
   label?: string
   value: DateValueType
   onChange: (value: DateValueType, e?: HTMLInputElement | null | undefined) => void
   error?: DateType | null
   dateLimit?: DateType | null
   disabled?: boolean
+  useRange?: boolean
+  asSingle?: boolean
+  reopenMinDate?: Date
+  reopenError?: boolean
+  readOnly?: boolean
 }
 
 export const DateRangePicker: React.FC<DateRangePickerProps> = ({
@@ -23,6 +28,11 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
   error,
   dateLimit,
   disabled,
+  useRange,
+  asSingle,
+  reopenMinDate,
+  reopenError,
+  readOnly,
 }: DateRangePickerProps) => {
   const currentDate = new Date()
 
@@ -30,10 +40,15 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
     return dateString != null ? new Date(dateString) : new Date()
   }
 
-  const minDate =
-    dateLimit?.start_date != null
-      ? parseDate(dateLimit.start_date)
-      : new Date(currentDate.getFullYear() - 50, 0, 1)
+  let minDate: Date
+  if (reopenMinDate != null) {
+    minDate = new Date(reopenMinDate)
+  } else {
+    minDate =
+      dateLimit?.start_date != null
+        ? parseDate(dateLimit.start_date)
+        : new Date(currentDate.getFullYear() - 50, 0, 1)
+  }
   const maxDate =
     dateLimit?.end_date != null
       ? parseDate(dateLimit.end_date)
@@ -42,7 +57,8 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
   const containerClassName = (defaultClassName: string) => {
     const customStyle =
       error?.start_date !== undefined || error?.end_date !== undefined ? "border-red-500" : ""
-    return `${defaultClassName} border rounded-md ${customStyle}`
+    const reopenValidation = reopenError === true ? "border-red-500" : ""
+    return `${defaultClassName} border rounded-md ${customStyle} ${reopenValidation}`
   }
 
   const isErrorPresent =
@@ -74,6 +90,9 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
         maxDate={maxDate}
         containerClassName={containerClassName}
         disabled={disabled}
+        useRange={useRange}
+        asSingle={asSingle}
+        readOnly={readOnly}
       />
       {isErrorPresent && (
         <p className='text-red-500 text-sm'>
