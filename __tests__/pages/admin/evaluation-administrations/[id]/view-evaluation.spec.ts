@@ -922,7 +922,7 @@ test.describe("Admin - Evaluations", () => {
       })
 
       await page.locator("#evaluation_schedule").fill("2023-01-05")
-      await page.getByRole("heading", { name: "Select date:" }).click()
+      await page.getByText("Select date:").click()
 
       await page.getByTestId("DialogYesButton").click()
 
