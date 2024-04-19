@@ -11,7 +11,7 @@ const dialog = cva(["w-full", "flex", "flex-col", "gap-4", "p-5", "rounded-md", 
       white: ["bg-white"],
     },
     size: {
-      extraSmall: ["md:w-500 h-[300px]"],
+      extraSmall: ["md:w-500 h-[350px]"],
       small: ["md:w-500"],
       medium: ["md:min-w-600 p-7"],
       lg: ["md:w-700"],
@@ -40,7 +40,7 @@ function Dialog({ open, children, variant, size, maxWidthMin }: DialogProps) {
   return open ? (
     <div className='fixed top-0 left-0 z-50 w-full h-full transition-all duration-300'>
       <div className={`${activeSidebar ? (isMediumSize ? "md:ml-44" : "md:ml-64") : ""} h-full`}>
-        <div className='bg-black/50 w-full h-full flex justify-center items-center p-5'>
+        <div className='bg-black/50 overflow-y-auto w-full h-full flex justify-center items-center p-5'>
           <div className={dialog({ variant, size, maxWidthMin })}>{children}</div>
         </div>
       </div>

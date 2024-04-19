@@ -397,6 +397,7 @@ export const ViewEvaluationHeader = () => {
       new Date() > new Date(evaluation_administration.eval_schedule_end_date) ? (
         <Dialog open={showReopenDialog} size='extraSmall'>
           <Dialog.Title>Reopen Evaluation</Dialog.Title>
+          <p>Evaluation schedule has lapsed. Please enter new evaluation schedule end date.</p>
           <div className='flex flex-row justify-start items-center font-bold'>
             Evaluation Schedule
             <div className='font-light text-sm'>
@@ -410,10 +411,10 @@ export const ViewEvaluationHeader = () => {
           </div>
           <div>
             <div className='mb-80 mr-1'>
-              <div className='flex whitespace-nowrap align-center gap-20'>
-                <h6 className={`flex items-center font-bold ${validationErrors ? "mb-5" : ""}`}>
+              <div className='flex whitespace-nowrap gap-3 ml-[67.5px]'>
+                <p className={`flex items-center font-bold ${validationErrors ? "mb-5" : ""}`}>
                   Select date:
-                </h6>
+                </p>
                 <DateRangePicker
                   name='evaluation_schedule'
                   useRange={false}
