@@ -94,8 +94,11 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
         asSingle={asSingle}
         readOnly={readOnly}
       />
+      {reopenError === true && (
+        <p className='text-red-500 text-sm font-normal'>Date is required.</p>
+      )}
       {isErrorPresent && (
-        <p className='text-red-500 text-sm'>
+        <p className='text-red-500 text-sm font-normal'>
           {sameDateErrorMessage
             ? `${error?.start_date != null ? error.start_date : ""}`.trim()
             : `${error?.start_date != null ? error.start_date : ""}${
