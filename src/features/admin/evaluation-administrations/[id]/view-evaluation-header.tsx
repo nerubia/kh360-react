@@ -8,6 +8,7 @@ import {
   cancelEvaluationAdministration,
   closeEvaluationAdministration,
   deleteEvaluationAdministration,
+  getEvaluationAdministration,
   publishEvaluationAdministration,
   reopenEvaluationAdministration,
 } from "@redux/slices/evaluation-administration-slice"
@@ -201,7 +202,6 @@ export const ViewEvaluationHeader = () => {
           setValidationErrors(true)
           return
         }
-
         const endDate = new Date(formData.endDate)
         const result = await appDispatch(reopenEvaluationAdministration({ id, endDate }))
 
@@ -212,6 +212,7 @@ export const ViewEvaluationHeader = () => {
               variant: "success",
             })
           )
+          await appDispatch(getEvaluationAdministration(result.payload.id))
           if (readyState === ReadyState.OPEN) {
             sendJsonMessage({
               event: "reopenEvaluationAdministration",
@@ -235,7 +236,6 @@ export const ViewEvaluationHeader = () => {
     setFormData(newValue)
     setIsDateSelected(true)
   }
-
   return (
     <>
       <div className='flex flex-col'>
@@ -396,50 +396,47 @@ export const ViewEvaluationHeader = () => {
       {evaluation_administration?.eval_schedule_end_date != null &&
       new Date() > new Date(evaluation_administration.eval_schedule_end_date) ? (
         <Dialog open={showReopenDialog} size='extraSmall'>
-          {
-            <div className='flex flex-row justify-start items-center font-bold'>
-              Reopen Evaluation
-              <div className='font-light text-sm'>
-                <DateRangeDisplay
-                  label=''
-                  startDate={evaluation_administration?.eval_schedule_start_date}
-                  endDate={evaluation_administration?.eval_schedule_end_date}
-                  isMobile={isMobile}
+          <Dialog.Title>Reopen Evaluation</Dialog.Title>
+          <div className='flex flex-row justify-start items-center font-bold'>
+            Evaluation Schedule
+            <div className='font-light text-sm'>
+              <DateRangeDisplay
+                label=''
+                startDate={evaluation_administration?.eval_schedule_start_date}
+                endDate={evaluation_administration?.eval_schedule_end_date}
+                isMobile={isMobile}
+              />
+            </div>
+          </div>
+          <div>
+            <div className='mb-80 mr-1'>
+              <div className='flex whitespace-nowrap align-center gap-20'>
+                <h6 className={`flex items-center font-bold ${validationErrors ? "mb-5" : ""}`}>
+                  Select date:
+                </h6>
+                <DateRangePicker
+                  name='evaluation_schedule'
+                  useRange={false}
+                  asSingle={true}
+                  value={formData}
+                  reopenMinDate={new Date()}
+                  onChange={handleChangeDateRange}
+                  reopenError={validationErrors}
                 />
               </div>
-            </div>
-          }
-          <div className='font-bold'>
-            {
-              <div className='mb-80 mr-1'>
-                <div className='flex whitespace-nowrap justify-between align-center gap-20'>
-                  <h6 className='flex items-center'>Select date:</h6>
-                  <span className='border rounded'>
-                    <DateRangePicker
-                      name='evaluation_schedule'
-                      useRange={false}
-                      asSingle={true}
-                      value={formData}
-                      reopenMinDate={new Date()}
-                      onChange={handleChangeDateRange}
-                      reopenError={validationErrors}
-                    />
-                  </span>
-                </div>
-                <div className='flex gap-2 justify-between mt-20'>
-                  <Button
-                    variant='primaryOutline'
-                    onClick={toggleReopenDialog}
-                    testId='DialogNoButton'
-                  >
-                    Cancel
-                  </Button>
-                  <Button variant='primary' onClick={handleReopen} testId='DialogYesButton'>
-                    Reopen
-                  </Button>
-                </div>
+              <div className='flex gap-2 justify-between mt-20'>
+                <Button
+                  variant='primaryOutline'
+                  onClick={toggleReopenDialog}
+                  testId='DialogNoButton'
+                >
+                  Cancel
+                </Button>
+                <Button variant='primary' onClick={handleReopen} testId='DialogYesButton'>
+                  Reopen
+                </Button>
               </div>
-            }
+            </div>
           </div>
         </Dialog>
       ) : (
