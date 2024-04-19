@@ -8,7 +8,6 @@ import {
   cancelEvaluationAdministration,
   closeEvaluationAdministration,
   deleteEvaluationAdministration,
-  getEvaluationAdministration,
   publishEvaluationAdministration,
   reopenEvaluationAdministration,
 } from "@redux/slices/evaluation-administration-slice"
@@ -212,7 +211,6 @@ export const ViewEvaluationHeader = () => {
               variant: "success",
             })
           )
-          await appDispatch(getEvaluationAdministration(result.payload.id))
           if (readyState === ReadyState.OPEN) {
             sendJsonMessage({
               event: "reopenEvaluationAdministration",
