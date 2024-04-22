@@ -407,8 +407,8 @@ export const ViewEvaluationHeader = () => {
               />
             </div>
           </div>
-          <div>
-            <div className='mb-80 mr-1'>
+          <div className='relative'>
+            <div className='mr-1 absolute top-1'>
               <div className='flex whitespace-nowrap gap-3 ml-[67.5px]'>
                 <p className={`flex items-center font-bold ${validationErrors ? "mb-5" : ""}`}>
                   Select date:
@@ -423,18 +423,14 @@ export const ViewEvaluationHeader = () => {
                   reopenError={validationErrors}
                 />
               </div>
-              <div className='flex gap-2 justify-between mt-20'>
-                <Button
-                  variant='primaryOutline'
-                  onClick={toggleReopenDialog}
-                  testId='DialogNoButton'
-                >
-                  Cancel
-                </Button>
-                <Button variant='primary' onClick={handleReopen} testId='DialogYesButton'>
-                  Reopen
-                </Button>
-              </div>
+            </div>
+            <div className='flex gap-2 justify-between mt-28'>
+              <Button variant='primaryOutline' onClick={toggleReopenDialog} testId='DialogNoButton'>
+                Cancel
+              </Button>
+              <Button variant='primary' onClick={handleReopen} testId='DialogYesButton'>
+                Reopen
+              </Button>
             </div>
           </div>
         </Dialog>
