@@ -14,7 +14,10 @@ import {
 import { getEvaluationResultStatusVariant } from "@utils/variant"
 import { Badge } from "@components/ui/badge/badge"
 import { Loading } from "@custom-types/loadingType"
-import { setSelectedEmployeeIds } from "@redux/slices/evaluation-administration-slice"
+import {
+  setSelectedEmployeeIds,
+  generateStatusEvaluationAdministration,
+} from "@redux/slices/evaluation-administration-slice"
 import Image from "@components/ui/image/user-image"
 
 const EvaluationAdminDialog = lazy(
@@ -62,6 +65,10 @@ export const EvalueesList = () => {
             )
           )
           setSelectedEvaluee(undefined)
+
+          if (id !== undefined) {
+            void appDispatch(generateStatusEvaluationAdministration(parseInt(id)))
+          }
         }
         if (result.type === "evaluationResults/deleteEvaluationResult/rejected") {
           appDispatch(
