@@ -37,6 +37,7 @@ import surveyTemplatesReducer from "./slices/survey-templates-slice"
 import surveyTemplateQuestionsReducer from "./slices/survey-template-questions-slice"
 import usersReducer from "@redux/slices/users-slice"
 import userReducer from "@redux/slices/user-slice"
+import userSkillsReducer from "@redux/slices/user-skills-slice"
 
 export const store = configureStore({
   reducer: {
@@ -77,6 +78,7 @@ export const store = configureStore({
     surveyTemplateQuestions: surveyTemplateQuestionsReducer,
     users: usersReducer,
     user: userReducer,
+    userSkills: userSkillsReducer,
   },
 })
 

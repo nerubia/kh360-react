@@ -8,6 +8,8 @@ export interface Skill {
   description: string
   sequence_no: number
   status: boolean
+  previous_rating: string
+  rating: string
 }
 
 export interface SkillFilters {
@@ -22,6 +24,12 @@ export interface SkillFilters {
 export enum SkillStatus {
   Active = "Active",
   Inactive = "Inactive",
+}
+
+export enum SkillMapRating {
+  Beginner = 1,
+  Intermediate = 2,
+  Expert = 3,
 }
 
 export const skillColumns = ["Name", "Category", "Description", "Status", "Actions"]
