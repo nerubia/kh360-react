@@ -210,7 +210,7 @@ export const Sidebar = () => {
     <div
       className={`${
         activeSidebar ? (isMediumSize ? "w-full md:w-44" : "w-full md:w-64") : "w-64 -ml-64"
-      } bg-primary-500 fixed z-10 h-screen transition-all duration-300`}
+      } bg-primary-500 fixed z-50 h-screen transition-all duration-300`}
     >
       <div className='relative flex flex-col h-full gap-4 p-5 overflow-y-auto'>
         <div className='absolute block top-5 md:hidden'>

@@ -13,6 +13,9 @@ const SurveyFormCompanion = lazy(
 )
 const SurveyForms = lazy(async () => await import("@pages/survey-forms/[id]/survey-form"))
 
+const SkillMapForm = lazy(async () => await import("@pages/skill-map-forms/[id]/skill-map-form"))
+const AddSkills = lazy(async () => await import("@pages/skill-map-forms/[id]/add/add-skills"))
+
 export const internalUserRoutes = {
   element: <InternalUserRoute />,
   children: [
@@ -43,6 +46,14 @@ export const internalUserRoutes = {
     {
       path: routes.private.internalUser.surveyFormCompanion,
       element: <SurveyFormCompanion />,
+    },
+    {
+      path: routes.private.internalUser.skillMapForm,
+      element: <SkillMapForm />,
+    },
+    {
+      path: routes.private.internalUser.addSkills,
+      element: <AddSkills />,
     },
   ],
 }
