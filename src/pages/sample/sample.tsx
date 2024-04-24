@@ -10,6 +10,7 @@ import { getProfile, sendMail } from "@services/api"
 import { Alert } from "@components/ui/alert/alert"
 import Dropdown from "@components/ui/dropdown/dropdown"
 import Tooltip from "@components/ui/tooltip/tooltip"
+import { Slider } from "@components/ui/slider/slider"
 
 export default function Sample() {
   useTitle("Sample")
@@ -37,6 +38,12 @@ export default function Sample() {
 
   const handleLogout = async () => {
     await appDispatch(logout())
+  }
+
+  const [sliderValue, setSliderValue] = useState<number>(1)
+
+  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSliderValue(parseInt(e.target.value, 10))
   }
 
   return (
@@ -415,6 +422,20 @@ export default function Sample() {
             </Tooltip.Trigger>
             <Tooltip.Content>Sample tooltip here</Tooltip.Content>
           </Tooltip>
+        </div>
+      </div>
+
+      <div className='flex flex-col gap-4'>
+        <p className='font-bold'># Sample slider</p>
+        <div className='w-500'>
+          <Slider sliderValue={sliderValue} handleSliderChange={(e) => handleSliderChange(e)} />
+        </div>
+        <div className='w-500'>
+          <Slider
+            sliderValue={sliderValue}
+            handleSliderChange={(e) => handleSliderChange(e)}
+            max={4}
+          />
         </div>
       </div>
 
