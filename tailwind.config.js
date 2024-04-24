@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+
+const plugin = require("tailwindcss/plugin")
+
 module.exports = {
   content: [
     "./src/**/*.{html,tsx}",
@@ -110,6 +113,7 @@ module.exports = {
         "1/10": "10%",
         "1/20": "5%",
         "1/30": "2.5%",
+        "slider-thumb": "55px",
       },
       height: {
         38: "38px",
@@ -125,6 +129,11 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ addVariant }) {
+      addVariant("slider-thumb", ["&::-webkit-slider-thumb", "&::slider-thumb"])
+      addVariant("moz-slider-thumb", ["&::-moz-range-thumb", "&::slider-thumb"])
+    }),
+  ],
   darkMode: "",
 }
