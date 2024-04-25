@@ -80,6 +80,7 @@ export const routes = {
       surveyForms: "/survey-forms",
       surveyForm: "survey-forms/:id",
       surveyFormCompanion: "survey-forms/:id/companions/:survey_result_id",
+      skillMapForms: "/skill-map-forms",
       skillMapForm: "/skill-map-forms/:id",
       addSkills: "/skill-map-forms/:id/add",
     },

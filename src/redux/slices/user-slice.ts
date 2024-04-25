@@ -23,6 +23,7 @@ import {
 import { type SurveyTemplateQuestion } from "@custom-types/survey-template-question-type"
 import { type SurveyResultsFormData, type ExternalUserFormData } from "@custom-types/form-data-type"
 import { type SurveyResult } from "@custom-types/survey-result-type"
+import { type SkillMapAdministration } from "@custom-types/skill-map-admin-type"
 
 export const getUserEvaluations = createAsyncThunk(
   "user/getUserEvaluations",
@@ -229,6 +230,22 @@ export const sendRequestToRemove = createAsyncThunk(
   }
 )
 
+export const getUserSkillMapAdministrations = createAsyncThunk(
+  "user/getUserSkillmapAdministrations",
+  async (params: SurveyAdministrationFilters | undefined, thunkApi) => {
+    try {
+      const response = await axiosInstance.get("/user/skill-map-administrations", {
+        params,
+      })
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   loading_answer: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
@@ -243,6 +260,7 @@ interface InitialState {
   user_survey_companion: User | null
   user_companion_questions: SurveyTemplateQuestion[]
   user_survey_answers: SurveyAnswer[]
+  user_skill_map_admins: SkillMapAdministration[]
   survey_result_status: string | null
   my_evaluation_administrations: EvaluationAdministration[]
   user_evaluation_result: EvaluationResult | null
@@ -268,6 +286,7 @@ const initialState: InitialState = {
   user_survey_answers: [],
   user_survey_companion: null,
   survey_result_status: null,
+  user_skill_map_admins: [],
   my_evaluation_administrations: [],
   user_evaluation_result: null,
   hasPreviousPage: false,
@@ -572,6 +591,26 @@ const userSlice = createSlice({
       state.error = null
     })
     builder.addCase(createExternalUser.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * List user skill map administrations
+     */
+    builder.addCase(getUserSkillMapAdministrations.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getUserSkillMapAdministrations.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.user_skill_map_admins = action.payload.data
+      state.hasPreviousPage = action.payload.pageInfo.hasPreviousPage
+      state.hasNextPage = action.payload.pageInfo.hasNextPage
+      state.totalPages = action.payload.pageInfo.totalPages
+      state.totalItems = action.payload.pageInfo.totalItems
+    })
+    builder.addCase(getUserSkillMapAdministrations.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
