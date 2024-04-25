@@ -161,6 +161,10 @@ const SkillMapAdministrations = lazy(
   async () => await import("@pages/admin/skill-map-administrations/skill-map-administrations")
 )
 
+const ViewSkillMapAdministration = lazy(
+  async () => await import("@pages/admin/skill-map-administrations/[id]/view-skill-map-admin")
+)
+
 const CreateSkillMapAdmin = lazy(
   async () => await import("@pages/admin/skill-map-administrations/create/create-skill-map-admin")
 )
@@ -376,6 +380,10 @@ export const adminRoutes = {
     {
       path: routes.private.admin.skillMapAdministrations,
       element: <SkillMapAdministrations />,
+    },
+    {
+      path: routes.private.admin.viewSkillMapAdministration,
+      element: <ViewSkillMapAdministration />,
     },
     {
       path: routes.private.admin.createSkillMapAdmin,

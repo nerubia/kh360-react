@@ -1,5 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { type SkillMapAdministration } from "@custom-types/skill-map-admin-type"
+import {
+  SkillMapAdminStatus,
+  type SkillMapAdministration,
+} from "@custom-types/skill-map-admin-type"
 import { Loading } from "@custom-types/loadingType"
 import { axiosInstance } from "@utils/axios-instance"
 import { type AxiosError } from "axios"
@@ -76,6 +79,48 @@ export const deleteSkillMapAdmin = createAsyncThunk(
   async (id: number, thunkApi) => {
     try {
       const response = await axiosInstance.delete(`/admin/skill-map-administrations/${id}`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const closeSkillMapAdministration = createAsyncThunk(
+  "skillMapAdministration/close",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.post(`/admin/skill-map-administrations/${id}/close`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const cancelSkillMapAdministration = createAsyncThunk(
+  "skillMapAdministration/cancel",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.post(`/admin/skill-map-administrations/${id}/cancel`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const reopenSkillMapAdministration = createAsyncThunk(
+  "skillMapAdministration/reopen",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.post(`/admin/skill-map-administrations/${id}/reopen`)
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -178,6 +223,69 @@ const skillMapAdministrationSlice = createSlice({
       state.error = null
     })
     builder.addCase(deleteSkillMapAdmin.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Close
+     */
+    builder.addCase(closeSkillMapAdministration.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(closeSkillMapAdministration.fulfilled, (state) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      if (state.skill_map_administration !== null) {
+        state.skill_map_administration = {
+          ...state.skill_map_administration,
+          status: SkillMapAdminStatus.Closed,
+        }
+      }
+    })
+    builder.addCase(closeSkillMapAdministration.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Cancel
+     */
+    builder.addCase(cancelSkillMapAdministration.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(cancelSkillMapAdministration.fulfilled, (state) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      if (state.skill_map_administration !== null) {
+        state.skill_map_administration = {
+          ...state.skill_map_administration,
+          status: SkillMapAdminStatus.Cancelled,
+        }
+      }
+    })
+    builder.addCase(cancelSkillMapAdministration.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Reopen
+     */
+    builder.addCase(reopenSkillMapAdministration.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(reopenSkillMapAdministration.fulfilled, (state) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      if (state.skill_map_administration !== null) {
+        state.skill_map_administration = {
+          ...state.skill_map_administration,
+          status: SkillMapAdminStatus.Ongoing,
+        }
+      }
+    })
+    builder.addCase(reopenSkillMapAdministration.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })

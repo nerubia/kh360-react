@@ -17,7 +17,7 @@ export const DateRangeDisplay = ({
     <div className='font-bold'>
       {!isMobile ? <span>{label}</span> : <span>{label.trim().split(" ")[1]}</span>}:
     </div>
-    {isMobile ? shortenFormatDate(startDate) : convertToFullDate(startDate)} to{" "}
-    {isMobile ? shortenFormatDate(endDate) : convertToFullDate(endDate)}
+    {isMobile ? shortenFormatDate(startDate) : convertToFullDate(startDate ?? "")} to{" "}
+    {isMobile ? shortenFormatDate(endDate) : convertToFullDate(endDate ?? "")}
   </div>
 )
