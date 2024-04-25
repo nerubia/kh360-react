@@ -2,7 +2,7 @@ import { SurveyFormsHeader } from "@features/survey-forms/survey-forms-header"
 import { SurveyFormsList } from "@features/survey-forms/survey-forms-list"
 import { useTitle } from "@hooks/useTitle"
 
-export default function SurveyForm() {
+export default function SurveyForms() {
   useTitle("Survey Forms")
 
   return (

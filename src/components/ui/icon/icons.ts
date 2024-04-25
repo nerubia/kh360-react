@@ -2,6 +2,7 @@ import { lazy } from "react"
 
 export const icons = {
   Ban: lazy(async () => await import("./icons/ban-icon")),
+  BrainCircuit: lazy(async () => await import("./icons/brain-circuit-icon")),
   Calendar: lazy(async () => await import("./icons/calendar-icon")),
   Check: lazy(async () => await import("./icons/check-icon")),
   ChevronUp: lazy(async () => await import("./icons/chevron-up-icon")),

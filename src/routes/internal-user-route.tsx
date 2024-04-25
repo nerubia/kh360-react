@@ -7,12 +7,13 @@ const MyEvaluations = lazy(async () => await import("@pages/my-evaluations/my-ev
 const MyEvaluationResults = lazy(
   async () => await import("@pages/my-evaluations/[id]/my-evaluation-results")
 )
-const SurveyForm = lazy(async () => await import("@pages/survey-forms/survey-forms"))
+const SurveyForm = lazy(async () => await import("@pages/survey-forms/[id]/survey-form"))
 const SurveyFormCompanion = lazy(
   async () => await import("@pages/survey-forms/[id]/companions/survey-form-companion")
 )
-const SurveyForms = lazy(async () => await import("@pages/survey-forms/[id]/survey-form"))
+const SurveyForms = lazy(async () => await import("@pages/survey-forms/survey-forms"))
 
+const SkillMapForms = lazy(async () => await import("@pages/skill-map-forms/skill-map-forms"))
 const SkillMapForm = lazy(async () => await import("@pages/skill-map-forms/[id]/skill-map-form"))
 const AddSkills = lazy(async () => await import("@pages/skill-map-forms/[id]/add/add-skills"))
 
@@ -33,19 +34,19 @@ export const internalUserRoutes = {
     },
     {
       path: routes.private.internalUser.surveyForms,
+      element: <SurveyForms />,
+    },
+    {
+      path: routes.private.internalUser.surveyForm,
       element: <SurveyForm />,
-    },
-    {
-      path: routes.private.internalUser.surveyForm,
-      element: <SurveyForms />,
-    },
-    {
-      path: routes.private.internalUser.surveyForm,
-      element: <SurveyForms />,
     },
     {
       path: routes.private.internalUser.surveyFormCompanion,
       element: <SurveyFormCompanion />,
+    },
+    {
+      path: routes.private.internalUser.skillMapForms,
+      element: <SkillMapForms />,
     },
     {
       path: routes.private.internalUser.skillMapForm,

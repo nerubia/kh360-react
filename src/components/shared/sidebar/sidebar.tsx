@@ -59,6 +59,12 @@ const menuLinks: MenuLink[] = [
     access: "Internal",
   },
   {
+    title: "Skill Map Forms",
+    link: routes.private.internalUser.skillMapForms,
+    icon: "BrainCircuit",
+    access: "Internal",
+  },
+  {
     title: "Evaluation Admin",
     link: routes.private.admin.evaluationAdministrations,
     icon: "UserRoundCog",
