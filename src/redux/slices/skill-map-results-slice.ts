@@ -71,6 +71,20 @@ export const deleteSkillMapResult = createAsyncThunk(
   }
 )
 
+export const reopenSkillMapResult = createAsyncThunk(
+  "skillMapResults/reopenSkillMapResult",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.post(`/admin/skill-map-results/${id}/reopen`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   loading_send: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
@@ -175,6 +189,29 @@ const skillMapResultsSlice = createSlice({
       )
     })
     builder.addCase(deleteSkillMapResult.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Reopen skill map result
+     */
+    builder.addCase(reopenSkillMapResult.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(reopenSkillMapResult.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+
+      const index = state.skill_map_results.findIndex(
+        (result) => parseInt(result.id as string) === parseInt(action.payload.id)
+      )
+
+      if (index !== -1) {
+        state.skill_map_results[index].status = action.payload.status
+      }
+    })
+    builder.addCase(reopenSkillMapResult.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })

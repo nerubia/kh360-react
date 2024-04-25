@@ -89,7 +89,7 @@ export const UserEvaluationAdministrationsTable = () => {
                   </p>
                   <p>
                     Evaluate By:{" "}
-                    {convertToFullDate(evaluationAdministration.eval_schedule_end_date)}
+                    {convertToFullDate(evaluationAdministration.eval_schedule_end_date ?? "")}
                   </p>
                   <div>
                     <p>

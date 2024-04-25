@@ -18,8 +18,11 @@ export const shortenFormatDate = (dateString?: string): string => {
   return format(convertedDate, "MMM d, yyyy", { timeZone: targetTimeZone })
 }
 
-export const convertToFullDate = (date?: string) => {
-  const inputDate = new Date(date ?? "")
+export const convertToFullDate = (date: string) => {
+  if (date.length === 0) {
+    return "Date not found"
+  }
+  const inputDate = new Date(date)
   const utcDate = utcToZonedTime(inputDate, "UTC")
   return format(utcDate, "MMMM d, yyyy", { timeZone: "UTC" })
 }

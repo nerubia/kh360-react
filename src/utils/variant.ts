@@ -231,3 +231,18 @@ export const getSurveyResultStatusVariant = (status: string | undefined) => {
     return "blue"
   }
 }
+
+export const getSkillMapResultStatusVariant = (status: string | undefined) => {
+  if (status === SurveyResultStatus.Open) {
+    return "yellow"
+  }
+  if (status === SurveyResultStatus.Draft) {
+    return "primary"
+  }
+  if (status === SurveyResultStatus.Ongoing) {
+    return "green"
+  }
+  if (status === SurveyResultStatus.Submitted) {
+    return "blue"
+  }
+}
