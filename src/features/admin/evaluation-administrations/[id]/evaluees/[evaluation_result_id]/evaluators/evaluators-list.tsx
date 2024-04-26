@@ -220,8 +220,8 @@ export const EvaluatorsList = () => {
 
   const handleSaveEdit = async () => {
     try {
-      if (id !== undefined) {
-        const result = await appDispatch(generateUpdate(parseInt(id)))
+      if (evaluation_result_id !== undefined) {
+        const result = await appDispatch(generateUpdate(parseInt(evaluation_result_id)))
         if (result.type === "evaluationAdministration/generateUpdate/fulfilled") {
           navigate(`/admin/evaluation-administrations/${id}`)
           appDispatch(
