@@ -1,16 +1,13 @@
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-import { Button } from "@components/ui/button/button"
-import { Icon } from "@components/ui/icon/icon"
 import {
   getSurveyAdministration,
   setSelectedEmployeeIds,
 } from "@redux/slices/survey-administration-slice"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
-import { CustomDialog } from "@components/ui/dialog/custom-dialog"
 import { setEvaluationResults } from "@redux/slices/evaluation-results-slice"
-import { EvaluationAdministrationStatus } from "@custom-types/evaluation-administration-type"
+import { SelectUsersFooter } from "@components/shared/select-users/select-users-footer"
 
 export const SelectRespondentsFooter = () => {
   const { id } = useParams()
@@ -54,49 +51,30 @@ export const SelectRespondentsFooter = () => {
 
   return (
     <>
-      <div className='flex justify-between'>
-        <Button variant='primaryOutline' onClick={toggleCancelDialog}>
-          Cancel & Exit
-        </Button>
-        <div className='flex items-center gap-2'>
-          {survey_administration?.status !== EvaluationAdministrationStatus.Ongoing && (
-            <Button
-              testId='BackButton'
-              variant='primaryOutline'
-              size='medium'
-              onClick={toggleBackDialog}
-            >
-              <Icon icon='ChevronLeft' />
-            </Button>
-          )}
-          <Button onClick={handleCheckAndReview} disabled={selectedEmployeeIds.length === 0}>
-            Check & Review
-          </Button>
-        </div>
-      </div>
-      <CustomDialog
-        open={showCancelDialog}
-        title='Cancel & Exit'
-        description={
+      <SelectUsersFooter
+        administration={survey_administration != null ? [survey_administration] : []}
+        selectedEmployeeIds={selectedEmployeeIds}
+        onCancel={toggleCancelDialog}
+        onGoBack={toggleBackDialog}
+        cancelDialogOpen={showCancelDialog}
+        backDialogOpen={showBackDialog}
+        cancelDialogDescription={
           <>
             Are you sure you want to cancel and exit? <br />
             If you cancel, your data won&apos;t be saved.
           </>
         }
-        onClose={toggleCancelDialog}
-        onSubmit={handleCancelAndExit}
-      />
-      <CustomDialog
-        open={showBackDialog}
-        title='Go Back'
-        description={
+        backDialogDescription={
           <>
             Are you sure you want to go back? <br />
             If you go back, your data won&apos;t be saved.
           </>
         }
-        onClose={toggleBackDialog}
-        onSubmit={handleGoBack}
+        onCancelDialogClose={toggleCancelDialog}
+        onBackDialogClose={toggleBackDialog}
+        onCancelSubmit={handleCancelAndExit}
+        onBackSubmit={handleGoBack}
+        handleCheckAndReview={handleCheckAndReview}
       />
     </>
   )

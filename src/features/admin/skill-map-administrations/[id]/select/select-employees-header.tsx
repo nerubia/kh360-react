@@ -1,9 +1,5 @@
-import { PageTitle } from "@components/shared/page-title"
+import { SelectUsersHeader } from "@components/shared/select-users/select-users-header"
 
 export const SelectEmployeesHeader = () => {
-  return (
-    <div>
-      <PageTitle>Select Employees</PageTitle>
-    </div>
-  )
+  return <SelectUsersHeader title='Select Employees' />
 }
