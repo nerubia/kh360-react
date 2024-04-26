@@ -71,10 +71,10 @@ export const generateEvaluationAdministration = createAsyncThunk(
 
 export const generateUpdate = createAsyncThunk(
   "evaluationAdministration/generateUpdate",
-  async (id: number, thunkApi) => {
+  async (evaluation_result_id: number, thunkApi) => {
     try {
       const response = await axiosInstance.post(
-        `/admin/evaluation-administrations/${id}/generate-update`
+        `/admin/evaluation-administrations/${evaluation_result_id}/generate-update`
       )
       return response.data
     } catch (error) {
