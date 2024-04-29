@@ -251,6 +251,7 @@ interface InitialState {
   loading_answer: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   loading_comment: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   loading_submit_evaluation: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
+  loading_request_removal: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
   user_evaluations: Evaluation[]
   user_evaluation_administrations: EvaluationAdministration[]
@@ -276,6 +277,7 @@ const initialState: InitialState = {
   loading_answer: Loading.Idle,
   loading_comment: Loading.Idle,
   loading_submit_evaluation: Loading.Idle,
+  loading_request_removal: Loading.Idle,
   error: null,
   user_evaluations: [],
   user_evaluation_administrations: [],
@@ -493,15 +495,15 @@ const userSlice = createSlice({
      * Send request to remove
      */
     builder.addCase(sendRequestToRemove.pending, (state) => {
-      state.loading = Loading.Pending
+      state.loading_request_removal = Loading.Pending
       state.error = null
     })
     builder.addCase(sendRequestToRemove.fulfilled, (state) => {
-      state.loading = Loading.Fulfilled
+      state.loading_request_removal = Loading.Fulfilled
       state.error = null
     })
     builder.addCase(sendRequestToRemove.rejected, (state, action) => {
-      state.loading = Loading.Rejected
+      state.loading_request_removal = Loading.Rejected
       state.error = action.payload as string
     })
     /**

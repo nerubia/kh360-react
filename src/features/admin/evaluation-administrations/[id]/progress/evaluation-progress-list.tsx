@@ -221,6 +221,17 @@ export const EvaluationProgressList = () => {
             appDispatch(updateTotalEvaluations({ id }))
           }
         }
+
+        if (result.type === "evaluations/approveRequest/rejected") {
+          void appDispatch(
+            appDispatch(
+              setAlert({
+                description: result.payload,
+                variant: "destructive",
+              })
+            )
+          )
+        }
       } catch (error) {}
     }
   }
@@ -253,6 +264,16 @@ export const EvaluationProgressList = () => {
               }
               return evaluator
             })
+          )
+        }
+        if (result.type === "evaluations/declineRequest/rejected") {
+          void appDispatch(
+            appDispatch(
+              setAlert({
+                description: result.payload,
+                variant: "destructive",
+              })
+            )
           )
         }
       } catch (error) {}

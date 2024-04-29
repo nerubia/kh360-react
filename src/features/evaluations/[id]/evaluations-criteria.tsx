@@ -43,9 +43,8 @@ export const EvaluationsCriteria = () => {
   const { evaluation_template_contents, is_editing } = useAppSelector(
     (state) => state.evaluationTemplateContents
   )
-  const { loading, loading_comment, loading_answer, user_evaluations } = useAppSelector(
-    (state) => state.user
-  )
+  const { loading, loading_comment, loading_answer, loading_request_removal, user_evaluations } =
+    useAppSelector((state) => state.user)
   const { emailTemplate } = useAppSelector((state) => state.emailTemplate)
   const { ratingTemplates } = useAppSelector((state) => state.emailTemplate)
 
@@ -75,16 +74,21 @@ export const EvaluationsCriteria = () => {
 
   const { sendJsonMessage, readyState } = useContext(WebSocketContext) as WebSocketType
 
+  /* eslint-disable */
+
   useEffect(() => {
     void appDispatch(setIsEditing(false))
     setDidCopy(false)
+    console.log("evaluation_id", evaluation_id)
   }, [evaluation_id])
 
   useEffect(() => {
     void appDispatch(getRatingTemplates())
+    console.log("[]")
   }, [])
 
   useEffect(() => {
+    console.log("[evaluation_template_contents]")
     const evaluationRatings = evaluation_template_contents.map(
       (templateContent) => templateContent.evaluationRating
     )
@@ -105,6 +109,7 @@ export const EvaluationsCriteria = () => {
   }, [evaluation_template_contents])
 
   useEffect(() => {
+    console.log("[evaluation_id, user_evaluations]")
     if (evaluation_id !== "all") {
       const getTemplateContents = async () => {
         try {
@@ -132,6 +137,7 @@ export const EvaluationsCriteria = () => {
   }, [evaluation_id, user_evaluations])
 
   useEffect(() => {
+    console.log("[evaluation]")
     setErrorMessage(null)
     setRatingCommentErrorMessage(null)
     if (evaluation?.comments !== undefined && evaluation?.comments !== null) {
@@ -401,12 +407,15 @@ export const EvaluationsCriteria = () => {
   }
 
   const handleRequestToRemove = async () => {
+    /* eslint-disable */
+    // debugger
     if (evaluation !== undefined) {
       try {
         const result = await appDispatch(
           sendRequestToRemove({ evaluation_id: evaluation?.id, comment })
         )
         if (result.type === "user/sendRequestToRemove/fulfilled") {
+          console.log("IT's FULFILLED HERE")
           void appDispatch(
             updateEvaluationStatusById({
               id: result.payload.id,
@@ -416,6 +425,18 @@ export const EvaluationsCriteria = () => {
           )
           void appDispatch(setIsEditing(false))
         }
+        if (result.type === "user/sendRequestToRemove/rejected") {
+          console.log("IT's NOT FULFILLED HERE")
+          void appDispatch(
+            appDispatch(
+              setAlert({
+                description: result.payload,
+                variant: "destructive",
+              })
+            )
+          )
+        }
+        toggleRequestToRemoveDialog()
         if (readyState === ReadyState.OPEN) {
           sendJsonMessage({
             event: "sendRequestToRemove",
@@ -682,9 +703,9 @@ export const EvaluationsCriteria = () => {
         }
         onClose={toggleRequestToRemoveDialog}
         onSubmit={async () => {
-          toggleRequestToRemoveDialog()
           await handleRequestToRemove()
         }}
+        loading={loading_request_removal === Loading.Pending}
       />
       <CustomDialog
         open={showSimilarEvaluationsDialog}
