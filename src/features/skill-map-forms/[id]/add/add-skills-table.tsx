@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useEffect } from "react"
 import { useSearchParams } from "react-router-dom"
 import { useAppDispatch } from "@hooks/useAppDispatch"
@@ -91,13 +92,21 @@ export const AddSkillsTable = () => {
     <>
       <div className='flex-1 flex flex-col overflow-y-scroll'>
         <div className='flex pl-2'>
-          <Checkbox
-            checked={skills.every((skill) =>
-              checkedUserSkills.map((skill) => skill.id).includes(skill.id)
+          <>
+            {skills.length === 0 ? (
+              "No skills available for this category."
+            ) : (
+              <>
+                <Checkbox
+                  checked={skills.every((skill) =>
+                    checkedUserSkills.map((skill) => skill.id).includes(skill.id)
+                  )}
+                  onChange={(checked) => handleSelectAll(checked)}
+                />
+                <div className='py-3 px-3 font-bold'>Select All</div>
+              </>
             )}
-            onChange={(checked) => handleSelectAll(checked)}
-          />
-          <div className='py-3 px-3 font-bold'>Select All</div>
+          </>
         </div>
         <div className='flex flex-col'>
           <div className='columns-5 gap-4'>
