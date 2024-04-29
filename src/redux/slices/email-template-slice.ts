@@ -275,6 +275,7 @@ const emailTemplateSlice = createSlice({
     builder.addCase(getByTemplateType.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
+      state.emailTemplate = null
     })
     /**
      * List all unique email template types
