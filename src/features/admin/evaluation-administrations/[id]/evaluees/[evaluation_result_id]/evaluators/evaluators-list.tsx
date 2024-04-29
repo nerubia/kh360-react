@@ -203,7 +203,7 @@ export const EvaluatorsList = () => {
           )
           appDispatch(
             setAlert({
-              description: result.payload.message,
+              description: result.payload,
               variant: "destructive",
             })
           )
@@ -234,7 +234,7 @@ export const EvaluatorsList = () => {
         if (result.type === "evaluationAdministration/generateUpdate/rejected") {
           appDispatch(
             setAlert({
-              description: result.payload.message,
+              description: result.payload,
               variant: "destructive",
             })
           )
