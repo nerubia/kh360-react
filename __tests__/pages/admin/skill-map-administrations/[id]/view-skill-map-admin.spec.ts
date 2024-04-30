@@ -106,8 +106,8 @@ test.describe("Admin - View Skill Map Administrations", () => {
         body: JSON.stringify({
           id: 1,
           name: "This is a sample skill map admin",
-          skill_map_period_start_date: "2024-04-06T00:00:00.000Z",
-          skill_map_period_end_date: "2023-03-14T00:00:00.000Z",
+          skill_map_period_start_date: "2024-01-01T00:00:00.000Z",
+          skill_map_period_end_date: "2024-01-03T00:00:00.000Z",
           skill_map_schedule_start_date: "2023-03-15T00:00:00.000Z",
           skill_map_schedule_end_date: "2023-03-16T00:00:00.000Z",
           remarks: "Remarks 1",
@@ -120,19 +120,22 @@ test.describe("Admin - View Skill Map Administrations", () => {
       await mockRequest(page, "/admin/skill-map-results/all?skill_map_administration_id=1", {
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify({
-          skill_map_results: [
-            {
+        body: JSON.stringify([
+          {
+            id: 1,
+            user_id: 1,
+            status: "Ongoing",
+            users: {
               id: 1,
-              status: "For Review",
-              users: {
-                first_name: "Sample",
-                last_name: "User",
-                picture: null,
-              },
+              first_name: "Adam",
+              last_name: "Baker",
+              email: "sample1@gmail.com",
             },
-          ],
-        }),
+            skill_map_administration_id: 1,
+            skill_map_ratings: [],
+            email_logs: [],
+          },
+        ]),
       })
 
       if (isMobile) {
@@ -156,7 +159,7 @@ test.describe("Admin - View Skill Map Administrations", () => {
 
       await expect(page.getByRole("button", { name: "More actions" })).toBeVisible()
       await expect(page.getByRole("heading", { name: "Employees" })).toBeVisible()
-      await expect(page.getByText("- User, Sample")).toBeVisible()
+      await expect(page.getByText("- Baker, Adam")).toBeVisible()
 
       await expect(page.getByTestId("BackButton")).toBeVisible()
     })

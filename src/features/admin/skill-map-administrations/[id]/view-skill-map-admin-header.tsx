@@ -29,7 +29,9 @@ export const ViewSkillMapAdminHeader = () => {
   const isMobile = useMobileView()
   const { id } = useParams()
   const appDispatch = useAppDispatch()
-  const { loading } = useAppSelector((state) => state.skillMapAdministration)
+  const { loading, skill_map_administration } = useAppSelector(
+    (state) => state.skillMapAdministration
+  )
   const { previousUrl } = useAppSelector((state) => state.app)
   const { sendJsonMessage, readyState } = useContext(WebSocketContext) as WebSocketType
 
@@ -37,18 +39,6 @@ export const ViewSkillMapAdminHeader = () => {
   const [showCancelDialog, setShowCancelDialog] = useState<boolean>(false)
   const [showCloseDialog, setShowCloseDialog] = useState<boolean>(false)
   const [showReopenDialog, setShowReopenDialog] = useState<boolean>(false)
-
-  // Sample hard-coded skill map admin for now
-  const skill_map_administration = {
-    id: 1,
-    name: "This is a sample skill map admin",
-    status: "Draft",
-    remarks: "This is a sample description",
-    skill_map_period_start_date: "2024-01-01T00:00:00.000Z",
-    skill_map_period_end_date: "2024-01-03T00:00:00.000Z",
-    skill_map_schedule_start_date: "2023-03-15T00:00:00.000Z",
-    skill_map_schedule_end_date: "2023-03-16T00:00:00.000Z",
-  }
 
   const toggleDeleteDialog = () => {
     setShowDeleteDialog((prev) => !prev)

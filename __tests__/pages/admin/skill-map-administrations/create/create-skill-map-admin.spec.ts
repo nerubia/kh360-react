@@ -274,11 +274,86 @@ test.describe("Admin - Create Skill Map Administration", () => {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
-          data: {},
+          data: {
+            id: 1,
+            name: "Skill Map name",
+            skill_map_schedule_start_date: "2023-01-05T00:00:00.000Z",
+            skill_map_schedule_end_date: "2023-01-06T00:00:00.000Z",
+            skill_map_period_start_date: "2023-01-03T00:00:00.000Z",
+            skill_map_period_end_date: "2023-01-05T00:00:00.000Z",
+            remarks: "Description",
+            email_subject: "Subject 1",
+            email_content: "Content 1",
+          },
         }),
       })
 
+      await page.getByText("Skill Map Schedule").click()
+
       await page.getByRole("button", { name: "Save & Proceed" }).click()
+
+      await mockRequest(page, "/admin/users", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              email: "sample1@gmail.com",
+              first_name: "Adam",
+              last_name: "Baker",
+              is_active: true,
+              user_details: {
+                start_date: "2023-04-12T00:00:00.000Z",
+                user_id: 1,
+                user_position: "Project Manager",
+                user_type: "Regular",
+              },
+            },
+          ],
+          pageInfo: {
+            hasPreviousPage: false,
+            hasNextPage: false,
+            totalPages: 1,
+          },
+        }),
+      })
+
+      await mockRequest(page, "/admin/users/all", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [
+            {
+              id: 1,
+              email: "sample1@gmail.com",
+              first_name: "Adam",
+              last_name: "Baker",
+              is_active: true,
+              user_details: {
+                start_date: "2023-04-12T00:00:00.000Z",
+                user_id: 1,
+                user_position: "Project Manager",
+                user_type: "Regular",
+              },
+            },
+          ],
+        }),
+      })
+
+      await mockRequest(page, "/admin/skill-map-results/all?skill_map_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([]),
+      })
+
+      await mockRequest(page, "/admin/skill-map-administrations/1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: {},
+        }),
+      })
 
       await page.waitForLoadState("networkidle")
 

@@ -18,7 +18,7 @@ import Tooltip from "@components/ui/tooltip/tooltip"
 import { setAlert } from "@redux/slices/app-slice"
 import { convertToFullDateAndTime } from "@utils/format-date"
 import { type User } from "@custom-types/user-type"
-import { type SkillMapResult, SkillMapResultStatus } from "@custom-types/skill-map-result-type"
+import { SkillMapResultStatus } from "@custom-types/skill-map-result-type"
 import { Badge } from "@components/ui/badge/badge"
 import { Loading } from "@custom-types/loadingType"
 
@@ -27,7 +27,8 @@ export const ViewSkillMapAdminList = () => {
   const navigate = useNavigate()
   const { id } = useParams()
   const { user } = useAppSelector((state) => state.auth)
-  const { loading } = useAppSelector((state) => state.skillMapResults)
+  const { skill_map_administration } = useAppSelector((state) => state.skillMapAdministration)
+  const { loading, skill_map_results } = useAppSelector((state) => state.skillMapResults)
   const [showEmailLogDialog, setShowEmailLogDialog] = useState<boolean>(false)
   const [showDeleteDialog, setShowDeleteialog] = useState<boolean>(false)
   const [selectedRespondent, setSelectedRespondent] = useState<User | null>(null)
@@ -39,39 +40,6 @@ export const ViewSkillMapAdminList = () => {
     async () =>
       await import("@features/admin/skill-map-administrations/skill-map-administrations-dialog")
   )
-
-  // Sample hard-coded skill map admin for now
-  const skill_map_administration = {
-    id: 1,
-    name: "This is a sample skill map admin",
-    status: "Ongoing",
-    remarks: "This is a sample description",
-    skill_map_period_start_date: "2024-04-06T00:00:00.000Z",
-    skill_map_period_end_date: "2023-03-14T00:00:00.000Z",
-    skill_map_schedule_start_date: "2023-03-15T00:00:00.000Z",
-    skill_map_schedule_end_date: "2023-03-16T00:00:00.000Z",
-  }
-
-  // Sample hard-coded skill map results for now
-  const skill_map_results: SkillMapResult[] = [
-    {
-      id: "1",
-      skill_map_administration_id: "1",
-      status: "Ongoing",
-      remarks: "Remarks",
-      users: {
-        id: 1,
-        first_name: "Sample",
-        last_name: "User",
-      },
-      email_logs: [
-        {
-          id: 1,
-          sent_at: "2024-02-01",
-        },
-      ],
-    },
-  ]
 
   useEffect(() => {
     if (id !== undefined) {

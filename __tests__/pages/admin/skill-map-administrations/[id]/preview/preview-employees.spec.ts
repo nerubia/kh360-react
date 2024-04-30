@@ -491,7 +491,22 @@ test.describe("Admin - Preview Employees", () => {
       await mockRequest(page, "/admin/skill-map-results/all?skill_map_administration_id=1", {
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify([]),
+        body: JSON.stringify([
+          {
+            id: 1,
+            user_id: 1,
+            status: "Ongoing",
+            users: {
+              id: 1,
+              first_name: "Adam",
+              last_name: "Baker",
+              email: "sample1@gmail.com",
+            },
+            skill_map_administration_id: 1,
+            skill_map_ratings: [],
+            email_logs: [],
+          },
+        ]),
       })
 
       await mockRequest(page, "/admin/skill-map-administrations/1", {

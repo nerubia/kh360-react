@@ -19,6 +19,7 @@ import { setAlert } from "@redux/slices/app-slice"
 import { DateRangePicker } from "@components/ui/date-range-picker/date-range-picker"
 import { type DateValueType, type DateType } from "react-tailwindcss-datepicker"
 import { createSkillMapAdminSchema } from "@utils/validation/skill-map-admin-schema"
+import { setSkillMapResults } from "@redux/slices/skill-map-results-slice"
 
 const SkillMapAdminDialog = lazy(
   async () =>
@@ -88,6 +89,7 @@ export const SkillMapAdminForm = () => {
       const result = await appDispatch(createSkillMapAdmin(formData))
       if (result.type === "skillMapAdministration/createSkillMapAdmin/fulfilled") {
         void appDispatch(setSelectedEmployeeIds([]))
+        appDispatch(setSkillMapResults([]))
         navigate(`/admin/skill-map-administrations/${result.payload.id}/select`)
       }
       if (result.type === "skillMapAdministration/createSkillMapAdmin/rejected") {
