@@ -13,23 +13,9 @@ import { getUserSkillMapAdministrations } from "@redux/slices/user-slice"
 
 export const SkillMapFormsList = () => {
   const appDispatch = useAppDispatch()
-  const { loading } = useAppSelector((state) => state.user)
+  const { loading, user_skill_map_admins } = useAppSelector((state) => state.user)
   const { emailTemplate } = useAppSelector((state) => state.emailTemplate)
   const { lastJsonMessage } = useContext(WebSocketContext) as WebSocketType
-
-  // Sample hard-coded user skill map admins for now
-  const user_skill_map_admins = [
-    {
-      id: 1,
-      name: "This is a sample skill map admin",
-      status: "Ongoing",
-      remarks: "This is a sample description",
-      skill_map_period_start_date: "2024-04-06T00:00:00.000Z",
-      skill_map_period_end_date: "2023-03-14T00:00:00.000Z",
-      skill_map_schedule_start_date: "2023-03-15T00:00:00.000Z",
-      skill_map_schedule_end_date: "2023-03-16T00:00:00.000Z",
-    },
-  ]
 
   useEffect(() => {
     void appDispatch(getByTemplateType("No Pending Skill Map Forms"))
