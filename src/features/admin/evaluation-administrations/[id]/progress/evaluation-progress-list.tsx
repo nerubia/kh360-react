@@ -27,6 +27,7 @@ import { EvaluationAdministrationStatus } from "@custom-types/evaluation-adminis
 import { convertToFullDateAndTime, shortenFormatDate } from "@utils/format-date"
 import { useMobileView } from "@hooks/use-mobile-view"
 import { WebSocketContext, type WebSocketType } from "@components/providers/websocket"
+import useSmoothScrollToTop from "@hooks/use-smooth-scroll-to-top"
 
 const EvaluationAdminDialog = lazy(
   async () =>
@@ -36,6 +37,7 @@ const EvaluationAdminDialog = lazy(
 export const EvaluationProgressList = () => {
   const appDispatch = useAppDispatch()
   const { id } = useParams()
+  const scrollToTop = useSmoothScrollToTop()
 
   const { user } = useAppSelector((state) => state.auth)
   const { evaluation_administration } = useAppSelector((state) => state.evaluationAdministration)
@@ -223,13 +225,12 @@ export const EvaluationProgressList = () => {
         }
 
         if (result.type === "evaluations/approveRequest/rejected") {
+          scrollToTop()
           void appDispatch(
-            appDispatch(
-              setAlert({
-                description: result.payload,
-                variant: "destructive",
-              })
-            )
+            setAlert({
+              description: result.payload,
+              variant: "destructive",
+            })
           )
         }
       } catch (error) {}
@@ -267,13 +268,12 @@ export const EvaluationProgressList = () => {
           )
         }
         if (result.type === "evaluations/declineRequest/rejected") {
+          scrollToTop()
           void appDispatch(
-            appDispatch(
-              setAlert({
-                description: result.payload,
-                variant: "destructive",
-              })
-            )
+            setAlert({
+              description: result.payload,
+              variant: "destructive",
+            })
           )
         }
       } catch (error) {}
