@@ -203,7 +203,7 @@ export const EvaluatorsList = () => {
           )
           appDispatch(
             setAlert({
-              description: result.payload,
+              description: result.payload.message,
               variant: "destructive",
             })
           )
