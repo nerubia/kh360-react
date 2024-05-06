@@ -45,10 +45,12 @@ export const SkillMapFormsList = () => {
                   <div className='flex gap-2 items-center'>
                     <h2 className='text-primary-500 text-lg font-semibold'>{skillMap.name}</h2>
                     <Badge
-                      variant={getEvaluationAdministrationStatusVariant(skillMap?.status)}
+                      variant={getEvaluationAdministrationStatusVariant(
+                        skillMap.skill_map_result_status
+                      )}
                       size='small'
                     >
-                      <div className='uppercase'>{skillMap?.status}</div>
+                      <div className='uppercase'>{skillMap?.skill_map_result_status}</div>
                     </Badge>
                   </div>
                   <div>

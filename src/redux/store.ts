@@ -3,6 +3,7 @@ import appReducer from "@redux/slices/app-slice"
 import authReducer from "@redux/slices/auth-slice"
 
 import answerReducer from "@redux/slices/answer-slice"
+import answerOptionsReducer from "@redux/slices/answer-options-slice"
 import clientsReducer from "@redux/slices/clients-slice"
 import emailTemplateReducer from "@redux/slices/email-template-slice"
 import evaluationAdministrationReducer from "@redux/slices/evaluation-administration-slice"
@@ -43,6 +44,7 @@ export const store = configureStore({
   reducer: {
     app: appReducer,
     answer: answerReducer,
+    answerOptions: answerOptionsReducer,
     auth: authReducer,
     clients: clientsReducer,
     emailTemplate: emailTemplateReducer,

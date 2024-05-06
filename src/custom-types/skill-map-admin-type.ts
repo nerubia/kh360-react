@@ -12,6 +12,7 @@ export interface SkillMapAdministration {
   totalSkillMaps?: number
   totalSubmitted?: number
   totalPending?: number
+  skill_map_result_status?: string
 }
 
 export enum SkillMapAdminStatus {

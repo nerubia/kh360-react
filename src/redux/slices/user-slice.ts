@@ -23,7 +23,11 @@ import {
 import { type SurveyTemplateQuestion } from "@custom-types/survey-template-question-type"
 import { type SurveyResultsFormData, type ExternalUserFormData } from "@custom-types/form-data-type"
 import { type SurveyResult } from "@custom-types/survey-result-type"
-import { type SkillMapAdministration } from "@custom-types/skill-map-admin-type"
+import {
+  type SkillMapAdministration,
+  type SkillMapAdminFilters,
+} from "@custom-types/skill-map-admin-type"
+import { type SkillMapRating, type SkillMapRatings } from "@custom-types/skill-map-rating-type"
 
 export const getUserEvaluations = createAsyncThunk(
   "user/getUserEvaluations",
@@ -231,12 +235,45 @@ export const sendRequestToRemove = createAsyncThunk(
 )
 
 export const getUserSkillMapAdministrations = createAsyncThunk(
-  "user/getUserSkillmapAdministrations",
-  async (params: SurveyAdministrationFilters | undefined, thunkApi) => {
+  "user/getUserSkillMapAdministrations",
+  async (params: SkillMapAdminFilters | undefined, thunkApi) => {
     try {
       const response = await axiosInstance.get("/user/skill-map-administrations", {
         params,
       })
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const getUserSkillMapRatings = createAsyncThunk(
+  "user/getUserSkillMapRatings",
+  async (skill_map_administration_id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.get(`/user/skill-map-ratings`, {
+        params: { skill_map_administration_id },
+      })
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const submitSkillMapRatings = createAsyncThunk(
+  "user/submitSkillMapRatings",
+  async (data: SkillMapRatings, thunkApi) => {
+    try {
+      const response = await axiosInstance.post(
+        `/user/skill-map-administrations/${data.skill_map_administration_id}/submit`,
+        data
+      )
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -262,6 +299,8 @@ interface InitialState {
   user_companion_questions: SurveyTemplateQuestion[]
   user_survey_answers: SurveyAnswer[]
   user_skill_map_admins: SkillMapAdministration[]
+  user_skill_map_ratings: SkillMapRating[]
+  skill_map_result_status: string | null
   survey_result_status: string | null
   my_evaluation_administrations: EvaluationAdministration[]
   user_evaluation_result: EvaluationResult | null
@@ -289,6 +328,8 @@ const initialState: InitialState = {
   user_survey_companion: null,
   survey_result_status: null,
   user_skill_map_admins: [],
+  user_skill_map_ratings: [],
+  skill_map_result_status: null,
   my_evaluation_administrations: [],
   user_evaluation_result: null,
   hasPreviousPage: false,
@@ -342,6 +383,9 @@ const userSlice = createSlice({
     },
     updateSurveyResultStatus: (state, action) => {
       state.survey_result_status = action.payload
+    },
+    updateSkillMapResultStatus: (state, action) => {
+      state.skill_map_result_status = action.payload
     },
   },
   extraReducers(builder) {
@@ -616,6 +660,39 @@ const userSlice = createSlice({
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
+    /**
+     * Get user skill map ratings
+     */
+    builder.addCase(getUserSkillMapRatings.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getUserSkillMapRatings.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.user_skill_map_ratings = action.payload.user_skill_map_ratings
+      state.user_skill_map_admins = [action.payload.skill_map_administration]
+      state.skill_map_result_status = action.payload.skill_map_result_status
+    })
+    builder.addCase(getUserSkillMapRatings.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Submit skill map ratings
+     */
+    builder.addCase(submitSkillMapRatings.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(submitSkillMapRatings.fulfilled, (state) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+    })
+    builder.addCase(submitSkillMapRatings.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
   },
 })
 
@@ -624,5 +701,6 @@ export const {
   updateTotalEvaluations,
   updateTotalSubmitted,
   updateSurveyResultStatus,
+  updateSkillMapResultStatus,
 } = userSlice.actions
 export default userSlice.reducer

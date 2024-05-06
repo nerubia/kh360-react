@@ -1,18 +1,26 @@
 import { useState, useEffect } from "react"
 import { Button } from "@components/ui/button/button"
-import { useNavigate, useSearchParams } from "react-router-dom"
+import { useNavigate, useParams, useSearchParams } from "react-router-dom"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { CustomDialog } from "@components/ui/dialog/custom-dialog"
 import { Slider } from "@components/ui/slider/slider"
 import { Icon } from "@components/ui/icon/icon"
-import { type Skill, SkillMapRating } from "@custom-types/skill-type"
+import { type Skill } from "@custom-types/skill-type"
 import { setCheckedUserSkills, setSelectedUserSkills } from "@redux/slices/user-skills-slice"
 import { useAppDispatch } from "@hooks/useAppDispatch"
+import { getAnswerOptionsByType } from "@redux/slices/answer-options-slice"
+import { type SkillMapRating, RatingAnswerOption } from "@custom-types/skill-map-rating-type"
+import { submitSkillMapRatings, updateSkillMapResultStatus } from "@redux/slices/user-slice"
+import { setAlert } from "@redux/slices/app-slice"
+import { SkillMapResultStatus } from "@custom-types/skill-map-result-type"
 
 export const SkillMapFormTable = () => {
   const navigate = useNavigate()
   const appDispatch = useAppDispatch()
+  const { id } = useParams()
+  const { user_skill_map_ratings, skill_map_result_status } = useAppSelector((state) => state.user)
   const { selectedUserSkills } = useAppSelector((state) => state.userSkills)
+  const { answer_options } = useAppSelector((state) => state.answerOptions)
   const [searchParams] = useSearchParams()
 
   const skill_category_id = searchParams.get("skill_category_id")
@@ -23,51 +31,17 @@ export const SkillMapFormTable = () => {
   const [displayedSkills, setDisplayedSkills] = useState<Skill[]>([])
 
   useEffect(() => {
-    // Hard coded data for now
-    const user_skill_map_skills: Skill[] = [
-      {
-        id: 1,
-        name: "Adobe Flex",
-        skill_category_id: 1,
-        description: "Desc",
-        sequence_no: 1,
-        status: true,
-        skill_categories: {
-          id: 1,
-          name: "Programming Languages",
-          sequence_no: 1,
-          description: "Desc",
-          status: true,
-        },
-        previous_rating: "Beginner",
-        rating: "Beginner",
-      },
-      {
-        id: 2,
-        name: "Action Script",
-        skill_category_id: 1,
-        description: "Desc",
-        sequence_no: 2,
-        status: true,
-        skill_categories: {
-          id: 1,
-          name: "Programming Languages",
-          sequence_no: 1,
-          description: "Desc",
-          status: true,
-        },
-        previous_rating: "Intermediate",
-        rating: "Intermediate",
-      },
-    ]
+    void appDispatch(getAnswerOptionsByType("Skill Map Scale"))
+  }, [])
 
+  useEffect(() => {
     const filteredSelectedUserSkills = selectedUserSkills.filter(
-      (skill) => !user_skill_map_skills.some((mapSkill) => mapSkill.id === skill.id)
+      (skill) => !user_skill_map_ratings.some((mapSkill) => mapSkill.id === skill.id)
     )
 
-    appDispatch(setSelectedUserSkills([...user_skill_map_skills, ...filteredSelectedUserSkills]))
-    appDispatch(setCheckedUserSkills([...user_skill_map_skills, ...filteredSelectedUserSkills]))
-  }, [])
+    appDispatch(setSelectedUserSkills([...user_skill_map_ratings, ...filteredSelectedUserSkills]))
+    appDispatch(setCheckedUserSkills([...user_skill_map_ratings, ...filteredSelectedUserSkills]))
+  }, [user_skill_map_ratings])
 
   useEffect(() => {
     if (skill_category_id === "all") {
@@ -93,13 +67,46 @@ export const SkillMapFormTable = () => {
   }
 
   const handleSubmit = async () => {
-    // Console log submit for now
-    // Please REMOVE this log when integrating API
-    /* eslint-disable */
-    console.log(
-      "Pass this when submitting (REMOVE this when integrating API): ",
-      selectedUserSkills
-    )
+    if (id !== undefined) {
+      try {
+        const skillMapRatings: SkillMapRating[] = selectedUserSkills.map((skill) => {
+          return {
+            skill_map_administration_id: parseInt(id),
+            skill_id: skill.id,
+            skill_category_id: skill.skill_category_id,
+            answer_option_id: skill.rating?.id,
+          }
+        })
+        const result = await appDispatch(
+          submitSkillMapRatings({
+            skill_map_ratings: skillMapRatings,
+            skill_map_administration_id: parseInt(id),
+          })
+        )
+
+        if (result.type === "user/submitSkillMapRatings/fulfilled") {
+          appDispatch(
+            setAlert({
+              description: "Successfully submitted skill map ratings",
+              variant: "success",
+            })
+          )
+          appDispatch(updateSkillMapResultStatus(SkillMapResultStatus.Submitted))
+        }
+        if (result.type === "user/submitSkillMapRatings/rejected") {
+          appDispatch(
+            setAlert({
+              description: result.payload,
+              variant: "desctructive",
+            })
+          )
+        }
+      } catch (error) {}
+    }
+
+    // try {
+    //   const result = await appDispatch(submitSkillMapRatings(selectedUserSkills))
+    // }
   }
 
   const handleDelete = async (id: number) => {
@@ -143,25 +150,28 @@ export const SkillMapFormTable = () => {
   }
 
   const getSkillRating = (ratingValue: number) => {
-    if (ratingValue === SkillMapRating.Beginner) {
-      return "Beginner"
-    } else if (ratingValue === SkillMapRating.Intermediate) {
-      return "Intermediate"
-    } else if (ratingValue === SkillMapRating.Expert) {
-      return "Expert"
-    } else {
-      return ""
+    let ratingName = ""
+    if (ratingValue === RatingAnswerOption.Beginner) {
+      ratingName = "Beginner"
+    } else if (ratingValue === RatingAnswerOption.Intermediate) {
+      ratingName = "Intermediate"
+    } else if (ratingValue === RatingAnswerOption.Expert) {
+      ratingName = "Expert"
     }
+
+    const answerOption = answer_options.find((option) => option.display_name === ratingName)
+
+    return answerOption
   }
 
   const getSkillRatingValue = (rating: string) => {
     switch (rating) {
       case "Beginner":
-        return SkillMapRating.Beginner
+        return RatingAnswerOption.Beginner
       case "Intermediate":
-        return SkillMapRating.Intermediate
+        return RatingAnswerOption.Intermediate
       case "Expert":
-        return SkillMapRating.Expert
+        return RatingAnswerOption.Expert
       default:
         return undefined
     }
@@ -181,9 +191,9 @@ export const SkillMapFormTable = () => {
               <th className='py-1 border-b-4 mr-2 text-center text-primary-500 md:w-1/3'>
                 Rating
                 <div className='flex justify-between font-normal text-sm mt-2'>
-                  <p>Beginner</p>
-                  <p>Intermediate</p>
-                  <p>Expert</p>
+                  {answer_options.map((option, index) => (
+                    <p key={index}>{option.display_name}</p>
+                  ))}
                 </div>
               </th>
               <th className='px-10 border-b-4 mr-2 text-center text-primary-500 md:w-1/4'></th>
@@ -196,13 +206,20 @@ export const SkillMapFormTable = () => {
                   <div>{skill?.name}</div>
                 </td>
                 <td className='py-1 border-b text-start'>{skill?.skill_categories.name}</td>
-                <td className='py-1 border-b text-start'>{skill?.previous_rating}</td>
+                <td className='py-1 border-b text-start'>
+                  {skill?.previous_rating?.display_name ?? "No Rating"}
+                </td>
                 <td className='py-1 border-b text-start'>
                   <Slider
-                    sliderValue={getSkillRatingValue(skill.rating) ?? 0}
-                    variant={getSkillRatingValue(skill.rating) === undefined ? "empty" : "primary"}
+                    sliderValue={getSkillRatingValue(skill.rating?.display_name ?? "") ?? 0}
+                    variant={
+                      getSkillRatingValue(skill.rating?.display_name ?? "") === undefined
+                        ? "empty"
+                        : "primary"
+                    }
                     handleSliderChange={(e) => handleSliderChange(e, skill.id)}
-                    onClick={(e) => handleSliderClick(e, skill.rating, skill.id)}
+                    onClick={(e) => handleSliderClick(e, skill.rating?.display_name, skill.id)}
+                    disabled={skill_map_result_status === SkillMapResultStatus.Submitted}
                   />
                 </td>
                 <td className='py-1 border-b items-center '>
@@ -213,6 +230,7 @@ export const SkillMapFormTable = () => {
                       onClick={async () => {
                         await handleDelete(skill.id)
                       }}
+                      disabled={skill_map_result_status === SkillMapResultStatus.Submitted}
                     >
                       <Icon icon='Trash' size='extraSmall' color='gray' />
                     </Button>
@@ -222,18 +240,33 @@ export const SkillMapFormTable = () => {
             ))}
           </tbody>
         </table>
-        <div className='mt-4'>
-          <Button onClick={handleAddSkill} variant={"ghost"}>
-            <Icon icon='Plus' size='small' color='primary' />
-            <p className='text-primary-500 uppercase whitespace-nowrap text-sm'>Add New Skills</p>
-          </Button>
-        </div>
+        {skill_map_result_status !== SkillMapResultStatus.Submitted && (
+          <div className='mt-4'>
+            <Button onClick={handleAddSkill} variant={"ghost"}>
+              <Icon icon='Plus' size='small' color='primary' />
+              <p className='text-primary-500 uppercase whitespace-nowrap text-sm'>Add New Skills</p>
+            </Button>
+          </div>
+        )}
       </div>
       <div className='flex justify-between mt-5 pb-4'>
-        <Button variant='primaryOutline' onClick={() => toggleBackDialog()}>
-          {"Cancel & Exit"}
+        <Button
+          variant='primaryOutline'
+          onClick={() =>
+            skill_map_result_status === SkillMapResultStatus.Submitted
+              ? handleRedirect()
+              : toggleBackDialog()
+          }
+        >
+          {skill_map_result_status === SkillMapResultStatus.Submitted
+            ? "Back to List"
+            : "Cancel & Exit"}
         </Button>
-        <Button variant='primary' onClick={toggleSubmitDialog}>
+        <Button
+          variant='primary'
+          onClick={toggleSubmitDialog}
+          disabled={skill_map_result_status === SkillMapResultStatus.Submitted}
+        >
           Save & Submit
         </Button>
       </div>

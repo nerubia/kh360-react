@@ -7,7 +7,6 @@ import { Pagination } from "@components/shared/pagination/pagination"
 import { getSkills } from "@redux/slices/skills-slice"
 import { setCheckedUserSkills } from "@redux/slices/user-skills-slice"
 import { Checkbox } from "@components/ui/checkbox/checkbox"
-import { type Skill } from "@custom-types/skill-type"
 
 export const AddSkillsTable = () => {
   const [searchParams] = useSearchParams()
@@ -16,45 +15,9 @@ export const AddSkillsTable = () => {
   const { skills, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
     (state) => state.skills
   )
+  const { user_skill_map_ratings } = useAppSelector((state) => state.user)
 
   const { checkedUserSkills } = useAppSelector((state) => state.userSkills)
-
-  const user_skill_map_skills: Skill[] = [
-    {
-      id: 1,
-      name: "Adobe Flex",
-      skill_category_id: 1,
-      description: "Desc",
-      sequence_no: 1,
-      status: true,
-      skill_categories: {
-        id: 1,
-        name: "Programming Languages",
-        sequence_no: 1,
-        description: "Desc",
-        status: true,
-      },
-      previous_rating: "Beginner",
-      rating: "",
-    },
-    {
-      id: 2,
-      name: "Action Script",
-      skill_category_id: 1,
-      description: "Desc",
-      sequence_no: 2,
-      status: true,
-      skill_categories: {
-        id: 1,
-        name: "Programming Languages",
-        sequence_no: 1,
-        description: "Desc",
-        status: true,
-      },
-      previous_rating: "Beginner",
-      rating: "",
-    },
-  ]
 
   useEffect(() => {
     void appDispatch(
@@ -116,7 +79,7 @@ export const AddSkillsTable = () => {
                   <Checkbox
                     checked={checkedUserSkills.map((skill) => skill.id).includes(skill.id)}
                     onChange={(checked) => handleClickCheckbox(checked, skill.id)}
-                    disabled={user_skill_map_skills.map((skill) => skill.id).includes(skill.id)}
+                    disabled={user_skill_map_ratings.map((skill) => skill.id).includes(skill.id)}
                   />
                 </div>
                 <div className='py-2 px-2 whitespace-pre-line break-all'>{skill.name}</div>
