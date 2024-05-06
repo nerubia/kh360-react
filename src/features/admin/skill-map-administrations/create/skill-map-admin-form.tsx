@@ -20,6 +20,7 @@ import { DateRangePicker } from "@components/ui/date-range-picker/date-range-pic
 import { type DateValueType, type DateType } from "react-tailwindcss-datepicker"
 import { createSkillMapAdminSchema } from "@utils/validation/skill-map-admin-schema"
 import { setSkillMapResults } from "@redux/slices/skill-map-results-slice"
+import { SkillMapAdminStatus } from "@custom-types/skill-map-admin-type"
 
 const SkillMapAdminDialog = lazy(
   async () =>
@@ -121,7 +122,11 @@ export const SkillMapAdminForm = () => {
           updateSkillMapAdmin({ id: parseInt(id), skillMapAdmin: formData })
         )
         if (result.type === "skillMapAdministration/updateSkillMapAdmin/fulfilled") {
-          navigate(`/admin/skill-map-administrations/${result.payload.id}`)
+          if (skill_map_administration?.status === SkillMapAdminStatus.Draft) {
+            navigate(`/admin/skill-map-administrations/${result.payload.id}/select`)
+          } else {
+            navigate(`/admin/skill-map-administrations/${result.payload.id}`)
+          }
         }
         if (result.type === "skillMapAdministration/updateSkillMapAdmin/rejected") {
           appDispatch(
@@ -266,7 +271,9 @@ export const SkillMapAdminForm = () => {
             onClick={async () => (id === undefined ? await handleSubmit() : await handleEdit())}
             loading={loading === Loading.Pending}
           >
-            {id === undefined ? "Save & Proceed" : "Save"}
+            {id === undefined || skill_map_administration?.status === SkillMapAdminStatus.Draft
+              ? "Save & Proceed"
+              : "Save"}
           </Button>
         </div>
       </div>
