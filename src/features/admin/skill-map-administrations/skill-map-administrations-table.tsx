@@ -81,6 +81,7 @@ export const SkillMapAdministrationsTable = () => {
           data={skill_map_administrations}
           isRowClickable={true}
           onClickRow={handleViewSkillMapAdmin}
+          customWidth='w-6/12'
         />
       </div>
       <div className='w-full md:hidden' data-testid='skill-map-admin-list'>
