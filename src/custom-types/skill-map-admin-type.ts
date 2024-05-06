@@ -21,7 +21,6 @@ export enum SkillMapAdminStatus {
   Ongoing = "Ongoing",
   Closed = "Closed",
   Cancelled = "Cancelled",
-  Published = "Published",
 }
 
 export interface SkillMapAdminFilters {
