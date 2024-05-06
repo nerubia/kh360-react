@@ -19,23 +19,13 @@ export default function ViewSkillMapAdministration() {
 
   const { id } = useParams()
   const appDispatch = useAppDispatch()
-  const { loading } = useAppSelector((state) => state.skillMapAdministration)
+  const { loading, skill_map_administration } = useAppSelector(
+    (state) => state.skillMapAdministration
+  )
   const { loading: loading_skill_map_results, skill_map_results } = useAppSelector(
     (state) => state.skillMapResults
   )
   const { lastJsonMessage } = useContext(WebSocketContext) as WebSocketType
-
-  // Sample hard-coded data for now...
-  const skill_map_administration = {
-    id: 1,
-    name: "This is a sample skill map admin",
-    status: "Ongoing",
-    remarks: "This is a sample description",
-    skill_map_period_start_date: "2024-04-06",
-    skill_map_period_end_date: "2023-03-14",
-    skill_map_schedule_start_date: "2023-03-15",
-    skill_map_schedule_end_date: "2023-03-16",
-  }
 
   useEffect(() => {
     if (id !== undefined) {

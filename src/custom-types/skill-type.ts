@@ -1,4 +1,5 @@
 import { type SkillCategory } from "@custom-types/skill-category-type"
+import { type AnswerOption } from "./answer-option-type"
 
 export interface Skill {
   id: number
@@ -8,8 +9,8 @@ export interface Skill {
   description: string
   sequence_no: number
   status: boolean
-  previous_rating: string
-  rating: string
+  previous_rating?: AnswerOption
+  rating?: AnswerOption
 }
 
 export interface SkillFilters {
@@ -24,12 +25,6 @@ export interface SkillFilters {
 export enum SkillStatus {
   Active = "Active",
   Inactive = "Inactive",
-}
-
-export enum SkillMapRating {
-  Beginner = 1,
-  Intermediate = 2,
-  Expert = 3,
 }
 
 export const skillColumns = ["Name", "Category", "Description", "Status", "Actions"]
