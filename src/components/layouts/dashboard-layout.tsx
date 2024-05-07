@@ -1,4 +1,4 @@
-import { Suspense } from "react"
+import { Suspense, useEffect } from "react"
 import { Outlet, useLocation } from "react-router-dom"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { useAppDispatch } from "@hooks/useAppDispatch"
@@ -8,16 +8,22 @@ import { Sidebar } from "@components/shared/sidebar/sidebar"
 import { Button, LinkButton } from "@components/ui/button/button"
 import { Alert } from "@components/ui/alert/alert"
 import { useMobileView } from "@hooks/use-mobile-view"
+import useSmoothScrollToTop from "@hooks/use-smooth-scroll-to-top"
 
 export default function DashboardLayout() {
   const { activeSidebar, alertDescription, alertVariant } = useAppSelector((state) => state.app)
   const appDispatch = useAppDispatch()
   const location = useLocation()
+  const scrollToTop = useSmoothScrollToTop()
 
   const toggleSidebar = () => {
     appDispatch(setActiveSidebar(!activeSidebar))
   }
   const isMediumSize = useMobileView(1028)
+
+  useEffect(() => {
+    scrollToTop()
+  }, [alertDescription])
 
   // Define a regex pattern for the URL format
   const urlPattern = /^\/evaluation-administrations\/\d+\/evaluations\/\d+$/
