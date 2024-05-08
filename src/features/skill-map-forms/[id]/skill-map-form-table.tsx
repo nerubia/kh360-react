@@ -97,7 +97,7 @@ export const SkillMapFormTable = () => {
           appDispatch(
             setAlert({
               description: result.payload,
-              variant: "desctructive",
+              variant: "destructive",
             })
           )
         }
