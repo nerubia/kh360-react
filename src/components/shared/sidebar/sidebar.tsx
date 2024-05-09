@@ -36,7 +36,7 @@ const menuLinks: MenuLink[] = [
   }, */
   {
     title: "My Evaluations",
-    link: routes.private.internalUser.myEvaluations,
+    link: routes.private.internalUser.mySkillMap,
     icon: "ClipboardCheck",
     access: "Internal",
   },
@@ -56,6 +56,12 @@ const menuLinks: MenuLink[] = [
     title: "Survey Forms",
     link: routes.private.internalUser.surveyForms,
     icon: "Clipboard",
+    access: "Internal",
+  },
+  {
+    title: "My Skill Map",
+    link: routes.private.internalUser.skillMapForms,
+    icon: "LineChart",
     access: "Internal",
   },
   {
@@ -100,6 +106,18 @@ const menuLinks: MenuLink[] = [
         title: "Skill Map Admin List",
         link: routes.private.admin.skillMapAdministrations,
         icon: "PenSquare",
+        access: "Admin",
+      },
+      {
+        title: "Skill Map Search",
+        link: routes.private.admin.skillMapSearch,
+        icon: "SearchCheck",
+        access: "Admin",
+      },
+      {
+        title: "Skill Map Results",
+        link: routes.private.admin.skillMapResults,
+        icon: "FileLineChart",
         access: "Admin",
       },
     ],
