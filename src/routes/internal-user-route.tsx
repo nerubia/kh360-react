@@ -49,6 +49,10 @@ export const internalUserRoutes = {
       element: <SkillMapForms />,
     },
     {
+      path: routes.private.internalUser.mySkillMap,
+      element: <></>,
+    },
+    {
       path: routes.private.internalUser.skillMapForm,
       element: <SkillMapForm />,
     },
