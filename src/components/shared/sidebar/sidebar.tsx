@@ -36,7 +36,7 @@ const menuLinks: MenuLink[] = [
   }, */
   {
     title: "My Evaluations",
-    link: routes.private.internalUser.mySkillMap,
+    link: routes.private.internalUser.myEvaluations,
     icon: "ClipboardCheck",
     access: "Internal",
   },
@@ -60,7 +60,7 @@ const menuLinks: MenuLink[] = [
   },
   {
     title: "My Skill Map",
-    link: routes.private.internalUser.skillMapForms,
+    link: routes.private.internalUser.mySkillMap,
     icon: "LineChart",
     access: "Internal",
   },
