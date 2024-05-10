@@ -223,18 +223,20 @@ export const SkillMapFormTable = () => {
                   />
                 </td>
                 <td className='py-1 border-b items-center '>
-                  <div className='flex gap-2 justify-center'>
-                    <Button
-                      testId={`DeleteButton${skill.id}`}
-                      variant='unstyled'
-                      onClick={async () => {
-                        await handleDelete(skill.id)
-                      }}
-                      disabled={skill_map_result_status === SkillMapResultStatus.Submitted}
-                    >
-                      <Icon icon='Trash' size='extraSmall' color='gray' />
-                    </Button>
-                  </div>
+                  {skill_map_result_status !== SkillMapResultStatus.Submitted && (
+                    <div className='flex gap-2 justify-center'>
+                      <Button
+                        testId={`DeleteButton${skill.id}`}
+                        variant='unstyled'
+                        onClick={async () => {
+                          await handleDelete(skill.id)
+                        }}
+                        disabled={skill_map_result_status === SkillMapResultStatus.Submitted}
+                      >
+                        <Icon icon='Trash' size='extraSmall' color='gray' />
+                      </Button>
+                    </div>
+                  )}
                 </td>
               </tr>
             ))}
