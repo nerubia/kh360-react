@@ -5,11 +5,12 @@ import { formatDate } from "@utils/format-date"
 import { type User } from "@custom-types/user-type"
 import { type EvaluationResult } from "@custom-types/evaluation-result-type"
 import { type SurveyResult } from "@custom-types/survey-result-type"
+import { type SkillMapResult } from "@custom-types/skill-map-result-type"
 
 interface SelectUsersTableProps {
   users: User[]
   selectedEmployeeIds: number[]
-  selectResults: Array<EvaluationResult | SurveyResult> // Union type
+  selectResults: Array<EvaluationResult | SurveyResult | SkillMapResult> // Union type
   handleSelectAll: (checked: boolean) => void
   handleClickCheckbox: (checked: boolean, employeeId: number) => void
   hasPreviousPage: boolean

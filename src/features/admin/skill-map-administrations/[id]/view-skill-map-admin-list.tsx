@@ -159,7 +159,7 @@ export const ViewSkillMapAdminList = () => {
                 <Button
                   variant='unstyled'
                   size='small'
-                  onClick={() => toggleDeleteDialog(parseInt(skillMapResult.id as string))}
+                  onClick={() => toggleDeleteDialog(skillMapResult.id)}
                 >
                   <Icon icon='Trash' size='extraSmall' color='gray' />
                 </Button>
@@ -224,7 +224,7 @@ export const ViewSkillMapAdminList = () => {
                     onClick={async () =>
                       await handleReopenByRespondent(
                         skillMapResult.users?.first_name as string,
-                        parseInt(skillMapResult.id as string)
+                        skillMapResult.id
                       )
                     }
                   >

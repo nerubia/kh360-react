@@ -2,12 +2,13 @@ import { type User } from "./user-type"
 import { type EmailLog } from "./email-log-type"
 
 export interface SkillMapResult {
-  id?: string
+  id: number
   skill_map_administration_id?: string
   status?: string
   remarks?: string
   users?: User
   email_logs?: EmailLog[]
+  last_skill_map_date?: string
 }
 
 export interface SkillMapResultFilters {
@@ -17,7 +18,7 @@ export interface SkillMapResultFilters {
   status?: string
 }
 
-export const columns = ["Name", "Description", "Schedule"]
+export const columns = ["Employee Name", "Latest Skill Map"]
 
 export enum SkillMapResultStatus {
   Open = "Open",
