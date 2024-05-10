@@ -185,7 +185,7 @@ const skillMapResultsSlice = createSlice({
       const deletedIds: number[] = action.payload.deletedIds.map((id: string) => parseInt(id))
 
       state.skill_map_results = state.skill_map_results?.filter(
-        (result) => !deletedIds.includes(parseInt(result.id as string))
+        (result) => !deletedIds.includes(result.id)
       )
     })
     builder.addCase(deleteSkillMapResult.rejected, (state, action) => {
@@ -204,7 +204,7 @@ const skillMapResultsSlice = createSlice({
       state.error = null
 
       const index = state.skill_map_results.findIndex(
-        (result) => parseInt(result.id as string) === parseInt(action.payload.id)
+        (result) => result.id === parseInt(action.payload.id)
       )
 
       if (index !== -1) {
