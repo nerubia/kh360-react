@@ -10,7 +10,12 @@ import { setCheckedUserSkills, setSelectedUserSkills } from "@redux/slices/user-
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { getAnswerOptionsByType } from "@redux/slices/answer-options-slice"
 import { type SkillMapRating, RatingAnswerOption } from "@custom-types/skill-map-rating-type"
-import { submitSkillMapRatings, updateSkillMapResultStatus } from "@redux/slices/user-slice"
+import {
+  submitSkillMapRatings,
+  updateSkillMapResultStatus,
+  getUserSkillMapRatings,
+  getUserSkillMapRatingSubmitted,
+} from "@redux/slices/user-slice"
 import { setAlert } from "@redux/slices/app-slice"
 import { SkillMapResultStatus } from "@custom-types/skill-map-result-type"
 
@@ -29,10 +34,22 @@ export const SkillMapFormTable = () => {
   const [showBackDialog, setShowBackDialog] = useState<boolean>(false)
 
   const [displayedSkills, setDisplayedSkills] = useState<Skill[]>([])
+  const [submittedSkill, setSumittedSkill] = useState<Skill[]>([])
 
   useEffect(() => {
     void appDispatch(getAnswerOptionsByType("Skill Map Scale"))
+    if (id !== undefined) {
+      void appDispatch(getUserSkillMapRatingSubmitted(parseInt(id))).then((res) => {
+        setSumittedSkill(res.payload.skill_map_rating_submitted)
+      })
+    }
   }, [])
+
+  useEffect(() => {
+    if (id !== undefined) {
+      void appDispatch(getUserSkillMapRatings(parseInt(id)))
+    }
+  }, [skill_map_result_status])
 
   useEffect(() => {
     const filteredSelectedUserSkills = selectedUserSkills.filter(
@@ -92,6 +109,9 @@ export const SkillMapFormTable = () => {
             })
           )
           appDispatch(updateSkillMapResultStatus(SkillMapResultStatus.Submitted))
+          void appDispatch(getUserSkillMapRatingSubmitted(parseInt(id))).then((res) => {
+            setSumittedSkill(res.payload.skill_map_rating_submitted)
+          })
         }
         if (result.type === "user/submitSkillMapRatings/rejected") {
           appDispatch(
@@ -176,6 +196,18 @@ export const SkillMapFormTable = () => {
         return undefined
     }
   }
+  const answerOption = (answerOption: number) => {
+    switch (answerOption) {
+      case 7:
+        return RatingAnswerOption.Beginner
+      case 8:
+        return RatingAnswerOption.Intermediate
+      case 9:
+        return RatingAnswerOption.Expert
+      default:
+        return undefined
+    }
+  }
 
   return (
     <div>
@@ -200,46 +232,83 @@ export const SkillMapFormTable = () => {
             </tr>
           </thead>
           <tbody>
-            {displayedSkills.map((skill, index) => (
-              <tr key={index} className='hover:bg-slate-100'>
-                <td className='py-1 border-b'>
-                  <div>{skill?.name}</div>
-                </td>
-                <td className='py-1 border-b text-start'>{skill?.skill_categories.name}</td>
-                <td className='py-1 border-b text-start'>
-                  {skill?.previous_rating?.display_name ?? "No Rating"}
-                </td>
-                <td className='py-1 border-b text-start'>
-                  <Slider
-                    sliderValue={getSkillRatingValue(skill.rating?.display_name ?? "") ?? 0}
-                    variant={
-                      getSkillRatingValue(skill.rating?.display_name ?? "") === undefined
-                        ? "empty"
-                        : "primary"
-                    }
-                    handleSliderChange={(e) => handleSliderChange(e, skill.id)}
-                    onClick={(e) => handleSliderClick(e, skill.rating?.display_name, skill.id)}
-                    disabled={skill_map_result_status === SkillMapResultStatus.Submitted}
-                  />
-                </td>
-                <td className='py-1 border-b items-center '>
-                  {skill_map_result_status !== SkillMapResultStatus.Submitted && (
-                    <div className='flex gap-2 justify-center'>
-                      <Button
-                        testId={`DeleteButton${skill.id}`}
-                        variant='unstyled'
-                        onClick={async () => {
-                          await handleDelete(skill.id)
-                        }}
-                        disabled={skill_map_result_status === SkillMapResultStatus.Submitted}
-                      >
-                        <Icon icon='Trash' size='extraSmall' color='gray' />
-                      </Button>
-                    </div>
-                  )}
-                </td>
-              </tr>
-            ))}
+            {skill_map_result_status !== SkillMapResultStatus.Submitted &&
+              displayedSkills.map((skill, index) => (
+                <tr key={index} className='hover:bg-slate-100'>
+                  <td className='py-1 border-b'>
+                    <div>{skill?.name}</div>
+                  </td>
+                  <td className='py-1 border-b text-start'>{skill?.skill_categories.name}</td>
+                  <td className='py-1 border-b text-start'>
+                    {skill?.previous_rating?.display_name ?? "No Rating"}
+                  </td>
+                  <td className='py-1 border-b text-start'>
+                    <Slider
+                      sliderValue={getSkillRatingValue(skill.rating?.display_name ?? "") ?? 0}
+                      variant={
+                        getSkillRatingValue(skill.rating?.display_name ?? "") === undefined
+                          ? "empty"
+                          : "primary"
+                      }
+                      handleSliderChange={(e) => handleSliderChange(e, skill.id)}
+                      onClick={(e) => handleSliderClick(e, skill.rating?.display_name, skill.id)}
+                      disabled={skill_map_result_status === SkillMapResultStatus.Submitted}
+                    />
+                  </td>
+                  <td className='py-1 border-b items-center '>
+                    {skill_map_result_status !== SkillMapResultStatus.Submitted && (
+                      <div className='flex gap-2 justify-center'>
+                        <Button
+                          testId={`DeleteButton${skill.id}`}
+                          variant='unstyled'
+                          onClick={async () => {
+                            await handleDelete(skill.id)
+                          }}
+                          disabled={skill_map_result_status === SkillMapResultStatus.Submitted}
+                        >
+                          <Icon icon='Trash' size='extraSmall' color='gray' />
+                        </Button>
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            {submittedSkill.length !== 0 &&
+              submittedSkill.map((skill, index) => (
+                <tr key={index} className='hover:bg-slate-100'>
+                  <td className='py-1 border-b'>
+                    <div>{skill.skills?.name}</div>
+                  </td>
+                  <td className='py-1 border-b text-start'>{skill?.skill_categories.name}</td>
+                  <td className='py-1 border-b text-start'>
+                    {skill?.previous_rating?.display_name ?? "No Rating"}
+                  </td>
+                  <td className='py-1 border-b text-start'>
+                    <Slider
+                      sliderValue={answerOption(skill.answer_option_id) ?? 0}
+                      variant={"primary"}
+                      readOnly={true}
+                      disabled={skill_map_result_status === SkillMapResultStatus.Submitted}
+                    />
+                  </td>
+                  <td className='py-1 border-b items-center '>
+                    {skill_map_result_status !== SkillMapResultStatus.Submitted && (
+                      <div className='flex gap-2 justify-center'>
+                        <Button
+                          testId={`DeleteButton${skill.id}`}
+                          variant='unstyled'
+                          onClick={async () => {
+                            await handleDelete(skill.id)
+                          }}
+                          disabled={skill_map_result_status === SkillMapResultStatus.Submitted}
+                        >
+                          <Icon icon='Trash' size='extraSmall' color='gray' />
+                        </Button>
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
         {skill_map_result_status !== SkillMapResultStatus.Submitted && (

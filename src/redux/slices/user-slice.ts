@@ -266,6 +266,22 @@ export const getUserSkillMapRatings = createAsyncThunk(
   }
 )
 
+export const getUserSkillMapRatingSubmitted = createAsyncThunk(
+  "user/getUserSkillMapRatingSummited",
+  async (skill_map_administration_id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.get(`/user/skill-map-rating-submitted`, {
+        params: { skill_map_administration_id },
+      })
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const submitSkillMapRatings = createAsyncThunk(
   "user/submitSkillMapRatings",
   async (data: SkillMapRatings, thunkApi) => {
@@ -300,6 +316,7 @@ interface InitialState {
   user_survey_answers: SurveyAnswer[]
   user_skill_map_admins: SkillMapAdministration[]
   user_skill_map_ratings: SkillMapRating[]
+  user_skill_map_rating_submitted: SkillMapRating[]
   skill_map_result_status: string | null
   survey_result_status: string | null
   my_evaluation_administrations: EvaluationAdministration[]
@@ -326,6 +343,7 @@ const initialState: InitialState = {
   user_companion_questions: [],
   user_survey_answers: [],
   user_survey_companion: null,
+  user_skill_map_rating_submitted: [],
   survey_result_status: null,
   user_skill_map_admins: [],
   user_skill_map_ratings: [],
@@ -657,6 +675,23 @@ const userSlice = createSlice({
       state.totalItems = action.payload.pageInfo.totalItems
     })
     builder.addCase(getUserSkillMapAdministrations.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Get user skill map rating submitted
+     */
+    builder.addCase(getUserSkillMapRatingSubmitted.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getUserSkillMapRatingSubmitted.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.user_skill_map_rating_submitted = action.payload.user_skill_map_ratings
+      state.skill_map_result_status = action.payload.skill_map_result_status
+    })
+    builder.addCase(getUserSkillMapRatingSubmitted.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
