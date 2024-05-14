@@ -9,7 +9,7 @@ export const getAllSkillCategories = createAsyncThunk(
   "skillCategories/getAll",
   async (_, thunkApi) => {
     try {
-      const response = await axiosInstance.get("/admin/skill-categories/all")
+      const response = await axiosInstance.get("/user/skill-catogories/all")
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
