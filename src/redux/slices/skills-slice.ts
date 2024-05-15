@@ -9,7 +9,7 @@ export const getSkills = createAsyncThunk(
   "skills/getSkills",
   async (params: SkillFilters | undefined, thunkApi) => {
     try {
-      const response = await axiosInstance.get("/user/skills", {
+      const response = await axiosInstance.get("/admin/skills", {
         params,
       })
       return response.data
