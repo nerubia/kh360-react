@@ -26,6 +26,7 @@ interface InitialState {
   error: string | null
   user_skills: Skill[]
   selectedUserSkills: Skill[]
+  hasSelected: boolean
   hasPreviousPage: boolean
   hasNextPage: boolean
   totalPages: number
@@ -36,6 +37,7 @@ interface InitialState {
 const initialState: InitialState = {
   loading: Loading.Idle,
   error: null,
+  hasSelected: false,
   user_skills: [],
   selectedUserSkills: [],
   hasPreviousPage: false,
@@ -57,6 +59,9 @@ const userSkillsSlice = createSlice({
     },
     setCheckedUserSkills: (state, action) => {
       state.checkedUserSkills = action.payload
+    },
+    setHasSelected: (state, action) => {
+      state.hasSelected = action.payload
     },
   },
   extraReducers(builder) {
@@ -83,6 +88,6 @@ const userSkillsSlice = createSlice({
   },
 })
 
-export const { setUserSkills, setSelectedUserSkills, setCheckedUserSkills } =
+export const { setUserSkills, setSelectedUserSkills, setCheckedUserSkills, setHasSelected } =
   userSkillsSlice.actions
 export default userSkillsSlice.reducer
