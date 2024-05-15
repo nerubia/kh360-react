@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
 import { type ApiError } from "@custom-types/apiErrorType"
@@ -300,6 +301,7 @@ interface InitialState {
   user_survey_answers: SurveyAnswer[]
   user_skill_map_admins: SkillMapAdministration[]
   user_skill_map_ratings: SkillMapRating[]
+  skill_map_rating_submitted: SkillMapRating[]
   skill_map_result_status: string | null
   survey_result_status: string | null
   my_evaluation_administrations: EvaluationAdministration[]
@@ -330,6 +332,7 @@ const initialState: InitialState = {
   user_skill_map_admins: [],
   user_skill_map_ratings: [],
   skill_map_result_status: null,
+  skill_map_rating_submitted: [],
   my_evaluation_administrations: [],
   user_evaluation_result: null,
   hasPreviousPage: false,
@@ -386,6 +389,9 @@ const userSlice = createSlice({
     },
     updateSkillMapResultStatus: (state, action) => {
       state.skill_map_result_status = action.payload
+    },
+    updateSkillMapRatingSubmitted: (state, action) => {
+      state.skill_map_rating_submitted = action.payload
     },
   },
   extraReducers(builder) {
@@ -673,6 +679,7 @@ const userSlice = createSlice({
       state.user_skill_map_ratings = action.payload.user_skill_map_ratings
       state.user_skill_map_admins = [action.payload.skill_map_administration]
       state.skill_map_result_status = action.payload.skill_map_result_status
+      state.skill_map_rating_submitted = action.payload.skill_map_rating_submitted
     })
     builder.addCase(getUserSkillMapRatings.rejected, (state, action) => {
       state.loading = Loading.Rejected

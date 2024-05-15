@@ -11,6 +11,8 @@ export interface Skill {
   status: boolean
   previous_rating?: AnswerOption
   rating?: AnswerOption
+  skills: { id: number; name: string; sequence_no: number; description: string; status: string }
+  answer_option_id: number
 }
 
 export interface SkillFilters {

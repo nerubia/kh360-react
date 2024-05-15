@@ -45,6 +45,7 @@ interface SliderProps extends VariantProps<typeof slider> {
   handleSliderChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
   onClick?: (e: React.MouseEvent) => void
   disabled?: boolean
+  readOnly?: boolean
 }
 
 export const Slider = ({
@@ -56,6 +57,7 @@ export const Slider = ({
   disabled,
   min = 1,
   max = 3,
+  readOnly,
 }: SliderProps) => {
   const steps = max - min
   let backgroundWidth
@@ -96,6 +98,7 @@ export const Slider = ({
         className={slider({ variant, size })}
         disabled={disabled}
         onClick={onClick}
+        readOnly={readOnly}
       />
       {rangePoints}
     </div>
