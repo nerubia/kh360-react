@@ -47,7 +47,7 @@ export const SkillMapFormTable = () => {
       appDispatch(setCheckedUserSkills([...user_skill_map_ratings, ...filteredSelectedUserSkills]))
     } else {
       appDispatch(setSelectedUserSkills([...user_skill_map_ratings]))
-      appDispatch(setCheckedUserSkills([...user_skill_map_ratings, ...filteredSelectedUserSkills]))
+      appDispatch(setCheckedUserSkills([...user_skill_map_ratings]))
     }
   }, [user_skill_map_ratings])
 
@@ -69,6 +69,13 @@ export const SkillMapFormTable = () => {
       appDispatch(setHasSelected(false))
     }
   }, [user_skill_map_ratings])
+
+  useEffect(() => {
+    if (!hasSelected) {
+      appDispatch(setSelectedUserSkills([]))
+      appDispatch(setCheckedUserSkills([]))
+    }
+  }, [id])
 
   const handleRedirect = () => {
     appDispatch(setSelectedUserSkills([]))
@@ -198,6 +205,7 @@ export const SkillMapFormTable = () => {
         return undefined
     }
   }
+
   return (
     <div>
       <div className='h-full'>
