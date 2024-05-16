@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { useSearchParams } from "react-router-dom"
 import { Button } from "@components/ui/button/button"
 import { useAppSelector } from "@hooks/useAppSelector"
-import { getAllSkillCategories } from "@redux/slices/user-slice"
+import { getAllUserSkillCategories } from "@redux/slices/skill-categories-slice"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { type Option } from "@custom-types/optionType"
 
@@ -16,7 +16,7 @@ export const SkillMapFormAction = () => {
   const { skill_categories } = useAppSelector((state) => state.skillCategories)
 
   useEffect(() => {
-    void appDispatch(getAllSkillCategories())
+    void appDispatch(getAllUserSkillCategories())
   }, [])
 
   useEffect(() => {

@@ -21,6 +21,22 @@ export const getSkills = createAsyncThunk(
   }
 )
 
+export const getSkillsUser = createAsyncThunk(
+  "skills/getSkillsUser",
+  async (params: SkillFilters | undefined, thunkApi) => {
+    try {
+      const response = await axiosInstance.get("/user/skills", {
+        params,
+      })
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
@@ -61,7 +77,7 @@ const skillsSlice = createSlice({
   },
   extraReducers(builder) {
     /**
-     * List external evaluators
+     * List skills
      */
     builder.addCase(getSkills.pending, (state) => {
       state.loading = Loading.Pending
@@ -77,6 +93,26 @@ const skillsSlice = createSlice({
       state.totalItems = action.payload.pageInfo.totalItems
     })
     builder.addCase(getSkills.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * List all skills for user
+     */
+    builder.addCase(getSkillsUser.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getSkillsUser.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.skills = action.payload.data
+      state.hasPreviousPage = action.payload.pageInfo.hasPreviousPage
+      state.hasNextPage = action.payload.pageInfo.hasNextPage
+      state.totalPages = action.payload.pageInfo.totalPages
+      state.totalItems = action.payload.pageInfo.totalItems
+    })
+    builder.addCase(getSkillsUser.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { ValidationError } from "yup"
 import { useAppDispatch } from "@hooks/useAppDispatch"
@@ -9,6 +9,8 @@ import { Button } from "@components/ui/button/button"
 import { loginSchema } from "@utils/validation/auth-schema"
 import { Loading } from "@custom-types/loadingType"
 import { type LoginFormData } from "@custom-types/form-data-type"
+import { setCheckedUserSkills, setSelectedUserSkills } from "@redux/slices/user-skills-slice"
+import { setUserSkillMapRatings } from "@redux/slices/user-slice"
 
 export const LoginForm = () => {
   const appDispatch = useAppDispatch()
@@ -19,6 +21,12 @@ export const LoginForm = () => {
     password: "",
   })
   const [validationErrors, setValidationErrors] = useState<Partial<LoginFormData>>({})
+
+  useEffect(() => {
+    appDispatch(setSelectedUserSkills([]))
+    appDispatch(setCheckedUserSkills([]))
+    appDispatch(setUserSkillMapRatings([]))
+  }, [])
 
   const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target

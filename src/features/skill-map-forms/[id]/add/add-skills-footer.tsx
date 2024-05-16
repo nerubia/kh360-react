@@ -3,7 +3,11 @@ import { useNavigate, useSearchParams, useParams } from "react-router-dom"
 import { Button } from "@components/ui/button/button"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
-import { setSelectedUserSkills, setCheckedUserSkills } from "@redux/slices/user-skills-slice"
+import {
+  setSelectedUserSkills,
+  setCheckedUserSkills,
+  setHasSelected,
+} from "@redux/slices/user-skills-slice"
 import { setAlert } from "@redux/slices/app-slice"
 
 export const AddSkillsFooter = () => {
@@ -43,6 +47,7 @@ export const AddSkillsFooter = () => {
       }))
       const result = appDispatch(setSelectedUserSkills(newSkills))
       if (result.payload.length > 0) {
+        appDispatch(setHasSelected(true))
         navigate(`/skill-map-forms/${id}`)
       }
     }

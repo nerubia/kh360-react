@@ -6,7 +6,11 @@ import { CustomDialog } from "@components/ui/dialog/custom-dialog"
 import { Slider } from "@components/ui/slider/slider"
 import { Icon } from "@components/ui/icon/icon"
 import { type Skill } from "@custom-types/skill-type"
-import { setCheckedUserSkills, setSelectedUserSkills } from "@redux/slices/user-skills-slice"
+import {
+  setCheckedUserSkills,
+  setSelectedUserSkills,
+  setHasSelected,
+} from "@redux/slices/user-skills-slice"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { getAnswerOptionsByType } from "@redux/slices/answer-options-slice"
 import { type SkillMapRating, RatingAnswerOption } from "@custom-types/skill-map-rating-type"
@@ -19,7 +23,7 @@ export const SkillMapFormTable = () => {
   const appDispatch = useAppDispatch()
   const { id } = useParams()
   const { user_skill_map_ratings, skill_map_result_status } = useAppSelector((state) => state.user)
-  const { selectedUserSkills } = useAppSelector((state) => state.userSkills)
+  const { selectedUserSkills, hasSelected } = useAppSelector((state) => state.userSkills)
   const { answer_options } = useAppSelector((state) => state.answerOptions)
   const [searchParams] = useSearchParams()
 
@@ -54,11 +58,25 @@ export const SkillMapFormTable = () => {
     }
   }, [selectedUserSkills, skill_category_id])
 
+  useEffect(() => {
+    if (user_skill_map_ratings.length === 0 && !hasSelected) {
+      appDispatch(setSelectedUserSkills([]))
+      appDispatch(setCheckedUserSkills([]))
+      appDispatch(setHasSelected(false))
+    }
+  }, [user_skill_map_ratings])
+
   const handleRedirect = () => {
+    appDispatch(setSelectedUserSkills([]))
+    appDispatch(setCheckedUserSkills([]))
+    appDispatch(setHasSelected(false))
     navigate("/skill-map-forms")
   }
 
   const toggleBackDialog = () => {
+    appDispatch(setSelectedUserSkills([]))
+    appDispatch(setCheckedUserSkills([]))
+    appDispatch(setHasSelected(false))
     setShowBackDialog((prev) => !prev)
   }
 
