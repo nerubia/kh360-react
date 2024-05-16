@@ -19,6 +19,20 @@ export const getAllSkillCategories = createAsyncThunk(
   }
 )
 
+export const getAllUserSkillCategories = createAsyncThunk(
+  "skillCategories/getAllUserSkillCategories",
+  async (_, thunkApi) => {
+    try {
+      const response = await axiosInstance.get("/user/skill-categories/all")
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const getSkillCategories = createAsyncThunk(
   "skillCategories/getSkillCategories",
   async (params: SkillCategoryFilters | undefined, thunkApi) => {
@@ -90,6 +104,22 @@ const skillCategoriesSlice = createSlice({
       state.skill_categories = action.payload
     })
     builder.addCase(getAllSkillCategories.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * List all active for users
+     */
+    builder.addCase(getAllUserSkillCategories.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getAllUserSkillCategories.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.skill_categories = action.payload
+    })
+    builder.addCase(getAllUserSkillCategories.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })

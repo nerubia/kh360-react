@@ -1,4 +1,3 @@
-import { type SkillCategory, type SkillCategoryFilters } from "@custom-types/skill-category-type"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
 import { type ApiError } from "@custom-types/apiErrorType"
@@ -29,7 +28,6 @@ import {
   type SkillMapAdminFilters,
 } from "@custom-types/skill-map-admin-type"
 import { type SkillMapRating, type SkillMapRatings } from "@custom-types/skill-map-rating-type"
-import { type Skill, type SkillFilters } from "@custom-types/skill-type"
 
 export const getUserEvaluations = createAsyncThunk(
   "user/getUserEvaluations",
@@ -285,52 +283,6 @@ export const submitSkillMapRatings = createAsyncThunk(
   }
 )
 
-export const getSkills = createAsyncThunk(
-  "skills/getSkills",
-  async (params: SkillFilters | undefined, thunkApi) => {
-    try {
-      const response = await axiosInstance.get("/user/skills", {
-        params,
-      })
-      return response.data
-    } catch (error) {
-      const axiosError = error as AxiosError
-      const response = axiosError.response?.data as ApiError
-      return thunkApi.rejectWithValue(response.message)
-    }
-  }
-)
-
-export const getAllSkillCategories = createAsyncThunk(
-  "skillCategories/getAll",
-  async (_, thunkApi) => {
-    try {
-      const response = await axiosInstance.get("/user/skill-categories/all")
-      return response.data
-    } catch (error) {
-      const axiosError = error as AxiosError
-      const response = axiosError.response?.data as ApiError
-      return thunkApi.rejectWithValue(response.message)
-    }
-  }
-)
-
-export const getSkillCategories = createAsyncThunk(
-  "skillCategories/getSkillCategories",
-  async (params: SkillCategoryFilters | undefined, thunkApi) => {
-    try {
-      const response = await axiosInstance.get("/user/skill-categories", {
-        params,
-      })
-      return response.data
-    } catch (error) {
-      const axiosError = error as AxiosError
-      const response = axiosError.response?.data as ApiError
-      return thunkApi.rejectWithValue(response.message)
-    }
-  }
-)
-
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   loading_answer: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
@@ -348,10 +300,6 @@ interface InitialState {
   user_survey_answers: SurveyAnswer[]
   user_skill_map_admins: SkillMapAdministration[]
   user_skill_map_ratings: SkillMapRating[]
-  skills: Skill[]
-  selectedSkills: Skill[]
-  checkedSkills: Skill[]
-  skill_categories: SkillCategory[]
   skill_map_result_status: string | null
   survey_result_status: string | null
   my_evaluation_administrations: EvaluationAdministration[]
@@ -381,11 +329,7 @@ const initialState: InitialState = {
   survey_result_status: null,
   user_skill_map_admins: [],
   user_skill_map_ratings: [],
-  skill_categories: [],
   skill_map_result_status: null,
-  skills: [],
-  selectedSkills: [],
-  checkedSkills: [],
   my_evaluation_administrations: [],
   user_evaluation_result: null,
   hasPreviousPage: false,
@@ -443,17 +387,8 @@ const userSlice = createSlice({
     updateSkillMapResultStatus: (state, action) => {
       state.skill_map_result_status = action.payload
     },
-    setSkills: (state, action) => {
-      state.skills = action.payload
-    },
-    setSelectedSkills: (state, action) => {
-      state.selectedSkills = action.payload
-    },
-    setCheckedSkills: (state, action) => {
-      state.checkedSkills = action.payload
-    },
-    setSkillCategories: (state, action) => {
-      state.skill_categories = action.payload
+    setUserSkillMapRatings: (state, action) => {
+      state.user_skill_map_ratings = action.payload
     },
   },
   extraReducers(builder) {
@@ -761,58 +696,6 @@ const userSlice = createSlice({
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
-    /**
-     * List external evaluators
-     */
-    builder.addCase(getSkills.pending, (state) => {
-      state.loading = Loading.Pending
-      state.error = null
-    })
-    builder.addCase(getSkills.fulfilled, (state, action) => {
-      state.loading = Loading.Fulfilled
-      state.error = null
-      state.skills = action.payload.data
-      state.hasPreviousPage = action.payload.pageInfo.hasPreviousPage
-      state.hasNextPage = action.payload.pageInfo.hasNextPage
-      state.totalPages = action.payload.pageInfo.totalPages
-      state.totalItems = action.payload.pageInfo.totalItems
-    })
-    builder.addCase(getSkills.rejected, (state, action) => {
-      state.loading = Loading.Rejected
-      state.error = action.payload as string
-    })
-    /**
-     * List all active
-     */
-    builder.addCase(getAllSkillCategories.pending, (state) => {
-      state.loading = Loading.Pending
-      state.error = null
-    })
-    builder.addCase(getAllSkillCategories.fulfilled, (state, action) => {
-      state.loading = Loading.Fulfilled
-      state.error = null
-      state.skill_categories = action.payload
-    })
-    builder.addCase(getAllSkillCategories.rejected, (state, action) => {
-      state.loading = Loading.Rejected
-      state.error = action.payload as string
-    })
-    /**
-     * List skill categories
-     */
-    builder.addCase(getSkillCategories.pending, (state) => {
-      state.loading = Loading.Pending
-      state.error = null
-    })
-    builder.addCase(getSkillCategories.fulfilled, (state, action) => {
-      state.loading = Loading.Fulfilled
-      state.error = null
-      state.skill_categories = action.payload
-    })
-    builder.addCase(getSkillCategories.rejected, (state, action) => {
-      state.loading = Loading.Rejected
-      state.error = action.payload as string
-    })
   },
 })
 
@@ -822,9 +705,6 @@ export const {
   updateTotalSubmitted,
   updateSurveyResultStatus,
   updateSkillMapResultStatus,
-  setSkills,
-  setSelectedSkills,
-  setCheckedSkills,
-  setSkillCategories,
+  setUserSkillMapRatings,
 } = userSlice.actions
 export default userSlice.reducer

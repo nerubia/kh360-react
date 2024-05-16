@@ -74,8 +74,6 @@ export const EvaluationsCriteria = () => {
 
   const { sendJsonMessage, readyState } = useContext(WebSocketContext) as WebSocketType
 
-  /* eslint-disable */
-
   useEffect(() => {
     void appDispatch(setIsEditing(false))
     setDidCopy(false)
@@ -402,8 +400,6 @@ export const EvaluationsCriteria = () => {
   }
 
   const handleRequestToRemove = async () => {
-    /* eslint-disable */
-    // debugger
     if (evaluation !== undefined) {
       try {
         const result = await appDispatch(
