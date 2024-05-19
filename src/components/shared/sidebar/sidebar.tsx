@@ -13,6 +13,8 @@ import { useLocation } from "react-router-dom"
 import { useMobileView } from "@hooks/use-mobile-view"
 import { routes } from "@routes/routes"
 import { useState } from "react"
+import { setCheckedUserSkills, setSelectedUserSkills } from "@redux/slices/user-skills-slice"
+import { setUserSkillMapRatings } from "@redux/slices/user-slice"
 
 interface MenuLink {
   title: string
@@ -261,7 +263,12 @@ export const Sidebar = () => {
                 <div
                   key={index}
                   className='flex flex-col gap-2'
-                  onClick={() => (menu.children !== undefined ? toggleMenuState(menu.title) : null)}
+                  onClick={() => {
+                    appDispatch(setSelectedUserSkills([]))
+                    appDispatch(setCheckedUserSkills([]))
+                    appDispatch(setUserSkillMapRatings([]))
+                    return menu.children !== undefined ? toggleMenuState(menu.title) : null
+                  }}
                 >
                   <Menu
                     to={menu.link}
