@@ -14,7 +14,11 @@ import {
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { getAnswerOptionsByType } from "@redux/slices/answer-options-slice"
 import { type SkillMapRating, RatingAnswerOption } from "@custom-types/skill-map-rating-type"
-import { submitSkillMapRatings, updateSkillMapResultStatus } from "@redux/slices/user-slice"
+import {
+  getUserSkillMapRatings,
+  submitSkillMapRatings,
+  updateSkillMapResultStatus,
+} from "@redux/slices/user-slice"
 import { setAlert } from "@redux/slices/app-slice"
 import { SkillMapResultStatus } from "@custom-types/skill-map-result-type"
 
@@ -22,7 +26,9 @@ export const SkillMapFormTable = () => {
   const navigate = useNavigate()
   const appDispatch = useAppDispatch()
   const { id } = useParams()
-  const { user_skill_map_ratings, skill_map_result_status } = useAppSelector((state) => state.user)
+  const { user_skill_map_ratings, skill_map_result_status, user_skill_map_admins } = useAppSelector(
+    (state) => state.user
+  )
   const { selectedUserSkills, hasSelected } = useAppSelector((state) => state.userSkills)
   const { answer_options } = useAppSelector((state) => state.answerOptions)
   const [searchParams] = useSearchParams()
@@ -114,6 +120,7 @@ export const SkillMapFormTable = () => {
             })
           )
           appDispatch(updateSkillMapResultStatus(SkillMapResultStatus.Submitted))
+          void appDispatch(getUserSkillMapRatings(user_skill_map_admins[0].id))
         }
         if (result.type === "user/submitSkillMapRatings/rejected") {
           appDispatch(
