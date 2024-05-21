@@ -59,23 +59,20 @@ export const SkillMapResultsListFilter = () => {
   }
 
   return (
-    <div className='flex flex-col gap-2 md:gap-4'>
-      <div className='flex-1 flex flex-col md:flex-row gap-4 flex-wrap'>
-        <div className='flex-1 mb-2 md:mb-0 md:mr-4 max-w-full md:max-w-1/2'>
-          <Input
-            label='Name'
-            name='search'
-            placeholder='Search by name'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+    <>
+      <div className='flex flex-col md:flex-row justify-between gap-4 flex-wrap'>
+        <div className='flex-1 flex flex-col md:flex-row gap-4'>
+          <div className='flex-1'>
+            <Input
+              label='Name'
+              name='search'
+              placeholder='Search by name'
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
         </div>
-      </div>
 
-      <div className='flex flex-col md:flex-row justify-between items-center gap-4'>
-        <h2 className='text-gray-400 text-sm md:text-lg'>
-          {totalItems} {totalItems === 1 ? "Result" : "Results"} Found
-        </h2>
         <div className='flex items-end gap-4'>
           <Button
             size={isMobile ? "small" : "medium"}
@@ -94,6 +91,9 @@ export const SkillMapResultsListFilter = () => {
           </Button>
         </div>
       </div>
-    </div>
+      <h2 className='text-gray-400 text-sm md:text-lg'>
+        {totalItems} {totalItems === 1 ? "Result" : "Results"} Found
+      </h2>
+    </>
   )
 }
