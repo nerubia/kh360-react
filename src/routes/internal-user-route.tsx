@@ -2,6 +2,7 @@ import { lazy } from "react"
 import { Navigate, Outlet } from "react-router-dom"
 import { useInternalUser } from "@hooks/use-internal-user"
 import { routes } from "@routes/routes"
+import MySkillMap from "@pages/my-skill-map/my-skill-map"
 
 const MyEvaluations = lazy(async () => await import("@pages/my-evaluations/my-evaluations"))
 const MyEvaluationResults = lazy(
@@ -50,7 +51,7 @@ export const internalUserRoutes = {
     },
     {
       path: routes.private.internalUser.mySkillMap,
-      element: <></>,
+      element: <MySkillMap />,
     },
     {
       path: routes.private.internalUser.skillMapForm,

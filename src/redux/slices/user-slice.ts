@@ -28,6 +28,7 @@ import {
   type SkillMapAdminFilters,
 } from "@custom-types/skill-map-admin-type"
 import { type SkillMapRating, type SkillMapRatings } from "@custom-types/skill-map-rating-type"
+import { type MySkillMap } from "@custom-types/my-skill-map-type"
 
 export const getUserEvaluations = createAsyncThunk(
   "user/getUserEvaluations",
@@ -283,6 +284,17 @@ export const submitSkillMapRatings = createAsyncThunk(
   }
 )
 
+export const getMySkillMapRatings = createAsyncThunk("user/my-skill-map", async (_, thunkApi) => {
+  try {
+    const response = await axiosInstance.get(`/user/my-skill-map`)
+    return response.data
+  } catch (error) {
+    const axiosError = error as AxiosError
+    const response = axiosError.response?.data as ApiError
+    return thunkApi.rejectWithValue(response.message)
+  }
+})
+
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   loading_answer: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
@@ -303,6 +315,7 @@ interface InitialState {
   skill_map_result_status: string | null
   survey_result_status: string | null
   my_evaluation_administrations: EvaluationAdministration[]
+  my_skill_map: MySkillMap[]
   user_evaluation_result: EvaluationResult | null
   hasPreviousPage: boolean
   hasNextPage: boolean
@@ -331,6 +344,7 @@ const initialState: InitialState = {
   user_skill_map_ratings: [],
   skill_map_result_status: null,
   my_evaluation_administrations: [],
+  my_skill_map: [],
   user_evaluation_result: null,
   hasPreviousPage: false,
   hasNextPage: false,
@@ -693,6 +707,22 @@ const userSlice = createSlice({
       state.error = null
     })
     builder.addCase(submitSkillMapRatings.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Get my skill map ratings
+     */
+    builder.addCase(getMySkillMapRatings.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getMySkillMapRatings.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.my_skill_map = action.payload.my_skill_map
+    })
+    builder.addCase(getMySkillMapRatings.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
