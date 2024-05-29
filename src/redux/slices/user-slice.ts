@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
 import { type ApiError } from "@custom-types/apiErrorType"
@@ -29,6 +30,7 @@ import {
 } from "@custom-types/skill-map-admin-type"
 import { type SkillMapRating, type SkillMapRatings } from "@custom-types/skill-map-rating-type"
 import { type MySkillMap } from "@custom-types/my-skill-map-type"
+import { type SkillMapResultLatest } from "@custom-types/skill-map-result-latest"
 
 export const getUserEvaluations = createAsyncThunk(
   "user/getUserEvaluations",
@@ -284,16 +286,33 @@ export const submitSkillMapRatings = createAsyncThunk(
   }
 )
 
-export const getMySkillMapRatings = createAsyncThunk("user/my-skill-map", async (_, thunkApi) => {
-  try {
-    const response = await axiosInstance.get(`/user/my-skill-map`)
-    return response.data
-  } catch (error) {
-    const axiosError = error as AxiosError
-    const response = axiosError.response?.data as ApiError
-    return thunkApi.rejectWithValue(response.message)
+export const getMySkillMapRatings = createAsyncThunk(
+  "user/my-skill-map",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.get(`/user/my-skill-map/${id}`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
   }
-})
+)
+
+export const getUserLatestSkillMapRatings = createAsyncThunk(
+  "user/getUserLatestSkillMapRatings",
+  async (_, thunkApi) => {
+    try {
+      const response = await axiosInstance.get(`/user/latest-skill-map-results`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
 
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
@@ -312,6 +331,8 @@ interface InitialState {
   user_survey_answers: SurveyAnswer[]
   user_skill_map_admins: SkillMapAdministration[]
   user_skill_map_ratings: SkillMapRating[]
+  user_latest_skill_map_result: SkillMapResultLatest[]
+  user_latest_skill_map_result_filtered: SkillMapResultLatest[]
   skill_map_result_status: string | null
   survey_result_status: string | null
   my_evaluation_administrations: EvaluationAdministration[]
@@ -342,6 +363,8 @@ const initialState: InitialState = {
   survey_result_status: null,
   user_skill_map_admins: [],
   user_skill_map_ratings: [],
+  user_latest_skill_map_result: [],
+  user_latest_skill_map_result_filtered: [],
   skill_map_result_status: null,
   my_evaluation_administrations: [],
   my_skill_map: [],
@@ -400,6 +423,9 @@ const userSlice = createSlice({
     },
     updateSkillMapResultStatus: (state, action) => {
       state.skill_map_result_status = action.payload
+    },
+    updateFilteredSkillMapResults: (state, action) => {
+      state.user_latest_skill_map_result_filtered = action.payload
     },
     setUserSkillMapRatings: (state, action) => {
       state.user_skill_map_ratings = action.payload
@@ -726,6 +752,22 @@ const userSlice = createSlice({
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
+    /**
+     * Get user latest skill map results
+     */
+    builder.addCase(getUserLatestSkillMapRatings.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getUserLatestSkillMapRatings.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.user_latest_skill_map_result = action.payload.user_latest_skill_map_result
+    })
+    builder.addCase(getUserLatestSkillMapRatings.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
   },
 })
 
@@ -735,6 +777,7 @@ export const {
   updateTotalSubmitted,
   updateSurveyResultStatus,
   updateSkillMapResultStatus,
+  updateFilteredSkillMapResults,
   setUserSkillMapRatings,
 } = userSlice.actions
 export default userSlice.reducer

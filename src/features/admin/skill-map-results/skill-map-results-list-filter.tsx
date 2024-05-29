@@ -1,61 +1,46 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useSearchParams } from "react-router-dom"
 import { Input } from "@components/ui/input/input"
 import { Button } from "@components/ui/button/button"
-import { type Option } from "@custom-types/optionType"
-import { useAppDispatch } from "@hooks/useAppDispatch"
-import { getSkillMapResults } from "@redux/slices/skill-map-results-slice"
-import { useAppSelector } from "@hooks/useAppSelector"
-import { Banding } from "@custom-types/banding-type"
 import { useMobileView } from "@hooks/use-mobile-view"
-
-const bandingFilters: Option[] = Object.values(Banding).map((value) => ({
-  label: value,
-  value,
-}))
-
-bandingFilters.unshift({
-  label: "All",
-  value: "all",
-})
+import { updateFilteredSkillMapResults } from "@redux/slices/user-slice" // Import the action creator
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
 
 export const SkillMapResultsListFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const appDispatch = useAppDispatch()
-  const { totalItems } = useAppSelector((state) => state.skillMapResults)
+  const dispatch = useAppDispatch()
+
+  const { user_latest_skill_map_result, user_latest_skill_map_result_filtered } = useAppSelector(
+    (state) => state.user
+  )
 
   const [name, setName] = useState<string>(searchParams.get("name") ?? "")
   const isMobile = useMobileView()
-  const [page, setPage] = useState<string>("1")
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await appDispatch(getSkillMapResults())
-        const { pageInfo } = response.payload
-        if (pageInfo.hasNextPage === true) {
-          const nextPage = String(Number(page) + 1)
-          setPage(nextPage)
-        }
-      } catch (error) {}
-    }
-    void fetchData()
-  }, [page])
 
   const handleSearch = async () => {
+    let filteredResults: typeof user_latest_skill_map_result = []
+
     if (name.length !== 0) {
+      filteredResults = user_latest_skill_map_result.filter((result) =>
+        result.users.first_name.toLowerCase().includes(name.toLowerCase())
+      )
       searchParams.set("name", name)
     } else {
       searchParams.delete("name")
     }
+
     searchParams.set("page", "1")
     setSearchParams(searchParams)
+
+    dispatch(updateFilteredSkillMapResults(filteredResults))
   }
 
   const handleClear = async () => {
     setName("")
     setSearchParams({})
+    dispatch(updateFilteredSkillMapResults([]))
   }
 
   return (
@@ -74,12 +59,7 @@ export const SkillMapResultsListFilter = () => {
         </div>
 
         <div className='flex items-end gap-4'>
-          <Button
-            size={isMobile ? "small" : "medium"}
-            onClick={() => {
-              void handleSearch()
-            }}
-          >
+          <Button size={isMobile ? "small" : "medium"} onClick={handleSearch}>
             Search
           </Button>
           <Button
@@ -92,7 +72,18 @@ export const SkillMapResultsListFilter = () => {
         </div>
       </div>
       <h2 className='text-gray-400 text-sm md:text-lg'>
-        {totalItems} {totalItems === 1 ? "Result" : "Results"} Found
+        <span className='mr-1'>
+          {" "}
+          {searchParams.size === 0
+            ? user_latest_skill_map_result.length
+            : user_latest_skill_map_result_filtered.length}
+        </span>
+        {(searchParams.size === 0
+          ? user_latest_skill_map_result.length
+          : user_latest_skill_map_result_filtered.length) === 0
+          ? "Result"
+          : "Results"}{" "}
+        Found
       </h2>
     </>
   )

@@ -20,8 +20,8 @@ const SkillMapResultsDialog: React.FC<SkillMapResultsDialogProps> = ({
     <CustomDialog
       open={open}
       variant={variant}
-      size='medium'
-      maxWidthMin={true}
+      size='lg'
+      // maxWidthMin={true}
       title={title}
       description={description}
       onSubmit={onSubmit}
