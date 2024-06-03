@@ -39,6 +39,7 @@ import surveyTemplateQuestionsReducer from "./slices/survey-template-questions-s
 import usersReducer from "@redux/slices/users-slice"
 import userReducer from "@redux/slices/user-slice"
 import userSkillsReducer from "@redux/slices/user-skills-slice"
+import skillMapSearchSlice from "./slices/skill-map-search-slice"
 
 export const store = configureStore({
   reducer: {
@@ -73,6 +74,7 @@ export const store = configureStore({
     skillMapAdministration: skillMapAdministrationReducer,
     skillMapAdministrations: skillMapAdministrationsReducer,
     skillMapResults: skillMapResultsReducer,
+    skillMapSearch: skillMapSearchSlice,
     surveyAdministration: surveyAdministrationReducer,
     surveyAdministrations: surveyAdministrationsReducer,
     surveyResults: surveyResultsReducer,
