@@ -65,7 +65,6 @@ const initialState: InitialState = {
     end_date: "",
     allocation_rate: "",
     remarks: "",
-    skill_ids: [],
   },
   isEditingProjectMember: false,
 }

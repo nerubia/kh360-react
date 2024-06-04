@@ -1,4 +1,4 @@
-import { object, string, number, date } from "yup"
+import { object, string, number, date, array } from "yup"
 
 const toDateOrUndefined = (
   value: Date | undefined,
@@ -83,5 +83,23 @@ export const createProjectMemberSchema = object().shape({
       test: (value) => {
         return !isNaN(value) && value >= 0 && value <= 100
       },
+    }),
+  skills: array()
+    .of(
+      object().shape({
+        start_date: date().required("Start date is required"),
+        end_date: date().required("End date is required"),
+        id: string().required("ID is required"),
+      })
+    )
+    .test("no-overlapping-dates", "Skill dates should not overlap", (value) => {
+      if (value === undefined || value.length === 0) {
+        return true
+      }
+      for (const skill of value) {
+        // const { id, start_date, end_date } = skill
+        // TODO: check for overlapping dates within the same skill
+      }
+      return true
     }),
 })
