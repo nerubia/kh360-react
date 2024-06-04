@@ -9,7 +9,6 @@ import { formatDate } from "@utils/format-date"
 import { columns } from "@custom-types/skill-map-result-type"
 import { getUserLatestSkillMapRatings } from "@redux/slices/user-slice"
 import { type SkillMapResultLatest } from "@custom-types/skill-map-result-latest"
-import { LineGraph } from "@components/ui/linegraph/linegraph"
 
 export const SkillMapResultsListTable = () => {
   const [searchParams] = useSearchParams()
@@ -98,9 +97,7 @@ export const SkillMapResultsListTable = () => {
           title='Skill Map Details'
           description={
             selectedSkillMapResult != null ? (
-              <>
-                <LineGraph id={selectedSkillMapResult.users.id} />
-              </>
+              <>{/* <LineGraph id={selectedSkillMapResult.users.id} /> */}</>
             ) : null
           }
           onSubmit={toggleSkillMapModal}

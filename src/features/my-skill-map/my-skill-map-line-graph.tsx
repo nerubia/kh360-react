@@ -1,4 +1,4 @@
-import { LineGraph } from "@components/ui/linegraph/linegraph"
+// import { LineGraph } from "@components/ui/linegraph/linegraph"
 import { useAppSelector } from "@hooks/useAppSelector"
 
 export const MySkillMapLineGraph = () => {
@@ -8,9 +8,5 @@ export const MySkillMapLineGraph = () => {
     return <div>No user</div>
   }
 
-  return (
-    <div>
-      <LineGraph id={user.id} />
-    </div>
-  )
+  return <div>{/* <LineGraph id={user.id} /> */}</div>
 }
