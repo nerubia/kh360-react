@@ -6,8 +6,8 @@ import { Loading } from "@custom-types/loadingType"
 import { Button } from "@components/ui/button/button"
 import { Icon } from "@components/ui/icon/icon"
 import { DistributionChart } from "@components/shared/distribution-chart/distribution-chart"
-import Chart from "chart.js/auto"
-import { CategoryScale } from "chart.js"
+// import Chart from "chart.js/auto"
+// import { CategoryScale } from "chart.js"
 import { getEvaluators } from "@redux/slices/evaluation-result-slice"
 import { type User } from "@custom-types/user-type"
 
@@ -50,7 +50,7 @@ export const ViewEvaluationResultsChart = () => {
     setShowChart((prev) => !prev)
   }
 
-  Chart.register(CategoryScale)
+  // Chart.register(CategoryScale)
 
   return (
     <div>
