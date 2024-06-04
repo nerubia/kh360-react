@@ -15,9 +15,7 @@ export const SkillMapFormHeader = () => {
   const { id } = useParams()
 
   useEffect(() => {
-    if (id !== undefined) {
-      void appDispatch(getUserSkillMapRatings(parseInt(id)))
-    }
+    void loadData()
   }, [])
 
   useEffect(() => {
@@ -27,6 +25,15 @@ export const SkillMapFormHeader = () => {
       }
     }
   }, [user_skill_map_admins])
+
+  const loadData = async () => {
+    if (id !== undefined) {
+      const result = await appDispatch(getUserSkillMapRatings(parseInt(id)))
+      if (result.type === "user/getUserSkillMapRatings/rejected") {
+        handleRedirect()
+      }
+    }
+  }
 
   const handleRedirect = () => {
     navigate("/skill-map-forms")
