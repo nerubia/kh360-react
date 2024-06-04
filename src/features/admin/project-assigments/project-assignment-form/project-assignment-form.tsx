@@ -142,7 +142,11 @@ export const ProjectAssignmentForm = () => {
       const sortedSkills = skillsCopy?.sort((a, b) => {
         return (a.sequence_no ?? 0) - (b.sequence_no ?? 0)
       })
-      const sortedSelectedSkills = sortedSkills.map((skill) => skill.skills)
+      const sortedSelectedSkills = sortedSkills.map((skill) => ({
+        ...skill.skills,
+        start_date: skill.start_date,
+        end_date: skill.end_date,
+      }))
       void appDispatch(setSelectedSkills(sortedSelectedSkills))
       void appDispatch(setCheckedSkills(sortedSelectedSkills))
     }
@@ -328,31 +332,44 @@ export const ProjectAssignmentForm = () => {
 
   const checkOverlap = async () => {
     try {
-      await toggleSaveDialog()
-      await createProjectMemberSchema.validate(projectMemberFormData, {
-        abortEarly: false,
-      })
-      const existingProjectMemberIds = project_members.map((member) => member.id)
-      const userId = projectMemberFormData?.user_id
-      const parsedUserId = userId !== undefined ? parseInt(userId, 10) : undefined
+      if (projectMemberFormData !== null) {
+        await toggleSaveDialog()
+        const skills = selectedSkills.map((skill) => ({
+          id: skill.id,
+          start_date: skill.start_date ?? projectMemberFormData.start_date,
+          end_date: skill.end_date ?? projectMemberFormData.end_date,
+        }))
+        await createProjectMemberSchema.validate(
+          { ...projectMemberFormData, skills },
+          {
+            abortEarly: false,
+          }
+        )
+        const existingProjectMemberIds = project_members.map((member) => member.id)
+        const userId = projectMemberFormData?.user_id
+        const parsedUserId = userId !== undefined ? parseInt(userId, 10) : undefined
 
-      if (userId !== undefined && parsedUserId !== undefined && !isNaN(parsedUserId)) {
-        if (project_members.length > 0 && !existingProjectMemberIds.includes(parsedUserId)) {
-          setShowOverlapDialog(true)
-          return
+        if (userId !== undefined && parsedUserId !== undefined && !isNaN(parsedUserId)) {
+          if (project_members.length > 0 && !existingProjectMemberIds.includes(parsedUserId)) {
+            setShowOverlapDialog(true)
+            return
+          }
         }
-      }
 
-      if (id !== undefined) {
-        void handleEdit()
-      } else {
-        void handleSubmit()
+        if (id !== undefined) {
+          void handleEdit()
+        } else {
+          void handleSubmit()
+        }
       }
     } catch (error) {
       if (error instanceof ValidationError) {
         const errors: Partial<ProjectMemberFormData> = {}
         error.inner.forEach((err) => {
-          errors[err.path as keyof ProjectMemberFormData] = err.message
+          const key = err.path as keyof ProjectMemberFormData
+          if (key !== "skills") {
+            errors[key] = err.message
+          }
         })
         setValidationErrors(errors)
       }
@@ -363,10 +380,12 @@ export const ProjectAssignmentForm = () => {
     try {
       if (projectMemberFormData !== null) {
         await toggleSaveDialog()
-        const skill_ids = selectedSkills.map((skill) => skill.id)
-        const result = await appDispatch(
-          createProjectMember({ ...projectMemberFormData, skill_ids })
-        )
+        const skills = selectedSkills.map((skill) => ({
+          id: skill.id,
+          start_date: skill.start_date ?? projectMemberFormData.start_date,
+          end_date: skill.end_date ?? projectMemberFormData.end_date,
+        }))
+        const result = await appDispatch(createProjectMember({ ...projectMemberFormData, skills }))
         if (result.type === "projectMember/createProjectMember/fulfilled") {
           appDispatch(
             setAlert({
@@ -398,10 +417,14 @@ export const ProjectAssignmentForm = () => {
     try {
       await toggleSaveDialog()
       if (id !== undefined) {
-        const skill_ids = selectedSkills.map((skill) => skill.id)
+        const skills = selectedSkills.map((skill) => ({
+          id: skill.id,
+          start_date: skill.start_date ?? projectMemberFormData?.start_date,
+          end_date: skill.end_date ?? projectMemberFormData?.end_date,
+        }))
         const result = await appDispatch(
           updateProjectMember({
-            project_member: { ...projectMemberFormData, skill_ids },
+            project_member: { ...projectMemberFormData, skills },
             id: parseInt(id),
           })
         )

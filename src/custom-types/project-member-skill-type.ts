@@ -4,4 +4,6 @@ export interface ProjectMemberSkill {
   id: number
   sequence_no: number
   skills: Skill
+  start_date?: string
+  end_date?: string
 }

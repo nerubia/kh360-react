@@ -11,6 +11,8 @@ export interface Skill {
   status: boolean
   previous_rating?: AnswerOption
   rating?: AnswerOption
+  start_date?: string
+  end_date?: string
 }
 
 export interface SkillFilters {

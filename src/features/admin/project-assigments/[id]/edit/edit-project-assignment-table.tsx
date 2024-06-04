@@ -6,6 +6,8 @@ import { Icon } from "@components/ui/icon/icon"
 import { setSelectedSkills, setCheckedSkills } from "@redux/slices/skills-slice"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useFullPath } from "@hooks/use-full-path"
+import { DateRangePicker } from "@components/ui/date-range-picker/date-range-picker"
+import { type DateValueType } from "react-tailwindcss-datepicker"
 
 export const EditProjectAssignmentTable = () => {
   const fullPath = useFullPath()
@@ -52,6 +54,20 @@ export const EditProjectAssignmentTable = () => {
     void appDispatch(setCheckedSkills(selectedSkillsData))
   }
 
+  const handleDateRangeChange = (index: number, value: DateValueType) => {
+    const updatedSkills = selectedSkills.map((skill, i) =>
+      i === index
+        ? {
+            ...skill,
+            start_date: value?.startDate,
+            end_date: value?.endDate,
+          }
+        : skill
+    )
+    void appDispatch(setSelectedSkills(updatedSkills))
+    void appDispatch(setCheckedSkills(updatedSkills))
+  }
+
   return (
     <>
       {projectMemberFormData?.project_id !== undefined &&
@@ -61,8 +77,11 @@ export const EditProjectAssignmentTable = () => {
           <table>
             <thead className='text-left'>
               <tr>
-                <th className='py-1 border-b-4 mr-2 text-primary-500 md:w-9/20'>Category</th>
-                <th className='py-1 border-b-4 mr-2 text-start text-primary-500 md:w-9/20'>Name</th>
+                <th className='py-1 border-b-4 mr-2 text-primary-500 md:w-3/12'>Category</th>
+                <th className='py-1 border-b-4 mr-2 text-start text-primary-500 md:w-3/12'>Name</th>
+                <th className='py-1 border-b-4 mr-2 text-start text-primary-500 md:w-3/12'>
+                  Assignment Duration
+                </th>
                 <th className='py-1 border-b-4 mr-2 text-center text-primary-500 md:w-1/10'>
                   Actions
                 </th>
@@ -91,6 +110,17 @@ export const EditProjectAssignmentTable = () => {
                   </td>
                   <td className='py-1 border-b text-start'>
                     <div>{skill?.name}</div>
+                  </td>
+                  <td className='py-1 border-b text-start'>
+                    <DateRangePicker
+                      name='skill-duration'
+                      value={{
+                        startDate: skill.start_date ?? projectMemberFormData.start_date ?? "",
+                        endDate: skill.end_date ?? projectMemberFormData.end_date ?? "",
+                      }}
+                      onChange={(value) => handleDateRangeChange(index, value)}
+                      dateLimit={{ start_date: project?.start_date, end_date: project?.end_date }}
+                    />
                   </td>
                   <td className='py-1 border-b items-center'>
                     <div className='flex gap-2 justify-center'>

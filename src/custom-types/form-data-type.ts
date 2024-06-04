@@ -1,3 +1,5 @@
+import { type Skill } from "@custom-types/skill-type"
+
 export interface LoginFormData {
   email: string
   password: string
@@ -95,7 +97,7 @@ export interface ProjectMemberFormData {
   end_date?: string
   allocation_rate?: string
   remarks?: string
-  skill_ids?: number[] | string
+  skills?: Array<Partial<Skill>>
 }
 
 export interface EvaluationTemplateContentFormData {
