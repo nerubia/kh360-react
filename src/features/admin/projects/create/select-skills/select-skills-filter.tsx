@@ -56,6 +56,7 @@ export const SelectSkillsFilter = () => {
   const handleClear = async () => {
     setName("")
     setCategory("all")
+    setSearchParams({})
   }
 
   return (
