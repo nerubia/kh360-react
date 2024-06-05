@@ -156,84 +156,92 @@ export const ViewSkillMapAdminList = () => {
                     <div className='uppercase'>{skillMapResult.status ?? ""}</div>
                   </Badge>
                 </div>
-                {skill_map_administration?.status === SkillMapAdminStatus.Ongoing &&
-                skillMapResult.status !== SkillMapResultStatus.Submitted ? (
-                  <Button
-                    variant='unstyled'
-                    size='small'
-                    onClick={() => toggleDeleteDialog(skillMapResult.id)}
-                  >
-                    <Icon icon='Trash' size='extraSmall' color='gray' />
-                  </Button>
-                ) : null}
+                <div className='w-5'>
+                  {skill_map_administration?.status === SkillMapAdminStatus.Ongoing &&
+                  skillMapResult.status !== SkillMapResultStatus.Submitted ? (
+                    <Button
+                      variant='unstyled'
+                      size='small'
+                      onClick={() => toggleDeleteDialog(skillMapResult.id)}
+                    >
+                      <Icon icon='Trash' size='extraSmall' color='gray' />
+                    </Button>
+                  ) : null}
+                </div>
                 {skill_map_administration?.status === SkillMapAdminStatus.Ongoing &&
                   skillMapResult.status === SkillMapResultStatus.Ongoing && (
-                    <Tooltip placement='bottomStart'>
-                      <Tooltip.Trigger>
-                        <Button
-                          variant='primaryOutline'
-                          size='small'
-                          onClick={async () =>
-                            await handleNudge(
-                              skillMapResult.users?.first_name as string,
-                              skillMapResult.users?.id as number
-                            )
-                          }
-                        >
-                          Nudge
-                        </Button>
-                      </Tooltip.Trigger>
-                      <Tooltip.Content>
-                        {skillMapResult?.email_logs?.length === 0 && <p>No reminders sent.</p>}
-                        {skillMapResult.email_logs !== undefined &&
-                          skillMapResult?.email_logs.length > 0 &&
-                          skillMapResult?.email_logs.length <= 3 && (
-                            <p>
-                              {skillMapResult?.email_logs.length}{" "}
-                              {skillMapResult?.email_logs.length === 1 ? "reminder" : "reminders"}{" "}
-                              sent. Reminders sent last:
-                            </p>
-                          )}
-                        {skillMapResult?.email_logs !== undefined &&
-                          skillMapResult?.email_logs.length > 3 && (
-                            <p>
-                              {skillMapResult?.email_logs.length} reminders sent. Latest reminders
-                              sent last:
-                            </p>
-                          )}
-                        {skillMapResult?.email_logs
-                          ?.slice(0, 3)
-                          .map((emailLog) => (
-                            <p key={emailLog.id}>
-                              - {convertToFullDateAndTime(emailLog.sent_at, user)}
-                            </p>
-                          ))}
-                        {skillMapResult?.email_logs !== undefined &&
-                          skillMapResult?.email_logs.length > 3 && (
-                            <Button
-                              variant='unstyled'
-                              size='small'
-                              onClick={() => toggleEmailLogDialog(skillMapResult.users?.id ?? 0)}
-                            >
-                              <span className='text-primary-500 text-xs underline'>View More</span>
-                            </Button>
-                          )}
-                      </Tooltip.Content>
-                    </Tooltip>
+                    <div className='w-20'>
+                      <Tooltip placement='bottomStart'>
+                        <Tooltip.Trigger>
+                          <Button
+                            variant='primaryOutline'
+                            size='small'
+                            onClick={async () =>
+                              await handleNudge(
+                                skillMapResult.users?.first_name as string,
+                                skillMapResult.users?.id as number
+                              )
+                            }
+                          >
+                            Nudge
+                          </Button>
+                        </Tooltip.Trigger>
+                        <Tooltip.Content>
+                          {skillMapResult?.email_logs?.length === 0 && <p>No reminders sent.</p>}
+                          {skillMapResult.email_logs !== undefined &&
+                            skillMapResult?.email_logs.length > 0 &&
+                            skillMapResult?.email_logs.length <= 3 && (
+                              <p>
+                                {skillMapResult?.email_logs.length}{" "}
+                                {skillMapResult?.email_logs.length === 1 ? "reminder" : "reminders"}{" "}
+                                sent. Reminders sent last:
+                              </p>
+                            )}
+                          {skillMapResult?.email_logs !== undefined &&
+                            skillMapResult?.email_logs.length > 3 && (
+                              <p>
+                                {skillMapResult?.email_logs.length} reminders sent. Latest reminders
+                                sent last:
+                              </p>
+                            )}
+                          {skillMapResult?.email_logs
+                            ?.slice(0, 3)
+                            .map((emailLog) => (
+                              <p key={emailLog.id}>
+                                - {convertToFullDateAndTime(emailLog.sent_at, user)}
+                              </p>
+                            ))}
+                          {skillMapResult?.email_logs !== undefined &&
+                            skillMapResult?.email_logs.length > 3 && (
+                              <Button
+                                variant='unstyled'
+                                size='small'
+                                onClick={() => toggleEmailLogDialog(skillMapResult.users?.id ?? 0)}
+                              >
+                                <span className='text-primary-500 text-xs underline'>
+                                  View More
+                                </span>
+                              </Button>
+                            )}
+                        </Tooltip.Content>
+                      </Tooltip>
+                    </div>
                   )}
                 {skillMapResult.status === SkillMapResultStatus.Submitted && (
-                  <Button
-                    variant='primaryOutline'
-                    size='small'
-                    onClick={async () =>
-                      await handleReopenByRespondent(
-                        skillMapResult.users?.first_name as string,
-                        skillMapResult.id
-                      )
-                    }
-                  >
-                    Reopen
-                  </Button>
+                  <div className='w-20'>
+                    <Button
+                      variant='primaryOutline'
+                      size='small'
+                      onClick={async () =>
+                        await handleReopenByRespondent(
+                          skillMapResult.users?.first_name as string,
+                          skillMapResult.id
+                        )
+                      }
+                    >
+                      Reopen
+                    </Button>
+                  </div>
                 )}
               </div>
             </div>
