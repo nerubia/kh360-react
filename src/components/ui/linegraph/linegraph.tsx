@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from "react"
-import { Line } from "react-chartjs-2"
-import "chart.js/auto"
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { getMySkillMapRatings } from "@redux/slices/user-slice"
 import { type MySkillMap } from "@custom-types/my-skill-map-type"
-import { type ChartOptions, type TooltipItem } from "chart.js"
 
 interface SkillMapChartData {
   labels: string[]
   datasets: Array<{
     label: string
     data: Array<number | null>
-    fill: boolean
     borderColor: string
-    tension: number
   }>
 }
 
@@ -29,7 +25,7 @@ export const LineGraph = ({ id }: UserProp) => {
 
   useEffect(() => {
     void dispatch(getMySkillMapRatings(id))
-  }, [dispatch])
+  }, [dispatch, id])
 
   useEffect(() => {
     if (my_skill_map?.length !== 0) {
@@ -66,8 +62,6 @@ export const LineGraph = ({ id }: UserProp) => {
       datasets: Object.keys(skillData).map((skillName) => ({
         label: skillName,
         data: skillData[skillName],
-        fill: false,
-        tension: 0.4,
         borderColor: getRandomColor(),
       })),
     }
@@ -82,68 +76,45 @@ export const LineGraph = ({ id }: UserProp) => {
     return color
   }
 
-  const options: ChartOptions<"line"> = {
-    responsive: true,
-    plugins: {
-      tooltip: {
-        mode: "index",
-        intersect: false,
-        callbacks: {
-          label: function (context: TooltipItem<"line">) {
-            let label: string = context.dataset.label ?? ""
-            if (label !== "") {
-              label += ": "
-            }
-            const value: number = context.raw as number
-            if (value === 7) {
-              label += "Beginner"
-            } else if (value === 8) {
-              label += "Intermediate"
-            } else if (value === 9) {
-              label += "Expert"
-            } else {
-              label += value.toString()
-            }
-            return label
-          },
-        },
-      },
-      title: {
-        display: true,
-        text: "Skill Progression Over Time",
-      },
-    },
-    hover: {
-      mode: "index",
-      intersect: false,
-    },
-    scales: {
-      x: {
-        title: {
-          display: true,
-          text: "Month",
-        },
-      },
-      y: {
-        min: 7,
-        max: 9,
-        ticks: {
-          stepSize: 1,
-          callback: function (tickValue: number | string): string {
-            if (tickValue === 7) return "Beginner"
-            if (tickValue === 8) return "Intermediate"
-            if (tickValue === 9) return "Expert"
-            return ""
-          },
-        },
-      },
-    },
-  }
-
   return (
-    <div>
+    <div className='ml-10'>
       {error != null && <p>Error loading data</p>}
-      {error == null ? <Line data={chartData} options={options} /> : <p>No data available</p>}
+      {error == null && chartData.labels.length > 0 ? (
+        <LineChart
+          width={900} // Increase width to accommodate the larger margin
+          height={400}
+          data={chartData.labels.map((label, index) => {
+            const dataPoint: Record<string, unknown> = { label }
+            chartData.datasets.forEach((dataset) => {
+              dataPoint[dataset.label] = dataset.data[index]
+            })
+            return dataPoint
+          })}
+          margin={{ top: 20, right: 30, left: 100, bottom: 10 }} // Increase left margin to provide more space for y-axis labels
+        >
+          <CartesianGrid strokeDasharray='3 3' />
+          <XAxis dataKey='label' />
+          <YAxis
+            type='number'
+            domain={[7, 9]} // Adjust domain to fit your data range
+            ticks={[7, 8, 9]} // Set ticks to match your requirements
+            tickFormatter={(value) => ["Beginner", "Intermediate", "Expert"][value - 7]} // Adjust formatter to display correct labels
+          />
+          <Tooltip />
+          <Legend />
+          {chartData.datasets.map((dataset, index) => (
+            <Line
+              key={index}
+              type='monotone'
+              dataKey={dataset.label}
+              name={dataset.label}
+              stroke={dataset.borderColor}
+            />
+          ))}
+        </LineChart>
+      ) : (
+        <p>No data available</p>
+      )}
     </div>
   )
 }
