@@ -7,7 +7,7 @@ import { Spinner } from "@components/ui/spinner/spinner"
 import { getByTemplateType, getByTemplateTypeSocket } from "@redux/slices/email-template-slice"
 import { WebSocketContext, type WebSocketType } from "@components/providers/websocket"
 import { Badge } from "@components/ui/badge/badge"
-import { getEvaluationAdministrationStatusVariant } from "@utils/variant"
+import { getSurveyResultStatusVariant } from "@utils/variant"
 import { Loading } from "@custom-types/loadingType"
 import { getUserSkillMapAdministrations } from "@redux/slices/user-slice"
 
@@ -45,9 +45,7 @@ export const SkillMapFormsList = () => {
                   <div className='flex gap-2 items-center'>
                     <h2 className='text-primary-500 text-lg font-semibold'>{skillMap.name}</h2>
                     <Badge
-                      variant={getEvaluationAdministrationStatusVariant(
-                        skillMap.skill_map_result_status
-                      )}
+                      variant={getSurveyResultStatusVariant(skillMap.skill_map_result_status)}
                       size='small'
                     >
                       <div className='uppercase'>{skillMap?.skill_map_result_status}</div>
