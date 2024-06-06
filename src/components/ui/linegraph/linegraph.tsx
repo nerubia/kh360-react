@@ -79,12 +79,18 @@ export const LineGraph = ({ id }: UserProp) => {
     return color
   }
 
+  const idToSkillLevel: Record<number, string> = {
+    7: "Beginner",
+    8: "Intermediate",
+    9: "Expert",
+  }
+
   return (
     <div className='ml-10'>
       {error != null && <p>Error loading data</p>}
       {error == null && chartData.labels.length > 0 ? (
         <LineChart
-          width={900} // Increase width to accommodate the larger margin
+          width={900}
           height={400}
           data={chartData.labels.map((label, index) => {
             const dataPoint: Record<string, unknown> = { label }
@@ -93,17 +99,27 @@ export const LineGraph = ({ id }: UserProp) => {
             })
             return dataPoint
           })}
-          margin={{ top: 20, right: 30, left: 100, bottom: 10 }} // Increase left margin to provide more space for y-axis labels
+          margin={{ top: 20, right: 30, left: 100, bottom: 10 }}
         >
           <CartesianGrid strokeDasharray='3 3' />
           <XAxis dataKey='label' />
           <YAxis
             type='number'
-            domain={[7, 9]} // Adjust domain to fit your data range
-            ticks={[7, 8, 9]} // Set ticks to match your requirements
-            tickFormatter={(value) => ["Beginner", "Intermediate", "Expert"][value - 7]} // Adjust formatter to display correct labels
+            domain={[7, 9]}
+            ticks={[7, 8, 9]}
+            tickFormatter={(value) => ["Beginner", "Intermediate", "Expert"][value - 7]}
           />
-          <Tooltip />
+          <Tooltip
+            formatter={(value) => {
+              if (
+                typeof value === "number" &&
+                Object.prototype.hasOwnProperty.call(idToSkillLevel, value)
+              ) {
+                return idToSkillLevel[value]
+              }
+              return value
+            }}
+          />
           <Legend />
           {chartData.datasets.map((dataset, index) => (
             <Line
