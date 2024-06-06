@@ -96,10 +96,10 @@ export const createProjectMemberSchema = object().shape({
       if (value === undefined || value.length === 0) {
         return true
       }
-      for (const skill of value) {
-        // const { id, start_date, end_date } = skill
-        // TODO: check for overlapping dates within the same skill
-      }
+      // TODO: check for overlapping dates within the same skill
+      // for (const skill of value) {
+      //   const { id, start_date, end_date } = skill
+      // }
       return true
     }),
 })
