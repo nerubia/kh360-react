@@ -163,6 +163,13 @@ export const EvaluationProgressList = () => {
               variant: "success",
             })
           )
+        } else if (result.type === "evaluationAdministration/sendReminder/rejected") {
+          appDispatch(
+            setAlert({
+              description: result.payload,
+              variant: "destructive",
+            })
+          )
         }
       } catch (error) {}
     }
