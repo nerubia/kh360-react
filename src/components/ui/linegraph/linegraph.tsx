@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react"
+import { useState, useEffect } from "react"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { getMySkillMapRatings } from "@redux/slices/user-slice"
 import { type MySkillMap } from "@custom-types/my-skill-map-type"
+import { getByTemplateType } from "@redux/slices/email-template-slice"
 
 interface SkillMapChartData {
   labels: string[]
@@ -19,13 +20,15 @@ interface UserProp {
 }
 
 export const LineGraph = ({ id }: UserProp) => {
-  const dispatch = useAppDispatch()
+  const appDispatch = useAppDispatch()
   const { my_skill_map, error } = useAppSelector((state) => state.user)
+  const { emailTemplate } = useAppSelector((state) => state.emailTemplate)
   const [chartData, setChartData] = useState<SkillMapChartData>({ labels: [], datasets: [] })
 
   useEffect(() => {
-    void dispatch(getMySkillMapRatings(id))
-  }, [dispatch, id])
+    void appDispatch(getByTemplateType("No Skill Map Data"))
+    void appDispatch(getMySkillMapRatings(id))
+  }, [id])
 
   useEffect(() => {
     if (my_skill_map?.length !== 0) {
@@ -113,7 +116,7 @@ export const LineGraph = ({ id }: UserProp) => {
           ))}
         </LineChart>
       ) : (
-        <p>No data available</p>
+        <p>{emailTemplate?.content}</p>
       )}
     </div>
   )
