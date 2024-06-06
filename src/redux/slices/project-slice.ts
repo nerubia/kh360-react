@@ -3,7 +3,7 @@ import { type AxiosError } from "axios"
 import { type ApiError } from "@custom-types/apiErrorType"
 import { axiosInstance } from "@utils/axios-instance"
 import { Loading } from "@custom-types/loadingType"
-import { type Project } from "@custom-types/project-type"
+import { ProjectStatus, type Project } from "@custom-types/project-type"
 import { type ProjectFormData } from "@custom-types/form-data-type"
 
 export const getProject = createAsyncThunk("project/getProject", async (id: number, thunkApi) => {
@@ -42,6 +42,20 @@ export const updateProject = createAsyncThunk(
   ) => {
     try {
       const response = await axiosInstance.put(`/admin/projects/${data.id}`, data.project)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const closeProject = createAsyncThunk(
+  "project/closeProject",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.post(`/admin/projects/${id}/close`)
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -90,6 +104,27 @@ const projectSlice = createSlice({
       state.project = action.payload
     })
     builder.addCase(getProject.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Close
+     */
+    builder.addCase(closeProject.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(closeProject.fulfilled, (state) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      if (state.project !== null) {
+        state.project = {
+          ...state.project,
+          status: ProjectStatus.Closed,
+        }
+      }
+    })
+    builder.addCase(closeProject.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
