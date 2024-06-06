@@ -97,6 +97,13 @@ export const ViewSurveyAdminList = () => {
               variant: "success",
             })
           )
+        } else if (result.type === "surveyResults/sendReminder/rejected") {
+          appDispatch(
+            setAlert({
+              description: result.payload,
+              variant: "destructive",
+            })
+          )
         }
       } catch (error) {}
     }

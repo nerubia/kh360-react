@@ -86,6 +86,13 @@ export const ViewSkillMapAdminList = () => {
               variant: "success",
             })
           )
+        } else if (result.type === "skillMapResults/sendReminder/rejected") {
+          appDispatch(
+            setAlert({
+              description: result.payload,
+              variant: "destructive",
+            })
+          )
         }
       } catch (error) {}
     }
