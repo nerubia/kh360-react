@@ -10,7 +10,7 @@ import { loginSchema } from "@utils/validation/auth-schema"
 import { Loading } from "@custom-types/loadingType"
 import { type LoginFormData } from "@custom-types/form-data-type"
 import { setCheckedUserSkills, setSelectedUserSkills } from "@redux/slices/user-skills-slice"
-import { setUserSkillMapRatings } from "@redux/slices/user-slice"
+import { clearMyEvaluationAdministrations, setUserSkillMapRatings } from "@redux/slices/user-slice"
 
 export const LoginForm = () => {
   const appDispatch = useAppDispatch()
@@ -23,6 +23,7 @@ export const LoginForm = () => {
   const [validationErrors, setValidationErrors] = useState<Partial<LoginFormData>>({})
 
   useEffect(() => {
+    appDispatch(clearMyEvaluationAdministrations())
     appDispatch(setSelectedUserSkills([]))
     appDispatch(setCheckedUserSkills([]))
     appDispatch(setUserSkillMapRatings([]))

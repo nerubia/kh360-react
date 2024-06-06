@@ -380,6 +380,9 @@ const userSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
+    clearMyEvaluationAdministrations: (state) => {
+      state.my_evaluation_administrations = []
+    },
     updateEvaluationStatusById: (state, action) => {
       const { id, status, comment } = action.payload
 
@@ -772,6 +775,7 @@ const userSlice = createSlice({
 })
 
 export const {
+  clearMyEvaluationAdministrations,
   updateEvaluationStatusById,
   updateTotalEvaluations,
   updateTotalSubmitted,
