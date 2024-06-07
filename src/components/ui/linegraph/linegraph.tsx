@@ -132,7 +132,7 @@ export const LineGraph = ({ id }: UserProp) => {
           ))}
         </LineChart>
       ) : (
-        <p>{emailTemplate?.content}</p>
+        <p className='whitespace-pre-wrap'>{emailTemplate?.content}</p>
       )}
     </div>
   )
