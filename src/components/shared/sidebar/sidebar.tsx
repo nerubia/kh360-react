@@ -196,6 +196,7 @@ export const Sidebar = () => {
   const location = useLocation()
 
   const { activeSidebar } = useAppSelector((state) => state.app)
+
   const { user } = useAppSelector((state) => state.auth)
   const appDispatch = useAppDispatch()
   const isInternal = useInternalUser()
@@ -308,12 +309,7 @@ export const Sidebar = () => {
                         <Menu
                           to={child.link}
                           isEvaluation={false}
-                          className={`${
-                            location.pathname.substring(1) === child.link ||
-                            (menu.link !== child.link && location.pathname.includes(child.link))
-                              ? "bg-primary-700 cursor-default"
-                              : ""
-                          } w-full rounded-md flex items-center gap-2 text-sm text-white hover:bg-primary-600 disabled:bg-primary-200 px-4 py-2`}
+                          className='w-full rounded-md flex items-center gap-2 bg-primary-500 text-sm text-white hover:bg-primary-600 active:bg-primary-700 disabled:bg-primary-200 [&.active]:bg-primary-700 [&.active]:cursor-default px-4 py-2'
                         >
                           {child.icon != null && (
                             <Icon
