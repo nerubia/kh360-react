@@ -12,7 +12,7 @@ import { useCmUser } from "@hooks/use-cm-user"
 import { useLocation } from "react-router-dom"
 import { useMobileView } from "@hooks/use-mobile-view"
 import { routes } from "@routes/routes"
-import { useState } from "react"
+import { Suspense, useState } from "react"
 import { setCheckedUserSkills, setSelectedUserSkills } from "@redux/slices/user-skills-slice"
 import { setUserSkillMapRatings } from "@redux/slices/user-slice"
 
@@ -294,13 +294,15 @@ export const Sidebar = () => {
                       )}
                       {menu.title}
                     </div>
-                    {menu.children !== undefined ? (
-                      openMenus[menu.title] ? (
-                        <Icon size={isMediumSize ? "extraSmall" : "medium"} icon='ChevronUp' />
-                      ) : (
-                        <Icon size={isMediumSize ? "extraSmall" : "medium"} icon='ChevronRight' />
-                      )
-                    ) : null}
+                    <Suspense fallback={null}>
+                      {menu.children !== undefined ? (
+                        openMenus[menu.title] ? (
+                          <Icon size={isMediumSize ? "extraSmall" : "medium"} icon='ChevronUp' />
+                        ) : (
+                          <Icon size={isMediumSize ? "extraSmall" : "medium"} icon='ChevronRight' />
+                        )
+                      ) : null}
+                    </Suspense>
                   </Menu>
                   <div className={openMenus[menu.title] ? "" : "hidden"}>
                     {menu.children?.map((child, i) => (
