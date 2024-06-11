@@ -54,11 +54,13 @@ export const SkillMapSearchTable = () => {
       case "Name":
         return (
           <div onClick={() => handleRowClick(item)}>
-            {item.users?.last_name},{item.users?.first_name}
+            {item.users?.last_name}, {item.users?.first_name}
           </div>
         )
       case "Skill":
         return item.skill_map_ratings?.map((rating) => rating.skills.name).join(", ")
+      case "Latest Rating":
+        return item.skill_map_ratings?.map((rating) => rating.answer_options?.name)
       default:
         return ""
     }
@@ -87,7 +89,10 @@ export const SkillMapSearchTable = () => {
       <Suspense>
         <SkillMapResultsDialog
           open={showSkillMapModal}
-          title='Skill Map Details'
+          title={`${selectedSkillMapResult?.users?.last_name}, ${selectedSkillMapResult?.users
+            ?.first_name}: ${selectedSkillMapResult?.skill_map_ratings
+            ?.map((rating) => rating.skills.name)
+            .join(", ")} Skill Map Details`}
           description={
             selectedSkillMapResult?.users?.id !== undefined ? (
               <LineGraph id={selectedSkillMapResult.users.id} />
