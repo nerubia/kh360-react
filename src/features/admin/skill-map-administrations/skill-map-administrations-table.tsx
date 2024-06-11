@@ -60,6 +60,10 @@ export const SkillMapAdministrationsTable = () => {
         return `${item.name}`
       case "Description":
         return `${item.remarks}`
+      case "Period":
+        return `${formatDate(item.skill_map_period_start_date)} to ${formatDate(
+          item.skill_map_period_end_date
+        )}`
       case "Schedule":
         return `${formatDate(item.skill_map_schedule_start_date)} to ${formatDate(
           item.skill_map_schedule_end_date

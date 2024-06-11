@@ -30,4 +30,4 @@ export interface SkillMapAdminFilters {
   page?: string
 }
 
-export const skillMapColumns = ["Name", "Description", "Schedule", "Status"]
+export const skillMapColumns = ["Name", "Description", "Period", "Schedule", "Status"]
