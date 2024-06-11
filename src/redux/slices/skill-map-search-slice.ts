@@ -15,7 +15,7 @@ export const getSkillMapSearch = createAsyncThunk(
       const response = await axiosInstance.get(`/admin/skill-map-search/`, {
         params,
       })
-      return response.data.data
+      return response.data
     } catch (error) {
       const axiosError = error as AxiosError
       const response = axiosError.response?.data as ApiError
@@ -65,7 +65,11 @@ const skillMapSearch = createSlice({
     builder.addCase(getSkillMapSearch.fulfilled, (state, action) => {
       state.loading = Loading.Fulfilled
       state.error = null
-      state.skill_map_search = action.payload
+      state.skill_map_search = action.payload.data
+      state.hasPreviousPage = action.payload.pageInfo.hasPreviousPage
+      state.hasNextPage = action.payload.pageInfo.hasNextPage
+      state.totalPages = action.payload.pageInfo.totalPages
+      state.totalItems = action.payload.pageInfo.totalItems
     })
     builder.addCase(getSkillMapSearch.rejected, (state, action) => {
       state.loading = Loading.Rejected
