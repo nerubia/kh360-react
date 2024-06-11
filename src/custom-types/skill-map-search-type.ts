@@ -1,3 +1,5 @@
+import { type AnswerOption } from "./answer-option-type"
+
 interface User {
   id: number
   first_name: string
@@ -11,6 +13,7 @@ interface SkillMapRating {
   skill_id: number
   skill_category_id: number
   answer_option_id: number
+  answer_options?: AnswerOption
   comments: string | null
   status: string
   created_at: string
@@ -39,4 +42,4 @@ export interface SkillMapSearchFilters {
   page?: string
 }
 
-export const columns = ["Name", "Skill"]
+export const columns = ["Name", "Skill", "Latest Rating"]

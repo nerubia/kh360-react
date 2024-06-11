@@ -1,9 +1,10 @@
 export interface AnswerOption {
   id: number
   sequence_no: number
+  name: string
+  display_name: string
   answer_type: string
   description: string
-  display_name: string
 }
 
 export enum AnswerOptions {
