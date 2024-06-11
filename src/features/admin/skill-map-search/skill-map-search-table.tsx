@@ -34,6 +34,7 @@ export const SkillMapSearchTable = () => {
       getSkillMapSearch({
         name: searchParams.get("name") ?? undefined,
         skill: searchParams.get("skill") ?? undefined,
+        page: searchParams.get("page") ?? undefined,
       })
     )
   }, [searchParams])
