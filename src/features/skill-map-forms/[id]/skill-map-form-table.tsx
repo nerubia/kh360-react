@@ -47,15 +47,21 @@ export const SkillMapFormTable = () => {
   }, [])
 
   useEffect(() => {
-    const filteredSelectedUserSkills = selectedUserSkills.filter(
-      (skill) => !user_skill_map_ratings.some((mapSkill) => mapSkill.id === skill.id)
-    )
-    if (skill_map_result_status !== SkillMapResultStatus.Submitted) {
-      appDispatch(setSelectedUserSkills([...user_skill_map_ratings, ...filteredSelectedUserSkills]))
-      appDispatch(setCheckedUserSkills([...user_skill_map_ratings, ...filteredSelectedUserSkills]))
-    } else {
-      appDispatch(setSelectedUserSkills([...user_skill_map_ratings]))
-      appDispatch(setCheckedUserSkills([...user_skill_map_ratings]))
+    if (selectedUserSkills.length === 0) {
+      const filteredSelectedUserSkills = selectedUserSkills.filter(
+        (skill) => !user_skill_map_ratings.some((mapSkill) => mapSkill.id === skill.id)
+      )
+      if (skill_map_result_status !== SkillMapResultStatus.Submitted) {
+        appDispatch(
+          setSelectedUserSkills([...user_skill_map_ratings, ...filteredSelectedUserSkills])
+        )
+        appDispatch(
+          setCheckedUserSkills([...user_skill_map_ratings, ...filteredSelectedUserSkills])
+        )
+      } else {
+        appDispatch(setSelectedUserSkills([...user_skill_map_ratings]))
+        appDispatch(setCheckedUserSkills([...user_skill_map_ratings]))
+      }
     }
   }, [user_skill_map_ratings])
 
