@@ -7,9 +7,11 @@ import { type ApiError } from "@custom-types/apiErrorType"
 
 export const getAllSkillCategories = createAsyncThunk(
   "skillCategories/getAll",
-  async (_, thunkApi) => {
+  async (params: SkillCategoryFilters, thunkApi) => {
     try {
-      const response = await axiosInstance.get("/admin/skill-categories/all")
+      const response = await axiosInstance.get("/admin/skill-categories/all", {
+        params,
+      })
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError

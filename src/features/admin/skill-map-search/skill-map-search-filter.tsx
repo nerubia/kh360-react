@@ -1,16 +1,38 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useSearchParams } from "react-router-dom"
 import { Input } from "@components/ui/input/input"
-import { CustomSelect } from "@components/ui/select/custom-select"
 import { Button } from "@components/ui/button/button"
+import { Menu, MenuButton, MenuItem, SubMenu } from "@szhsin/react-menu"
+import "@szhsin/react-menu/dist/index.css"
+import "@szhsin/react-menu/dist/transitions/slide.css"
+import { useMobileView } from "@hooks/use-mobile-view"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { getAllSkillCategories } from "@redux/slices/skill-categories-slice"
 import { useAppSelector } from "@hooks/useAppSelector"
 
 export const SkillMapSearchFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams()
+  const appDispatch = useAppDispatch()
+  const { skill_categories } = useAppSelector((state) => state.skillCategories)
+
+  const isMobile = useMobileView()
 
   const [name, setName] = useState<string>(searchParams.get("name") ?? "")
-  const [skill, setSkill] = useState<string>(searchParams.get("skill") ?? "all")
-  const { skill_map_search } = useAppSelector((state) => state.skillMapSearch)
+  const [skill, setSkill] = useState<string>(searchParams.get("skill") ?? "All")
+
+  const skillCategories = skill_categories.map((category) => category)
+  skillCategories.unshift({
+    id: 0,
+    name: "All",
+  })
+
+  useEffect(() => {
+    void appDispatch(
+      getAllSkillCategories({
+        includes: ["skills"],
+      })
+    )
+  }, [])
 
   const handleSearch = async () => {
     setSearchParams((prevParams) => {
@@ -28,19 +50,9 @@ export const SkillMapSearchFilter = () => {
 
   const handleClear = async () => {
     setName("")
-    setSkill("all")
+    setSkill("All")
     setSearchParams({})
   }
-
-  const skillNames = skill_map_search
-    .flatMap((skill) => skill.skill_map_ratings?.map((rating) => rating.skills.name) ?? [])
-    .map((name) => ({ label: name, value: name }))
-  skillNames.unshift({
-    label: "All",
-    value: "all",
-  })
-
-  const selectedSkillOption = skillNames.find((option) => option.value === skill) ?? null
 
   return (
     <div className='flex flex-col md:flex-row justify-between gap-4 flex-wrap'>
@@ -54,15 +66,34 @@ export const SkillMapSearchFilter = () => {
             onChange={(e) => setName(e.target.value)}
           />
         </div>
-
-        <CustomSelect
-          data-test-id='StatusFilter'
-          label='Skill'
-          name='skill'
-          value={selectedSkillOption}
-          onChange={(option) => setSkill(option !== null ? option.value : "all")}
-          options={skillNames}
-        />
+        <div className='w-80 flex flex-col'>
+          <label className={`whitespace-nowrap ${isMobile ? "text-sm" : "font-medium"}`}>
+            Skill
+          </label>
+          <Menu
+            menuButton={
+              <MenuButton className='text-start border px-4 py-1.5 rounded-md'>{skill}</MenuButton>
+            }
+            overflow='auto'
+            position='anchor'
+          >
+            {skillCategories.map((category) =>
+              category.skills === undefined ? (
+                <MenuItem key={category.id} onClick={() => setSkill("All")}>
+                  {category.name}
+                </MenuItem>
+              ) : (
+                <SubMenu key={category.id} label={category.name} overflow='auto'>
+                  {category.skills?.map((skill) => (
+                    <MenuItem key={skill.id} onClick={() => setSkill(skill.name)}>
+                      {skill.name}
+                    </MenuItem>
+                  ))}
+                </SubMenu>
+              )
+            )}
+          </Menu>
+        </div>
       </div>
       <div className='flex items-end gap-4'>
         <Button onClick={handleSearch}>Search</Button>
