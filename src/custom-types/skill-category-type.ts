@@ -7,12 +7,14 @@ export interface SkillCategory {
   description?: string
   project_skills?: Skill[]
   status?: boolean
+  skills?: Skill[]
 }
 
 export interface SkillCategoryFilters {
   name?: string
   status?: string
   page?: string
+  includes?: string[]
 }
 
 export enum SkillCategoryStatus {

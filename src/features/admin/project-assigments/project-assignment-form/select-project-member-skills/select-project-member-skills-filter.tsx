@@ -19,7 +19,7 @@ export const SelectProjectMemberSkillsFilter = () => {
   const { skill_categories } = useAppSelector((state) => state.skillCategories)
 
   useEffect(() => {
-    void appDispatch(getAllSkillCategories())
+    void appDispatch(getAllSkillCategories({}))
   }, [])
 
   useEffect(() => {
