@@ -62,7 +62,7 @@ export const SkillMapResultsListTable = () => {
   const renderCell = (item: SkillMapResultLatest, column: unknown) => {
     switch (column) {
       case "Employee Name":
-        return `${item.users?.last_name} ${item.users?.first_name}`
+        return `${item.users?.last_name}, ${item.users?.first_name}`
       case "Latest Skill Map":
         return `${formatDate(item.submitted_date)}`
     }
