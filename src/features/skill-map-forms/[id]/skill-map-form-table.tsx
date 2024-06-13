@@ -36,9 +36,11 @@ export const SkillMapFormTable = () => {
   const skill_category_id = searchParams.get("skill_category_id")
 
   const [showSubmitDialog, setShowSubmitDialog] = useState<boolean>(false)
+  const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false)
   const [showBackDialog, setShowBackDialog] = useState<boolean>(false)
 
   const [displayedSkills, setDisplayedSkills] = useState<Skill[]>([])
+  const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null)
 
   useEffect(() => {
     void appDispatch(getAnswerOptionsByType("Skill Map Scale"))
@@ -90,6 +92,10 @@ export const SkillMapFormTable = () => {
     setShowBackDialog((prev) => !prev)
   }
 
+  const toggleDeleteDialog = () => {
+    setShowDeleteDialog((prev) => !prev)
+  }
+
   const toggleSubmitDialog = () => {
     setShowSubmitDialog((prev) => !prev)
   }
@@ -132,10 +138,6 @@ export const SkillMapFormTable = () => {
         }
       } catch (error) {}
     }
-
-    // try {
-    //   const result = await appDispatch(submitSkillMapRatings(selectedUserSkills))
-    // }
   }
 
   const handleDelete = async (id: number) => {
@@ -258,7 +260,8 @@ export const SkillMapFormTable = () => {
                         testId={`DeleteButton${skill.id}`}
                         variant='unstyled'
                         onClick={async () => {
-                          await handleDelete(skill.id)
+                          setSelectedSkill(skill)
+                          toggleDeleteDialog()
                         }}
                         disabled={skill_map_result_status === SkillMapResultStatus.Submitted}
                       >
@@ -312,6 +315,18 @@ export const SkillMapFormTable = () => {
         }
         onClose={toggleBackDialog}
         onSubmit={handleRedirect}
+      />
+      <CustomDialog
+        open={showDeleteDialog}
+        title='Delete Skill'
+        description={`Are you sure you want to delete ${selectedSkill?.name}?`}
+        onClose={toggleDeleteDialog}
+        onSubmit={async () => {
+          toggleDeleteDialog()
+          if (selectedSkill !== null) {
+            await handleDelete(selectedSkill.id)
+          }
+        }}
       />
       <CustomDialog
         open={showSubmitDialog}
