@@ -86,12 +86,12 @@ export const LineGraph = ({ id }: UserProp) => {
   }
 
   return (
-    <div className='ml-10'>
+    <div style={{ width: "100%", height: "100%" }}>
       {error != null && <p>Error loading data</p>}
       {error == null && chartData.labels.length > 0 ? (
         <LineChart
-          width={900}
-          height={400}
+          width={window.innerWidth * 0.7}
+          height={window.innerHeight * 0.7}
           data={chartData.labels.map((label, index) => {
             const dataPoint: Record<string, unknown> = { label }
             chartData.datasets.forEach((dataset) => {
@@ -99,7 +99,7 @@ export const LineGraph = ({ id }: UserProp) => {
             })
             return dataPoint
           })}
-          margin={{ top: 20, right: 30, left: 100, bottom: 10 }}
+          margin={{ top: 20, right: 30, left: 50, bottom: 10 }}
         >
           <CartesianGrid strokeDasharray='3 3' />
           <XAxis dataKey='label' />
