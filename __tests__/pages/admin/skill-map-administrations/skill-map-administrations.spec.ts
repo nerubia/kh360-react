@@ -142,6 +142,7 @@ test.describe("Admin - Skill Map Administrations", () => {
       await expect(page.locator("tr > th")).toHaveText([
         "Name",
         "Description",
+        "Period",
         "Schedule",
         "Status",
       ])
