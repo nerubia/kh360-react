@@ -98,9 +98,9 @@ export const SkillMapResultsListTable = () => {
           title='Skill Map Details'
           description={
             selectedSkillMapResult != null ? (
-              <>
+              <div>
                 <LineGraph id={selectedSkillMapResult.users.id} />
-              </>
+              </div>
             ) : null
           }
           onSubmit={toggleSkillMapModal}
