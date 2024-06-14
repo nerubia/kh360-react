@@ -216,7 +216,7 @@ export const SkillMapFormTable = () => {
 
   return (
     <div>
-      <div className='h-full'>
+      <div className='h-full overflow-auto'>
         <table className='relative w-full z-20'>
           <thead className='text-left'>
             <tr>
