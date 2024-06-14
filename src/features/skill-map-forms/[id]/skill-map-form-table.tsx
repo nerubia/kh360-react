@@ -16,6 +16,7 @@ import { getAnswerOptionsByType } from "@redux/slices/answer-options-slice"
 import { type SkillMapRating, RatingAnswerOption } from "@custom-types/skill-map-rating-type"
 import {
   getUserSkillMapRatings,
+  setUserSkillMapRatings,
   submitSkillMapRatings,
   updateSkillMapResultStatus,
 } from "@redux/slices/user-slice"
@@ -85,6 +86,7 @@ export const SkillMapFormTable = () => {
   }, [user_skill_map_ratings])
 
   const handleRedirect = () => {
+    appDispatch(setUserSkillMapRatings([]))
     appDispatch(setSelectedUserSkills([]))
     appDispatch(setCheckedUserSkills([]))
     appDispatch(setHasSelected(false))
