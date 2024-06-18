@@ -10,6 +10,8 @@ import { SkillMapAdminStatus } from "@custom-types/skill-map-admin-type"
 import { DateRangeDisplay } from "@components/shared/display-range-date"
 import { useMobileView } from "@hooks/use-mobile-view"
 
+const allowedStatus = [SkillMapAdminStatus.Ongoing]
+
 export const SkillMapFormHeader = () => {
   const appDispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -23,7 +25,7 @@ export const SkillMapFormHeader = () => {
 
   useEffect(() => {
     if (user_skill_map_admins[0] !== undefined) {
-      if (user_skill_map_admins[0]?.status !== SkillMapAdminStatus.Ongoing) {
+      if (!allowedStatus.includes(user_skill_map_admins[0].status as SkillMapAdminStatus)) {
         handleRedirect()
       }
     }
