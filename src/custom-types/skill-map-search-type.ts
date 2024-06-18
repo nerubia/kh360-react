@@ -1,4 +1,5 @@
 import { type AnswerOption } from "./answer-option-type"
+import { type SkillMapAdministration } from "./skill-map-admin-type"
 
 interface User {
   id: number
@@ -27,6 +28,7 @@ interface SkillMapRating {
 export interface SkillMapSearch {
   id: number
   skill_map_administration_id?: number
+  skill_map_administrations?: SkillMapAdministration
   status?: string
   comments?: string
   skill?: string | undefined
@@ -42,4 +44,4 @@ export interface SkillMapSearchFilters {
   page?: string
 }
 
-export const columns = ["Name", "Skill", "Latest Rating"]
+export const columns = ["Name", "Skill", "Latest Rating", "Details"]

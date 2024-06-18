@@ -27,6 +27,13 @@ export const convertToFullDate = (date: string) => {
   return format(utcDate, "MMMM d, yyyy", { timeZone: "UTC" })
 }
 
+export const convertToMonthAndYear = (date: string) => {
+  return new Date(date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+  })
+}
+
 export const convertToFullDateAndTime = (date?: string, user?: User | null) => {
   let targetTimeZone = "UTC"
   if (user?.user_settings != null) {
