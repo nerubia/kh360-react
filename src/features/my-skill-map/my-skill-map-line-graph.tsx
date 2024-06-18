@@ -52,6 +52,8 @@ export const MySkillMapLineGraph = () => {
     scales: {
       y: {
         beginAtZero: true,
+        min: 0,
+        max: 3,
         labels: ["No rating", "Beginner", "Intermediate", "Expert"],
         ticks: {
           stepSize: 1,
