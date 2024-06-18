@@ -1,3 +1,5 @@
+import { type AnswerOption } from "./answer-option-type"
+
 export interface MySkillMap {
   id: number
   name?: string
@@ -40,6 +42,7 @@ export interface Skills {
 export interface SkillMapRating {
   skill_id: number
   skills: Skills
+  answer_options: AnswerOption
   answer_option_id: number
   created_at: string
 }
