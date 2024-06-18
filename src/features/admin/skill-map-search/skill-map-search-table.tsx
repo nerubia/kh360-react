@@ -8,6 +8,7 @@ import { getSkillMapSearch } from "@redux/slices/skill-map-search-slice"
 import { Table } from "@components/ui/table/table"
 import SkillMapResultsDialog from "../skill-map-results/skill-map-results-dialog"
 import { LineGraph } from "@components/ui/linegraph/linegraph"
+import { convertToMonthAndYear, convertToFullDate } from "@utils/format-date"
 
 export const SkillMapSearchTable = () => {
   const [searchParams] = useSearchParams()
@@ -61,6 +62,20 @@ export const SkillMapSearchTable = () => {
         return item.skill_map_ratings?.map((rating) => rating.skills.name).join(", ")
       case "Latest Rating":
         return item.skill_map_ratings?.map((rating) => rating.answer_options?.name)
+      case "Details":
+        return (
+          <div>
+            <p className='text-sm'>
+              Period Date:{" "}
+              {convertToMonthAndYear(
+                item?.skill_map_administrations?.skill_map_period_end_date ?? ""
+              )}
+            </p>
+            <p className='text-sm'>
+              Submitted Date: {convertToFullDate(item.submitted_date?.toString() ?? "")}
+            </p>
+          </div>
+        )
       default:
         return ""
     }
