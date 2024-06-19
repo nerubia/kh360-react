@@ -293,7 +293,7 @@ export const ViewSkillMapAdminHeader = () => {
       />
       <CustomDialog
         open={showReopenDialog}
-        title='Reopen SkillMap'
+        title='Reopen Skill Map'
         description='Are you sure you want to reopen this skill map?'
         onClose={toggleReopenDialog}
         onSubmit={handleReopen}
