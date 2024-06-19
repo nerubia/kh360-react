@@ -40,7 +40,7 @@ export default function DashboardLayout() {
           activeSidebar ? (isMediumSize ? "md:ml-44" : "md:ml-64") : ""
         } flex flex-col h-screen w-full transition-all duration-300 overflow-x-hidden`}
       >
-        <div className='lg:h-16 flex items-center px-5 justify-between'>
+        <div className='flex items-center p-5 justify-between'>
           <Button variant='ghost' size='small' onClick={toggleSidebar}>
             <Icon icon='Menu' />
           </Button>
