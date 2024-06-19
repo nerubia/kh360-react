@@ -43,7 +43,7 @@ export const AddSkillsFooter = () => {
     } else {
       const newSkills = checkedUserSkills.map((skill) => ({
         ...skill,
-        previous_rating: "No rating",
+        previous_rating: skill.previous_rating ?? "No rating",
       }))
       const result = appDispatch(setSelectedUserSkills(newSkills))
       if (result.payload.length > 0) {
