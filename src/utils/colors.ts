@@ -15,3 +15,10 @@ export const getScoreRatingBackgroundColor = (score_rating: string) => {
     return "bg-customGreen-500"
   }
 }
+
+export const getRandomColor = () => {
+  const r = Math.floor(Math.random() * 256)
+  const g = Math.floor(Math.random() * 256)
+  const b = Math.floor(Math.random() * 256)
+  return `rgb(${r}, ${g}, ${b})`
+}
