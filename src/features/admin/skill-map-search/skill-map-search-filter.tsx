@@ -9,6 +9,17 @@ import { useMobileView } from "@hooks/use-mobile-view"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { getAllSkillCategories } from "@redux/slices/skill-categories-slice"
 import { useAppSelector } from "@hooks/useAppSelector"
+import { type Option } from "@custom-types/optionType"
+import { CustomSelect } from "@components/ui/select/custom-select"
+import {
+  SkillMapSearchSortNames,
+  SkillMapSearchSortOptions,
+} from "@custom-types/skill-map-search-type"
+
+const sortOptions: Option[] = Object.values(SkillMapSearchSortOptions).map((value) => ({
+  label: SkillMapSearchSortNames[value],
+  value,
+}))
 
 export const SkillMapSearchFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -19,6 +30,7 @@ export const SkillMapSearchFilter = () => {
 
   const [name, setName] = useState<string>(searchParams.get("name") ?? "")
   const [skill, setSkill] = useState<string>(searchParams.get("skill") ?? "All")
+  const [sortBy, setSortBy] = useState<string>(searchParams.get("sortBy") ?? "")
 
   const skillCategories = skill_categories.map((category) => category)
   skillCategories.unshift({
@@ -44,6 +56,7 @@ export const SkillMapSearchFilter = () => {
       }
       params.set("skill", skill)
       params.set("page", "1")
+      params.set("sortBy", sortBy)
       return params
     })
   }
@@ -51,6 +64,7 @@ export const SkillMapSearchFilter = () => {
   const handleClear = async () => {
     setName("")
     setSkill("All")
+    setSortBy("")
     setSearchParams({})
   }
 
@@ -94,6 +108,14 @@ export const SkillMapSearchFilter = () => {
             )}
           </Menu>
         </div>
+        <CustomSelect
+          data-test-id='SortFilter'
+          label='Sort By'
+          name='sort'
+          value={sortOptions.find((option) => option.value === sortBy)}
+          onChange={(option) => setSortBy(option !== null ? option.value : "")}
+          options={sortOptions}
+        />
       </div>
       <div className='flex items-end gap-4'>
         <Button onClick={handleSearch}>Search</Button>
