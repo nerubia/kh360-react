@@ -1,6 +1,7 @@
 import { type EmailLog } from "@custom-types/email-log-type"
 import { type Evaluation } from "@custom-types/evaluation-type"
 import { type Project } from "@custom-types/project-type"
+import { type SkillMapResult } from "./skill-map-result-type"
 
 export interface User {
   id: number
@@ -51,4 +52,23 @@ export interface UserEvaluationsFilter {
 
 export interface UserQuestionsFilter {
   survey_administration_id?: number
+}
+
+export interface UserSkillMap {
+  id: number
+  name?: string
+  skill_map_administration_id?: number
+  skill_map_period_start_date?: string
+  skill_map_period_end_date?: string
+  skill_map_schedule_start_date?: string
+  skill_map_schedule_end_date?: string
+  remarks?: string
+  email_subject?: string
+  email_content?: string
+  status?: string
+  totalSkillMaps?: number
+  totalSubmitted?: number
+  totalPending?: number
+  skill_map_result_status?: string
+  skill_map_results: SkillMapResult[]
 }

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { type AxiosError } from "axios"
 import { type ApiError } from "@custom-types/apiErrorType"
-import { type User, type UserFilters } from "@custom-types/user-type"
+import { type UserSkillMap, type User, type UserFilters } from "@custom-types/user-type"
 import { axiosInstance } from "@utils/axios-instance"
 import { Loading } from "@custom-types/loadingType"
 
@@ -53,11 +53,25 @@ export const getAllUsers = createAsyncThunk(
   }
 )
 
+export const getUserSkillMap = createAsyncThunk(
+  "users/getUserSkillMap",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.get(`/admin/users/${id}/skill-map`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
   users: User[]
   allUsers: User[]
+  user_skill_map: UserSkillMap[]
   hasPreviousPage: boolean
   hasNextPage: boolean
   currentPage: number
@@ -69,6 +83,7 @@ const initialState: InitialState = {
   error: null,
   users: [],
   allUsers: [],
+  user_skill_map: [],
   hasPreviousPage: false,
   hasNextPage: false,
   currentPage: 1,
@@ -146,6 +161,22 @@ const usersSlice = createSlice({
       state.allUsers = action.payload.data
     })
     builder.addCase(getAllUsers.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * User skill map
+     */
+    builder.addCase(getUserSkillMap.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getUserSkillMap.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.user_skill_map = action.payload
+    })
+    builder.addCase(getUserSkillMap.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
