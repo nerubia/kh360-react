@@ -44,7 +44,7 @@ export const MySkillMapLineGraph = () => {
             if (rawValue === 3) {
               rating = "Expert"
             }
-            return `${context.label}: ${rating}`
+            return `${context.dataset.label}: ${rating}`
           },
         },
       },
