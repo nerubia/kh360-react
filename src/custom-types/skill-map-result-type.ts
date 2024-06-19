@@ -1,5 +1,6 @@
 import { type User } from "./user-type"
 import { type EmailLog } from "./email-log-type"
+import { type SkillMapRating } from "./skill-map-rating-type"
 
 export interface SkillMapResult {
   id: number
@@ -11,6 +12,7 @@ export interface SkillMapResult {
   email_logs?: EmailLog[]
   last_skill_map_date?: string
   submitted_date?: string
+  skill_map_ratings: SkillMapRating[]
 }
 
 export interface SkillMapResultFilters {

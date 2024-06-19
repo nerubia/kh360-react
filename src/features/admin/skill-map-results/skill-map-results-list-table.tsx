@@ -6,19 +6,20 @@ import { Pagination } from "@components/shared/pagination/pagination"
 import { Table } from "@components/ui/table/table"
 import { formatDate } from "@utils/format-date"
 import { type SkillMapResult, columns } from "@custom-types/skill-map-result-type"
-import { LineGraph } from "@components/ui/linegraph/linegraph"
 import { getSkillMapResultsLatest } from "@redux/slices/skill-map-results-slice"
+import { CustomLineGraph } from "@components/ui/linegraph/custom-line-graph"
 
 export const SkillMapResultsListTable = () => {
   const [searchParams] = useSearchParams()
 
   const appDispatch = useAppDispatch()
   const [showSkillMapModal, setShowSkillMapModal] = useState<boolean>(false)
-  const [selectedSkillMapResult, setSelectedSkillMapResult] = useState<SkillMapResult | null>(null)
 
   const { skill_map_results, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
     (state) => state.skillMapResults
   )
+
+  const [selectedUserId, setSelectedUserId] = useState<number>()
 
   const SkillMapResultsDialog = lazy(
     async () => await import("@features/admin/skill-map-results/skill-map-results-dialog")
@@ -41,7 +42,7 @@ export const SkillMapResultsListTable = () => {
   const handleViewSkillMapResult = (id: number) => {
     const skillMapResult = skill_map_results.find((result) => result.id === id)
     if (skillMapResult != null) {
-      setSelectedSkillMapResult(skillMapResult)
+      setSelectedUserId(skillMapResult.users?.id)
       toggleSkillMapModal()
     }
   }
@@ -80,11 +81,9 @@ export const SkillMapResultsListTable = () => {
           open={showSkillMapModal}
           title='Skill Map Details'
           description={
-            selectedSkillMapResult != null ? (
-              <div>
-                <LineGraph id={selectedSkillMapResult.user_id} />
-              </div>
-            ) : null
+            <div className='w-[800px]'>
+              <CustomLineGraph userId={selectedUserId} />
+            </div>
           }
           onSubmit={toggleSkillMapModal}
         />
