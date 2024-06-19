@@ -45,3 +45,17 @@ export interface SkillMapSearchFilters {
 }
 
 export const columns = ["Name", "Skill", "Latest Rating", "Details"]
+
+export enum SkillMapSearchSortOptions {
+  SKILL_RATING_DESC = "skill_rating_desc",
+  SKILL_RATING_ASC = "skill_rating_asc",
+  NAME = "name",
+  SKILL = "skill",
+}
+
+export const SkillMapSearchSortNames = {
+  [SkillMapSearchSortOptions.SKILL_RATING_DESC]: "Skill Rating (Highest to Lowest)",
+  [SkillMapSearchSortOptions.SKILL_RATING_ASC]: "Skill Rating (Lowest to Highest)",
+  [SkillMapSearchSortOptions.NAME]: "Name",
+  [SkillMapSearchSortOptions.SKILL]: "Skill",
+}
