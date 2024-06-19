@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom"
 import { setSelectedEmployeeIds } from "@redux/slices/survey-administration-slice"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
-import { getSkillMapResults } from "@redux/slices/skill-map-results-slice"
+import { getSkillMapResultsAll } from "@redux/slices/skill-map-results-slice"
 import SelectUsersTable from "@components/shared/select-users/select-users-table"
 
 export const SelectEmployeesTable = () => {
@@ -15,7 +15,7 @@ export const SelectEmployeesTable = () => {
 
   useEffect(() => {
     void appDispatch(
-      getSkillMapResults({
+      getSkillMapResultsAll({
         skill_map_administration_id: id,
       })
     )

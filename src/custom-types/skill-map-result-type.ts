@@ -4,11 +4,13 @@ import { type EmailLog } from "./email-log-type"
 export interface SkillMapResult {
   id: number
   skill_map_administration_id?: string
+  user_id: number
+  users?: User
   status?: string
   remarks?: string
-  users?: User
   email_logs?: EmailLog[]
   last_skill_map_date?: string
+  submitted_date?: string
 }
 
 export interface SkillMapResultFilters {
@@ -16,6 +18,8 @@ export interface SkillMapResultFilters {
   skill_map_administration_id?: string
   user_id?: string
   status?: string
+  name?: string
+  page?: string
 }
 
 export const columns = ["Employee Name", "Latest Skill Map"]

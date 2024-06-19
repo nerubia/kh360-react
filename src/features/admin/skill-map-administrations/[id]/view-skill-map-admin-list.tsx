@@ -5,7 +5,7 @@ import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useMobileView } from "@hooks/use-mobile-view"
 import { setSelectedEmployeeIds } from "@redux/slices/skill-map-administration-slice"
 import {
-  getSkillMapResults,
+  getSkillMapResultsAll,
   sendReminder,
   reopenSkillMapResult,
   deleteSkillMapResult,
@@ -44,7 +44,7 @@ export const ViewSkillMapAdminList = () => {
   useEffect(() => {
     if (id !== undefined) {
       void appDispatch(
-        getSkillMapResults({
+        getSkillMapResultsAll({
           skill_map_administration_id: id,
         })
       )
