@@ -22,7 +22,7 @@ import {
 } from "@redux/slices/skill-map-administration-slice"
 import { ReadyState } from "react-use-websocket"
 import { WebSocketContext, type WebSocketType } from "@components/providers/websocket"
-import { getSkillMapResults } from "@redux/slices/skill-map-results-slice"
+import { getSkillMapResultsAll } from "@redux/slices/skill-map-results-slice"
 
 export const ViewSkillMapAdminHeader = () => {
   const navigate = useNavigate()
@@ -104,7 +104,7 @@ export const ViewSkillMapAdminHeader = () => {
         }
 
         void appDispatch(
-          getSkillMapResults({
+          getSkillMapResultsAll({
             skill_map_administration_id: id,
           })
         )
@@ -152,7 +152,7 @@ export const ViewSkillMapAdminHeader = () => {
           }
 
           void appDispatch(
-            getSkillMapResults({
+            getSkillMapResultsAll({
               skill_map_administration_id: id,
             })
           )

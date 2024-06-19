@@ -10,8 +10,24 @@ import { Loading } from "@custom-types/loadingType"
 import { type SkillMapResultsFormData } from "@custom-types/form-data-type"
 import { type SendReminderData } from "@custom-types/evaluation-administration-type"
 
-export const getSkillMapResults = createAsyncThunk(
-  "skillMapResults/getSkillMapResults",
+export const getSkillMapResultsLatest = createAsyncThunk(
+  "skillMapResults/getSkillMapResultsLatest",
+  async (params: SkillMapResultFilters | undefined, thunkApi) => {
+    try {
+      const response = await axiosInstance.get(`/admin/skill-map-results/latest`, {
+        params,
+      })
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
+export const getSkillMapResultsAll = createAsyncThunk(
+  "skillMapResults/getSkillMapResultsAll",
   async (params: SkillMapResultFilters | undefined, thunkApi) => {
     try {
       const response = await axiosInstance.get(`/admin/skill-map-results/all`, {
@@ -117,18 +133,38 @@ const skillMapResultsSlice = createSlice({
   },
   extraReducers(builder) {
     /**
-     * List results
+     * List
      */
-    builder.addCase(getSkillMapResults.pending, (state) => {
+    builder.addCase(getSkillMapResultsLatest.pending, (state) => {
       state.loading = Loading.Pending
       state.error = null
     })
-    builder.addCase(getSkillMapResults.fulfilled, (state, action) => {
+    builder.addCase(getSkillMapResultsLatest.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.skill_map_results = action.payload.data
+      state.hasPreviousPage = action.payload.pageInfo.hasPreviousPage
+      state.hasNextPage = action.payload.pageInfo.hasNextPage
+      state.totalPages = action.payload.pageInfo.totalPages
+      state.totalItems = action.payload.pageInfo.totalItems
+    })
+    builder.addCase(getSkillMapResultsLatest.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * List all results
+     */
+    builder.addCase(getSkillMapResultsAll.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getSkillMapResultsAll.fulfilled, (state, action) => {
       state.loading = Loading.Fulfilled
       state.error = null
       state.skill_map_results = action.payload
     })
-    builder.addCase(getSkillMapResults.rejected, (state, action) => {
+    builder.addCase(getSkillMapResultsAll.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })

@@ -2,64 +2,51 @@ import { useEffect, useState, lazy, Suspense } from "react"
 import { useSearchParams } from "react-router-dom"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
-import { getCmEvaluationResults } from "@redux/slices/evaluation-results-slice"
 import { Pagination } from "@components/shared/pagination/pagination"
 import { Table } from "@components/ui/table/table"
 import { formatDate } from "@utils/format-date"
-import { columns } from "@custom-types/skill-map-result-type"
-import { getUserLatestSkillMapRatings } from "@redux/slices/user-slice"
-import { type SkillMapResultLatest } from "@custom-types/skill-map-result-latest"
+import { type SkillMapResult, columns } from "@custom-types/skill-map-result-type"
 import { LineGraph } from "@components/ui/linegraph/linegraph"
+import { getSkillMapResultsLatest } from "@redux/slices/skill-map-results-slice"
 
 export const SkillMapResultsListTable = () => {
   const [searchParams] = useSearchParams()
 
   const appDispatch = useAppDispatch()
   const [showSkillMapModal, setShowSkillMapModal] = useState<boolean>(false)
-  const [selectedSkillMapResult, setSelectedSkillMapResult] = useState<SkillMapResultLatest | null>(
-    null
-  )
+  const [selectedSkillMapResult, setSelectedSkillMapResult] = useState<SkillMapResult | null>(null)
 
-  const { hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
+  const { skill_map_results, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
     (state) => state.skillMapResults
   )
-  const { user_latest_skill_map_result, user_latest_skill_map_result_filtered } = useAppSelector(
-    (state) => state.user
-  )
+
   const SkillMapResultsDialog = lazy(
     async () => await import("@features/admin/skill-map-results/skill-map-results-dialog")
   )
 
   useEffect(() => {
     void appDispatch(
-      getCmEvaluationResults({
+      getSkillMapResultsLatest({
         name: searchParams.get("name") ?? undefined,
-        evaluation_administration_id: searchParams.get("evaluation_administration_id") ?? undefined,
-        score_ratings_id: searchParams.get("score_ratings_id") ?? undefined,
-        banding: searchParams.get("banding") ?? undefined,
-        sort_by: searchParams.get("sort_by") ?? undefined,
+        status: searchParams.get("status") ?? undefined,
         page: searchParams.get("page") ?? undefined,
       })
     )
   }, [searchParams])
-
-  useEffect(() => {
-    void appDispatch(getUserLatestSkillMapRatings())
-  }, [])
 
   const toggleSkillMapModal = () => {
     setShowSkillMapModal((prev) => !prev)
   }
 
   const handleViewSkillMapResult = (id: number) => {
-    const skillMapResult = user_latest_skill_map_result.find((result) => result.id === id)
+    const skillMapResult = skill_map_results.find((result) => result.id === id)
     if (skillMapResult != null) {
       setSelectedSkillMapResult(skillMapResult)
       toggleSkillMapModal()
     }
   }
 
-  const renderCell = (item: SkillMapResultLatest, column: unknown) => {
+  const renderCell = (item: SkillMapResult, column: unknown) => {
     switch (column) {
       case "Employee Name":
         return `${item.users?.last_name}, ${item.users?.first_name}`
@@ -73,11 +60,7 @@ export const SkillMapResultsListTable = () => {
       <div className='flex flex-col gap-8 overflow-x-auto'>
         <Table
           columns={columns}
-          data={
-            user_latest_skill_map_result_filtered.length === 0 && searchParams.size === 0
-              ? user_latest_skill_map_result
-              : user_latest_skill_map_result_filtered
-          }
+          data={skill_map_results}
           isRowClickable={true}
           renderCell={renderCell}
           onClickRow={handleViewSkillMapResult}
@@ -99,7 +82,7 @@ export const SkillMapResultsListTable = () => {
           description={
             selectedSkillMapResult != null ? (
               <div>
-                <LineGraph id={selectedSkillMapResult.users.id} />
+                <LineGraph id={selectedSkillMapResult.user_id} />
               </div>
             ) : null
           }
