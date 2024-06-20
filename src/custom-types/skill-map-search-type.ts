@@ -41,6 +41,7 @@ export interface SkillMapSearch {
 export interface SkillMapSearchFilters {
   name?: string
   skill?: string
+  sortBy?: string
   page?: string
 }
 

@@ -66,6 +66,23 @@ export const getUserSkillMap = createAsyncThunk(
     }
   }
 )
+
+export const getUserSkillMapBySkillId = createAsyncThunk(
+  "users/getUserSkillMapBySkillId",
+  async (params: { id: number; skillId: number }, thunkApi) => {
+    try {
+      const response = await axiosInstance.get(
+        `/admin/users/${params.id}/skill-map/${params.skillId}`
+      )
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
@@ -177,6 +194,22 @@ const usersSlice = createSlice({
       state.user_skill_map = action.payload
     })
     builder.addCase(getUserSkillMap.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * User skill map by skill id
+     */
+    builder.addCase(getUserSkillMapBySkillId.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getUserSkillMapBySkillId.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.user_skill_map = action.payload
+    })
+    builder.addCase(getUserSkillMapBySkillId.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })

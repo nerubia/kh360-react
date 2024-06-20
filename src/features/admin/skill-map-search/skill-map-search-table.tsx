@@ -3,31 +3,41 @@ import { useSearchParams } from "react-router-dom"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { Pagination } from "@components/shared/pagination/pagination"
-import { columns, type SkillMapSearch } from "@custom-types/skill-map-search-type"
+import { columns } from "@custom-types/skill-map-search-type"
 import { getSkillMapSearch } from "@redux/slices/skill-map-search-slice"
 import { Table } from "@components/ui/table/table"
 import SkillMapResultsDialog from "../skill-map-results/skill-map-results-dialog"
-import { LineGraph } from "@components/ui/linegraph/linegraph"
 import { convertToMonthAndYear, convertToFullDate } from "@utils/format-date"
+import { type SkillMapRating } from "@custom-types/skill-map-rating-type"
+import { getAnswerOptionsByType } from "@redux/slices/answer-options-slice"
+import { type ChartData } from "chart.js"
+import { sortAnswerOptionBySequenceNumber } from "@utils/sort"
+import { CustomLineGraph } from "@components/ui/linegraph/custom-line-graph"
+import { getUserSkillMapBySkillId } from "@redux/slices/users-slice"
+import { type UserSkillMap } from "@custom-types/user-type"
+import { getRandomColor } from "@utils/colors"
 
 export const SkillMapSearchTable = () => {
   const [searchParams] = useSearchParams()
 
   const appDispatch = useAppDispatch()
-  const [showSkillMapModal, setShowSkillMapModal] = useState<boolean>(false)
-  const [selectedSkillMapResult, setSelectedSkillMapResult] = useState<SkillMapSearch | null>(null)
-
-  const { skill_map_search, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
+  const { skill_map_ratings, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
     (state) => state.skillMapSearch
   )
+  const { answer_options } = useAppSelector((state) => state.answerOptions)
+  const { user_skill_map } = useAppSelector((state) => state.users)
+
+  const [showSkillMapModal, setShowSkillMapModal] = useState<boolean>(false)
+  const [selectedSkillMapRating, setSelectedSkillMapRating] = useState<SkillMapRating | null>(null)
+
+  const [scaleYLabels, setScaleYLabels] = useState<string[]>([])
+  const [data, setData] = useState<ChartData<"line">>({
+    labels: [],
+    datasets: [],
+  })
 
   useEffect(() => {
-    void appDispatch(
-      getSkillMapSearch({
-        name: searchParams.get("name") ?? undefined,
-        skill: searchParams.get("skill") ?? undefined,
-      })
-    )
+    void appDispatch(getAnswerOptionsByType("Skill Map Scale"))
   }, [])
 
   useEffect(() => {
@@ -35,33 +45,58 @@ export const SkillMapSearchTable = () => {
       getSkillMapSearch({
         name: searchParams.get("name") ?? undefined,
         skill: searchParams.get("skill") ?? undefined,
+        sortBy: searchParams.get("sortBy") ?? undefined,
         page: searchParams.get("page") ?? undefined,
       })
     )
   }, [searchParams])
 
+  useEffect(() => {
+    const answerOptions = [...answer_options]
+    const answerLabels = sortAnswerOptionBySequenceNumber(answerOptions).map(
+      (answerOption) => answerOption.name
+    )
+    answerLabels.unshift("No rating")
+    setScaleYLabels(answerLabels)
+  }, [answer_options])
+
+  useEffect(() => {
+    if (user_skill_map.length > 0) {
+      processData(user_skill_map)
+    }
+  }, [user_skill_map])
+
   const toggleSkillMapModal = () => {
     setShowSkillMapModal((prev) => !prev)
   }
 
-  const handleRowClick = (item: SkillMapSearch) => {
-    setSelectedSkillMapResult(item)
-    setShowSkillMapModal(true)
+  const handleRowClick = (item: SkillMapRating) => {
+    setSelectedSkillMapRating(item)
+    const userId = item.skill_map_results?.users?.id
+    const skillId = item.skills?.id
+    if (userId !== undefined && skillId !== undefined) {
+      void appDispatch(
+        getUserSkillMapBySkillId({
+          id: userId,
+          skillId,
+        })
+      )
+    }
   }
 
-  const renderCell = (item: SkillMapSearch, column: ReactNode): ReactNode => {
+  const renderCell = (item: SkillMapRating, column: ReactNode): ReactNode => {
     const columnName = column as string
     switch (columnName) {
       case "Name":
         return (
           <div onClick={() => handleRowClick(item)}>
-            {item.users?.last_name}, {item.users?.first_name}
+            {item.skill_map_results?.users?.last_name}, {item.skill_map_results?.users?.first_name}
           </div>
         )
       case "Skill":
-        return item.skill_map_ratings?.map((rating) => rating.skills.name).join(", ")
+        return item.skills?.name
       case "Latest Rating":
-        return item.skill_map_ratings?.map((rating) => rating.answer_options?.name)
+        return item.answer_options?.name
       case "Details":
         return (
           <div>
@@ -72,7 +107,8 @@ export const SkillMapSearchTable = () => {
               )}
             </p>
             <p className='text-sm'>
-              Submitted Date: {convertToFullDate(item.submitted_date?.toString() ?? "")}
+              Submitted Date:{" "}
+              {convertToFullDate(item.skill_map_results?.submitted_date?.toString() ?? "")}
             </p>
           </div>
         )
@@ -81,16 +117,54 @@ export const SkillMapSearchTable = () => {
     }
   }
 
+  const processData = (apiData: UserSkillMap[]) => {
+    const labels = apiData.map((item) =>
+      item.skill_map_period_end_date != null
+        ? new Date(item.skill_map_period_end_date).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+          })
+        : ""
+    )
+
+    const skillData: Record<string, Array<number | null>> = {}
+    apiData.forEach((item, index) => {
+      item.skill_map_results.forEach((result) => {
+        result.skill_map_ratings.forEach((rating) => {
+          if (rating.skills !== undefined && rating.answer_options !== undefined) {
+            const skillName = rating.skills.name
+            if (skillData[skillName] === undefined || skillData[skillName] === null) {
+              skillData[skillName] = new Array(apiData.length).fill(0)
+            }
+            skillData[skillName][index] = scaleYLabels.indexOf(rating.answer_options.name)
+          }
+        })
+      })
+    })
+    setData({
+      labels,
+      datasets: Object.keys(skillData).map((skillName) => {
+        const randomColor = getRandomColor()
+        return {
+          label: skillName,
+          data: skillData[skillName],
+          backgroundColor: randomColor,
+          borderColor: randomColor,
+        }
+      }),
+    } satisfies ChartData<"line">)
+
+    toggleSkillMapModal()
+  }
   return (
     <>
       <div className='flex flex-col gap-8 overflow-x-auto'>
         <Table
           columns={columns}
-          data={skill_map_search}
+          data={skill_map_ratings}
           isRowClickable={true}
           renderCell={renderCell}
         />
-
         {totalPages !== 1 && (
           <div className='flex justify-center'>
             <Pagination
@@ -104,14 +178,11 @@ export const SkillMapSearchTable = () => {
       <Suspense>
         <SkillMapResultsDialog
           open={showSkillMapModal}
-          title={`${selectedSkillMapResult?.users?.last_name}, ${selectedSkillMapResult?.users
-            ?.first_name}: ${selectedSkillMapResult?.skill_map_ratings
-            ?.map((rating) => rating.skills.name)
-            .join(", ")} Skill Map Details`}
+          title={`${selectedSkillMapRating?.skill_map_results?.users?.last_name}, ${selectedSkillMapRating?.skill_map_results?.users?.first_name}: ${selectedSkillMapRating?.skills?.name} Skill Map Details`}
           description={
-            selectedSkillMapResult?.users?.id !== undefined ? (
-              <LineGraph id={selectedSkillMapResult.users.id} />
-            ) : null
+            <div className='w-[800px]'>
+              <CustomLineGraph scaleYLabels={scaleYLabels} data={data} />
+            </div>
           }
           onSubmit={toggleSkillMapModal}
         />
