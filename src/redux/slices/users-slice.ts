@@ -114,6 +114,9 @@ const usersSlice = createSlice({
     setUsers: (state, action) => {
       state.users = action.payload
     },
+    setUserSkillMap: (state, action) => {
+      state.user_skill_map = action.payload
+    },
   },
   extraReducers(builder) {
     /**
@@ -216,5 +219,5 @@ const usersSlice = createSlice({
   },
 })
 
-export const { setUsers } = usersSlice.actions
+export const { setUsers, setUserSkillMap } = usersSlice.actions
 export default usersSlice.reducer
