@@ -113,6 +113,7 @@ export const SkillMapFormTable = () => {
       try {
         const skillMapRatings: SkillMapRating[] = selectedUserSkills.map((skill) => {
           return {
+            id: 0,
             skill_map_administration_id: parseInt(id),
             skill_id: skill.id,
             skill_category_id: skill.skill_category_id,

@@ -12,9 +12,8 @@ export const SkillMapResultsListFilter = () => {
 
   const dispatch = useAppDispatch()
 
-  const { user_latest_skill_map_result, user_latest_skill_map_result_filtered } = useAppSelector(
-    (state) => state.user
-  )
+  const { totalItems } = useAppSelector((state) => state.skillMapResults)
+  const { user_latest_skill_map_result } = useAppSelector((state) => state.user)
 
   const [name, setName] = useState<string>(searchParams.get("name") ?? "")
   const isMobile = useMobileView()
@@ -72,18 +71,7 @@ export const SkillMapResultsListFilter = () => {
         </div>
       </div>
       <h2 className='text-gray-400 text-sm md:text-lg'>
-        <span className='mr-1'>
-          {" "}
-          {searchParams.size === 0
-            ? user_latest_skill_map_result.length
-            : user_latest_skill_map_result_filtered.length}
-        </span>
-        {(searchParams.size === 0
-          ? user_latest_skill_map_result.length
-          : user_latest_skill_map_result_filtered.length) === 0
-          ? "Result"
-          : "Results"}{" "}
-        Found
+        {totalItems} {totalItems === 1 ? "Result" : "Results"} Found
       </h2>
     </>
   )

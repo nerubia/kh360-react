@@ -56,7 +56,11 @@ export const SkillMapSearchFilter = () => {
       }
       params.set("skill", skill)
       params.set("page", "1")
-      params.set("sortBy", sortBy)
+      if (sortBy.length !== 0) {
+        params.set("sortBy", sortBy)
+      } else {
+        params.delete("sortBy")
+      }
       return params
     })
   }

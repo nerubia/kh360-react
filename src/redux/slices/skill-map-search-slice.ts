@@ -3,16 +3,14 @@ import { type AxiosError } from "axios"
 import { type ApiError } from "@custom-types/apiErrorType"
 import { axiosInstance } from "@utils/axios-instance"
 import { Loading } from "@custom-types/loadingType"
-import {
-  type SkillMapSearchFilters,
-  type SkillMapSearch,
-} from "@custom-types/skill-map-search-type"
+import { type SkillMapSearchFilters } from "@custom-types/skill-map-search-type"
+import { type SkillMapRating } from "@custom-types/skill-map-rating-type"
 
 export const getSkillMapSearch = createAsyncThunk(
   "skillMapSearch/getSkillMapSearch",
   async (params: SkillMapSearchFilters | undefined, thunkApi) => {
     try {
-      const response = await axiosInstance.get(`/admin/skill-map-search/`, {
+      const response = await axiosInstance.get(`/admin/skill-map-search`, {
         params,
       })
       return response.data
@@ -28,7 +26,7 @@ interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   loading_send: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
-  skill_map_search: SkillMapSearch[]
+  skill_map_ratings: SkillMapRating[]
   hasPreviousPage: boolean
   hasNextPage: boolean
   totalPages: number
@@ -39,7 +37,7 @@ const initialState: InitialState = {
   loading: Loading.Idle,
   loading_send: Loading.Idle,
   error: null,
-  skill_map_search: [],
+  skill_map_ratings: [],
   hasPreviousPage: false,
   hasNextPage: false,
   totalPages: 0,
@@ -51,7 +49,7 @@ const skillMapSearch = createSlice({
   initialState,
   reducers: {
     setSkillMapSearch: (state, action) => {
-      state.skill_map_search = action.payload
+      state.skill_map_ratings = action.payload
     },
   },
   extraReducers(builder) {
@@ -65,7 +63,7 @@ const skillMapSearch = createSlice({
     builder.addCase(getSkillMapSearch.fulfilled, (state, action) => {
       state.loading = Loading.Fulfilled
       state.error = null
-      state.skill_map_search = action.payload.data
+      state.skill_map_ratings = action.payload.data
       state.hasPreviousPage = action.payload.pageInfo.hasPreviousPage
       state.hasNextPage = action.payload.pageInfo.hasNextPage
       state.totalPages = action.payload.pageInfo.totalPages
