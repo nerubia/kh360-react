@@ -10,7 +10,7 @@ import { SkillMapAdminStatus } from "@custom-types/skill-map-admin-type"
 import { DateRangeDisplay } from "@components/shared/display-range-date"
 import { useMobileView } from "@hooks/use-mobile-view"
 
-const allowedStatus = [SkillMapAdminStatus.Ongoing]
+const allowedStatus = [SkillMapAdminStatus.Ongoing, SkillMapAdminStatus.Closed]
 
 export const SkillMapFormHeader = () => {
   const appDispatch = useAppDispatch()
