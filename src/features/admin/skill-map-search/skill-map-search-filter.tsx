@@ -15,6 +15,8 @@ import {
   SkillMapSearchSortNames,
   SkillMapSearchSortOptions,
 } from "@custom-types/skill-map-search-type"
+import { sortSkillCategoriesBySequenceNumber, sortSkillsByName } from "@utils/sort"
+import { type Skill } from "@custom-types/skill-type"
 
 const sortOptions: Option[] = Object.values(SkillMapSearchSortOptions).map((value) => ({
   label: SkillMapSearchSortNames[value],
@@ -32,7 +34,15 @@ export const SkillMapSearchFilter = () => {
   const [skill, setSkill] = useState<string>(searchParams.get("skill") ?? "All")
   const [sortBy, setSortBy] = useState<string>(searchParams.get("sortBy") ?? "")
 
-  const skillCategories = skill_categories.map((category) => category)
+  const skillCategories = sortSkillCategoriesBySequenceNumber(
+    skill_categories.map((category) => {
+      const skills: Skill[] = category.skills !== undefined ? [...category.skills] : []
+      return {
+        ...category,
+        skills: sortSkillsByName(skills),
+      }
+    })
+  )
   skillCategories.unshift({
     id: 0,
     name: "All",
