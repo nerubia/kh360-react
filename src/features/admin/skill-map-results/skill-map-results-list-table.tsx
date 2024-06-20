@@ -9,7 +9,7 @@ import { type SkillMapResult, columns } from "@custom-types/skill-map-result-typ
 import { getSkillMapResultsLatest } from "@redux/slices/skill-map-results-slice"
 import { CustomLineGraph } from "@components/ui/linegraph/custom-line-graph"
 import { type ChartData } from "chart.js"
-import { getUserSkillMap } from "@redux/slices/users-slice"
+import { getUserSkillMap, setUserSkillMap } from "@redux/slices/users-slice"
 import { type UserSkillMap } from "@custom-types/user-type"
 import { getAnswerOptionsByType } from "@redux/slices/answer-options-slice"
 import { sortAnswerOptionBySequenceNumber } from "@utils/sort"
@@ -68,7 +68,11 @@ export const SkillMapResultsListTable = () => {
   }, [user_skill_map])
 
   const toggleSkillMapModal = () => {
+    const previousState = showSkillMapModal
     setShowSkillMapModal((prev) => !prev)
+    if (previousState) {
+      void appDispatch(setUserSkillMap([]))
+    }
   }
 
   const handleViewSkillMapResult = (id: number) => {

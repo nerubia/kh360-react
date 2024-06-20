@@ -13,7 +13,7 @@ import { getAnswerOptionsByType } from "@redux/slices/answer-options-slice"
 import { type ChartData } from "chart.js"
 import { sortAnswerOptionBySequenceNumber } from "@utils/sort"
 import { CustomLineGraph } from "@components/ui/linegraph/custom-line-graph"
-import { getUserSkillMapBySkillId } from "@redux/slices/users-slice"
+import { getUserSkillMapBySkillId, setUserSkillMap } from "@redux/slices/users-slice"
 import { type UserSkillMap } from "@custom-types/user-type"
 import { getRandomColor } from "@utils/colors"
 
@@ -67,7 +67,11 @@ export const SkillMapSearchTable = () => {
   }, [user_skill_map])
 
   const toggleSkillMapModal = () => {
+    const previousState = showSkillMapModal
     setShowSkillMapModal((prev) => !prev)
+    if (previousState) {
+      void appDispatch(setUserSkillMap([]))
+    }
   }
 
   const handleRowClick = (item: SkillMapRating) => {
