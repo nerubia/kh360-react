@@ -30,3 +30,9 @@ export enum SkillStatus {
 }
 
 export const skillColumns = ["Name", "Category", "Description", "Status", "Actions"]
+
+export interface OtherSkill {
+  id: number
+  other_skill_name: string
+  rating?: AnswerOption
+}

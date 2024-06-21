@@ -281,11 +281,11 @@ test.describe("User - Skill Map Form", () => {
       await expect(page.getByRole("button", { name: "All" })).toBeVisible()
       await expect(page.getByRole("button", { name: "Programming Languages" })).toBeVisible()
 
-      await expect(page.getByRole("cell", { name: "Skill" })).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Skill" }).first()).toBeVisible()
       await expect(page.getByRole("cell", { name: "Category" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Previous Rating" })).toBeVisible()
       await expect(
-        page.getByRole("cell", { name: "Rating Beginner Intermediate Expert" })
+        page.getByRole("cell", { name: "Rating Beginner Intermediate Expert" }).first()
       ).toBeVisible()
 
       await expect(page.getByRole("cell", { name: ".NET" })).toBeVisible()
@@ -293,6 +293,8 @@ test.describe("User - Skill Map Form", () => {
 
       await expect(page.getByText("Action Script")).toBeVisible()
       await expect(page.getByRole("cell", { name: "Programming Languages" })).toBeVisible()
+
+      await expect(page.getByRole("heading", { name: "Other Skills" })).toBeVisible()
 
       await expect(page.getByRole("button", { name: "Back to List" })).toBeVisible()
       await expect(page.getByRole("button", { name: "Save & Submit" })).toBeVisible()

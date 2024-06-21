@@ -112,6 +112,7 @@ export interface EvaluationTemplateContentFormData {
 
 export interface SkillFormData {
   name?: string
+  other_skill_name?: string
   description?: string
   skill_category_id?: string
   status?: boolean | string
