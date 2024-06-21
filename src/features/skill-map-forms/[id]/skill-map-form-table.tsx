@@ -263,21 +263,25 @@ export const SkillMapFormTable = () => {
                   />
                 </td>
                 <td className='py-1 border-b items-center '>
-                  {skill_map_result_status !== SkillMapResultStatus.Submitted && (
-                    <div className='flex gap-2 justify-center'>
-                      <Button
-                        testId={`DeleteButton${skill.id}`}
-                        variant='unstyled'
-                        onClick={async () => {
-                          setSelectedSkill(skill)
-                          toggleDeleteDialog()
-                        }}
-                        disabled={skill_map_result_status === SkillMapResultStatus.Submitted}
-                      >
-                        <Icon icon='Trash' size='extraSmall' color='gray' />
-                      </Button>
-                    </div>
-                  )}
+                  {skill_map_result_status !== SkillMapResultStatus.Submitted &&
+                    skill_map_result_status !== SkillMapResultStatus.Closed && (
+                      <div className='flex gap-2 justify-center'>
+                        <Button
+                          testId={`DeleteButton${skill.id}`}
+                          variant='unstyled'
+                          onClick={async () => {
+                            setSelectedSkill(skill)
+                            toggleDeleteDialog()
+                          }}
+                          disabled={
+                            skill_map_result_status === SkillMapResultStatus.Submitted ||
+                            skill_map_result_status === SkillMapResultStatus.Closed
+                          }
+                        >
+                          <Icon icon='Trash' size='extraSmall' color='gray' />
+                        </Button>
+                      </div>
+                    )}
                 </td>
               </tr>
             ))}
@@ -308,7 +312,10 @@ export const SkillMapFormTable = () => {
         <Button
           variant='primary'
           onClick={toggleSubmitDialog}
-          disabled={skill_map_result_status === SkillMapResultStatus.Submitted}
+          disabled={
+            skill_map_result_status === SkillMapResultStatus.Submitted ||
+            skill_map_result_status === SkillMapResultStatus.Closed
+          }
         >
           Save & Submit
         </Button>
