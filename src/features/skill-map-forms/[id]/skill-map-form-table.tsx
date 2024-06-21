@@ -5,7 +5,7 @@ import { useAppSelector } from "@hooks/useAppSelector"
 import { CustomDialog } from "@components/ui/dialog/custom-dialog"
 import { Slider } from "@components/ui/slider/slider"
 import { Icon } from "@components/ui/icon/icon"
-import { type Skill } from "@custom-types/skill-type"
+import { type OtherSkill, type Skill } from "@custom-types/skill-type"
 import {
   setCheckedUserSkills,
   setSelectedUserSkills,
@@ -16,20 +16,22 @@ import { getAnswerOptionsByType } from "@redux/slices/answer-options-slice"
 import { type SkillMapRating, RatingAnswerOption } from "@custom-types/skill-map-rating-type"
 import {
   getUserSkillMapRatings,
+  setOtherSkills,
   setUserSkillMapRatings,
   submitSkillMapRatings,
   updateSkillMapResultStatus,
 } from "@redux/slices/user-slice"
 import { setAlert } from "@redux/slices/app-slice"
 import { SkillMapResultStatus } from "@custom-types/skill-map-result-type"
+import { PageSubTitle } from "@components/shared/page-sub-title"
+import { OtherSkillFormDialog } from "./other-skill-form/other-skill-form"
 
 export const SkillMapFormTable = () => {
   const navigate = useNavigate()
   const appDispatch = useAppDispatch()
   const { id } = useParams()
-  const { user_skill_map_ratings, skill_map_result_status, user_skill_map_admins } = useAppSelector(
-    (state) => state.user
-  )
+  const { user_skill_map_ratings, skill_map_result_status, user_skill_map_admins, other_skills } =
+    useAppSelector((state) => state.user)
   const { selectedUserSkills, hasSelected } = useAppSelector((state) => state.userSkills)
   const { answer_options } = useAppSelector((state) => state.answerOptions)
   const [searchParams] = useSearchParams()
@@ -40,8 +42,12 @@ export const SkillMapFormTable = () => {
   const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false)
   const [showBackDialog, setShowBackDialog] = useState<boolean>(false)
 
+  const [showOtherSkillFormDialog, setShowOtherSkillFormDialog] = useState<boolean>(false)
+  const [showDeleteOtherSkillDialog, setShowDeleteOtherSkillDialog] = useState<boolean>(false)
+
   const [displayedSkills, setDisplayedSkills] = useState<Skill[]>([])
   const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null)
+  const [selectedOtherSkill, setSelectedOtherSkill] = useState<OtherSkill | null>(null)
 
   useEffect(() => {
     void appDispatch(getAnswerOptionsByType("Skill Map Scale"))
@@ -60,8 +66,15 @@ export const SkillMapFormTable = () => {
           setCheckedUserSkills([...user_skill_map_ratings, ...filteredSelectedUserSkills])
         )
       } else {
-        appDispatch(setSelectedUserSkills([...user_skill_map_ratings]))
-        appDispatch(setCheckedUserSkills([...user_skill_map_ratings]))
+        const skills = user_skill_map_ratings.filter(
+          (userSkillMapRating) => userSkillMapRating.skill_category_id !== undefined
+        )
+        const otherSkills = user_skill_map_ratings.filter(
+          (userSkillMapRating) => userSkillMapRating.skill_category_id === undefined
+        )
+        appDispatch(setSelectedUserSkills([...skills]))
+        appDispatch(setCheckedUserSkills([...skills]))
+        appDispatch(setOtherSkills(otherSkills))
       }
     }
   }, [user_skill_map_ratings])
@@ -104,6 +117,14 @@ export const SkillMapFormTable = () => {
     setShowDeleteDialog((prev) => !prev)
   }
 
+  const toggleOtherSkillFormDialog = () => {
+    setShowOtherSkillFormDialog((prev) => !prev)
+  }
+
+  const toggleDeleteOtherSkillDialog = () => {
+    setShowDeleteOtherSkillDialog((prev) => !prev)
+  }
+
   const toggleSubmitDialog = () => {
     setShowSubmitDialog((prev) => !prev)
   }
@@ -120,9 +141,19 @@ export const SkillMapFormTable = () => {
             answer_option_id: skill.rating?.id,
           }
         })
+
+        const otherSkillMapRatings: SkillMapRating[] = other_skills.map((skill) => {
+          return {
+            id: 0,
+            skill_map_administration_id: parseInt(id),
+            other_skill_name: skill.other_skill_name,
+            answer_option_id: skill.rating?.id,
+          }
+        })
+
         const result = await appDispatch(
           submitSkillMapRatings({
-            skill_map_ratings: skillMapRatings,
+            skill_map_ratings: [...skillMapRatings, ...otherSkillMapRatings],
             skill_map_administration_id: parseInt(id),
           })
         )
@@ -186,6 +217,38 @@ export const SkillMapFormTable = () => {
 
       appDispatch(setSelectedUserSkills(updatedUserSkills))
       appDispatch(setCheckedUserSkills(updatedUserSkills))
+    }
+  }
+
+  const handleOtherSkillSliderChange = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
+    const ratingValue = parseInt(e.target.value, 10)
+    const rating = getSkillRating(ratingValue)
+
+    const updatedUserSkills = other_skills.map((skill) => {
+      if (skill.id === id) {
+        return { ...skill, rating }
+      }
+      return skill
+    })
+
+    appDispatch(setOtherSkills(updatedUserSkills))
+  }
+
+  const handleOtherSkillSliderClick = (
+    e: React.MouseEvent,
+    rating: string | undefined,
+    id: number
+  ) => {
+    const newValue = (e.currentTarget as HTMLInputElement).value
+    if (rating === undefined) {
+      const updatedUserSkills = other_skills.map((skill) => {
+        if (skill.id === id) {
+          return { ...skill, rating: getSkillRating(parseInt(newValue)) }
+        }
+        return skill
+      })
+
+      appDispatch(setOtherSkills(updatedUserSkills))
     }
   }
 
@@ -296,6 +359,80 @@ export const SkillMapFormTable = () => {
           </div>
         )}
       </div>
+      <PageSubTitle>Other Skills</PageSubTitle>
+      <div className='h-full overflow-auto'>
+        <table className='relative w-full z-20'>
+          <thead className='text-left'>
+            <tr>
+              <th className='py-1 border-b-4 mr-2 text-primary-500 md:w-1/4'>Skill</th>
+              <th className='py-1 border-b-4 mr-2 text-center text-primary-500 md:w-1/3'>
+                Rating
+                <div className='flex justify-between font-normal text-sm mt-2'>
+                  {answer_options.map((option, index) => (
+                    <p key={index}>{option.display_name}</p>
+                  ))}
+                </div>
+              </th>
+              <th className='px-10 border-b-4 mr-2 text-center text-primary-500 md:w-1/4'></th>
+            </tr>
+          </thead>
+          <tbody>
+            {other_skills.map((skill, index) => (
+              <tr key={index} className='hover:bg-slate-100'>
+                <td className='py-1 border-b'>
+                  <div>{skill?.other_skill_name}</div>
+                </td>
+                <td className='py-1 border-b text-start'>
+                  <Slider
+                    sliderValue={getSkillRatingValue(skill.rating?.display_name ?? "") ?? 0}
+                    variant={
+                      getSkillRatingValue(skill.rating?.display_name ?? "") === undefined
+                        ? "empty"
+                        : "primary"
+                    }
+                    handleSliderChange={(e) => handleOtherSkillSliderChange(e, skill.id)}
+                    onClick={(e) =>
+                      handleOtherSkillSliderClick(e, skill.rating?.display_name, skill.id)
+                    }
+                    disabled={skill_map_result_status === SkillMapResultStatus.Submitted}
+                  />
+                </td>
+                <td className='py-1 border-b items-center '>
+                  {skill_map_result_status !== SkillMapResultStatus.Submitted &&
+                    skill_map_result_status !== SkillMapResultStatus.Closed && (
+                      <div className='flex gap-2 justify-center'>
+                        <Button
+                          testId={`DeleteButton${skill.id}`}
+                          variant='unstyled'
+                          onClick={async () => {
+                            setSelectedOtherSkill(skill)
+                            toggleDeleteOtherSkillDialog()
+                          }}
+                          disabled={
+                            skill_map_result_status === SkillMapResultStatus.Submitted ||
+                            skill_map_result_status === SkillMapResultStatus.Closed
+                          }
+                        >
+                          <Icon icon='Trash' size='extraSmall' color='gray' />
+                        </Button>
+                      </div>
+                    )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {skill_map_result_status !== SkillMapResultStatus.Submitted && (
+          <div className='mt-4'>
+            <Button onClick={toggleOtherSkillFormDialog} variant={"ghost"}>
+              <Icon icon='Plus' size='small' color='primary' />
+              <p className='text-primary-500 uppercase whitespace-nowrap text-sm'>
+                Add Other Skills
+              </p>
+            </Button>
+          </div>
+        )}
+      </div>
       <div className='flex justify-between mt-5 pb-4'>
         <Button
           variant='primaryOutline'
@@ -341,6 +478,25 @@ export const SkillMapFormTable = () => {
           toggleDeleteDialog()
           if (selectedSkill !== null) {
             await handleDelete(selectedSkill.id)
+          }
+        }}
+      />
+      <OtherSkillFormDialog
+        open={showOtherSkillFormDialog}
+        toggleDialog={toggleOtherSkillFormDialog}
+      />
+      <CustomDialog
+        open={showDeleteOtherSkillDialog}
+        title='Delete Other Skill'
+        description={`Are you sure you want to delete ${selectedOtherSkill?.other_skill_name}?`}
+        onClose={toggleDeleteOtherSkillDialog}
+        onSubmit={async () => {
+          toggleDeleteOtherSkillDialog()
+          if (selectedOtherSkill !== null) {
+            const filteredUserSkills = other_skills.filter(
+              (skill) => skill.id !== selectedOtherSkill.id
+            )
+            void appDispatch(setOtherSkills(filteredUserSkills))
           }
         }}
       />

@@ -31,6 +31,7 @@ import {
 import { type SkillMapRating, type SkillMapRatings } from "@custom-types/skill-map-rating-type"
 import { type MySkillMap } from "@custom-types/my-skill-map-type"
 import { type SkillMapResultLatest } from "@custom-types/skill-map-result-latest"
+import { type OtherSkill } from "@custom-types/skill-type"
 
 export const getUserEvaluations = createAsyncThunk(
   "user/getUserEvaluations",
@@ -338,6 +339,7 @@ interface InitialState {
   my_evaluation_administrations: EvaluationAdministration[]
   my_skill_map: MySkillMap[]
   user_evaluation_result: EvaluationResult | null
+  other_skills: OtherSkill[]
   hasPreviousPage: boolean
   hasNextPage: boolean
   currentPage: number
@@ -369,6 +371,7 @@ const initialState: InitialState = {
   my_evaluation_administrations: [],
   my_skill_map: [],
   user_evaluation_result: null,
+  other_skills: [],
   hasPreviousPage: false,
   hasNextPage: false,
   currentPage: 0,
@@ -432,6 +435,9 @@ const userSlice = createSlice({
     },
     setUserSkillMapRatings: (state, action) => {
       state.user_skill_map_ratings = action.payload
+    },
+    setOtherSkills: (state, action) => {
+      state.other_skills = action.payload
     },
   },
   extraReducers(builder) {
@@ -783,5 +789,6 @@ export const {
   updateSkillMapResultStatus,
   updateFilteredSkillMapResults,
   setUserSkillMapRatings,
+  setOtherSkills,
 } = userSlice.actions
 export default userSlice.reducer
