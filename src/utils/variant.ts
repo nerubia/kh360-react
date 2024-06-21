@@ -230,6 +230,9 @@ export const getSurveyResultStatusVariant = (status: string | undefined) => {
   if (status === SurveyResultStatus.Submitted) {
     return "blue"
   }
+  if (status === SurveyResultStatus.NoResult) {
+    return "red"
+  }
 }
 
 export const getSkillMapResultStatusVariant = (status: string | undefined) => {

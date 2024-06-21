@@ -10,6 +10,8 @@ import { Badge } from "@components/ui/badge/badge"
 import { getSurveyResultStatusVariant } from "@utils/variant"
 import { Loading } from "@custom-types/loadingType"
 import { getUserSkillMapAdministrations } from "@redux/slices/user-slice"
+import { setAlert } from "@redux/slices/app-slice"
+import { SkillMapResultStatus } from "@custom-types/skill-map-result-type"
 
 export const SkillMapFormsList = () => {
   const appDispatch = useAppDispatch()
@@ -26,6 +28,15 @@ export const SkillMapFormsList = () => {
     void appDispatch(getByTemplateTypeSocket("No Pending Skill Map Forms"))
   }, [lastJsonMessage])
 
+  const handleNoResult = () => {
+    appDispatch(
+      setAlert({
+        description: "This form has expired. Please contact admin for assistance.",
+        variant: "destructive",
+      })
+    )
+  }
+
   return (
     <div className='flex flex-col gap-8'>
       {loading === Loading.Pending && (
@@ -39,40 +50,80 @@ export const SkillMapFormsList = () => {
       {
         <>
           {user_skill_map_admins.map((skillMap) => (
-            <Link key={skillMap.id} to={`/skill-map-forms/${skillMap.id}`}>
-              <div className='flex flex-col items-start gap-4 md:flex-row md:justify-between shadow-md rounded-md p-4 hover:bg-slate-100'>
-                <div className='flex flex-col gap-2'>
-                  <div className='flex gap-2 items-center'>
-                    <h2 className='text-primary-500 text-lg font-semibold'>{skillMap.name}</h2>
-                    <Badge
-                      variant={getSurveyResultStatusVariant(skillMap.skill_map_result_status)}
-                      size='small'
-                    >
-                      <div className='uppercase'>{skillMap?.skill_map_result_status}</div>
-                    </Badge>
+            <div key={skillMap.id}>
+              {skillMap.skill_map_result_status === SkillMapResultStatus.NoResult ? (
+                <div
+                  className='flex flex-col items-start gap-4 md:flex-row md:justify-between shadow-md rounded-md p-4 cursor-not-allowed'
+                  onClick={handleNoResult}
+                >
+                  <div className='flex flex-col gap-2'>
+                    <div className='flex gap-2 items-center'>
+                      <h2 className='text-primary-500 text-lg font-semibold'>{skillMap.name}</h2>
+                      <Badge
+                        variant={getSurveyResultStatusVariant(skillMap.skill_map_result_status)}
+                        size='small'
+                      >
+                        <div className='uppercase'>Expired</div>
+                      </Badge>
+                    </div>
+                    <div>
+                      <p>
+                        Period:{" "}
+                        {formatDateRange(
+                          skillMap.skill_map_period_start_date,
+                          skillMap.skill_map_period_end_date
+                        )}
+                      </p>
+                    </div>
+                    <div>
+                      <p>
+                        Schedule:{" "}
+                        {formatDateRange(
+                          skillMap.skill_map_schedule_start_date,
+                          skillMap.skill_map_schedule_end_date
+                        )}
+                      </p>
+                    </div>
+                    <p>{skillMap.remarks}</p>
                   </div>
-                  <div>
-                    <p>
-                      Period:{" "}
-                      {formatDateRange(
-                        skillMap.skill_map_period_start_date,
-                        skillMap.skill_map_period_end_date
-                      )}
-                    </p>
-                  </div>
-                  <div>
-                    <p>
-                      Schedule:{" "}
-                      {formatDateRange(
-                        skillMap.skill_map_schedule_start_date,
-                        skillMap.skill_map_schedule_end_date
-                      )}
-                    </p>
-                  </div>
-                  <p>{skillMap.remarks}</p>
                 </div>
-              </div>
-            </Link>
+              ) : (
+                <Link to={`/skill-map-forms/${skillMap.id}`}>
+                  <div className='flex flex-col items-start gap-4 md:flex-row md:justify-between shadow-md rounded-md p-4 hover:bg-slate-100'>
+                    <div className='flex flex-col gap-2'>
+                      <div className='flex gap-2 items-center'>
+                        <h2 className='text-primary-500 text-lg font-semibold'>{skillMap.name}</h2>
+                        <Badge
+                          variant={getSurveyResultStatusVariant(skillMap.skill_map_result_status)}
+                          size='small'
+                        >
+                          <div className='uppercase'>{skillMap.skill_map_result_status}</div>
+                        </Badge>
+                      </div>
+                      <div>
+                        <p>
+                          Period:{" "}
+                          {formatDateRange(
+                            skillMap.skill_map_period_start_date,
+                            skillMap.skill_map_period_end_date
+                          )}
+                        </p>
+                      </div>
+                      <div>
+                        <p>
+                          Schedule:{" "}
+                          {formatDateRange(
+                            skillMap.skill_map_schedule_start_date,
+                            skillMap.skill_map_schedule_end_date
+                          )}
+                        </p>
+                      </div>
+                      <p>{skillMap.remarks}</p>
+                    </div>
+                  </div>
+                </Link>
+              )}
+            </div>
           ))}
         </>
       }
