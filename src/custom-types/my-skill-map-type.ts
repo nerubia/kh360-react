@@ -45,6 +45,7 @@ export interface SkillMapRating {
   answer_options: AnswerOption
   answer_option_id: number
   created_at: string
+  other_skill_name: string
 }
 
 export interface SkillMapResult {
