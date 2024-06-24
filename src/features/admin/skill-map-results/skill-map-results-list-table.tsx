@@ -109,7 +109,7 @@ export const SkillMapResultsListTable = () => {
       item.skill_map_results.forEach((result) => {
         result.skill_map_ratings.forEach((rating) => {
           if (rating.skills !== undefined && rating.answer_options !== undefined) {
-            const skillName = rating.skills.name
+            const skillName = rating?.other_skill_name ?? rating.skills?.name
             if (skillData[skillName] === undefined || skillData[skillName] === null) {
               skillData[skillName] = new Array(apiData.length).fill(0)
             }

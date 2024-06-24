@@ -56,12 +56,12 @@ export const MySkillMapLineGraph = () => {
           })
         : ""
     )
-
     const skillData: Record<string, Array<number | null>> = {}
     apiData.forEach((item, index) => {
       item.skill_map_results.forEach((result) => {
         result.skill_map_ratings.forEach((rating) => {
-          const skillName = rating.skills.name
+          const skillName = rating?.other_skill_name ?? rating?.skills?.name
+
           if (skillData[skillName] === undefined || skillData[skillName] === null) {
             skillData[skillName] = new Array(apiData.length).fill(0)
           }
