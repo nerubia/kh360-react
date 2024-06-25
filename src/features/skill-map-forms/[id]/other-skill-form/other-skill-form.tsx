@@ -31,18 +31,23 @@ export const OtherSkillFormDialog = ({ open, toggleDialog }: OtherSkillFormDialo
     setFormData({ ...formData, [name]: value })
   }
 
+  const generateUniqueID = () => {
+    const timeStamp = Date.now()
+    const randNumber = Math.floor(Math.random() * 1000)
+    return `${timeStamp}${randNumber}`
+  }
+
   const handleAdd = async () => {
     try {
       await createOtherSkillSchema.validate(formData, {
         abortEarly: false,
       })
-      const prevSkill = other_skills[other_skills.length - 1]
-      const newId = prevSkill !== undefined ? prevSkill.id + 1 : 1
+      const newId = generateUniqueID()
       void appDispatch(
         setOtherSkills([
           ...other_skills,
           {
-            id: newId,
+            skill_rating_id: newId,
             ...formData,
           },
         ])

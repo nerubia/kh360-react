@@ -62,11 +62,13 @@ export const SkillMapFormTable = () => {
         const skills = user_skill_map_ratings.filter(
           (userSkillMapRating) => userSkillMapRating.skill_category_id !== undefined
         )
+
+        appDispatch(setSelectedUserSkills([...skills, ...filteredSelectedUserSkills]))
+        appDispatch(setCheckedUserSkills([...skills, ...filteredSelectedUserSkills]))
+
         const otherSkills = user_skill_map_ratings.filter(
           (userSkillMapRating) => userSkillMapRating.skill_category_id === undefined
         )
-        appDispatch(setSelectedUserSkills([...skills, ...filteredSelectedUserSkills]))
-        appDispatch(setCheckedUserSkills([...skills, ...filteredSelectedUserSkills]))
         appDispatch(setOtherSkills(otherSkills))
       } else {
         const skills = user_skill_map_ratings.filter(
@@ -87,7 +89,7 @@ export const SkillMapFormTable = () => {
       setDisplayedSkills(selectedUserSkills)
     } else {
       const filteredSkills = selectedUserSkills.filter(
-        (skill) => skill.skill_categories.id === parseInt(skill_category_id ?? "")
+        (skill) => skill.skill_categories?.id === parseInt(skill_category_id ?? "")
       )
       setDisplayedSkills(filteredSkills)
     }
@@ -144,7 +146,6 @@ export const SkillMapFormTable = () => {
             answer_option_id: skill.rating?.id,
           }
         })
-
         const otherSkillMapRatings: SkillMapRating[] = other_skills.map((skill) => {
           return {
             id: 0,
@@ -228,7 +229,7 @@ export const SkillMapFormTable = () => {
     const rating = getSkillRating(ratingValue)
 
     const updatedUserSkills = other_skills.map((skill) => {
-      if (skill.id === id) {
+      if (skill.skill_rating_id === id) {
         return { ...skill, rating }
       }
       return skill
@@ -311,7 +312,7 @@ export const SkillMapFormTable = () => {
                 <td className='py-1 border-b'>
                   <div>{skill?.name}</div>
                 </td>
-                <td className='py-1 border-b text-start'>{skill?.skill_categories.name}</td>
+                <td className='py-1 border-b text-start'>{skill?.skill_categories?.name}</td>
                 <td className='py-1 border-b text-start'>
                   {skill?.previous_rating?.display_name ?? "No Rating"}
                 </td>
@@ -393,7 +394,9 @@ export const SkillMapFormTable = () => {
                         ? "empty"
                         : "primary"
                     }
-                    handleSliderChange={(e) => handleOtherSkillSliderChange(e, skill.id)}
+                    handleSliderChange={(e) =>
+                      handleOtherSkillSliderChange(e, skill.skill_rating_id)
+                    }
                     onClick={(e) =>
                       handleOtherSkillSliderClick(e, skill.rating?.display_name, skill.id)
                     }

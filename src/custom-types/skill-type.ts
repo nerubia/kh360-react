@@ -33,6 +33,7 @@ export const skillColumns = ["Name", "Category", "Description", "Status", "Actio
 
 export interface OtherSkill {
   id: number
+  skill_rating_id: number
   other_skill_name: string
   rating?: AnswerOption
 }
