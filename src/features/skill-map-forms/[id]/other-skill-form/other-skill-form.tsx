@@ -62,7 +62,7 @@ export const OtherSkillFormDialog = ({ open, toggleDialog }: OtherSkillFormDialo
 
   return (
     <Dialog open={open} size='small'>
-      <Dialog.Title>Add Skill</Dialog.Title>
+      <Dialog.Title>Add Other Skill</Dialog.Title>
       <Dialog.Description>
         <div className='flex flex-col gap-10'>
           <div className='flex flex-col gap-4 p-1'>
