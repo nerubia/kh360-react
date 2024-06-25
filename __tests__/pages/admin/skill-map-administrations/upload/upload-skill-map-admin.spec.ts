@@ -5,7 +5,7 @@ import { loginUser } from "@test-utils/login-user"
 
 setupPlaywright()
 
-test.describe("Admin - Skill Map Administrations", () => {
+test.describe("Admin - Upload Skill Map Administration", () => {
   test.beforeEach(async ({ page }) => {
     await mockRequest(page, "/auth/refresh", {
       status: 403,
@@ -19,18 +19,18 @@ test.describe("Admin - Skill Map Administrations", () => {
   })
 
   test.describe("as Guest", () => {
-    test("should not allow to view the skill map administrations", async ({ page }) => {
-      await page.goto("/admin/skill-map-administrations")
+    test("should not allow to view the upload skill map administration", async ({ page }) => {
+      await page.goto("/admin/skill-map-administrations/upload")
 
-      await expect(page).toHaveURL("/auth/login?callback=/admin/skill-map-administrations")
+      await expect(page).toHaveURL("/auth/login?callback=/admin/skill-map-administrations/upload")
     })
   })
 
   test.describe("as Employee", () => {
-    test("should not allow to view the skill map administrations", async ({ page }) => {
+    test("should not allow to view the upload skill map administration", async ({ page }) => {
       await loginUser("employee", page)
 
-      await page.goto("/admin/skill-map-administrations")
+      await page.goto("/admin/skill-map-administrations/upload")
 
       await mockRequest(page, "/user/my-evaluations", {
         status: 200,
@@ -96,30 +96,90 @@ test.describe("Admin - Skill Map Administrations", () => {
     test("should render correctly", async ({ page, isMobile }) => {
       await loginUser("admin", page)
 
-      await page.goto("/admin/skill-map-administrations")
+      await page.goto("/admin/skill-map-administrations/upload")
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await expect(page.getByRole("heading", { name: "Upload Skill Map" })).toBeVisible()
+      await expect(page.getByPlaceholder("Name")).toBeVisible()
+
+      await expect(page.locator("#skill_map_schedule")).toBeVisible()
+
+      await expect(page.getByLabel("Description")).toBeVisible()
+
+      await expect(page.getByPlaceholder("File")).toBeVisible()
+
+      await expect(page.getByRole("button", { name: "Cancel & Exit" })).toBeVisible()
+      await expect(page.getByRole("button", { name: "Save & Proceed" })).toBeVisible()
+    })
+
+    test("should show validation errors", async ({ page, isMobile }) => {
+      await loginUser("admin", page)
+
+      await page.goto("/admin/skill-map-administrations/upload")
 
       await mockRequest(page, "/admin/skill-map-administrations", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
-          data: [
-            {
-              id: 1,
-              name: "Skill Map 1",
-              skill_map_period_start_date: "2024-04-06T00:00:00.000Z",
-              skill_map_period_end_date: "2023-03-14T00:00:00.000Z",
-              skill_map_schedule_start_date: "2023-03-15T00:00:00.000Z",
-              skill_map_schedule_end_date: "2023-03-16T00:00:00.000Z",
-              remarks: "Remarks",
-              email_subject: "",
-              email_content: null,
-              status: "Draft",
-              created_by_id: null,
-              updated_by_id: null,
-              created_at: "2023-10-17T03:41:43.000Z",
-              updated_at: null,
-            },
-          ],
+          id: 1,
+        }),
+      })
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await page.getByRole("button", { name: "Save & Proceed" }).click()
+
+      await expect(page.getByText("Name is required")).toBeVisible()
+      await expect(page.getByText("Start period is required, End period is required")).toBeVisible()
+      await expect(
+        page.getByText("Start schedule is required, End schedule is required")
+      ).toBeVisible()
+      await expect(page.getByText("Description is required")).toBeVisible()
+    })
+
+    test("should render cancel & exit modal correctly", async ({ page, isMobile }) => {
+      await loginUser("admin", page)
+
+      await page.goto("/admin/skill-map-administrations/upload")
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await page.getByRole("button", { name: "Cancel & Exit" }).click()
+
+      await expect(page.getByRole("heading", { name: "Cancel & Exit" })).toBeVisible()
+      await expect(
+        page.getByText(
+          "Are you sure you want to cancel and exit? If you cancel, your data won't be save"
+        )
+      ).toBeVisible()
+      await expect(page.getByRole("button", { name: "No" })).toBeVisible()
+      await expect(page.getByRole("button", { name: "Yes" })).toBeVisible()
+    })
+
+    test("should allow to cancel & exit", async ({ page, isMobile }) => {
+      await loginUser("admin", page)
+
+      await page.goto("/admin/skill-map-administrations/upload")
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await page.getByRole("button", { name: "Cancel & Exit" }).click()
+      await page.getByRole("button", { name: "Yes" }).click()
+
+      await mockRequest(page, "/admin/skill-map-administrations", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          data: [],
           pageInfo: {
             hasPreviousPage: false,
             hasNextPage: false,
@@ -130,43 +190,7 @@ test.describe("Admin - Skill Map Administrations", () => {
 
       await page.waitForLoadState("networkidle")
 
-      if (isMobile) {
-        await page.getByTestId("SidebarCloseButton").click()
-      }
-
-      await expect(page.getByPlaceholder("Search by name")).toBeVisible()
-      await expect(page.getByRole("combobox")).toBeVisible()
-      await expect(page.getByRole("button", { name: "Search" })).toBeVisible()
-      await expect(page.getByRole("button", { name: "Clear" })).toBeVisible()
-
-      await expect(page.locator("tr > th")).toHaveText([
-        "Name",
-        "Description",
-        "Period",
-        "Schedule",
-        "Status",
-      ])
-
-      await expect(page.getByRole("heading", { name: "Skill Map Administrations" })).toBeVisible()
-
-      if (!isMobile) {
-        await expect(page.getByRole("button", { name: "Create Skill Map" })).toBeVisible()
-        await expect(page.getByRole("cell", { name: "Skill Map 1" })).toBeVisible()
-        await expect(page.getByRole("cell", { name: "Remarks" })).toBeVisible()
-        await expect(page.getByRole("cell", { name: "2023-03-15 to 2023-03-16" })).toBeVisible()
-        await expect(page.getByRole("cell", { name: "Draft" }).locator("span")).toBeVisible()
-      } else {
-        await expect(page.getByTestId("skill-map-admin-list")).toBeVisible()
-        const nameElement = page.locator('[data-testid="name"]').nth(0)
-        await expect(nameElement).toBeVisible()
-
-        const scheduleElement = page.locator('[data-testid="schedule"]').nth(0)
-        await expect(scheduleElement).toBeVisible()
-        if (isMobile) {
-          const nameElement = page.locator('[data-testid="status"]').nth(0)
-          await expect(nameElement).toBeVisible()
-        }
-      }
+      await expect(page).toHaveURL("/admin/skill-map-administrations")
     })
   })
 })

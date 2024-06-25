@@ -27,7 +27,7 @@ test.describe("Admin - Create Skill Map Administration", () => {
   })
 
   test.describe("as Employee", () => {
-    test("should not allow to view the create survey administration", async ({ page }) => {
+    test("should not allow to view the create skill map administration", async ({ page }) => {
       await loginUser("employee", page)
 
       await page.goto("/admin/skill-map-administrations/create")
