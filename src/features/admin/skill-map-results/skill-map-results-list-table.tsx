@@ -108,12 +108,14 @@ export const SkillMapResultsListTable = () => {
     apiData.forEach((item, index) => {
       item.skill_map_results.forEach((result) => {
         result.skill_map_ratings.forEach((rating) => {
-          if (rating.skills !== undefined && rating.answer_options !== undefined) {
+          if (rating.skills !== undefined) {
             const skillName = rating?.other_skill_name ?? rating.skills?.name
             if (skillData[skillName] === undefined || skillData[skillName] === null) {
               skillData[skillName] = new Array(apiData.length).fill(0)
             }
-            skillData[skillName][index] = scaleYLabels.indexOf(rating.answer_options.name)
+            skillData[skillName][index] = scaleYLabels.indexOf(
+              rating.answer_options?.name ?? "No rating"
+            )
           }
         })
       })

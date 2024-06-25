@@ -152,6 +152,7 @@ export interface SkillMapAdminFormData {
   email_subject?: string
   email_content?: string
   status?: string
+  file?: string
 }
 
 export interface SkillMapResultsFormData {

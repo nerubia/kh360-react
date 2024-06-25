@@ -4,7 +4,7 @@ import { useMobileView } from "@hooks/use-mobile-view"
 interface InputProps {
   label?: string
   name: string
-  type?: "text" | "number" | "email" | "password" | "date"
+  type?: "text" | "number" | "email" | "password" | "date" | "file"
   placeholder: string
   value?: string
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
@@ -17,6 +17,7 @@ interface InputProps {
   maxLength?: number
   step?: number
   width?: string
+  accept?: string
 }
 
 export const Input = ({
@@ -35,6 +36,7 @@ export const Input = ({
   autoFocus,
   step,
   width = "w-full",
+  accept,
 }: InputProps) => {
   const isMobile = useMobileView()
 
@@ -62,6 +64,7 @@ export const Input = ({
         autoFocus={autoFocus}
         maxLength={maxLength}
         step={step}
+        accept={accept}
       />
       {error != null && <p className='text-red-500 text-sm'>{error}</p>}
     </div>
