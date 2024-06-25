@@ -59,12 +59,15 @@ export const SkillMapFormTable = () => {
         (skill) => !user_skill_map_ratings.some((mapSkill) => mapSkill.id === skill.id)
       )
       if (skill_map_result_status !== SkillMapResultStatus.Submitted) {
-        appDispatch(
-          setSelectedUserSkills([...user_skill_map_ratings, ...filteredSelectedUserSkills])
+        const skills = user_skill_map_ratings.filter(
+          (userSkillMapRating) => userSkillMapRating.skill_category_id !== undefined
         )
-        appDispatch(
-          setCheckedUserSkills([...user_skill_map_ratings, ...filteredSelectedUserSkills])
+        const otherSkills = user_skill_map_ratings.filter(
+          (userSkillMapRating) => userSkillMapRating.skill_category_id === undefined
         )
+        appDispatch(setSelectedUserSkills([...skills, ...filteredSelectedUserSkills]))
+        appDispatch(setCheckedUserSkills([...skills, ...filteredSelectedUserSkills]))
+        appDispatch(setOtherSkills(otherSkills))
       } else {
         const skills = user_skill_map_ratings.filter(
           (userSkillMapRating) => userSkillMapRating.skill_category_id !== undefined
