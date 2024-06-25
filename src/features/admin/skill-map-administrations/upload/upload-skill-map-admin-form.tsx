@@ -77,7 +77,37 @@ export const UploadSkillMapAdminForm = () => {
       if (result.type === "skillMapAdministration/uploadSkillMapAdmin/fulfilled") {
         void appDispatch(setSelectedEmployeeIds([]))
         appDispatch(setSkillMapResults([]))
-        navigate(`/admin/skill-map-administrations/${result.payload.id}`)
+
+        appDispatch(
+          setAlert({
+            description: (
+              <div className='flex flex-col gap-2'>
+                <div>
+                  <p>Successfully added data for following users:</p>
+                  {result.payload.successList.map((user: string) => {
+                    return (
+                      <div className='pl-1' key={user}>
+                        - {user}
+                      </div>
+                    )
+                  })}
+                </div>
+                <div>
+                  <p>Error adding data for following users:</p>
+                  {result.payload.errorList.map((user: string) => {
+                    return (
+                      <div className='pl-1' key={user}>
+                        - {user}
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            ),
+            variant: "success",
+          })
+        )
+        navigate(`/admin/skill-map-administrations/${result.payload.data.id}`)
       }
       if (result.type === "skillMapAdministration/uploadSkillMapAdmin/rejected") {
         appDispatch(
