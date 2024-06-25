@@ -51,6 +51,20 @@ export const createSkillMapAdmin = createAsyncThunk(
   }
 )
 
+export const uploadSkillMapAdmin = createAsyncThunk(
+  "skillMapAdministration/uploadSkillMapAdmin",
+  async (data: SkillMapAdminFormData, thunkApi) => {
+    try {
+      const response = await axiosInstance.post("/admin/skill-map-administrations/upload", data)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const updateSkillMapAdmin = createAsyncThunk(
   "skillMapAdministration/updateSkillMapAdmin",
   async (
@@ -192,6 +206,22 @@ const skillMapAdministrationSlice = createSlice({
       state.skill_map_administration = action.payload
     })
     builder.addCase(createSkillMapAdmin.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Upload
+     */
+    builder.addCase(uploadSkillMapAdmin.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(uploadSkillMapAdmin.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.skill_map_administration = action.payload
+    })
+    builder.addCase(uploadSkillMapAdmin.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })

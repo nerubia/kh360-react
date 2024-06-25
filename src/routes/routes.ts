@@ -60,6 +60,7 @@ export const routes = {
       skillMapAdministrations,
       viewSkillMapAdministration: `${skillMapAdministrations}/:id`,
       createSkillMapAdmin: `${skillMapAdministrations}/create`,
+      uploadSkillMapAdmin: `${skillMapAdministrations}/upload`,
       skillMapSearch: `${skillMapAdministrations}-search`,
       skillMapResults: `${skillMapAdministrations}-results`,
       selectEmployees: `${skillMapAdministrations}/:id/select`,
