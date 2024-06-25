@@ -252,7 +252,7 @@ export const UploadSkillMapAdminForm = () => {
           placeholder='File'
           onChange={handleSelectFile}
           error={validationErrors.file}
-          accept='.xlsx'
+          accept='.csv'
         />
       </div>
       <div>
