@@ -500,7 +500,7 @@ export const SkillMapFormTable = () => {
           toggleDeleteOtherSkillDialog()
           if (selectedOtherSkill !== null) {
             const filteredUserSkills = other_skills.filter(
-              (skill) => skill.id !== selectedOtherSkill.id
+              (skill) => skill.skill_rating_id !== selectedOtherSkill.skill_rating_id
             )
             void appDispatch(setOtherSkills(filteredUserSkills))
           }
