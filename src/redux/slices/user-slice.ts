@@ -335,6 +335,7 @@ interface InitialState {
   user_latest_skill_map_result: SkillMapResultLatest[]
   user_latest_skill_map_result_filtered: SkillMapResultLatest[]
   skill_map_result_status: string | null
+  comments: string | null
   survey_result_status: string | null
   my_evaluation_administrations: EvaluationAdministration[]
   my_skill_map: MySkillMap[]
@@ -366,6 +367,7 @@ const initialState: InitialState = {
   user_skill_map_admins: [],
   user_skill_map_ratings: [],
   user_latest_skill_map_result: [],
+  comments: "",
   user_latest_skill_map_result_filtered: [],
   skill_map_result_status: null,
   my_evaluation_administrations: [],
@@ -725,6 +727,7 @@ const userSlice = createSlice({
       state.user_skill_map_ratings = action.payload.user_skill_map_ratings
       state.user_skill_map_admins = [action.payload.skill_map_administration]
       state.skill_map_result_status = action.payload.skill_map_result_status
+      state.comments = action.payload.comments
     })
     builder.addCase(getUserSkillMapRatings.rejected, (state, action) => {
       state.loading = Loading.Rejected
