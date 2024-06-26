@@ -23,11 +23,8 @@ export const MySkillMapLineGraph = () => {
   })
 
   useEffect(() => {
-    void appDispatch(getAnswerOptionsByType("Skill Map Scale"))
-  }, [])
-
-  useEffect(() => {
     if (user !== null) {
+      void appDispatch(getAnswerOptionsByType("Skill Map Scale"))
       void appDispatch(getMySkillMapRatings(user.id))
     }
   }, [user])
@@ -42,10 +39,10 @@ export const MySkillMapLineGraph = () => {
   }, [answer_options])
 
   useEffect(() => {
-    if (my_skill_map?.length !== 0) {
+    if (scaleYLabels.length !== 0 && my_skill_map?.length !== 0) {
       processData(my_skill_map)
     }
-  }, [my_skill_map])
+  }, [scaleYLabels, my_skill_map])
 
   const processData = (apiData: MySkillMap[]) => {
     const labels = apiData.map((item) =>
