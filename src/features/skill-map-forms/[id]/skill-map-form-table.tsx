@@ -25,6 +25,7 @@ import { setAlert } from "@redux/slices/app-slice"
 import { SkillMapResultStatus } from "@custom-types/skill-map-result-type"
 import { PageSubTitle } from "@components/shared/page-sub-title"
 import { OtherSkillFormDialog } from "./other-skill-form/other-skill-form"
+import { TextArea } from "@components/ui/textarea/text-area"
 
 export const SkillMapFormTable = () => {
   const navigate = useNavigate()
@@ -48,6 +49,7 @@ export const SkillMapFormTable = () => {
   const [displayedSkills, setDisplayedSkills] = useState<Skill[]>([])
   const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null)
   const [selectedOtherSkill, setSelectedOtherSkill] = useState<OtherSkill | null>(null)
+  const [comment, setComment] = useState<string>("")
 
   useEffect(() => {
     void appDispatch(getAnswerOptionsByType("Skill Map Scale"))
@@ -159,6 +161,7 @@ export const SkillMapFormTable = () => {
           submitSkillMapRatings({
             skill_map_ratings: [...skillMapRatings, ...otherSkillMapRatings],
             skill_map_administration_id: parseInt(id),
+            comment,
           })
         )
 
@@ -256,6 +259,10 @@ export const SkillMapFormTable = () => {
     }
   }
 
+  const handleCommentInputChange = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { value } = e.target
+    setComment(value)
+  }
   const getSkillRating = (ratingValue: number) => {
     let ratingName = ""
     if (ratingValue === RatingAnswerOption.Beginner) {
@@ -286,7 +293,7 @@ export const SkillMapFormTable = () => {
 
   return (
     <div>
-      <div className='h-full overflow-auto'>
+      <div className='overflow-auto'>
         <table className='relative w-full z-20'>
           <thead className='text-left'>
             <tr>
@@ -363,8 +370,10 @@ export const SkillMapFormTable = () => {
           </div>
         )}
       </div>
-      <PageSubTitle>Other Skills</PageSubTitle>
-      <div className='h-full overflow-auto'>
+      <div className='mt-20'>
+        <PageSubTitle>Other Skills</PageSubTitle>
+      </div>
+      <div className='overflow-auto'>
         <table className='relative w-full z-20'>
           <thead className='text-left'>
             <tr>
@@ -436,10 +445,21 @@ export const SkillMapFormTable = () => {
                 Add Other Skills
               </p>
             </Button>
+            <div className='mt-20'>
+              <TextArea
+                label='Comments'
+                name='comment'
+                placeholder='message here...'
+                value={comment}
+                onChange={handleCommentInputChange}
+                maxLength={500}
+              />
+            </div>
           </div>
         )}
       </div>
-      <div className='flex justify-between mt-5 pb-4'>
+
+      <div className='flex justify-between mt-2 pb-4'>
         <Button
           variant='primaryOutline'
           onClick={() =>
@@ -463,6 +483,7 @@ export const SkillMapFormTable = () => {
           Save & Submit
         </Button>
       </div>
+
       <CustomDialog
         open={showBackDialog}
         title={"Cancel & Exit"}

@@ -22,6 +22,7 @@ export interface SkillMapRating {
 export interface SkillMapRatings {
   skill_map_ratings: SkillMapRating[]
   skill_map_administration_id: number
+  comment: string
 }
 
 export enum RatingAnswerOption {
