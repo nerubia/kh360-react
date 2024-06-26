@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom"
 import { type VariantProps, cva } from "class-variance-authority"
 import { Spinner } from "@components/ui/spinner/spinner"
 
-const button = cva(["w-fit", "rounded-md", "flex", "items-center", "gap-2"], {
+const button = cva(["w-fit", "rounded-md", "flex", "items-center", "gap-2", "outline-none"], {
   variants: {
     variant: {
       primary: [
