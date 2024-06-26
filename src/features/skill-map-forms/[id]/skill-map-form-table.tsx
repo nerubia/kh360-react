@@ -31,8 +31,13 @@ export const SkillMapFormTable = () => {
   const navigate = useNavigate()
   const appDispatch = useAppDispatch()
   const { id } = useParams()
-  const { user_skill_map_ratings, skill_map_result_status, user_skill_map_admins, other_skills } =
-    useAppSelector((state) => state.user)
+  const {
+    user_skill_map_ratings,
+    skill_map_result_status,
+    user_skill_map_admins,
+    other_skills,
+    comments,
+  } = useAppSelector((state) => state.user)
   const { selectedUserSkills, hasSelected } = useAppSelector((state) => state.userSkills)
   const { answer_options } = useAppSelector((state) => state.answerOptions)
   const [searchParams] = useSearchParams()
@@ -84,7 +89,8 @@ export const SkillMapFormTable = () => {
         appDispatch(setOtherSkills(otherSkills))
       }
     }
-  }, [user_skill_map_ratings])
+    setComment(comments ?? "")
+  }, [user_skill_map_ratings, comments])
 
   useEffect(() => {
     if (skill_category_id === "all") {
@@ -263,6 +269,7 @@ export const SkillMapFormTable = () => {
     const { value } = e.target
     setComment(value)
   }
+
   const getSkillRating = (ratingValue: number) => {
     let ratingName = ""
     if (ratingValue === RatingAnswerOption.Beginner) {
@@ -445,18 +452,22 @@ export const SkillMapFormTable = () => {
                 Add Other Skills
               </p>
             </Button>
-            <div className='mt-20'>
-              <TextArea
-                label='Comments'
-                name='comment'
-                placeholder='message here...'
-                value={comment}
-                onChange={handleCommentInputChange}
-                maxLength={500}
-              />
-            </div>
           </div>
         )}
+        <div className='mt-20'>
+          <PageSubTitle>Comments</PageSubTitle>
+          <TextArea
+            name='comment'
+            placeholder='Comments'
+            value={comment}
+            onChange={handleCommentInputChange}
+            maxLength={500}
+            disabled={
+              skill_map_result_status === SkillMapResultStatus.Submitted ||
+              skill_map_result_status === SkillMapResultStatus.Closed
+            }
+          />
+        </div>
       </div>
 
       <div className='flex justify-between mt-2 pb-4'>
