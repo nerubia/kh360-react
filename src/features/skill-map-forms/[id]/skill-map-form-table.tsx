@@ -408,7 +408,7 @@ export const SkillMapFormTable = () => {
                     skill_map_result_status !== SkillMapResultStatus.Closed && (
                       <div className='flex gap-2 justify-center'>
                         <Button
-                          testId={`DeleteButton${skill.id}`}
+                          testId={`DeleteButton${skill.skill_rating_id}`}
                           variant='unstyled'
                           onClick={async () => {
                             setSelectedOtherSkill(skill)

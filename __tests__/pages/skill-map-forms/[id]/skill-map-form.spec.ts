@@ -299,5 +299,234 @@ test.describe("User - Skill Map Form", () => {
       await expect(page.getByRole("button", { name: "Back to List" })).toBeVisible()
       await expect(page.getByRole("button", { name: "Save & Submit" })).toBeVisible()
     })
+
+    test("should allow to add other skill", async ({ page, isMobile }) => {
+      await loginUser("employee", page)
+
+      await page.goto("/skill-map-forms/1?skill_category_id=all")
+
+      await mockRequest(page, "/user/skill-map-ratings?skill_map_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          user_skill_map_ratings: [],
+          skill_map_administration: {
+            id: 1,
+            name: "Skill Map 1",
+            skill_map_schedule_start_date: "2024-06-01T00:00:00.000Z",
+            skill_map_schedule_end_date: "2024-06-30T00:00:00.000Z",
+            skill_map_period_start_date: "2023-01-01T00:00:00.000Z",
+            skill_map_period_end_date: "2023-04-30T00:00:00.000Z",
+            remarks: "a",
+            email_subject: "a",
+            email_content: "a",
+            status: "Ongoing",
+            created_by_id: null,
+            updated_by_id: null,
+            created_at: "2024-06-10T00:16:18.000Z",
+            updated_at: "2024-06-11T07:03:29.000Z",
+          },
+          skill_map_result_status: "Ongoing",
+        }),
+      })
+
+      await mockRequest(page, "/user/skill-categories/all", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            id: 1,
+            name: "Programming Languages",
+            sequence_no: 1,
+            description: "",
+            status: true,
+            created_at: "2024-01-09T01:41:55.000Z",
+            updated_at: "2024-03-13T06:19:26.000Z",
+          },
+        ]),
+      })
+
+      await mockRequest(page, "/user/answer-options/active?answer_name=Skill+Map+Scale", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            id: 7,
+            answer_id: 2,
+            sequence_no: 1,
+            name: "Beginner",
+            display_name: "Beginner",
+            answer_type: "lowest",
+            rate: "0",
+            description: null,
+            is_active: null,
+            created_at: null,
+            updated_at: null,
+          },
+          {
+            id: 8,
+            answer_id: 2,
+            sequence_no: 2,
+            name: "Intermediate",
+            display_name: "Intermediate",
+            answer_type: null,
+            rate: "0",
+            description: null,
+            is_active: null,
+            created_at: null,
+            updated_at: null,
+          },
+          {
+            id: 9,
+            answer_id: 2,
+            sequence_no: 3,
+            name: "Expert",
+            display_name: "Expert",
+            answer_type: "highest",
+            rate: "0",
+            description: null,
+            is_active: null,
+            created_at: null,
+            updated_at: null,
+          },
+        ]),
+      })
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await page.getByRole("button", { name: "Add Other Skills" }).click()
+      await expect(page.getByRole("heading", { name: "Add Other Skill" })).toBeVisible()
+      await page.getByPlaceholder("Name").fill("Other skill 1")
+      await expect(page.getByPlaceholder("Name")).toHaveValue("Other skill 1")
+      await page.getByRole("button", { name: "Save", exact: true }).click()
+
+      await page.getByRole("button", { name: "Add Other Skills" }).click()
+      await expect(page.getByRole("heading", { name: "Add Other Skill" })).toBeVisible()
+      await page.getByPlaceholder("Name").fill("Other skill 2")
+      await expect(page.getByPlaceholder("Name")).toHaveValue("Other skill 2")
+      await page.getByRole("button", { name: "Save", exact: true }).click()
+
+      await expect(page.getByRole("cell", { name: "Other skill 1" })).toBeVisible()
+      await expect(page.getByRole("cell", { name: "Other skill 2" })).toBeVisible()
+    })
+
+    test("should allow to delete other skill", async ({ page, isMobile }) => {
+      await loginUser("employee", page)
+
+      await page.goto("/skill-map-forms/1?skill_category_id=all")
+
+      await mockRequest(page, "/user/skill-map-ratings?skill_map_administration_id=1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          user_skill_map_ratings: [],
+          skill_map_administration: {
+            id: 1,
+            name: "Skill Map 1",
+            skill_map_schedule_start_date: "2024-06-01T00:00:00.000Z",
+            skill_map_schedule_end_date: "2024-06-30T00:00:00.000Z",
+            skill_map_period_start_date: "2023-01-01T00:00:00.000Z",
+            skill_map_period_end_date: "2023-04-30T00:00:00.000Z",
+            remarks: "a",
+            email_subject: "a",
+            email_content: "a",
+            status: "Ongoing",
+            created_by_id: null,
+            updated_by_id: null,
+            created_at: "2024-06-10T00:16:18.000Z",
+            updated_at: "2024-06-11T07:03:29.000Z",
+          },
+          skill_map_result_status: "Ongoing",
+        }),
+      })
+
+      await mockRequest(page, "/user/skill-categories/all", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            id: 1,
+            name: "Programming Languages",
+            sequence_no: 1,
+            description: "",
+            status: true,
+            created_at: "2024-01-09T01:41:55.000Z",
+            updated_at: "2024-03-13T06:19:26.000Z",
+          },
+        ]),
+      })
+
+      await mockRequest(page, "/user/answer-options/active?answer_name=Skill+Map+Scale", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            id: 7,
+            answer_id: 2,
+            sequence_no: 1,
+            name: "Beginner",
+            display_name: "Beginner",
+            answer_type: "lowest",
+            rate: "0",
+            description: null,
+            is_active: null,
+            created_at: null,
+            updated_at: null,
+          },
+          {
+            id: 8,
+            answer_id: 2,
+            sequence_no: 2,
+            name: "Intermediate",
+            display_name: "Intermediate",
+            answer_type: null,
+            rate: "0",
+            description: null,
+            is_active: null,
+            created_at: null,
+            updated_at: null,
+          },
+          {
+            id: 9,
+            answer_id: 2,
+            sequence_no: 3,
+            name: "Expert",
+            display_name: "Expert",
+            answer_type: "highest",
+            rate: "0",
+            description: null,
+            is_active: null,
+            created_at: null,
+            updated_at: null,
+          },
+        ]),
+      })
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
+
+      await page.getByRole("button", { name: "Add Other Skills" }).click()
+      await expect(page.getByRole("heading", { name: "Add Other Skill" })).toBeVisible()
+      await page.getByPlaceholder("Name").fill("Other skill 1")
+      await expect(page.getByPlaceholder("Name")).toHaveValue("Other skill 1")
+      await page.getByRole("button", { name: "Save", exact: true }).click()
+
+      await page.getByRole("button", { name: "Add Other Skills" }).click()
+      await expect(page.getByRole("heading", { name: "Add Other Skill" })).toBeVisible()
+      await page.getByPlaceholder("Name").fill("Other skill 2")
+      await expect(page.getByPlaceholder("Name")).toHaveValue("Other skill 2")
+      await page.getByRole("button", { name: "Save", exact: true }).click()
+
+      await page.locator("td:nth-child(3) > div").first().click()
+      await expect(page.getByRole("heading", { name: "Delete Other Skill" })).toBeVisible()
+      await expect(page.getByText("Are you sure you want to delete Other skill 1?")).toBeVisible()
+      await page.getByTestId("DialogYesButton").click()
+
+      await expect(page.getByRole("cell", { name: "Other skill 1" })).not.toBeVisible()
+      await expect(page.getByRole("cell", { name: "Other skill 2" })).toBeVisible()
+    })
   })
 })
