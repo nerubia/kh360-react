@@ -227,12 +227,15 @@ export const SkillMapFormTable = () => {
     }
   }
 
-  const handleOtherSkillSliderChange = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
+  const handleOtherSkillSliderChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    skill_rating_id: number
+  ) => {
     const ratingValue = parseInt(e.target.value, 10)
     const rating = getSkillRating(ratingValue)
 
     const updatedUserSkills = other_skills.map((skill) => {
-      if (skill.skill_rating_id === id) {
+      if (skill.skill_rating_id === skill_rating_id) {
         return { ...skill, rating }
       }
       return skill
@@ -244,12 +247,12 @@ export const SkillMapFormTable = () => {
   const handleOtherSkillSliderClick = (
     e: React.MouseEvent,
     rating: string | undefined,
-    id: number
+    skill_rating_id: number
   ) => {
     const newValue = (e.currentTarget as HTMLInputElement).value
     if (rating === undefined) {
       const updatedUserSkills = other_skills.map((skill) => {
-        if (skill.id === id) {
+        if (skill.skill_rating_id === skill_rating_id) {
           return { ...skill, rating: getSkillRating(parseInt(newValue)) }
         }
         return skill
@@ -407,7 +410,11 @@ export const SkillMapFormTable = () => {
                       handleOtherSkillSliderChange(e, skill.skill_rating_id)
                     }
                     onClick={(e) =>
-                      handleOtherSkillSliderClick(e, skill.rating?.display_name, skill.id)
+                      handleOtherSkillSliderClick(
+                        e,
+                        skill.rating?.display_name,
+                        skill.skill_rating_id
+                      )
                     }
                     disabled={skill_map_result_status === SkillMapResultStatus.Submitted}
                   />
