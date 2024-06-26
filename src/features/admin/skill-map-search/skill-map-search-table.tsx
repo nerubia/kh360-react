@@ -74,17 +74,20 @@ export const SkillMapSearchTable = () => {
     }
   }
 
-  const handleRowClick = (item: SkillMapRating) => {
-    setSelectedSkillMapRating(item)
-    const userId = item.skill_map_results?.users?.id
-    const skillId = item.skills?.id
-    if (userId !== undefined && skillId !== undefined) {
-      void appDispatch(
-        getUserSkillMapBySkillId({
-          id: userId,
-          skillId,
-        })
-      )
+  const handleRowClick = (id: number) => {
+    const skillMapRating = skill_map_ratings.find((skillMapRating) => skillMapRating.id === id)
+    if (skillMapRating !== undefined) {
+      setSelectedSkillMapRating(skillMapRating)
+      const userId = skillMapRating.skill_map_results?.users?.id
+      const skillId = skillMapRating.skills?.id
+      if (userId !== undefined && skillId !== undefined) {
+        void appDispatch(
+          getUserSkillMapBySkillId({
+            id: userId,
+            skillId,
+          })
+        )
+      }
     }
   }
 
@@ -92,11 +95,7 @@ export const SkillMapSearchTable = () => {
     const columnName = column as string
     switch (columnName) {
       case "Name":
-        return (
-          <div onClick={() => handleRowClick(item)}>
-            {item.skill_map_results?.users?.last_name}, {item.skill_map_results?.users?.first_name}
-          </div>
-        )
+        return `${item.skill_map_results?.users?.last_name}, ${item.skill_map_results?.users?.first_name}`
       case "Skill":
         return item.skills?.name
       case "Latest Rating":
@@ -168,6 +167,7 @@ export const SkillMapSearchTable = () => {
           data={skill_map_ratings}
           isRowClickable={true}
           renderCell={renderCell}
+          onClickRow={handleRowClick}
         />
         {totalPages !== 1 && (
           <div className='flex justify-center'>
