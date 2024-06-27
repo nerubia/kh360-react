@@ -1,4 +1,4 @@
-import { useEffect, useState, lazy, Suspense, useRef } from "react"
+import { useEffect, useState, lazy, Suspense } from "react"
 import { useNavigate, useSearchParams, useParams } from "react-router-dom"
 import { ValidationError } from "yup"
 import { type SingleValue } from "react-select"
@@ -51,20 +51,6 @@ export const CreateProjectForm = () => {
   }))
 
   const ProjectsDialog = lazy(async () => await import("@features/admin/projects/projects-dialog"))
-  const scrollDownRef = useRef<HTMLDivElement | null>(null)
-  const [isFocused, setIsFocused] = useState(false)
-
-  const handleFocus = () => {
-    setIsFocused(true)
-  }
-  const handleDatepickerBlur = () => {
-    setIsFocused(false)
-  }
-  useEffect(() => {
-    if (isFocused && scrollDownRef.current != null) {
-      scrollDownRef.current.scrollIntoView()
-    }
-  }, [isFocused])
 
   useEffect(() => {
     if (id !== undefined) {
@@ -273,10 +259,11 @@ export const CreateProjectForm = () => {
                   />
                 </div>
               </div>
-              <div className='flex flex-col' onFocus={handleFocus} onBlur={handleDatepickerBlur}>
+              <div className='flex flex-col'>
                 <DateRangePicker
                   name='project-duration'
                   label='Project Duration'
+                  autoScoll
                   value={{
                     startDate: projectFormData?.start_date ?? "",
                     endDate: projectFormData?.end_date ?? "",
@@ -348,7 +335,6 @@ export const CreateProjectForm = () => {
               onSubmit={handleCancel}
             />
           </Suspense>
-          <div ref={scrollDownRef} />
         </>
       )}
     </>

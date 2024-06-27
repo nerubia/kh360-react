@@ -1,4 +1,5 @@
 import Datepicker, { type DateValueType } from "react-tailwindcss-datepicker"
+import { useEffect, useRef } from "react"
 
 interface DateType {
   start_date?: string | null
@@ -18,6 +19,7 @@ interface DateRangePickerProps {
   reopenMinDate?: Date
   reopenError?: boolean
   readOnly?: boolean
+  autoScoll?: boolean
 }
 
 export const DateRangePicker: React.FC<DateRangePickerProps> = ({
@@ -33,8 +35,34 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
   reopenMinDate,
   reopenError,
   readOnly,
+  autoScoll,
 }: DateRangePickerProps) => {
   const currentDate = new Date()
+  const ref = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    const parentDiv = ref.current
+    if (parentDiv == null) return
+
+    const btn = parentDiv.querySelector("div button")
+    const input = parentDiv.querySelector("div input")
+    if (btn == null) return
+    if (input == null) return
+    if (autoScoll !== true) return
+
+    btn.addEventListener("click", handleFocus)
+    input.addEventListener("click", handleFocus)
+  }, [])
+
+  const handleFocus = () => {
+    setTimeout(() => {
+      if (ref.current != null) {
+        ref.current.scrollIntoView({
+          behavior: "smooth",
+        })
+      }
+    }, 500)
+  }
 
   const parseDate = (dateString: string | null): Date => {
     return dateString != null ? new Date(dateString) : new Date()
@@ -69,7 +97,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
   const sameDateErrorMessage = error?.start_date === error?.end_date
 
   return (
-    <div>
+    <div ref={ref}>
       {label != null && (
         <label className='font-medium' htmlFor={name}>
           {label}
