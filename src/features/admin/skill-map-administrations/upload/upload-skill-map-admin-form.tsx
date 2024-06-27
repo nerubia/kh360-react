@@ -92,16 +92,18 @@ export const UploadSkillMapAdminForm = () => {
                     )
                   })}
                 </div>
-                <div>
-                  <p>Error adding data for following users:</p>
-                  {result.payload.errorList.map((user: string) => {
-                    return (
-                      <div className='pl-1' key={user}>
-                        - {user}
-                      </div>
-                    )
-                  })}
-                </div>
+                {result.payload.errorList.length > 0 && (
+                  <div>
+                    <p>Error adding data for following users:</p>
+                    {result.payload.errorList.map((user: string) => {
+                      return (
+                        <div className='pl-1' key={user}>
+                          - {user}
+                        </div>
+                      )
+                    })}
+                  </div>
+                )}
               </div>
             ),
             variant: "success",
