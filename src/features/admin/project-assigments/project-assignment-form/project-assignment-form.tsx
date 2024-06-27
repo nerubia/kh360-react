@@ -613,6 +613,7 @@ export const ProjectAssignmentForm = () => {
                 end_date: validationErrors.end_date,
               }}
               dateLimit={{ start_date: project?.start_date, end_date: project?.end_date }}
+              autoScoll
             />
           </div>
           <div className='flex flex-col'>
