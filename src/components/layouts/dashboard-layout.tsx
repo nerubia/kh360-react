@@ -11,7 +11,7 @@ import { useMobileView } from "@hooks/use-mobile-view"
 import useSmoothScrollToTop from "@hooks/use-smooth-scroll-to-top"
 
 export default function DashboardLayout() {
-  const { activeSidebar, alertDescription, alertVariant } = useAppSelector((state) => state.app)
+  const { activeSidebar, alerts } = useAppSelector((state) => state.app)
   const appDispatch = useAppDispatch()
   const location = useLocation()
   const scrollToTop = useSmoothScrollToTop()
@@ -23,12 +23,9 @@ export default function DashboardLayout() {
 
   useEffect(() => {
     scrollToTop()
-  }, [alertDescription])
+  }, [alerts])
 
-  // Define a regex pattern for the URL format
   const urlPattern = /^\/evaluation-administrations\/\d+\/evaluations\/\d+$/
-
-  // Check if the current URL matches the pattern
   const isButtonVisible = urlPattern.test(location.pathname)
 
   return (
@@ -52,9 +49,17 @@ export default function DashboardLayout() {
             </div>
           )}
         </div>
-        {alertDescription !== undefined && (
+        {alerts.length > 0 && (
           <div className='p-5'>
-            <Alert variant={alertVariant}>{alertDescription}</Alert>
+            {alerts.map((alert, index) => (
+              <div className='m-1' key={index}>
+                <Alert key={index} variant={alert.variant} index={index}>
+                  {Array.isArray(alert.description)
+                    ? alert.description.join("\n")
+                    : alert.description}
+                </Alert>
+              </div>
+            ))}
           </div>
         )}
         <div className='p-5'>

@@ -1,16 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit"
 
+interface Alert {
+  description: string | string[]
+  variant: "primary" | "success" | "destructive"
+}
+
 interface InitialState {
   activeSidebar: boolean
-  alertDescription?: string
-  alertVariant: "primary" | "success"
+  alerts: Alert[]
+  multipleAlerts: boolean
   previousUrl: string | null
 }
 
 const initialState: InitialState = {
   activeSidebar: true,
-  alertDescription: undefined,
-  alertVariant: "primary",
+  alerts: [],
+  multipleAlerts: false, // Set to true to enable multiple alerts
   previousUrl: null,
 }
 
@@ -22,8 +27,17 @@ const appSlice = createSlice({
       state.activeSidebar = action.payload
     },
     setAlert: (state, action) => {
-      state.alertDescription = action.payload.description
-      state.alertVariant = action.payload.variant
+      if (state.multipleAlerts) {
+        state.alerts.push(action.payload)
+      } else {
+        state.alerts = [action.payload]
+      }
+    },
+    removeAlert: (state, action) => {
+      state.alerts = state.alerts.filter((alert, index) => index !== action.payload)
+    },
+    setMultipleAlerts: (state, action) => {
+      state.multipleAlerts = action.payload
     },
     setPreviousUrl: (state, action) => {
       state.previousUrl = action.payload
@@ -31,5 +45,6 @@ const appSlice = createSlice({
   },
 })
 
-export const { setActiveSidebar, setAlert, setPreviousUrl } = appSlice.actions
+export const { setActiveSidebar, setAlert, removeAlert, setMultipleAlerts, setPreviousUrl } =
+  appSlice.actions
 export default appSlice.reducer

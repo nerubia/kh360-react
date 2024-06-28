@@ -362,9 +362,13 @@ export default function Sample() {
       <div className='flex flex-col gap-4'>
         <p className='font-bold'># Sample alerts</p>
         <div className='flex flex-col gap-2'>
-          <Alert>Primary alert</Alert>
-          <Alert variant='success'>Success alert</Alert>
-          <Alert variant='destructive'>Error alert</Alert>
+          <Alert index={0}>Primary alert</Alert>
+          <Alert index={1} variant='success'>
+            Success alert
+          </Alert>
+          <Alert index={2} variant='destructive'>
+            Error alert
+          </Alert>
         </div>
       </div>
       <div className='flex flex-col gap-4'>
