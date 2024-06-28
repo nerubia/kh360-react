@@ -1,6 +1,7 @@
 import { type User } from "./user-type"
 import { type EmailLog } from "./email-log-type"
 import { type SkillMapRating } from "./skill-map-rating-type"
+import { type SkillMapAdministration } from "./skill-map-admin-type"
 
 export interface SkillMapResult {
   id: number
@@ -13,6 +14,7 @@ export interface SkillMapResult {
   last_skill_map_date?: string
   submitted_date?: string
   skill_map_ratings: SkillMapRating[]
+  skill_map_administrations: SkillMapAdministration
 }
 
 export interface SkillMapResultFilters {
@@ -24,7 +26,7 @@ export interface SkillMapResultFilters {
   page?: string
 }
 
-export const columns = ["Employee Name", "Latest Skill Map"]
+export const columns = ["Employee Name", "Latest Period Date and Latest Submitted Date"]
 
 export enum SkillMapResultStatus {
   Open = "Open",

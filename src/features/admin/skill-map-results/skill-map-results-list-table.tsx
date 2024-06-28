@@ -1,10 +1,11 @@
+/* eslint-disable no-console */
 import { useEffect, useState, lazy, Suspense } from "react"
 import { useSearchParams } from "react-router-dom"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { Pagination } from "@components/shared/pagination/pagination"
 import { Table } from "@components/ui/table/table"
-import { formatDate } from "@utils/format-date"
+import { convertToFullDate, convertToMonthAndYear } from "@utils/format-date"
 import { type SkillMapResult, columns } from "@custom-types/skill-map-result-type"
 import { getSkillMapResultsLatest } from "@redux/slices/skill-map-results-slice"
 import { CustomLineGraph } from "@components/ui/linegraph/custom-line-graph"
@@ -89,8 +90,20 @@ export const SkillMapResultsListTable = () => {
     switch (column) {
       case "Employee Name":
         return `${item.users?.last_name}, ${item.users?.first_name}`
-      case "Latest Skill Map":
-        return `${formatDate(item.submitted_date)}`
+      case "Latest Period Date and Latest Submitted Date":
+        return (
+          <div>
+            <p className='text-sm'>
+              Latest Period Date:{" "}
+              {convertToMonthAndYear(
+                item.skill_map_administrations?.skill_map_period_end_date ?? ""
+              )}
+            </p>
+            <p className='text-sm'>
+              Latest Submitted Date: {convertToFullDate(item.submitted_date ?? "")}
+            </p>
+          </div>
+        )
     }
   }
 
