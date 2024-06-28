@@ -14,7 +14,7 @@ import {
   setSelectedEmployeeIds,
   uploadSkillMapAdmin,
 } from "@redux/slices/skill-map-administration-slice"
-import { setAlert } from "@redux/slices/app-slice"
+import { setAlert, setMultipleAlerts } from "@redux/slices/app-slice"
 import { DateRangePicker } from "@components/ui/date-range-picker/date-range-picker"
 import { type DateValueType, type DateType } from "react-tailwindcss-datepicker"
 import { uploadSkillMapAdminSchema } from "@utils/validation/skill-map-admin-schema"
@@ -74,43 +74,40 @@ export const UploadSkillMapAdminForm = () => {
         abortEarly: false,
       })
       const result = await appDispatch(uploadSkillMapAdmin(formData))
+      appDispatch(setMultipleAlerts(true))
+
       if (result.type === "skillMapAdministration/uploadSkillMapAdmin/fulfilled") {
         void appDispatch(setSelectedEmployeeIds([]))
         appDispatch(setSkillMapResults([]))
 
         appDispatch(
           setAlert({
-            description: (
-              <div className='flex flex-col gap-2'>
-                <div>
-                  <p>Successfully added data for following users:</p>
-                  {result.payload.successList.map((user: string) => {
-                    return (
-                      <div className='pl-1' key={user}>
-                        - {user}
-                      </div>
-                    )
-                  })}
-                </div>
-                {result.payload.errorList.length > 0 && (
-                  <div>
-                    <p>Error adding data for following users:</p>
-                    {result.payload.errorList.map((user: string) => {
-                      return (
-                        <div className='pl-1' key={user}>
-                          - {user}
-                        </div>
-                      )
-                    })}
-                  </div>
-                )}
-              </div>
-            ),
+            description: [
+              "Successfully added data for following users:",
+              ...result.payload.successList.map((user: string) => `- ${user}`),
+            ],
             variant: "success",
           })
         )
+        const filteredErrorList = result.payload.errorList.filter(
+          (user: string) => user.trim() !== ""
+        )
+
+        if (filteredErrorList.length > 0) {
+          appDispatch(
+            setAlert({
+              description: [
+                "Error adding data for following users:",
+                ...result.payload.errorList.map((user: string) => `- ${user}`),
+              ],
+              variant: "destructive",
+            })
+          )
+        }
+
         navigate(`/admin/skill-map-administrations/${result.payload.data.id}`)
       }
+
       if (result.type === "skillMapAdministration/uploadSkillMapAdmin/rejected") {
         appDispatch(
           setAlert({

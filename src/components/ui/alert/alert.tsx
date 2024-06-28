@@ -2,7 +2,7 @@ import { type VariantProps, cva } from "class-variance-authority"
 import { Button } from "@components/ui/button/button"
 import { Icon } from "@components/ui/icon/icon"
 import { useAppDispatch } from "@hooks/useAppDispatch"
-import { setAlert } from "@redux/slices/app-slice"
+import { removeAlert } from "@redux/slices/app-slice"
 import { useEffect } from "react"
 
 const alert = cva(["relative", "p-5", "rounded-md"], {
@@ -20,17 +20,18 @@ const alert = cva(["relative", "p-5", "rounded-md"], {
 
 interface AlertProps extends VariantProps<typeof alert> {
   children: React.ReactNode
+  index: number
 }
 
-export const Alert = ({ children, variant }: AlertProps) => {
+export const Alert = ({ children, variant, index }: AlertProps) => {
   const appDispatch = useAppDispatch()
 
   useEffect(() => {
-    setTimeout(() => appDispatch(setAlert({})), 5000)
-  }, [])
+    setTimeout(() => appDispatch(removeAlert(index)), 5000)
+  }, [index])
 
   const handleClose = () => {
-    appDispatch(setAlert({}))
+    appDispatch(removeAlert(index))
   }
 
   return (
