@@ -343,7 +343,10 @@ export const SkillMapFormTable = () => {
                     }
                     handleSliderChange={(e) => handleSliderChange(e, skill.id)}
                     onClick={(e) => handleSliderClick(e, skill.rating?.display_name, skill.id)}
-                    disabled={skill_map_result_status === SkillMapResultStatus.Submitted}
+                    disabled={
+                      skill_map_result_status === SkillMapResultStatus.Submitted ||
+                      skill_map_result_status === SkillMapResultStatus.Closed
+                    }
                   />
                 </td>
                 <td className='py-1 border-b items-center '>
@@ -371,14 +374,17 @@ export const SkillMapFormTable = () => {
             ))}
           </tbody>
         </table>
-        {skill_map_result_status !== SkillMapResultStatus.Submitted && (
-          <div className='mt-4'>
-            <Button onClick={handleAddSkill} variant={"ghost"}>
-              <Icon icon='Plus' size='small' color='primary' />
-              <p className='text-primary-500 uppercase whitespace-nowrap text-sm'>Add New Skills</p>
-            </Button>
-          </div>
-        )}
+        {skill_map_result_status !== SkillMapResultStatus.Submitted &&
+          skill_map_result_status !== SkillMapResultStatus.Closed && (
+            <div className='mt-4'>
+              <Button onClick={handleAddSkill} variant={"ghost"}>
+                <Icon icon='Plus' size='small' color='primary' />
+                <p className='text-primary-500 uppercase whitespace-nowrap text-sm'>
+                  Add New Skills
+                </p>
+              </Button>
+            </div>
+          )}
       </div>
       <div className='mt-20'>
         <PageSubTitle>Other Skills</PageSubTitle>
@@ -423,7 +429,10 @@ export const SkillMapFormTable = () => {
                         skill.skill_rating_id
                       )
                     }
-                    disabled={skill_map_result_status === SkillMapResultStatus.Submitted}
+                    disabled={
+                      skill_map_result_status === SkillMapResultStatus.Submitted ||
+                      skill_map_result_status === SkillMapResultStatus.Closed
+                    }
                   />
                 </td>
                 <td className='py-1 border-b items-center '>
@@ -451,16 +460,17 @@ export const SkillMapFormTable = () => {
             ))}
           </tbody>
         </table>
-        {skill_map_result_status !== SkillMapResultStatus.Submitted && (
-          <div className='mt-4'>
-            <Button onClick={toggleOtherSkillFormDialog} variant={"ghost"}>
-              <Icon icon='Plus' size='small' color='primary' />
-              <p className='text-primary-500 uppercase whitespace-nowrap text-sm'>
-                Add Other Skills
-              </p>
-            </Button>
-          </div>
-        )}
+        {skill_map_result_status !== SkillMapResultStatus.Submitted &&
+          skill_map_result_status !== SkillMapResultStatus.Closed && (
+            <div className='mt-4'>
+              <Button onClick={toggleOtherSkillFormDialog} variant={"ghost"}>
+                <Icon icon='Plus' size='small' color='primary' />
+                <p className='text-primary-500 uppercase whitespace-nowrap text-sm'>
+                  Add Other Skills
+                </p>
+              </Button>
+            </div>
+          )}
         <div className='mt-20'>
           <PageSubTitle>Comments</PageSubTitle>
           <TextArea
@@ -481,12 +491,14 @@ export const SkillMapFormTable = () => {
         <Button
           variant='primaryOutline'
           onClick={() =>
-            skill_map_result_status === SkillMapResultStatus.Submitted
+            skill_map_result_status === SkillMapResultStatus.Submitted ||
+            skill_map_result_status === SkillMapResultStatus.Closed
               ? handleRedirect()
               : toggleBackDialog()
           }
         >
-          {skill_map_result_status === SkillMapResultStatus.Submitted
+          {skill_map_result_status === SkillMapResultStatus.Submitted ||
+          skill_map_result_status === SkillMapResultStatus.Closed
             ? "Back to List"
             : "Cancel & Exit"}
         </Button>
