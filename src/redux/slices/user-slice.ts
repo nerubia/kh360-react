@@ -113,6 +113,23 @@ export const getCompanionSurveyQuestions = createAsyncThunk(
   }
 )
 
+export const saveSurveyAnswersAsDraft = createAsyncThunk(
+  "user/saveSurveyAnswersAsDraft",
+  async (data: SurveyAnswers, thunkApi) => {
+    try {
+      const response = await axiosInstance.post(
+        `/user/survey-administrations/${data.survey_administration_id}/save-as-draft`,
+        data
+      )
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 export const submitSurveyAnswers = createAsyncThunk(
   "user/submitSurveyAnswers",
   async (data: SurveyAnswers, thunkApi) => {
