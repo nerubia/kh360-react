@@ -26,7 +26,7 @@ export interface SkillMapResultFilters {
   page?: string
 }
 
-export const columns = ["Employee Name", "Latest Period Date and Latest Submitted Date"]
+export const columns = ["Employee Name", "Latest Period Date", "Latest Submitted Date"]
 
 export enum SkillMapResultStatus {
   Open = "Open",
