@@ -82,13 +82,20 @@ export const UploadSkillMapAdminForm = () => {
 
         appDispatch(
           setAlert({
-            description: [
-              "Successfully added data for following users:",
-              ...result.payload.successList.map((user: string) => `- ${user}`),
-            ],
+            description: (
+              <>
+                <div className='font-bold'>Successfully added data for the following users:</div>
+                <ul>
+                  {result.payload.successList.map((user: string) => (
+                    <li key={user}>- {user}</li>
+                  ))}
+                </ul>
+              </>
+            ),
             variant: "success",
           })
         )
+
         const filteredErrorList = result.payload.errorList.filter(
           (user: string) => user.trim() !== ""
         )
@@ -96,10 +103,16 @@ export const UploadSkillMapAdminForm = () => {
         if (filteredErrorList.length > 0) {
           appDispatch(
             setAlert({
-              description: [
-                "Error adding data for following users:",
-                ...result.payload.errorList.map((user: string) => `- ${user}`),
-              ],
+              description: (
+                <>
+                  <div className='font-bold'>Error adding data for the following users:</div>
+                  <ul>
+                    {filteredErrorList.map((user: string) => (
+                      <li key={user}>- {user}</li>
+                    ))}
+                  </ul>
+                </>
+              ),
               variant: "destructive",
             })
           )
