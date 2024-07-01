@@ -8,6 +8,8 @@ import { getAnswerOptionsByType } from "@redux/slices/answer-options-slice"
 import { sortAnswerOptionBySequenceNumber } from "@utils/sort"
 import { CustomLineGraph } from "@components/ui/linegraph/custom-line-graph"
 import { getRandomColor } from "@utils/colors"
+import { PageSubTitle } from "@components/shared/page-sub-title"
+import { convertToMonthAndYear } from "@utils/format-date"
 
 export const MySkillMapLineGraph = () => {
   const appDispatch = useAppDispatch()
@@ -85,5 +87,33 @@ export const MySkillMapLineGraph = () => {
     return <div>No user</div>
   }
 
-  return <CustomLineGraph scaleYLabels={scaleYLabels} data={data} />
+  const filteredSkillMap = my_skill_map
+    .filter(
+      (skillMap) =>
+        skillMap.skill_map_results.length > 0 && skillMap.skill_map_results[0].comments !== ""
+    )
+    .sort((a, b) => {
+      const dateA =
+        a.skill_map_period_end_date != null ? new Date(a.skill_map_period_end_date) : new Date(0)
+      const dateB =
+        b.skill_map_period_end_date != null ? new Date(b.skill_map_period_end_date) : new Date(0)
+      return dateB.getTime() - dateA.getTime()
+    })
+
+  return (
+    <>
+      <CustomLineGraph scaleYLabels={scaleYLabels} data={data} />
+      <PageSubTitle>Comments</PageSubTitle>
+      {filteredSkillMap.map((skillMap, index) => (
+        <div key={index} className='text-sm xl:text-md italic'>
+          <p className='capitalize'>
+            {"- "}
+            {skillMap.skill_map_results[0].comments}
+            <span> </span>
+            {`(${convertToMonthAndYear(skillMap.skill_map_period_end_date ?? "")})`}
+          </p>
+        </div>
+      ))}
+    </>
+  )
 }

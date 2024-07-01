@@ -17,6 +17,7 @@ export interface MySkillMap {
   totalPending?: number
   skill_map_result_status?: string
   skill_map_results: SkillMapResult[]
+  comments?: string
 }
 
 export enum MySkillMapStatus {
@@ -50,4 +51,5 @@ export interface SkillMapRating {
 
 export interface SkillMapResult {
   skill_map_ratings: SkillMapRating[]
+  comments?: string
 }
