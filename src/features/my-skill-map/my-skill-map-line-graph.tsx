@@ -14,7 +14,7 @@ export const MySkillMapLineGraph = () => {
   const { user } = useAppSelector((state) => state.auth)
 
   const { answer_options } = useAppSelector((state) => state.answerOptions)
-  const { my_skill_map } = useAppSelector((state) => state.user)
+  const { my_skill_map, selectedSkillMapAdminId } = useAppSelector((state) => state.user)
 
   const [scaleYLabels, setScaleYLabels] = useState<string[]>([])
   const [data, setData] = useState<ChartData<"line">>({
@@ -40,9 +40,13 @@ export const MySkillMapLineGraph = () => {
 
   useEffect(() => {
     if (scaleYLabels.length !== 0 && my_skill_map?.length !== 0) {
-      processData(my_skill_map)
+      const filteredSkillMaps =
+        selectedSkillMapAdminId === "all"
+          ? my_skill_map
+          : my_skill_map.filter((skillMap) => skillMap.id === parseInt(selectedSkillMapAdminId))
+      processData(filteredSkillMaps)
     }
-  }, [scaleYLabels, my_skill_map])
+  }, [scaleYLabels, my_skill_map, selectedSkillMapAdminId])
 
   const processData = (apiData: MySkillMap[]) => {
     const labels = apiData.map((item) =>
