@@ -33,8 +33,8 @@ const appSlice = createSlice({
         state.alerts = [action.payload]
       }
     },
-    removeAlert: (state, action) => {
-      state.alerts = state.alerts.filter((alert, index) => index !== action.payload)
+    removeAlert: (state, _) => {
+      state.alerts = []
     },
     setMultipleAlerts: (state, action) => {
       state.multipleAlerts = action.payload

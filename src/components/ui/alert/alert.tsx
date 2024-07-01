@@ -27,7 +27,8 @@ export const Alert = ({ children, variant, index }: AlertProps) => {
   const appDispatch = useAppDispatch()
 
   useEffect(() => {
-    setTimeout(() => appDispatch(removeAlert(index)), 5000)
+    const timer = setTimeout(() => appDispatch(removeAlert(index)), 5000)
+    return () => clearTimeout(timer)
   }, [index])
 
   const handleClose = () => {
