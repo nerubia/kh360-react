@@ -94,7 +94,6 @@ export const SkillMapResultsListTable = () => {
         return (
           <div>
             <p className='text-sm'>
-              Latest Period Date:{" "}
               {convertToMonthAndYear(
                 item.skill_map_administrations?.skill_map_period_end_date ?? ""
               )}
@@ -104,9 +103,7 @@ export const SkillMapResultsListTable = () => {
       case "Latest Submitted Date":
         return (
           <div>
-            <p className='text-sm'>
-              Latest Submitted Date: {convertToFullDate(item.submitted_date ?? "")}
-            </p>
+            <p className='text-sm'>{convertToFullDate(item.submitted_date ?? "")}</p>
           </div>
         )
     }
