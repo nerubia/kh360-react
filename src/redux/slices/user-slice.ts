@@ -363,6 +363,7 @@ interface InitialState {
   currentPage: number
   totalPages: number
   totalItems: number
+  selectedSkillMapAdminId: string
 }
 
 const initialState: InitialState = {
@@ -396,6 +397,7 @@ const initialState: InitialState = {
   currentPage: 0,
   totalPages: 0,
   totalItems: 0,
+  selectedSkillMapAdminId: "all",
 }
 
 const userSlice = createSlice({
@@ -457,6 +459,9 @@ const userSlice = createSlice({
     },
     setOtherSkills: (state, action) => {
       state.other_skills = action.payload
+    },
+    setSelectedSkillMapAdminId: (state, action) => {
+      state.selectedSkillMapAdminId = action.payload
     },
   },
   extraReducers(builder) {
@@ -810,5 +815,6 @@ export const {
   updateFilteredSkillMapResults,
   setUserSkillMapRatings,
   setOtherSkills,
+  setSelectedSkillMapAdminId,
 } = userSlice.actions
 export default userSlice.reducer
