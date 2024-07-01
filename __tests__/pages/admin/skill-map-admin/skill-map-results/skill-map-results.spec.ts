@@ -172,9 +172,8 @@ test.describe("Admin - Skill Map Results", () => {
       await expect(page.getByRole("heading", { name: "2 Results Found" })).toBeVisible()
 
       await expect(page.getByRole("columnheader", { name: "Employee Name" })).toBeVisible()
-      await expect(
-        page.getByRole("columnheader", { name: "Latest Period Date and Latest Submitted Date" })
-      ).toBeVisible()
+      await expect(page.getByRole("columnheader", { name: "Latest Period Date" })).toBeVisible()
+      await expect(page.getByRole("columnheader", { name: "Latest Submitted Date" })).toBeVisible()
 
       await expect(page.getByRole("cell", { name: "One, User" })).toBeVisible()
       await expect(page.getByRole("cell", { name: "Two, user" })).toBeVisible()
