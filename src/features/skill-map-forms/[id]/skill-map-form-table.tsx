@@ -26,6 +26,7 @@ import { SkillMapResultStatus } from "@custom-types/skill-map-result-type"
 import { PageSubTitle } from "@components/shared/page-sub-title"
 import { OtherSkillFormDialog } from "./other-skill-form/other-skill-form"
 import { TextArea } from "@components/ui/textarea/text-area"
+import { convertToMonthAndYear } from "@utils/format-date"
 
 export const SkillMapFormTable = () => {
   const navigate = useNavigate()
@@ -35,6 +36,7 @@ export const SkillMapFormTable = () => {
     user_skill_map_ratings,
     skill_map_result_status,
     user_skill_map_admins,
+    user_skill_map_result,
     other_skills,
     comments,
   } = useAppSelector((state) => state.user)
@@ -473,21 +475,34 @@ export const SkillMapFormTable = () => {
           )}
         <div className='mt-20'>
           <PageSubTitle>Comments</PageSubTitle>
-          <TextArea
-            name='comment'
-            placeholder='Comments'
-            value={comment}
-            onChange={handleCommentInputChange}
-            maxLength={500}
-            disabled={
-              skill_map_result_status === SkillMapResultStatus.Submitted ||
-              skill_map_result_status === SkillMapResultStatus.Closed
-            }
-          />
+          {skill_map_result_status === SkillMapResultStatus.Submitted ||
+          skill_map_result_status === SkillMapResultStatus.Closed ? (
+            <pre className='flex font-sans break-words whitespace-pre-wrap'>
+              {comment.length > 0 ? (
+                <>
+                  {comment} ({convertToMonthAndYear(user_skill_map_result?.submitted_date ?? "")})
+                </>
+              ) : (
+                "No comments"
+              )}
+            </pre>
+          ) : (
+            <TextArea
+              name='comment'
+              placeholder='Comments'
+              value={comment}
+              onChange={handleCommentInputChange}
+              maxLength={500}
+              disabled={
+                skill_map_result_status === SkillMapResultStatus.Submitted ||
+                skill_map_result_status === SkillMapResultStatus.Closed
+              }
+            />
+          )}
         </div>
       </div>
 
-      <div className='flex justify-between mt-2 pb-4'>
+      <div className='flex justify-between mt-4 pb-4'>
         <Button
           variant='primaryOutline'
           onClick={() =>

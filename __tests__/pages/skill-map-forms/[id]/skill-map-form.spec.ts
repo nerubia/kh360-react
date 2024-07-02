@@ -530,7 +530,7 @@ test.describe("User - Skill Map Form", () => {
       await expect(page.getByRole("cell", { name: "Other skill 2" })).toBeVisible()
     })
 
-    test("comment text area should be disabled if Submitted", async ({ page, isMobile }) => {
+    test("show no comments if Submitted without comment", async ({ page, isMobile }) => {
       await loginUser("employee", page)
 
       await page.goto("/skill-map-forms/1?skill_category_id=all")
@@ -626,7 +626,7 @@ test.describe("User - Skill Map Form", () => {
         await page.getByTestId("SidebarCloseButton").click()
       }
 
-      await expect(page.getByPlaceholder("Comments")).toBeDisabled()
+      await expect(page.getByText("No comments")).toBeVisible()
     })
 
     test("comment text area should be enabled if Ongoing", async ({ page, isMobile }) => {
