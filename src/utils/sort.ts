@@ -1,6 +1,8 @@
 import { type AnswerOption } from "@custom-types/answer-option-type"
+import { type MySkillMap } from "@custom-types/my-skill-map-type"
 import { type SkillCategory } from "@custom-types/skill-category-type"
 import { type Skill } from "@custom-types/skill-type"
+import { type UserSkillMap } from "@custom-types/user-type"
 
 export const sortAnswerOptionBySequenceNumber = (
   answerOptions: AnswerOption[],
@@ -36,4 +38,31 @@ export const sortSkillsByName = (skills: Skill[], direction: "asc" | "desc" = "a
     if (nameA > nameB) return direction === "asc" ? 1 : -1
     return 0
   })
+}
+
+export const sortUserSkillMapByPeriodEndDate = (user_skill_map: UserSkillMap[]) => {
+  return user_skill_map
+    .filter((s) => s.skill_map_results.length > 0 && s.skill_map_results[0].comments !== "")
+    .sort((a, b) => {
+      const dateA =
+        a.skill_map_period_end_date != null ? new Date(a.skill_map_period_end_date) : new Date(0)
+      const dateB =
+        b.skill_map_period_end_date != null ? new Date(b.skill_map_period_end_date) : new Date(0)
+      return dateB.getTime() - dateA.getTime()
+    })
+}
+
+export const sortMySkillMapByPeriodEndDate = (my_skill_map: MySkillMap[]) => {
+  return my_skill_map
+    .filter(
+      (skillMap) =>
+        skillMap.skill_map_results.length > 0 && skillMap.skill_map_results[0].comments !== ""
+    )
+    .sort((a, b) => {
+      const dateA =
+        a.skill_map_period_end_date != null ? new Date(a.skill_map_period_end_date) : new Date(0)
+      const dateB =
+        b.skill_map_period_end_date != null ? new Date(b.skill_map_period_end_date) : new Date(0)
+      return dateB.getTime() - dateA.getTime()
+    })
 }
