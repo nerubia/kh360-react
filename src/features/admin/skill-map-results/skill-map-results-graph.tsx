@@ -36,15 +36,17 @@ export const SkillMapResultsGraph = () => {
 
   useEffect(() => {
     if (user_skill_map.length > 0) {
-      const options = user_skill_map.map((skillMap) => {
-        return {
-          label:
-            `${convertToMonthAndYear(skillMap.skill_map_period_end_date ?? "")} - ${
-              skillMap.name
-            }` ?? "",
-          value: skillMap.id.toString(),
-        }
-      })
+      const options = user_skill_map
+        .filter((s) => s.skill_map_results.length > 0)
+        .map((skillMap) => {
+          return {
+            label:
+              `${convertToMonthAndYear(skillMap.skill_map_period_end_date ?? "")} - ${
+                skillMap.name
+              }` ?? "",
+            value: skillMap.id.toString(),
+          }
+        })
       options.unshift({
         label: "All",
         value: "all",
