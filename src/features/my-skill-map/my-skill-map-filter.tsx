@@ -30,9 +30,9 @@ export const MySkillMapFilter = () => {
   return (
     <div className='flex justify-end'>
       <CustomSelect
-        data-test-id='StatusFilter'
-        label='Status'
-        name='status'
+        data-test-id='SkillMapAdminFilter'
+        label='Skill Map Admin'
+        name='skill_map_admin'
         value={filterOptions.find((option) => option.value === selectedSkillMapAdminId.toString())}
         onChange={(option) => appDispatch(setSelectedSkillMapAdminId(option?.value))}
         options={filterOptions}
