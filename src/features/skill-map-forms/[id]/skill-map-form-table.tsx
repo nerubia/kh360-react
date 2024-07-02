@@ -26,7 +26,6 @@ import { SkillMapResultStatus } from "@custom-types/skill-map-result-type"
 import { PageSubTitle } from "@components/shared/page-sub-title"
 import { OtherSkillFormDialog } from "./other-skill-form/other-skill-form"
 import { TextArea } from "@components/ui/textarea/text-area"
-import { convertToMonthAndYear } from "@utils/format-date"
 
 export const SkillMapFormTable = () => {
   const navigate = useNavigate()
@@ -36,7 +35,6 @@ export const SkillMapFormTable = () => {
     user_skill_map_ratings,
     skill_map_result_status,
     user_skill_map_admins,
-    user_skill_map_result,
     other_skills,
     comments,
   } = useAppSelector((state) => state.user)
@@ -477,14 +475,8 @@ export const SkillMapFormTable = () => {
           <PageSubTitle>Comments</PageSubTitle>
           {skill_map_result_status === SkillMapResultStatus.Submitted ||
           skill_map_result_status === SkillMapResultStatus.Closed ? (
-            <pre className='flex font-sans break-words whitespace-pre-wrap'>
-              {comment.length > 0 ? (
-                <>
-                  {comment} ({convertToMonthAndYear(user_skill_map_result?.submitted_date ?? "")})
-                </>
-              ) : (
-                "No comments"
-              )}
+            <pre className='flex font-sans break-words whitespace-pre-wrap italic mt-2'>
+              {comment.length > 0 ? comment : "No comments"}
             </pre>
           ) : (
             <TextArea

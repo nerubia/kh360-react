@@ -5,7 +5,7 @@ import { type MySkillMap } from "@custom-types/my-skill-map-type"
 import { type ChartData } from "chart.js"
 import { useEffect, useState } from "react"
 import { getAnswerOptionsByType } from "@redux/slices/answer-options-slice"
-import { sortAnswerOptionBySequenceNumber } from "@utils/sort"
+import { sortAnswerOptionBySequenceNumber, sortMySkillMapByPeriodEndDate } from "@utils/sort"
 import { CustomLineGraph } from "@components/ui/linegraph/custom-line-graph"
 import { getRandomColor } from "@utils/colors"
 import { PageSubTitle } from "@components/shared/page-sub-title"
@@ -91,18 +91,7 @@ export const MySkillMapLineGraph = () => {
     return <div>No user</div>
   }
 
-  const filteredSkillMap = my_skill_map
-    .filter(
-      (skillMap) =>
-        skillMap.skill_map_results.length > 0 && skillMap.skill_map_results[0].comments !== ""
-    )
-    .sort((a, b) => {
-      const dateA =
-        a.skill_map_period_end_date != null ? new Date(a.skill_map_period_end_date) : new Date(0)
-      const dateB =
-        b.skill_map_period_end_date != null ? new Date(b.skill_map_period_end_date) : new Date(0)
-      return dateB.getTime() - dateA.getTime()
-    })
+  const filteredSkillMap = sortMySkillMapByPeriodEndDate(my_skill_map)
 
   return (
     <>

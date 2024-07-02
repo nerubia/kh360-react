@@ -15,6 +15,7 @@ export interface SkillMapResult {
   submitted_date?: string
   skill_map_ratings: SkillMapRating[]
   skill_map_administrations: SkillMapAdministration
+  comments?: string
 }
 
 export interface SkillMapResultFilters {

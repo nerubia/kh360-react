@@ -14,15 +14,20 @@ import { getAnswerOptionsByType } from "@redux/slices/answer-options-slice"
 import { SkillMapResultsGraph } from "./skill-map-results-graph"
 import { useSearchParams } from "react-router-dom"
 import { getSkillMapResultsLatest } from "@redux/slices/skill-map-results-slice"
+import { PageSubTitle } from "@components/shared/page-sub-title"
+import { sortUserSkillMapByPeriodEndDate } from "@utils/sort"
+import { type UserSkillMap } from "@custom-types/user-type"
 
 export const SkillMapResultsListTable = () => {
   const [searchParams] = useSearchParams()
   const appDispatch = useAppDispatch()
   const [showSkillMapModal, setShowSkillMapModal] = useState<boolean>(false)
+  const [filteredDetails, setFilteredDetails] = useState<UserSkillMap[]>([])
 
   const { skill_map_results, hasPreviousPage, hasNextPage, totalPages } = useAppSelector(
     (state) => state.skillMapResults
   )
+  const { user_skill_map } = useAppSelector((state) => state.users)
 
   const SkillMapResultsDialog = lazy(
     async () => await import("@features/admin/skill-map-results/skill-map-results-dialog")
@@ -37,6 +42,12 @@ export const SkillMapResultsListTable = () => {
       })
     )
   }, [searchParams])
+  useEffect(() => {
+    if (user_skill_map.length > 0) {
+      const filteredDetail = sortUserSkillMapByPeriodEndDate(user_skill_map)
+      setFilteredDetails(filteredDetail)
+    }
+  }, [user_skill_map])
 
   useEffect(() => {
     void appDispatch(getAnswerOptionsByType("Skill Map Scale"))
@@ -109,7 +120,24 @@ export const SkillMapResultsListTable = () => {
         <SkillMapResultsDialog
           open={showSkillMapModal}
           title='Skill Map Details'
-          description={<SkillMapResultsGraph />}
+          description={
+            <div>
+              <SkillMapResultsGraph />
+              <div className='mt-8'>
+                <PageSubTitle>Comments</PageSubTitle>
+                {filteredDetails.map((skillMap, index) => (
+                  <div key={index} className='text-sm xl:text-md italic'>
+                    <p className='capitalize'>
+                      {"- "}
+                      {skillMap.skill_map_results[0].comments}
+                      <span> </span>
+                      {`(${convertToMonthAndYear(skillMap.skill_map_period_end_date ?? "")})`}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          }
           onSubmit={toggleSkillMapModal}
         />
       </Suspense>
