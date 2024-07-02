@@ -89,6 +89,7 @@ interface InitialState {
   users: User[]
   allUsers: User[]
   user_skill_map: UserSkillMap[]
+  selectedSkillMapAdminId: string
   hasPreviousPage: boolean
   hasNextPage: boolean
   currentPage: number
@@ -101,6 +102,7 @@ const initialState: InitialState = {
   users: [],
   allUsers: [],
   user_skill_map: [],
+  selectedSkillMapAdminId: "all",
   hasPreviousPage: false,
   hasNextPage: false,
   currentPage: 1,
@@ -116,6 +118,9 @@ const usersSlice = createSlice({
     },
     setUserSkillMap: (state, action) => {
       state.user_skill_map = action.payload
+    },
+    setSelectedSkillMapAdminId: (state, action) => {
+      state.selectedSkillMapAdminId = action.payload
     },
   },
   extraReducers(builder) {
@@ -219,5 +224,5 @@ const usersSlice = createSlice({
   },
 })
 
-export const { setUsers, setUserSkillMap } = usersSlice.actions
+export const { setUsers, setUserSkillMap, setSelectedSkillMapAdminId } = usersSlice.actions
 export default usersSlice.reducer
