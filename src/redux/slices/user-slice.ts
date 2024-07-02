@@ -32,6 +32,7 @@ import { type SkillMapRating, type SkillMapRatings } from "@custom-types/skill-m
 import { type MySkillMap } from "@custom-types/my-skill-map-type"
 import { type SkillMapResultLatest } from "@custom-types/skill-map-result-latest"
 import { type OtherSkill } from "@custom-types/skill-type"
+import { type SkillMapResult } from "@custom-types/skill-map-result-type"
 
 export const getUserEvaluations = createAsyncThunk(
   "user/getUserEvaluations",
@@ -351,6 +352,7 @@ interface InitialState {
   user_skill_map_ratings: SkillMapRating[]
   user_latest_skill_map_result: SkillMapResultLatest[]
   user_latest_skill_map_result_filtered: SkillMapResultLatest[]
+  user_skill_map_result: SkillMapResult | null
   skill_map_result_status: string | null
   comments: string | null
   survey_result_status: string | null
@@ -386,6 +388,7 @@ const initialState: InitialState = {
   user_latest_skill_map_result: [],
   comments: "",
   user_latest_skill_map_result_filtered: [],
+  user_skill_map_result: null,
   skill_map_result_status: null,
   my_evaluation_administrations: [],
   my_skill_map: [],
@@ -743,6 +746,7 @@ const userSlice = createSlice({
       state.error = null
       state.user_skill_map_ratings = action.payload.user_skill_map_ratings
       state.user_skill_map_admins = [action.payload.skill_map_administration]
+      state.user_skill_map_result = action.payload.skill_map_result
       state.skill_map_result_status = action.payload.skill_map_result_status
       state.comments = action.payload.comments
     })

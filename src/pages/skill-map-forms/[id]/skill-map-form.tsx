@@ -3,7 +3,7 @@ import { SkillMapFormAction } from "@features/skill-map-forms/[id]/skill-map-for
 import { SkillMapFormTable } from "@features/skill-map-forms/[id]/skill-map-form-table"
 import { useTitle } from "@hooks/useTitle"
 
-export default function SurveyForm() {
+export default function SkillMapForm() {
   useTitle("Skill Map Form")
 
   return (
