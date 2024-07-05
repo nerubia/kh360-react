@@ -56,7 +56,9 @@ export const sortMySkillMapByPeriodEndDate = (my_skill_map: MySkillMap[]) => {
   return my_skill_map
     .filter(
       (skillMap) =>
-        skillMap.skill_map_results.length > 0 && skillMap.skill_map_results[0].comments !== ""
+        skillMap.skill_map_results.length > 0 &&
+        skillMap.skill_map_results[0].comments !== "" &&
+        skillMap.skill_map_results[0].comments !== null
     )
     .sort((a, b) => {
       const dateA =
