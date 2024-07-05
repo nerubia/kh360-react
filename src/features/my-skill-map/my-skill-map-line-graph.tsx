@@ -46,7 +46,7 @@ export const MySkillMapLineGraph = () => {
         selectedSkillMapAdminId === "all"
           ? my_skill_map
           : my_skill_map.filter((skillMap) => skillMap.id === parseInt(selectedSkillMapAdminId))
-      processData(filteredSkillMaps)
+      processData(filteredSkillMaps.filter((skillMap) => skillMap.skill_map_results.length !== 0))
     }
   }, [scaleYLabels, my_skill_map, selectedSkillMapAdminId])
 

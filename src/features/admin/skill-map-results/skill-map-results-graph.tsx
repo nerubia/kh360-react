@@ -57,7 +57,9 @@ export const SkillMapResultsGraph = () => {
           ? user_skill_map
           : user_skill_map.filter((skillMap) => skillMap.id === parseInt(selectedSkillMapAdminId))
 
-      processData(filteredSkillMaps)
+      processData(
+        filteredSkillMaps.filter((useSkillMap) => useSkillMap.skill_map_results.length !== 0)
+      )
     }
   }, [user_skill_map, selectedSkillMapAdminId])
 
@@ -87,6 +89,7 @@ export const SkillMapResultsGraph = () => {
         })
       })
     })
+
     setData({
       labels,
       datasets: Object.keys(skillData).map((skillName) => {

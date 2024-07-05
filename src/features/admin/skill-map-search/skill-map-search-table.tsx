@@ -62,7 +62,10 @@ export const SkillMapSearchTable = () => {
 
   useEffect(() => {
     if (user_skill_map.length > 0) {
-      processData(user_skill_map)
+      const filteredUserSkillMap = user_skill_map.filter(
+        (userSkillMap) => userSkillMap.skill_map_results[0].skill_map_ratings.length !== 0
+      )
+      processData(filteredUserSkillMap)
     }
   }, [user_skill_map])
 
@@ -159,6 +162,7 @@ export const SkillMapSearchTable = () => {
 
     toggleSkillMapModal()
   }
+
   return (
     <>
       <div className='flex flex-col gap-8 overflow-x-auto'>
