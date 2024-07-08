@@ -6,6 +6,7 @@ import { useParams, useNavigate } from "react-router-dom"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import {
   getCompanionSurveyQuestions,
+  saveSurveyAnswersAsDraft,
   submitSurveyAnswers,
   updateSurveyResultStatus,
 } from "@redux/slices/user-slice"
@@ -44,6 +45,7 @@ export const SurveyFormCompanionTable = () => {
   >([])
   const [surveyAnswers, setSurveyAnswers] = useState<SurveyAnswer[]>([])
   const [maxLimits, setMaxLimits] = useState<Record<string, number>>({})
+  const [showSaveAsDraftDialog, setShowSaveAsDraftDialog] = useState<boolean>(false)
   const [showSubmitDialog, setShowSubmitDialog] = useState<boolean>(false)
   const [showBackDialog, setShowBackDialog] = useState<boolean>(false)
 
@@ -121,6 +123,10 @@ export const SurveyFormCompanionTable = () => {
     setShowBackDialog((prev) => !prev)
   }
 
+  const toggleSaveAsDraftDialog = () => {
+    setShowSaveAsDraftDialog((prev) => !prev)
+  }
+
   const toggleSubmitDialog = () => {
     setShowSubmitDialog((prev) => !prev)
   }
@@ -170,6 +176,42 @@ export const SurveyFormCompanionTable = () => {
       }
       return updatedTotalAmount
     })
+  }
+
+  const handleSaveAsDraft = async () => {
+    try {
+      if (id !== undefined && survey_result_id !== undefined) {
+        const result = await appDispatch(
+          saveSurveyAnswersAsDraft({
+            survey_administration_id: parseInt(id),
+            survey_answers: surveyAnswers,
+            is_external: true,
+            survey_result_id: parseInt(survey_result_id),
+          })
+        )
+        if (result.type === "user/saveSurveyAnswersAsDraft/rejected") {
+          appDispatch(
+            setAlert({
+              description: result.payload,
+              variant: "destructive",
+            })
+          )
+          scrollToTop()
+        }
+        if (result.type === "user/saveSurveyAnswersAsDraft/fulfilled") {
+          appDispatch(
+            setAlert({
+              description: "Successfully saved survey answers as draft",
+              variant: "success",
+            })
+          )
+          appDispatch(updateSurveyResultStatus(SurveyResultStatus.Draft))
+          if (survey_result_id !== undefined) {
+            void appDispatch(getCompanionSurveyQuestions(parseInt(survey_result_id)))
+          }
+        }
+      }
+    } catch (error) {}
   }
 
   const handleSubmit = async () => {
@@ -437,13 +479,22 @@ export const SurveyFormCompanionTable = () => {
           {survey_result_status === SurveyResultStatus.Submitted ? "Back" : "Cancel & Exit"}
         </Button>
         {survey_result_status !== SurveyResultStatus.Submitted && (
-          <Button
-            variant='primary'
-            disabled={survey_result_status === SurveyResultStatus.Submitted}
-            onClick={toggleSubmitDialog}
-          >
-            Save & Submit
-          </Button>
+          <div className='flex flex-col md:flex-row gap-2'>
+            <Button
+              variant='primary'
+              disabled={survey_result_status === SurveyResultStatus.Submitted}
+              onClick={toggleSaveAsDraftDialog}
+            >
+              Save as Draft
+            </Button>
+            <Button
+              variant='primary'
+              disabled={survey_result_status === SurveyResultStatus.Submitted}
+              onClick={toggleSubmitDialog}
+            >
+              Save & Submit
+            </Button>
+          </div>
         )}
       </div>
       <CustomDialog
@@ -466,16 +517,28 @@ export const SurveyFormCompanionTable = () => {
         onSubmit={handleRedirect}
       />
       {survey_result_status !== SurveyResultStatus.Submitted && (
-        <CustomDialog
-          open={showSubmitDialog}
-          title='Submit Survey'
-          description='Are you sure you want to submit your answers?'
-          onClose={toggleSubmitDialog}
-          onSubmit={async () => {
-            toggleSubmitDialog()
-            await handleSubmit()
-          }}
-        />
+        <>
+          <CustomDialog
+            open={showSaveAsDraftDialog}
+            title='Save Survey as Draft '
+            description='Are you sure you want to save your answers as draft?'
+            onClose={toggleSaveAsDraftDialog}
+            onSubmit={async () => {
+              toggleSaveAsDraftDialog()
+              await handleSaveAsDraft()
+            }}
+          />
+          <CustomDialog
+            open={showSubmitDialog}
+            title='Submit Survey'
+            description='Are you sure you want to submit your answers?'
+            onClose={toggleSubmitDialog}
+            onSubmit={async () => {
+              toggleSubmitDialog()
+              await handleSubmit()
+            }}
+          />
+        </>
       )}
     </div>
   )
