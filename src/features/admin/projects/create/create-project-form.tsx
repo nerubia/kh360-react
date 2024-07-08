@@ -277,6 +277,10 @@ export const CreateProjectForm = () => {
                       })
                     )
                   }}
+                  error={{
+                    start_date: validationErrors.start_date,
+                    end_date: validationErrors.end_date,
+                  }}
                 />
               </div>
               <div className='flex flex-col gap-4'>
