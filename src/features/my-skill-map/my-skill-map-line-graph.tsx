@@ -51,13 +51,13 @@ export const MySkillMapLineGraph = () => {
   }, [scaleYLabels, my_skill_map, selectedSkillMapAdminId])
 
   const processData = (apiData: MySkillMap[]) => {
-    const labels = apiData.map((item) =>
-      item.skill_map_period_end_date != null
-        ? new Date(item.skill_map_period_end_date).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short",
-          })
-        : ""
+    const labels = apiData.map(
+      (item) =>
+        item.skill_map_period_end_date != null &&
+        `${item.name} (${new Date(item.skill_map_period_end_date).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "short",
+        })})`
     )
     const skillData: Record<string, Array<number | null>> = {}
     apiData.forEach((item, index) => {
