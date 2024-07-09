@@ -1,20 +1,14 @@
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { Button } from "@components/ui/button/button"
 import { Icon } from "@components/ui/icon/icon"
-import { useAppSelector } from "@hooks/useAppSelector"
 import { useMobileView } from "@hooks/use-mobile-view"
 
 export const SkillMapResultFooter = () => {
   const navigate = useNavigate()
   const isMobile = useMobileView()
-  const { previousUrl } = useAppSelector((state) => state.app)
-
+  const { id } = useParams()
   const handleGoBack = () => {
-    if (previousUrl !== null) {
-      navigate(previousUrl)
-      return
-    }
-    navigate(`/admin/skill-map-administrations`)
+    navigate(`/admin/skill-map-administrations/${id}`)
   }
 
   return (
