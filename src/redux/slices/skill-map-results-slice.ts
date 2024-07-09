@@ -9,6 +9,7 @@ import { axiosInstance } from "@utils/axios-instance"
 import { Loading } from "@custom-types/loadingType"
 import { type SkillMapResultsFormData } from "@custom-types/form-data-type"
 import { type SendReminderData } from "@custom-types/evaluation-administration-type"
+import { type SkillMapAdminResult } from "@custom-types/skill-map-admin-result-type"
 
 export const getSkillMapResultsLatest = createAsyncThunk(
   "skillMapResults/getSkillMapResultsLatest",
@@ -101,12 +102,36 @@ export const reopenSkillMapResult = createAsyncThunk(
   }
 )
 
+export const getSkillMapAdminResults = createAsyncThunk(
+  "skillMapAdminResults/results",
+  async (
+    {
+      skill_map_administration_id,
+      userId,
+    }: { skill_map_administration_id: number; userId: number },
+    thunkApi
+  ) => {
+    try {
+      const response = await axiosInstance.post(
+        `/admin/skill-map-results/${skill_map_administration_id}/result`,
+        { userId }
+      )
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   loading_send: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
   skill_map_results: SkillMapResult[]
+  skill_map_admin_results: SkillMapAdminResult[]
   hasPreviousPage: boolean
+  comments: string | null
   hasNextPage: boolean
   totalPages: number
   totalItems: number
@@ -117,6 +142,8 @@ const initialState: InitialState = {
   loading_send: Loading.Idle,
   error: null,
   skill_map_results: [],
+  skill_map_admin_results: [],
+  comments: "",
   hasPreviousPage: false,
   hasNextPage: false,
   totalPages: 0,
@@ -180,6 +207,23 @@ const skillMapResultsSlice = createSlice({
       state.error = null
     })
     builder.addCase(createSkillMapResults.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Get Skill Map admin Results
+     */
+    builder.addCase(getSkillMapAdminResults.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(getSkillMapAdminResults.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.skill_map_admin_results = action.payload.user_skill_map_ratings
+      state.comments = action.payload.comments
+      state.error = null
+    })
+    builder.addCase(getSkillMapAdminResults.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
