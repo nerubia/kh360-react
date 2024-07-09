@@ -102,7 +102,7 @@ export const SkillMapResultList = () => {
                 </div>
               </div>
               {skillMapResultToggledState[skillMapIndex] && (
-                <div className='ml-5'>
+                <div className='mx-12'>
                   <table className={`md:w-full md:table-fixed text-sm mb-2`}>
                     <thead className='sticky top-0 bg-white text-left'>
                       <tr>
@@ -135,7 +135,9 @@ export const SkillMapResultList = () => {
                         ))}
                     </tbody>
                   </table>
-                  <PageSubTitle>Other Skills</PageSubTitle>
+                  <div className='my-5'>
+                    <PageSubTitle>Other Skills</PageSubTitle>
+                  </div>
                   <table className={`md:w-full md:table-fixed text-sm mb-2`}>
                     <thead className='sticky top-0 bg-white text-left'>
                       <tr>
@@ -160,14 +162,15 @@ export const SkillMapResultList = () => {
                         ))}
                     </tbody>
                   </table>
-                  <PageSubTitle>Comments</PageSubTitle>
-                  <p>
+                  <div className='my-5'>
+                    <PageSubTitle>Comments</PageSubTitle>
+                  </div>
+                  <p className='my-5'>
                     {userSkillMapResults.find(
                       (userSkillMapResult) =>
                         userSkillMapResult.user_id === skillMapResult.users?.id
                     )?.comments ?? "- No comments"}
                   </p>
-                  <p></p>
                 </div>
               )}
             </div>
