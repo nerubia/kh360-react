@@ -209,6 +209,7 @@ export const SurveyFormCompanionTable = () => {
           if (survey_result_id !== undefined) {
             void appDispatch(getCompanionSurveyQuestions(parseInt(survey_result_id)))
           }
+          navigate(`/survey-forms/${id}`)
         }
       }
     } catch (error) {}
