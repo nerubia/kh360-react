@@ -33,7 +33,6 @@ export const ViewSkillMapAdminList = () => {
   const [showDeleteDialog, setShowDeleteialog] = useState<boolean>(false)
   const [selectedRespondent, setSelectedRespondent] = useState<User | null>(null)
   const [selectedSkillMapResultId, setSelectedSkillMapResultId] = useState<number | null>(null)
-
   const isMobile = useMobileView(1028)
 
   const SkillMapAdminDialog = lazy(
