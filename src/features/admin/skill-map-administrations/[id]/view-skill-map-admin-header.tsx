@@ -199,13 +199,16 @@ export const ViewSkillMapAdminHeader = () => {
             />
           </div>
           <div className='flex justify-between gap-4'>
-            <LinkButton
-              variant='primary'
-              size={isMobile ? "small" : "medium"}
-              to={`/admin/skill-map-administrations/${id}/results`}
-            >
-              Results
-            </LinkButton>
+            {(skill_map_administration?.status === SkillMapAdminStatus.Ongoing ||
+              skill_map_administration?.status === SkillMapAdminStatus.Closed) && (
+              <LinkButton
+                variant='primary'
+                size={isMobile ? "small" : "medium"}
+                to={`/admin/skill-map-administrations/${id}/results`}
+              >
+                Results
+              </LinkButton>
+            )}
             {skill_map_administration?.status !== SkillMapAdminStatus.Processing &&
               skill_map_administration?.status !== SkillMapAdminStatus.Cancelled && (
                 <Dropdown>
