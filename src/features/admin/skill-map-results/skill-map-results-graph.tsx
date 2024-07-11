@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { CustomLineGraph } from "@components/ui/linegraph/custom-line-graph"
 import { CustomSelect } from "@components/ui/select/custom-select"
 import { type Option } from "@custom-types/optionType"
@@ -18,6 +19,8 @@ export const SkillMapResultsGraph = () => {
   const { answer_options } = useAppSelector((state) => state.answerOptions)
 
   const [scaleYLabels, setScaleYLabels] = useState<string[]>([])
+  const [scaleXLabels, setScaleXLabels] = useState<string[]>([])
+
   const [data, setData] = useState<ChartData<"line">>({
     labels: [],
     datasets: [],
@@ -70,6 +73,16 @@ export const SkillMapResultsGraph = () => {
           })
         : ""
     )
+    console.log("api", apiData)
+    const xlabels = apiData
+      .map((item) => {
+        if (item.skill_map_period_end_date != null) {
+          return item.name
+        }
+        return null
+      })
+      .filter((label): label is string => label !== null)
+    setScaleXLabels(xlabels)
 
     const skillData: Record<string, Array<number | null>> = {}
     apiData.forEach((item, index) => {
@@ -116,7 +129,7 @@ export const SkillMapResultsGraph = () => {
             options={filterOptions}
           />
         </div>
-        <CustomLineGraph scaleYLabels={scaleYLabels} data={data} />
+        <CustomLineGraph scaleYLabels={scaleYLabels} scaleXLabel={scaleXLabels} data={data} />
       </div>
     </div>
   )

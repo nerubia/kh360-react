@@ -19,6 +19,7 @@ export const MySkillMapLineGraph = () => {
   const { my_skill_map, selectedSkillMapAdminId } = useAppSelector((state) => state.user)
 
   const [scaleYLabels, setScaleYLabels] = useState<string[]>([])
+  const [scaleXLabels, setScaleXLabels] = useState<string[]>([])
   const [data, setData] = useState<ChartData<"line">>({
     labels: [],
     datasets: [],
@@ -54,11 +55,22 @@ export const MySkillMapLineGraph = () => {
     const labels = apiData.map(
       (item) =>
         item.skill_map_period_end_date != null &&
-        `${item.name} (${new Date(item.skill_map_period_end_date).toLocaleDateString("en-US", {
+        `(${new Date(item.skill_map_period_end_date).toLocaleDateString("en-US", {
           year: "numeric",
           month: "short",
         })})`
     )
+    const xlabels = apiData
+      .map((item) => {
+        if (item.skill_map_period_end_date != null) {
+          return item.name
+        }
+        return null
+      })
+      .filter((label): label is string => label !== null)
+
+    setScaleXLabels(xlabels)
+
     const skillData: Record<string, Array<number | null>> = {}
     apiData.forEach((item, index) => {
       item.skill_map_results.forEach((result) => {
@@ -75,6 +87,7 @@ export const MySkillMapLineGraph = () => {
 
     setData({
       labels,
+      xLabels: xlabels,
       datasets: Object.keys(skillData).map((skillName) => {
         const randomColor = getRandomColor()
         return {
@@ -95,7 +108,7 @@ export const MySkillMapLineGraph = () => {
 
   return (
     <>
-      <CustomLineGraph scaleYLabels={scaleYLabels} data={data} />
+      <CustomLineGraph scaleYLabels={scaleYLabels} scaleXLabel={scaleXLabels} data={data} />
       <PageSubTitle>Comments</PageSubTitle>
       {filteredSkillMap.map((skillMap, index) => (
         <div key={index} className='text-sm xl:text-md italic'>

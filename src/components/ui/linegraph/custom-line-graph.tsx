@@ -18,14 +18,14 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 interface CustomLineGraphProps {
   scaleYLabels: string[]
   data: ChartData<"line">
+  scaleXLabel: string[]
 }
 
-export const CustomLineGraph = ({ scaleYLabels, data }: CustomLineGraphProps) => {
+export const CustomLineGraph = ({ scaleYLabels, scaleXLabel, data }: CustomLineGraphProps) => {
   const chartRef = useRef<ChartJS<"line", number[], string>>(null)
   const [options, setOptions] = useState<ChartOptions<"line">>()
-
   useEffect(() => {
-    if (scaleYLabels.length > 0) {
+    if (scaleYLabels.length > 0 && scaleXLabel.length > 0) {
       setOptions({
         responsive: true,
         plugins: {
@@ -35,7 +35,9 @@ export const CustomLineGraph = ({ scaleYLabels, data }: CustomLineGraphProps) =>
           tooltip: {
             callbacks: {
               label: (context) => {
-                return `${context.dataset.label}: ${scaleYLabels[context.raw as number]}`
+                return `${scaleXLabel[context.dataIndex]} (${context.dataset.label}: ${
+                  scaleYLabels[context.raw as number]
+                })`
               },
             },
           },

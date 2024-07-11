@@ -31,6 +31,8 @@ export const SkillMapSearchTable = () => {
   const [selectedSkillMapRating, setSelectedSkillMapRating] = useState<SkillMapRating | null>(null)
 
   const [scaleYLabels, setScaleYLabels] = useState<string[]>([])
+  const [scaleXLabels, setScaleXLabels] = useState<string[]>([])
+
   const [data, setData] = useState<ChartData<"line">>({
     labels: [],
     datasets: [],
@@ -129,6 +131,15 @@ export const SkillMapSearchTable = () => {
           })
         : ""
     )
+    const xlabels = apiData
+      .map((item) => {
+        if (item.skill_map_period_end_date != null) {
+          return item.name
+        }
+        return null
+      })
+      .filter((label): label is string => label !== null)
+    setScaleXLabels(xlabels)
 
     const skillData: Record<string, Array<number | null>> = {}
     apiData.forEach((item, index) => {
@@ -185,7 +196,7 @@ export const SkillMapSearchTable = () => {
           title={`${selectedSkillMapRating?.skill_map_results?.users?.last_name}, ${selectedSkillMapRating?.skill_map_results?.users?.first_name}: ${selectedSkillMapRating?.skills?.name} Skill Map Details`}
           description={
             <div className='w-[800px]'>
-              <CustomLineGraph scaleYLabels={scaleYLabels} data={data} />
+              <CustomLineGraph scaleYLabels={scaleYLabels} scaleXLabel={scaleXLabels} data={data} />
             </div>
           }
           onSubmit={toggleSkillMapModal}
