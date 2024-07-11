@@ -282,12 +282,12 @@ test.describe("Admin - View Skill Map Administrations", () => {
 
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
+      } else {
+        await page.getByRole("button", { name: "More actions" }).click()
+        await page.getByRole("button", { name: "Edit" }).click()
+
+        await expect(page).toHaveURL("/admin/skill-map-administrations/1/edit")
       }
-
-      await page.getByRole("button", { name: "More actions" }).click()
-      await page.getByRole("button", { name: "Edit" }).click()
-
-      await expect(page).toHaveURL("/admin/skill-map-administrations/1/edit")
     })
 
     test("should allow to delete", async ({ page, isMobile }) => {
