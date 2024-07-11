@@ -125,16 +125,22 @@ export const SkillMapResultsListTable = () => {
               <SkillMapResultsGraph />
               <div className='mt-8'>
                 <PageSubTitle>Comments</PageSubTitle>
-                {filteredDetails.map((skillMap, index) => (
-                  <div key={index} className='text-sm xl:text-md italic'>
-                    <p className='capitalize'>
-                      {"- "}
-                      {skillMap.skill_map_results[0].comments}
-                      <span> </span>
-                      {`(${convertToMonthAndYear(skillMap.skill_map_period_end_date ?? "")})`}
-                    </p>
-                  </div>
-                ))}
+                {filteredDetails
+                  .filter(
+                    (skillMap) =>
+                      skillMap.skill_map_results[0].comments !== null &&
+                      skillMap.skill_map_results[0].comments !== ""
+                  )
+                  .map((skillMap, index) => (
+                    <div key={index} className='text-sm xl:text-md italic'>
+                      <p className='capitalize'>
+                        {"- "}
+                        {skillMap.skill_map_results[0].comments}
+                        <span> </span>
+                        {`(${convertToMonthAndYear(skillMap.skill_map_period_end_date ?? "")})`}
+                      </p>
+                    </div>
+                  ))}
               </div>
             </div>
           }

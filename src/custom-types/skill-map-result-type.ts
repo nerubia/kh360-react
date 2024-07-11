@@ -2,6 +2,7 @@ import { type User } from "./user-type"
 import { type EmailLog } from "./email-log-type"
 import { type SkillMapRating } from "./skill-map-rating-type"
 import { type SkillMapAdministration } from "./skill-map-admin-type"
+import { type SkillMapAdminResult } from "@custom-types/skill-map-admin-result-type"
 
 export interface SkillMapResult {
   id: number
@@ -38,4 +39,10 @@ export enum SkillMapResultStatus {
   Submitted = "Submitted",
   Cancelled = "Cancelled",
   NoResult = "No Result",
+}
+
+export interface CustomUserSkillMap {
+  user_id: number
+  skill_map_results: SkillMapAdminResult[]
+  comments?: string | null
 }

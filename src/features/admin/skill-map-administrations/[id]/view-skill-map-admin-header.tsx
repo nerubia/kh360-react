@@ -1,5 +1,5 @@
 import { useState, useContext } from "react"
-import { Button } from "@components/ui/button/button"
+import { Button, LinkButton } from "@components/ui/button/button"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { useNavigate, useParams } from "react-router-dom"
 import { SkillMapAdminStatus } from "@custom-types/skill-map-admin-type"
@@ -199,6 +199,13 @@ export const ViewSkillMapAdminHeader = () => {
             />
           </div>
           <div className='flex justify-between gap-4'>
+            <LinkButton
+              variant='primary'
+              size={isMobile ? "small" : "medium"}
+              to={`/admin/skill-map-administrations/${id}/results`}
+            >
+              Results
+            </LinkButton>
             {skill_map_administration?.status !== SkillMapAdminStatus.Processing &&
               skill_map_administration?.status !== SkillMapAdminStatus.Cancelled && (
                 <Dropdown>

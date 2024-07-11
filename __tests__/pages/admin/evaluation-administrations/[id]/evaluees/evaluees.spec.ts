@@ -484,6 +484,27 @@ test.describe("Admin - Evaluation - Evaluee List", () => {
         body: JSON.stringify([]),
       })
 
+      await mockRequest(page, "/admin/evaluation-administrations/1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          id: 1,
+          name: "test",
+          eval_schedule_start_date: "2024-07-11T00:00:00.000Z",
+          eval_schedule_end_date: "2024-07-12T00:00:00.000Z",
+          eval_period_start_date: "2024-07-01T00:00:00.000Z",
+          eval_period_end_date: "2024-07-02T00:00:00.000Z",
+          remarks: "test",
+          email_subject: "",
+          email_content: "",
+          status: "Draft",
+          created_by_id: null,
+          updated_by_id: null,
+          created_at: null,
+          updated_at: null,
+        }),
+      })
+
       await expect(page).toHaveURL("/admin/evaluation-administrations/1/select")
     })
 

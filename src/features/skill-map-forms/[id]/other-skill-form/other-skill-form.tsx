@@ -42,13 +42,19 @@ export const OtherSkillFormDialog = ({ open, toggleDialog }: OtherSkillFormDialo
       await createOtherSkillSchema.validate(formData, {
         abortEarly: false,
       })
+
+      const trimmedFormData = {
+        ...formData,
+        other_skill_name: (formData.other_skill_name ?? "").trim(),
+      }
+
       const newId = generateUniqueID()
       void appDispatch(
         setOtherSkills([
           ...other_skills,
           {
             skill_rating_id: newId,
-            ...formData,
+            ...trimmedFormData,
           },
         ])
       )
