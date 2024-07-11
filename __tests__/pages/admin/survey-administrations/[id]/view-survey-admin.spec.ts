@@ -272,6 +272,78 @@ test.describe("Admin - View Survey Administrations", () => {
       await page.getByRole("button", { name: "More actions" }).click()
       await page.getByRole("button", { name: "Edit" }).click()
 
+      await mockRequest(page, "/user/email-templates?template_type=Create+Survey", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          id: 1,
+          name: null,
+          template_type: "Create Survey",
+          is_default: true,
+          subject: "Subject 1",
+          content: "Content 1",
+          created_by_id: null,
+          updated_by_id: null,
+          created_at: null,
+          updated_at: null,
+        }),
+      })
+
+      await mockRequest(page, "/admin/survey-templates/all", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify([
+          {
+            id: 1,
+            name: "Sample Survey",
+            display_name: "Sample Survey Template",
+            survey_type: "sample",
+            remarks: "description",
+            is_active: true,
+            created_by_id: 20222,
+            updated_by_id: 20222,
+            created_at: "2024-03-22T14:15:48.000Z",
+            updated_at: "2024-03-22T14:15:48.000Z",
+            deleted_at: null,
+          },
+          {
+            id: 2,
+            name: "Summer Outing 2024 Dinner Menu",
+            display_name: "Summer Outing 2024 Dinner Menu",
+            survey_type: "sample",
+            remarks: null,
+            is_active: true,
+            created_by_id: 5,
+            updated_by_id: 5,
+            created_at: "2024-03-25T10:17:17.000Z",
+            updated_at: "2024-03-25T10:17:17.000Z",
+            deleted_at: null,
+          },
+        ]),
+      })
+
+      await mockRequest(page, "/admin/survey-administrations/72", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          id: 72,
+          name: "draft",
+          survey_start_date: "2024-04-01T00:00:00.000Z",
+          survey_end_date: "2024-04-04T00:00:00.000Z",
+          survey_template_id: 2,
+          remarks: "test only",
+          email_subject: "[TEST] Answer This Survey plz",
+          email_content:
+            "Hello {{respondent_first_name}},\n\nYou are invited to answer {{survey_admin_name}}.\n\nDeadline is on {{survey_end_date}}.\n\nClick this {{link}} to access survey",
+          status: "Draft",
+          created_by_id: null,
+          updated_by_id: null,
+          created_at: "2024-04-01T10:02:10.000Z",
+          updated_at: null,
+          deleted_at: null,
+        }),
+      })
+
       await expect(page).toHaveURL("/admin/survey-administrations/1/edit")
     })
 
