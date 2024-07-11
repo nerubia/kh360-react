@@ -24,6 +24,7 @@ export const SkillMapResultList = () => {
 
   const [userSkillMapResults, setUserSkillMapResults] = useState<CustomUserSkillMap[]>([])
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null)
+  const [isLoaded, setIsLoaded] = useState<boolean>(false)
 
   useEffect(() => {
     if (selectedUserId !== null) {
@@ -50,9 +51,13 @@ export const SkillMapResultList = () => {
         getSkillMapResultsAll({
           skill_map_administration_id: id,
         })
-      ).then((res) => {
-        setSkillMapResultToggledState(() => [...new Array(res.payload.length).fill(false)])
-      })
+      )
+        .then((res) => {
+          setSkillMapResultToggledState(() => [...new Array(res.payload.length).fill(false)])
+        })
+        .finally(() => {
+          setIsLoaded(true)
+        })
     }
   }, [])
 
@@ -142,58 +147,61 @@ export const SkillMapResultList = () => {
     <>
       <div className={`flex flex-col gap-8 mb-4`}>
         <div className={`flex flex-col ${isMobile ? "overflow-x-auto" : ""}`}>
-          {skill_map_results?.map((skillMapResult, skillMapIndex) => (
-            <div key={skillMapIndex} className='mb-2 ml-2'>
-              <div className='flex gap-5 mb-2 items-center'>
-                <div className='flex items-center'>
+          {isLoaded &&
+            skill_map_results?.map((skillMapResult, skillMapIndex) => (
+              <div key={skillMapIndex} className='mb-2 ml-2'>
+                <div className='flex gap-5 mb-2 items-center'>
                   <div className='flex items-center'>
-                    <span
-                      className='flex items-center cursor-pointer'
-                      onClick={() => toggleSkillMapResult(skillMapIndex, skillMapResult?.users?.id)}
-                    >
-                      <span className='mr-2'>
-                        {skillMapResultToggledState[skillMapIndex] ? (
-                          <Icon icon='ChevronDown' />
-                        ) : (
-                          <Icon icon='ChevronRight' />
-                        )}
-                      </span>
-                      <span className='mr-2'>
-                        {skillMapResult.users?.last_name}, {skillMapResult.users?.first_name}
-                      </span>
-                      <Badge
-                        variant={getSkillMapResultStatusVariant(skillMapResult?.status)}
-                        size='small'
+                    <div className='flex items-center'>
+                      <span
+                        className='flex items-center cursor-pointer'
+                        onClick={() =>
+                          toggleSkillMapResult(skillMapIndex, skillMapResult?.users?.id)
+                        }
                       >
-                        <div className='uppercase'>{skillMapResult?.status}</div>
-                      </Badge>
-                    </span>
+                        <span className='mr-2'>
+                          {skillMapResultToggledState[skillMapIndex] ? (
+                            <Icon icon='ChevronDown' />
+                          ) : (
+                            <Icon icon='ChevronRight' />
+                          )}
+                        </span>
+                        <span className='mr-2'>
+                          {skillMapResult.users?.last_name}, {skillMapResult.users?.first_name}
+                        </span>
+                        <Badge
+                          variant={getSkillMapResultStatusVariant(skillMapResult?.status)}
+                          size='small'
+                        >
+                          <div className='uppercase'>{skillMapResult?.status}</div>
+                        </Badge>
+                      </span>
+                    </div>
                   </div>
                 </div>
+                {skillMapResultToggledState[skillMapIndex] && (
+                  <div className='flex flex-col gap-4 mx-12'>
+                    <div className='flex flex-col gap-4'>
+                      <PageSubTitle>Skills</PageSubTitle>
+                      {skillsTable(skillMapResult)}
+                    </div>
+                    <div className='flex flex-col gap-4'>
+                      <PageSubTitle>Other Skills</PageSubTitle>
+                      {otherSkillsTable(skillMapResult)}
+                    </div>
+                    <div className='flex flex-col gap-4'>
+                      <PageSubTitle>Comments</PageSubTitle>
+                      <p className='text-sm'>
+                        {userSkillMapResults.find(
+                          (userSkillMapResult) =>
+                            userSkillMapResult.user_id === skillMapResult.users?.id
+                        )?.comments ?? "- No comments added"}
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
-              {skillMapResultToggledState[skillMapIndex] && (
-                <div className='flex flex-col gap-4 mx-12'>
-                  <div className='flex flex-col gap-4'>
-                    <PageSubTitle>Skills</PageSubTitle>
-                    {skillsTable(skillMapResult)}
-                  </div>
-                  <div className='flex flex-col gap-4'>
-                    <PageSubTitle>Other Skills</PageSubTitle>
-                    {otherSkillsTable(skillMapResult)}
-                  </div>
-                  <div className='flex flex-col gap-4'>
-                    <PageSubTitle>Comments</PageSubTitle>
-                    <p className='text-sm'>
-                      {userSkillMapResults.find(
-                        (userSkillMapResult) =>
-                          userSkillMapResult.user_id === skillMapResult.users?.id
-                      )?.comments ?? "- No comments added"}
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-          ))}
+            ))}
         </div>
       </div>
     </>
