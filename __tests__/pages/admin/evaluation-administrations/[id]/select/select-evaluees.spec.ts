@@ -208,6 +208,27 @@ test.describe("Admin - Select Evaluees", () => {
         body: JSON.stringify([]),
       })
 
+      await mockRequest(page, "/admin/evaluation-administrations/1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          id: 1,
+          name: "test",
+          eval_schedule_start_date: "2024-07-11T00:00:00.000Z",
+          eval_schedule_end_date: "2024-07-12T00:00:00.000Z",
+          eval_period_start_date: "2024-07-01T00:00:00.000Z",
+          eval_period_end_date: "2024-07-02T00:00:00.000Z",
+          remarks: "test",
+          email_subject: "",
+          email_content: "",
+          status: "Draft",
+          created_by_id: null,
+          updated_by_id: null,
+          created_at: null,
+          updated_at: null,
+        }),
+      })
+
       await page.waitForLoadState("networkidle")
 
       await expect(page.getByPlaceholder("Search by name")).toBeVisible()
@@ -318,6 +339,27 @@ test.describe("Admin - Select Evaluees", () => {
         body: JSON.stringify([]),
       })
 
+      await mockRequest(page, "/admin/evaluation-administrations/1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          id: 1,
+          name: "test",
+          eval_schedule_start_date: "2024-07-11T00:00:00.000Z",
+          eval_schedule_end_date: "2024-07-12T00:00:00.000Z",
+          eval_period_start_date: "2024-07-01T00:00:00.000Z",
+          eval_period_end_date: "2024-07-02T00:00:00.000Z",
+          remarks: "test",
+          email_subject: "",
+          email_content: "",
+          status: "Draft",
+          created_by_id: null,
+          updated_by_id: null,
+          created_at: null,
+          updated_at: null,
+        }),
+      })
+
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
       }
@@ -392,6 +434,27 @@ test.describe("Admin - Select Evaluees", () => {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify([]),
+      })
+
+      await mockRequest(page, "/admin/evaluation-administrations/1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          id: 1,
+          name: "test",
+          eval_schedule_start_date: "2024-07-11T00:00:00.000Z",
+          eval_schedule_end_date: "2024-07-12T00:00:00.000Z",
+          eval_period_start_date: "2024-07-01T00:00:00.000Z",
+          eval_period_end_date: "2024-07-02T00:00:00.000Z",
+          remarks: "test",
+          email_subject: "",
+          email_content: "",
+          status: "Draft",
+          created_by_id: null,
+          updated_by_id: null,
+          created_at: null,
+          updated_at: null,
+        }),
       })
 
       if (isMobile) {
@@ -472,6 +535,27 @@ test.describe("Admin - Select Evaluees", () => {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify([]),
+      })
+
+      await mockRequest(page, "/admin/evaluation-administrations/1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          id: 1,
+          name: "test",
+          eval_schedule_start_date: "2024-07-11T00:00:00.000Z",
+          eval_schedule_end_date: "2024-07-12T00:00:00.000Z",
+          eval_period_start_date: "2024-07-01T00:00:00.000Z",
+          eval_period_end_date: "2024-07-02T00:00:00.000Z",
+          remarks: "test",
+          email_subject: "",
+          email_content: "",
+          status: "Draft",
+          created_by_id: null,
+          updated_by_id: null,
+          created_at: null,
+          updated_at: null,
+        }),
       })
 
       if (isMobile) {
@@ -676,6 +760,27 @@ test.describe("Admin - Select Evaluees", () => {
         body: JSON.stringify([]),
       })
 
+      await mockRequest(page, "/admin/evaluation-administrations/1", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          id: 1,
+          name: "test",
+          eval_schedule_start_date: "2024-07-11T00:00:00.000Z",
+          eval_schedule_end_date: "2024-07-12T00:00:00.000Z",
+          eval_period_start_date: "2024-07-01T00:00:00.000Z",
+          eval_period_end_date: "2024-07-02T00:00:00.000Z",
+          remarks: "test",
+          email_subject: "",
+          email_content: "",
+          status: "Draft",
+          created_by_id: null,
+          updated_by_id: null,
+          created_at: null,
+          updated_at: null,
+        }),
+      })
+
       if (isMobile) {
         await page.getByTestId("SidebarCloseButton").click()
       }
@@ -752,25 +857,30 @@ test.describe("Admin - Select Evaluees", () => {
         body: JSON.stringify([]),
       })
 
-      if (isMobile) {
-        await page.getByTestId("SidebarCloseButton").click()
-      }
-
       await mockRequest(page, "/admin/evaluation-administrations/1", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
           id: 1,
-          name: "Evaluation 1",
-          eval_schedule_start_date: "2024-01-01T00:00:00.000Z",
-          eval_schedule_end_date: "2024-01-03T00:00:00.000Z",
-          eval_period_start_date: "2023-01-01T00:00:00.000Z",
-          eval_period_end_date: "2023-12-31T00:00:00.000Z",
-          remarks: "Remarks 1",
-          email_subject: "Email subject",
-          email_content: "Email content",
+          name: "test",
+          eval_schedule_start_date: "2024-07-11T00:00:00.000Z",
+          eval_schedule_end_date: "2024-07-12T00:00:00.000Z",
+          eval_period_start_date: "2024-07-01T00:00:00.000Z",
+          eval_period_end_date: "2024-07-02T00:00:00.000Z",
+          remarks: "test",
+          email_subject: "",
+          email_content: "",
+          status: "Draft",
+          created_by_id: null,
+          updated_by_id: null,
+          created_at: null,
+          updated_at: null,
         }),
       })
+
+      if (isMobile) {
+        await page.getByTestId("SidebarCloseButton").click()
+      }
 
       await page.getByTestId("BackButton").click()
 
