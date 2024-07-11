@@ -537,8 +537,15 @@ export const ProjectAssignmentForm = () => {
                 project_member_name: option?.label,
               })
             )
+            if (option === null) {
+              debouncedSearchUser("")
+            }
           }}
-          onInputChange={(value) => debouncedSearchUser(value)}
+          onInputChange={(value, actionMeta) => {
+            if (actionMeta.action === "input-change") {
+              debouncedSearchUser(value)
+            }
+          }}
           options={activeUsers}
           fullWidth
           error={validationErrors.user_id}
@@ -565,11 +572,17 @@ export const ProjectAssignmentForm = () => {
             )
             if (option !== null) {
               void appDispatch(getProject(parseInt(option.value)))
+            } else {
+              debouncedSearchProject("")
             }
             void appDispatch(setSelectedSkills([]))
             void appDispatch(setCheckedSkills([]))
           }}
-          onInputChange={(value) => debouncedSearchProject(value)}
+          onInputChange={(value, actionMeta) => {
+            if (actionMeta.action === "input-change") {
+              debouncedSearchProject(value)
+            }
+          }}
           options={activeProjects}
           fullWidth
           error={validationErrors.project_id}
