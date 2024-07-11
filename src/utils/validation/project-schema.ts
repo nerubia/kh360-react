@@ -4,6 +4,7 @@ export const createProjectSchema = object().shape({
   name: string().required("Name is required.").max(255, "Name must be at most 255 characters"),
   client_id: string(),
   start_date: string()
+    .required("Must select a date that is within the valid range.")
     .test("start-date", "Start date must not be later than end date.", function (start_date) {
       const end_date = this.parent.end_date
       if (start_date !== undefined && end_date !== undefined) {
