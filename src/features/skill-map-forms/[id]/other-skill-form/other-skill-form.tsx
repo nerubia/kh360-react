@@ -85,6 +85,7 @@ export const OtherSkillFormDialog = ({ open, toggleDialog }: OtherSkillFormDialo
                 value={formData.other_skill_name ?? ""}
                 onChange={onChangeInput}
                 error={validationErrors.other_skill_name}
+                autoFocus
               />
             </div>
           </div>
