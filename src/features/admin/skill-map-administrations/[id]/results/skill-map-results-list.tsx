@@ -9,7 +9,7 @@ import {
 } from "@redux/slices/skill-map-results-slice"
 import { Icon } from "@components/ui/icon/icon"
 import { PageSubTitle } from "@components/shared/page-sub-title"
-import { type CustomUserSkillMap } from "@custom-types/skill-map-result-type"
+import { type SkillMapResult, type CustomUserSkillMap } from "@custom-types/skill-map-result-type"
 import { Badge } from "@components/ui/badge/badge"
 import { getSkillMapResultStatusVariant } from "@utils/variant"
 
@@ -68,6 +68,76 @@ export const SkillMapResultList = () => {
     }
   }
 
+  const skillsTable = (skillMapResult: SkillMapResult) => {
+    const customSkillMapResults =
+      userSkillMapResults
+        .find((userSkillMapResult) => userSkillMapResult.user_id === skillMapResult.users?.id)
+        ?.skill_map_results.filter(
+          (skillMapResult) => skillMapResult.skill_category_id !== undefined
+        ) ?? []
+
+    if (customSkillMapResults.length === 0) {
+      return <div className='text-sm'>- No Skills added.</div>
+    }
+
+    return (
+      <table className={`md:w-full md:table-fixed text-sm mb-2`}>
+        <thead className='sticky top-0 bg-white text-left'>
+          <tr>
+            <th className='md:w-170 p-1'>Skill</th>
+            <th className='md:w-150 p-1'>Category</th>
+            <th className='md:w-150 p-1'>Previous Rating</th>
+            <th className='md:w-150 p-1'>Rating</th>
+          </tr>
+        </thead>
+        <tbody>
+          {customSkillMapResults.map((rating, ratingIndex) => (
+            <tr key={ratingIndex} className='sm:overflow-x-auto'>
+              <td className='min-w-196 p-1'>{rating.name}</td>
+              <td className='min-w-196 p-1'>{rating.skill_categories?.name}</td>
+              <td className='min-w-196 p-1'>
+                {rating.previous_rating === null ? "No Rating" : rating.previous_rating?.name}
+              </td>
+              <td className='min-w-196 p-1'>{rating.rating?.display_name}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )
+  }
+
+  const otherSkillsTable = (skillMapResult: SkillMapResult) => {
+    const customSkillMapResults =
+      userSkillMapResults
+        .find((userSkillMapResult) => userSkillMapResult.user_id === skillMapResult.users?.id)
+        ?.skill_map_results.filter(
+          (skillMapResult) => skillMapResult.skill_category_id === undefined
+        ) ?? []
+
+    if (customSkillMapResults.length === 0) {
+      return <div className='text-sm'>- No other skills added.</div>
+    }
+
+    return (
+      <table className={`md:w-full md:table-fixed text-sm mb-2`}>
+        <thead className='sticky top-0 bg-white text-left'>
+          <tr>
+            <th className='md:w-170 p-1'>Skill</th>
+            <th className='md:w-150 p-1'>Rating</th>
+          </tr>
+        </thead>
+        <tbody>
+          {customSkillMapResults.map((rating, ratingIndex) => (
+            <tr key={ratingIndex} className='sm:overflow-x-auto'>
+              <td className='min-w-196 p-1'>{rating.other_skill_name}</td>
+              <td className='min-w-196 p1'>{rating.rating?.name}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )
+  }
+
   return (
     <>
       <div className={`flex flex-col gap-8 mb-4`}>
@@ -102,75 +172,24 @@ export const SkillMapResultList = () => {
                 </div>
               </div>
               {skillMapResultToggledState[skillMapIndex] && (
-                <div className='mx-12'>
-                  <table className={`md:w-full md:table-fixed text-sm mb-2`}>
-                    <thead className='sticky top-0 bg-white text-left'>
-                      <tr>
-                        <th className='md:w-170 p-1'>Skill</th>
-                        <th className='md:w-150 p-1'>Category</th>
-                        <th className='md:w-150 p-1'>Previous Rating</th>
-                        <th className='md:w-150 p-1'>Rating</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {userSkillMapResults
-                        .find(
-                          (userSkillMapResult) =>
-                            userSkillMapResult.user_id === skillMapResult.users?.id
-                        )
-                        ?.skill_map_results.filter(
-                          (skillMapResult) => skillMapResult.skill_category_id !== undefined
-                        )
-                        .map((rating, ratingIndex) => (
-                          <tr key={ratingIndex} className='sm:overflow-x-auto'>
-                            <td className='min-w-196 p-1'>{rating.name}</td>
-                            <td className='min-w-196 p-1'>{rating.skill_categories?.name}</td>
-                            <td className='min-w-196 p-1'>
-                              {rating.previous_rating === null
-                                ? "No Rating"
-                                : rating.previous_rating?.name}
-                            </td>
-                            <td className='min-w-196 p-1'>{rating.rating?.display_name}</td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
-                  <div className='my-5'>
+                <div className='flex flex-col gap-4 mx-12'>
+                  <div className='flex flex-col gap-4'>
+                    <PageSubTitle>Skills</PageSubTitle>
+                    {skillsTable(skillMapResult)}
+                  </div>
+                  <div className='flex flex-col gap-4'>
                     <PageSubTitle>Other Skills</PageSubTitle>
+                    {otherSkillsTable(skillMapResult)}
                   </div>
-                  <table className={`md:w-full md:table-fixed text-sm mb-2`}>
-                    <thead className='sticky top-0 bg-white text-left'>
-                      <tr>
-                        <th className='md:w-170 p-1'>Skill</th>
-                        <th className='md:w-150 p-1'>Rating</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {userSkillMapResults
-                        .find(
-                          (userSkillMapResult) =>
-                            userSkillMapResult.user_id === skillMapResult.users?.id
-                        )
-                        ?.skill_map_results.filter(
-                          (skillMapResult) => skillMapResult.skill_category_id === undefined
-                        )
-                        .map((rating, ratingIndex) => (
-                          <tr key={ratingIndex} className='sm:overflow-x-auto'>
-                            <td className='min-w-196 p-1'>{rating.other_skill_name}</td>
-                            <td className='min-w-196 p1'>{rating.rating?.name}</td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
-                  <div className='my-5'>
+                  <div className='flex flex-col gap-4'>
                     <PageSubTitle>Comments</PageSubTitle>
+                    <p className='text-sm'>
+                      {userSkillMapResults.find(
+                        (userSkillMapResult) =>
+                          userSkillMapResult.user_id === skillMapResult.users?.id
+                      )?.comments ?? "- No comments added"}
+                    </p>
                   </div>
-                  <p className='my-5'>
-                    {userSkillMapResults.find(
-                      (userSkillMapResult) =>
-                        userSkillMapResult.user_id === skillMapResult.users?.id
-                    )?.comments ?? "- No comments"}
-                  </p>
                 </div>
               )}
             </div>
