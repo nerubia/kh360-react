@@ -59,10 +59,10 @@ export const MySkillMapLineGraph = () => {
     const labels = apiData.map(
       (item) =>
         item.skill_map_period_end_date != null &&
-        `(${new Date(item.skill_map_period_end_date).toLocaleDateString("en-US", {
+        `${new Date(item.skill_map_period_end_date).toLocaleDateString("en-US", {
           year: "numeric",
           month: "short",
-        })})`
+        })}`
     )
 
     const skillData: Record<string, Array<number | null>> = {}
