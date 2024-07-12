@@ -18,6 +18,8 @@ export const SkillMapResultsGraph = () => {
   const { answer_options } = useAppSelector((state) => state.answerOptions)
 
   const [scaleYLabels, setScaleYLabels] = useState<string[]>([])
+  const [scaleXLabels, setScaleXLabels] = useState<string[]>([])
+
   const [data, setData] = useState<ChartData<"line">>({
     labels: [],
     datasets: [],
@@ -57,6 +59,11 @@ export const SkillMapResultsGraph = () => {
           ? user_skill_map
           : user_skill_map.filter((skillMap) => skillMap.id === parseInt(selectedSkillMapAdminId))
 
+      const skillMaps = filteredSkillMaps
+        .map((skillMap) => skillMap.name)
+        .filter((name): name is string => name !== undefined)
+
+      setScaleXLabels(skillMaps)
       processData(filteredSkillMaps)
     }
   }, [user_skill_map, selectedSkillMapAdminId])
@@ -116,7 +123,7 @@ export const SkillMapResultsGraph = () => {
             options={filterOptions}
           />
         </div>
-        <CustomLineGraph scaleYLabels={scaleYLabels} data={data} />
+        <CustomLineGraph scaleYLabels={scaleYLabels} scaleXLabels={scaleXLabels} data={data} />
       </div>
     </div>
   )

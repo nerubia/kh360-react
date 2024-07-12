@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { Pagination } from "@components/shared/pagination/pagination"
-import { columns } from "@custom-types/skill-map-search-type"
+import { columns, type CustomSkillMapDetails } from "@custom-types/skill-map-search-type"
 import { getSkillMapSearch } from "@redux/slices/skill-map-search-slice"
 import { Table } from "@components/ui/table/table"
 import SkillMapResultsDialog from "../skill-map-results/skill-map-results-dialog"
@@ -31,6 +31,8 @@ export const SkillMapSearchTable = () => {
   const [selectedSkillMapRating, setSelectedSkillMapRating] = useState<SkillMapRating | null>(null)
 
   const [scaleYLabels, setScaleYLabels] = useState<string[]>([])
+  const [scaleXLabels, setScaleXLabels] = useState<string[]>([])
+
   const [data, setData] = useState<ChartData<"line">>({
     labels: [],
     datasets: [],
@@ -74,19 +76,22 @@ export const SkillMapSearchTable = () => {
     }
   }
 
-  const handleRowClick = (id: number) => {
+  const handleRowClick = async (id: number) => {
     const skillMapRating = skill_map_ratings.find((skillMapRating) => skillMapRating.id === id)
     if (skillMapRating !== undefined) {
       setSelectedSkillMapRating(skillMapRating)
       const userId = skillMapRating.skill_map_results?.users?.id
       const skillId = skillMapRating.skills?.id
       if (userId !== undefined && skillId !== undefined) {
-        void appDispatch(
+        const result = await appDispatch(
           getUserSkillMapBySkillId({
             id: userId,
             skillId,
           })
         )
+        const skillMap = result.payload as CustomSkillMapDetails[]
+        const names = skillMap.map((detail) => detail.name)
+        setScaleXLabels(names)
       }
     }
   }
@@ -159,6 +164,7 @@ export const SkillMapSearchTable = () => {
 
     toggleSkillMapModal()
   }
+
   return (
     <>
       <div className='flex flex-col gap-8 overflow-x-auto'>
@@ -185,7 +191,11 @@ export const SkillMapSearchTable = () => {
           title={`${selectedSkillMapRating?.skill_map_results?.users?.last_name}, ${selectedSkillMapRating?.skill_map_results?.users?.first_name}: ${selectedSkillMapRating?.skills?.name} Skill Map Details`}
           description={
             <div className='w-[800px]'>
-              <CustomLineGraph scaleYLabels={scaleYLabels} data={data} />
+              <CustomLineGraph
+                scaleYLabels={scaleYLabels}
+                scaleXLabels={scaleXLabels}
+                data={data}
+              />
             </div>
           }
           onSubmit={toggleSkillMapModal}
