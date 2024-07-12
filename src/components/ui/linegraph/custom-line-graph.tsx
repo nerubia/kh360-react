@@ -38,7 +38,7 @@ export const CustomLineGraph = ({ scaleYLabels, scaleXLabels, data }: CustomLine
               title: (context) => {
                 if (context.length > 0) {
                   const { label, dataIndex } = context[0]
-                  return `${scaleXLabels[dataIndex]} ${label}`
+                  return `${scaleXLabels[dataIndex]} (${label})`
                 }
               },
               label: (context) => {
