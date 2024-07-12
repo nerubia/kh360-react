@@ -1,43 +1,22 @@
-import { useAppSelector } from "@hooks/useAppSelector"
-import { useAppDispatch } from "@hooks/useAppDispatch"
+import { DateRangeDisplay } from "@components/shared/display-range-date"
 import { PageTitle } from "@components/shared/page-title"
 import { Badge } from "@components/ui/badge/badge"
-import { getEvaluationAdministrationStatusVariant } from "@utils/variant"
-import { DateRangeDisplay } from "@components/shared/display-range-date"
 import { useMobileView } from "@hooks/use-mobile-view"
-import {
-  getSkillMapResultsAll,
-  getSkillMapResultsLatest,
-} from "@redux/slices/skill-map-results-slice"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { useAppSelector } from "@hooks/useAppSelector"
 import { getSkillMapAdmin } from "@redux/slices/skill-map-administration-slice"
-import { useParams, useSearchParams } from "react-router-dom"
+import { getEvaluationAdministrationStatusVariant } from "@utils/variant"
 import { useEffect } from "react"
+import { useParams } from "react-router-dom"
 
 export const SkillMapResultHeader = () => {
   const isMobile = useMobileView()
-
   const { id } = useParams()
   const appDispatch = useAppDispatch()
   const { skill_map_administration } = useAppSelector((state) => state.skillMapAdministration)
-  const [searchParams] = useSearchParams()
-
-  useEffect(() => {
-    void appDispatch(
-      getSkillMapResultsLatest({
-        name: searchParams.get("name") ?? undefined,
-        status: searchParams.get("status") ?? undefined,
-        page: searchParams.get("page") ?? undefined,
-      })
-    )
-  }, [searchParams])
 
   useEffect(() => {
     if (id !== undefined) {
-      void appDispatch(
-        getSkillMapResultsAll({
-          skill_map_administration_id: id,
-        })
-      )
       void appDispatch(getSkillMapAdmin(parseInt(id)))
     }
   }, [id])
