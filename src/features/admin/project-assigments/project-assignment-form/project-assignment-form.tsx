@@ -65,7 +65,6 @@ export const ProjectAssignmentForm = () => {
   const [activeProjectRoles, setActiveProjectRoles] = useState<Option[]>([])
 
   const [validationErrors, setValidationErrors] = useState<Partial<ProjectMemberFormData>>({})
-  const [isFocused, setIsFocused] = useState(false)
   const scrollDownRef = useRef<HTMLDivElement | null>(null)
   const [showSaveDialog, setShowSaveDialog] = useState<boolean>(false)
   const [showCancelDialog, setShowCancelDialog] = useState<boolean>(false)
@@ -80,18 +79,6 @@ export const ProjectAssignmentForm = () => {
   const ProjectAssignmentsDialog = lazy(
     async () => await import("@features/admin/project-assigments/project-assignments-dialog")
   )
-
-  const handleFocus = () => {
-    setIsFocused(true)
-  }
-  const handleDatepickerBlur = () => {
-    setIsFocused(false)
-  }
-  useEffect(() => {
-    if (isFocused && scrollDownRef.current != null) {
-      scrollDownRef.current.scrollIntoView()
-    }
-  }, [isFocused])
 
   useEffect(() => {
     void appDispatch(getProjectRoles())
@@ -612,10 +599,11 @@ export const ProjectAssignmentForm = () => {
           error={validationErrors.project_role_id}
         />
         <div className='flex flex-row gap-5'>
-          <div className='flex-1' onFocus={handleFocus} onBlur={handleDatepickerBlur}>
+          <div className='flex-1'>
             <DateRangePicker
               name='assignment-duration'
               label='Assignment Duration'
+              autoScoll
               value={{
                 startDate: projectMemberFormData?.start_date ?? "",
                 endDate: projectMemberFormData?.end_date ?? "",
@@ -626,7 +614,6 @@ export const ProjectAssignmentForm = () => {
                 end_date: validationErrors.end_date,
               }}
               dateLimit={{ start_date: project?.start_date, end_date: project?.end_date }}
-              autoScoll
             />
           </div>
           <div className='flex flex-col'>
