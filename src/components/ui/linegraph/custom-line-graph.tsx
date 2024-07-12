@@ -17,10 +17,11 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 interface CustomLineGraphProps {
   scaleYLabels: string[]
+  scaleXLabels: string[]
   data: ChartData<"line">
 }
 
-export const CustomLineGraph = ({ scaleYLabels, data }: CustomLineGraphProps) => {
+export const CustomLineGraph = ({ scaleYLabels, scaleXLabels, data }: CustomLineGraphProps) => {
   const chartRef = useRef<ChartJS<"line", number[], string>>(null)
   const [options, setOptions] = useState<ChartOptions<"line">>()
 
@@ -34,6 +35,12 @@ export const CustomLineGraph = ({ scaleYLabels, data }: CustomLineGraphProps) =>
           },
           tooltip: {
             callbacks: {
+              title: (context) => {
+                if (context.length > 0) {
+                  const { label, dataIndex } = context[0]
+                  return `${scaleXLabels[dataIndex]} ${label}`
+                }
+              },
               label: (context) => {
                 return `${context.dataset.label}: ${scaleYLabels[context.raw as number]}`
               },
@@ -56,7 +63,7 @@ export const CustomLineGraph = ({ scaleYLabels, data }: CustomLineGraphProps) =>
         },
       })
     }
-  }, [scaleYLabels])
+  }, [scaleYLabels, scaleXLabels])
 
   const htmlLegendPlugin = {
     id: "htmlLegend",

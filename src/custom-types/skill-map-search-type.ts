@@ -60,3 +60,7 @@ export const SkillMapSearchSortNames = {
   [SkillMapSearchSortOptions.NAME]: "Name",
   [SkillMapSearchSortOptions.SKILL]: "Skill",
 }
+
+export interface CustomSkillMapDetails {
+  name: string
+}

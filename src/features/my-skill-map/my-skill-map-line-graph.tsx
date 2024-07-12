@@ -19,6 +19,7 @@ export const MySkillMapLineGraph = () => {
   const { my_skill_map, selectedSkillMapAdminId } = useAppSelector((state) => state.user)
 
   const [scaleYLabels, setScaleYLabels] = useState<string[]>([])
+  const [scaleXLabels, setScaleXLabels] = useState<string[]>([])
   const [data, setData] = useState<ChartData<"line">>({
     labels: [],
     datasets: [],
@@ -46,6 +47,10 @@ export const MySkillMapLineGraph = () => {
         selectedSkillMapAdminId === "all"
           ? my_skill_map
           : my_skill_map.filter((skillMap) => skillMap.id === parseInt(selectedSkillMapAdminId))
+      const skillMaps = filteredSkillMaps
+        .map((skillMap) => skillMap.name)
+        .filter((name): name is string => name !== undefined)
+      setScaleXLabels(skillMaps)
       processData(filteredSkillMaps)
     }
   }, [scaleYLabels, my_skill_map, selectedSkillMapAdminId])
@@ -54,11 +59,12 @@ export const MySkillMapLineGraph = () => {
     const labels = apiData.map(
       (item) =>
         item.skill_map_period_end_date != null &&
-        `${item.name} (${new Date(item.skill_map_period_end_date).toLocaleDateString("en-US", {
+        `(${new Date(item.skill_map_period_end_date).toLocaleDateString("en-US", {
           year: "numeric",
           month: "short",
         })})`
     )
+
     const skillData: Record<string, Array<number | null>> = {}
     apiData.forEach((item, index) => {
       item.skill_map_results.forEach((result) => {
@@ -95,7 +101,7 @@ export const MySkillMapLineGraph = () => {
 
   return (
     <>
-      <CustomLineGraph scaleYLabels={scaleYLabels} data={data} />
+      <CustomLineGraph scaleYLabels={scaleYLabels} scaleXLabels={scaleXLabels} data={data} />
       <PageSubTitle>Comments</PageSubTitle>
       {filteredSkillMap.map((skillMap, index) => (
         <div key={index} className='text-sm xl:text-md italic'>
