@@ -1,10 +1,7 @@
-import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAppSelector } from "@hooks/useAppSelector"
-import { getMySkillMapRatings } from "@redux/slices/user-slice"
 import { type MySkillMap } from "@custom-types/my-skill-map-type"
 import { type ChartData } from "chart.js"
 import { useEffect, useState } from "react"
-import { getAnswerOptionsByType } from "@redux/slices/answer-options-slice"
 import { sortAnswerOptionBySequenceNumber, sortMySkillMapByPeriodEndDate } from "@utils/sort"
 import { CustomLineGraph } from "@components/ui/linegraph/custom-line-graph"
 import { getRandomColor } from "@utils/colors"
@@ -12,7 +9,6 @@ import { PageSubTitle } from "@components/shared/page-sub-title"
 import { convertToMonthAndYear } from "@utils/format-date"
 
 export const MySkillMapLineGraph = () => {
-  const appDispatch = useAppDispatch()
   const { user } = useAppSelector((state) => state.auth)
 
   const { answer_options } = useAppSelector((state) => state.answerOptions)
@@ -24,13 +20,6 @@ export const MySkillMapLineGraph = () => {
     labels: [],
     datasets: [],
   })
-
-  useEffect(() => {
-    if (user !== null) {
-      void appDispatch(getAnswerOptionsByType("Skill Map Scale"))
-      void appDispatch(getMySkillMapRatings(user.id))
-    }
-  }, [user])
 
   useEffect(() => {
     const answerOptions = [...answer_options]
