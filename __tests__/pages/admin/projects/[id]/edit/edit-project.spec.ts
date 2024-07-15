@@ -348,13 +348,13 @@ test.describe("Admin - Edit Project", () => {
         body: JSON.stringify([
           {
             id: 1,
-            name: "Sample Client",
+            name: "Sample Edit",
             display_name: "Sample",
             status: "Active",
           },
           {
             id: 2,
-            name: "Sample Edit",
+            name: "Sample Client",
             display_name: "Sample Edit",
             status: "Active",
           },
@@ -367,7 +367,11 @@ test.describe("Admin - Edit Project", () => {
 
       await page.getByPlaceholder("Name").fill("Create Sample Project edited")
       await page.getByLabel("Client").click()
-      await page.getByText("Sample Edit", { exact: true }).click()
+      await page
+        .locator("div")
+        .filter({ hasText: /^Sample \(Sample Edit\)$/ })
+        .nth(1)
+        .click()
       await expect(page.getByLabel("Project Duration")).toHaveValue("2023-01-01 ~ 2023-12-31")
       await page.getByPlaceholder("Description").fill("Test Edit")
       await page.getByLabel("Status").fill("Ongoing")

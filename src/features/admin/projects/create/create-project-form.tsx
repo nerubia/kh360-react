@@ -65,7 +65,7 @@ export const CreateProjectForm = () => {
 
   useEffect(() => {
     const options: Option[] = clients.map((client) => ({
-      label: client.display_name ?? "",
+      label: `${client.display_name ?? ""} (${client.name ?? ""})`,
       value: client.id.toString(),
     }))
     setClientOptions(options)

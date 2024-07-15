@@ -201,7 +201,7 @@ test.describe("Admin - Create Project", () => {
 
       await page.getByPlaceholder("Name").fill("Create Sample Project")
       await page.getByLabel("Client").click()
-      await page.getByText("Sample", { exact: true }).click()
+      await page.getByText("Sample (Sample Client)", { exact: true }).click()
       await page.getByLabel("Project Duration").click()
       await page.getByRole("button", { name: "1", exact: true }).first().click()
       await page.getByRole("button", { name: "2", exact: true }).first().click()
