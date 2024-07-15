@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { useAppDispatch } from "@hooks/useAppDispatch"
@@ -143,6 +143,16 @@ export const SkillMapResultList = () => {
     )
   }
 
+  const getComment = (skillMapResult: SkillMapResult) => {
+    const comment = userSkillMapResults.find(
+      (userSkillMapResult) => userSkillMapResult.user_id === skillMapResult.users?.id
+    )?.comments
+    if (comment === null || comment === undefined || comment.length === 0) {
+      return "- No comments added"
+    }
+    return comment
+  }
+
   return (
     <>
       <div className={`flex flex-col gap-8 mb-4`}>
@@ -159,13 +169,15 @@ export const SkillMapResultList = () => {
                           toggleSkillMapResult(skillMapIndex, skillMapResult?.users?.id)
                         }
                       >
-                        <span className='mr-2'>
-                          {skillMapResultToggledState[skillMapIndex] ? (
-                            <Icon icon='ChevronDown' />
-                          ) : (
-                            <Icon icon='ChevronRight' />
-                          )}
-                        </span>
+                        <Suspense fallback={<Icon icon='ChevronRight' />}>
+                          <span className='mr-2'>
+                            {skillMapResultToggledState[skillMapIndex] ? (
+                              <Icon icon='ChevronDown' />
+                            ) : (
+                              <Icon icon='ChevronRight' />
+                            )}
+                          </span>
+                        </Suspense>
                         <span className='mr-2'>
                           {skillMapResult.users?.last_name}, {skillMapResult.users?.first_name}
                         </span>
@@ -191,12 +203,7 @@ export const SkillMapResultList = () => {
                     </div>
                     <div className='flex flex-col gap-4'>
                       <PageSubTitle>Comments</PageSubTitle>
-                      <p className='text-sm'>
-                        {userSkillMapResults.find(
-                          (userSkillMapResult) =>
-                            userSkillMapResult.user_id === skillMapResult.users?.id
-                        )?.comments ?? "- No comments added"}
-                      </p>
+                      <p className='text-sm'>{getComment(skillMapResult)}</p>
                     </div>
                   </div>
                 )}
