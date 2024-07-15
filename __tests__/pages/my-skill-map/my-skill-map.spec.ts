@@ -286,6 +286,7 @@ test.describe("My Skill Map", () => {
           ],
         }),
       })
+
       await mockRequest(page, "/user/answer-options/active?answer_name=Skill+Map+Scale", {
         status: 200,
         contentType: "application/json",
@@ -331,6 +332,21 @@ test.describe("My Skill Map", () => {
           },
         ]),
       })
+
+      await mockRequest(page, "/user/email-templates?template_type=No+Pending+Survey+Forms", {
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          content: "",
+          id: 65,
+          is_default: true,
+          name: "No Pending Survey Forms",
+          subject: "",
+          template_type: "No Pending Survey Forms",
+        }),
+      })
+
+      await page.waitForLoadState("networkidle")
 
       await expect(page.getByRole("heading", { name: "My Skill Map" })).toBeVisible()
       await expect(page.getByText("Skill Map Admin")).toBeVisible()
