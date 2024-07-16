@@ -81,7 +81,11 @@ export const SkillForm = ({ open, toggleDialog }: SkillFormProps) => {
       await createSkillSchema.validate(formData, {
         abortEarly: false,
       })
-      const result = await appDispatch(createSkill(formData))
+      const trimmedFormData = {
+        ...formData,
+        name: formData.name?.trim(),
+      }
+      const result = await appDispatch(createSkill(trimmedFormData))
       if (result.type === "skill/createSkill/rejected") {
         setValidationErrors({
           name: result.payload,
@@ -130,8 +134,12 @@ export const SkillForm = ({ open, toggleDialog }: SkillFormProps) => {
         await createSkillSchema.validate(formData, {
           abortEarly: false,
         })
+        const trimmedFormData = {
+          ...formData,
+          name: formData.name?.trim(),
+        }
         const result = await appDispatch(
-          updateSkill({ id: selectedSkillId, skillCategory: formData })
+          updateSkill({ id: selectedSkillId, skillCategory: trimmedFormData })
         )
         if (result.type === "skill/updateSkill/rejected") {
           setValidationErrors({
