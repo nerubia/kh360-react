@@ -309,13 +309,15 @@ export const EvaluationProgressList = () => {
                   variant={"unstyled"}
                 >
                   <div className='flex items-center'>
-                    <span className='text-xs'>
-                      {evaluatorToggledState[evaluatorIndex] ? (
-                        <Icon icon='ChevronDown' />
-                      ) : (
-                        <Icon icon='ChevronRight' />
-                      )}
-                    </span>
+                    <Suspense fallback={<Icon icon='ChevronRight' />}>
+                      <span className='text-xs'>
+                        {evaluatorToggledState[evaluatorIndex] ? (
+                          <Icon icon='ChevronDown' />
+                        ) : (
+                          <Icon icon='ChevronRight' />
+                        )}
+                      </span>
+                    </Suspense>
                     <div className='flex flex-row items-center gap-2'>
                       <span className='mx-4 w-48 text-start'>
                         {evaluator.last_name},{" "}
