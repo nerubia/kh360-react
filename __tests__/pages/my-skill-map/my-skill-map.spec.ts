@@ -333,16 +333,16 @@ test.describe("My Skill Map", () => {
         ]),
       })
 
-      await mockRequest(page, "/user/email-templates?template_type=No+Pending+Survey+Forms", {
+      await mockRequest(page, "/user/email-templates?template_type=No+Result+for+My+Skill+Map", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
           content: "",
           id: 65,
           is_default: true,
-          name: "No Pending Survey Forms",
+          name: "No Result for My Skill Map",
           subject: "",
-          template_type: "No Pending Survey Forms",
+          template_type: "No Result for My Skill Map",
         }),
       })
 

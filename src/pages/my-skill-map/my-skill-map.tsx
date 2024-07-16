@@ -18,7 +18,7 @@ export default function MySkillMap() {
   const { emailTemplate } = useAppSelector((state) => state.emailTemplate)
 
   useEffect(() => {
-    void appDispatch(getByTemplateType("No Pending Survey Forms"))
+    void appDispatch(getByTemplateType("No Result for My Skill Map"))
   }, [])
 
   useEffect(() => {
