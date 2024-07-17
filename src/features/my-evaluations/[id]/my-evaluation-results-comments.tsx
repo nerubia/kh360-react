@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom"
 import { useAppSelector } from "@hooks/useAppSelector"
 import { Loading } from "@custom-types/loadingType"
+import { Skeleton } from "@components/ui/skeleton/Skeleton"
 
 export const MyEvaluationResultsComments = () => {
   const { id } = useParams()
@@ -8,7 +9,17 @@ export const MyEvaluationResultsComments = () => {
 
   return (
     <>
-      {loading === Loading.Pending && <div>Loading...</div>}
+      {loading === Loading.Pending && (
+        <div className='flex flex-col gap-2'>
+          <Skeleton className='w-36 h-6' />
+          <div className='flex flex-col gap-2'>
+            <Skeleton className='w-1/2 h-4' />
+            <Skeleton className='w-1/2 h-4' />
+            <Skeleton className='w-1/2 h-4' />
+            <Skeleton className='w-1/2 h-4' />
+          </div>
+        </div>
+      )}
       {(loading === Loading.Fulfilled && user_evaluation_result?.comments.length === 0) ||
         (user_evaluation_result?.comments.length === null && <div>No comments.</div>)}
       <div className='flex-1 flex-col'>

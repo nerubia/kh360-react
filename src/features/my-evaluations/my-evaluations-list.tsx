@@ -5,11 +5,11 @@ import { useAppSelector } from "@hooks/useAppSelector"
 import { Loading } from "@custom-types/loadingType"
 import { Link } from "react-router-dom"
 import { formatDateRange } from "@utils/format-date"
-import { Spinner } from "@components/ui/spinner/spinner"
 import { getByTemplateType } from "@redux/slices/email-template-slice"
 import { ScoreRange } from "@components/shared/score-range/score-range"
 import { useMobileView } from "@hooks/use-mobile-view"
 import { getScoreRatings } from "@redux/slices/score-ratings-slice"
+import { Skeleton } from "@components/ui/skeleton/Skeleton"
 
 export const MyEvaluationsList = () => {
   const appDispatch = useAppDispatch()
@@ -89,8 +89,10 @@ export const MyEvaluationsList = () => {
       ))}
 
       {loading === Loading.Pending && (
-        <div className='text-center'>
-          <Spinner />
+        <div className='w-full h-full flex flex-col justify-center items-center gap-2 p-4 rounded-md shadow-md'>
+          <Skeleton className='w-40 h-6' />
+          <Skeleton className='w-80 h-5' />
+          <Skeleton className='w-60 h-5' />
         </div>
       )}
     </div>
