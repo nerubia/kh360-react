@@ -72,13 +72,11 @@ export const EvaluationTemplateContentsTable = () => {
         <table>
           <thead className='text-left'>
             <tr>
-              <th className='py-1 border-b-4 mr-2 pl-20 text-primary-500 md:w-1/4'>Name</th>
-              <th className='py-1 border-b-4 pr-4 text-start text-primary-500 md:w-1/2'>
-                Description
-              </th>
-              <th className='py-1 border-b-4 mr-2 text-start text-primary-500 md:w-1/8'>Rate</th>
-              <th className='py-1 border-b-4 mr-2 text-center text-primary-500 md:w-1/6'>Active</th>
-              <th className='py-1 border-b-4 m-5 text-center text-primary-500 md:w-1/2'>Actions</th>
+              <th className='p-2 border-b-4 text-start text-primary-500 md:w-1/4'>Name</th>
+              <th className='p-2 border-b-4 text-start text-primary-500 md:w-1/2'>Description</th>
+              <th className='p-2 border-b-4 text-start text-primary-500 md:w-1/8'>Rate</th>
+              <th className='p-2 border-b-4 text-center text-primary-500 md:w-1/6'>Active</th>
+              <th className='p-2 border-b-4 text-center text-primary-500 md:w-1/2'>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -96,7 +94,7 @@ export const EvaluationTemplateContentsTable = () => {
                 }}
                 onDragOver={(e) => e.preventDefault()}
               >
-                <td className='py-1 border-b'>
+                <td className='p-2 border-b'>
                   <div className='flex gap-4 items-center'>
                     <Icon icon='Menu' size='extraSmall' />
                     <Badge
@@ -114,18 +112,18 @@ export const EvaluationTemplateContentsTable = () => {
                     <div>{content.name}</div>
                   </div>
                 </td>
-                <td className='py-1 border-b text-start pr-5'>{content.description}</td>
-                <td className='py-1 border-b text-start items-center '>
+                <td className='p-2 border-b text-start'>{content.description}</td>
+                <td className='p-2 border-b text-start items-center '>
                   {Number(content.rate).toFixed(2)}%
                 </td>
-                <td className='py-1 border-b'>
+                <td className='p-2 border-b'>
                   <div className='flex items-center justify-center '>
                     <Badge variant={`${content.is_active === true ? "green" : "red"}`} size='small'>
                       {content.is_active === true ? "YES" : "NO"}
                     </Badge>
                   </div>
                 </td>
-                <td className='py-1 border-b text-center items-center md:w-1/2'>
+                <td className='p-2 border-b text-center items-center md:w-1/2'>
                   <div className='flex gap-2 justify-center'>
                     <Button
                       testId={`EditButton${content.id}`}

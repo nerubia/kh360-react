@@ -77,14 +77,12 @@ export const EditProjectAssignmentTable = () => {
           <table>
             <thead className='text-left'>
               <tr>
-                <th className='py-1 border-b-4 mr-2 text-primary-500 md:w-3/12'>Category</th>
-                <th className='py-1 border-b-4 mr-2 text-start text-primary-500 md:w-3/12'>Name</th>
-                <th className='py-1 border-b-4 mr-2 text-start text-primary-500 md:w-3/12'>
+                <th className='p-2 border-b-4 text-primary-500 md:w-3/12'>Category</th>
+                <th className='p-2 border-b-4 text-start text-primary-500 md:w-3/12'>Name</th>
+                <th className='p-2 border-b-4 text-start text-primary-500 md:w-3/12'>
                   Assignment Duration
                 </th>
-                <th className='py-1 border-b-4 mr-2 text-center text-primary-500 md:w-1/10'>
-                  Actions
-                </th>
+                <th className='p-2 border-b-4 text-center text-primary-500 md:w-1/10'>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -102,16 +100,16 @@ export const EditProjectAssignmentTable = () => {
                   }}
                   onDragOver={(e) => e.preventDefault()}
                 >
-                  <td className='py-1 border-b'>
+                  <td className='p-2 border-b'>
                     <div className='flex gap-3 items-center'>
                       <Icon icon='Menu' size='extraSmall' />
                       <div>{skill?.skill_categories?.name}</div>
                     </div>
                   </td>
-                  <td className='py-1 border-b text-start'>
+                  <td className='p-2 border-b text-start'>
                     <div>{skill?.name}</div>
                   </td>
-                  <td className='py-1 border-b text-start'>
+                  <td className='p-2 border-b text-start'>
                     <DateRangePicker
                       name='skill-duration'
                       value={{
@@ -122,7 +120,7 @@ export const EditProjectAssignmentTable = () => {
                       dateLimit={{ start_date: project?.start_date, end_date: project?.end_date }}
                     />
                   </td>
-                  <td className='py-1 border-b items-center'>
+                  <td className='p-2 border-b items-center'>
                     <div className='flex gap-2 justify-center'>
                       <Button
                         testId={`DeleteButton${skill.id}`}

@@ -42,21 +42,17 @@ export const ViewEvaluationResultsTable = () => {
                 <table className='w-full md:w-900 whitespace-nowrap'>
                   <thead className='text-left'>
                     <tr>
-                      <th className='py-1 border-b-4 text-primary-500 px-2 md:w-1/4'>
-                        Evaluations
-                      </th>
-                      <th className='py-1 border-b-4 text-center text-primary-500 px-2 md:w-1/6'>
+                      <th className='p-2 border-b-4 text-primary-500 md:w-1/4'>Evaluations</th>
+                      <th className='p-2 border-b-4 text-center text-primary-500 md:w-1/6'>
                         Score
                       </th>
-                      <th className='py-1 border-b-4 text-start text-primary-500 px-2 md:w-1/4'>
+                      <th className='p-2 border-b-4 text-start text-primary-500 md:w-1/4'>
                         Rating
                       </th>
-                      <th className='py-1 border-b-4 text-start text-primary-500 px-2 md:w-1/6'>
+                      <th className='p-2 border-b-4 text-start text-primary-500 md:w-1/6'>
                         Standard Score
                       </th>
-                      <th className='py-1 border-b-4 text-start text-primary-500 px-2 w-1/4'>
-                        Banding
-                      </th>
+                      <th className='p-2 border-b-4 text-start text-primary-500 w-1/4'>Banding</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -70,19 +66,19 @@ export const ViewEvaluationResultsTable = () => {
                               toggleDetails()
                             }}
                           >
-                            <td className='py-1 px-2 border-b w-1/4'>{detail.template_name}</td>
-                            <td className='py-1 px-2 border-b text-center w-1/6'>
+                            <td className='p-2 px-2 border-b w-1/4'>{detail.template_name}</td>
+                            <td className='p-2 px-2 border-b text-center w-1/6'>
                               {detail.total_score}%
                             </td>
                             {detail.score_rating?.display_name !== null && (
-                              <td className='py-1 px-2 border-b text-start items-center w-1/5'>
+                              <td className='p-2 px-2 border-b text-start items-center w-1/5'>
                                 {detail.score_rating?.display_name}
                               </td>
                             )}
-                            <td className='py-1 px-2 border-b text-start items-center w-1/6'>
+                            <td className='p-2 px-2 border-b text-start items-center w-1/6'>
                               {Number(detail.zscore).toFixed(2)}
                             </td>
-                            <td className='py-1 px-2 border-b text-start items-center w-1/4'>
+                            <td className='p-2 px-2 border-b text-start items-center w-1/4'>
                               {detail.banding}
                             </td>
                           </tr>
@@ -100,7 +96,7 @@ export const ViewEvaluationResultsTable = () => {
           open={showDetails}
           onSubmit={toggleDetails}
           title={
-            <div className='py-1 text-primary-500'>
+            <div className='p-2 text-primary-500'>
               {selectedEvaluationResultDetail?.template_name} Score:{" "}
               {selectedEvaluationResultDetail?.total_score}%
             </div>

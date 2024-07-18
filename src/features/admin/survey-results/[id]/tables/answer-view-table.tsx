@@ -52,24 +52,24 @@ export const AnswerViewTable = () => {
                 <table className='w-full text-left rtl:text-right text-gray-500 dark:text-gray-400'>
                   <thead className='text-md text-primary-500 bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
                     <tr>
-                      <th scope='col' className='py-3 w-1/3'>
+                      <th scope='col' className='p-2 w-1/3'>
                         Category
                       </th>
-                      <th scope='col' className='py-3'>
+                      <th scope='col' className='p-2'>
                         Item
                       </th>
-                      <th scope='col' className='py-3 text-center'>
+                      <th scope='col' className='p-2 text-center'>
                         Quantity
                       </th>
-                      <th scope='col' className='py-3 text-right w-1/20'>
+                      <th scope='col' className='p-2 text-right w-1/20'>
                         Price
                       </th>
                       <th scope='col' className='w-1/30'></th>
-                      <th scope='col' className='py-3 w-1/30 text-right'>
+                      <th scope='col' className='p-2 w-1/30 text-right'>
                         Subtotal
                       </th>
                       <th scope='col' className='w-1/30'></th>
-                      <th scope='col' className='py-3'>
+                      <th scope='col' className='p-2'>
                         <div className='flex gap-4 justify-start'>
                           Details
                           <ToggleSwitch checked={showDetails} onChange={toggleDetails} />
@@ -81,24 +81,24 @@ export const AnswerViewTable = () => {
                     {survey_results_answers.map((answer) => (
                       <React.Fragment key={answer.id}>
                         <tr className='hover:bg-slate-100'>
-                          <td className='py-1 border-b'>
+                          <td className='p-2 border-b'>
                             {answer.survey_template_answers?.survey_template_categories?.name}
                           </td>
-                          <td className='py-1 border-b'>
+                          <td className='p-2 border-b'>
                             {answer.survey_template_answers?.answer_text}
                           </td>
-                          <td className='py-1 border-b text-center'>
+                          <td className='p-2 border-b text-center'>
                             {answer.totalCount?.toLocaleString()}
                           </td>
-                          <td className='py-1 border-b text-right'>
+                          <td className='p-2 border-b text-right'>
                             {answer.survey_template_answers?.amount?.toLocaleString()}
                           </td>
-                          <td className='py-1 border-b text-right'></td>
-                          <td className='py-1 border-b text-right w-1/30'>
+                          <td className='p-2 border-b text-right'></td>
+                          <td className='p-2 border-b text-right w-1/30'>
                             {answer.subTotal?.toLocaleString()}
                           </td>
-                          <td className='py-1 border-b text-right'></td>
-                          <td className='py-1 border-b'>
+                          <td className='p-2 border-b text-right'></td>
+                          <td className='p-2 border-b'>
                             {showDetails ? (
                               <div className='ml-2'>
                                 {answer?.users?.map((user, index) => (

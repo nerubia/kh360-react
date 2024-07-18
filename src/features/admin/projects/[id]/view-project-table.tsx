@@ -70,17 +70,15 @@ export const ViewProjectTable = () => {
             <table>
               <thead className='text-left'>
                 <tr>
-                  <th className='py-1 border-b-4 mr-2 text-primary-500 md:w-1/4'>Category</th>
-                  <th className='py-1 border-b-4 mr-2 text-start text-primary-500 md:w-1/2'>
-                    Skills
-                  </th>
+                  <th className='p-2 border-b-4 text-primary-500 md:w-1/4'>Category</th>
+                  <th className='p-2 border-b-4 text-start text-primary-500 md:w-1/2'>Skills</th>
                 </tr>
               </thead>
               <tbody>
                 {groupedProjectSkills.map((skill, index) => (
                   <tr key={index} className='hover:bg-slate-100'>
-                    <td className='py-1 border-b'>{skill?.name}</td>
-                    <td className='py-1 border-b text-start'>
+                    <td className='p-2 border-b'>{skill?.name}</td>
+                    <td className='p-2 border-b text-start'>
                       {skill?.project_skills?.map((projectSkill, index) => (
                         <React.Fragment key={index}>
                           {projectSkill.name}{" "}

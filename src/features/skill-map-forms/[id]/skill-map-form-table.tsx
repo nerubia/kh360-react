@@ -307,12 +307,12 @@ export const SkillMapFormTable = () => {
         <table className='relative w-full z-20'>
           <thead className='text-left'>
             <tr>
-              <th className='py-1 border-b-4 mr-2 text-primary-500 md:w-1/4'>Skill</th>
-              <th className='py-1 border-b-4 mr-2 text-primary-500 md:w-1/4'>Category</th>
-              <th className='py-1 border-b-4 mr-2 text-start text-primary-500 md:w-1/5'>
+              <th className='p-2 border-b-4 text-primary-500 md:w-1/4'>Skill</th>
+              <th className='p-2 border-b-4 text-primary-500 md:w-1/4'>Category</th>
+              <th className='p-2 border-b-4 text-start text-primary-500 md:w-1/5'>
                 Previous Rating
               </th>
-              <th className='py-1 border-b-4 mr-2 text-center text-primary-500 md:w-1/3'>
+              <th className='p-2 border-b-4 text-center text-primary-500 md:w-1/3'>
                 Rating
                 <div className='flex justify-between font-normal text-sm mt-2'>
                   {answer_options.map((option, index) => (
@@ -320,20 +320,20 @@ export const SkillMapFormTable = () => {
                   ))}
                 </div>
               </th>
-              <th className='px-10 border-b-4 mr-2 text-center text-primary-500 md:w-1/4'></th>
+              <th className='px-10 border-b-4 text-center text-primary-500 md:w-1/4'></th>
             </tr>
           </thead>
           <tbody>
             {displayedSkills.map((skill, index) => (
               <tr key={index} className='hover:bg-slate-100'>
-                <td className='py-1 border-b'>
+                <td className='p-2 border-b'>
                   <div>{skill?.name}</div>
                 </td>
-                <td className='py-1 border-b text-start'>{skill?.skill_categories?.name}</td>
-                <td className='py-1 border-b text-start'>
+                <td className='p-2 border-b text-start'>{skill?.skill_categories?.name}</td>
+                <td className='p-2 border-b text-start'>
                   {skill?.previous_rating?.display_name ?? "No Rating"}
                 </td>
-                <td className='py-1 border-b text-start'>
+                <td className='p-2 border-b text-start'>
                   <Slider
                     sliderValue={getSkillRatingValue(skill.rating?.display_name ?? "") ?? 0}
                     variant={
@@ -349,7 +349,7 @@ export const SkillMapFormTable = () => {
                     }
                   />
                 </td>
-                <td className='py-1 border-b items-center '>
+                <td className='p-2 border-b items-center '>
                   {skill_map_result_status !== SkillMapResultStatus.Submitted &&
                     skill_map_result_status !== SkillMapResultStatus.Closed && (
                       <div className='flex gap-2 justify-center'>
@@ -393,8 +393,8 @@ export const SkillMapFormTable = () => {
         <table className='relative w-full z-20'>
           <thead className='text-left'>
             <tr>
-              <th className='py-1 border-b-4 mr-2 text-primary-500 md:w-1/4'>Skill</th>
-              <th className='py-1 border-b-4 mr-2 text-center text-primary-500 md:w-1/3'>
+              <th className='p-2 border-b-4 text-primary-500 md:w-1/4'>Skill</th>
+              <th className='p-2 border-b-4 text-center text-primary-500 md:w-1/3'>
                 Rating
                 <div className='flex justify-between font-normal text-sm mt-2'>
                   {answer_options.map((option, index) => (
@@ -402,16 +402,16 @@ export const SkillMapFormTable = () => {
                   ))}
                 </div>
               </th>
-              <th className='px-10 border-b-4 mr-2 text-center text-primary-500 md:w-1/4'></th>
+              <th className='px-10 border-b-4 text-center text-primary-500 md:w-1/4'></th>
             </tr>
           </thead>
           <tbody>
             {other_skills.map((skill, index) => (
               <tr key={index} className='hover:bg-slate-100'>
-                <td className='py-1 border-b'>
+                <td className='p-2 border-b'>
                   <div>{skill?.other_skill_name}</div>
                 </td>
-                <td className='py-1 border-b text-start'>
+                <td className='p-2 border-b text-start'>
                   <Slider
                     sliderValue={getSkillRatingValue(skill.rating?.display_name ?? "") ?? 0}
                     variant={
@@ -435,7 +435,7 @@ export const SkillMapFormTable = () => {
                     }
                   />
                 </td>
-                <td className='py-1 border-b items-center '>
+                <td className='p-2 border-b items-center '>
                   {skill_map_result_status !== SkillMapResultStatus.Submitted &&
                     skill_map_result_status !== SkillMapResultStatus.Closed && (
                       <div className='flex gap-2 justify-center'>
