@@ -8,6 +8,8 @@ export interface Skill {
   description: string
   sequence_no: number
   status: boolean
+  start_date?: string
+  end_date?: string
 }
 
 export interface SkillFilters {

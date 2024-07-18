@@ -315,25 +315,36 @@ export const ProjectAssignmentForm = () => {
 
   const checkOverlap = async () => {
     try {
-      await toggleSaveDialog()
-      await createProjectMemberSchema.validate(projectMemberFormData, {
-        abortEarly: false,
-      })
-      const existingProjectMemberIds = project_members.map((member) => member.id)
-      const userId = projectMemberFormData?.user_id
-      const parsedUserId = userId !== undefined ? parseInt(userId, 10) : undefined
+      if (projectMemberFormData !== null) {
+        await toggleSaveDialog()
 
-      if (userId !== undefined && parsedUserId !== undefined && !isNaN(parsedUserId)) {
-        if (project_members.length > 0 && !existingProjectMemberIds.includes(parsedUserId)) {
+        const skills = selectedSkills.map((skill) => ({
+          id: skill.id,
+          start_date: skill.start_date ?? projectMemberFormData.start_date,
+          end_date: skill.end_date ?? projectMemberFormData.end_date,
+        }))
+
+        await createProjectMemberSchema.validate(
+          { ...projectMemberFormData, skills },
+          {
+            abortEarly: false,
+          }
+        )
+
+        const existingProjectMembers = project_members.filter(
+          (projectMember) => projectMember.id !== parseInt(id as string)
+        )
+
+        if (existingProjectMembers.length > 0) {
           setShowOverlapDialog(true)
           return
         }
-      }
 
-      if (id !== undefined) {
-        void handleEdit()
-      } else {
-        void handleSubmit()
+        if (id !== undefined) {
+          void handleEdit()
+        } else {
+          void handleSubmit()
+        }
       }
     } catch (error) {
       if (error instanceof ValidationError) {
@@ -651,17 +662,19 @@ export const ProjectAssignmentForm = () => {
               Overlapping Projects:
               <br />
               <br />
-              {project_members.map((projectMember) => (
-                <div key={projectMember.id}>
-                  <h2 className='font-bold'>{projectMember.project?.name}</h2>
-                  <p>
-                    Evaluation Period:{" "}
-                    {formatDateRange(projectMember.start_date, projectMember.end_date)}
-                  </p>
-                  <p>Allocation Rate: {projectMember.allocation_rate}%</p>
-                  <br />
-                </div>
-              ))}
+              {project_members
+                .filter((projectMember) => projectMember.id !== parseInt(id as string))
+                .map((projectMember) => (
+                  <div key={projectMember.id}>
+                    <h2 className='font-bold'>{projectMember.project?.name}</h2>
+                    <p>
+                      Evaluation Period:{" "}
+                      {formatDateRange(projectMember.start_date, projectMember.end_date)}
+                    </p>
+                    <p>Allocation Rate: {projectMember.allocation_rate}%</p>
+                    <br />
+                  </div>
+                ))}
               Please click CONTINUE if you&apos;re confident this overlap is intentional or has been
               coordinated. Otherwise, click CANCEL to review and make adjustments.
             </>
