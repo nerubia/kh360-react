@@ -12,11 +12,13 @@ import { PageSubTitle } from "@components/shared/page-sub-title"
 import { type SkillMapResult, type CustomUserSkillMap } from "@custom-types/skill-map-result-type"
 import { Badge } from "@components/ui/badge/badge"
 import { getSkillMapResultStatusVariant } from "@utils/variant"
+import { Loading } from "@custom-types/loadingType"
+import { Skeleton } from "@components/ui/skeleton/Skeleton"
 
 export const SkillMapResultList = () => {
   const appDispatch = useAppDispatch()
   const { id } = useParams()
-  const { comments, skill_map_results, skill_map_admin_results } = useAppSelector(
+  const { loading, comments, skill_map_results, skill_map_admin_results } = useAppSelector(
     (state) => state.skillMapResults
   )
   const isMobile = useMobileView(1028)
@@ -82,7 +84,7 @@ export const SkillMapResultList = () => {
         ) ?? []
 
     if (customSkillMapResults.length === 0) {
-      return <div className='text-sm'>- No Skills added.</div>
+      return loading !== Loading.Pending && <div className='text-sm'>- No Skills added.</div>
     }
 
     return (
@@ -120,7 +122,7 @@ export const SkillMapResultList = () => {
         ) ?? []
 
     if (customSkillMapResults.length === 0) {
-      return <div className='text-sm'>- No other skills added.</div>
+      return loading !== Loading.Pending && <div className='text-sm'>- No other skills added.</div>
     }
 
     return (
@@ -148,7 +150,7 @@ export const SkillMapResultList = () => {
       (userSkillMapResult) => userSkillMapResult.user_id === skillMapResult.users?.id
     )?.comments
     if (comment === null || comment === undefined || comment.length === 0) {
-      return "- No comments added"
+      return loading !== Loading.Pending && "- No comments added"
     }
     return comment
   }
@@ -195,14 +197,29 @@ export const SkillMapResultList = () => {
                   <div className='flex flex-col gap-4 mx-12'>
                     <div className='flex flex-col gap-4'>
                       <PageSubTitle>Skills</PageSubTitle>
+                      {loading === Loading.Pending && (
+                        <div className='w-full h-full flex flex-col justify-center items-center gap-2 p-4 rounded-md shadow-md'>
+                          <Skeleton className='w-60 h-5' />
+                        </div>
+                      )}
                       {skillsTable(skillMapResult)}
                     </div>
                     <div className='flex flex-col gap-4'>
                       <PageSubTitle>Other Skills</PageSubTitle>
+                      {loading === Loading.Pending && (
+                        <div className='w-full h-full flex flex-col justify-center items-center gap-2 p-4 rounded-md shadow-md'>
+                          <Skeleton className='w-60 h-5' />
+                        </div>
+                      )}
                       {otherSkillsTable(skillMapResult)}
                     </div>
                     <div className='flex flex-col gap-4'>
                       <PageSubTitle>Comments</PageSubTitle>
+                      {loading === Loading.Pending && (
+                        <div className='w-full h-full flex flex-col justify-center items-center gap-2 p-4 rounded-md shadow-md'>
+                          <Skeleton className='w-60 h-5' />
+                        </div>
+                      )}
                       <p className='text-sm'>{getComment(skillMapResult)}</p>
                     </div>
                   </div>
