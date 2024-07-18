@@ -42,11 +42,9 @@ export const CreateProjectTable = () => {
         <table>
           <thead className='text-left'>
             <tr>
-              <th className='py-1 border-b-4 mr-2 text-primary-500 md:w-9/20'>Category</th>
-              <th className='py-1 border-b-4 mr-2 text-start text-primary-500 md:w-9/20'>Name</th>
-              <th className='py-1 border-b-4 mr-2 text-center text-primary-500 md:w-1/10'>
-                Actions
-              </th>
+              <th className='p-2 border-b-4 text-primary-500 md:w-9/20'>Category</th>
+              <th className='p-2 border-b-4 text-start text-primary-500 md:w-9/20'>Name</th>
+              <th className='p-2 border-b-4 text-center text-primary-500 md:w-1/10'>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -64,14 +62,14 @@ export const CreateProjectTable = () => {
                 }}
                 onDragOver={(e) => e.preventDefault()}
               >
-                <td className='py-1 border-b'>
+                <td className='p-2 border-b'>
                   <div className='flex gap-3 items-center'>
                     <Icon icon='Menu' size='extraSmall' />
                     <div>{skill?.skill_categories.name}</div>
                   </div>
                 </td>
-                <td className='py-1 border-b text-start'>{skill?.name}</td>
-                <td className='py-1 border-b items-center md:w-1/2'>
+                <td className='p-2 border-b text-start'>{skill?.name}</td>
+                <td className='p-2 border-b items-center md:w-1/2'>
                   <div className='flex gap-2 justify-center'>
                     <Button
                       testId={`DeleteButton${skill.id}`}

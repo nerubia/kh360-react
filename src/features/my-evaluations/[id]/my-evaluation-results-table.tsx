@@ -34,37 +34,37 @@ export const MyEvaluationResultsTable = () => {
           <table className='text-sm md:text-lg w-full'>
             <thead className='text-left'>
               <tr>
-                <th className='py-1 border-b-4 text-primary-500'>
+                <th className='p-2 border-b-4 text-primary-500'>
                   <Skeleton className='w-44 h-5' />
                 </th>
-                <th className='py-1 border-b-4 text-start text-primary-500'>
+                <th className='p-2 border-b-4 text-start text-primary-500'>
                   <Skeleton className='w-44 h-5' />
                 </th>
-                <th className='py-1 border-b-4 text-start text-primary-500'>
+                <th className='p-2 border-b-4 text-start text-primary-500'>
                   <Skeleton className='w-44 h-5' />
                 </th>
               </tr>
             </thead>
             <tbody>
               <tr className='cursor-pointer hover:bg-slate-100'>
-                <td className='py-1 border-b'>
+                <td className='p-2 border-b'>
                   <Skeleton className='w-44 h-5' />
                 </td>
-                <td className='py-1 border-b text-start'>
+                <td className='p-2 border-b text-start'>
                   <Skeleton className='w-44 h-5' />
                 </td>
-                <td className='py-1 border-b text-start items-center'>
+                <td className='p-2 border-b text-start items-center'>
                   <Skeleton className='w-44 h-5' />
                 </td>
               </tr>
               <tr className='cursor-pointer hover:bg-slate-100'>
-                <td className='py-1 border-b'>
+                <td className='p-2 border-b'>
                   <Skeleton className='w-44 h-5' />
                 </td>
-                <td className='py-1 border-b text-start'>
+                <td className='p-2 border-b text-start'>
                   <Skeleton className='w-44 h-5' />
                 </td>
-                <td className='py-1 border-b text-start items-center'>
+                <td className='p-2 border-b text-start items-center'>
                   <Skeleton className='w-44 h-5' />
                 </td>
               </tr>
@@ -84,9 +84,9 @@ export const MyEvaluationResultsTable = () => {
             <table className='text-sm md:text-lg w-full'>
               <thead className='text-left'>
                 <tr>
-                  <th className='py-1 border-b-4 text-primary-500'>Evaluations</th>
-                  <th className='py-1 border-b-4 text-start text-primary-500'>Score</th>
-                  <th className='py-1 border-b-4 text-start text-primary-500'>Rating</th>
+                  <th className='p-2 border-b-4 text-primary-500'>Evaluations</th>
+                  <th className='p-2 border-b-4 text-start text-primary-500'>Score</th>
+                  <th className='p-2 border-b-4 text-start text-primary-500'>Rating</th>
                 </tr>
               </thead>
               <tbody>
@@ -101,10 +101,10 @@ export const MyEvaluationResultsTable = () => {
                           toggleDetails()
                         }}
                       >
-                        <td className='py-1 border-b'>{detail.template_name}</td>
-                        <td className='py-1 border-b text-start'>{detail.total_score}%</td>
+                        <td className='p-2 border-b'>{detail.template_name}</td>
+                        <td className='p-2 border-b text-start'>{detail.total_score}%</td>
                         {detail.score_rating?.display_name !== null && (
-                          <td className='py-1 border-b text-start items-center'>
+                          <td className='p-2 border-b text-start items-center'>
                             {detail.score_rating?.display_name}
                           </td>
                         )}
@@ -118,7 +118,7 @@ export const MyEvaluationResultsTable = () => {
         )}
       <Dialog open={showDetails} size={"medium"} maxWidthMin={true}>
         <Dialog.Title>
-          <div className='py-1 text-primary-500'>
+          <div className='p-2 text-primary-500'>
             {selectedEvaluationResultDetail?.template_name} Score:{" "}
             {selectedEvaluationResultDetail?.total_score}%
           </div>

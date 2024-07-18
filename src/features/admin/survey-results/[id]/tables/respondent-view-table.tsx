@@ -80,16 +80,16 @@ export const RespondentViewTable = () => {
                 <table className='w-full text-left rtl:text-right text-gray-500 dark:text-gray-400'>
                   <thead className='text-md text-primary-500 bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
                     <tr>
-                      <th scope='col' className='py-3 w-1/30'>
+                      <th scope='col' className='p-2 w-1/30'>
                         ID
                       </th>
-                      <th scope='col' className='py-3'>
+                      <th scope='col' className='p-2'>
                         Name
                       </th>
-                      <th scope='col' className='py-3 w-1/12'>
+                      <th scope='col' className='p-2 w-1/12'>
                         Status
                       </th>
-                      <th scope='col' className='py-3'>
+                      <th scope='col' className='p-2'>
                         {survey_template_questions.map((question) => (
                           <div className='flex gap-2 break-word' key={question.id}>
                             <p>Question {question.sequence_no}</p>
@@ -112,11 +112,11 @@ export const RespondentViewTable = () => {
                     {survey_results.map((result, index) => (
                       <React.Fragment key={result.id}>
                         <tr className='hover:bg-slate-100 text-sm'>
-                          <td className='py-1 border-b w-1/30'>{index + 1}</td>
-                          <td className='py-1 border-b w-2/12'>
+                          <td className='p-2 border-b w-1/30'>{index + 1}</td>
+                          <td className='p-2 border-b w-2/12'>
                             {result.users?.last_name}, {result.users?.first_name}
                           </td>
-                          <td className='py-1 border-b w-1/12'>
+                          <td className='p-2 border-b w-1/12'>
                             <Badge
                               variant={getEvaluationAdministrationStatusVariant(result.status)}
                               size='small'
@@ -124,7 +124,7 @@ export const RespondentViewTable = () => {
                               {result.status}
                             </Badge>
                           </td>
-                          <td className='py-1 border-b w-1/6'>
+                          <td className='p-2 border-b w-1/6'>
                             <div className='flex flex-col gap-2'>
                               {result.survey_answers?.length === 0 ? (
                                 <>No answer</>
@@ -161,19 +161,19 @@ export const RespondentViewTable = () => {
                       <table className='w-full text-left rtl:text-right text-gray-500 dark:text-gray-400'>
                         <thead className='text-md text-primary-500 bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
                           <tr>
-                            <th scope='col' className='py-3 w-1/30'>
+                            <th scope='col' className='p-2 w-1/30'>
                               ID
                             </th>
-                            <th scope='col' className='py-3'>
+                            <th scope='col' className='p-2'>
                               Name
                             </th>
-                            <th scope='col' className='py-3'>
+                            <th scope='col' className='p-2'>
                               Companion of
                             </th>
-                            <th scope='col' className='py-3 w-1/12'>
+                            <th scope='col' className='p-2 w-1/12'>
                               Status
                             </th>
-                            <th scope='col' className='py-3'>
+                            <th scope='col' className='p-2'>
                               {survey_template_questions.map((question) => (
                                 <div className='flex gap-2 break-word' key={question.id}>
                                   <p>Question {question.sequence_no}</p>
@@ -196,15 +196,15 @@ export const RespondentViewTable = () => {
                           {companion_survey_results.map((result, index) => (
                             <React.Fragment key={result.id}>
                               <tr className='hover:bg-slate-100 text-sm'>
-                                <td className='py-1 border-b w-1/30'>{index + 1}</td>
-                                <td className='py-1 border-b w-2/12'>
+                                <td className='p-2 border-b w-1/30'>{index + 1}</td>
+                                <td className='p-2 border-b w-2/12'>
                                   {result.companion_user?.last_name},{" "}
                                   {result.companion_user?.first_name}
                                 </td>
-                                <td className='py-1 border-b w-1/12'>
+                                <td className='p-2 border-b w-1/12'>
                                   {result.users?.last_name}, {result.users?.first_name}
                                 </td>
-                                <td className='py-1 border-b w-1/12'>
+                                <td className='p-2 border-b w-1/12'>
                                   <Badge
                                     variant={getEvaluationAdministrationStatusVariant(
                                       result.status
@@ -214,7 +214,7 @@ export const RespondentViewTable = () => {
                                     {result.status}
                                   </Badge>
                                 </td>
-                                <td className='py-1 border-b w-1/6'>
+                                <td className='p-2 border-b w-1/6'>
                                   <div className='flex flex-col gap-2'>
                                     {result.survey_answers?.length === 0 ? (
                                       <>No answer</>

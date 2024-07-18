@@ -76,7 +76,7 @@ export function Table<T extends { id: number }>({
         <thead className='text-black'>
           <tr>
             {columns.map((column, index) => (
-              <th key={index} scope='col' className={`pr-3 py-2 ${getColumnClassName(column)}`}>
+              <th key={index} scope='col' className={`p-2 ${getColumnClassName(column)}`}>
                 {column}
               </th>
             ))}
@@ -111,7 +111,7 @@ export function Table<T extends { id: number }>({
               {columns.map((column, index) => (
                 <td
                   key={index}
-                  className={`pr-3 py-2 ${
+                  className={`p-2 ${
                     wrapColumns.includes(column as string) ? "whitespace-normal" : ""
                   }`}
                 >
