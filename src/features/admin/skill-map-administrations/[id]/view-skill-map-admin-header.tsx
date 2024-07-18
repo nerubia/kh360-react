@@ -210,7 +210,8 @@ export const ViewSkillMapAdminHeader = () => {
               </LinkButton>
             )}
             {skill_map_administration?.status !== SkillMapAdminStatus.Processing &&
-              skill_map_administration?.status !== SkillMapAdminStatus.Cancelled && (
+              skill_map_administration?.status !== SkillMapAdminStatus.Cancelled &&
+              skill_map_administration?.is_uploaded === null && (
                 <Dropdown>
                   <Dropdown.Trigger>
                     <Button size={isMobile ? "small" : "medium"}>

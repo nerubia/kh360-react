@@ -117,6 +117,20 @@ test.describe("Admin - View Skill Map Administrations", () => {
         }),
       })
 
+      const response = {
+        id: 1,
+        name: "This is a sample skill map admin",
+        skill_map_period_start_date: "2024-01-01T00:00:00.000Z",
+        skill_map_period_end_date: "2024-01-03T00:00:00.000Z",
+        skill_map_schedule_start_date: "2023-03-15T00:00:00.000Z",
+        skill_map_schedule_end_date: "2023-03-16T00:00:00.000Z",
+        remarks: "Remarks 1",
+        email_subject: "Subject 1",
+        is_uploaded: true,
+        email_content: "Content 1",
+        status: "Draft",
+      }
+
       await mockRequest(page, "/admin/skill-map-results/all?skill_map_administration_id=1", {
         status: 200,
         contentType: "application/json",
@@ -157,7 +171,12 @@ test.describe("Admin - View Skill Map Administrations", () => {
         await expect(page.getByText("March 15, 2023 to March 16, 2023")).toBeVisible()
       }
 
-      await expect(page.getByRole("button", { name: "More actions" })).toBeVisible()
+      if (response.is_uploaded) {
+        await expect(page.getByRole("button", { name: "More actions" })).not.toBeVisible()
+      } else {
+        await expect(page.getByRole("button", { name: "More actions" })).toBeVisible()
+      }
+
       await expect(page.getByRole("heading", { name: "Employees" })).toBeVisible()
       await expect(page.getByText("- Baker, Adam")).toBeVisible()
 
@@ -284,10 +303,24 @@ test.describe("Admin - View Skill Map Administrations", () => {
         await page.getByTestId("SidebarCloseButton").click()
       }
 
-      await page.getByRole("button", { name: "More actions" }).click()
-      await page.getByRole("button", { name: "Edit" }).click()
-
-      await expect(page).toHaveURL("/admin/skill-map-administrations/1/edit")
+      const response = {
+        id: 1,
+        name: "This is a sample skill map admin",
+        skill_map_period_start_date: "2024-01-01T00:00:00.000Z",
+        skill_map_period_end_date: "2024-01-03T00:00:00.000Z",
+        skill_map_schedule_start_date: "2023-03-15T00:00:00.000Z",
+        skill_map_schedule_end_date: "2023-03-16T00:00:00.000Z",
+        remarks: "Remarks 1",
+        email_subject: "Subject 1",
+        is_uploaded: true,
+        email_content: "Content 1",
+        status: "Draft",
+      }
+      if (!response.is_uploaded) {
+        await page.getByRole("button", { name: "More actions" }).click()
+        await page.getByRole("button", { name: "Edit" }).click()
+        await expect(page).toHaveURL("/admin/skill-map-administrations/1/edit")
+      }
     })
 
     test("should allow to delete", async ({ page, isMobile }) => {
@@ -332,31 +365,44 @@ test.describe("Admin - View Skill Map Administrations", () => {
         await page.getByTestId("SidebarCloseButton").click()
       }
 
-      await page.getByRole("button", { name: "More actions" }).click()
-      await page.getByRole("button", { name: "Delete" }).click()
+      const response = {
+        id: 1,
+        name: "This is a sample skill map admin",
+        skill_map_period_start_date: "2024-01-01T00:00:00.000Z",
+        skill_map_period_end_date: "2024-01-03T00:00:00.000Z",
+        skill_map_schedule_start_date: "2023-03-15T00:00:00.000Z",
+        skill_map_schedule_end_date: "2023-03-16T00:00:00.000Z",
+        remarks: "Remarks 1",
+        email_subject: "Subject 1",
+        is_uploaded: true,
+        email_content: "Content 1",
+        status: "Draft",
+      }
+      if (!response.is_uploaded) {
+        await page.getByRole("button", { name: "More actions" }).click()
+        await page.getByRole("button", { name: "Delete" }).click()
+        await mockRequest(page, "/admin/skill-map-administrations/1", {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({}),
+        })
 
-      await mockRequest(page, "/admin/skill-map-administrations/1", {
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify({}),
-      })
+        await page.getByRole("button", { name: "Yes" }).click()
 
-      await page.getByRole("button", { name: "Yes" }).click()
-
-      await mockRequest(page, "/admin/skill-map-administrations", {
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify({
-          data: [],
-          pageInfo: {
-            hasPreviousPage: false,
-            hasNextPage: false,
-            totalPages: 1,
-          },
-        }),
-      })
-
-      await expect(page).toHaveURL("/admin/skill-map-administrations")
+        await mockRequest(page, "/admin/skill-map-administrations", {
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            data: [],
+            pageInfo: {
+              hasPreviousPage: false,
+              hasNextPage: false,
+              totalPages: 1,
+            },
+          }),
+        })
+        await expect(page).toHaveURL("/admin/skill-map-administrations")
+      }
     })
   })
 })

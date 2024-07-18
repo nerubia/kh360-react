@@ -9,6 +9,7 @@ export interface SkillMapAdministration {
   email_subject?: string
   email_content?: string
   status?: string
+  is_uploaded?: boolean
   totalSkillMaps?: number
   totalSubmitted?: number
   totalPending?: number
