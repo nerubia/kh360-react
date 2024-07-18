@@ -57,7 +57,7 @@ export const SkillMapAdministrationsTable = () => {
   const renderCell = (item: SkillMapAdministration, column: unknown) => {
     switch (column) {
       case "Name":
-        return `${item.name}`
+        return <pre className='font-sans break-words whitespace-pre-wrap'>{item.name}</pre>
       case "Description":
         return `${item.remarks}`
       case "Period":
