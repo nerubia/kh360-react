@@ -23,6 +23,7 @@ import {
 import { ReadyState } from "react-use-websocket"
 import { WebSocketContext, type WebSocketType } from "@components/providers/websocket"
 import { getSkillMapResultsAll } from "@redux/slices/skill-map-results-slice"
+import { PageSubTitle } from "@components/shared/page-sub-title"
 
 export const ViewSkillMapAdminHeader = () => {
   const navigate = useNavigate()
@@ -185,6 +186,11 @@ export const ViewSkillMapAdminHeader = () => {
                 <div className='uppercase'>{skill_map_administration?.status}</div>
               </Badge>
             </div>
+            <PageSubTitle>
+              <div className='font-semibold italic my-2 text-sm'>
+                {skill_map_administration?.is_uploaded !== null ? "Uploaded Skill Map" : null}
+              </div>
+            </PageSubTitle>
             <DateRangeDisplay
               label={`${isMobile ? "Map Period" : "Skill Map Period"}`}
               startDate={skill_map_administration?.skill_map_period_start_date}
@@ -210,8 +216,7 @@ export const ViewSkillMapAdminHeader = () => {
               </LinkButton>
             )}
             {skill_map_administration?.status !== SkillMapAdminStatus.Processing &&
-              skill_map_administration?.status !== SkillMapAdminStatus.Cancelled &&
-              skill_map_administration?.is_uploaded === null && (
+              skill_map_administration?.status !== SkillMapAdminStatus.Cancelled && (
                 <Dropdown>
                   <Dropdown.Trigger>
                     <Button size={isMobile ? "small" : "medium"}>
@@ -249,9 +254,24 @@ export const ViewSkillMapAdminHeader = () => {
                       </Dropdown.Item>
                     )}
                     {skill_map_administration?.status === SkillMapAdminStatus.Closed && (
-                      <Dropdown.Item onClick={toggleReopenDialog}>
-                        <Icon icon='RefreshCw' size='extraSmall' color='gray' />
-                        Reopen
+                      <Dropdown.Item
+                        onClick={
+                          skill_map_administration.is_uploaded !== null
+                            ? toggleCancelDialog
+                            : toggleReopenDialog
+                        }
+                      >
+                        {skill_map_administration.is_uploaded !== null ? (
+                          <>
+                            <Icon icon='Ban' size='extraSmall' color='gray' />
+                            Cancel
+                          </>
+                        ) : (
+                          <>
+                            <Icon icon='RefreshCw' size='extraSmall' color='gray' />
+                            Reopen
+                          </>
+                        )}
                       </Dropdown.Item>
                     )}
                   </Dropdown.Content>
