@@ -15,13 +15,11 @@ import {
   Handle,
   Position,
   type HandleType,
+  useNodes,
 } from "@xyflow/react"
 
 import "@xyflow/react/dist/style.css"
 import { getSchema } from "@services/api"
-
-// TODO: link
-const initialEdges: Edge[] = []
 
 export type CustomNodeProps = Node<{
   name: string
@@ -43,6 +41,9 @@ interface Relation {
 }
 
 export const CustomNode = (props: NodeProps<CustomNodeProps>) => {
+  const nodes = useNodes()
+  const currentNode = nodes.find((node) => node.id === props.id)
+
   return (
     <div className='bg-white border-2 border-black rounded-md'>
       <table>
@@ -54,33 +55,40 @@ export const CustomNode = (props: NodeProps<CustomNodeProps>) => {
           </tr>
         </thead>
         <tbody>
-          {props.data.rows.map((row, index) => (
-            <tr key={index}>
-              <td className='text-sm border-t-2 border-r-2 p-2'>
-                {row.relation?.position === Position.Left && (
-                  <Handle
-                    id={row.id}
-                    type={row.relation.handleType}
-                    position={row.relation.position}
-                    className='!w-3 !h-3 !border-2 !-left-[1px]'
-                  />
-                )}
-                {row.name}
-              </td>
-              <td className='text-sm border-t-2 border-r-2 p-2'>{row.type}</td>
-              <td className='relative text-sm border-t-2 p-2'>
-                {row.default}
-                {row.relation?.position === Position.Right && (
-                  <Handle
-                    id={row.id}
-                    type={row.relation.handleType}
-                    position={row.relation.position}
-                    className='!w-3 !h-3 !border-2 !-right-[1px]'
-                  />
-                )}
-              </td>
-            </tr>
-          ))}
+          {props.data.rows.map((row, index) => {
+            const relationNode = nodes.find((node) => node.id === row.id)
+
+            // eslint-disable-next-line no-console
+            // console.log(relationNode)
+
+            return (
+              <tr key={index}>
+                <td className='text-sm border-t-2 border-r-2 p-2'>
+                  {row.relation?.position === Position.Left && (
+                    <Handle
+                      id={row.id}
+                      type={row.relation.handleType}
+                      position={row.relation.position}
+                      className='!w-3 !h-3 !border-2 !-left-[1px]'
+                    />
+                  )}
+                  {row.name}
+                </td>
+                <td className='text-sm border-t-2 border-r-2 p-2'>{row.type}</td>
+                <td className='relative text-sm border-t-2 p-2'>
+                  {row.default}
+                  {row.relation?.position === Position.Right && (
+                    <Handle
+                      id={row.id}
+                      type={row.relation.handleType}
+                      position={row.relation.position}
+                      className='!w-3 !h-3 !border-2 !-right-[1px]'
+                    />
+                  )}
+                </td>
+              </tr>
+            )
+          })}
         </tbody>
       </table>
     </div>
@@ -170,9 +178,9 @@ const parsePropertyDefault = (value: PropertyData) => {
   return ""
 }
 
-export default function App() {
+export default function Erd() {
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([])
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([])
 
   useEffect(() => {
     void handleGetSchema()
@@ -184,61 +192,55 @@ export default function App() {
 
     const parsedNodes: Node[] = []
 
-    // const allowedDefinitions = ["users", "user_details", "skill_map_results"]
-    const allowedDefinitions = ["users", "user_details", "skill_map_results"]
-
-    // TODO: improve
     let index = 0
     const definitions = Object.keys(schema.definitions)
     definitions.forEach((definition) => {
-      if (allowedDefinitions.includes(definition)) {
-        const data = schema.definitions[definition]
+      const data = schema.definitions[definition]
 
-        const parsedProperties: Row[] = []
+      const parsedProperties: Row[] = []
 
-        const properties = Object.keys(data.properties)
-        properties.forEach((property) => {
-          const propertyData = data.properties[property] as PropertyData
+      const properties = Object.keys(data.properties)
+      properties.forEach((property) => {
+        const propertyData = data.properties[property] as PropertyData
 
-          let relation: Relation | null = null
-          if (definitions.includes(property)) {
-            const exist = parsedNodes.find((node) => node.data.name === property)
-            if (exist === undefined) {
-              relation = {
-                type: "one-to-many",
-                handleType: "source",
-                position: Position.Right,
-              }
-            } else {
-              relation = {
-                type: "one-to-many",
-                handleType: "target",
-                position: Position.Right,
-              }
+        let relation: Relation | null = null
+        if (definitions.includes(property)) {
+          const exist = parsedNodes.find((node) => node.data.name === property)
+          if (exist === undefined) {
+            relation = {
+              type: "one-to-many",
+              handleType: "source",
+              position: Position.Right,
+            }
+          } else {
+            relation = {
+              type: "one-to-many",
+              handleType: "target",
+              position: Position.Right,
             }
           }
+        }
 
-          parsedProperties.push({
-            id: property,
-            name: property,
-            type: parsePropertyData(propertyData),
-            default: parsePropertyDefault(propertyData),
-            relation,
-          })
+        parsedProperties.push({
+          id: property,
+          name: property,
+          type: parsePropertyData(propertyData),
+          default: parsePropertyDefault(propertyData),
+          relation,
         })
+      })
 
-        parsedNodes.push({
-          id: definition,
-          position: { x: 500 * index, y: 0 },
-          data: {
-            name: definition,
-            rows: parsedProperties,
-          },
-          type: "customNode",
-        })
+      parsedNodes.push({
+        id: definition,
+        position: { x: 100 * index, y: 0 },
+        data: {
+          name: definition,
+          rows: parsedProperties,
+        },
+        type: "customNode",
+      })
 
-        index++
-      }
+      index++
     })
 
     setNodes(parsedNodes)
@@ -249,8 +251,6 @@ export default function App() {
       rows.forEach((row) => {
         if (row.relation != null && row.relation.handleType === "target") {
           const edgeId = `${node.id}-${row.id}`
-          // eslint-disable-next-line no-console
-          console.log(edgeId)
           const exist = parsedEdges.find((edge) => edge.id === edgeId)
           if (exist === undefined) {
             parsedEdges.push({
@@ -259,38 +259,25 @@ export default function App() {
               sourceHandle: node.id,
               target: node.id,
               targetHandle: row.id,
+              type: "smoothstep",
             })
           }
         }
       })
     })
 
-    // eslint-disable-next-line no-console
-    // console.log(parsedEdges)
-
     setEdges(parsedEdges)
-
-    // TODO: set edges
-    // {
-    //   id: "1",
-    //   source: "1",
-    //   sourceHandle: "user_id",
-    //   target: "2",
-    //   targetHandle: "access_tokens_user_id",
-    // },
   }
 
   const onConnect = useCallback(
     (params: Edge | Connection) => {
-      // eslint-disable-next-line no-console
-      console.log(params)
       setEdges((eds) => addEdge(params, eds))
     },
     [setEdges]
   )
 
   return (
-    <div style={{ width: "100vw", height: "100vh" }}>
+    <div style={{}} className='w-full h-[calc(100vh_-_104px)]'>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -298,6 +285,7 @@ export default function App() {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         nodeTypes={nodeTypes}
+        fitView
       >
         <Controls />
         <MiniMap />
