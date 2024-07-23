@@ -1,4 +1,3 @@
-import { useMobileView } from "@hooks/use-mobile-view"
 import { type VariantProps, cva } from "class-variance-authority"
 
 const slider = cva(
@@ -55,11 +54,10 @@ export const Slider = ({
   size,
   disabled,
   min = 1,
-  max = 3,
+  max = 10,
 }: SliderProps) => {
   const steps = max - min
   let backgroundWidth
-  const isMobile = useMobileView()
 
   if (sliderValue !== undefined) {
     const normalizedValue = Math.max(Math.min(sliderValue, max), min)
@@ -69,14 +67,10 @@ export const Slider = ({
   }
 
   const rangePoints = Array.from({ length: steps + 1 }, (_, index) => {
-    const left = index === 0 ? 0 : (index / steps) * 100 - (isMobile ? 4 : 3)
-    const pointPosition = index === steps ? { right: 0 } : { left: `${left}%` }
-
     return (
       <div
         key={index}
-        className={`absolute top-1 w-5 h-5 bg-gray-200 border-2 border-primary-200 rounded-full z-100 hover:bg-primary-300 cursor-pointer`}
-        style={pointPosition}
+        className={`w-5 h-5 bg-gray-200 border-2 border-primary-200 rounded-full z-100 hover:bg-primary-300 cursor-pointer`}
       ></div>
     )
   })
@@ -84,7 +78,7 @@ export const Slider = ({
   return (
     <div className='relative w-full'>
       <div
-        className={`absolute top-2.5 h-2 bg-primary-500 rounded-full z-50 pointer-events-none`}
+        className='absolute top-2.5 h-2 bg-primary-500 rounded-full z-50 pointer-events-none'
         style={{ width: `${backgroundWidth}%` }}
       ></div>
       <input
@@ -97,7 +91,7 @@ export const Slider = ({
         disabled={disabled}
         onClick={onClick}
       />
-      {rangePoints}
+      <div className='absolute top-1 w-full flex justify-between'>{rangePoints}</div>
     </div>
   )
 }

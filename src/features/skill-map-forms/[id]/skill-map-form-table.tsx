@@ -13,7 +13,7 @@ import {
 } from "@redux/slices/user-skills-slice"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { getAnswerOptionsByType } from "@redux/slices/answer-options-slice"
-import { type SkillMapRating, RatingAnswerOption } from "@custom-types/skill-map-rating-type"
+import { type SkillMapRating } from "@custom-types/skill-map-rating-type"
 import {
   getUserSkillMapRatings,
   setOtherSkills,
@@ -274,31 +274,11 @@ export const SkillMapFormTable = () => {
   }
 
   const getSkillRating = (ratingValue: number) => {
-    let ratingName = ""
-    if (ratingValue === RatingAnswerOption.Beginner) {
-      ratingName = "Beginner"
-    } else if (ratingValue === RatingAnswerOption.Intermediate) {
-      ratingName = "Intermediate"
-    } else if (ratingValue === RatingAnswerOption.Expert) {
-      ratingName = "Expert"
-    }
-
-    const answerOption = answer_options.find((option) => option.display_name === ratingName)
+    const answerOption = answer_options.find(
+      (option) => option.display_name === ratingValue.toString()
+    )
 
     return answerOption
-  }
-
-  const getSkillRatingValue = (rating: string) => {
-    switch (rating) {
-      case "Beginner":
-        return RatingAnswerOption.Beginner
-      case "Intermediate":
-        return RatingAnswerOption.Intermediate
-      case "Expert":
-        return RatingAnswerOption.Expert
-      default:
-        return undefined
-    }
   }
 
   return (
@@ -335,12 +315,8 @@ export const SkillMapFormTable = () => {
                 </td>
                 <td className='p-2 border-b text-start'>
                   <Slider
-                    sliderValue={getSkillRatingValue(skill.rating?.display_name ?? "") ?? 0}
-                    variant={
-                      getSkillRatingValue(skill.rating?.display_name ?? "") === undefined
-                        ? "empty"
-                        : "primary"
-                    }
+                    sliderValue={parseInt(skill.rating?.display_name ?? "0")}
+                    variant={skill.rating?.display_name === undefined ? "empty" : "primary"}
                     handleSliderChange={(e) => handleSliderChange(e, skill.id)}
                     onClick={(e) => handleSliderClick(e, skill.rating?.display_name, skill.id)}
                     disabled={
@@ -413,12 +389,8 @@ export const SkillMapFormTable = () => {
                 </td>
                 <td className='p-2 border-b text-start'>
                   <Slider
-                    sliderValue={getSkillRatingValue(skill.rating?.display_name ?? "") ?? 0}
-                    variant={
-                      getSkillRatingValue(skill.rating?.display_name ?? "") === undefined
-                        ? "empty"
-                        : "primary"
-                    }
+                    sliderValue={parseInt(skill.rating?.display_name ?? "0")}
+                    variant={skill.rating?.display_name === undefined ? "empty" : "primary"}
                     handleSliderChange={(e) =>
                       handleOtherSkillSliderChange(e, skill.skill_rating_id)
                     }
