@@ -15,7 +15,6 @@ import {
   Handle,
   Position,
   type HandleType,
-  useNodes,
 } from "@xyflow/react"
 
 import "@xyflow/react/dist/style.css"
@@ -40,10 +39,37 @@ interface Relation {
   position: Position
 }
 
-export const CustomNode = (props: NodeProps<CustomNodeProps>) => {
-  const nodes = useNodes()
-  const currentNode = nodes.find((node) => node.id === props.id)
+export const CustomRow = ({ row }: { row: Row }) => {
+  return (
+    <tr>
+      <td className='relative text-sm border-t-2 border-r-2 p-2'>
+        {row.relation?.position === Position.Left && (
+          <Handle
+            id={row.id}
+            type={row.relation.handleType}
+            position={row.relation.position}
+            className='!w-3 !h-3 !border-2 !-left-[1px]'
+          />
+        )}
+        {row.name}
+      </td>
+      <td className='text-sm border-t-2 border-r-2 p-2'>{row.type}</td>
+      <td className='relative text-sm border-t-2 p-2'>
+        {row.default}
+        {row.relation?.position === Position.Right && (
+          <Handle
+            id={row.id}
+            type={row.relation.handleType}
+            position={row.relation.position}
+            className='!w-3 !h-3 !border-2 !-right-[1px]'
+          />
+        )}
+      </td>
+    </tr>
+  )
+}
 
+export const CustomNode = (props: NodeProps<CustomNodeProps>) => {
   return (
     <div className='bg-white border-2 border-black rounded-md'>
       <table>
@@ -55,40 +81,9 @@ export const CustomNode = (props: NodeProps<CustomNodeProps>) => {
           </tr>
         </thead>
         <tbody>
-          {props.data.rows.map((row, index) => {
-            const relationNode = nodes.find((node) => node.id === row.id)
-
-            // eslint-disable-next-line no-console
-            // console.log(relationNode)
-
-            return (
-              <tr key={index}>
-                <td className='text-sm border-t-2 border-r-2 p-2'>
-                  {row.relation?.position === Position.Left && (
-                    <Handle
-                      id={row.id}
-                      type={row.relation.handleType}
-                      position={row.relation.position}
-                      className='!w-3 !h-3 !border-2 !-left-[1px]'
-                    />
-                  )}
-                  {row.name}
-                </td>
-                <td className='text-sm border-t-2 border-r-2 p-2'>{row.type}</td>
-                <td className='relative text-sm border-t-2 p-2'>
-                  {row.default}
-                  {row.relation?.position === Position.Right && (
-                    <Handle
-                      id={row.id}
-                      type={row.relation.handleType}
-                      position={row.relation.position}
-                      className='!w-3 !h-3 !border-2 !-right-[1px]'
-                    />
-                  )}
-                </td>
-              </tr>
-            )
-          })}
+          {props.data.rows.map((row, index) => (
+            <CustomRow key={index} row={row} />
+          ))}
         </tbody>
       </table>
     </div>
@@ -103,6 +98,7 @@ interface PropertyData {
   items?: Reference
   anyOf?: AnyOf[]
   default?: string
+  $ref?: string
 }
 
 interface AnyOf {
@@ -162,6 +158,10 @@ const parsePropertyData = (value: PropertyData) => {
     })
     return newTypes.join("")
   }
+  if (value.$ref != null) {
+    const referenceKey = value.$ref.replace("#/definitions/", "")
+    return `${referenceKey}`
+  }
   return "Unknown"
 }
 
@@ -178,6 +178,32 @@ const parsePropertyDefault = (value: PropertyData) => {
   return ""
 }
 
+const parseRelation = (value: PropertyData) => {
+  if (typeof value.type === "string") {
+    if (value.type === "array") {
+      if (value.items != null) {
+        const referenceKey = value.items.$ref.replace("#/definitions/", "")
+        return `${referenceKey}`
+      }
+    }
+  }
+  if (value.anyOf != null) {
+    const newTypes = value.anyOf.map((anyOfValue) => {
+      if (anyOfValue.$ref != null) {
+        const referenceKey = anyOfValue.$ref.replace("#/definitions/", "")
+        return referenceKey
+      }
+      return ""
+    })
+    return newTypes.join("")
+  }
+  if (value.$ref != null) {
+    const referenceKey = value.$ref.replace("#/definitions/", "")
+    return `${referenceKey}`
+  }
+  return null
+}
+
 export default function Erd() {
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([])
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([])
@@ -190,22 +216,30 @@ export default function Erd() {
     const response = await getSchema()
     const schema = await response.data
 
+    if (schema.definitions === undefined) return
+
     const parsedNodes: Node[] = []
+
+    const allowedList = ["project_members", "project_member_skills"]
 
     let index = 0
     const definitions = Object.keys(schema.definitions)
-    definitions.forEach((definition) => {
+    for (const definition of definitions) {
+      if (!allowedList.includes(definition)) continue
+
       const data = schema.definitions[definition]
 
       const parsedProperties: Row[] = []
 
       const properties = Object.keys(data.properties)
-      properties.forEach((property) => {
+      for (const property of properties) {
         const propertyData = data.properties[property] as PropertyData
 
         let relation: Relation | null = null
-        if (definitions.includes(property)) {
-          const exist = parsedNodes.find((node) => node.data.name === property)
+
+        const relationModel = parseRelation(propertyData)
+        if (relationModel !== null && definitions.includes(relationModel)) {
+          const exist = parsedNodes.find((node) => node.data.name === relationModel)
           if (exist === undefined) {
             relation = {
               type: "one-to-many",
@@ -222,13 +256,13 @@ export default function Erd() {
         }
 
         parsedProperties.push({
-          id: property,
+          id: relationModel ?? property,
           name: property,
           type: parsePropertyData(propertyData),
           default: parsePropertyDefault(propertyData),
           relation,
         })
-      })
+      }
 
       parsedNodes.push({
         id: definition,
@@ -241,7 +275,7 @@ export default function Erd() {
       })
 
       index++
-    })
+    }
 
     setNodes(parsedNodes)
 
@@ -276,6 +310,22 @@ export default function Erd() {
     [setEdges]
   )
 
+  // TODO:update handle position
+  const onNodeDragStop = (e: React.MouseEvent, node: Node, nodes: Node[]) => {
+    // eslint-disable-next-line no-console
+    console.log(node)
+    // const currentNode = nodes.find((node) => node.id === currentNodeId)
+    // const relationNode = nodes.find((node) => node.id === row.id)
+    // if (currentNode !== undefined && relationNode !== undefined) {
+    //   if (currentNode.position.x < relationNode.position.x) {
+    //     setPosition(Position.Right)
+    //   } else {
+    //     setPosition(Position.Left)
+    //   }
+    //   updateNodeInternals(currentNode.id)
+    // }
+  }
+
   return (
     <div style={{}} className='w-full h-[calc(100vh_-_104px)]'>
       <ReactFlow
@@ -284,6 +334,7 @@ export default function Erd() {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        onNodeDragStop={onNodeDragStop}
         nodeTypes={nodeTypes}
         fitView
       >
