@@ -311,19 +311,48 @@ export default function Erd() {
   )
 
   // TODO:update handle position
-  const onNodeDragStop = (e: React.MouseEvent, node: Node, nodes: Node[]) => {
+  const onNodeDragStop = (e: React.MouseEvent, node: Node) => {
     // eslint-disable-next-line no-console
     console.log(node)
-    // const currentNode = nodes.find((node) => node.id === currentNodeId)
-    // const relationNode = nodes.find((node) => node.id === row.id)
-    // if (currentNode !== undefined && relationNode !== undefined) {
-    //   if (currentNode.position.x < relationNode.position.x) {
-    //     setPosition(Position.Right)
-    //   } else {
-    //     setPosition(Position.Left)
-    //   }
-    //   updateNodeInternals(currentNode.id)
-    // }
+    const rows = node.data.rows as Row[]
+    for (const row of rows) {
+      const relationNode = nodes.find((node) => node.id === row.id)
+      if (relationNode !== undefined) {
+        if (node.position.x < relationNode.position.x) {
+          setNodes((nds) =>
+            nds.map((n) => {
+              if (node.id === n.id) {
+                const rs = n.data.rows as Row[]
+                return {
+                  ...n,
+                  name: "updated",
+                  data: {
+                    ...n.data,
+                    rows: rs.map((r) => {
+                      const relation = r.relation
+                      if (relation !== null) {
+                        // eslint-disable-next-line no-console
+                        console.log("changing to right")
+                        return {
+                          ...r,
+                          position: Position.Left,
+                        }
+                      }
+                      return r
+                    }),
+                  },
+                }
+              }
+              return n
+            })
+          )
+        } else {
+          // eslint-disable-next-line no-console
+          console.log("setting to left")
+          // setPosition(Position.Left)
+        }
+      }
+    }
   }
 
   return (
