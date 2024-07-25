@@ -188,6 +188,14 @@ export const EmailTemplateForm = () => {
             emailTemplate: formData,
           })
         )
+        if (result.type === "emailTemplate/updateEmailTemplate/rejected") {
+          appDispatch(
+            setAlert({
+              description: result.payload,
+              variant: "destructive",
+            })
+          )
+        }
         if (result.payload.id !== undefined) {
           if (templates.length > 0 && formData?.is_default === true) {
             templates.map(
