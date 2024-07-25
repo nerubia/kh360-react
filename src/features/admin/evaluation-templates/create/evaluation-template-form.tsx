@@ -46,13 +46,13 @@ export const CreateEvaluationTemplateForm = () => {
   const [evaluaeeRoleOptions, setEvalueeRoleOptions] = useState<Option[]>([])
   const [evaluatorRoleOptions, setEvaluatorRoleOptions] = useState<Option[]>([])
   const [formData, setFormData] = useState<EvaluationTemplateFormData>({
-    name: "",
-    description: "",
-    display_name: "",
-    template_type: "",
+    name: evaluation_template?.name ?? "",
+    description: evaluation_template?.description ?? "",
+    display_name: evaluation_template?.display_name ?? "",
+    template_type: evaluation_template?.template_type ?? "",
     template_class: TemplateClass.Internal,
     with_recommendation: false,
-    rate: "",
+    rate: evaluation_template?.rate ?? "",
     is_active: 1,
     evaluation_template_contents: [],
   })
@@ -285,6 +285,7 @@ export const CreateEvaluationTemplateForm = () => {
           })
         )
         if (result.type === "evaluationTemplate/updateEvaluationTemplate/rejected") {
+          navigate(`/admin/evaluation-templates/${id}`)
           appDispatch(
             setAlert({
               description: result.payload,
