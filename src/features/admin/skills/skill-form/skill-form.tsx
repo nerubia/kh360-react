@@ -16,6 +16,7 @@ import { type SingleValue } from "react-select"
 import { CustomSelect } from "@components/ui/select/custom-select"
 import { type Option } from "@custom-types/optionType"
 import { Loading } from "@custom-types/loadingType"
+import { removeWhitespace } from "@hooks/remove-whitespace"
 
 interface SkillFormProps {
   open: boolean
@@ -81,11 +82,11 @@ export const SkillForm = ({ open, toggleDialog }: SkillFormProps) => {
       await createSkillSchema.validate(formData, {
         abortEarly: false,
       })
-      const trimmedFormData = {
+      const parseFormData = {
         ...formData,
-        name: formData.name?.trim(),
+        name: removeWhitespace(formData.name as string),
       }
-      const result = await appDispatch(createSkill(trimmedFormData))
+      const result = await appDispatch(createSkill(parseFormData))
       if (result.type === "skill/createSkill/rejected") {
         setValidationErrors({
           name: result.payload,
@@ -134,12 +135,12 @@ export const SkillForm = ({ open, toggleDialog }: SkillFormProps) => {
         await createSkillSchema.validate(formData, {
           abortEarly: false,
         })
-        const trimmedFormData = {
+        const parseFormData = {
           ...formData,
-          name: formData.name?.trim(),
+          name: removeWhitespace(formData.name as string),
         }
         const result = await appDispatch(
-          updateSkill({ id: selectedSkillId, skillCategory: trimmedFormData })
+          updateSkill({ id: selectedSkillId, skillCategory: parseFormData })
         )
         if (result.type === "skill/updateSkill/rejected") {
           setValidationErrors({
