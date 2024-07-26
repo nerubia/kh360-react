@@ -22,6 +22,7 @@ import {
 } from "@redux/slices/email-template-slice"
 import { setAlert } from "@redux/slices/app-slice"
 import { ToggleSwitch } from "@components/ui/toggle-switch/toggle-switch"
+import { removeWhitespace } from "@hooks/remove-whitespace"
 
 interface DefaultDialogProps {
   open: boolean
@@ -131,8 +132,11 @@ export const EmailTemplateForm = () => {
       await createEmailTemplateSchema.validate(formData, {
         abortEarly: false,
       })
-
-      const result = await appDispatch(createEmailTemplate(formData))
+      const parseFormData = {
+        ...formData,
+        name: removeWhitespace(formData.name as string),
+      }
+      const result = await appDispatch(createEmailTemplate(parseFormData))
       if (result.type === "emailTemplate/createEmailTemplate/rejected") {
         appDispatch(
           setAlert({
@@ -182,10 +186,14 @@ export const EmailTemplateForm = () => {
         await createEmailTemplateSchema.validate(formData, {
           abortEarly: false,
         })
+        const parseFormData = {
+          ...formData,
+          name: removeWhitespace(formData.name as string),
+        }
         const result = await appDispatch(
           updateEmailTemplate({
             id: parseInt(id),
-            emailTemplate: formData,
+            emailTemplate: parseFormData,
           })
         )
         if (result.type === "emailTemplate/updateEmailTemplate/rejected") {
