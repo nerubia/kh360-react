@@ -23,10 +23,10 @@ const slider = cva(
       size: {
         medium: [
           "h-2",
-          "slider-thumb:w-6",
-          "slider-thumb:h-6",
-          "moz-slider-thumb:w-6",
-          "moz-slider-thumb:h-6",
+          "slider-thumb:w-5",
+          "slider-thumb:h-5",
+          "moz-slider-thumb:w-5",
+          "moz-slider-thumb:h-5",
         ],
       },
     },
@@ -70,13 +70,13 @@ export const Slider = ({
     return (
       <div
         key={index}
-        className={`w-5 h-5 bg-gray-200 border-2 border-primary-200 rounded-full z-100 hover:bg-primary-300 cursor-pointer`}
+        className={`w-3 h-3 bg-gray-200 border-2 border-primary-200 rounded-full z-100 hover:bg-primary-300 cursor-pointer`}
       ></div>
     )
   })
 
   return (
-    <div className='relative w-full'>
+    <div className='relative w-full '>
       <div
         className='absolute top-2.5 h-2 bg-primary-500 rounded-full z-50 pointer-events-none'
         style={{ width: `${backgroundWidth}%` }}
@@ -91,7 +91,7 @@ export const Slider = ({
         disabled={disabled}
         onClick={onClick}
       />
-      <div className='absolute top-1 w-full flex justify-between'>{rangePoints}</div>
+      <div className='absolute top-2 w-full flex justify-between'>{rangePoints}</div>
     </div>
   )
 }
