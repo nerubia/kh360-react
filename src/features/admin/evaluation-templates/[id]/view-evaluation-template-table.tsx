@@ -27,6 +27,7 @@ import { createEvaluationTemplateContentSchema } from "@utils/validation/evaluat
 import { ValidationError } from "yup"
 import { ToggleSwitch } from "@components/ui/toggle-switch/toggle-switch"
 import { type EvaluationTemplate } from "@custom-types/evaluation-template-type"
+import { removeWhitespace } from "@hooks/remove-whitespace"
 
 const categoryOptions: Option[] = Object.values(EvaluationTemplateContentCategory).map((value) => ({
   label: value,
@@ -182,10 +183,14 @@ export const ViewEvaluationTemplateTable = () => {
           await createEvaluationTemplateContentSchema.validate(formData, {
             abortEarly: false,
           })
+          const parseFormData = {
+            ...formData,
+            name: removeWhitespace(formData.name as string),
+          }
           const result = await appDispatch(
             updateEvaluationTemplateContent({
               id: selectedEvaluationTemplateContentId,
-              evaluation_template_contents_data: formData,
+              evaluation_template_contents_data: parseFormData,
             })
           )
           if (

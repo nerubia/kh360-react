@@ -27,6 +27,7 @@ import {
 } from "@redux/slices/evaluation-template-slice"
 import { CustomDialog } from "@components/ui/dialog/custom-dialog"
 import { ToggleSwitch } from "@components/ui/toggle-switch/toggle-switch"
+import { removeWhitespace } from "@hooks/remove-whitespace"
 
 export const CreateEvaluationTemplateForm = () => {
   const navigate = useNavigate()
@@ -237,8 +238,11 @@ export const CreateEvaluationTemplateForm = () => {
       await createEvaluationTemplateSchema.validate(formData, {
         abortEarly: false,
       })
-
-      const result = await appDispatch(createEvaluationTemplate(formData))
+      const parseFormData = {
+        ...formData,
+        name: removeWhitespace(formData.name as string),
+      }
+      const result = await appDispatch(createEvaluationTemplate(parseFormData))
       if (result.type === "evaluationTemplate/createEvaluationTemplate/rejected") {
         appDispatch(
           setAlert({
@@ -281,10 +285,14 @@ export const CreateEvaluationTemplateForm = () => {
         await createEvaluationTemplateSchema.validate(formData, {
           abortEarly: false,
         })
+        const parseFormData = {
+          ...formData,
+          name: removeWhitespace(formData.name as string),
+        }
         const result = await appDispatch(
           updateEvaluationTemplate({
             id: parseInt(id),
-            evaluation_template_data: formData,
+            evaluation_template_data: parseFormData,
           })
         )
         if (result.type === "evaluationTemplate/updateEvaluationTemplate/rejected") {

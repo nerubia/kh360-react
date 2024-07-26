@@ -24,6 +24,7 @@ import { type Option } from "@custom-types/optionType"
 import { type SingleValue } from "react-select"
 import { getAllSurveyTemplates } from "@redux/slices/survey-templates-slice"
 import { setSurveyResults } from "@redux/slices/survey-results-slice"
+import { removeWhitespace } from "@hooks/remove-whitespace"
 
 const SurveyAdminDialog = lazy(
   async () => await import("@features/admin/survey-administrations/survey-administration-dialog")
@@ -98,7 +99,11 @@ export const SurveyAdministrationForm = () => {
       await createSurveyAdministrationSchema.validate(formData, {
         abortEarly: false,
       })
-      const result = await appDispatch(createSurveyAdministration(formData))
+      const parseFormData = {
+        ...formData,
+        name: removeWhitespace(formData.name as string),
+      }
+      const result = await appDispatch(createSurveyAdministration(parseFormData))
       if (result.type === "surveyAdministration/createSurveyAdministration/fulfilled") {
         void appDispatch(setSurveyResults([]))
         void appDispatch(setSelectedEmployeeIds([]))
@@ -129,8 +134,12 @@ export const SurveyAdministrationForm = () => {
         abortEarly: false,
       })
       if (id !== undefined) {
+        const parseFormData = {
+          ...formData,
+          name: removeWhitespace(formData.name as string),
+        }
         const result = await appDispatch(
-          updateSurveyAdministration({ id: parseInt(id), skillCategory: formData })
+          updateSurveyAdministration({ id: parseInt(id), skillCategory: parseFormData })
         )
         if (result.type === "surveyAdministration/updateSurveyAdministration/fulfilled") {
           navigate(`/admin/survey-administrations/${result.payload.id}`)
