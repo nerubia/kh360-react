@@ -15,6 +15,7 @@ import {
 import { setAlert } from "@redux/slices/app-slice"
 import { setSkillCategories } from "@redux/slices/skill-categories-slice"
 import { CustomDialog } from "@components/ui/dialog/custom-dialog"
+import { removeWhitespace } from "@hooks/remove-whitespace"
 
 interface SkillCategoriesFormProps {
   open: boolean
@@ -70,7 +71,11 @@ export const SkillCategoriesForm = ({ open, toggleDialog }: SkillCategoriesFormP
       await createSkillCategorySchema.validate(formData, {
         abortEarly: false,
       })
-      const result = await appDispatch(createSkillCategory(formData))
+      const parseFormData = {
+        ...formData,
+        name: removeWhitespace(formData.name as string),
+      }
+      const result = await appDispatch(createSkillCategory(parseFormData))
       if (result.type === "skillCategory/createSkillCategory/rejected") {
         setValidationErrors({
           name: result.payload,
@@ -105,8 +110,12 @@ export const SkillCategoriesForm = ({ open, toggleDialog }: SkillCategoriesFormP
         await createSkillCategorySchema.validate(formData, {
           abortEarly: false,
         })
+        const parseFormData = {
+          ...formData,
+          name: removeWhitespace(formData.name as string),
+        }
         const result = await appDispatch(
-          updateSkillCategory({ id: selectedSkillCategoryId, skillCategory: formData })
+          updateSkillCategory({ id: selectedSkillCategoryId, skillCategory: parseFormData })
         )
         if (result.type === "skillCategory/updateSkillCategory/rejected") {
           setValidationErrors({
