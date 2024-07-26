@@ -65,6 +65,14 @@ export const CreateEvaluationTemplateContentForm = () => {
       await createEvaluationTemplateContentSchema.validate(formData, {
         abortEarly: false,
       })
+      const isNameDuplicate = evaluation_template_contents.some(
+        (item) => item.name?.trim() === formData.name?.trim()
+      )
+
+      if (isNameDuplicate) {
+        setValidationErrors({ name: "Name already exists" })
+        return
+      }
       void appDispatch(setEvaluationTemplateContents([...evaluation_template_contents, formData]))
       setFormData({})
       void appDispatch(showCreateModal(!create_modal_visible))
@@ -84,6 +92,16 @@ export const CreateEvaluationTemplateContentForm = () => {
       await createEvaluationTemplateContentSchema.validate(formData, {
         abortEarly: false,
       })
+
+      const isNameDuplicate = evaluation_template_contents.some(
+        (item) => item.name?.trim() === formData.name?.trim()
+      )
+
+      if (isNameDuplicate) {
+        setValidationErrors({ name: "Name already exists" })
+        return
+      }
+
       const updatedData = evaluation_template_contents.map((content, index) => {
         if (index === selected_content_index) {
           return formData
