@@ -21,7 +21,10 @@ import { TemplateClass, TemplateType } from "@custom-types/evaluation-template-t
 import { getAllProjectRoles } from "@redux/slices/project-roles-slice"
 import { getActiveAnswers } from "@redux/slices/answer-slice"
 import { EvaluationTemplateContentsTable } from "@features/admin/evaluation-template-contents/evaluation-template-contents-table"
-import { updateEvaluationTemplate } from "@redux/slices/evaluation-template-slice"
+import {
+  getEvaluationTemplate,
+  updateEvaluationTemplate,
+} from "@redux/slices/evaluation-template-slice"
 import { CustomDialog } from "@components/ui/dialog/custom-dialog"
 import { ToggleSwitch } from "@components/ui/toggle-switch/toggle-switch"
 
@@ -285,7 +288,9 @@ export const CreateEvaluationTemplateForm = () => {
           })
         )
         if (result.type === "evaluationTemplate/updateEvaluationTemplate/rejected") {
-          navigate(`/admin/evaluation-templates/${id}`)
+          if (id !== undefined) {
+            void appDispatch(getEvaluationTemplate(parseInt(id)))
+          }
           appDispatch(
             setAlert({
               description: result.payload,
