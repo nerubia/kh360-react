@@ -40,6 +40,7 @@ export interface SkillMapSearch {
 
 export interface SkillMapSearchFilters {
   name?: string
+  status?: string
   skill?: string
   sortBy?: string
   page?: string
