@@ -1,7 +1,7 @@
 import { useAppSelector } from "@hooks/useAppSelector"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { useAdmin } from "@hooks/useAdmin"
-import { setActiveSidebar } from "@redux/slices/app-slice"
+import { removeAllAlert, setActiveSidebar, setAutoClose } from "@redux/slices/app-slice"
 import { logout } from "@redux/slices/auth-slice"
 import { Icon } from "@components/ui/icon/icon"
 import { Button } from "@components/ui/button/button"
@@ -9,13 +9,13 @@ import { Menu } from "@components/shared/Menu"
 import { type icons } from "@components/ui/icon/icons"
 import { useInternalUser } from "@hooks/use-internal-user"
 import { useCmUser } from "@hooks/use-cm-user"
-import { useLocation } from "react-router-dom"
+import { useLocation, useParams } from "react-router-dom"
 import { useMobileView } from "@hooks/use-mobile-view"
 import { routes } from "@routes/routes"
-import { Suspense, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { setCheckedUserSkills, setSelectedUserSkills } from "@redux/slices/user-skills-slice"
 import { setUserSkillMapRatings } from "@redux/slices/user-slice"
-
+import { multipleAlertPath } from "../../../utils/mutiple-alert-path"
 interface MenuLink {
   title: string
   link: string
@@ -194,8 +194,8 @@ const menuLinks: MenuLink[] = [
 
 export const Sidebar = () => {
   const location = useLocation()
-
-  const { activeSidebar } = useAppSelector((state) => state.app)
+  const { id } = useParams()
+  const { activeSidebar, autoClose } = useAppSelector((state) => state.app)
 
   const { user } = useAppSelector((state) => state.auth)
   const appDispatch = useAppDispatch()
@@ -206,6 +206,15 @@ export const Sidebar = () => {
   const isMobileView = useMobileView()
   const isMediumSize = useMobileView(1028)
   const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({})
+
+  useEffect(() => {
+    if (location.pathname !== `${multipleAlertPath[0]}` + id) {
+      if (autoClose === false) {
+        appDispatch(removeAllAlert())
+        appDispatch(setAutoClose(true))
+      }
+    }
+  }, [location.pathname])
 
   const toggleSidebar = () => {
     appDispatch(setActiveSidebar(!activeSidebar))

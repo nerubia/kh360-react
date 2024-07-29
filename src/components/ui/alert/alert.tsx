@@ -2,8 +2,9 @@ import { type VariantProps, cva } from "class-variance-authority"
 import { Button } from "@components/ui/button/button"
 import { Icon } from "@components/ui/icon/icon"
 import { useAppDispatch } from "@hooks/useAppDispatch"
-import { removeAlert } from "@redux/slices/app-slice"
+import { removeAlert, setAutoClose } from "@redux/slices/app-slice"
 import { useEffect } from "react"
+import { useAppSelector } from "@hooks/useAppSelector"
 
 const alert = cva(["relative", "p-5", "rounded-md"], {
   variants: {
@@ -25,14 +26,18 @@ interface AlertProps extends VariantProps<typeof alert> {
 
 export const Alert = ({ children, variant, index }: AlertProps) => {
   const appDispatch = useAppDispatch()
+  const { autoClose } = useAppSelector((state) => state.app)
 
   useEffect(() => {
-    const timer = setTimeout(() => appDispatch(removeAlert(index)), 5000)
-    return () => clearTimeout(timer)
+    if (autoClose !== false) {
+      const timer = setTimeout(() => appDispatch(removeAlert(index)), 5000)
+      return () => clearTimeout(timer)
+    }
   }, [index])
 
   const handleClose = () => {
     appDispatch(removeAlert(index))
+    appDispatch(setAutoClose(true))
   }
 
   return (
