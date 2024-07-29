@@ -14,7 +14,7 @@ import {
   setSelectedEmployeeIds,
   uploadSkillMapAdmin,
 } from "@redux/slices/skill-map-administration-slice"
-import { setAlert, setMultipleAlerts } from "@redux/slices/app-slice"
+import { setAlert, setAutoClose, setMultipleAlerts } from "@redux/slices/app-slice"
 import { DateRangePicker } from "@components/ui/date-range-picker/date-range-picker"
 import { type DateValueType, type DateType } from "react-tailwindcss-datepicker"
 import { uploadSkillMapAdminSchema } from "@utils/validation/skill-map-admin-schema"
@@ -75,6 +75,7 @@ export const UploadSkillMapAdminForm = () => {
       })
       const result = await appDispatch(uploadSkillMapAdmin(formData))
       appDispatch(setMultipleAlerts(true))
+      appDispatch(setAutoClose(false))
 
       if (result.type === "skillMapAdministration/uploadSkillMapAdmin/fulfilled") {
         void appDispatch(setSelectedEmployeeIds([]))
