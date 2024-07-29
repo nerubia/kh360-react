@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit"
 interface Alert {
   description: string | string[]
   variant: "primary" | "success" | "destructive"
+  autoClose?: boolean
 }
 
 interface InitialState {
@@ -10,6 +11,7 @@ interface InitialState {
   alerts: Alert[]
   multipleAlerts: boolean
   previousUrl: string | null
+  autoClose?: boolean
 }
 
 const initialState: InitialState = {
@@ -17,6 +19,7 @@ const initialState: InitialState = {
   alerts: [],
   multipleAlerts: false, // Set to true to enable multiple alerts
   previousUrl: null,
+  autoClose: true,
 }
 
 const appSlice = createSlice({
@@ -33,7 +36,10 @@ const appSlice = createSlice({
         state.alerts = [action.payload]
       }
     },
-    removeAlert: (state, _) => {
+    removeAlert: (state, action) => {
+      state.alerts.splice(action.payload, 1)
+    },
+    removeAllAlert: (state) => {
       state.alerts = []
     },
     setMultipleAlerts: (state, action) => {
@@ -42,9 +48,19 @@ const appSlice = createSlice({
     setPreviousUrl: (state, action) => {
       state.previousUrl = action.payload
     },
+    setAutoClose: (state, action) => {
+      state.autoClose = action.payload
+    },
   },
 })
 
-export const { setActiveSidebar, setAlert, removeAlert, setMultipleAlerts, setPreviousUrl } =
-  appSlice.actions
+export const {
+  setActiveSidebar,
+  setAlert,
+  removeAlert,
+  setMultipleAlerts,
+  setPreviousUrl,
+  setAutoClose,
+  removeAllAlert,
+} = appSlice.actions
 export default appSlice.reducer
