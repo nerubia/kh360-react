@@ -33,6 +33,7 @@ export const SkillMapSearchFilter = () => {
   const [name, setName] = useState<string>(searchParams.get("name") ?? "")
   const [skill, setSkill] = useState<string>(searchParams.get("skill") ?? "All")
   const [sortBy, setSortBy] = useState<string>(searchParams.get("sortBy") ?? "")
+  const [status, setStatus] = useState<string>(searchParams.get("status") ?? "Active")
 
   const skillCategories = sortSkillCategoriesBySequenceNumber(
     skill_categories.map((category) => {
@@ -47,6 +48,12 @@ export const SkillMapSearchFilter = () => {
     id: 0,
     name: "All",
   })
+
+  const statusOptions: Option[] = [
+    { label: "Active", value: "Active" },
+    { label: "Inactive", value: "Inactive" },
+    { label: "All", value: "All" },
+  ]
 
   useEffect(() => {
     void appDispatch(
@@ -65,6 +72,7 @@ export const SkillMapSearchFilter = () => {
         params.delete("name")
       }
       params.set("skill", skill)
+      params.set("status", status)
       params.set("page", "1")
       if (sortBy.length !== 0) {
         params.set("sortBy", sortBy)
@@ -74,18 +82,17 @@ export const SkillMapSearchFilter = () => {
       return params
     })
   }
-
   const handleClear = async () => {
     setName("")
     setSkill("All")
     setSortBy("")
+    setStatus("Active")
     setSearchParams({})
   }
-
   return (
     <div className='flex flex-col md:flex-row justify-between gap-4 flex-wrap'>
-      <div className='flex-1 flex flex-col md:flex-row gap-4'>
-        <div className='flex-1'>
+      <div className='flex-1 flex flex-col md:flex-row gap-4 flex-wrap'>
+        <div className='w-80'>
           <Input
             label='Name'
             name='search'
@@ -130,12 +137,20 @@ export const SkillMapSearchFilter = () => {
           onChange={(option) => setSortBy(option !== null ? option.value : "")}
           options={sortOptions}
         />
-      </div>
-      <div className='flex items-end gap-4'>
-        <Button onClick={handleSearch}>Search</Button>
-        <Button variant='primaryOutline' onClick={handleClear}>
-          Clear
-        </Button>
+        <CustomSelect
+          data-test-id='StatusFilter'
+          label='Status'
+          name='status'
+          value={statusOptions.find((option) => option.value === status)}
+          onChange={(option) => setStatus(option !== null ? option.value : "")}
+          options={statusOptions}
+        />
+        <div className='flex items-end gap-4'>
+          <Button onClick={handleSearch}>Search</Button>
+          <Button variant='primaryOutline' onClick={handleClear}>
+            Clear
+          </Button>
+        </div>
       </div>
     </div>
   )

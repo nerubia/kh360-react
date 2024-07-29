@@ -46,6 +46,7 @@ export const SkillMapSearchTable = () => {
     void appDispatch(
       getSkillMapSearch({
         name: searchParams.get("name") ?? undefined,
+        status: searchParams.get("status") ?? undefined,
         skill: searchParams.get("skill") ?? undefined,
         sortBy: searchParams.get("sortBy") ?? undefined,
         page: searchParams.get("page") ?? undefined,
