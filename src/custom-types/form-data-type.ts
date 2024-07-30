@@ -101,6 +101,7 @@ export interface ProjectMemberFormData {
 }
 
 export interface EvaluationTemplateContentFormData {
+  id?: number
   evaluation_template_id?: string
   name?: string
   description?: string
