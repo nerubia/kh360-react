@@ -63,6 +63,19 @@ export const SkillMapSearchFilter = () => {
     )
   }, [])
 
+  useEffect(() => {
+    if (!searchParams.has("status")) {
+      setSearchParams(
+        (prevParams) => {
+          const params = new URLSearchParams(prevParams)
+          params.set("status", "Active")
+          return params
+        },
+        { replace: true }
+      )
+    }
+  }, [searchParams, setSearchParams])
+
   const handleSearch = async () => {
     setSearchParams((prevParams) => {
       const params = new URLSearchParams(prevParams)
@@ -89,6 +102,7 @@ export const SkillMapSearchFilter = () => {
     setStatus("Active")
     setSearchParams({})
   }
+
   return (
     <div className='flex flex-col md:flex-row justify-between gap-4 flex-wrap'>
       <div className='flex-1 flex flex-col md:flex-row gap-4 flex-wrap'>
