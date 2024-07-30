@@ -101,6 +101,14 @@ export const SkillMapSearchFilter = () => {
             onChange={(e) => setName(e.target.value)}
           />
         </div>
+        <CustomSelect
+          data-test-id='StatusFilter'
+          label='Employee Status'
+          name='status'
+          value={statusOptions.find((option) => option.value === status)}
+          onChange={(option) => setStatus(option !== null ? option.value : "")}
+          options={statusOptions}
+        />
         <div className='w-80 flex flex-col'>
           <label className={`whitespace-nowrap ${isMobile ? "text-sm" : "font-medium"}`}>
             Skill
@@ -137,14 +145,7 @@ export const SkillMapSearchFilter = () => {
           onChange={(option) => setSortBy(option !== null ? option.value : "")}
           options={sortOptions}
         />
-        <CustomSelect
-          data-test-id='StatusFilter'
-          label='Status'
-          name='status'
-          value={statusOptions.find((option) => option.value === status)}
-          onChange={(option) => setStatus(option !== null ? option.value : "")}
-          options={statusOptions}
-        />
+
         <div className='flex items-end gap-4'>
           <Button onClick={handleSearch}>Search</Button>
           <Button variant='primaryOutline' onClick={handleClear}>
