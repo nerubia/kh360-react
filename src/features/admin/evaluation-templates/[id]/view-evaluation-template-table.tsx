@@ -180,13 +180,13 @@ export const ViewEvaluationTemplateTable = () => {
         selectedEvaluationTemplateContentId !== null
       ) {
         try {
-          await createEvaluationTemplateContentSchema.validate(formData, {
-            abortEarly: false,
-          })
           const parseFormData = {
             ...formData,
             name: removeWhitespace(formData.name as string),
           }
+          await createEvaluationTemplateContentSchema.validate(parseFormData, {
+            abortEarly: false,
+          })
           const result = await appDispatch(
             updateEvaluationTemplateContent({
               id: selectedEvaluationTemplateContentId,
@@ -250,9 +250,11 @@ export const ViewEvaluationTemplateTable = () => {
       }
     } catch (error) {
       if (error instanceof ValidationError) {
-        const errors: Partial<EvaluationTemplateContentFormData> = {}
+        const errors: Record<string, string> = {}
         error.inner.forEach((err) => {
-          errors[err.path as keyof EvaluationTemplateContentFormData] = err.message
+          if (err.path != null) {
+            errors[err.path] = err.message
+          }
         })
         setValidationErrors(errors)
       }

@@ -18,12 +18,14 @@ import { type SingleValue } from "react-select"
 import { type EvaluationTemplateContent } from "@custom-types/evaluation-template-content-type"
 import { ToggleSwitch } from "@components/ui/toggle-switch/toggle-switch"
 import { TextArea } from "@components/ui/textarea/text-area"
+import { removeWhitespace } from "@hooks/remove-whitespace"
 
 export const CreateEvaluationTemplateContentForm = () => {
   const appDispatch = useAppDispatch()
 
   const { create_modal_visible, evaluation_template_contents, selected_content_index } =
     useAppSelector((state) => state.evaluationTemplateContents)
+
   const defaultFormData = {
     name: "",
     description: "",
@@ -62,25 +64,35 @@ export const CreateEvaluationTemplateContentForm = () => {
 
   const handleSave = async () => {
     try {
-      await createEvaluationTemplateContentSchema.validate(formData, {
+      const parseFormData = {
+        ...formData,
+        name: removeWhitespace(formData.name as string),
+      }
+
+      await createEvaluationTemplateContentSchema.validate(parseFormData, {
         abortEarly: false,
       })
       const isNameDuplicate = evaluation_template_contents.some(
-        (item) => item.name?.trim() === formData.name?.trim()
+        (item) => item.name?.trim() === parseFormData.name
       )
 
       if (isNameDuplicate) {
         setValidationErrors({ name: "Name already exists" })
         return
       }
-      void appDispatch(setEvaluationTemplateContents([...evaluation_template_contents, formData]))
+
+      void appDispatch(
+        setEvaluationTemplateContents([...evaluation_template_contents, parseFormData])
+      )
       setFormData({})
       void appDispatch(showCreateModal(!create_modal_visible))
     } catch (error) {
       if (error instanceof ValidationError) {
-        const errors: Partial<EvaluationTemplateContentFormData> = {}
+        const errors: Record<string, string> = {}
         error.inner.forEach((err) => {
-          errors[err.path as keyof EvaluationTemplateContentFormData] = err.message
+          if (err.path != null) {
+            errors[err.path] = err.message
+          }
         })
         setValidationErrors(errors)
       }
@@ -89,15 +101,30 @@ export const CreateEvaluationTemplateContentForm = () => {
 
   const handleEdit = async () => {
     try {
-      await createEvaluationTemplateContentSchema.validate(formData, {
+      const parseFormData = {
+        ...formData,
+        name: removeWhitespace(formData.name as string),
+      }
+      await createEvaluationTemplateContentSchema.validate(parseFormData, {
         abortEarly: false,
       })
 
       const isNameDuplicate = evaluation_template_contents.some(
-        (item) => item.name?.trim() === formData.name?.trim()
+        (item) => item.name?.trim() === parseFormData.name
       )
 
-      if (isNameDuplicate) {
+      const existingName = evaluation_template_contents.find(
+        (evaluationNam) => evaluationNam.name === parseFormData.name
+      )
+
+      if (formData.id === undefined) {
+        if (isNameDuplicate) {
+          setValidationErrors({ name: "Name already exists" })
+          return
+        }
+      }
+
+      if (isNameDuplicate && formData.id !== existingName?.id) {
         setValidationErrors({ name: "Name already exists" })
         return
       }
@@ -109,14 +136,17 @@ export const CreateEvaluationTemplateContentForm = () => {
           return content
         }
       })
+
       void appDispatch(setEvaluationTemplateContents(updatedData))
       setFormData({})
       void appDispatch(showCreateModal(!create_modal_visible))
     } catch (error) {
       if (error instanceof ValidationError) {
-        const errors: Partial<EvaluationTemplateContentFormData> = {}
+        const errors: Record<string, string> = {}
         error.inner.forEach((err) => {
-          errors[err.path as keyof EvaluationTemplateContentFormData] = err.message
+          if (err.path != null) {
+            errors[err.path] = err.message
+          }
         })
         setValidationErrors(errors)
       }
@@ -205,7 +235,7 @@ export const CreateEvaluationTemplateContentForm = () => {
                   data-test-id='SelectCategory'
                   label='Category'
                   name='category'
-                  value={categoryOptions.find((option) => option.value === formData.category ?? "")}
+                  value={categoryOptions.find((option) => option.value === formData.category)}
                   onChange={async (option) => await onChangeCategory(option)}
                   options={categoryOptions}
                   fullWidth
