@@ -197,6 +197,8 @@ const SkillMapAdminResults = lazy(
   async () => await import("@pages/admin/skill-map-administrations/[id]/results/skill-map-results")
 )
 
+const Erd = lazy(async () => await import("pages/admin/erd/erd"))
+
 export const adminRoutes = {
   element: <AdminRoute />,
   children: [
@@ -436,6 +438,10 @@ export const adminRoutes = {
     {
       path: routes.private.admin.resultsSkillMapAdmin,
       element: <SkillMapAdminResults />,
+    },
+    {
+      path: routes.private.admin.erd,
+      element: <Erd />,
     },
   ],
 }

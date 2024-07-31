@@ -13,6 +13,7 @@ export interface ExternalUser {
 export interface ExternalUserFilters {
   name?: string
   company?: string
+  userType?: string
   role?: string
   page?: string
 }

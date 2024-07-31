@@ -190,6 +190,12 @@ const menuLinks: MenuLink[] = [
       },
     ],
   },
+  {
+    title: "ERD",
+    link: routes.private.admin.erd,
+    icon: "UserRoundCog",
+    access: "Admin",
+  },
 ]
 
 export const Sidebar = () => {
