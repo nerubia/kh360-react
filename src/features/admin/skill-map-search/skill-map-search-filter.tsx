@@ -89,10 +89,11 @@ export const SkillMapSearchFilter = () => {
     setStatus("Active")
     setSearchParams({})
   }
+
   return (
-    <div className='flex flex-col md:flex-row justify-between gap-4 flex-wrap'>
-      <div className='flex-1 flex flex-col md:flex-row gap-4 flex-wrap'>
-        <div className='w-80'>
+    <div className='flex flex-col xl:flex-row justify-between gap-4 flex-wrap'>
+      <div className='flex-1 flex flex-col xl:flex-row gap-4'>
+        <div className='flex-1'>
           <Input
             label='Name'
             name='search'
@@ -101,57 +102,66 @@ export const SkillMapSearchFilter = () => {
             onChange={(e) => setName(e.target.value)}
           />
         </div>
-        <CustomSelect
-          data-test-id='StatusFilter'
-          label='Employee Status'
-          name='status'
-          value={statusOptions.find((option) => option.value === status)}
-          onChange={(option) => setStatus(option !== null ? option.value : "")}
-          options={statusOptions}
-        />
-        <div className='w-80 flex flex-col'>
-          <label className={`whitespace-nowrap ${isMobile ? "text-sm" : "font-medium"}`}>
-            Skill
-          </label>
-          <Menu
-            menuButton={
-              <MenuButton className='text-start border px-4 py-1.5 rounded-md'>{skill}</MenuButton>
-            }
-            overflow='auto'
-            position='anchor'
-          >
-            {skillCategories.map((category) =>
-              category.skills === undefined ? (
-                <MenuItem key={category.id} onClick={() => setSkill("All")}>
-                  {category.name}
-                </MenuItem>
-              ) : (
-                <SubMenu key={category.id} label={category.name} overflow='auto'>
-                  {category.skills?.map((skill) => (
-                    <MenuItem key={skill.id} onClick={() => setSkill(skill.name)}>
-                      {skill.name}
-                    </MenuItem>
-                  ))}
-                </SubMenu>
-              )
-            )}
-          </Menu>
+        <div className='flex-1'>
+          <CustomSelect
+            data-test-id='StatusFilter'
+            label='Employee Status'
+            name='status'
+            value={statusOptions.find((option) => option.value === status)}
+            onChange={(option) => setStatus(option !== null ? option.value : "")}
+            options={statusOptions}
+            fullWidth
+          />
         </div>
-        <CustomSelect
-          data-test-id='SortFilter'
-          label='Sort By'
-          name='sort'
-          value={sortOptions.find((option) => option.value === sortBy)}
-          onChange={(option) => setSortBy(option !== null ? option.value : "")}
-          options={sortOptions}
-        />
-
-        <div className='flex items-end gap-4'>
-          <Button onClick={handleSearch}>Search</Button>
-          <Button variant='primaryOutline' onClick={handleClear}>
-            Clear
-          </Button>
+        <div className='flex-1'>
+          <div className='w-50 flex flex-col'>
+            <label className={`whitespace-nowrap ${isMobile ? "text-sm" : "font-medium"}`}>
+              Skill
+            </label>
+            <Menu
+              menuButton={
+                <MenuButton className='text-start border px-4 py-1.5 rounded-md'>
+                  {skill}
+                </MenuButton>
+              }
+              overflow='auto'
+              position='anchor'
+            >
+              {skillCategories.map((category) =>
+                category.skills === undefined ? (
+                  <MenuItem key={category.id} onClick={() => setSkill("All")}>
+                    {category.name}
+                  </MenuItem>
+                ) : (
+                  <SubMenu key={category.id} label={category.name} overflow='auto'>
+                    {category.skills?.map((skill) => (
+                      <MenuItem key={skill.id} onClick={() => setSkill(skill.name)}>
+                        {skill.name}
+                      </MenuItem>
+                    ))}
+                  </SubMenu>
+                )
+              )}
+            </Menu>
+          </div>
         </div>
+        <div className='flex-1'>
+          <CustomSelect
+            data-test-id='SortFilter'
+            label='Sort By'
+            name='sort'
+            value={sortOptions.find((option) => option.value === sortBy)}
+            onChange={(option) => setSortBy(option !== null ? option.value : "")}
+            options={sortOptions}
+            fullWidth
+          />
+        </div>
+      </div>
+      <div className='flex justify-end gap-4 w-full'>
+        <Button onClick={handleSearch}>Search</Button>
+        <Button variant='primaryOutline' onClick={handleClear}>
+          Clear
+        </Button>
       </div>
     </div>
   )
