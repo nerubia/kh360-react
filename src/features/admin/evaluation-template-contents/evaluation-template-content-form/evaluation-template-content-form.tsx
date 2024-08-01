@@ -72,14 +72,6 @@ export const CreateEvaluationTemplateContentForm = () => {
       await createEvaluationTemplateContentSchema.validate(parseFormData, {
         abortEarly: false,
       })
-      const isNameDuplicate = evaluation_template_contents.some(
-        (item) => item.name?.trim() === parseFormData.name
-      )
-
-      if (isNameDuplicate) {
-        setValidationErrors({ name: "Name already exists" })
-        return
-      }
 
       void appDispatch(
         setEvaluationTemplateContents([...evaluation_template_contents, parseFormData])
@@ -108,26 +100,6 @@ export const CreateEvaluationTemplateContentForm = () => {
       await createEvaluationTemplateContentSchema.validate(parseFormData, {
         abortEarly: false,
       })
-
-      const isNameDuplicate = evaluation_template_contents.some(
-        (item) => item.name?.trim() === parseFormData.name
-      )
-
-      const existingName = evaluation_template_contents.find(
-        (evaluationNam) => evaluationNam.name === parseFormData.name
-      )
-
-      if (formData.id === undefined) {
-        if (isNameDuplicate) {
-          setValidationErrors({ name: "Name already exists" })
-          return
-        }
-      }
-
-      if (isNameDuplicate && formData.id !== existingName?.id) {
-        setValidationErrors({ name: "Name already exists" })
-        return
-      }
 
       const updatedData = evaluation_template_contents.map((content, index) => {
         if (index === selected_content_index) {
