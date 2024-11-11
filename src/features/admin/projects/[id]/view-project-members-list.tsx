@@ -85,6 +85,7 @@ export const ViewProjectMembersList = () => {
               progressSelectedColor: "transparent",
               textColor: "transparent",
             },
+            projectMemberId: projectMember.id.toString(),
           })
         }
 
@@ -139,6 +140,7 @@ export const ViewProjectMembersList = () => {
           },
           role: projectMember.role,
           dependencies: skillsInTooltip,
+          projectMemberId: projectMember.id.toString(),
         })
       })
 
