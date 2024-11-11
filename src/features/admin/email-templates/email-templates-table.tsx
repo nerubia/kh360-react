@@ -32,6 +32,7 @@ export const EmailTemplatesTable = () => {
         template_type: searchParams.get("template_type") ?? undefined,
         is_default: searchParams.get("is_default") ?? undefined,
         page: searchParams.get("page") ?? undefined,
+        system_name: "KH360",
       })
     )
   }, [searchParams])
