@@ -43,6 +43,7 @@ export const EmailTemplateForm = () => {
     is_default: emailTemplate?.is_default ?? false,
     subject: emailTemplate?.subject ?? "",
     content: emailTemplate?.content ?? "",
+    system_name: "KH360",
   })
 
   const [validationErrors, setValidationErrors] = useState<Partial<EmailTemplateFormData>>({})

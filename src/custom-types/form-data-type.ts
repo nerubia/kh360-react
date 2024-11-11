@@ -74,6 +74,7 @@ export interface EmailTemplateFormData {
   is_default?: boolean | string
   subject?: string
   content?: string
+  system_name?: string
 }
 
 export interface ProjectFormData {
