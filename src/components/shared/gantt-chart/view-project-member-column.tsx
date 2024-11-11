@@ -1,7 +1,11 @@
 import { type Task } from "custom-gantt-task-react"
-import React from "react"
+import React, { useState } from "react"
 import { Icon } from "@components/ui/icon/icon"
 import Tooltip from "@components/ui/tooltip/tooltip"
+import { Button } from "@components/ui/button/button"
+import { CustomDialog } from "@components/ui/dialog/custom-dialog"
+import { useAppDispatch } from "@hooks/useAppDispatch"
+import { deleteProjectMember } from "@redux/slices/project-members-slice"
 
 export const ViewProjectMemberColumn: React.FC<{
   rowHeight: number
@@ -14,6 +18,17 @@ export const ViewProjectMemberColumn: React.FC<{
   setSelectedTask: (taskId: string) => void
   onExpanderClick: (task: Task) => void
 }> = ({ tasks, rowWidth }) => {
+  const appDispatch = useAppDispatch()
+
+  const [selectedId, setSelectedId] = useState<number | null>(null)
+
+  const handleDelete = () => {
+    if (selectedId !== null) {
+      void appDispatch(deleteProjectMember(selectedId))
+      setSelectedId(null)
+    }
+  }
+
   return (
     <div className='table border-l md:w-450 w-full'>
       {tasks.map((t, index) => {
@@ -24,7 +39,18 @@ export const ViewProjectMemberColumn: React.FC<{
           >
             <div className='table-cell vertical-align h-50 md:w-200' title={t.name}>
               <div className='p-2 md:w-52'>
-                <div className='truncate'>{t.name}</div>
+                <div className='flex items-center gap-5'>
+                  {t.name}
+                  {t.hideChildren === false && (
+                    <Button
+                      variant='unstyled'
+                      size='small'
+                      onClick={() => setSelectedId(Number(t.projectMemberId))}
+                    >
+                      <Icon icon='Trash' size='extraSmall' color='gray' />
+                    </Button>
+                  )}
+                </div>
               </div>
             </div>
             <div
@@ -55,6 +81,14 @@ export const ViewProjectMemberColumn: React.FC<{
           </div>
         )
       })}
+      <CustomDialog
+        open={selectedId !== null}
+        title='Confirm Delete'
+        description='Are you sure you want to delete this item? This action cannot be undone.'
+        onClose={() => setSelectedId(null)}
+        onSubmit={handleDelete}
+        loading={false}
+      />
     </div>
   )
 }
