@@ -1,10 +1,12 @@
 import { type Task } from "custom-gantt-task-react"
-import React from "react"
+import React, { useState } from "react"
 import { Icon } from "@components/ui/icon/icon"
-import { LinkButton } from "@components/ui/button/button"
+import { Button, LinkButton } from "@components/ui/button/button"
 import { setIsEditingProjectMember } from "@redux/slices/project-member-slice"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { setSelectedSkills, setCheckedSkills } from "@redux/slices/skills-slice"
+import { deleteProjectMember } from "@redux/slices/project-members-slice"
+import { CustomDialog } from "@components/ui/dialog/custom-dialog"
 
 export const ProjectColumn: React.FC<{
   rowHeight: number
@@ -19,10 +21,19 @@ export const ProjectColumn: React.FC<{
 }> = ({ tasks, onExpanderClick }) => {
   const appDispatch = useAppDispatch()
 
+  const [selectedId, setSelectedId] = useState<number | null>(null)
+
   const handleEdit = () => {
     appDispatch(setIsEditingProjectMember(false))
     void appDispatch(setSelectedSkills([]))
     void appDispatch(setCheckedSkills([]))
+  }
+
+  const handleDelete = () => {
+    if (selectedId !== null) {
+      void appDispatch(deleteProjectMember(selectedId))
+      setSelectedId(null)
+    }
   }
 
   return (
@@ -52,7 +63,7 @@ export const ProjectColumn: React.FC<{
                 >
                   <span className='truncate'>{t.name}</span>
                   {t.hideChildren === undefined && (
-                    <div>
+                    <div className='flex items-center gap-1'>
                       <LinkButton
                         to={`${t.projectMemberId}/edit`}
                         variant='unstyled'
@@ -61,6 +72,13 @@ export const ProjectColumn: React.FC<{
                       >
                         <Icon icon='PenSquare' size='extraSmall' color='gray' />
                       </LinkButton>
+                      <Button
+                        variant='unstyled'
+                        size='small'
+                        onClick={() => setSelectedId(Number(t.projectMemberId))}
+                      >
+                        <Icon icon='Trash' size='extraSmall' color='gray' />
+                      </Button>
                     </div>
                   )}
                 </div>
@@ -85,6 +103,14 @@ export const ProjectColumn: React.FC<{
           </div>
         )
       })}
+      <CustomDialog
+        open={selectedId !== null}
+        title='Confirm Delete'
+        description='Are you sure you want to delete this item? This action cannot be undone.'
+        onClose={() => setSelectedId(null)}
+        onSubmit={handleDelete}
+        loading={false}
+      />
     </div>
   )
 }
