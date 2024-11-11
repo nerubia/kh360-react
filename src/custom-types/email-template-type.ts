@@ -27,6 +27,7 @@ export interface EmailTemplateFilters {
   name?: string
   template_type?: string
   is_default?: string
+  system_name?: string
   page?: string
 }
 

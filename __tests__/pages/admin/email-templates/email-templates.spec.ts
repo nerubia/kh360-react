@@ -99,7 +99,7 @@ test.describe("Admin - Email Templates", () => {
 
       await page.goto("/admin/message-templates")
 
-      await mockRequest(page, "/admin/email-templates", {
+      await mockRequest(page, "/admin/email-templates?system_name=KH360", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
