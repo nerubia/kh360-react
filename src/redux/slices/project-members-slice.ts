@@ -56,6 +56,20 @@ export const createProjectMember = createAsyncThunk(
   }
 )
 
+export const deleteProjectMember = createAsyncThunk(
+  "projectMember/deleteProjectMember",
+  async (id: number, thunkApi) => {
+    try {
+      const response = await axiosInstance.delete(`/admin/project-members/${id}`)
+      return response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      const response = axiosError.response?.data as ApiError
+      return thunkApi.rejectWithValue(response.message)
+    }
+  }
+)
+
 interface InitialState {
   loading: Loading.Idle | Loading.Pending | Loading.Fulfilled | Loading.Rejected
   error: string | null
@@ -117,6 +131,24 @@ const projectMembersSlice = createSlice({
       state.error = null
     })
     builder.addCase(createProjectMember.rejected, (state, action) => {
+      state.loading = Loading.Rejected
+      state.error = action.payload as string
+    })
+    /**
+     * Delete
+     */
+    builder.addCase(deleteProjectMember.pending, (state) => {
+      state.loading = Loading.Pending
+      state.error = null
+    })
+    builder.addCase(deleteProjectMember.fulfilled, (state, action) => {
+      state.loading = Loading.Fulfilled
+      state.error = null
+      state.project_members = state.project_members.filter(
+        (projectMember) => projectMember.id !== parseInt(action.payload.id)
+      )
+    })
+    builder.addCase(deleteProjectMember.rejected, (state, action) => {
       state.loading = Loading.Rejected
       state.error = action.payload as string
     })
