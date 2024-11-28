@@ -98,7 +98,7 @@ test.describe("Admin - Project Assignments", () => {
 
       await page.goto("/admin/project-assignments")
 
-      await mockRequest(page, "/admin/project-members/search", {
+      await mockRequest(page, "/admin/project-members/search?overlap=1", {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify([
