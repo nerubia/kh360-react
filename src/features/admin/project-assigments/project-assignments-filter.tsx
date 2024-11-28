@@ -34,6 +34,7 @@ export const ProjectAssignmentsFilter = () => {
         start_date: searchParams.get("start_date") ?? undefined,
         end_date: searchParams.get("end_date") ?? undefined,
         role: searchParams.get("role") ?? undefined,
+        overlap: 1,
       })
     )
   }, [searchParams])
