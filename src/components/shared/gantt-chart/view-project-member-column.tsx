@@ -6,6 +6,8 @@ import { Button } from "@components/ui/button/button"
 import { CustomDialog } from "@components/ui/dialog/custom-dialog"
 import { useAppDispatch } from "@hooks/useAppDispatch"
 import { deleteProjectMember } from "@redux/slices/project-members-slice"
+import { useParams } from "react-router-dom"
+import { getProject } from "@redux/slices/project-slice"
 
 export const ViewProjectMemberColumn: React.FC<{
   rowHeight: number
@@ -18,14 +20,18 @@ export const ViewProjectMemberColumn: React.FC<{
   setSelectedTask: (taskId: string) => void
   onExpanderClick: (task: Task) => void
 }> = ({ tasks, rowWidth }) => {
+  const { id } = useParams()
   const appDispatch = useAppDispatch()
 
   const [selectedId, setSelectedId] = useState<number | null>(null)
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (selectedId !== null) {
-      void appDispatch(deleteProjectMember(selectedId))
+      await appDispatch(deleteProjectMember(selectedId))
       setSelectedId(null)
+      if (id !== undefined) {
+        void appDispatch(getProject(parseInt(id)))
+      }
     }
   }
 
