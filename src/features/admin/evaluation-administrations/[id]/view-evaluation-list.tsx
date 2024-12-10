@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, lazy, Suspense } from "react"
+import { useState, useEffect, lazy, Suspense } from "react"
 import { Icon } from "@components/ui/icon/icon"
 import { useParams, useNavigate } from "react-router-dom"
 import { useAppSelector } from "@hooks/useAppSelector"
@@ -18,6 +18,7 @@ import { setAlert } from "@redux/slices/app-slice"
 import { setSelectedEmployeeIds } from "@redux/slices/evaluation-administration-slice"
 import { Badge } from "@components/ui/badge/badge"
 import { getEvaluationStatusVariant } from "@utils/variant"
+import { useInView } from "react-intersection-observer"
 
 export const ViewEvaluationList = () => {
   const appDispatch = useAppDispatch()
@@ -27,22 +28,21 @@ export const ViewEvaluationList = () => {
     (state) => state.evaluationAdministration
   )
   const { evaluations } = useAppSelector((state) => state.evaluations)
-  const { evaluation_results, hasNextPage } = useAppSelector((state) => state.evaluationResults)
+  const { evaluation_results, hasNextPage, currentPage } = useAppSelector(
+    (state) => state.evaluationResults
+  )
 
   const [evaluationResults, setEvaluationResults] = useState<EvaluationResult[]>(evaluation_results)
   const [selectedEvaluationResultId, setSelectedEvaluationResultId] = useState<string>()
   const [dispatchedEmployees, setDispatchedEmployees] = useState<number[]>([])
 
-  const listInnerRef = useRef<HTMLDivElement>(null)
-  const [currPage, setCurrPage] = useState(1)
-  const [prevPage, setPrevPage] = useState(0)
-  const [lastList, setLastList] = useState(false)
-  const [isInsertingData, setIsInsertingData] = useState<boolean>(false)
   const isMobile = useMobileView(1028)
 
   const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false)
 
   const [evaluationResultToggledState, setEvaluationResultToggledState] = useState<boolean[]>([])
+
+  const { ref, inView } = useInView()
 
   const EvaluationAdminDialog = lazy(
     async () =>
@@ -60,29 +60,17 @@ export const ViewEvaluationList = () => {
   }, [id])
 
   useEffect(() => {
-    const fetchData = () => {
+    if (inView && hasNextPage) {
       void appDispatch(
         getEvaluationResults({
           evaluation_administration_id: id,
-          page: currPage.toString(),
+          page: (currentPage + 1).toString(),
         })
       )
-      setIsInsertingData((prevIsInsertingData) => !prevIsInsertingData)
     }
-
-    if (!lastList && prevPage !== currPage && hasNextPage) {
-      fetchData()
-    }
-  }, [currPage, lastList, prevPage, evaluationResults])
+  }, [inView])
 
   useEffect(() => {
-    if (evaluation_results.length <= 0) {
-      setLastList(true)
-      return
-    } else {
-      setLastList(false)
-    }
-    setPrevPage(currPage)
     const mergedArray = [...evaluationResults, ...evaluation_results]
     const uniqueResults = mergedArray.filter(
       (value, index, self) => index === self.findIndex((element) => element.id === value.id)
@@ -92,7 +80,7 @@ export const ViewEvaluationList = () => {
       ...prevState,
       ...new Array(uniqueResults.length - prevState.length).fill(false),
     ])
-  }, [isInsertingData, evaluation_results])
+  }, [evaluation_results])
 
   useEffect(() => {
     if (selectedEvaluationResultId !== undefined) {
@@ -106,16 +94,6 @@ export const ViewEvaluationList = () => {
       )
     }
   }, [evaluations])
-
-  const onScroll = () => {
-    if (listInnerRef.current !== null) {
-      const { scrollTop, scrollHeight, clientHeight } = listInnerRef.current
-      const threshold = 1
-      if (scrollTop + clientHeight + threshold >= scrollHeight) {
-        setCurrPage((prevPage) => prevPage + 1)
-      }
-    }
-  }
 
   const toggleEvaluationResult = (index: number, evaluation_result_id: string | undefined) => {
     const updatedToggledState: boolean[] = [...evaluationResultToggledState]
@@ -200,7 +178,7 @@ export const ViewEvaluationList = () => {
 
   return (
     <>
-      <div className={`flex flex-col gap-8`} onScroll={onScroll} ref={listInnerRef}>
+      <div className={`flex flex-col gap-8`}>
         <div className={`flex flex-col ${isMobile ? "overflow-x-auto" : ""}`}>
           {evaluationResults?.map((evaluationResult, evaluationIndex) => (
             <div key={evaluationIndex} className='mb-2'>
@@ -305,6 +283,7 @@ export const ViewEvaluationList = () => {
               )}
             </div>
           ))}
+          <div ref={ref} />
         </div>
       </div>
       <>
