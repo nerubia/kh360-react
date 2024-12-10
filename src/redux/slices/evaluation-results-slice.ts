@@ -91,6 +91,7 @@ interface InitialState {
   evaluation_results: EvaluationResult[]
   hasPreviousPage: boolean
   hasNextPage: boolean
+  currentPage: number
   totalPages: number
   totalItems: number
 }
@@ -101,6 +102,7 @@ const initialState: InitialState = {
   evaluation_results: [],
   hasPreviousPage: false,
   hasNextPage: false,
+  currentPage: 0,
   totalPages: 0,
   totalItems: 0,
 }
@@ -147,6 +149,7 @@ const evaluationResultsSlice = createSlice({
       state.evaluation_results = action.payload.data
       state.hasPreviousPage = action.payload.pageInfo.hasPreviousPage
       state.hasNextPage = action.payload.pageInfo.hasNextPage
+      state.currentPage = action.payload.pageInfo.currentPage
       state.totalPages = action.payload.pageInfo.totalPages
     })
     builder.addCase(getEvaluationResults.rejected, (state, action) => {
