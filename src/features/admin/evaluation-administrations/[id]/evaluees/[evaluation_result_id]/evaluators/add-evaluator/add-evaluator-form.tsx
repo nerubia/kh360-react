@@ -78,6 +78,16 @@ export const AddEvaluatorForm = () => {
   }, [])
 
   useEffect(() => {
+    void appDispatch(
+      getProjectMembers({
+        evaluation_administration_id: id,
+        evaluation_result_id,
+        evaluation_template_id: formData.evaluation_template_id,
+      })
+    )
+  }, [formData.evaluation_template_id])
+
+  useEffect(() => {
     if (evaluation_result?.users !== undefined) {
       setFormData({
         ...formData,
