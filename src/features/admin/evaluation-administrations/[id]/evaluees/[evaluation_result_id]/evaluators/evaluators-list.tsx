@@ -243,17 +243,6 @@ export const EvaluatorsList = () => {
     } catch (error) {}
   }
 
-  const getAvailableProjects = (evaluatorId?: number) => {
-    const existingProjectIds = sortedExternalEvaluations
-      .filter(
-        (evaluation) => evaluation.evaluator?.id === evaluatorId && evaluation.project !== null
-      )
-      .map((evaluation) => evaluation.project?.id)
-    return project_members.filter(
-      (project_member) => !existingProjectIds.includes(project_member.project?.id)
-    )
-  }
-
   const setProject = (id: number, project_id?: number, project_member_id?: number) => {
     void appDispatch(
       updateProject({
@@ -367,7 +356,7 @@ export const EvaluatorsList = () => {
               </Button>
             </Dropdown.Trigger>
             <Dropdown.Content>
-              {getAvailableProjects(item.evaluator?.id).map((projectMember, index) => (
+              {project_members.map((projectMember, index) => (
                 <React.Fragment key={index}>
                   <Dropdown.Item
                     onClick={() => setProject(item.id, projectMember.project?.id, projectMember.id)}
