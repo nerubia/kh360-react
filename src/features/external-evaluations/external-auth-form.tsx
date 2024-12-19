@@ -11,9 +11,13 @@ import { Loading } from "@custom-types/loadingType"
 import { useSearchParams } from "react-router-dom"
 import { Spinner } from "@components/ui/spinner/spinner"
 import { addHours, differenceInMinutes, differenceInSeconds } from "date-fns"
+import { Alert } from "@components/ui/alert/alert"
+import { setAlert } from "@redux/slices/app-slice"
 
 export const ExternalAuthForm = () => {
   const appDispatch = useAppDispatch()
+
+  const { alerts } = useAppSelector((state) => state.app)
   const { loading: submitLoading, error } = useAppSelector((state) => state.auth)
   const [searchParams] = useSearchParams()
 
@@ -80,11 +84,22 @@ export const ExternalAuthForm = () => {
   }
 
   const handleResendCode = async () => {
-    void appDispatch(
-      resendCode({
-        token: searchParams.get("token") ?? "",
-      })
-    )
+    try {
+      const result = await appDispatch(
+        resendCode({
+          token: searchParams.get("token") ?? "",
+        })
+      )
+      if (result.type === "auth/resendCode/fulfilled") {
+        appDispatch(
+          setAlert({
+            description:
+              "The verification code has been successfully resent to your email. Please check your inbox (and spam/junk folder) to find the code.",
+            variant: "success",
+          })
+        )
+      }
+    } catch (error) {}
   }
 
   const handleSubmit = async () => {
@@ -108,45 +123,69 @@ export const ExternalAuthForm = () => {
   }
 
   return (
-    <div className='flex flex-col gap-4'>
-      <div className='flex justify-center'>
-        <img className='h-32' src='/logo.png' />
-      </div>
-      {loading && <Spinner />}
-      {!loading && invalid && <div>Invalid link</div>}
-      {!loading && !invalid && lockedAt !== null && (
-        <div>
-          Your access has been locked due to failed login attempts. Please try again in{" "}
-          {remainingTime}.
+    <>
+      {alerts.length > 0 && (
+        <div className='p-5'>
+          {alerts.map((alert, index) => (
+            <div className='m-1' key={index}>
+              <Alert key={index} variant={alert.variant} index={index}>
+                {Array.isArray(alert.description)
+                  ? alert.description.join("\n")
+                  : alert.description}
+              </Alert>
+            </div>
+          ))}
         </div>
       )}
-      {!loading && !invalid && lockedAt === null && (
-        <>
-          <div className='flex flex-col gap-1'>
-            <Input
-              name='code'
-              type='text'
-              placeholder='Code'
-              onChange={handleInputChange}
-              error={validationErrors.code}
-            />
+      <div className='flex justify-center pt-10 p-4'>
+        <div className='w-full sm:w-96 flex flex-col p-4 shadow-md'>
+          <div className='flex flex-col gap-4'>
             <div className='flex justify-center'>
-              <Button
-                variant='unstyled'
-                size='small'
-                onClick={handleResendCode}
-                loading={submitLoading === Loading.Pending}
-              >
-                <span className='text-primary-500 underline'>Resend verification code?</span>
-              </Button>
+              <img className='h-32' src='/logo.png' />
             </div>
+            {loading && <Spinner />}
+            {!loading && invalid && <div>Invalid link</div>}
+            {!loading && !invalid && lockedAt !== null && (
+              <div>
+                Your access has been locked due to failed login attempts. Please try again in{" "}
+                {remainingTime}.
+              </div>
+            )}
+            <div></div>
+            {!loading && !invalid && lockedAt === null && (
+              <>
+                <div className='flex flex-col gap-1'>
+                  <Input
+                    name='code'
+                    type='text'
+                    placeholder='Code'
+                    onChange={handleInputChange}
+                    error={validationErrors.code}
+                  />
+                  <div className='flex justify-center'>
+                    <Button
+                      variant='unstyled'
+                      size='small'
+                      onClick={handleResendCode}
+                      loading={submitLoading === Loading.Pending}
+                    >
+                      <span className='text-primary-500 underline'>Resend verification code?</span>
+                    </Button>
+                  </div>
+                </div>
+                {error != null && <p className='text-red-500'>{error}</p>}
+                <Button
+                  fullWidth
+                  onClick={handleSubmit}
+                  loading={submitLoading === Loading.Pending}
+                >
+                  Continue
+                </Button>
+              </>
+            )}
           </div>
-          {error != null && <p className='text-red-500'>{error}</p>}
-          <Button fullWidth onClick={handleSubmit} loading={submitLoading === Loading.Pending}>
-            Continue
-          </Button>
-        </>
-      )}
-    </div>
+        </div>
+      </div>
+    </>
   )
 }
