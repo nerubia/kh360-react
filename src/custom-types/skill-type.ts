@@ -10,6 +10,7 @@ export interface Skill {
   sequence_no: number
   status: boolean
   previous_rating?: AnswerOption
+  previous_submitted_date?: string
   rating?: AnswerOption
   start_date?: string
   end_date?: string
