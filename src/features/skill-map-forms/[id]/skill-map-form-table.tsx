@@ -26,6 +26,7 @@ import { SkillMapResultStatus } from "@custom-types/skill-map-result-type"
 import { PageSubTitle } from "@components/shared/page-sub-title"
 import { OtherSkillFormDialog } from "./other-skill-form/other-skill-form"
 import { TextArea } from "@components/ui/textarea/text-area"
+import { shortenFormatDate } from "@utils/format-date"
 
 export const SkillMapFormTable = () => {
   const navigate = useNavigate()
@@ -311,7 +312,14 @@ export const SkillMapFormTable = () => {
                 </td>
                 <td className='p-2 border-b text-start'>{skill?.skill_categories?.name}</td>
                 <td className='p-2 border-b text-start'>
-                  {skill?.previous_rating?.display_name ?? "No Rating"}
+                  <div className='flex items-center gap-1'>
+                    {skill?.previous_rating?.display_name ?? "No Rating"}
+                    {skill.previous_submitted_date !== undefined && (
+                      <span className='text-sm'>
+                        ({shortenFormatDate(skill.previous_submitted_date)})
+                      </span>
+                    )}
+                  </div>
                 </td>
                 <td className='p-2 border-b text-start'>
                   <Slider
