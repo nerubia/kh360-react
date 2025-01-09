@@ -315,8 +315,8 @@ export const SkillMapFormTable = () => {
                   <div className='flex items-center gap-1'>
                     {skill?.previous_rating?.display_name ?? "No Rating"}
                     {skill.previous_submitted_date !== undefined && (
-                      <span className='text-sm'>
-                        ({shortenFormatDate(skill.previous_submitted_date)})
+                      <span className='text-xs'>
+                        (as of {shortenFormatDate(skill.previous_submitted_date)})
                       </span>
                     )}
                   </div>
